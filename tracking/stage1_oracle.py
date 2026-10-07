@@ -208,7 +208,7 @@ def run_oracle(rows, budgets):
         full_gap = full_auc - fast_auc
         recovery = (
             (oracle_auc - fast_auc) / full_gap
-            if abs(full_gap) > 1e-12
+            if full_gap > 1e-12
             else float("nan")
         )
 

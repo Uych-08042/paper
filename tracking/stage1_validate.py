@@ -15,6 +15,27 @@ from pathlib import Path
 import numpy as np
 import torch
 
+import types
+
+# Compatibility for legacy SGLATrack code on modern PyTorch.
+if "torch._six" not in sys.modules:
+    torch_six = types.ModuleType("torch._six")
+    torch_six.string_classes = (str, bytes)
+    torch_six.int_classes = int
+    sys.modules["torch._six"] = torch_six
+    setattr(torch, "_six", torch_six)
+
+# Compatibility for trusted checkpoints under PyTorch 2.6+.
+_original_torch_load = torch.load
+
+
+def _load_trusted_legacy_checkpoint(*args, **kwargs):
+    kwargs.setdefault("weights_only", False)
+    return _original_torch_load(*args, **kwargs)
+
+
+torch.load = _load_trusted_legacy_checkpoint
+
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:
