@@ -259,3 +259,51 @@ uav123_stage3_subset_leave_one_out.csv
 ```
 
 优先查看 `best_by_k.csv`。如果 2-3 个候选 block 已恢复大部分六候选上界，下一步应针对该小候选集设计候选后 agreement selector；如果必须使用接近 6 个 block 才能获得上界，则需要先重新训练具有可分辨路由监督的 selector，而不是继续扩展当前表格模型。
+
+## 15. Stage-3B 实际结果
+
+| Block 数 | 最佳 Fast-inclusive 子集 | AUC | 完整上界恢复率 |
+|---:|---|---:|---:|
+| 1 | L11 | 67.6364 | 37.78% |
+| 2 | L7, L11 | 68.5265 | 62.78% |
+| 3 | L7, L9, L12 | 69.0960 | 78.77% |
+| 4 | L7, L9, L11, L12 | 69.4804 | 89.57% |
+| 5 | L7, L8, L9, L11, L12 | 69.6859 | 95.34% |
+| 6 | L7-L12 | 69.8518 | 100.00% |
+
+4-block 子集是较明确的计算量与上界折中点。Leave-one-out 结果显示，L10 和 L8 的边际 AUC 贡献最小，但每层仍分别在约 `9.8%-14.7%` 的有效帧上是唯一最佳动作，不能依据全局固定 AUC 将任一层视为完全冗余。
+
+## 16. Stage-3C 候选后选择
+
+该实验使用已有的 candidate response peak 和候选框，不执行模型推理。它回答：当 K 个候选 block 已经执行后，能否通过可观测置信度和候选框一致性选择或融合出更好的结果？
+
+测试方法包括：
+
+- 原 selector probability 在候选子集内选层。
+- response peak 选层。
+- 候选框 IoU consensus medoid。
+- selector、peak、consensus 的等权选择。
+- 三者权重在训练序列上搜索、测试序列上应用的 5-fold OOF 选择。
+- bbox mean、median、peak-weighted 和 consensus-weighted 融合。
+- 对应候选子集的 GT Oracle，仅作为上界。
+
+运行：
+
+```bash
+python -m py_compile tracking/stage3_post_candidate_validate.py
+
+python tracking/stage3_post_candidate_validate.py \
+  --input "$OUTPUT_DIR" \
+  --folds 5 \
+  --seed 2026 \
+  --weight_step 0.1
+```
+
+输出：
+
+```text
+uav123_stage3_post_candidate_summary.csv
+uav123_stage3_post_candidate_oof_weights.csv
+```
+
+注意：候选子集来自同一 UAV123 数据集的探索性 Oracle 分析。OOF 权重本身没有看到测试序列，但候选子集的确定仍使用了全数据，因此结果用于判断信号是否存在，不能直接作为最终无泄漏论文结果。正式实验必须在训练集确定候选子集和权重，再在独立测试集评估。
