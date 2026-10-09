@@ -209,3 +209,53 @@ MLP 使用相同文件名格式，将 `ridge` 替换为 `mlp`，因此两组结�
 Stage-3 仍使用 Stage-2 的共同 SGLA 控制轨迹。它验证的是离线动作可预测性，不是新路由器自己的闭环跟踪性能。
 
 如果 OOF 结果成立，下一步必须把预测器接入 tracker，让其预测动作真正更新下一帧状态，并分别测量 Fast 与候选路径的 CUDA latency。最终论文还应在训练数据上学习路由器，再在 UAV123 和其他 UAV 数据集上进行跨数据集测试，不能把 UAV123 OOF 当作最终泛化结果。
+
+## 13. UAV123 实际结果
+
+| 指标 | Ridge | MLP |
+|---|---:|---:|
+| Benefit AUROC | 0.4937 | 0.5088 |
+| Candidate-layer hit | 27.76% | 28.50% |
+| Always-deep AUC | 66.5006 | 66.2873 |
+| Predicted-positive AUC | 66.5349 | 66.3883 |
+| 最佳 budget AUC | 66.5573 (50%) | 66.4887 (30%) |
+
+共同上界为：
+
+```text
+Fast                     66.2912
+SGLA                     66.5143
+Best-of-6 candidates     69.7411
+Best-of-7 Fast+L7-L12    69.8518
+```
+
+结论：H1 仍然成立，因为候选层 Oracle 相对 Fast 有 `+3.56` AUC 的空间；当前形式的 H2 不成立。Ridge 和 MLP 的 benefit AUROC 都接近随机值 `0.5`，而选层命中率只比原 selector 的 `27.55%` 高 `0.21` 和 `0.95` 个百分点。当前 28 个聚合特征不足以可靠预测额外计算收益或最佳候选层，不应继续以调参作为主要实验。
+
+## 14. Stage-3B 候选子集 Oracle
+
+在增加新特征或重新运行 tracker 前，先使用现有 Stage-2 CSV 确定需要计算多少个候选 block。`stage3_subset_oracle.py` 会枚举 L7-L12 的全部 `63` 个非空子集，并分别计算：
+
+- 强制从子集中选择候选层的 Best-of-K AUC。
+- 允许保留 Fast 的 Best-of-(K+1) AUC。
+- 相对完整六候选 Oracle 的增益恢复率。
+- 每层 leave-one-out AUC 损失和唯一贡献帧比例。
+
+运行命令：
+
+```bash
+python -m py_compile tracking/stage3_subset_oracle.py
+
+python tracking/stage3_subset_oracle.py \
+  --input "$OUTPUT_DIR"
+```
+
+输出文件：
+
+```text
+uav123_stage3_subset_summary.csv
+uav123_stage3_subset_all.csv
+uav123_stage3_subset_best_by_k.csv
+uav123_stage3_subset_leave_one_out.csv
+```
+
+优先查看 `best_by_k.csv`。如果 2-3 个候选 block 已恢复大部分六候选上界，下一步应针对该小候选集设计候选后 agreement selector；如果必须使用接近 6 个 block 才能获得上界，则需要先重新训练具有可分辨路由监督的 selector，而不是继续扩展当前表格模型。
