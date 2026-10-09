@@ -37,7 +37,7 @@ POLICY_LAYERS = {
     "median4": (7, 9, 11, 12),
     "median6": (7, 8, 9, 10, 11, 12),
 }
-POLICIES = ("sgla",) + tuple(POLICY_LAYERS)
+POLICIES = ("fast", "sgla") + tuple(POLICY_LAYERS)
 CSV_FIELDS = (
     "dataset",
     "sequence",
@@ -92,6 +92,9 @@ def _forward_policy(network, template, search, policy):
         tokens = backbone.blocks[block_index](tokens)
 
     selected_layer = None
+    if policy == "fast":
+        features = _features_from_tokens(backbone, tokens, lens_z, lens_x)
+        return {"fast": network.forward_head(features, None)}, None
     if policy == "sgla":
         probabilities = backbone.MLP(tokens[:, :, 0].clone())
         selected_offset = int(probabilities.argmax(dim=1).item())
@@ -111,13 +114,21 @@ def _forward_policy(network, template, search, policy):
 
 
 def _fuse_boxes(boxes, policy, image_height, image_width):
-    if policy == "sgla":
+    if policy in ("fast", "sgla"):
         fused = list(next(iter(boxes.values())))
     else:
         fused = np.median(
             np.asarray(list(boxes.values()), dtype=np.float64), axis=0
         ).tolist()
     return stage1.clip_box(fused, image_height, image_width, margin=10)
+
+
+def _candidate_blocks(policy):
+    if policy == "fast":
+        return 0
+    if policy == "sgla":
+        return 1
+    return len(POLICY_LAYERS[policy])
 
 
 def _initial_row(sequence, policy, initial_box):
@@ -134,7 +145,7 @@ def _initial_row(sequence, policy, initial_box):
         "frame_id": 0,
         "gt_valid": int(gt_valid),
         "iou": 1.0 if gt_valid else -1.0,
-        "candidate_blocks": 1 if policy == "sgla" else len(POLICY_LAYERS[policy]),
+        "candidate_blocks": _candidate_blocks(policy),
         "selected_layer": "",
         "model_decode_latency_ms": "",
         "gt_x": ground_truth[0],
@@ -170,7 +181,7 @@ def _tracked_row(
         "frame_id": int(frame_id),
         "gt_valid": int(gt_valid),
         "iou": stage1._iou_xywh(box, ground_truth, gt_valid),
-        "candidate_blocks": 1 if policy == "sgla" else len(POLICY_LAYERS[policy]),
+        "candidate_blocks": _candidate_blocks(policy),
         "selected_layer": "" if selected_layer is None else selected_layer,
         "model_decode_latency_ms": latency_ms,
         "gt_x": ground_truth[0],

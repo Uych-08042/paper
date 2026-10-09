@@ -333,7 +333,7 @@ python tracking/stage3_closed_loop_validate.py \
   --dataset_name uav123 \
   --sequence 0 \
   --gpu 0 \
-  --policies sgla median4 median6 \
+  --policies fast sgla median4 median6 \
   --output_dir "$CLOSED_LOOP_SANITY" \
   --verify_sgla \
   --overwrite
@@ -343,14 +343,14 @@ python tracking/stage3_closed_loop_summary.py \
   --stage2_input "$OUTPUT_DIR"
 ```
 
-确认 SGLA 单序列 AUC 与 Stage-2 对应序列一致后，运行完整 median4：
+确认 SGLA 单序列 AUC 与 Stage-2 对应序列一致后，同时运行完整闭环 Fast、median4 和 median6：
 
 ```bash
 python tracking/stage3_closed_loop_validate.py \
   sglatrack deit_distilled \
   --dataset_name uav123 \
   --gpu 0 \
-  --policies median4
+  --policies fast median4 median6
 ```
 
 多 GPU 可使用 `--num_shards` 和 `--shard_id`，所有 shard 必须写入相同默认输出目录。完成后：
@@ -362,5 +362,7 @@ python tracking/stage3_closed_loop_summary.py \
   --input "$CLOSED_LOOP_DIR" \
   --stage2_input "$OUTPUT_DIR"
 ```
+
+Stage-2 的 Fast 是沿 SGLA 状态轨迹得到的同帧反事实结果，汇总中记为 `stage2_fast_cf`。当闭环 `fast` 文件存在时，`gain_vs_fast` 会自动改用真实闭环 Fast；`gain_vs_sgla` 使用已验证一致的闭环 SGLA/Stage-2 SGLA。
 
 `model_decode_latency_ms` 只统计 GPU forward、bbox decode 和融合，并在每帧前后同步 CUDA。它适合策略间相对比较，不等同于包含图像读取、crop 和预处理的端到端 FPS。

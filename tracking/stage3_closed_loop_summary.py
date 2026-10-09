@@ -128,40 +128,8 @@ def summarize(rows, stage2_input=None):
             "Policies do not cover identical sequence sets: {}".format(differing)
         )
 
-    summaries = []
-    baseline_auc = {}
-    if stage2_input:
-        baselines = _baseline_rows(stage2_input, reference_set)
-        fast_value = stage2.success_auc(baselines, "iou_fast") * 100.0
-        sgla_value = stage2.success_auc(baselines, "iou_sgla") * 100.0
-        for name, field in (("fast", "iou_fast"), ("sgla", "iou_sgla")):
-            value = stage2.success_auc(baselines, field) * 100.0
-            baseline_auc[name] = value
-            summaries.append(
-                {
-                    "policy": "stage2_{}".format(name),
-                    "candidate_blocks": 0 if name == "fast" else 1,
-                    "num_sequences": len(reference_set),
-                    "num_frames": len(baselines),
-                    "auc": value,
-                    "gain_vs_fast": value - fast_value,
-                    "gain_vs_sgla": value - sgla_value,
-                    "mean_iou_valid": float(
-                        np.mean(
-                            [
-                                row[field]
-                                for row in baselines
-                                if row["frame_id"] > 0 and row["gt_valid"] == 1
-                            ]
-                        )
-                    ),
-                    "mean_model_decode_latency_ms": "",
-                    "median_model_decode_latency_ms": "",
-                    "p90_model_decode_latency_ms": "",
-                    "model_decode_fps_from_mean": "",
-                }
-            )
-
+    policy_summaries = []
+    policy_auc = {}
     for policy in sorted(by_policy):
         policy_rows = sorted(
             by_policy[policy],
@@ -178,23 +146,20 @@ def summarize(rows, stage2_input=None):
             dtype=np.float64,
         )
         auc = _success_auc(policy_rows)
-        fast_auc = baseline_auc.get("fast", float("nan"))
-        sgla_auc = baseline_auc.get("sgla", float("nan"))
+        policy_auc[policy] = auc
         valid_ious = [
             row["iou"]
             for row in policy_rows
             if row["frame_id"] > 0 and row["gt_valid"] == 1
         ]
         mean_latency = float(latencies.mean())
-        summaries.append(
+        policy_summaries.append(
             {
                 "policy": policy,
                 "candidate_blocks": policy_rows[0]["candidate_blocks"],
                 "num_sequences": len(reference_set),
                 "num_frames": len(policy_rows),
                 "auc": auc,
-                "gain_vs_fast": auc - fast_auc,
-                "gain_vs_sgla": auc - sgla_auc,
                 "mean_iou_valid": float(np.mean(valid_ious)),
                 "mean_model_decode_latency_ms": mean_latency,
                 "median_model_decode_latency_ms": float(
@@ -206,6 +171,55 @@ def summarize(rows, stage2_input=None):
                 "model_decode_fps_from_mean": 1000.0 / mean_latency,
             }
         )
+
+    baseline_summaries = []
+    baseline_auc = {}
+    if stage2_input:
+        baselines = _baseline_rows(stage2_input, reference_set)
+        for name, field in (("fast_cf", "iou_fast"), ("sgla", "iou_sgla")):
+            value = stage2.success_auc(baselines, field) * 100.0
+            baseline_auc[name] = value
+            baseline_summaries.append(
+                {
+                    "policy": "stage2_{}".format(name),
+                    "candidate_blocks": 0 if name == "fast_cf" else 1,
+                    "num_sequences": len(reference_set),
+                    "num_frames": len(baselines),
+                    "auc": value,
+                    "mean_iou_valid": float(
+                        np.mean(
+                            [
+                                row[field]
+                                for row in baselines
+                                if row["frame_id"] > 0 and row["gt_valid"] == 1
+                            ]
+                        )
+                    ),
+                    "mean_model_decode_latency_ms": "",
+                    "median_model_decode_latency_ms": "",
+                    "p90_model_decode_latency_ms": "",
+                    "model_decode_fps_from_mean": "",
+                }
+            )
+
+    fast_reference = policy_auc.get(
+        "fast", baseline_auc.get("fast_cf", float("nan"))
+    )
+    fast_reference_policy = (
+        "fast" if "fast" in policy_auc else "stage2_fast_cf"
+    )
+    sgla_reference = policy_auc.get(
+        "sgla", baseline_auc.get("sgla", float("nan"))
+    )
+    sgla_reference_policy = (
+        "sgla" if "sgla" in policy_auc else "stage2_sgla"
+    )
+    summaries = baseline_summaries + policy_summaries
+    for item in summaries:
+        item["gain_vs_fast"] = item["auc"] - fast_reference
+        item["gain_vs_sgla"] = item["auc"] - sgla_reference
+        item["fast_reference_policy"] = fast_reference_policy
+        item["sgla_reference_policy"] = sgla_reference_policy
     return summaries
 
 
