@@ -368,3 +368,35 @@ python tracking/stage3_closed_loop_summary.py \
 Stage-2 的 Fast 是沿 SGLA 状态轨迹得到的同帧反事实结果，汇总中记为 `stage2_fast_cf`。当闭环 `fast` 文件存在时，`gain_vs_fast` 会自动改用真实闭环 Fast；`gain_vs_sgla` 使用已验证一致的闭环 SGLA/Stage-2 SGLA。
 
 `model_decode_latency_ms` 只统计 GPU forward、bbox decode 和融合，并在每帧前后同步 CUDA。它适合策略间相对比较，不等同于包含图像读取、crop 和预处理的端到端 FPS。
+
+## 18. 完整闭环结果与 Stage-3 结论
+
+123 个 UAV123 序列的真实闭环结果为：
+
+| Policy | Candidate blocks | AUC | 相对闭环 Fast | 相对 SGLA | 模型与解码延迟 |
+|---|---:|---:|---:|---:|---:|
+| Closed-loop Fast | 0 | 64.4089 | 0 | -2.1054 | 4.367 ms |
+| SGLA | 1 | 66.5143 | +2.1054 | 0 | 约 5.1 ms |
+| Median4 | 4 | 64.7181 | +0.3093 | -1.7961 | 9.791 ms |
+| Median6 | 6 | 66.1426 | +1.7337 | -0.3717 | 13.353 ms |
+
+Stage-2 Fast `66.2912` 是沿 SGLA 状态轨迹计算的同帧反事实结果。真实闭环 Fast 只有 `64.4089`，两者相差 `1.8824` AUC，证明状态分布偏移不能忽略。
+
+逐序列结果：
+
+| Policy | Wins vs SGLA | Ties | Losses | 平均序列 AUC 差 | 中位序列 AUC 差 |
+|---|---:|---:|---:|---:|---:|
+| Fast | 36 | 0 | 87 | -2.1054 | -0.4073 |
+| Median4 | 50 | 0 | 73 | -1.7961 | -0.2169 |
+| Median6 | 59 | 0 | 64 | -0.3717 | -0.0271 |
+
+Median6 的胜负数量接近且中位差接近零，但平均差更负，说明少数较严重的轨迹漂移吞掉了轻微收益。Median4 则在多数序列退化。当前可实现路径中，SGLA 仍然同时具有最高 AUC 和更低计算量。
+
+Stage-3 最终结论：
+
+1. 候选层之间存在显著的逐帧 Oracle 互补性。
+2. 当前 L6 聚合特征、response peak 和候选框 agreement 无法预测最佳候选或额外计算收益。
+3. 同轨迹 bbox median 能提高单帧指标，但不能稳定地更新后续状态。
+4. 继续调整固定阈值、候选子集或表格模型不能解决训练目标与闭环状态分布不一致的问题。
+
+后续方法应在训练数据而不是 UAV123 测试集上生成 tracking-utility 标签，并直接使用 L6 token、Fast score-map uncertainty 和 temporal state 训练成本敏感路由器。第一次训练后需要执行闭环 rollout、收集路由器自身访问到的状态并重新标注，避免继续依赖 SGLA teacher trajectory。最终才将预测 utility 与 bandwidth、latency 和设备计算状态联合为 offloading policy。
