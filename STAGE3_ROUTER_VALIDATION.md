@@ -307,3 +307,60 @@ uav123_stage3_post_candidate_oof_weights.csv
 ```
 
 注意：候选子集来自同一 UAV123 数据集的探索性 Oracle 分析。OOF 权重本身没有看到测试序列，但候选子集的确定仍使用了全数据，因此结果用于判断信号是否存在，不能直接作为最终无泄漏论文结果。正式实验必须在训练集确定候选子集和权重，再在独立测试集评估。
+
+## 17. Stage-3C 实际结果与闭环验证
+
+可观测选层仍然失败：含 L9 的 OOF weighted selector 在约 `97%-100%` 帧上继续选择 L9，AUC 没有超过原 SGLA。真正有效的是候选框的鲁棒融合：
+
+```text
+Method                         AUC       gain vs SGLA
+3-block bbox median          67.3137       +0.7994
+4-block bbox median          67.4989       +0.9846
+6-block bbox median          67.4998       +0.9855
+```
+
+4-block `L7,L9,L11,L12` 与 6-block median 只差 `0.00084` AUC，因此没有证据支持额外执行 L8 和 L10。
+
+这些结果来自共同 SGLA 轨迹。必须让 median4 输出更新下一帧 tracker state，才能得到真实闭环结果。新增验证脚本只运行指定策略所需的候选 block，不会为了 median4 额外执行 L8/L10。
+
+先在单序列独立目录进行一致性检查：
+
+```bash
+export CLOSED_LOOP_SANITY="/home/u25600003160604/workspace/paper/output/test/tracking_results/sglatrack/deit_distilled/stage3_closed_loop_validation/uav123_sanity"
+
+python tracking/stage3_closed_loop_validate.py \
+  sglatrack deit_distilled \
+  --dataset_name uav123 \
+  --sequence 0 \
+  --gpu 0 \
+  --policies sgla median4 median6 \
+  --output_dir "$CLOSED_LOOP_SANITY" \
+  --verify_sgla \
+  --overwrite
+
+python tracking/stage3_closed_loop_summary.py \
+  --input "$CLOSED_LOOP_SANITY" \
+  --stage2_input "$OUTPUT_DIR"
+```
+
+确认 SGLA 单序列 AUC 与 Stage-2 对应序列一致后，运行完整 median4：
+
+```bash
+python tracking/stage3_closed_loop_validate.py \
+  sglatrack deit_distilled \
+  --dataset_name uav123 \
+  --gpu 0 \
+  --policies median4
+```
+
+多 GPU 可使用 `--num_shards` 和 `--shard_id`，所有 shard 必须写入相同默认输出目录。完成后：
+
+```bash
+export CLOSED_LOOP_DIR="/home/u25600003160604/workspace/paper/output/test/tracking_results/sglatrack/deit_distilled/stage3_closed_loop_validation/uav123"
+
+python tracking/stage3_closed_loop_summary.py \
+  --input "$CLOSED_LOOP_DIR" \
+  --stage2_input "$OUTPUT_DIR"
+```
+
+`model_decode_latency_ms` 只统计 GPU forward、bbox decode 和融合，并在每帧前后同步 CUDA。它适合策略间相对比较，不等同于包含图像读取、crop 和预处理的端到端 FPS。
