@@ -223,6 +223,82 @@ def summarize(rows, stage2_input=None):
     return summaries
 
 
+def summarize_sequences(rows, stage2_input):
+    if not stage2_input:
+        return []
+
+    by_policy_sequence = defaultdict(list)
+    sequence_keys = set()
+    for row in rows:
+        key = (row["dataset"], row["sequence"])
+        by_policy_sequence[(row["policy"], key)].append(row)
+        sequence_keys.add(key)
+
+    baselines = _baseline_rows(stage2_input, sequence_keys)
+    baseline_by_sequence = defaultdict(list)
+    for row in baselines:
+        baseline_by_sequence[(row["dataset"], row["sequence"])].append(row)
+
+    fast_by_sequence = {}
+    for key in sequence_keys:
+        fast_rows = by_policy_sequence.get(("fast", key))
+        if fast_rows:
+            fast_by_sequence[key] = _success_auc(fast_rows)
+
+    output = []
+    policies = sorted({row["policy"] for row in rows})
+    for policy in policies:
+        for dataset, sequence in sorted(sequence_keys):
+            key = (dataset, sequence)
+            policy_rows = sorted(
+                by_policy_sequence[(policy, key)],
+                key=lambda row: row["frame_id"],
+            )
+            baseline_rows = baseline_by_sequence[key]
+            policy_auc = _success_auc(policy_rows)
+            sgla_auc = stage2.success_auc(
+                baseline_rows, "iou_sgla"
+            ) * 100.0
+            if key in fast_by_sequence:
+                fast_auc = fast_by_sequence[key]
+                fast_reference = "fast"
+            else:
+                fast_auc = stage2.success_auc(
+                    baseline_rows, "iou_fast"
+                ) * 100.0
+                fast_reference = "stage2_fast_cf"
+            valid_ious = [
+                row["iou"]
+                for row in policy_rows
+                if row["frame_id"] > 0 and row["gt_valid"] == 1
+            ]
+            latencies = [
+                row["model_decode_latency_ms"]
+                for row in policy_rows
+                if row["model_decode_latency_ms"] is not None
+            ]
+            output.append(
+                {
+                    "dataset": dataset,
+                    "sequence": sequence,
+                    "policy": policy,
+                    "candidate_blocks": policy_rows[0]["candidate_blocks"],
+                    "num_frames": len(policy_rows),
+                    "auc": policy_auc,
+                    "fast_reference": fast_reference,
+                    "fast_auc": fast_auc,
+                    "sgla_auc": sgla_auc,
+                    "delta_vs_fast": policy_auc - fast_auc,
+                    "delta_vs_sgla": policy_auc - sgla_auc,
+                    "mean_iou_valid": float(np.mean(valid_ious)),
+                    "mean_model_decode_latency_ms": float(
+                        np.mean(latencies)
+                    ),
+                }
+            )
+    return output
+
+
 def _format_value(value):
     if value is None:
         return ""
@@ -255,6 +331,7 @@ def _build_parser():
     parser.add_argument("--input", required=True)
     parser.add_argument("--stage2_input", default=None)
     parser.add_argument("--output", default=None)
+    parser.add_argument("--sequence_output", default=None)
     return parser
 
 
@@ -262,13 +339,26 @@ def main():
     args = _build_parser().parse_args()
     input_path, paths, rows = load_closed_loop(args.input)
     summaries = summarize(rows, args.stage2_input)
+    sequence_summaries = summarize_sequences(rows, args.stage2_input)
+    output_dir = input_path if input_path.is_dir() else input_path.parent
     output_path = (
         Path(args.output).expanduser().resolve()
         if args.output
-        else (input_path if input_path.is_dir() else input_path.parent)
-        / "stage3_closed_loop_summary.csv"
+        else output_dir / "stage3_closed_loop_summary.csv"
     )
     _write_csv(output_path, list(summaries[0].keys()), summaries)
+    sequence_output_path = None
+    if sequence_summaries:
+        sequence_output_path = (
+            Path(args.sequence_output).expanduser().resolve()
+            if args.sequence_output
+            else output_dir / "stage3_closed_loop_sequence_summary.csv"
+        )
+        _write_csv(
+            sequence_output_path,
+            list(sequence_summaries[0].keys()),
+            sequence_summaries,
+        )
 
     print(
         "Loaded {} rows from {} closed-loop CSV file(s).".format(
@@ -293,6 +383,31 @@ def main():
             )
         )
     print("Summary CSV: {}".format(output_path))
+    if sequence_summaries:
+        print("policy       wins  ties  losses  mean_delta  median_delta")
+        for policy in sorted({row["policy"] for row in sequence_summaries}):
+            deltas = np.asarray(
+                [
+                    row["delta_vs_sgla"]
+                    for row in sequence_summaries
+                    if row["policy"] == policy
+                ],
+                dtype=np.float64,
+            )
+            wins = int(np.sum(deltas > 1e-12))
+            ties = int(np.sum(np.abs(deltas) <= 1e-12))
+            losses = int(np.sum(deltas < -1e-12))
+            print(
+                "{:<12s} {:>4d}  {:>4d}  {:>6d}  {:>10.4f}  {:>12.4f}".format(
+                    policy,
+                    wins,
+                    ties,
+                    losses,
+                    float(np.mean(deltas)),
+                    float(np.median(deltas)),
+                )
+            )
+        print("Sequence summary CSV: {}".format(sequence_output_path))
 
 
 if __name__ == "__main__":

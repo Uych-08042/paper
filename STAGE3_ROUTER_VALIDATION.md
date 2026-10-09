@@ -363,6 +363,8 @@ python tracking/stage3_closed_loop_summary.py \
   --stage2_input "$OUTPUT_DIR"
 ```
 
+汇总器还会生成 `stage3_closed_loop_sequence_summary.csv`，并在终端打印每个闭环策略相对 SGLA 的序列级 wins/ties/losses、平均 AUC 差和中位数 AUC 差。该结果用于区分普遍退化与少数序列的灾难性状态漂移。
+
 Stage-2 的 Fast 是沿 SGLA 状态轨迹得到的同帧反事实结果，汇总中记为 `stage2_fast_cf`。当闭环 `fast` 文件存在时，`gain_vs_fast` 会自动改用真实闭环 Fast；`gain_vs_sgla` 使用已验证一致的闭环 SGLA/Stage-2 SGLA。
 
 `model_decode_latency_ms` 只统计 GPU forward、bbox decode 和融合，并在每帧前后同步 CUDA。它适合策略间相对比较，不等同于包含图像读取、crop 和预处理的端到端 FPS。
