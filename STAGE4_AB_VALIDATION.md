@@ -141,16 +141,41 @@ Stage-4 不要求服务器保存完整 GOT-10k 或 LaSOT。优先保留较多视
 GOT-10k test 视频或 LaSOT 非训练视频。此模式下 GOT-10k 不需要完整 `list.txt`。
 
 ```bash
-find "$TRAIN_ROOT" -maxdepth 1 -mindepth 1 -type d \
-  -name 'GOT-10k_Train_*' -printf '%f\n' | sort \
-  > "$STAGE4_DIR/got10k_installed.txt"
+mkdir -p "$STAGE4_DIR"
+
+python - <<'PY'
+import os
+from pathlib import Path
+
+root = Path(os.environ["TRAIN_ROOT"])
+split = Path("lib/train/data_specs/got10k_train_split.txt")
+allowed = {
+    "GOT-10k_Train_{:06d}".format(int(line) + 1)
+    for line in split.read_text().splitlines()
+    if line.strip()
+}
+installed = sorted(
+    path.name for path in root.glob("GOT-10k_Train_*") if path.is_dir()
+)
+eligible = [name for name in installed if name in allowed]
+held_out = [name for name in installed if name not in allowed]
+output = Path(os.environ["STAGE4_DIR"]) / "got10k_installed_train.txt"
+output.write_text("\n".join(eligible) + "\n")
+print("installed={}, eligible={}, held_out={}".format(
+    len(installed), len(eligible), len(held_out)
+))
+print("sequence file: {}".format(output))
+PY
 
 python tracking/stage4_manifest.py \
   --dataset got10k_train --root "$TRAIN_ROOT" \
-  --sequence_file "$STAGE4_DIR/got10k_installed.txt" \
+  --sequence_file "$STAGE4_DIR/got10k_installed_train.txt" \
   --train_sequences 30 --val_sequences 10 --clip_frames 256 \
   --seed 2026 --output "$STAGE4_DIR/subset_manifest.json"
 ```
+
+不能直接把所有已安装目录写入 `--sequence_file`，因为其中可能含有仓库预留的
+GOT-10k 验证序列；上面的交集步骤会将它们排除，但不会删除任何数据。
 
 至少需要安装 `train_sequences + val_sequences` 个可用视频。先保留所选视频的完整
 标注文件和完整图像目录以生成 manifest；manifest 固定后，采集只读取每个条目
