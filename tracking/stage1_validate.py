@@ -16,6 +16,7 @@ import numpy as np
 import torch
 
 import types
+from validation_metrics import tracking_iou
 
 # Compatibility for legacy SGLATrack code on modern PyTorch.
 if "torch._six" not in sys.modules:
@@ -177,22 +178,7 @@ def _iou_xywh(prediction, ground_truth, gt_valid=True):
     ):
         return -1.0
 
-    # Normal SGLATrack evaluation saves predictions with astype(int) before
-    # loading them in extract_results.py. Use the same truncation here so the
-    # SGLA AUC in this CSV is directly comparable with the reported baseline.
-    pred = pred.astype(np.int64).astype(np.float64)
-
-    top_left = np.maximum(pred[:2], gt[:2])
-    bottom_right = np.minimum(
-        pred[:2] + pred[2:] - 1.0,
-        gt[:2] + gt[2:] - 1.0,
-    )
-    size = np.maximum(bottom_right - top_left + 1.0, 0.0)
-    intersection = float(size[0] * size[1])
-    union = float(pred[2] * pred[3] + gt[2] * gt[3] - intersection)
-    if union <= 0.0:
-        return -1.0
-    return intersection / union
+    return float(tracking_iou(pred, gt, gt_valid))
 
 
 def _frame_row(

@@ -22,6 +22,7 @@ if str(SCRIPT_DIR) not in sys.path:
 
 import stage2_candidate_oracle as stage2
 import stage3_router_validate as stage3
+from validation_metrics import IOU_PROTOCOL, tracking_iou
 
 
 CANDIDATE_LAYERS = stage2.CANDIDATE_LAYERS
@@ -226,7 +227,7 @@ def _selected_ious(candidate_ious, choices):
 
 def _fused_iou(fused_boxes, ground_truth, fast_iou, valid):
     values = fast_iou.copy()
-    values[valid] = _box_iou(fused_boxes[valid], ground_truth[valid])
+    values[valid] = tracking_iou(fused_boxes[valid], ground_truth[valid])
     return values
 
 
@@ -526,6 +527,7 @@ def analyze(
             summaries.append(
                 {
                     "layers": layer_text,
+                    "iou_protocol": IOU_PROTOCOL,
                     "num_blocks": len(layers),
                     "method": method,
                     "uses_ground_truth": uses_gt,
