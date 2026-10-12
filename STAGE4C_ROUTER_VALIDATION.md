@@ -97,3 +97,26 @@ cat "$ROUTER_DIR/stage4_router_alpha_selection.csv"
 
 当前 pilot 只有 30 个训练视频和 10 个验证视频。它适合做方向筛选，不适合作为论文最终泛化结果。
 若 `token_only` 在 val 上显示稳定正信号，下一步才把导出的模型接入真正闭环并测量路由器端到端延迟。
+
+## 5. 路由器退化时的无重训诊断
+
+若 AUROC 接近 0.5、alpha 落在搜索区间上界，或校准预算在 val 上明显漂移，先运行：
+
+```bash
+python tracking/stage4_router_diagnose.py \
+  --input "$PILOT_CACHE" \
+  --router_dir "$ROUTER_DIR" \
+  --budgets 0 10 20 30 50 100
+```
+
+该命令不重新训练，新增：
+
+- `stage4_router_diagnostic_targets.csv`：train/val 各层平均收益、正收益率和最优比例；
+- `stage4_router_diagnostic_baselines.csv`：零收益与训练集均值常数预测器；
+- `stage4_router_diagnostic_predictions.csv`：预测分数方差和动作分布；
+- `stage4_router_diagnostic_comparisons.csv`：不同特征版本预测差异；
+- `stage4_router_diagnostic_coefficients.csv`：PCA、历史、selector、Fast 特征系数范数；
+- `stage4_router_exact_budget.csv`：按预测分数严格 top-k 的同预算离线比较。
+
+最后一张表不读取 val 标签来选择路由动作，但需要看到整个验证 horizon 的预测分数，
+因此只用于控制变量诊断，不代表可直接在线部署的预算调度器。

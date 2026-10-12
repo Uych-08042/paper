@@ -12,6 +12,7 @@ import numpy as np
 from stage4_collect import make_run, publish_run
 from stage4_common import cache_path, fingerprint, tracking_iou, write_cache
 from stage4_manifest import build_manifest
+from stage4_router_diagnose import main as diagnose_main
 from stage4_router_train import (
     balanced_group_weights,
     build_low_features,
@@ -236,6 +237,13 @@ class PipelineTests(unittest.TestCase):
             self.assertEqual(len(budgets), 3)
             self.assertTrue((output / "stage4_router_token_only.npz").is_file())
             self.assertIn("sgla_selector_current_state_mean_iou", summary[0])
+
+            with mock.patch.object(sys, "argv", [
+                    "stage4_router_diagnose.py", "--input", str(cache),
+                    "--router_dir", str(output), "--budgets", "0", "50", "100"]):
+                diagnose_main()
+            self.assertTrue((output / "stage4_router_exact_budget.csv").is_file())
+            self.assertTrue((output / "stage4_router_diagnostic_targets.csv").is_file())
 
 
 if __name__ == "__main__":
