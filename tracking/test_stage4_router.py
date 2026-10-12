@@ -12,6 +12,13 @@ import numpy as np
 from stage4_collect import make_run, publish_run
 from stage4_common import cache_path, fingerprint, tracking_iou, write_cache
 from stage4_manifest import build_manifest
+from stage4_l9_gate_train import (
+    build_variant_low_features,
+    exact_budget_rows,
+    l9_latency,
+    main as l9_gate_main,
+    objective_target,
+)
 from stage4_router_diagnose import main as diagnose_main
 from stage4_router_train import (
     balanced_group_weights,
@@ -79,6 +86,27 @@ class FeatureBoundaryTests(unittest.TestCase):
         self.assertEqual(selector.shape[1], len(selector_names))
         self.assertEqual(fast.shape[1], len(fast_names))
 
+    def test_l9_gate_variants_keep_token_and_fast_boundaries_separate(self):
+        original = fake_features()
+        changed_fast = {key: value.copy() for key, value in original.items()}
+        changed_fast["fast_box"][:, 0] += 10
+        changed_fast["fast_score_map"] *= 2
+
+        history, _ = build_variant_low_features(original, "history_only")
+        token, _ = build_variant_low_features(original, "token_only")
+        fast, _ = build_variant_low_features(original, "fast_only")
+        token_fast, _ = build_variant_low_features(original, "token_fast")
+        np.testing.assert_array_equal(
+            history, build_variant_low_features(changed_fast, "history_only")[0])
+        np.testing.assert_array_equal(
+            token, build_variant_low_features(changed_fast, "token_only")[0])
+        self.assertFalse(np.array_equal(
+            fast, build_variant_low_features(changed_fast, "fast_only")[0]))
+        self.assertFalse(np.array_equal(
+            token_fast, build_variant_low_features(changed_fast, "token_fast")[0]))
+        np.testing.assert_array_equal(history, token)
+        np.testing.assert_array_equal(fast, token_fast)
+
     def test_video_calibration_split_keeps_both_trajectories_together(self):
         sequences = np.asarray(["a", "a", "b", "b", "c", "c", "d", "d"])
         fit, calibration, names = calibration_split(sequences, 0.25, 2026)
@@ -89,6 +117,46 @@ class FeatureBoundaryTests(unittest.TestCase):
 
 
 class ModelTests(unittest.TestCase):
+    def test_l9_objectives_and_exact_budget_baselines(self):
+        delta = np.asarray([-0.2, 0.0, 0.004, 0.02])
+        np.testing.assert_array_equal(objective_target(delta, "signed"), delta)
+        np.testing.assert_array_equal(
+            objective_target(delta, "positive"), [0.0, 0.0, 0.004, 0.02])
+        np.testing.assert_array_equal(
+            objective_target(delta, "benefit", 0.005), [0.0, 0.0, 0.0, 1.0])
+
+        l9_delta = np.asarray([1.0, -0.4, 0.2, -0.2])
+        all_delta = np.zeros((4, 6), dtype=np.float64)
+        all_delta[:, 2] = l9_delta
+        iou = np.full((4, 7), 0.5, dtype=np.float64)
+        iou[:, 3] += l9_delta
+        val = {"delta": all_delta, "iou": iou}
+        rows = exact_budget_rows(
+            "test", "history_only", "signed", 0.0,
+            np.asarray([4.0, 3.0, 2.0, 1.0]), val,
+            np.ones(4), [50], None)
+        self.assertEqual(rows[0]["deep_frames"], 2)
+        self.assertAlmostEqual(rows[0]["gain_vs_fast"], 0.15)
+        self.assertAlmostEqual(rows[0]["random_l9_expected_gain"], 0.075)
+        self.assertAlmostEqual(rows[0]["lift_over_random_l9"], 0.075)
+        self.assertAlmostEqual(rows[0]["l9_oracle_exact_gain"], 0.3)
+
+    def test_l9_latency_reflects_each_decision_point(self):
+        costs = {
+            "fast": 4.0, "sgla": 4.4, "fast_then_sgla": 5.8,
+            "selector": 0.13, "pool_all_channels_grid4": 0.12,
+            "block_L7": 0.37, "block_L8": 0.31, "block_L9": 0.29,
+            "block_L10": 0.29, "block_L11": 0.28, "block_L12": 0.28,
+        }
+        deep = np.asarray([True, False])
+        history = l9_latency("history_only", deep, costs)
+        token = l9_latency("token_only", deep, costs)
+        fast = l9_latency("fast_only", deep, costs)
+        token_fast = l9_latency("token_fast", deep, costs)
+        self.assertLess(history, token)
+        self.assertLess(token, fast)
+        self.assertAlmostEqual(token_fast - fast, 0.12)
+
     def test_pca_ridge_is_deterministic_and_export_is_pickle_free(self):
         rng = np.random.RandomState(5)
         tokens = rng.normal(size=(120, 24)).astype(np.float32)
@@ -244,6 +312,32 @@ class PipelineTests(unittest.TestCase):
                 diagnose_main()
             self.assertTrue((output / "stage4_router_exact_budget.csv").is_file())
             self.assertTrue((output / "stage4_router_diagnostic_targets.csv").is_file())
+
+            l9_output = root / "l9_gate"
+            with mock.patch.object(sys, "argv", [
+                    "stage4_l9_gate_train.py", "--input", str(cache),
+                    "--output_dir", str(l9_output), "--variants",
+                    "history_only", "token_only", "fast_only",
+                    "--objectives", "signed", "benefit",
+                    "--benefit_epsilons", "0", "--pca_dims", "2",
+                    "--pca_oversample", "1", "--pca_power_iterations", "0",
+                    "--ridge_alphas", "0.01", "--calibration_fraction", "0.34",
+                    "--budgets", "0", "50", "100", "--seed", "3"]):
+                l9_gate_main()
+            with (l9_output / "stage4_l9_gate_summary.csv").open(
+                    newline="", encoding="utf-8") as handle:
+                l9_summary = list(csv.DictReader(handle))
+            with (l9_output / "stage4_l9_gate_budget.csv").open(
+                    newline="", encoding="utf-8") as handle:
+                l9_budgets = list(csv.DictReader(handle))
+            self.assertEqual(len(l9_summary), 6)
+            self.assertEqual(len(l9_budgets), 18)
+            l9_model = l9_output / "stage4_l9_gate_history_only__signed.npz"
+            self.assertTrue(l9_model.is_file())
+            with np.load(l9_model, allow_pickle=False) as archive:
+                self.assertEqual(archive["ridge_coefficient"].ndim, 1)
+                self.assertEqual(archive["pca_components"].shape[0], 0)
+            self.assertIn("lift_over_random_l9", l9_budgets[0])
 
 
 if __name__ == "__main__":
