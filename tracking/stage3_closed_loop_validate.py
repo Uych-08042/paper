@@ -1,4 +1,4 @@
-"""Run closed-loop SGLATrack candidate-median policies.
+"""Run closed-loop SGLATrack refinement and candidate-median policies.
 
 Unlike the Stage-2/Stage-3 counterfactual CSV analyses, each policy in this
 runner updates its own tracker state. Every later crop therefore follows that
@@ -18,6 +18,7 @@ if str(SCRIPT_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPT_DIR))
 
 import stage1_validate as stage1
+from stage3_periodic import PERIODIC_L9_BUDGETS, periodic_l9_active
 
 
 torch = stage1.torch
@@ -37,7 +38,11 @@ POLICY_LAYERS = {
     "median4": (7, 9, 11, 12),
     "median6": (7, 8, 9, 10, 11, 12),
 }
-POLICIES = ("fast", "sgla") + tuple(POLICY_LAYERS)
+POLICIES = (
+    ("fast", "sgla")
+    + tuple(POLICY_LAYERS)
+    + tuple(PERIODIC_L9_BUDGETS)
+)
 CSV_FIELDS = (
     "dataset",
     "sequence",
@@ -64,7 +69,7 @@ def _features_from_tokens(backbone, tokens, lens_z, lens_x):
     return backbone.norm(recovered)
 
 
-def _forward_policy(network, template, search, policy):
+def _forward_policy(network, template, search, policy, decision_index=None):
     if policy not in POLICIES:
         raise ValueError("Unknown policy: {}".format(policy))
     if enabled_layer_num != 1:
@@ -92,13 +97,20 @@ def _forward_policy(network, template, search, policy):
         tokens = backbone.blocks[block_index](tokens)
 
     selected_layer = None
-    if policy == "fast":
+    periodic_fast = (
+        policy in PERIODIC_L9_BUDGETS
+        and not periodic_l9_active(policy, decision_index)
+    )
+    if policy == "fast" or periodic_fast:
         features = _features_from_tokens(backbone, tokens, lens_z, lens_x)
         return {"fast": network.forward_head(features, None)}, None
     if policy == "sgla":
         probabilities = backbone.MLP(tokens[:, :, 0].clone())
         selected_offset = int(probabilities.argmax(dim=1).item())
         selected_layer = CANDIDATE_LAYERS[selected_offset]
+        requested_layers = (selected_layer,)
+    elif policy in PERIODIC_L9_BUDGETS:
+        selected_layer = 9
         requested_layers = (selected_layer,)
     else:
         requested_layers = POLICY_LAYERS[policy]
@@ -114,7 +126,7 @@ def _forward_policy(network, template, search, policy):
 
 
 def _fuse_boxes(boxes, policy, image_height, image_width):
-    if policy in ("fast", "sgla"):
+    if policy in ("fast", "sgla") or policy in PERIODIC_L9_BUDGETS:
         fused = list(next(iter(boxes.values())))
     else:
         fused = np.median(
@@ -123,11 +135,13 @@ def _fuse_boxes(boxes, policy, image_height, image_width):
     return stage1.clip_box(fused, image_height, image_width, margin=10)
 
 
-def _candidate_blocks(policy):
+def _candidate_blocks(policy, decision_index=0):
     if policy == "fast":
         return 0
     if policy == "sgla":
         return 1
+    if policy in PERIODIC_L9_BUDGETS:
+        return int(periodic_l9_active(policy, decision_index))
     return len(POLICY_LAYERS[policy])
 
 
@@ -145,7 +159,7 @@ def _initial_row(sequence, policy, initial_box):
         "frame_id": 0,
         "gt_valid": int(gt_valid),
         "iou": 1.0 if gt_valid else -1.0,
-        "candidate_blocks": _candidate_blocks(policy),
+        "candidate_blocks": _candidate_blocks(policy, 0),
         "selected_layer": "",
         "model_decode_latency_ms": "",
         "gt_x": ground_truth[0],
@@ -181,7 +195,7 @@ def _tracked_row(
         "frame_id": int(frame_id),
         "gt_valid": int(gt_valid),
         "iou": stage1._iou_xywh(box, ground_truth, gt_valid),
-        "candidate_blocks": _candidate_blocks(policy),
+        "candidate_blocks": _candidate_blocks(policy, frame_id),
         "selected_layer": "" if selected_layer is None else selected_layer,
         "model_decode_latency_ms": latency_ms,
         "gt_x": ground_truth[0],
@@ -246,6 +260,7 @@ def _run_policy_sequence(
                 template_tensor,
                 search_tensor,
                 policy,
+                frame_id,
             )
             boxes = {
                 layer: stage1._decode_box(
@@ -296,7 +311,7 @@ def _run_policy_sequence(
 
 def _build_parser():
     parser = argparse.ArgumentParser(
-        description="Run independent closed-loop SGLA median-fusion policies."
+        description="Run independent closed-loop SGLA refinement policies."
     )
     parser.add_argument("tracker_name", nargs="?", default="sglatrack")
     parser.add_argument("tracker_param", nargs="?", default="deit_distilled")

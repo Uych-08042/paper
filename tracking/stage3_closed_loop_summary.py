@@ -147,6 +147,7 @@ def summarize(rows, stage2_input=None):
         )
         auc = _success_auc(policy_rows)
         policy_auc[policy] = auc
+        tracked_rows = [row for row in policy_rows if row["frame_id"] > 0]
         valid_ious = [
             row["iou"]
             for row in policy_rows
@@ -156,7 +157,9 @@ def summarize(rows, stage2_input=None):
         policy_summaries.append(
             {
                 "policy": policy,
-                "candidate_blocks": policy_rows[0]["candidate_blocks"],
+                "candidate_blocks": float(np.mean([
+                    row["candidate_blocks"] for row in tracked_rows
+                ])),
                 "num_sequences": len(reference_set),
                 "num_frames": len(policy_rows),
                 "auc": auc,
@@ -282,7 +285,11 @@ def summarize_sequences(rows, stage2_input):
                     "dataset": dataset,
                     "sequence": sequence,
                     "policy": policy,
-                    "candidate_blocks": policy_rows[0]["candidate_blocks"],
+                    "candidate_blocks": float(np.mean([
+                        row["candidate_blocks"]
+                        for row in policy_rows
+                        if row["frame_id"] > 0
+                    ])),
                     "num_frames": len(policy_rows),
                     "auc": policy_auc,
                     "fast_reference": fast_reference,
@@ -365,14 +372,14 @@ def main():
             len(rows), len(paths)
         )
     )
-    print("policy       blocks  sequences       auc  gain_fast  gain_sgla  latency_ms")
+    print("policy       blocks/f  sequences       auc  gain_fast  gain_sgla  latency_ms")
     for row in summaries:
         latency = row["mean_model_decode_latency_ms"]
         latency_text = "n/a" if latency == "" else "{:.3f}".format(latency)
         gain_fast = row["gain_vs_fast"]
         gain_sgla = row["gain_vs_sgla"]
         print(
-            "{:<12s} {:>6d}  {:>9d}  {:>8.4f}  {:>9}  {:>9}  {:>10s}".format(
+            "{:<15s} {:>6.2f}  {:>9d}  {:>8.4f}  {:>9}  {:>9}  {:>10s}".format(
                 row["policy"],
                 row["candidate_blocks"],
                 row["num_sequences"],
