@@ -1,0 +1,47 @@
+{
+  "schema": "stage4_l9_online_controller_v1",
+  "cache_fingerprint": "0d3eb04b17cf1dca5869d78b1deeb803ae216c1d72dd791c3ac8d8fd58d415a7",
+  "stage4d_experiment_fingerprint": "d49c444c1ef9ca9d29ce47fd608bd58928abf4a527d71a4bebdf9eebd7caf7ea",
+  "script_sha256": "b68094343156f96912c76888a27f77ae2540e878ef43758396278bf804ef85b5",
+  "configuration": {
+    "input": "/home/u25600003160604/workspace/paper/output/stage4/pilot_cache_v1",
+    "router_dir": "/home/u25600003160604/workspace/paper/output/stage4/l9_gate_pilot_v1",
+    "output_dir": "/home/u25600003160604/workspace/paper/output/stage4/l9_online_controller_v1",
+    "models": [
+      "history_only__signed",
+      "history_only__positive"
+    ],
+    "budgets": [
+      10.0,
+      20.0,
+      30.0,
+      50.0
+    ],
+    "window": 32,
+    "min_history": 10,
+    "bucket_capacity": 2.0,
+    "bootstrap_samples": 2000,
+    "seed": 2026,
+    "batch_size": 1024,
+    "overwrite": false
+  },
+  "models": [
+    {
+      "model_id": "history_only__signed",
+      "model_fingerprint": "aac445317ad499dfcd1f56c9adccfc53af38146e3509018886117bd9ad72a33b",
+      "model_sha256": "515bdb2a86476452f4c7310115d0236b9791670b2a2107357252d36bcdf2f085"
+    },
+    {
+      "model_id": "history_only__positive",
+      "model_fingerprint": "50315243a57f045fc579d0a707a367a36e4ee6f3046922a8da164fc698dad508",
+      "model_sha256": "da927bd84934ff9f6d6b8e66e2bd062a5a019183f2d9ea43c1e2339ec274861a"
+    }
+  ],
+  "outputs": {
+    "summary": "/home/u25600003160604/workspace/paper/output/stage4/l9_online_controller_v1/stage4_l9_online_controller_summary.csv",
+    "groups": "/home/u25600003160604/workspace/paper/output/stage4/l9_online_controller_v1/stage4_l9_online_controller_groups.csv",
+    "bootstrap": "/home/u25600003160604/workspace/paper/output/stage4/l9_online_controller_v1/stage4_l9_online_controller_bootstrap.csv"
+  },
+  "warning": "The controller uses only earlier scores in each trajectory and never reads validation labels, but reported accuracy remains a frozen-trajectory current-state diagnostic.",
+  "fingerprint": "7b476e63722555ba8998642ba0a891c7e8c6a0efb71fc2a52e6c367549502a55"
+}

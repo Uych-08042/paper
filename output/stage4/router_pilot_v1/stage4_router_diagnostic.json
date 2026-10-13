@@ -1,0 +1,14 @@
+{
+  "schema": "stage4_router_diagnostic_v1",
+  "cache_fingerprint": "0d3eb04b17cf1dca5869d78b1deeb803ae216c1d72dd791c3ac8d8fd58d415a7",
+  "router_experiment_fingerprint": "4132212dc1c0cad5c2beb8856b42d8669665053b87e52bb151f30bf3e7f925ec",
+  "warning": "Exact top-k selection uses the complete validation score horizon but never validation labels; it is a controlled offline budget comparison, not an online causal scheduler.",
+  "outputs": {
+    "targets": "/home/u25600003160604/workspace/paper/output/stage4/router_pilot_v1/stage4_router_diagnostic_targets.csv",
+    "baselines": "/home/u25600003160604/workspace/paper/output/stage4/router_pilot_v1/stage4_router_diagnostic_baselines.csv",
+    "predictions": "/home/u25600003160604/workspace/paper/output/stage4/router_pilot_v1/stage4_router_diagnostic_predictions.csv",
+    "comparisons": "/home/u25600003160604/workspace/paper/output/stage4/router_pilot_v1/stage4_router_diagnostic_comparisons.csv",
+    "coefficients": "/home/u25600003160604/workspace/paper/output/stage4/router_pilot_v1/stage4_router_diagnostic_coefficients.csv",
+    "exact_budget": "/home/u25600003160604/workspace/paper/output/stage4/router_pilot_v1/stage4_router_exact_budget.csv"
+  }
+}

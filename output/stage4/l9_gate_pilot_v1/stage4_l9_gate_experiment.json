@@ -1,0 +1,912 @@
+{
+  "schema": "stage4_fast_l9_gate_experiment_v1",
+  "cache_fingerprint": "0d3eb04b17cf1dca5869d78b1deeb803ae216c1d72dd791c3ac8d8fd58d415a7",
+  "manifest_fingerprint": "58428429fb51f11a2baf43201536264bb79f365d19023c55626702e2db4f9fad",
+  "configuration": {
+    "input": "/home/u25600003160604/workspace/paper/output/stage4/pilot_cache_v1",
+    "output_dir": "/home/u25600003160604/workspace/paper/output/stage4/l9_gate_pilot_v1",
+    "variants": [
+      "history_only",
+      "token_only",
+      "fast_only",
+      "token_fast"
+    ],
+    "objectives": [
+      "signed",
+      "positive",
+      "benefit"
+    ],
+    "benefit_epsilons": [
+      0.0,
+      0.005,
+      0.01
+    ],
+    "pca_dims": 64,
+    "pca_oversample": 12,
+    "pca_power_iterations": 1,
+    "ridge_alphas": [
+      0.0001,
+      0.001,
+      0.01,
+      0.1,
+      1.0,
+      10.0,
+      100.0,
+      1000.0
+    ],
+    "calibration_fraction": 0.2,
+    "budgets": [
+      0.0,
+      10.0,
+      20.0,
+      30.0,
+      50.0,
+      100.0
+    ],
+    "profile_dirs": [
+      "/home/u25600003160604/workspace/paper/output/stage4/profile_seq0",
+      "/home/u25600003160604/workspace/paper/output/stage4/profile_seq1",
+      "/home/u25600003160604/workspace/paper/output/stage4/profile_seq2"
+    ],
+    "seed": 2026,
+    "batch_size": 1024,
+    "overwrite": false
+  },
+  "script_sha256": "9e111a4bee1a95ee9e96ad648cab61c3f56c12daec4eda9b000bd050e40918e1",
+  "calibration_sequences": [
+    "GOT-10k_Train_000034",
+    "GOT-10k_Train_000129",
+    "GOT-10k_Train_000137",
+    "GOT-10k_Train_000153",
+    "GOT-10k_Train_000192",
+    "GOT-10k_Train_000421"
+  ],
+  "profile_means_ms": {
+    "block_L10": 0.28638189865483177,
+    "block_L11": 0.28490766882896423,
+    "block_L12": 0.2824254499541389,
+    "block_L7": 0.3729320648643706,
+    "block_L8": 0.3046062257554796,
+    "block_L9": 0.289826426241133,
+    "crop_preprocess": 0.5806353853808509,
+    "decode_fast": 0.2509980648756027,
+    "norm_fast_head": 1.270575001835823,
+    "pool_all_channels_grid4": 0.12244589626789093,
+    "prefix_L1_L6": 1.843259119325214,
+    "selector": 0.13345239063103995,
+    "fast": 4.070019672314326,
+    "fast_then_sgla": 5.806035449107488,
+    "native_sgla": 4.547054784165488,
+    "sgla": 4.409186301959886
+  },
+  "models": [
+    {
+      "schema": "stage4_fast_l9_ridge_v1",
+      "model_id": "history_only__signed",
+      "variant": "history_only",
+      "objective": "signed",
+      "benefit_epsilon": 0.0,
+      "natural_score_threshold": 0.0,
+      "cache_fingerprint": "0d3eb04b17cf1dca5869d78b1deeb803ae216c1d72dd791c3ac8d8fd58d415a7",
+      "manifest_fingerprint": "58428429fb51f11a2baf43201536264bb79f365d19023c55626702e2db4f9fad",
+      "action": "layer9",
+      "configuration": {
+        "pca_dims": 64,
+        "pca_oversample": 12,
+        "pca_power_iterations": 1,
+        "ridge_alphas": [
+          0.0001,
+          0.001,
+          0.01,
+          0.1,
+          1.0,
+          10.0,
+          100.0,
+          1000.0
+        ],
+        "calibration_fraction": 0.2,
+        "calibration_sequences": [
+          "GOT-10k_Train_000034",
+          "GOT-10k_Train_000129",
+          "GOT-10k_Train_000137",
+          "GOT-10k_Train_000153",
+          "GOT-10k_Train_000192",
+          "GOT-10k_Train_000421"
+        ],
+        "seed": 2026,
+        "ridge_alpha": 1000.0,
+        "calibration_weighted_mse": 0.0013922528935662606,
+        "constant_calibration_weighted_mse": 0.0013920826727956896
+      },
+      "fingerprint": "aac445317ad499dfcd1f56c9adccfc53af38146e3509018886117bd9ad72a33b",
+      "path": "/home/u25600003160604/workspace/paper/output/stage4/l9_gate_pilot_v1/stage4_l9_gate_history_only__signed.npz"
+    },
+    {
+      "schema": "stage4_fast_l9_ridge_v1",
+      "model_id": "history_only__positive",
+      "variant": "history_only",
+      "objective": "positive",
+      "benefit_epsilon": 0.0,
+      "natural_score_threshold": 0.0,
+      "cache_fingerprint": "0d3eb04b17cf1dca5869d78b1deeb803ae216c1d72dd791c3ac8d8fd58d415a7",
+      "manifest_fingerprint": "58428429fb51f11a2baf43201536264bb79f365d19023c55626702e2db4f9fad",
+      "action": "layer9",
+      "configuration": {
+        "pca_dims": 64,
+        "pca_oversample": 12,
+        "pca_power_iterations": 1,
+        "ridge_alphas": [
+          0.0001,
+          0.001,
+          0.01,
+          0.1,
+          1.0,
+          10.0,
+          100.0,
+          1000.0
+        ],
+        "calibration_fraction": 0.2,
+        "calibration_sequences": [
+          "GOT-10k_Train_000034",
+          "GOT-10k_Train_000129",
+          "GOT-10k_Train_000137",
+          "GOT-10k_Train_000153",
+          "GOT-10k_Train_000192",
+          "GOT-10k_Train_000421"
+        ],
+        "seed": 2026,
+        "ridge_alpha": 100.0,
+        "calibration_weighted_mse": 0.0008220298814460604,
+        "constant_calibration_weighted_mse": 0.0008221811023809886
+      },
+      "fingerprint": "50315243a57f045fc579d0a707a367a36e4ee6f3046922a8da164fc698dad508",
+      "path": "/home/u25600003160604/workspace/paper/output/stage4/l9_gate_pilot_v1/stage4_l9_gate_history_only__positive.npz"
+    },
+    {
+      "schema": "stage4_fast_l9_ridge_v1",
+      "model_id": "history_only__benefit_eps0",
+      "variant": "history_only",
+      "objective": "benefit",
+      "benefit_epsilon": 0.0,
+      "natural_score_threshold": 0.5,
+      "cache_fingerprint": "0d3eb04b17cf1dca5869d78b1deeb803ae216c1d72dd791c3ac8d8fd58d415a7",
+      "manifest_fingerprint": "58428429fb51f11a2baf43201536264bb79f365d19023c55626702e2db4f9fad",
+      "action": "layer9",
+      "configuration": {
+        "pca_dims": 64,
+        "pca_oversample": 12,
+        "pca_power_iterations": 1,
+        "ridge_alphas": [
+          0.0001,
+          0.001,
+          0.01,
+          0.1,
+          1.0,
+          10.0,
+          100.0,
+          1000.0
+        ],
+        "calibration_fraction": 0.2,
+        "calibration_sequences": [
+          "GOT-10k_Train_000034",
+          "GOT-10k_Train_000129",
+          "GOT-10k_Train_000137",
+          "GOT-10k_Train_000153",
+          "GOT-10k_Train_000192",
+          "GOT-10k_Train_000421"
+        ],
+        "seed": 2026,
+        "ridge_alpha": 1000.0,
+        "calibration_weighted_mse": 0.22300586286777505,
+        "constant_calibration_weighted_mse": 0.2229726448587116
+      },
+      "fingerprint": "c9856a7fefe1ee302aa6c51ec5bdb355d57153f064b6dd343c93af5144c5d244",
+      "path": "/home/u25600003160604/workspace/paper/output/stage4/l9_gate_pilot_v1/stage4_l9_gate_history_only__benefit_eps0.npz"
+    },
+    {
+      "schema": "stage4_fast_l9_ridge_v1",
+      "model_id": "history_only__benefit_eps0p005",
+      "variant": "history_only",
+      "objective": "benefit",
+      "benefit_epsilon": 0.005,
+      "natural_score_threshold": 0.5,
+      "cache_fingerprint": "0d3eb04b17cf1dca5869d78b1deeb803ae216c1d72dd791c3ac8d8fd58d415a7",
+      "manifest_fingerprint": "58428429fb51f11a2baf43201536264bb79f365d19023c55626702e2db4f9fad",
+      "action": "layer9",
+      "configuration": {
+        "pca_dims": 64,
+        "pca_oversample": 12,
+        "pca_power_iterations": 1,
+        "ridge_alphas": [
+          0.0001,
+          0.001,
+          0.01,
+          0.1,
+          1.0,
+          10.0,
+          100.0,
+          1000.0
+        ],
+        "calibration_fraction": 0.2,
+        "calibration_sequences": [
+          "GOT-10k_Train_000034",
+          "GOT-10k_Train_000129",
+          "GOT-10k_Train_000137",
+          "GOT-10k_Train_000153",
+          "GOT-10k_Train_000192",
+          "GOT-10k_Train_000421"
+        ],
+        "seed": 2026,
+        "ridge_alpha": 1000.0,
+        "calibration_weighted_mse": 0.23560261863044443,
+        "constant_calibration_weighted_mse": 0.23557262586526873
+      },
+      "fingerprint": "252b0b28a6543eb91973087ad27174597517a5b78dc178091c5235406cfed2fa",
+      "path": "/home/u25600003160604/workspace/paper/output/stage4/l9_gate_pilot_v1/stage4_l9_gate_history_only__benefit_eps0p005.npz"
+    },
+    {
+      "schema": "stage4_fast_l9_ridge_v1",
+      "model_id": "history_only__benefit_eps0p01",
+      "variant": "history_only",
+      "objective": "benefit",
+      "benefit_epsilon": 0.01,
+      "natural_score_threshold": 0.5,
+      "cache_fingerprint": "0d3eb04b17cf1dca5869d78b1deeb803ae216c1d72dd791c3ac8d8fd58d415a7",
+      "manifest_fingerprint": "58428429fb51f11a2baf43201536264bb79f365d19023c55626702e2db4f9fad",
+      "action": "layer9",
+      "configuration": {
+        "pca_dims": 64,
+        "pca_oversample": 12,
+        "pca_power_iterations": 1,
+        "ridge_alphas": [
+          0.0001,
+          0.001,
+          0.01,
+          0.1,
+          1.0,
+          10.0,
+          100.0,
+          1000.0
+        ],
+        "calibration_fraction": 0.2,
+        "calibration_sequences": [
+          "GOT-10k_Train_000034",
+          "GOT-10k_Train_000129",
+          "GOT-10k_Train_000137",
+          "GOT-10k_Train_000153",
+          "GOT-10k_Train_000192",
+          "GOT-10k_Train_000421"
+        ],
+        "seed": 2026,
+        "ridge_alpha": 1000.0,
+        "calibration_weighted_mse": 0.24807523549804994,
+        "constant_calibration_weighted_mse": 0.2480663053834431
+      },
+      "fingerprint": "694c523948b7bcbb7ce57939401fc8b1c5f4ad8d1c9f86aa8bd49d25b0764b70",
+      "path": "/home/u25600003160604/workspace/paper/output/stage4/l9_gate_pilot_v1/stage4_l9_gate_history_only__benefit_eps0p01.npz"
+    },
+    {
+      "schema": "stage4_fast_l9_ridge_v1",
+      "model_id": "token_only__signed",
+      "variant": "token_only",
+      "objective": "signed",
+      "benefit_epsilon": 0.0,
+      "natural_score_threshold": 0.0,
+      "cache_fingerprint": "0d3eb04b17cf1dca5869d78b1deeb803ae216c1d72dd791c3ac8d8fd58d415a7",
+      "manifest_fingerprint": "58428429fb51f11a2baf43201536264bb79f365d19023c55626702e2db4f9fad",
+      "action": "layer9",
+      "configuration": {
+        "pca_dims": 64,
+        "pca_oversample": 12,
+        "pca_power_iterations": 1,
+        "ridge_alphas": [
+          0.0001,
+          0.001,
+          0.01,
+          0.1,
+          1.0,
+          10.0,
+          100.0,
+          1000.0
+        ],
+        "calibration_fraction": 0.2,
+        "calibration_sequences": [
+          "GOT-10k_Train_000034",
+          "GOT-10k_Train_000129",
+          "GOT-10k_Train_000137",
+          "GOT-10k_Train_000153",
+          "GOT-10k_Train_000192",
+          "GOT-10k_Train_000421"
+        ],
+        "seed": 2026,
+        "ridge_alpha": 1000.0,
+        "calibration_weighted_mse": 0.0013924136418301176,
+        "constant_calibration_weighted_mse": 0.0013920826727956896
+      },
+      "fingerprint": "27abe6fb068c624252f3b43d021ca22c7024f1f330b304cb5075d35735f9e69d",
+      "path": "/home/u25600003160604/workspace/paper/output/stage4/l9_gate_pilot_v1/stage4_l9_gate_token_only__signed.npz"
+    },
+    {
+      "schema": "stage4_fast_l9_ridge_v1",
+      "model_id": "token_only__positive",
+      "variant": "token_only",
+      "objective": "positive",
+      "benefit_epsilon": 0.0,
+      "natural_score_threshold": 0.0,
+      "cache_fingerprint": "0d3eb04b17cf1dca5869d78b1deeb803ae216c1d72dd791c3ac8d8fd58d415a7",
+      "manifest_fingerprint": "58428429fb51f11a2baf43201536264bb79f365d19023c55626702e2db4f9fad",
+      "action": "layer9",
+      "configuration": {
+        "pca_dims": 64,
+        "pca_oversample": 12,
+        "pca_power_iterations": 1,
+        "ridge_alphas": [
+          0.0001,
+          0.001,
+          0.01,
+          0.1,
+          1.0,
+          10.0,
+          100.0,
+          1000.0
+        ],
+        "calibration_fraction": 0.2,
+        "calibration_sequences": [
+          "GOT-10k_Train_000034",
+          "GOT-10k_Train_000129",
+          "GOT-10k_Train_000137",
+          "GOT-10k_Train_000153",
+          "GOT-10k_Train_000192",
+          "GOT-10k_Train_000421"
+        ],
+        "seed": 2026,
+        "ridge_alpha": 1000.0,
+        "calibration_weighted_mse": 0.000822205332089413,
+        "constant_calibration_weighted_mse": 0.0008221811023809886
+      },
+      "fingerprint": "1def405d1d010d8c3a047dc287e8e7e00b405245764794eb9ef95e9d8c4530f4",
+      "path": "/home/u25600003160604/workspace/paper/output/stage4/l9_gate_pilot_v1/stage4_l9_gate_token_only__positive.npz"
+    },
+    {
+      "schema": "stage4_fast_l9_ridge_v1",
+      "model_id": "token_only__benefit_eps0",
+      "variant": "token_only",
+      "objective": "benefit",
+      "benefit_epsilon": 0.0,
+      "natural_score_threshold": 0.5,
+      "cache_fingerprint": "0d3eb04b17cf1dca5869d78b1deeb803ae216c1d72dd791c3ac8d8fd58d415a7",
+      "manifest_fingerprint": "58428429fb51f11a2baf43201536264bb79f365d19023c55626702e2db4f9fad",
+      "action": "layer9",
+      "configuration": {
+        "pca_dims": 64,
+        "pca_oversample": 12,
+        "pca_power_iterations": 1,
+        "ridge_alphas": [
+          0.0001,
+          0.001,
+          0.01,
+          0.1,
+          1.0,
+          10.0,
+          100.0,
+          1000.0
+        ],
+        "calibration_fraction": 0.2,
+        "calibration_sequences": [
+          "GOT-10k_Train_000034",
+          "GOT-10k_Train_000129",
+          "GOT-10k_Train_000137",
+          "GOT-10k_Train_000153",
+          "GOT-10k_Train_000192",
+          "GOT-10k_Train_000421"
+        ],
+        "seed": 2026,
+        "ridge_alpha": 1000.0,
+        "calibration_weighted_mse": 0.2230301285928328,
+        "constant_calibration_weighted_mse": 0.2229726448587116
+      },
+      "fingerprint": "8ed41d2df9bd61877a74a47b2e55573ee0030ce2ad7c43c30254e54bb7da2b13",
+      "path": "/home/u25600003160604/workspace/paper/output/stage4/l9_gate_pilot_v1/stage4_l9_gate_token_only__benefit_eps0.npz"
+    },
+    {
+      "schema": "stage4_fast_l9_ridge_v1",
+      "model_id": "token_only__benefit_eps0p005",
+      "variant": "token_only",
+      "objective": "benefit",
+      "benefit_epsilon": 0.005,
+      "natural_score_threshold": 0.5,
+      "cache_fingerprint": "0d3eb04b17cf1dca5869d78b1deeb803ae216c1d72dd791c3ac8d8fd58d415a7",
+      "manifest_fingerprint": "58428429fb51f11a2baf43201536264bb79f365d19023c55626702e2db4f9fad",
+      "action": "layer9",
+      "configuration": {
+        "pca_dims": 64,
+        "pca_oversample": 12,
+        "pca_power_iterations": 1,
+        "ridge_alphas": [
+          0.0001,
+          0.001,
+          0.01,
+          0.1,
+          1.0,
+          10.0,
+          100.0,
+          1000.0
+        ],
+        "calibration_fraction": 0.2,
+        "calibration_sequences": [
+          "GOT-10k_Train_000034",
+          "GOT-10k_Train_000129",
+          "GOT-10k_Train_000137",
+          "GOT-10k_Train_000153",
+          "GOT-10k_Train_000192",
+          "GOT-10k_Train_000421"
+        ],
+        "seed": 2026,
+        "ridge_alpha": 1000.0,
+        "calibration_weighted_mse": 0.23562133708599087,
+        "constant_calibration_weighted_mse": 0.23557262586526873
+      },
+      "fingerprint": "ccf2540fffa2c9f518a1789367863a5eb406fe91904c4475ed77b618a2eb7af3",
+      "path": "/home/u25600003160604/workspace/paper/output/stage4/l9_gate_pilot_v1/stage4_l9_gate_token_only__benefit_eps0p005.npz"
+    },
+    {
+      "schema": "stage4_fast_l9_ridge_v1",
+      "model_id": "token_only__benefit_eps0p01",
+      "variant": "token_only",
+      "objective": "benefit",
+      "benefit_epsilon": 0.01,
+      "natural_score_threshold": 0.5,
+      "cache_fingerprint": "0d3eb04b17cf1dca5869d78b1deeb803ae216c1d72dd791c3ac8d8fd58d415a7",
+      "manifest_fingerprint": "58428429fb51f11a2baf43201536264bb79f365d19023c55626702e2db4f9fad",
+      "action": "layer9",
+      "configuration": {
+        "pca_dims": 64,
+        "pca_oversample": 12,
+        "pca_power_iterations": 1,
+        "ridge_alphas": [
+          0.0001,
+          0.001,
+          0.01,
+          0.1,
+          1.0,
+          10.0,
+          100.0,
+          1000.0
+        ],
+        "calibration_fraction": 0.2,
+        "calibration_sequences": [
+          "GOT-10k_Train_000034",
+          "GOT-10k_Train_000129",
+          "GOT-10k_Train_000137",
+          "GOT-10k_Train_000153",
+          "GOT-10k_Train_000192",
+          "GOT-10k_Train_000421"
+        ],
+        "seed": 2026,
+        "ridge_alpha": 1000.0,
+        "calibration_weighted_mse": 0.24808433284460718,
+        "constant_calibration_weighted_mse": 0.2480663053834431
+      },
+      "fingerprint": "46c7c5e1349b678ae938020a5f46815203eeaae81c7b982c97132601e22209d0",
+      "path": "/home/u25600003160604/workspace/paper/output/stage4/l9_gate_pilot_v1/stage4_l9_gate_token_only__benefit_eps0p01.npz"
+    },
+    {
+      "schema": "stage4_fast_l9_ridge_v1",
+      "model_id": "fast_only__signed",
+      "variant": "fast_only",
+      "objective": "signed",
+      "benefit_epsilon": 0.0,
+      "natural_score_threshold": 0.0,
+      "cache_fingerprint": "0d3eb04b17cf1dca5869d78b1deeb803ae216c1d72dd791c3ac8d8fd58d415a7",
+      "manifest_fingerprint": "58428429fb51f11a2baf43201536264bb79f365d19023c55626702e2db4f9fad",
+      "action": "layer9",
+      "configuration": {
+        "pca_dims": 64,
+        "pca_oversample": 12,
+        "pca_power_iterations": 1,
+        "ridge_alphas": [
+          0.0001,
+          0.001,
+          0.01,
+          0.1,
+          1.0,
+          10.0,
+          100.0,
+          1000.0
+        ],
+        "calibration_fraction": 0.2,
+        "calibration_sequences": [
+          "GOT-10k_Train_000034",
+          "GOT-10k_Train_000129",
+          "GOT-10k_Train_000137",
+          "GOT-10k_Train_000153",
+          "GOT-10k_Train_000192",
+          "GOT-10k_Train_000421"
+        ],
+        "seed": 2026,
+        "ridge_alpha": 1000.0,
+        "calibration_weighted_mse": 0.001392183435604312,
+        "constant_calibration_weighted_mse": 0.0013920826727956896
+      },
+      "fingerprint": "e4fce24a1caee0570f316edef4c1df6200ee844f5dd886b78565748b099c7790",
+      "path": "/home/u25600003160604/workspace/paper/output/stage4/l9_gate_pilot_v1/stage4_l9_gate_fast_only__signed.npz"
+    },
+    {
+      "schema": "stage4_fast_l9_ridge_v1",
+      "model_id": "fast_only__positive",
+      "variant": "fast_only",
+      "objective": "positive",
+      "benefit_epsilon": 0.0,
+      "natural_score_threshold": 0.0,
+      "cache_fingerprint": "0d3eb04b17cf1dca5869d78b1deeb803ae216c1d72dd791c3ac8d8fd58d415a7",
+      "manifest_fingerprint": "58428429fb51f11a2baf43201536264bb79f365d19023c55626702e2db4f9fad",
+      "action": "layer9",
+      "configuration": {
+        "pca_dims": 64,
+        "pca_oversample": 12,
+        "pca_power_iterations": 1,
+        "ridge_alphas": [
+          0.0001,
+          0.001,
+          0.01,
+          0.1,
+          1.0,
+          10.0,
+          100.0,
+          1000.0
+        ],
+        "calibration_fraction": 0.2,
+        "calibration_sequences": [
+          "GOT-10k_Train_000034",
+          "GOT-10k_Train_000129",
+          "GOT-10k_Train_000137",
+          "GOT-10k_Train_000153",
+          "GOT-10k_Train_000192",
+          "GOT-10k_Train_000421"
+        ],
+        "seed": 2026,
+        "ridge_alpha": 10.0,
+        "calibration_weighted_mse": 0.0008167781273103787,
+        "constant_calibration_weighted_mse": 0.0008221811023809886
+      },
+      "fingerprint": "ca6d8b36197b6deedbd24900a837e6394f9fab67e8639b5a93a854094da895d8",
+      "path": "/home/u25600003160604/workspace/paper/output/stage4/l9_gate_pilot_v1/stage4_l9_gate_fast_only__positive.npz"
+    },
+    {
+      "schema": "stage4_fast_l9_ridge_v1",
+      "model_id": "fast_only__benefit_eps0",
+      "variant": "fast_only",
+      "objective": "benefit",
+      "benefit_epsilon": 0.0,
+      "natural_score_threshold": 0.5,
+      "cache_fingerprint": "0d3eb04b17cf1dca5869d78b1deeb803ae216c1d72dd791c3ac8d8fd58d415a7",
+      "manifest_fingerprint": "58428429fb51f11a2baf43201536264bb79f365d19023c55626702e2db4f9fad",
+      "action": "layer9",
+      "configuration": {
+        "pca_dims": 64,
+        "pca_oversample": 12,
+        "pca_power_iterations": 1,
+        "ridge_alphas": [
+          0.0001,
+          0.001,
+          0.01,
+          0.1,
+          1.0,
+          10.0,
+          100.0,
+          1000.0
+        ],
+        "calibration_fraction": 0.2,
+        "calibration_sequences": [
+          "GOT-10k_Train_000034",
+          "GOT-10k_Train_000129",
+          "GOT-10k_Train_000137",
+          "GOT-10k_Train_000153",
+          "GOT-10k_Train_000192",
+          "GOT-10k_Train_000421"
+        ],
+        "seed": 2026,
+        "ridge_alpha": 1000.0,
+        "calibration_weighted_mse": 0.2230267969015408,
+        "constant_calibration_weighted_mse": 0.2229726448587116
+      },
+      "fingerprint": "d25bc30d1e280f730dae636d32319ef4cd45e4446ba23b7daf84863daf334170",
+      "path": "/home/u25600003160604/workspace/paper/output/stage4/l9_gate_pilot_v1/stage4_l9_gate_fast_only__benefit_eps0.npz"
+    },
+    {
+      "schema": "stage4_fast_l9_ridge_v1",
+      "model_id": "fast_only__benefit_eps0p005",
+      "variant": "fast_only",
+      "objective": "benefit",
+      "benefit_epsilon": 0.005,
+      "natural_score_threshold": 0.5,
+      "cache_fingerprint": "0d3eb04b17cf1dca5869d78b1deeb803ae216c1d72dd791c3ac8d8fd58d415a7",
+      "manifest_fingerprint": "58428429fb51f11a2baf43201536264bb79f365d19023c55626702e2db4f9fad",
+      "action": "layer9",
+      "configuration": {
+        "pca_dims": 64,
+        "pca_oversample": 12,
+        "pca_power_iterations": 1,
+        "ridge_alphas": [
+          0.0001,
+          0.001,
+          0.01,
+          0.1,
+          1.0,
+          10.0,
+          100.0,
+          1000.0
+        ],
+        "calibration_fraction": 0.2,
+        "calibration_sequences": [
+          "GOT-10k_Train_000034",
+          "GOT-10k_Train_000129",
+          "GOT-10k_Train_000137",
+          "GOT-10k_Train_000153",
+          "GOT-10k_Train_000192",
+          "GOT-10k_Train_000421"
+        ],
+        "seed": 2026,
+        "ridge_alpha": 1000.0,
+        "calibration_weighted_mse": 0.2356145962021713,
+        "constant_calibration_weighted_mse": 0.23557262586526873
+      },
+      "fingerprint": "6a82567b694c522e3c932ede41f05b440e60af35fdebd7684e6a81f524b15fdd",
+      "path": "/home/u25600003160604/workspace/paper/output/stage4/l9_gate_pilot_v1/stage4_l9_gate_fast_only__benefit_eps0p005.npz"
+    },
+    {
+      "schema": "stage4_fast_l9_ridge_v1",
+      "model_id": "fast_only__benefit_eps0p01",
+      "variant": "fast_only",
+      "objective": "benefit",
+      "benefit_epsilon": 0.01,
+      "natural_score_threshold": 0.5,
+      "cache_fingerprint": "0d3eb04b17cf1dca5869d78b1deeb803ae216c1d72dd791c3ac8d8fd58d415a7",
+      "manifest_fingerprint": "58428429fb51f11a2baf43201536264bb79f365d19023c55626702e2db4f9fad",
+      "action": "layer9",
+      "configuration": {
+        "pca_dims": 64,
+        "pca_oversample": 12,
+        "pca_power_iterations": 1,
+        "ridge_alphas": [
+          0.0001,
+          0.001,
+          0.01,
+          0.1,
+          1.0,
+          10.0,
+          100.0,
+          1000.0
+        ],
+        "calibration_fraction": 0.2,
+        "calibration_sequences": [
+          "GOT-10k_Train_000034",
+          "GOT-10k_Train_000129",
+          "GOT-10k_Train_000137",
+          "GOT-10k_Train_000153",
+          "GOT-10k_Train_000192",
+          "GOT-10k_Train_000421"
+        ],
+        "seed": 2026,
+        "ridge_alpha": 1000.0,
+        "calibration_weighted_mse": 0.2480844763380035,
+        "constant_calibration_weighted_mse": 0.2480663053834431
+      },
+      "fingerprint": "0f1cc6deadf591b31d1d516ccb4773982b6df85bba2974e8ecdae4bc98efd5f9",
+      "path": "/home/u25600003160604/workspace/paper/output/stage4/l9_gate_pilot_v1/stage4_l9_gate_fast_only__benefit_eps0p01.npz"
+    },
+    {
+      "schema": "stage4_fast_l9_ridge_v1",
+      "model_id": "token_fast__signed",
+      "variant": "token_fast",
+      "objective": "signed",
+      "benefit_epsilon": 0.0,
+      "natural_score_threshold": 0.0,
+      "cache_fingerprint": "0d3eb04b17cf1dca5869d78b1deeb803ae216c1d72dd791c3ac8d8fd58d415a7",
+      "manifest_fingerprint": "58428429fb51f11a2baf43201536264bb79f365d19023c55626702e2db4f9fad",
+      "action": "layer9",
+      "configuration": {
+        "pca_dims": 64,
+        "pca_oversample": 12,
+        "pca_power_iterations": 1,
+        "ridge_alphas": [
+          0.0001,
+          0.001,
+          0.01,
+          0.1,
+          1.0,
+          10.0,
+          100.0,
+          1000.0
+        ],
+        "calibration_fraction": 0.2,
+        "calibration_sequences": [
+          "GOT-10k_Train_000034",
+          "GOT-10k_Train_000129",
+          "GOT-10k_Train_000137",
+          "GOT-10k_Train_000153",
+          "GOT-10k_Train_000192",
+          "GOT-10k_Train_000421"
+        ],
+        "seed": 2026,
+        "ridge_alpha": 1000.0,
+        "calibration_weighted_mse": 0.0013923442038479125,
+        "constant_calibration_weighted_mse": 0.0013920826727956896
+      },
+      "fingerprint": "f876cf6a998940b51abcbae8bb4966f250b05b474475e057cb134e7966939597",
+      "path": "/home/u25600003160604/workspace/paper/output/stage4/l9_gate_pilot_v1/stage4_l9_gate_token_fast__signed.npz"
+    },
+    {
+      "schema": "stage4_fast_l9_ridge_v1",
+      "model_id": "token_fast__positive",
+      "variant": "token_fast",
+      "objective": "positive",
+      "benefit_epsilon": 0.0,
+      "natural_score_threshold": 0.0,
+      "cache_fingerprint": "0d3eb04b17cf1dca5869d78b1deeb803ae216c1d72dd791c3ac8d8fd58d415a7",
+      "manifest_fingerprint": "58428429fb51f11a2baf43201536264bb79f365d19023c55626702e2db4f9fad",
+      "action": "layer9",
+      "configuration": {
+        "pca_dims": 64,
+        "pca_oversample": 12,
+        "pca_power_iterations": 1,
+        "ridge_alphas": [
+          0.0001,
+          0.001,
+          0.01,
+          0.1,
+          1.0,
+          10.0,
+          100.0,
+          1000.0
+        ],
+        "calibration_fraction": 0.2,
+        "calibration_sequences": [
+          "GOT-10k_Train_000034",
+          "GOT-10k_Train_000129",
+          "GOT-10k_Train_000137",
+          "GOT-10k_Train_000153",
+          "GOT-10k_Train_000192",
+          "GOT-10k_Train_000421"
+        ],
+        "seed": 2026,
+        "ridge_alpha": 100.0,
+        "calibration_weighted_mse": 0.0008198701581647233,
+        "constant_calibration_weighted_mse": 0.0008221811023809886
+      },
+      "fingerprint": "fda6b324517d4eec2bb2fb0660b4d2c501c988db91c294355046427e72b5cd2f",
+      "path": "/home/u25600003160604/workspace/paper/output/stage4/l9_gate_pilot_v1/stage4_l9_gate_token_fast__positive.npz"
+    },
+    {
+      "schema": "stage4_fast_l9_ridge_v1",
+      "model_id": "token_fast__benefit_eps0",
+      "variant": "token_fast",
+      "objective": "benefit",
+      "benefit_epsilon": 0.0,
+      "natural_score_threshold": 0.5,
+      "cache_fingerprint": "0d3eb04b17cf1dca5869d78b1deeb803ae216c1d72dd791c3ac8d8fd58d415a7",
+      "manifest_fingerprint": "58428429fb51f11a2baf43201536264bb79f365d19023c55626702e2db4f9fad",
+      "action": "layer9",
+      "configuration": {
+        "pca_dims": 64,
+        "pca_oversample": 12,
+        "pca_power_iterations": 1,
+        "ridge_alphas": [
+          0.0001,
+          0.001,
+          0.01,
+          0.1,
+          1.0,
+          10.0,
+          100.0,
+          1000.0
+        ],
+        "calibration_fraction": 0.2,
+        "calibration_sequences": [
+          "GOT-10k_Train_000034",
+          "GOT-10k_Train_000129",
+          "GOT-10k_Train_000137",
+          "GOT-10k_Train_000153",
+          "GOT-10k_Train_000192",
+          "GOT-10k_Train_000421"
+        ],
+        "seed": 2026,
+        "ridge_alpha": 1000.0,
+        "calibration_weighted_mse": 0.22305105046606954,
+        "constant_calibration_weighted_mse": 0.2229726448587116
+      },
+      "fingerprint": "9d8fd73349a195c1e9961c565471462cb2d9fca9ea6aeddb1d5858b8c1a64fda",
+      "path": "/home/u25600003160604/workspace/paper/output/stage4/l9_gate_pilot_v1/stage4_l9_gate_token_fast__benefit_eps0.npz"
+    },
+    {
+      "schema": "stage4_fast_l9_ridge_v1",
+      "model_id": "token_fast__benefit_eps0p005",
+      "variant": "token_fast",
+      "objective": "benefit",
+      "benefit_epsilon": 0.005,
+      "natural_score_threshold": 0.5,
+      "cache_fingerprint": "0d3eb04b17cf1dca5869d78b1deeb803ae216c1d72dd791c3ac8d8fd58d415a7",
+      "manifest_fingerprint": "58428429fb51f11a2baf43201536264bb79f365d19023c55626702e2db4f9fad",
+      "action": "layer9",
+      "configuration": {
+        "pca_dims": 64,
+        "pca_oversample": 12,
+        "pca_power_iterations": 1,
+        "ridge_alphas": [
+          0.0001,
+          0.001,
+          0.01,
+          0.1,
+          1.0,
+          10.0,
+          100.0,
+          1000.0
+        ],
+        "calibration_fraction": 0.2,
+        "calibration_sequences": [
+          "GOT-10k_Train_000034",
+          "GOT-10k_Train_000129",
+          "GOT-10k_Train_000137",
+          "GOT-10k_Train_000153",
+          "GOT-10k_Train_000192",
+          "GOT-10k_Train_000421"
+        ],
+        "seed": 2026,
+        "ridge_alpha": 1000.0,
+        "calibration_weighted_mse": 0.23563333659755603,
+        "constant_calibration_weighted_mse": 0.23557262586526873
+      },
+      "fingerprint": "d0ad8136f6f6c480ad079ad61eac16064d2758e493bae6adea42cebe2400c8ff",
+      "path": "/home/u25600003160604/workspace/paper/output/stage4/l9_gate_pilot_v1/stage4_l9_gate_token_fast__benefit_eps0p005.npz"
+    },
+    {
+      "schema": "stage4_fast_l9_ridge_v1",
+      "model_id": "token_fast__benefit_eps0p01",
+      "variant": "token_fast",
+      "objective": "benefit",
+      "benefit_epsilon": 0.01,
+      "natural_score_threshold": 0.5,
+      "cache_fingerprint": "0d3eb04b17cf1dca5869d78b1deeb803ae216c1d72dd791c3ac8d8fd58d415a7",
+      "manifest_fingerprint": "58428429fb51f11a2baf43201536264bb79f365d19023c55626702e2db4f9fad",
+      "action": "layer9",
+      "configuration": {
+        "pca_dims": 64,
+        "pca_oversample": 12,
+        "pca_power_iterations": 1,
+        "ridge_alphas": [
+          0.0001,
+          0.001,
+          0.01,
+          0.1,
+          1.0,
+          10.0,
+          100.0,
+          1000.0
+        ],
+        "calibration_fraction": 0.2,
+        "calibration_sequences": [
+          "GOT-10k_Train_000034",
+          "GOT-10k_Train_000129",
+          "GOT-10k_Train_000137",
+          "GOT-10k_Train_000153",
+          "GOT-10k_Train_000192",
+          "GOT-10k_Train_000421"
+        ],
+        "seed": 2026,
+        "ridge_alpha": 1000.0,
+        "calibration_weighted_mse": 0.24809362258900994,
+        "constant_calibration_weighted_mse": 0.2480663053834431
+      },
+      "fingerprint": "8636e310ddab28bc8d0d1d4ae9f33d7f6cd281e7d7cc7979205fbc499fef1449",
+      "path": "/home/u25600003160604/workspace/paper/output/stage4/l9_gate_pilot_v1/stage4_l9_gate_token_fast__benefit_eps0p01.npz"
+    }
+  ],
+  "outputs": {
+    "alpha_selection": "/home/u25600003160604/workspace/paper/output/stage4/l9_gate_pilot_v1/stage4_l9_gate_alpha_selection.csv",
+    "summary": "/home/u25600003160604/workspace/paper/output/stage4/l9_gate_pilot_v1/stage4_l9_gate_summary.csv",
+    "budget": "/home/u25600003160604/workspace/paper/output/stage4/l9_gate_pilot_v1/stage4_l9_gate_budget.csv",
+    "predictions": "/home/u25600003160604/workspace/paper/output/stage4/l9_gate_pilot_v1/stage4_l9_gate_val_predictions.csv"
+  },
+  "warning": "Metrics are frozen-trajectory current-state diagnostics. Exact top-k uses the complete validation score horizon but no validation labels, so it is a controlled ranking test rather than an online scheduler.",
+  "fingerprint": "d49c444c1ef9ca9d29ce47fd608bd58928abf4a527d71a4bebdf9eebd7caf7ea"
+}

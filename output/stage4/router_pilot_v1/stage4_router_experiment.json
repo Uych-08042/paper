@@ -1,0 +1,91 @@
+{
+  "schema": "stage4_utility_ridge_v1",
+  "cache": "/home/u25600003160604/workspace/paper/output/stage4/pilot_cache_v1",
+  "cache_fingerprint": "0d3eb04b17cf1dca5869d78b1deeb803ae216c1d72dd791c3ac8d8fd58d415a7",
+  "manifest_fingerprint": "58428429fb51f11a2baf43201536264bb79f365d19023c55626702e2db4f9fad",
+  "feature_policy": "Causal cache fields only; GT/IoU/delta are labels and evaluation data.",
+  "split_policy": "Video-disjoint train/val; video-disjoint fit/calibration within train.",
+  "metric_warning": "Current-state mean IoU on frozen trajectories; not closed-loop AUC.",
+  "latency_warning": "Estimated from Stage-4A components and excludes PCA/Ridge router latency.",
+  "configuration": {
+    "variants": [
+      "token_only",
+      "token_selector",
+      "fast_aware"
+    ],
+    "budgets": [
+      0.0,
+      10.0,
+      20.0,
+      30.0,
+      50.0,
+      100.0
+    ],
+    "pca_dims": 64,
+    "pca_oversample": 12,
+    "pca_power_iterations": 1,
+    "ridge_alphas": [
+      0.0001,
+      0.001,
+      0.01,
+      0.1,
+      1.0,
+      10.0
+    ],
+    "calibration_fraction": 0.2,
+    "calibration_sequences": [
+      "GOT-10k_Train_000034",
+      "GOT-10k_Train_000129",
+      "GOT-10k_Train_000137",
+      "GOT-10k_Train_000153",
+      "GOT-10k_Train_000192",
+      "GOT-10k_Train_000421"
+    ],
+    "seed": 2026,
+    "cost_lambda": 0.0,
+    "profile_paths": [
+      "/home/u25600003160604/workspace/paper/output/stage4/profile_seq0",
+      "/home/u25600003160604/workspace/paper/output/stage4/profile_seq1",
+      "/home/u25600003160604/workspace/paper/output/stage4/profile_seq2"
+    ]
+  },
+  "profile_means_ms": {
+    "block_L10": 0.28638189865483177,
+    "block_L11": 0.28490766882896423,
+    "block_L12": 0.2824254499541389,
+    "block_L7": 0.3729320648643706,
+    "block_L8": 0.3046062257554796,
+    "block_L9": 0.289826426241133,
+    "crop_preprocess": 0.5806353853808509,
+    "decode_fast": 0.2509980648756027,
+    "norm_fast_head": 1.270575001835823,
+    "pool_all_channels_grid4": 0.12244589626789093,
+    "prefix_L1_L6": 1.843259119325214,
+    "selector": 0.13345239063103995,
+    "fast": 4.070019672314326,
+    "fast_then_sgla": 5.806035449107488,
+    "native_sgla": 4.547054784165488,
+    "sgla": 4.409186301959886
+  },
+  "models": [
+    {
+      "variant": "token_only",
+      "path": "/home/u25600003160604/workspace/paper/output/stage4/router_pilot_v1/stage4_router_token_only.npz",
+      "sha256": "118b72d78ede7cc97134c68638ecb217725aa0b3f6e3db0005c07dacc72401fc",
+      "fingerprint": "0bb8459170a4c9ff0465ca01dead7c1a8e1036c15100c17af3474a07292c4701"
+    },
+    {
+      "variant": "token_selector",
+      "path": "/home/u25600003160604/workspace/paper/output/stage4/router_pilot_v1/stage4_router_token_selector.npz",
+      "sha256": "3d9de85920e90bd2008388a657afeddff5633cce4cfcb6d127e63dbb044bd639",
+      "fingerprint": "19cec259c4d7cf28d739a3a37128e523df83c8da17bb14bc730e22d8da242867"
+    },
+    {
+      "variant": "fast_aware",
+      "path": "/home/u25600003160604/workspace/paper/output/stage4/router_pilot_v1/stage4_router_fast_aware.npz",
+      "sha256": "7cc18d76e8fab1399d42755312927eef87eff41a148e6471d68b65d1bd64b7b1",
+      "fingerprint": "98bb69931fe96419c80bf8f5105bf0d1f9e0b6ce70490fbf239b265bb4cae714"
+    }
+  ],
+  "fingerprint": "4132212dc1c0cad5c2beb8856b42d8669665053b87e52bb151f30bf3e7f925ec"
+}
