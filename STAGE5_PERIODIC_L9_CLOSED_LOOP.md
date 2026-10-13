@@ -83,3 +83,50 @@ python tracking/stage3_closed_loop_summary.py \
 若周期 L9 能稳定修复 Fast 的累计漂移，后续方法应围绕“何时刷新”建模；若周期策略也
 无效，则冻结轨迹中的单帧 oracle 收益不能转化为闭环收益，应停止该计算分配方向。
 
+## 5. 独立延迟基准
+
+闭环 CSV 中的逐帧 wall-clock 延迟容易受到策略执行顺序、GPU 动态频率和数据读取节奏
+影响。最终速度结论使用独立、交错执行并带同步的 Stage-4 benchmark。当前 benchmark
+额外提供 `fixed_l9` 路径：它直接运行 L9，不执行 SGLA selector，因而对应周期策略深算帧
+的真实网络路径。
+
+建议在 3 个长度和难度不同的序列上测量，每个序列使用独立输出目录：
+
+```bash
+export STAGE5_PROFILE_ROOT="$PWD/output/stage5/periodic_l9_profiles"
+
+for SEQ in 0 1 2; do
+  python tracking/stage4_benchmark.py \
+    --parameter deit_distilled \
+    --checkpoint "$CHECKPOINT" \
+    --dataset_name uav123 \
+    --sequence "$SEQ" \
+    --gpu 0 \
+    --frames 100 \
+    --repeats 5 \
+    --warmup 30 \
+    --output_dir "$STAGE5_PROFILE_ROOT/seq${SEQ}" \
+    --overwrite
+done
+```
+
+查看四条集成路径：
+
+```bash
+for SEQ in 0 1 2; do
+  echo "===== sequence $SEQ ====="
+  grep '^integrated' "$STAGE5_PROFILE_ROOT/seq${SEQ}/benchmark_summary.csv"
+done
+```
+
+应满足 `fast < fixed_l9 <= sgla < fast_then_sgla`。其中 `sgla - fixed_l9` 近似为原始
+selector 的额外开销。预算为 `p` 的周期策略平均延迟按下式报告：
+
+```text
+T_periodic(p) = (1 - p) * T_fast + p * T_fixed_l9
+FPS_periodic(p) = 1000 / T_periodic(p)
+```
+
+`p` 分别取 `0.1`、`0.2`、`0.3` 和 `0.5`。若个别序列不满足上述延迟顺序，先增加
+`--warmup` 和 `--repeats`，不要用闭环 CSV 中受运行顺序影响的延迟替代该独立结果。
+

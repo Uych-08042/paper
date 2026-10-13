@@ -18,6 +18,7 @@ from stage4_common import (
     write_cache, write_json,
 )
 from stage4_manifest import build_manifest, subset_names, training_names
+from stage4_runtime import Runtime
 from validation_metrics import tracking_iou
 
 
@@ -68,6 +69,25 @@ class MetricTests(unittest.TestCase):
         expected = np.mean([(values[:1, None] > metric.thresholds).mean(),
                             (values[1:, None] > metric.thresholds).mean()]) * 100
         self.assertAlmostEqual(metric(values), expected)
+
+
+class RuntimePathTests(unittest.TestCase):
+    def test_fixed_l9_skips_selector_and_runs_only_layer9(self):
+        runtime = Runtime.__new__(Runtime)
+        calls = []
+        runtime.prepare = lambda image: ("search", 2.0)
+        runtime.prefix = lambda search: "tokens"
+        runtime.head = lambda tokens: "head"
+        runtime.selector = lambda tokens: self.fail(
+            "fixed_l9 must not execute the selector"
+        )
+        runtime.candidate = lambda tokens, layer: calls.append(layer) or "l9"
+        runtime.decode = lambda output, factor, image: (output, factor, image)
+
+        result = runtime.run_image("image", "fixed_l9")
+
+        self.assertEqual(calls, [9])
+        self.assertEqual(result, ("l9", 2.0, "image"))
 
 
 def create_dataset(root, dataset, names, length=8):

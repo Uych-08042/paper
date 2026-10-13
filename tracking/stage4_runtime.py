@@ -104,6 +104,8 @@ class Runtime:
         if mode == "fast_then_sgla":
             # Measure the real overhead of a score-map-based gate's Fast head.
             self.decode(self.head(tokens), factor, image)
+        elif mode == "fixed_l9":
+            return self.decode(self.candidate(tokens, 9), factor, image)
         elif mode != "sgla":
             raise ValueError("Unknown measured mode: {}".format(mode))
         layer = self.selected_layer(self.selector(tokens))

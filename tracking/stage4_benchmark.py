@@ -42,7 +42,7 @@ def main():
     if len(sequence.frames) < 2:
         raise ValueError("Need two or more video frames")
     rt.initialize(rt.read(sequence.frames[0]), sequence.init_info()["init_bbox"])
-    modes = ("fast", "sgla", "fast_then_sgla")
+    modes = ("fast", "fixed_l9", "sgla", "fast_then_sgla")
     records = []
 
     def measure(fn):
