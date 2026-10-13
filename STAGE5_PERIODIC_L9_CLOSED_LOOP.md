@@ -130,3 +130,17 @@ FPS_periodic(p) = 1000 / T_periodic(p)
 `p` 分别取 `0.1`、`0.2`、`0.3` 和 `0.5`。若个别序列不满足上述延迟顺序，先增加
 `--warmup` 和 `--repeats`，不要用闭环 CSV 中受运行顺序影响的延迟替代该独立结果。
 
+完成多个 profile 后，用统一脚本生成准确率-延迟 Pareto 表：
+
+```bash
+python tracking/stage5_pareto_summary.py \
+  --closed_loop_summary "$PERIODIC_DIR/stage3_closed_loop_summary.csv" \
+  --profile_dirs \
+    "$STAGE5_PROFILE_ROOT/seq0" \
+    "$STAGE5_PROFILE_ROOT/seq1" \
+    "$STAGE5_PROFILE_ROOT/seq2"
+```
+
+输出 `stage5_periodic_pareto.csv`。周期策略的延迟由实测 Fast 与 fixed-L9 路径按实际
+预算混合；Fast 和 SGLA 则直接采用各自的集成测量结果。
+
