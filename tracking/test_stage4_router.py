@@ -23,6 +23,12 @@ from stage4_l9_gate_stability import (
     budget_threshold,
     main as l9_stability_main,
 )
+from stage4_l9_online_controller import (
+    causal_quantile_schedule,
+    main as l9_online_controller_main,
+    matched_periodic_schedule,
+    periodic_schedule,
+)
 from stage4_router_diagnose import main as diagnose_main
 from stage4_router_train import (
     balanced_group_weights,
@@ -121,6 +127,33 @@ class FeatureBoundaryTests(unittest.TestCase):
 
 
 class ModelTests(unittest.TestCase):
+    def test_online_controller_is_causal_and_respects_prefix_budget(self):
+        count = 20
+        data = {
+            "sequence": np.asarray(["sequence"] * count),
+            "trajectory": np.asarray(["fast"] * count),
+            "frame_id": np.arange(count),
+        }
+        scores = np.asarray([
+            0.1, 0.8, 0.2, 0.7, 0.3, 0.6, 0.4, 0.5, 0.9, 0.0,
+            0.2, 0.4, 0.6, 0.8, 1.0, 0.1, 0.3, 0.5, 0.7, 0.9,
+        ])
+        changed_future = scores.copy()
+        changed_future[10:] += 100.0
+
+        periodic = periodic_schedule(data, 20)
+        causal = causal_quantile_schedule(data, scores, 20, 5, 3, 2)
+        matched = matched_periodic_schedule(data, causal)
+        changed = causal_quantile_schedule(
+            data, changed_future, 20, 5, 3, 2)
+
+        self.assertEqual(int(periodic.sum()), 4)
+        self.assertEqual(int(matched.sum()), int(causal.sum()))
+        np.testing.assert_array_equal(causal[:10], changed[:10])
+        for prefix in range(1, count + 1):
+            self.assertLessEqual(
+                int(causal[:prefix].sum()), int(np.floor(prefix * 0.2 + 1e-10)))
+
     def test_l9_objectives_and_exact_budget_baselines(self):
         delta = np.asarray([-0.2, 0.0, 0.004, 0.02])
         np.testing.assert_array_equal(objective_target(delta, "signed"), delta)
@@ -374,6 +407,34 @@ class PipelineTests(unittest.TestCase):
             self.assertIn("lift_probability_positive", bootstrap[0])
             self.assertTrue((stability_output /
                              "stage4_l9_gate_stability.json").is_file())
+
+            controller_output = root / "l9_online_controller"
+            with mock.patch.object(sys, "argv", [
+                    "stage4_l9_online_controller.py", "--input", str(cache),
+                    "--router_dir", str(l9_output), "--output_dir",
+                    str(controller_output), "--models", "history_only__signed",
+                    "--budgets", "50", "--window", "2", "--min_history", "2",
+                    "--bucket_capacity", "2", "--bootstrap_samples", "100",
+                    "--seed", "3"]):
+                l9_online_controller_main()
+            with (controller_output /
+                  "stage4_l9_online_controller_summary.csv").open(
+                    newline="", encoding="utf-8") as handle:
+                controller_summary = list(csv.DictReader(handle))
+            with (controller_output /
+                  "stage4_l9_online_controller_bootstrap.csv").open(
+                    newline="", encoding="utf-8") as handle:
+                controller_bootstrap = list(csv.DictReader(handle))
+            self.assertEqual(len(controller_summary), 3)
+            self.assertEqual(len(controller_bootstrap), 1)
+            self.assertEqual(
+                {row["controller"] for row in controller_summary},
+                {"periodic_budget", "periodic_matched", "causal_quantile"})
+            self.assertIn(
+                "gain_vs_periodic_matched_probability_positive",
+                controller_bootstrap[0])
+            self.assertTrue((controller_output /
+                             "stage4_l9_online_controller.json").is_file())
 
 
 if __name__ == "__main__":
