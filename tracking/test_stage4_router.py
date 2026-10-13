@@ -19,6 +19,10 @@ from stage4_l9_gate_train import (
     main as l9_gate_main,
     objective_target,
 )
+from stage4_l9_gate_stability import (
+    budget_threshold,
+    main as l9_stability_main,
+)
 from stage4_router_diagnose import main as diagnose_main
 from stage4_router_train import (
     balanced_group_weights,
@@ -156,6 +160,16 @@ class ModelTests(unittest.TestCase):
         self.assertLess(history, token)
         self.assertLess(token, fast)
         self.assertAlmostEqual(token_fast - fast, 0.12)
+
+    def test_l9_fixed_threshold_is_a_training_budget_cap(self):
+        scores = np.asarray([1.0, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1])
+        threshold = budget_threshold(scores, 30, 0.0)
+        self.assertEqual(int(np.sum(scores > threshold)), 3)
+        threshold = budget_threshold(scores, 30, 0.85)
+        self.assertEqual(int(np.sum(scores > threshold)), 2)
+        tied = np.asarray([1.0, 0.9, 0.8, 0.8, 0.8, 0.1])
+        threshold = budget_threshold(tied, 50, 0.0)
+        self.assertLessEqual(int(np.sum(tied > threshold)), 3)
 
     def test_pca_ridge_is_deterministic_and_export_is_pickle_free(self):
         rng = np.random.RandomState(5)
@@ -338,6 +352,28 @@ class PipelineTests(unittest.TestCase):
                 self.assertEqual(archive["ridge_coefficient"].ndim, 1)
                 self.assertEqual(archive["pca_components"].shape[0], 0)
             self.assertIn("lift_over_random_l9", l9_budgets[0])
+
+            stability_output = root / "l9_stability"
+            with mock.patch.object(sys, "argv", [
+                    "stage4_l9_gate_stability.py", "--input", str(cache),
+                    "--router_dir", str(l9_output), "--output_dir",
+                    str(stability_output), "--models", "history_only__signed",
+                    "fast_only__signed", "--budgets", "50",
+                    "--bootstrap_samples", "100", "--permutations", "100",
+                    "--seed", "3"]):
+                l9_stability_main()
+            with (stability_output / "stage4_l9_gate_online_budget.csv").open(
+                    newline="", encoding="utf-8") as handle:
+                online = list(csv.DictReader(handle))
+            with (stability_output / "stage4_l9_gate_bootstrap.csv").open(
+                    newline="", encoding="utf-8") as handle:
+                bootstrap = list(csv.DictReader(handle))
+            self.assertEqual(len(online), 2)
+            self.assertEqual(len(bootstrap), 2)
+            self.assertIn("online_gain_gap_to_exact_topk", online[0])
+            self.assertIn("lift_probability_positive", bootstrap[0])
+            self.assertTrue((stability_output /
+                             "stage4_l9_gate_stability.json").is_file())
 
 
 if __name__ == "__main__":
