@@ -67,3 +67,32 @@ python tracking/stage6_budget_oracle.py \
 
 所有 Oracle 行必须标记 `uses_ground_truth=1`。它只能作为可学习性和方法上限证据，不能
 作为可部署方法与现有 tracker 比较。
+
+## 5. 时间迁移审计
+
+完整序列 Oracle 可能利用了事后 GT 选择。训练控制器前，先检查序列前段显示出的策略
+偏好能否迁移到不重叠的后段。该诊断分别使用前 25% 和前 50% tracked frames 的 GT AUC
+进行预算分配，再在剩余帧上评价所选策略。
+
+```bash
+export STAGE6_STABILITY_DIR="$STAGE6_DIR/temporal_stability"
+
+python tracking/stage6_temporal_stability.py \
+  --input "$PERIODIC_DIR" \
+  --output_dir "$STAGE6_STABILITY_DIR" \
+  --fractions 0.25 0.5 \
+  --budgets 10 20 30 50 \
+  --bootstrap_samples 5000 \
+  --seed 2026
+```
+
+重点查看 30% 预算的：
+
+- `gain_vs_best_fixed_late` 及其序列 bootstrap 区间；
+- `recovery_of_late_oracle_headroom`；
+- `assignment_exact_match_rate`；
+- 前段分配与后段 Oracle 的策略分布。
+
+该实验仍使用前段 GT，且直接评价各策略既有的完整闭环轨迹。因此它不是实际的在线切换
+结果，而是一项必要条件检查：若连前段 GT 都无法带来后段提升，普通因果特征更不可能稳定
+实现完整序列 Oracle；若迁移明显成立，再进入 GOT-10k 上的早期特征预算控制器训练。
