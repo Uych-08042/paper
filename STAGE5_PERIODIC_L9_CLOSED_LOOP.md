@@ -33,6 +33,7 @@ python tracking/stage3_closed_loop_validate.py \
     fast sgla \
     periodic_l9_10 periodic_l9_20 periodic_l9_30 periodic_l9_50 \
   --output_dir "$PERIODIC_SANITY" \
+  --latency_warmup_frames 20 \
   --verify_sgla \
   --overwrite
 
@@ -42,23 +43,29 @@ python tracking/stage3_closed_loop_summary.py \
 ```
 
 检查输出应包含 6 个 CSV，每个 3085 行。`blocks/f` 应约为 0、1、0.1、0.2、0.3、0.5，
-周期策略延迟应位于 Fast 与 SGLA 之间。
+前 20 个 tracked frames 会正常更新状态，但不进入延迟均值。周期策略延迟应位于 Fast 与
+SGLA 之间；单序列仍可能受 GPU 频率波动影响，最终延迟以全量均值和独立 benchmark 为准。
 
 ## 3. UAV123 全量实验
 
-可把新结果写入已有的 `$CLOSED_LOOP_DIR`；没有 `--overwrite` 时现有结果不会重跑。
+使用全新目录，并在相同预热协议下同时运行 Fast、SGLA 和四档周期策略。不要与旧的
+Stage-3 延迟 CSV 混合。
 
 ```bash
+export PERIODIC_DIR="$PWD/output/test/tracking_results/sglatrack/deit_distilled/stage5_periodic_l9/uav123"
+
 python tracking/stage3_closed_loop_validate.py \
   sglatrack deit_distilled \
   --dataset_name uav123 \
   --gpu 0 \
   --policies \
+    fast sgla \
     periodic_l9_10 periodic_l9_20 periodic_l9_30 periodic_l9_50 \
-  --output_dir "$CLOSED_LOOP_DIR"
+  --output_dir "$PERIODIC_DIR" \
+  --latency_warmup_frames 20
 
 python tracking/stage3_closed_loop_summary.py \
-  --input "$CLOSED_LOOP_DIR" \
+  --input "$PERIODIC_DIR" \
   --stage2_input "$OUTPUT_DIR"
 ```
 

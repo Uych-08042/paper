@@ -227,6 +227,7 @@ def _run_policy_sequence(
     output_dir,
     overwrite,
     verify_sgla,
+    latency_warmup_frames,
 ):
     output_path = output_dir / "{}_{}_closed_loop.csv".format(
         stage1._safe_sequence_name(sequence.name), policy
@@ -277,6 +278,9 @@ def _run_policy_sequence(
             )
         torch.cuda.synchronize()
         latency_ms = (time.perf_counter() - start_time) * 1000.0
+        reported_latency = (
+            "" if frame_id <= latency_warmup_frames else latency_ms
+        )
 
         if verify_sgla and policy == "sgla" and frame_id == 1:
             with torch.no_grad():
@@ -294,7 +298,7 @@ def _run_policy_sequence(
                 frame_id,
                 fused_box,
                 selected_layer,
-                latency_ms,
+                reported_latency,
             )
         )
         tracker.state = list(fused_box)
@@ -329,6 +333,12 @@ def _build_parser():
     parser.add_argument("--output_dir", default=None)
     parser.add_argument("--overwrite", action="store_true")
     parser.add_argument("--verify_sgla", action="store_true")
+    parser.add_argument(
+        "--latency_warmup_frames",
+        type=int,
+        default=20,
+        help="Per sequence-policy frames executed but excluded from latency stats.",
+    )
     parser.add_argument("--num_shards", type=int, default=1)
     parser.add_argument("--shard_id", type=int, default=0)
     return parser
@@ -340,6 +350,8 @@ def main():
         raise ValueError("--num_shards must be at least 1")
     if args.shard_id < 0 or args.shard_id >= args.num_shards:
         raise ValueError("--shard_id must be in [0, num_shards)")
+    if args.latency_warmup_frames < 0:
+        raise ValueError("--latency_warmup_frames must be non-negative")
     if not torch.cuda.is_available():
         raise RuntimeError("CUDA is required by the original SGLATrack tracker.")
 
@@ -376,6 +388,11 @@ def main():
     print("Closed-loop output directory: {}".format(output_dir))
     print("Policies: {}".format(", ".join(policies)))
     print(
+        "Latency warm-up: first {} tracked frame(s) per sequence-policy".format(
+            args.latency_warmup_frames
+        )
+    )
+    print(
         "Shard {}/{}: {} sequence(s)".format(
             args.shard_id, args.num_shards, len(sequences)
         )
@@ -393,6 +410,7 @@ def main():
                     output_dir,
                     args.overwrite,
                     args.verify_sgla,
+                    args.latency_warmup_frames,
                 )
             )
     print("Newly completed sequence-policy runs: {}".format(completed))
