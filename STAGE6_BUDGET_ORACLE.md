@@ -199,3 +199,50 @@ python tracking/stage6_switched_summary.py \
 以及与成本更高的 Periodic-10/20/30 和 SGLA 的差距。若反事实收益在真实切换后消失，
 说明先前信号来自不同历史状态，不能作为方法结果；若仍显著成立，再用独立数据集验证
 被冻结的配置。
+
+## 8. 同成本真实闭环控制组
+
+Router 的全程候选块比例约为 5%，因此首先构造同样使用 Fast 前缀的控制组：所有序列
+前 50% 使用 Fast，后 50% 统一执行 Periodic-L9-10。它与 Router 的总成本近似相同，
+但不使用任何学习结果或序列选择。
+
+```bash
+export STAGE6_MATCHED_ROOT="$PWD/output/stage6/matched_controls_coarse50_b10"
+export STAGE6_MATCHED_ASSIGN="$STAGE6_MATCHED_ROOT/assignments"
+export STAGE6_UNIFORM_DIR="$STAGE6_MATCHED_ROOT/uniform_late_p10_uav123"
+
+python tracking/stage6_matched_assignments.py \
+  --input "$STAGE6_COARSE_DIR/stage6_causal_router_assignments.csv" \
+  --output_dir "$STAGE6_MATCHED_ASSIGN" \
+  --early_fraction 0.5 \
+  --budget_percent 10 \
+  --uniform_policy periodic_l9_10
+
+python tracking/stage6_switched_validate.py \
+  sglatrack deit_distilled \
+  --dataset_name uav123 \
+  --assignments "$STAGE6_MATCHED_ASSIGN/uniform_late_p10_assignments.csv" \
+  --early_fraction 0.5 \
+  --budget_percent 10 \
+  --policy_name uniform_late_p10 \
+  --gpu 0 \
+  --output_dir "$STAGE6_UNIFORM_DIR" \
+  --latency_warmup_frames 20
+
+python tracking/stage6_switched_summary.py \
+  --input "$STAGE6_UNIFORM_DIR" \
+  --baseline_input "$PERIODIC_DIR" \
+  --bootstrap_samples 5000 \
+  --seed 2026
+
+python tracking/stage6_switched_compare.py \
+  --reference "$STAGE6_SWITCH_DIR" \
+  --controls "$STAGE6_UNIFORM_DIR" \
+  --output_dir "$STAGE6_MATCHED_ROOT/comparison" \
+  --bootstrap_samples 5000 \
+  --seed 2026
+```
+
+比较脚本将 Router 作为 reference，因此配对差值为 `Router - Uniform`。只有该差值为正且
+置信区间不跨零，才能说明学习到的序列分配优于同成本统一调度。若置信区间跨零，应将
+Router 与 Uniform 视为统计上相当，并优先采用较简单的控制器。
