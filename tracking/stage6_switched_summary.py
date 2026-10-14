@@ -328,10 +328,16 @@ def main():
     print("baseline             mean_delta  paired_95%           W/T/L")
     for row in paired_rows:
         interval = "[{:.4f},{:.4f}]".format(row["ci_low"], row["ci_high"])
-        wins = "{}/{}/{}".format(row["wins"], row["ties"], row["losses"])
+        win_tie_loss = "{}/{}/{}".format(
+            row["wins"], row["ties"], row["losses"]
+        )
         print(
             "{baseline:<20s} {mean_delta:>10.4f}  {interval:<19s} "
-            "{wins}".format(interval=interval, wins=wins, **row)
+            "{win_tie_loss}".format(
+                interval=interval,
+                win_tie_loss=win_tie_loss,
+                **row
+            )
         )
     print("Summary CSV: {}".format(summary_path))
     print("Paired CSV: {}".format(paired_path))
