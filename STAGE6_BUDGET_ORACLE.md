@@ -139,3 +139,63 @@ python tracking/stage6_causal_router.py \
 虽然输入特征严格因果且预测为 OOF，当前后段结果仍来自每个策略从首帧独立运行得到的
 既有闭环轨迹，并且背包求解使用已知后段长度计算成本。因此这仍是离线迁移诊断，不能
 直接作为可部署控制器结果。
+
+## 7. 冻结 OOF 分配后的真实中途切换
+
+若 50% 前缀、10% 后段预算和 `Fast/Periodic-L9-30/SGLA` 动作集合同时显著优于 Fast
+及 mean-prior，则冻结该配置和既有 OOF assignment。真实闭环从同一个 tracker state
+运行：前 50% tracked frames 使用 Fast，随后切换到 assignment 指定策略。该实验不再
+训练路由器或选择动作集合。
+
+先对一个序列做完整性检查。输出目录必须放在 Stage-5 `PERIODIC_DIR` 之外，避免递归读取
+基线时混入新的闭环文件：
+
+```bash
+export STAGE6_SWITCH_SANITY="$PWD/output/stage6/switched_coarse50_b10_sanity"
+
+python tracking/stage6_switched_validate.py \
+  sglatrack deit_distilled \
+  --dataset_name uav123 \
+  --assignments "$STAGE6_COARSE_DIR/stage6_causal_router_assignments.csv" \
+  --early_fraction 0.5 \
+  --budget_percent 10 \
+  --sequence 0 \
+  --gpu 0 \
+  --output_dir "$STAGE6_SWITCH_SANITY" \
+  --latency_warmup_frames 20 \
+  --verify_sgla \
+  --overwrite
+
+python tracking/stage6_switched_summary.py \
+  --input "$STAGE6_SWITCH_SANITY" \
+  --baseline_input "$PERIODIC_DIR"
+```
+
+运行器会逐序列核对实际候选块数与冻结 assignment 中的预算；不一致时直接报错。单序列
+通过后运行完整 UAV123：
+
+```bash
+export STAGE6_SWITCH_DIR="$PWD/output/stage6/switched_coarse50_b10_uav123"
+
+python tracking/stage6_switched_validate.py \
+  sglatrack deit_distilled \
+  --dataset_name uav123 \
+  --assignments "$STAGE6_COARSE_DIR/stage6_causal_router_assignments.csv" \
+  --early_fraction 0.5 \
+  --budget_percent 10 \
+  --gpu 0 \
+  --output_dir "$STAGE6_SWITCH_DIR" \
+  --latency_warmup_frames 20 \
+  --verify_sgla
+
+python tracking/stage6_switched_summary.py \
+  --input "$STAGE6_SWITCH_DIR" \
+  --baseline_input "$PERIODIC_DIR" \
+  --bootstrap_samples 5000 \
+  --seed 2026
+```
+
+重点检查完整序列 `auc`、`candidate_blocks_per_frame`、相对闭环 Fast 的配对置信区间，
+以及与成本更高的 Periodic-10/20/30 和 SGLA 的差距。若反事实收益在真实切换后消失，
+说明先前信号来自不同历史状态，不能作为方法结果；若仍显著成立，再用独立数据集验证
+被冻结的配置。
