@@ -143,6 +143,57 @@ class MatchedControlTests(unittest.TestCase):
         self.assertGreater(paired[0]["mean_delta"], 0.0)
         self.assertEqual(summaries[1]["prefix_max_bbox_abs_diff"], 0.0)
 
+    def test_temporal_comparison_can_skip_prefix_equality(self):
+        reference = {
+            "method": "late",
+            "files": ["a"],
+            "grouped": {
+                ("test", "a"): [
+                    {
+                        "dataset": "test",
+                        "sequence": "a",
+                        "policy": "late",
+                        "assigned_policy": "late_p10",
+                        "frame_id": frame_id,
+                        "early_frames": "1",
+                        "candidate_blocks": int(frame_id == 2),
+                        "iou": value,
+                        "bbox_x": value,
+                        "bbox_y": 0.0,
+                        "bbox_w": 10.0,
+                        "bbox_h": 10.0,
+                    }
+                    for frame_id, value in enumerate((1.0, 0.4, 0.8))
+                ]
+            },
+        }
+        control = {
+            "method": "early",
+            "files": ["a"],
+            "grouped": {
+                ("test", "a"): [
+                    dict(
+                        row,
+                        policy="early",
+                        assigned_policy="early_p10",
+                        bbox_x=row["bbox_x"] + (1.0 if row["frame_id"] == 1 else 0.0),
+                    )
+                    for row in reference["grouped"][("test", "a")]
+                ]
+            },
+        }
+        summaries, paired = compare(
+            reference,
+            [control],
+            bootstrap_samples=20,
+            seed=2026,
+            tolerance=1e-8,
+            check_prefix=False,
+        )
+        self.assertEqual(len(summaries), 2)
+        self.assertEqual(len(paired), 1)
+        self.assertEqual(summaries[1]["prefix_frames_compared"], "")
+
 
 if __name__ == "__main__":
     unittest.main()

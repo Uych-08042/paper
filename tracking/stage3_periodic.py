@@ -4,6 +4,7 @@ import math
 
 
 PERIODIC_L9_BUDGETS = {
+    "periodic_l9_05": 5,
     "periodic_l9_10": 10,
     "periodic_l9_20": 20,
     "periodic_l9_30": 30,

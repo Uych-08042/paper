@@ -7,6 +7,7 @@ from pathlib import Path
 
 ALLOWED_POLICIES = {
     "fast",
+    "periodic_l9_05",
     "periodic_l9_10",
     "periodic_l9_20",
     "periodic_l9_30",

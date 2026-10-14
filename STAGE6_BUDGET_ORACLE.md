@@ -246,3 +246,79 @@ python tracking/stage6_switched_compare.py \
 比较脚本将 Router 作为 reference，因此配对差值为 `Router - Uniform`。只有该差值为正且
 置信区间不跨零，才能说明学习到的序列分配优于同成本统一调度。若置信区间跨零，应将
 Router 与 Uniform 视为统计上相当，并优先采用较简单的控制器。
+
+## 9. 同成本时间位置消融
+
+若 `Router - Uniform` 不显著，继续判断 Uniform 的收益来自后半段集中刷新，还是仅来自
+约 5% 的 L9 计算。固定每个序列前后各 50%，比较三种真实闭环布局：
+
+- `early_p10`：前半段 Periodic-L9-10，后半段 Fast；
+- `uniform_p5`：全程 Periodic-L9-5；
+- `uniform_late_p10`：前半段 Fast，后半段 Periodic-L9-10（第 8 节已有结果）。
+
+三者都使用全局帧编号生成周期事件，总候选块比例约为 5%。先做单序列完整性检查：
+
+```bash
+export STAGE6_LAYOUT_ROOT="$PWD/output/stage6/temporal_layout_5pct"
+export STAGE6_EARLY_SANITY="$STAGE6_LAYOUT_ROOT/early_p10_sanity"
+export STAGE6_P5_SANITY="$STAGE6_LAYOUT_ROOT/uniform_p5_sanity"
+
+python tracking/stage6_temporal_layout_validate.py \
+  sglatrack deit_distilled \
+  --dataset_name uav123 \
+  --layout early_p10 \
+  --early_fraction 0.5 \
+  --sequence 0 \
+  --gpu 0 \
+  --output_dir "$STAGE6_EARLY_SANITY" \
+  --latency_warmup_frames 20 \
+  --overwrite
+
+python tracking/stage6_temporal_layout_validate.py \
+  sglatrack deit_distilled \
+  --dataset_name uav123 \
+  --layout uniform_p5 \
+  --early_fraction 0.5 \
+  --sequence 0 \
+  --gpu 0 \
+  --output_dir "$STAGE6_P5_SANITY" \
+  --latency_warmup_frames 20 \
+  --overwrite
+```
+
+确认两条命令都报告约 5% 成本后，运行完整 UAV123：
+
+```bash
+export STAGE6_EARLY_DIR="$STAGE6_LAYOUT_ROOT/early_p10_uav123"
+export STAGE6_P5_DIR="$STAGE6_LAYOUT_ROOT/uniform_p5_uav123"
+
+python tracking/stage6_temporal_layout_validate.py \
+  sglatrack deit_distilled \
+  --dataset_name uav123 \
+  --layout early_p10 \
+  --early_fraction 0.5 \
+  --gpu 0 \
+  --output_dir "$STAGE6_EARLY_DIR" \
+  --latency_warmup_frames 20
+
+python tracking/stage6_temporal_layout_validate.py \
+  sglatrack deit_distilled \
+  --dataset_name uav123 \
+  --layout uniform_p5 \
+  --early_fraction 0.5 \
+  --gpu 0 \
+  --output_dir "$STAGE6_P5_DIR" \
+  --latency_warmup_frames 20
+
+python tracking/stage6_switched_compare.py \
+  --reference "$STAGE6_UNIFORM_DIR" \
+  --controls "$STAGE6_EARLY_DIR" "$STAGE6_P5_DIR" \
+  --output_dir "$STAGE6_LAYOUT_ROOT/comparison" \
+  --skip_prefix_check \
+  --bootstrap_samples 5000 \
+  --seed 2026
+```
+
+比较脚本输出的差值为 `Late-P10 - Control`。若 Late 同时显著优于 Early 和 Uniform-P5，
+才可声称后段集中预算本身有效；若区间跨零，则当前数据只支持“约 5% 周期刷新有效”，
+不支持特定时间位置；若 Uniform-P5 更优，应采用最简单的全程低频刷新作为后续基线。

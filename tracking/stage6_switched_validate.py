@@ -117,6 +117,7 @@ def _run_sequence(
     overwrite,
     verify_sgla,
     latency_warmup_frames,
+    policy_resolver=active_policy,
 ):
     output_path = output_dir / "{}_{}_closed_loop.csv".format(
         stage1._safe_sequence_name(sequence.name),
@@ -154,7 +155,7 @@ def _run_sequence(
     sgla_verified = False
 
     for frame_id, frame_path in enumerate(sequence.frames[1:], start=1):
-        phase_policy = active_policy(
+        phase_policy = policy_resolver(
             frame_id,
             assignment["early_frames"],
             assignment["router_policy"],

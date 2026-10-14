@@ -45,7 +45,7 @@ def _bbox(row):
     )
 
 
-def _check_alignment(reference, candidate, tolerance):
+def _check_alignment(reference, candidate, tolerance, check_prefix=True):
     if set(reference) != set(candidate):
         raise ValueError("Switched runs have different sequence sets")
     max_bbox_difference = 0.0
@@ -58,6 +58,8 @@ def _check_alignment(reference, candidate, tolerance):
         candidate_ids = [row["frame_id"] for row in candidate_rows]
         if reference_ids != candidate_ids:
             raise ValueError("Frame IDs differ for {}/{}".format(*key))
+        if not check_prefix:
+            continue
         reference_early = int(reference_rows[0]["early_frames"])
         candidate_early = int(candidate_rows[0]["early_frames"])
         if reference_early != candidate_early:
@@ -74,6 +76,8 @@ def _check_alignment(reference, candidate, tolerance):
                 abs(reference_row["iou"] - candidate_row["iou"]),
             )
             prefix_frames += 1
+    if not check_prefix:
+        return "", "", ""
     if max_bbox_difference > tolerance or max_iou_difference > tolerance:
         raise RuntimeError(
             "Fast prefixes differ: bbox max {:.8g}, IoU max {:.8g}, "
@@ -98,11 +102,17 @@ def _run_summary(run):
         for row in tracked
         if row["frame_id"] > int(row["early_frames"])
     ]
+    early = [
+        row
+        for row in tracked
+        if row["frame_id"] <= int(row["early_frames"])
+    ]
     sequence_auc = {
         key: segment_auc([row["iou"] for row in grouped[key]])
         for key in sequence_keys
     }
     blocks = int(sum(row["candidate_blocks"] for row in tracked))
+    early_blocks = int(sum(row["candidate_blocks"] for row in early))
     late_blocks = int(sum(row["candidate_blocks"] for row in late))
     assignments = Counter(grouped[key][0]["assigned_policy"] for key in sequence_keys)
     return {
@@ -112,6 +122,9 @@ def _run_summary(run):
         "tracked_frames": len(tracked),
         "candidate_blocks": blocks,
         "candidate_blocks_per_full_frame": blocks / len(tracked),
+        "early_frames": len(early),
+        "early_candidate_blocks": early_blocks,
+        "candidate_blocks_per_early_frame": early_blocks / len(early),
         "late_frames": len(late),
         "late_candidate_blocks": late_blocks,
         "candidate_blocks_per_late_frame": late_blocks / len(late),
@@ -124,14 +137,24 @@ def _run_summary(run):
     }
 
 
-def compare(reference_run, control_runs, bootstrap_samples, seed, tolerance):
+def compare(
+    reference_run,
+    control_runs,
+    bootstrap_samples,
+    seed,
+    tolerance,
+    check_prefix=True,
+):
     reference_summary = _run_summary(reference_run)
     output_summaries = [reference_summary]
     paired_rows = []
     rng = np.random.default_rng(seed)
     for control_run in control_runs:
         prefix_frames, bbox_difference, iou_difference = _check_alignment(
-            reference_run["grouped"], control_run["grouped"], tolerance
+            reference_run["grouped"],
+            control_run["grouped"],
+            tolerance,
+            check_prefix=check_prefix,
         )
         control_summary = _run_summary(control_run)
         control_summary["prefix_frames_compared"] = prefix_frames
@@ -190,6 +213,11 @@ def main():
     parser.add_argument("--bootstrap_samples", type=int, default=5000)
     parser.add_argument("--seed", type=int, default=2026)
     parser.add_argument("--prefix_tolerance", type=float, default=1e-4)
+    parser.add_argument(
+        "--skip_prefix_check",
+        action="store_true",
+        help="Compare temporal layouts whose early trajectories intentionally differ.",
+    )
     args = parser.parse_args()
     if args.bootstrap_samples < 1:
         raise ValueError("--bootstrap_samples must be positive")
@@ -207,6 +235,7 @@ def main():
         args.bootstrap_samples,
         args.seed,
         args.prefix_tolerance,
+        check_prefix=not args.skip_prefix_check,
     )
     output_dir = Path(args.output_dir).expanduser().resolve()
     summary_path = output_dir / "stage6_matched_run_summary.csv"
@@ -214,10 +243,16 @@ def main():
     write_csv(summary_path, summaries)
     write_csv(paired_path, paired)
 
-    print("method                     blocks/f    late%       auc  distribution")
+    if args.skip_prefix_check:
+        print("Fast-prefix equality check: skipped (temporal-layout ablation)")
+    print(
+        "method                     blocks/f   early%    late%       auc  "
+        "distribution"
+    )
     for row in summaries:
         print(
             "{method:<26s} {candidate_blocks_per_full_frame:>8.2%}  "
+            "{candidate_blocks_per_early_frame:>7.2%}  "
             "{candidate_blocks_per_late_frame:>8.2%}  {auc:>8.4f}  "
             "{assignment_distribution}".format(**row)
         )
