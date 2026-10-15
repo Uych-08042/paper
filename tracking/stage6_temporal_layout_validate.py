@@ -8,8 +8,10 @@ from stage6_switched_validate import _run_sequence
 from stage6_temporal_layout import (
     LAYOUT_POLICIES,
     active_policy,
+    default_early_fraction,
     expected_candidate_blocks,
     split_frames,
+    split_frames_for_layout,
 )
 
 
@@ -20,7 +22,9 @@ Tracker = stage1.Tracker
 
 def _assignment(sequence, layout, early_fraction):
     tracked_frames = len(sequence.frames) - 1
-    early_frames, late_frames = split_frames(tracked_frames, early_fraction)
+    early_frames, late_frames = split_frames_for_layout(
+        tracked_frames, early_fraction, layout
+    )
     return {
         "dataset": sequence.dataset,
         "sequence": sequence.name,
@@ -40,7 +44,12 @@ def _build_parser():
     parser.add_argument("tracker_param", nargs="?", default="deit_distilled")
     parser.add_argument("--dataset_name", default="uav123")
     parser.add_argument("--layout", choices=sorted(LAYOUT_POLICIES), required=True)
-    parser.add_argument("--early_fraction", type=float, default=0.5)
+    parser.add_argument(
+        "--early_fraction",
+        type=float,
+        default=None,
+        help="Override the layout's default equal-cost temporal boundary.",
+    )
     parser.add_argument("--runid", type=int, default=None)
     parser.add_argument("--sequence", default=None)
     parser.add_argument("--gpu", type=int, default=0)
@@ -64,6 +73,13 @@ def main():
     if not torch.cuda.is_available():
         raise RuntimeError("CUDA is required by the original SGLATrack tracker.")
 
+    early_fraction = (
+        default_early_fraction(args.layout)
+        if args.early_fraction is None
+        else args.early_fraction
+    )
+    split_frames(2, early_fraction)
+
     torch.cuda.set_device(args.gpu)
     dataset = get_dataset(args.dataset_name)
     sequence_key = stage1._parse_sequence_key(args.sequence)
@@ -86,7 +102,7 @@ def main():
 
     assignments = {
         (sequence.dataset, sequence.name): _assignment(
-            sequence, args.layout, args.early_fraction
+            sequence, args.layout, early_fraction
         )
         for sequence in sequences
     }
@@ -103,7 +119,7 @@ def main():
     print("Temporal-layout output directory: {}".format(output_dir))
     print(
         "Layout: {} (first {:.0%} / remaining {:.0%})".format(
-            args.layout, args.early_fraction, 1.0 - args.early_fraction
+            args.layout, early_fraction, 1.0 - early_fraction
         )
     )
     print(

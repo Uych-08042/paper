@@ -322,3 +322,77 @@ python tracking/stage6_switched_compare.py \
 比较脚本输出的差值为 `Late-P10 - Control`。若 Late 同时显著优于 Early 和 Uniform-P5，
 才可声称后段集中预算本身有效；若区间跨零，则当前数据只支持“约 5% 周期刷新有效”，
 不支持特定时间位置；若 Uniform-P5 更优，应采用最简单的全程低频刷新作为后续基线。
+
+## 10. 固定 5% 预算的后段浓度消融
+
+若 Late-P10 显著优于 Early-P10 和 Uniform-P5，先消除周期取整造成的 `5.00%` 对
+`4.95%` 微小成本差异，再改变后段窗口长度和窗口内刷新率。`*_exact` 布局会逐序列调整
+切换帧，使每条序列的候选块数与 Uniform-P5 完全相同：
+
+| 布局 | Fast 前缀 | 后段策略 | 名义全程成本 |
+|---|---:|---:|---:|
+| `uniform_p5` | 0% | 全程 P5 | 5% |
+| `late_p10_exact` | 约 50% | 最后约 50% P10 | 与 P5 逐序列相同 |
+| `late_p20_exact` | 约 75% | 最后约 25% P20 | 与 P5 逐序列相同 |
+| `late_p30_exact` | 约 83.33% | 最后约 16.67% P30 | 与 P5 逐序列相同 |
+| `late_p50_exact` | 约 90% | 最后约 10% P50 | 与 P5 逐序列相同 |
+
+运行器已为各布局内置上表切换点，因此以下命令不需要手工提供 `--early_fraction`：
+
+```bash
+export STAGE6_LATE10_EXACT_DIR="$STAGE6_LAYOUT_ROOT/late_p10_exact_uav123"
+export STAGE6_LATE20_EXACT_DIR="$STAGE6_LAYOUT_ROOT/late_p20_exact_uav123"
+export STAGE6_LATE30_EXACT_DIR="$STAGE6_LAYOUT_ROOT/late_p30_exact_uav123"
+export STAGE6_LATE50_EXACT_DIR="$STAGE6_LAYOUT_ROOT/late_p50_exact_uav123"
+
+# 第一关：只确认严格同成本的 Late-P10 结论。
+python tracking/stage6_temporal_layout_validate.py \
+  sglatrack deit_distilled \
+  --dataset_name uav123 \
+  --layout late_p10_exact \
+  --gpu 0 \
+  --output_dir "$STAGE6_LATE10_EXACT_DIR" \
+  --latency_warmup_frames 20
+
+python tracking/stage6_switched_compare.py \
+  --reference "$STAGE6_LATE10_EXACT_DIR" \
+  --controls "$STAGE6_EARLY_DIR" "$STAGE6_P5_DIR" \
+  --output_dir "$STAGE6_LAYOUT_ROOT/exact_cost_audit" \
+  --skip_prefix_check \
+  --bootstrap_samples 5000 \
+  --seed 2026
+
+# 第二关：第一关通过后再运行更高浓度的后段窗口。
+for SPEC in \
+  "late_p20_exact:$STAGE6_LATE20_EXACT_DIR" \
+  "late_p30_exact:$STAGE6_LATE30_EXACT_DIR" \
+  "late_p50_exact:$STAGE6_LATE50_EXACT_DIR"; do
+  LAYOUT="${SPEC%%:*}"
+  DEST="${SPEC#*:}"
+  python tracking/stage6_temporal_layout_validate.py \
+    sglatrack deit_distilled \
+    --dataset_name uav123 \
+    --layout "$LAYOUT" \
+    --gpu 0 \
+    --output_dir "$DEST" \
+    --latency_warmup_frames 20
+done
+
+python tracking/stage6_switched_compare.py \
+  --reference "$STAGE6_LATE10_EXACT_DIR" \
+  --controls \
+    "$STAGE6_EARLY_DIR" \
+    "$STAGE6_P5_DIR" \
+    "$STAGE6_LATE20_EXACT_DIR" \
+    "$STAGE6_LATE30_EXACT_DIR" \
+    "$STAGE6_LATE50_EXACT_DIR" \
+  --output_dir "$STAGE6_LAYOUT_ROOT/concentration_comparison" \
+  --skip_prefix_check \
+  --bootstrap_samples 5000 \
+  --seed 2026
+```
+
+比较差值为 `Exact-Late-P10 - Control`。先确认 Exact-Late-P10 仍显著优于 Early-P10 和
+Uniform-P5，再依据 AUC 找到浓度峰值，并检查相对 Exact-Late-P10 的配对区间：
+若更短窗口继续提升，说明计算应在漂移累积后的末段密集投入；若 Late-P10 最优，则说明
+需要较长时间持续纠偏；若各后段布局无显著差异，应选择刷新率最低、部署最简单的 P10。
