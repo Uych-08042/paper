@@ -200,3 +200,30 @@ Read the `val` rows before the descriptive `all` rows.
 Only after a replicated validation effect should Stage-8C train a gate to
 predict intervention value from the saved pre-L9 features. Stage-7 cohorts
 remain untouched evaluation sets for any later deployable policy.
+
+## 8. Immediate-effect budget oracle
+
+The completed 120/40 run rejected the predeclared persistent H20 hypothesis on
+validation (`-0.0289` AUC, clustered 95% CI `[-0.4217, 0.2281]`) but replicated
+an immediate H1 effect (`+1.4385`, CI `[0.8730, 2.1032]`). Therefore Stage-8C
+first measures the upper bound for selecting immediate L9 actions:
+
+```bash
+python tracking/stage8_immediate_oracle.py \
+  --input "$INTERVENTION_CACHE" \
+  --budgets 0 5 10 20 30 50 100 \
+  --bootstrap_samples 5000 \
+  --seed 2031
+```
+
+`exact_topk` spends the complete budget even when the remaining actions are
+harmful. `positive_cap` treats the budget as a maximum and abstains whenever
+the ground-truth immediate IoU delta is non-positive. Both are ground-truth
+upper bounds. Their matched-random baselines use exactly the selected action
+ratio.
+
+Proceed to a learned gate only if the validation Oracle has substantial
+low-budget recovery and its lift over matched-random is positive. A weak
+Oracle means the intervention itself is too diffuse for routing. A strong
+Oracle with a weak learned model means the pre-action features are the
+bottleneck. In either case, H20 must not be presented as a positive result.
