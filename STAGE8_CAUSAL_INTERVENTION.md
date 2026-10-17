@@ -227,3 +227,53 @@ low-budget recovery and its lift over matched-random is positive. A weak
 Oracle means the intervention itself is too diffuse for routing. A strong
 Oracle with a weak learned model means the pre-action features are the
 bottleneck. In either case, H20 must not be presented as a positive result.
+
+## 9. Immediate-effect causal gate
+
+The completed Oracle has substantial and replicated low-budget headroom: on
+validation, 10% of anchors recover 42.81% of the positive immediate effect and
+outperform matched random selection. Train the gate only for signed H1 IoU
+gain. The 120 training videos select every alpha by video-grouped cross-
+validation; the 40 validation videos stay outside PCA, normalization, fitting,
+and hyperparameter selection.
+
+`token_selector` is the predeclared primary model. The other variants are
+feature and latency ablations. In particular, `fast_only` and `token_fast`
+require the Fast head before deciding whether to execute L9.
+
+```bash
+export STAGE8_GATE_DIR="$PWD/output/stage8/l9_intervention_v1/immediate_gate_v1"
+
+python tracking/stage8_immediate_gate.py \
+  --input "$INTERVENTION_CACHE" \
+  --output_dir "$STAGE8_GATE_DIR" \
+  --variants \
+    history_only selector_only token_only token_selector fast_only token_fast \
+  --primary_variant token_selector \
+  --folds 5 \
+  --pca_dims 64 \
+  --pca_oversample 12 \
+  --pca_power_iterations 1 \
+  --ridge_alphas 0.001 0.01 0.1 1 10 100 1000 \
+  --budgets 0 5 10 20 30 50 100 \
+  --bootstrap_samples 5000 \
+  --seed 2032
+```
+
+The primary reports are:
+
+- `stage8_immediate_gate_summary.csv`: grouped-CV and untouched-validation
+  prediction diagnostics.
+- `stage8_immediate_gate_budget.csv`: frozen-score gains, matched-random lift,
+  Oracle recovery, and selected benefit/harm rates.
+- `stage8_immediate_gate_alpha_selection.csv`: training-only model selection.
+- `stage8_immediate_gate_val_predictions.csv`: auditable frozen predictions.
+
+The exact top-k budgets use all validation scores but no validation labels, so
+they test ranking under a known offline budget. They are not yet an online
+scheduler. Continue to a held-out intervention collection and true closed-loop
+gate only when the primary model has useful validation AUROC and its 10%-30%
+matched-random lift is positive. If only a Fast-aware ablation succeeds, report
+its extra head cost and benchmark it separately. If all learned variants fail
+while the Oracle remains strong, conclude that the saved pre-L9 features, not
+the intervention, are the current bottleneck.
