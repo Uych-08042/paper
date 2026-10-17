@@ -277,3 +277,71 @@ matched-random lift is positive. If only a Fast-aware ablation succeeds, report
 its extra head cost and benchmark it separately. If all learned variants fail
 while the Oracle remains strong, conclude that the saved pre-L9 features, not
 the intervention, are the current bottleneck.
+
+## 10. Frozen Stage-8D result
+
+The predeclared `token_selector` gate did not pass the continuation rule. Its
+training OOF benefit AUROC was `0.5078`; untouched-validation AUROC and Pearson
+correlation were only `0.5323` and `0.0538`. At 10% budget it recovered 20.28%
+of the Oracle cap, but its IoU lift over matched random was only `0.000271`,
+with a clustered 95% interval of `[-0.001083, 0.001806]`. The corresponding
+intervals also crossed zero at 5%, 20%, 30%, and 50% budgets.
+
+The ablations do not rescue the result. Selector features have exactly zero
+measurable marginal value over the matching history/token variants. Fast-aware
+features improve training OOF regression slightly but do not transfer: their
+validation benefit AUROCs remain near chance. Therefore these models must not
+be taken into a claimed learned closed-loop policy, and reinforcement learning
+is not justified by this evidence.
+
+The supported result is narrower but useful: a single L9 action has a robust
+average immediate causal benefit and a strong ground-truth selection Oracle,
+while the currently saved pre-L9 features cannot predict that benefit. A next
+exploratory model may add genuine causal trajectory history (past velocity,
+scale change, acceleration, and prediction jitter), because `history_only` in
+Stage-8D contains state geometry but no multi-frame motion history. This new
+hypothesis must be screened by grouped training OOF results first. Any positive
+model then requires a fresh video holdout; the existing 40 validation videos
+have already served their confirmatory purpose.
+
+## 11. Stage-8E trajectory-history screen
+
+Stage-8E reads only the 120 manifest training videos. It derives causal motion
+features from Fast predictions strictly before each intervention anchor. Its
+inner video folds choose Ridge regularization and its outer video folds produce
+the reported scores. The existing 40-video validation split is not loaded.
+
+```bash
+export STAGE8_MOTION_DIR="$PWD/output/stage8/l9_intervention_v1/motion_gate_oof_v1"
+
+python tracking/stage8_motion_gate.py \
+  --input "$INTERVENTION_CACHE" \
+  --output_dir "$STAGE8_MOTION_DIR" \
+  --variants \
+    history_only token_selector motion_only motion_selector \
+    token_motion token_selector_motion \
+  --primary_variant token_selector_motion \
+  --outer_folds 5 \
+  --inner_folds 4 \
+  --pca_dims 64 \
+  --pca_oversample 12 \
+  --pca_power_iterations 1 \
+  --ridge_alphas 0.01 0.1 1 10 100 1000 \
+  --budgets 0 5 10 20 30 50 100 \
+  --bootstrap_samples 5000 \
+  --seed 2033
+```
+
+This CPU-only nested run fits 25 fold-specific PCAs and will be slower than
+Stage-8D. The predeclared primary screen passes only if all of the following
+hold in nested training OOF predictions:
+
+- benefit AUROC is at least `0.55`;
+- signed-delta Pearson correlation is at least `0.10`;
+- at least one of the 10%, 20%, or 30% budget lift intervals is above zero.
+
+A failure ends the current frame-level gate branch; do not inspect the old
+40-video validation split again. A pass permits fitting a frozen model and
+collecting a new video-disjoint intervention holdout before any closed-loop
+claim. The primary outputs are `stage8_motion_gate_summary.csv` and
+`stage8_motion_gate_budget.csv`.
