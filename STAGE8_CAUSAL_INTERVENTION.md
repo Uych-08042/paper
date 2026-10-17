@@ -345,3 +345,35 @@ A failure ends the current frame-level gate branch; do not inspect the old
 collecting a new video-disjoint intervention holdout before any closed-loop
 claim. The primary outputs are `stage8_motion_gate_summary.csv` and
 `stage8_motion_gate_budget.csv`.
+
+## 12. Nested Stage-8E result
+
+The predeclared `token_selector_motion` screen failed. Across 120 training
+videos and 1,440 intervention anchors, its nested OOF benefit AUROC was
+`0.5144`, signed-delta Pearson correlation was `0.0412`, and weighted MSE was
+`0.0013814`, compared with `0.0013547` for the fold-specific constant
+baseline. None of the 10%, 20%, or 30% matched-random lift intervals excluded
+zero. Performance was also fold-dependent: per-fold AUROC ranged from
+`0.4779` to `0.6002`, with only one of five outer folds reaching 0.60.
+
+Motion history provides no reproducible marginal value in this representation.
+`motion_selector` is numerically identical to `motion_only`, and
+`token_selector_motion` is numerically identical to `token_motion`, confirming
+that the saved selector features add no measurable information. The strongest
+single baseline correlation came from `token_selector` (`0.1032`), but its
+benefit AUROC remained `0.5043`, so it also fails the joint continuation rule.
+
+At 50% budget, the primary ranking has an exploratory positive lift of
+`0.002263` with a clustered 95% interval of `[0.000778, 0.003723]`. This does
+not rescue the gate: it was outside the predeclared low-budget continuation
+criterion, appears despite near-chance classification and correlation, and is
+not consistent with the 5%-30% intervals. It may motivate a separate
+non-learned high-coverage or burst-scheduling study, but it is not evidence for
+a deployable frame-level router.
+
+Accordingly, the current frame-level learned-gating branch stops here. The
+existing 40 validation videos remain untouched by Stage-8E, no model is fitted
+for deployment, and no reinforcement-learning experiment is justified from
+these labels. Further experiments should test predeclared, label-free temporal
+allocation rules or consolidate the fixed/periodic Pareto result, rather than
+continue feature search on these intervention anchors.
