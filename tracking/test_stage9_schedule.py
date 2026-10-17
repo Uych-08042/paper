@@ -149,6 +149,56 @@ class ScheduleManifestTests(unittest.TestCase):
             )
             self.assertEqual(manifest["schedule_design"]["primary_horizon"], 20)
 
+    def test_short_inventory_error_reports_largest_valid_split(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary) / "dataset"
+            names = ["GOT-10k_Train_{:06d}".format(i) for i in range(1, 5)]
+            create_dataset(root, names)
+            prior = build_manifest("got10k_train", root, names[:2], 1, 1, 64, 4)
+            prior_path = Path(temporary) / "prior.json"
+            write_json(prior_path, prior)
+            with self.assertRaisesRegex(
+                ValueError,
+                r"largest valid split is --pilot_sequences 1 --confirm_sequences 1",
+            ):
+                build_schedule_manifest(
+                    "got10k_train",
+                    root,
+                    names,
+                    2,
+                    1,
+                    64,
+                    52,
+                    7,
+                    [prior_path],
+                    12,
+                )
+
+    def test_empty_inventory_error_does_not_suggest_invalid_split(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary) / "dataset"
+            names = ["GOT-10k_Train_000001", "GOT-10k_Train_000002"]
+            create_dataset(root, names)
+            prior = build_manifest("got10k_train", root, names, 1, 1, 64, 4)
+            prior_path = Path(temporary) / "prior.json"
+            write_json(prior_path, prior)
+            with self.assertRaisesRegex(
+                ValueError,
+                r"At least two fresh videos are required",
+            ):
+                build_schedule_manifest(
+                    "got10k_train",
+                    root,
+                    names,
+                    1,
+                    1,
+                    64,
+                    52,
+                    7,
+                    [prior_path],
+                    12,
+                )
+
 
 class ScheduleCollectionTests(unittest.TestCase):
     def setUp(self):

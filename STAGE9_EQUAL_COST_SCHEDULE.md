@@ -77,15 +77,18 @@ python tracking/stage9_schedule_manifest.py \
   --pilot_sequences 10 \
   --confirm_sequences 40 \
   --clip_frames 128 \
-  --minimum_clip_frames 64 \
+  --minimum_clip_frames 52 \
   --anchors 12 \
   --seed 2034 \
   --output "$STAGE9_MANIFEST"
 ```
 
 Do not regenerate the manifest after viewing any Stage-9 result. Record the
-printed fingerprint. If fewer than 50 eligible videos remain, preserve at
-least 40 confirmatory videos and reduce only `--pilot_sequences`.
+printed fingerprint. The 52-frame minimum is exact for H40 plus 12 distinct
+anchor positions and must not be reduced. If fewer than 50 eligible videos
+remain, the error reports the largest valid pilot/confirmatory split. Preserve
+40 confirmatory videos when possible; otherwise use one pilot video and place
+every other fresh video in the confirmatory split.
 
 ## 3. One-clip sanity run
 

@@ -28,6 +28,8 @@ def build_schedule_manifest(
     exclude_paths,
     anchor_count,
 ):
+    if pilot_count < 1 or confirm_count < 1:
+        raise ValueError("Need positive pilot and confirmatory sequence counts")
     required = DEFAULT_HORIZON + anchor_count
     if minimum_clip_frames < required:
         raise ValueError(
@@ -51,6 +53,33 @@ def build_schedule_manifest(
             short += 1
             continue
         eligible.append(name)
+    requested = pilot_count + confirm_count
+    if len(eligible) < requested:
+        if len(eligible) < 2:
+            split_advice = (
+                "At least two fresh videos are required for positive pilot and "
+                "confirmatory splits."
+            )
+        else:
+            suggested_confirm = min(confirm_count, len(eligible) - 1)
+            suggested_pilot = len(eligible) - suggested_confirm
+            split_advice = (
+                "If already using {}, the largest valid split is "
+                "--pilot_sequences {} --confirm_sequences {}."
+            ).format(required, suggested_pilot, suggested_confirm)
+        raise ValueError(
+            "Only {} fresh videos satisfy the {}-frame minimum; requested {}. "
+            "The frozen H{}/{}-anchor design permits a minimum of {} frames. "
+            "{}".format(
+                len(eligible),
+                minimum_clip_frames,
+                requested,
+                DEFAULT_HORIZON,
+                anchor_count,
+                required,
+                split_advice,
+            )
+        )
     data = build_manifest(
         dataset,
         root,
@@ -107,7 +136,7 @@ def main():
     parser.add_argument("--pilot_sequences", type=int, default=10)
     parser.add_argument("--confirm_sequences", type=int, default=40)
     parser.add_argument("--clip_frames", type=int, default=128)
-    parser.add_argument("--minimum_clip_frames", type=int, default=64)
+    parser.add_argument("--minimum_clip_frames", type=int, default=52)
     parser.add_argument("--anchors", type=int, default=12)
     parser.add_argument("--seed", type=int, default=2034)
     parser.add_argument("--output", required=True)
