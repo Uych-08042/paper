@@ -1,5 +1,6 @@
 """CPU-only tests for the frozen Stage-11 external validation."""
 
+import sys
 import tempfile
 import unittest
 from pathlib import Path
@@ -10,12 +11,17 @@ import numpy as np
 from stage11_external_summary import build_contrasts, primary_decision
 from stage11_external_validate import (
     FROZEN_POLICIES,
+    PROJECT_ROOT,
     audit_otb_sequences,
     expected_candidate_blocks,
 )
 
 
 class ExternalValidationContractTests(unittest.TestCase):
+    def test_project_root_is_importable_for_direct_script_execution(self):
+        self.assertIn(str(PROJECT_ROOT), sys.path)
+        self.assertTrue((PROJECT_ROOT / "lib").is_dir())
+
     def test_frozen_periodic_costs(self):
         self.assertEqual(expected_candidate_blocks(99, "fast"), 0)
         self.assertEqual(expected_candidate_blocks(99, "periodic_l9_20"), 19)
