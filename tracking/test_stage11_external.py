@@ -1,5 +1,6 @@
 """CPU-only tests for the frozen Stage-11 external validation."""
 
+import importlib.util
 import sys
 import tempfile
 import unittest
@@ -16,6 +17,14 @@ from stage11_external_validate import (
     audit_otb_sequences,
     expected_candidate_blocks,
 )
+
+_LOAD_TEXT_SPEC = importlib.util.spec_from_file_location(
+    "stage11_load_text_under_test",
+    PROJECT_ROOT / "lib" / "test" / "utils" / "load_text.py",
+)
+_LOAD_TEXT_MODULE = importlib.util.module_from_spec(_LOAD_TEXT_SPEC)
+_LOAD_TEXT_SPEC.loader.exec_module(_LOAD_TEXT_MODULE)
+load_text = _LOAD_TEXT_MODULE.load_text
 
 
 class ExternalValidationContractTests(unittest.TestCase):
@@ -40,6 +49,27 @@ class ExternalValidationContractTests(unittest.TestCase):
             self.assertIn("missing 2 required annotation", message)
             self.assertIn("MissingA/groundtruth_rect.txt", message)
             self.assertIn("MissingB/groundtruth_rect.1.txt", message)
+
+    def test_otb_annotations_accept_mixed_comma_and_whitespace_delimiters(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            annotation = Path(temporary) / "groundtruth_rect.txt"
+            annotation.write_text(
+                "1,2,3,4\n5 6 7 8\n9\t10\t11\t12\n",
+                encoding="utf-8",
+            )
+            boxes = load_text(
+                str(annotation),
+                delimiter=(",", None),
+                dtype=np.float64,
+                backend="numpy",
+            )
+            np.testing.assert_array_equal(
+                boxes,
+                np.asarray(
+                    [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]],
+                    dtype=np.float64,
+                ),
+            )
 
     def test_frozen_periodic_costs(self):
         self.assertEqual(expected_candidate_blocks(99, "fast"), 0)
