@@ -1,5 +1,6 @@
 """CPU-only tests for Stage-9 equal-cost schedule interventions."""
 
+import argparse
 import tempfile
 import unittest
 from contextlib import nullcontext
@@ -23,6 +24,7 @@ from stage9_schedule_common import (
     validate_schedules,
 )
 from stage9_schedule_manifest import build_schedule_manifest
+from stage9_schedule_manifest import nonempty_path
 from stage9_schedule_summary import paired_summary, policy_summary
 from stage9_schedule_summary import primary_decision
 
@@ -121,6 +123,13 @@ class ScheduleCommonTests(unittest.TestCase):
 
 
 class ScheduleManifestTests(unittest.TestCase):
+    def test_empty_cli_path_identifies_unset_shell_variable(self):
+        with self.assertRaisesRegex(
+            argparse.ArgumentTypeError,
+            r"shell variable is exported",
+        ):
+            nonempty_path("")
+
     def test_manifest_excludes_prior_videos(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary) / "dataset"

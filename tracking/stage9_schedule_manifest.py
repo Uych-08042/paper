@@ -16,6 +16,14 @@ from stage9_schedule_common import (
 )
 
 
+def nonempty_path(value):
+    if not str(value).strip():
+        raise argparse.ArgumentTypeError(
+            "path must not be empty; check that the referenced shell variable is exported"
+        )
+    return value
+
+
 def build_schedule_manifest(
     dataset,
     root,
@@ -130,16 +138,18 @@ def main():
     parser.add_argument(
         "--dataset", required=True, choices=("got10k_train", "lasot_train")
     )
-    parser.add_argument("--root", required=True)
-    parser.add_argument("--sequence_file", default=None)
-    parser.add_argument("--exclude_manifest", nargs="+", required=True)
+    parser.add_argument("--root", required=True, type=nonempty_path)
+    parser.add_argument("--sequence_file", default=None, type=nonempty_path)
+    parser.add_argument(
+        "--exclude_manifest", nargs="+", required=True, type=nonempty_path
+    )
     parser.add_argument("--pilot_sequences", type=int, default=10)
     parser.add_argument("--confirm_sequences", type=int, default=40)
     parser.add_argument("--clip_frames", type=int, default=128)
     parser.add_argument("--minimum_clip_frames", type=int, default=52)
     parser.add_argument("--anchors", type=int, default=12)
     parser.add_argument("--seed", type=int, default=2034)
-    parser.add_argument("--output", required=True)
+    parser.add_argument("--output", required=True, type=nonempty_path)
     parser.add_argument("--overwrite", action="store_true")
     args = parser.parse_args()
     output = Path(args.output).expanduser().resolve()
