@@ -53,12 +53,34 @@ def expected_candidate_blocks(tracked_frames, policy):
     )
 
 
+def audit_otb_annotation_files(sequence_info_list, dataset_root):
+    """Fail once with the complete list of missing OTB annotation files."""
+    root = Path(dataset_root).expanduser().resolve()
+    if not root.is_dir():
+        raise FileNotFoundError("OTB dataset root does not exist: {}".format(root))
+
+    missing = []
+    for sequence_info in sequence_info_list:
+        annotation = root / sequence_info["anno_path"]
+        if not annotation.is_file():
+            missing.append(Path(sequence_info["anno_path"]).as_posix())
+
+    if missing:
+        details = "\n  ".join(missing)
+        raise FileNotFoundError(
+            "OTB extraction is incomplete: missing {} required annotation "
+            "file(s):\n  {}".format(len(missing), details)
+        )
+
+
 def load_otb(dataset_root):
     """Load OTB from an explicit root without editing evaluation/local.py."""
     from lib.test.evaluation.otbdataset import OTBDataset
 
+    root = Path(dataset_root).expanduser().resolve()
     dataset = OTBDataset()
-    dataset.base_path = str(Path(dataset_root).expanduser().resolve())
+    dataset.base_path = str(root)
+    audit_otb_annotation_files(dataset.sequence_info_list, root)
     return list(dataset.get_sequence_list())
 
 

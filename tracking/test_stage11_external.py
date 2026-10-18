@@ -12,6 +12,7 @@ from stage11_external_summary import build_contrasts, primary_decision
 from stage11_external_validate import (
     FROZEN_POLICIES,
     PROJECT_ROOT,
+    audit_otb_annotation_files,
     audit_otb_sequences,
     expected_candidate_blocks,
 )
@@ -21,6 +22,24 @@ class ExternalValidationContractTests(unittest.TestCase):
     def test_project_root_is_importable_for_direct_script_execution(self):
         self.assertIn(str(PROJECT_ROOT), sys.path)
         self.assertTrue((PROJECT_ROOT / "lib").is_dir())
+
+    def test_annotation_audit_lists_every_missing_file(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            existing = root / "Existing" / "groundtruth_rect.txt"
+            existing.parent.mkdir()
+            existing.write_text("1,1,10,10\n", encoding="utf-8")
+            sequence_info = [
+                {"anno_path": "Existing/groundtruth_rect.txt"},
+                {"anno_path": "MissingA/groundtruth_rect.txt"},
+                {"anno_path": "MissingB/groundtruth_rect.1.txt"},
+            ]
+            with self.assertRaises(FileNotFoundError) as context:
+                audit_otb_annotation_files(sequence_info, root)
+            message = str(context.exception)
+            self.assertIn("missing 2 required annotation", message)
+            self.assertIn("MissingA/groundtruth_rect.txt", message)
+            self.assertIn("MissingB/groundtruth_rect.1.txt", message)
 
     def test_frozen_periodic_costs(self):
         self.assertEqual(expected_candidate_blocks(99, "fast"), 0)
