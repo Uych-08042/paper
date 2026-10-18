@@ -1,10 +1,18 @@
 """Create a fresh video-disjoint manifest for Stage-9 schedule interventions."""
 
 import argparse
+import random
 from pathlib import Path
 
-from stage4_common import fingerprint, load_annotations, write_json
-from stage4_manifest import build_manifest, subset_names, training_names
+from stage4_common import (
+    SCHEMA,
+    file_hash,
+    fingerprint,
+    frame_path,
+    load_annotations,
+    write_json,
+)
+from stage4_manifest import subset_names, training_names
 from stage7_holdout_manifest import exclusion_records
 from stage9_schedule_common import (
     DEFAULT_EVALUATION_HORIZONS,
@@ -22,6 +30,41 @@ def nonempty_path(value):
             "path must not be empty; check that the referenced shell variable is exported"
         )
     return value
+
+
+def usable_clip(root, dataset, name, clip_frames, minimum_clip_frames, rng):
+    """Choose the longest valid contiguous clip without inspecting outcomes."""
+    directory, ground_truth, valid = load_annotations(root, dataset, name)
+    if len(ground_truth) < minimum_clip_frames:
+        return None, "short"
+    candidates = []
+    last_start = len(ground_truth) - minimum_clip_frames
+    for start in range(last_start + 1):
+        if not valid[start]:
+            continue
+        stop = min(start + clip_frames, len(ground_truth))
+        for index in range(start, stop):
+            if not frame_path(directory, dataset, index).is_file():
+                stop = index
+                break
+        length = stop - start
+        if length >= minimum_clip_frames:
+            candidates.append((length, start, stop))
+    if not candidates:
+        return None, "unusable"
+    longest = max(candidate[0] for candidate in candidates)
+    choices = [candidate for candidate in candidates if candidate[0] == longest]
+    _, start, stop = choices[rng.randrange(len(choices))]
+    return (
+        {
+            "sequence": name,
+            "start": int(start),
+            "stop": int(stop),
+            "annotation_sha256": file_hash(directory / "groundtruth.txt"),
+            "visible_sha256": fingerprint(valid.tolist()),
+        },
+        None,
+    )
 
 
 def build_schedule_manifest(
@@ -45,22 +88,37 @@ def build_schedule_manifest(
                 required
             )
         )
+    if clip_frames < minimum_clip_frames:
+        raise ValueError("clip_frames must be at least minimum_clip_frames")
     excluded, exclusion_details = exclusion_records(exclude_paths, dataset)
     root = Path(root).expanduser().resolve()
     available = sorted(set(names).difference(excluded))
+    rng = random.Random(seed)
+    rng.shuffle(available)
     eligible = []
     missing = 0
     short = 0
+    unusable = 0
     for name in available:
         try:
-            _, ground_truth, _ = load_annotations(root, dataset, name)
+            entry, reason = usable_clip(
+                root,
+                dataset,
+                name,
+                clip_frames,
+                minimum_clip_frames,
+                rng,
+            )
         except FileNotFoundError:
             missing += 1
             continue
-        if min(clip_frames, len(ground_truth)) < minimum_clip_frames:
+        if reason == "short":
             short += 1
             continue
-        eligible.append(name)
+        if reason == "unusable":
+            unusable += 1
+            continue
+        eligible.append(entry)
     requested = pilot_count + confirm_count
     if len(eligible) < requested:
         if len(eligible) < 2:
@@ -88,15 +146,17 @@ def build_schedule_manifest(
                 split_advice,
             )
         )
-    data = build_manifest(
-        dataset,
-        root,
-        eligible,
-        pilot_count,
-        confirm_count,
-        clip_frames,
-        seed,
-    )
+    selected_entries = eligible[:requested]
+    for index, entry in enumerate(selected_entries):
+        entry["split"] = "train" if index < pilot_count else "val"
+    data = {
+        "schema": SCHEMA,
+        "dataset": dataset,
+        "root": str(root),
+        "seed": int(seed),
+        "clip_frames": int(clip_frames),
+        "sequences": selected_entries,
+    }
     selected = {entry["sequence"] for entry in data["sequences"]}
     if selected.intersection(excluded):
         raise RuntimeError("Stage-9 manifest overlaps an excluded manifest")
@@ -113,6 +173,7 @@ def build_schedule_manifest(
             "eligible_sequence_count": len(eligible),
             "missing_sequence_count": missing,
             "short_sequence_count": short,
+            "unusable_sequence_count": unusable,
             "minimum_clip_frames": int(minimum_clip_frames),
             "schedule_design": {
                 "anchor_count": int(anchor_count),

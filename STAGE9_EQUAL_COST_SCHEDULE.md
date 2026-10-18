@@ -90,6 +90,11 @@ remain, the error reports the largest valid pilot/confirmatory split. Preserve
 40 confirmatory videos when possible; otherwise use one pilot video and place
 every other fresh video in the confirmatory split.
 
+For each fresh video, the manifest freezes the longest contiguous window of at
+most 128 frames that begins on a valid annotation and contains at least 52
+available images. This selection uses annotation validity and file availability
+only; tracker outputs and intervention outcomes are never inspected.
+
 ## 3. One-clip sanity run
 
 ```bash

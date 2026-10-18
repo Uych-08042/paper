@@ -183,6 +183,37 @@ class ScheduleManifestTests(unittest.TestCase):
                     12,
                 )
 
+    def test_manifest_uses_later_valid_start_for_short_video(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary) / "dataset"
+            names = ["GOT-10k_Train_{:06d}".format(i) for i in range(1, 5)]
+            create_dataset(root, names)
+            prior = build_manifest("got10k_train", root, names[:2], 1, 1, 64, 4)
+            prior_path = Path(temporary) / "prior.json"
+            write_json(prior_path, prior)
+            for name in names[2:]:
+                path = root / name / "absence.label"
+                values = path.read_text(encoding="utf-8").splitlines()
+                values[0] = "1"
+                path.write_text("\n".join(values) + "\n", encoding="utf-8")
+            manifest = build_schedule_manifest(
+                "got10k_train",
+                root,
+                names,
+                1,
+                1,
+                64,
+                52,
+                7,
+                [prior_path],
+                12,
+            )
+            self.assertEqual(len(manifest["sequences"]), 2)
+            self.assertEqual(
+                [(entry["start"], entry["stop"]) for entry in manifest["sequences"]],
+                [(1, 64), (1, 64)],
+            )
+
     def test_empty_inventory_error_does_not_suggest_invalid_split(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary) / "dataset"
