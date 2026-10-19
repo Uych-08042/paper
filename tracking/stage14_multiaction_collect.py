@@ -264,6 +264,10 @@ def main():
     parser.add_argument("--overwrite", action="store_true")
     args = parser.parse_args()
 
+    if not str(args.output_dir).strip():
+        raise ValueError(
+            "--output_dir is empty; define STAGE14_CACHE as a dedicated cache directory"
+        )
     if args.num_shards < 1 or not 0 <= args.shard_id < args.num_shards:
         raise ValueError("Require 0 <= shard_id < num_shards")
     if args.pool_grid < 1 or args.horizon < 2:
@@ -297,10 +301,19 @@ def main():
         print("This shard has no clips.")
         return
 
+    output = Path(args.output_dir).expanduser().resolve()
+    if output.exists() and not (output / "run.json").is_file():
+        unidentified = next(output.rglob("*.npz"), None)
+        if unidentified is not None:
+            raise ValueError(
+                "Stage-14 output has cache files but no run.json: {}. "
+                "Use a new dedicated STAGE14_CACHE directory; do not point it "
+                "at STAGE14_ROOT or the sanity cache.".format(output)
+            )
+
     rt = Runtime(args.parameter, args.gpu, args.checkpoint)
     if args.pool_grid > rt.search_side:
         raise ValueError("pool_grid exceeds the search token grid")
-    output = Path(args.output_dir).expanduser().resolve()
     run = make_run(
         manifest,
         rt.identity,
