@@ -236,7 +236,10 @@ class DecisionTests(unittest.TestCase):
             {
                 "method": "tavrtrack_p30",
                 "num_sequences": 40,
-                "candidate_blocks_per_frame": 0.29,
+                # Per-clip integer rounding can put the aggregate ratio above 30%.
+                "candidate_blocks_per_frame": 0.3026,
+                "candidate_blocks": 121,
+                "candidate_budget_cap_blocks": 121,
                 "active_candidate_layers": 5,
             }
         ]
@@ -247,6 +250,10 @@ class DecisionTests(unittest.TestCase):
         ]
         passed = make_decision(run, bundle, summaries, paired, True, 100, 1)
         self.assertEqual(passed["status"], "PASS_CLOSED_LOOP_DEVELOPMENT")
+        summaries[0]["candidate_blocks"] = 122
+        over_budget = make_decision(run, bundle, summaries, paired, True, 100, 1)
+        self.assertEqual(over_budget["status"], "FAIL_POLICY_INTEGRITY")
+        summaries[0]["candidate_blocks"] = 121
         paired[1] = {
             "reference": "uniform_l9_p30",
             "mean_delta": 0.02,

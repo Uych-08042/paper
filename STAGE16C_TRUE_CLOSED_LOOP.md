@@ -119,6 +119,10 @@ python tracking/stage16c_closed_loop_summary.py \
 
 The second efficacy contrast is deliberately conservative: Uniform-L9 spends
 the full P30 cap, while TAVRTrack may spend less but can never spend more.
+Because each clip has an integer number of decisions, rounding each per-clip
+P30 cap can make the aggregate displayed ratio slightly greater than 30%; the
+integrity gate compares integer candidate counts against the sum of those
+per-clip rounded caps.
 Without this contrast, a positive result would show only that extra computation
 helps, not that the learned layer scheduler is valuable.  A pass authorizes one
 untouched external evaluation.  A failure

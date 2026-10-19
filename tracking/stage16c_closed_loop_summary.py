@@ -262,6 +262,16 @@ def summarize_methods(grouped, bundle):
         )
         actions = Counter(row["action"] for row in decisions)
         candidate_blocks = int(sum(row["candidate_blocks"] for row in decisions))
+        candidate_budget_cap_blocks = (
+            sum(
+                candidate_budget(
+                    len(rows) - 1, bundle["primary_budget_percent"]
+                )
+                for rows in sequences.values()
+            )
+            if policy in ("uniform_l9_p30", POLICY_NAME)
+            else len(decisions) if policy == "sgla" else 0
+        )
         active_layers = sum(actions.get("l{}".format(layer), 0) > 0 for layer in range(7, 13))
         summaries.append(
             {
@@ -270,6 +280,15 @@ def summarize_methods(grouped, bundle):
                 "tracked_frames": len(decisions),
                 "candidate_blocks": candidate_blocks,
                 "candidate_blocks_per_frame": candidate_blocks / len(decisions),
+                "candidate_budget_cap_blocks": candidate_budget_cap_blocks,
+                "candidate_budget_cap_per_frame": (
+                    candidate_budget_cap_blocks / len(decisions)
+                ),
+                "budget_utilization": (
+                    candidate_blocks / candidate_budget_cap_blocks
+                    if candidate_budget_cap_blocks > 0
+                    else 0.0
+                ),
                 "budget_percent": (
                     float(bundle["primary_budget_percent"])
                     if policy in ("uniform_l9_p30", POLICY_NAME)
@@ -349,10 +368,14 @@ def make_decision(run, bundle, summaries, paired, complete, bootstrap_samples, s
     vs_uniform = next(
         row for row in paired if row["reference"] == "uniform_l9_p30"
     )
-    cap = float(bundle["primary_budget_percent"]) / 100.0
     checks = {
         "complete_frozen_val_run": bool(complete),
-        "budget_cap_pass": primary["candidate_blocks_per_frame"] <= cap + 1e-12,
+        "candidate_blocks": primary["candidate_blocks"],
+        "rounded_per_clip_budget_cap_blocks": primary[
+            "candidate_budget_cap_blocks"
+        ],
+        "budget_cap_pass": primary["candidate_blocks"]
+        <= primary["candidate_budget_cap_blocks"],
         "minimum_active_candidate_layers": 3,
         "observed_active_candidate_layers": primary["active_candidate_layers"],
         "noncollapse_pass": primary["active_candidate_layers"] >= 3,
