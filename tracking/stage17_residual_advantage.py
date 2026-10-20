@@ -221,9 +221,9 @@ def collate_advantage_clips(items, torch, scalar_mean, scalar_scale):
             arrays["search_grid"][row, :steps] = item["search_grid"][episode]
             arrays["template"][row, :steps] = item["template"][episode]
             arrays["score_map"][row, :steps] = item["score_map"][episode]
-            arrays["scalar"][row, :steps] = item["scalar"][
-                episode, :, RESIDUAL_SCALAR_INDEX
-            ]
+            arrays["scalar"][row, :steps] = np.take(
+                item["scalar"][episode], RESIDUAL_SCALAR_INDEX, axis=-1
+            )
             arrays["target"][row, :steps] = target[episode]
             arrays["valid"][row, :steps] = item["valid"][episode]
             mask[row, :steps] = True

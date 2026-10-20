@@ -2,6 +2,7 @@
 
 import importlib.util
 import unittest
+from types import SimpleNamespace
 
 import numpy as np
 
@@ -16,6 +17,77 @@ from stage17_residual_advantage import (
     rounded_budget,
     safe_cap_actions,
 )
+
+
+def make_item(seed=1, episodes=2, steps=5, token_dim=3):
+    rng = np.random.default_rng(seed)
+    return {
+        "search_grid": rng.normal(
+            size=(episodes, steps, 2, 2, token_dim)
+        ).astype(np.float32),
+        "template": rng.normal(
+            size=(episodes, steps, 2, token_dim)
+        ).astype(np.float32),
+        "score_map": rng.normal(
+            size=(episodes, steps, 1, 4, 4)
+        ).astype(np.float32),
+        "scalar": rng.normal(
+            size=(episodes, steps, len(SCALAR_NAMES))
+        ).astype(np.float32),
+        "action_reward": rng.uniform(
+            size=(episodes, steps, 7)
+        ).astype(np.float32),
+        "valid": np.ones((episodes, steps), dtype=bool),
+        "sequence": "s{}".format(seed),
+        "split": "train",
+    }
+
+
+class CollationTests(unittest.TestCase):
+    def test_scalar_columns_preserve_time_episode_and_padding(self):
+        array_backend = SimpleNamespace(
+            from_numpy=np.asarray, as_tensor=np.asarray, long=np.int64
+        )
+        mean = np.linspace(-1.0, 1.0, len(RESIDUAL_SCALAR_NAMES), dtype=np.float32)
+        scale = np.linspace(0.5, 2.0, len(RESIDUAL_SCALAR_NAMES), dtype=np.float32)
+        for steps, shorter_steps in ((5, 3), (len(mean), len(mean))):
+            with self.subTest(steps=steps):
+                items = [make_item(steps=steps), make_item(seed=2, steps=shorter_steps)]
+                for clip, item in enumerate(items):
+                    for episode in range(2):
+                        for frame in range(item["scalar"].shape[1]):
+                            item["scalar"][episode, frame] = (
+                                clip * 100000 + episode * 10000 + frame * 100
+                                + np.arange(len(SCALAR_NAMES))
+                            )
+                batch = collate_advantage_clips(items, array_backend, mean, scale)
+                self.assertEqual(batch["scalar"].shape, (4, steps, len(mean)))
+                np.testing.assert_array_equal(
+                    batch["lengths"], [steps, steps, shorter_steps, shorter_steps]
+                )
+                self.assertEqual(batch["sequences"], ["s1", "s1", "s2", "s2"])
+                for clip, item in enumerate(items):
+                    valid_steps = item["scalar"].shape[1]
+                    for episode in range(2):
+                        row = clip * 2 + episode
+                        for column, name in enumerate(RESIDUAL_SCALAR_NAMES):
+                            expected = (
+                                item["scalar"][episode, :, SCALAR_NAMES.index(name)]
+                                - mean[column]
+                            ) / scale[column]
+                            np.testing.assert_allclose(
+                                batch["scalar"][row, :valid_steps, column], expected
+                            )
+                        np.testing.assert_array_equal(
+                            batch["mask"][row], np.arange(steps) < valid_steps
+                        )
+                        np.testing.assert_array_equal(
+                            batch["target"][row, :valid_steps],
+                            item["action_reward"][episode, :, 1:]
+                            - item["action_reward"][episode, :, :1],
+                        )
+                        self.assertFalse(batch["valid"][row, valid_steps:].any())
+                        self.assertFalse(batch["target"][row, valid_steps:].any())
 
 
 class FoldAndPolicyTests(unittest.TestCase):
@@ -67,36 +139,13 @@ class FoldAndPolicyTests(unittest.TestCase):
 
 @unittest.skipUnless(importlib.util.find_spec("torch"), "PyTorch unavailable")
 class ModelTests(unittest.TestCase):
-    def _item(self, seed=1, episodes=2, steps=5, token_dim=3):
-        rng = np.random.default_rng(seed)
-        return {
-            "search_grid": rng.normal(
-                size=(episodes, steps, 2, 2, token_dim)
-            ).astype(np.float32),
-            "template": rng.normal(
-                size=(episodes, steps, 2, token_dim)
-            ).astype(np.float32),
-            "score_map": rng.normal(
-                size=(episodes, steps, 1, 4, 4)
-            ).astype(np.float32),
-            "scalar": rng.normal(
-                size=(episodes, steps, len(SCALAR_NAMES))
-            ).astype(np.float32),
-            "action_reward": rng.uniform(
-                size=(episodes, steps, 7)
-            ).astype(np.float32),
-            "valid": np.ones((episodes, steps), dtype=bool),
-            "sequence": "s{}".format(seed),
-            "split": "train",
-        }
-
     def test_model_is_causal_and_residual_loss_is_finite(self):
         import torch
         import torch.nn as nn
 
         mean = np.zeros(len(RESIDUAL_SCALAR_NAMES), dtype=np.float32)
         scale = np.ones(len(RESIDUAL_SCALAR_NAMES), dtype=np.float32)
-        batch = collate_advantage_clips([self._item()], torch, mean, scale)
+        batch = collate_advantage_clips([make_item()], torch, mean, scale)
         config = {
             "token_dim": 3,
             "scalar_dim": len(RESIDUAL_SCALAR_NAMES),
