@@ -144,6 +144,12 @@ writers against one directory or resume using different runtime software.
 
 ## Full-run boundary
 
+Amendment on 2026-10-20: `STAGE18_FULL_DEVELOPMENT_AMENDMENT_V1.json`
+supersedes only the external-data-readiness prerequisite below. Complete
+development training may proceed while external acquisition is deferred.
+See `STAGE18_FULL_PPO_DEVELOPMENT.md` for the fixed three-seed command.
+All other model, training, selection and claim restrictions remain unchanged.
+
 Review smoke integrity, wall time, GPU memory and the failed representation
 resource target before launching the full development budget. The named new
 external benchmark must have an acquisition/coverage audit without inspecting

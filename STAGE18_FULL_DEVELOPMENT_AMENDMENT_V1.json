@@ -1,0 +1,67 @@
+{
+  "schema": "stage18_full_development_amendment_v1",
+  "date": "2026-10-20",
+  "role": "prospective_development_workflow_amendment_not_an_algorithm_change",
+  "authorization": "User requested the next experiment after accepting deferred external dataset acquisition due to download and storage constraints.",
+  "supersedes": {
+    "documents": [
+      "STAGE18_LONG_TERM_LAYER_POLICY.md",
+      "STAGE18C_ONPOLICY_PPO.md"
+    ],
+    "requirement": "External benchmark acquisition and coverage audit must precede full development training."
+  },
+  "change": {
+    "external_data_readiness_blocks_development_training": false,
+    "reason": "NfS is not installed and acquiring LaSOT exceeds the current practical data budget.",
+    "external_benchmark": "not_yet_finalized",
+    "external_rule": "Fix the benchmark and protocol before inspecting any new external tracker outcomes; audit overlap and coverage before external evaluation.",
+    "claim_boundary": "All fit/tune results remain development-only; no independent generalization or speed claim follows from training completion."
+  },
+  "reported_predecessors": {
+    "representation_contract_fingerprint": "ee8ea635c02271a1a2bc6bc8e85bba08749ffb2d62878bbbd3f850a19cc95826",
+    "representation_best_epoch": 7,
+    "representation_best_checkpoint_sha256": "021afa8b68ee1347f62e7b381a2aa2549c0cf25b651e26deeb137053d1e9b968",
+    "smoke_contract_fingerprint": "a0e44741aa95da67f37e647acf510730fccc2de56bd2d6b47637abc16aa235ba",
+    "smoke_decision_fingerprint": "edf02ebdd7b263e9f9635d6711e20e1a3847c0d9ef7d9adca544f75047325863",
+    "smoke_status": "PASS_ONPOLICY_SMOKE",
+    "provenance": "Identifiers reported by the user from the CUDA server; independently reverify source artifacts there."
+  },
+  "unchanged_training": {
+    "fit_videos": 96,
+    "tune_videos": 24,
+    "source": "exact split in frozen_representation_v1.json",
+    "initialization": "frozen representation best.pt; fresh seed-specific policy, not smoke weights",
+    "seeds": [2054, 2055, 2056],
+    "transitions_per_seed": 250000,
+    "rollout_steps": 2048,
+    "minibatch_size": 256,
+    "gamma": 0.97,
+    "gae_lambda": 0.95,
+    "update_epochs": 4,
+    "learning_rate": 0.0003,
+    "clip_epsilon": 0.2,
+    "value_coefficient": 0.5,
+    "entropy_coefficient": 0.01,
+    "gradient_norm_cap": 0.5,
+    "candidate_budget": "causal P30 token credit; Fast and independent L7-L12; no forced layer diversity or spending",
+    "tune_evaluation_steps": [20000, 40000, 60000, 80000, 100000, 120000, 140000, 160000, 180000, 200000, 220000, 240000, 250000],
+    "selection": "masked-argmax tune macro AUC subject to P30; tie by lower descriptive latency, then earlier step; report all seeds"
+  },
+  "unchanged_analysis": {
+    "primary_comparators": ["original SGLA", "tune-selected best static control"],
+    "static_control_candidates": ["memory_fast", "l7", "l8", "l9", "l10", "l11", "l12"],
+    "other_controls": ["original Fast", "uniform-time random layer"],
+    "primary_accuracy_rule": "Average the three selected policies per physical video, then require paired video-bootstrap 95% lower bounds above zero against both primary comparators; development screen only.",
+    "bootstrap_samples": 5000,
+    "analysis_seed": 2057,
+    "mechanism_requirements": "gamma=0 and retrained no-memory ablations remain necessary before claiming long-term credit or memory contributions.",
+    "efficiency_requirements": "The representation resource audit remains failed. Candidate-call savings are not latency savings; learned-policy speed requires a separate interleaved end-to-end audit."
+  },
+  "excluded_from_policy_selection": ["original 40 validation videos", "UAV123", "OTB"],
+  "execution": {
+    "order": "sequential on one GPU; stop on an execution error",
+    "failure_rule": "Repair implementation errors with an explicit new code contract as needed; do not retune hyperparameters, extend the budget, or select a winning seed based on outcomes.",
+    "frozen_training_code_modified": false
+  },
+  "fingerprint": "30d1457d013f6801f7198d57fd70adf32f56ee29e2f43916ede7fb04861d19d4"
+}
