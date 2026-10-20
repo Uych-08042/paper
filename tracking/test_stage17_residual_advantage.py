@@ -1,7 +1,9 @@
 """Tests for the Stage-17A safe residual-advantage screen."""
 
 import importlib.util
+import tempfile
 import unittest
+from pathlib import Path
 from types import SimpleNamespace
 
 import numpy as np
@@ -16,6 +18,7 @@ from stage17_residual_advantage import (
     residual_loss,
     rounded_budget,
     safe_cap_actions,
+    validate_cli_paths,
 )
 
 
@@ -41,6 +44,29 @@ def make_item(seed=1, episodes=2, steps=5, token_dim=3):
         "sequence": "s{}".format(seed),
         "split": "train",
     }
+
+
+class PathTests(unittest.TestCase):
+    def test_rejects_empty_shell_paths_and_non_file_manifest(self):
+        with tempfile.TemporaryDirectory() as directory:
+            manifest = Path(directory) / "freeze.json"
+            manifest.write_text("{}", encoding="utf-8")
+            paths = dict(
+                input=directory, freeze_manifest=str(manifest),
+                prepared_dir=directory, output_dir=str(Path(directory) / "new_output"),
+            )
+            validate_cli_paths(SimpleNamespace(**paths))
+            for name in paths:
+                for empty in ("", "   "):
+                    with self.subTest(name=name, empty=empty):
+                        invalid = dict(paths, **{name: empty})
+                        with self.assertRaisesRegex(ValueError, "--{} is empty".format(name)):
+                            validate_cli_paths(SimpleNamespace(**invalid))
+            for invalid_path in (directory, str(Path(directory) / "missing.json")):
+                with self.subTest(manifest=invalid_path):
+                    invalid = dict(paths, freeze_manifest=invalid_path)
+                    with self.assertRaisesRegex(ValueError, "--freeze_manifest.*file"):
+                        validate_cli_paths(SimpleNamespace(**invalid))
 
 
 class CollationTests(unittest.TestCase):

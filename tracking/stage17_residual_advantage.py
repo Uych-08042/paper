@@ -949,6 +949,26 @@ def publish_contract(output, contract):
     return path
 
 
+def validate_cli_paths(args):
+    for name in ("input", "freeze_manifest", "prepared_dir", "output_dir"):
+        if not getattr(args, name).strip():
+            raise ValueError(
+                "--{} is empty; check the corresponding shell variable".format(name)
+            )
+    freeze_path = Path(args.freeze_manifest).expanduser()
+    if not freeze_path.is_file():
+        raise ValueError(
+            "--freeze_manifest must name an existing JSON file: {}".format(freeze_path)
+        )
+    for name in ("input", "prepared_dir"):
+        path = Path(getattr(args, name)).expanduser()
+        if not path.is_dir():
+            raise ValueError("--{} must name an existing directory: {}".format(name, path))
+    output = Path(args.output_dir).expanduser()
+    if output.exists() and not output.is_dir():
+        raise ValueError("--output_dir must name a directory: {}".format(output))
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--input", required=True, help="Frozen Stage-16 behavior cache")
@@ -977,6 +997,11 @@ def main():
     parser.add_argument("--bootstrap_samples", type=int, default=5000)
     parser.add_argument("--skip_cache_hash_verification", action="store_true")
     args = parser.parse_args()
+
+    try:
+        validate_cli_paths(args)
+    except ValueError as error:
+        parser.error(str(error))
 
     try:
         import torch

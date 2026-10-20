@@ -23,7 +23,14 @@ tracking result.
 ## Run
 
 ```bash
+export STAGE16_ROOT="$PWD/output/stage16/tavrtrack_behavior_v1"
+export STAGE16_CACHE="$STAGE16_ROOT/cache"
+export STAGE16_FREEZE="$STAGE16_ROOT/stage16_frozen_cache.json"
+export STAGE16B_DIR="$STAGE16_ROOT/recurrent_cql_v1"
 export STAGE17_DIR="$PWD/output/stage17/safe_residual_advantage_oof_v1"
+
+test -f "$STAGE16_FREEZE" || { echo "Missing original Stage-16 freeze manifest: $STAGE16_FREEZE"; exit 1; }
+test -f "$STAGE16B_DIR/prepared/stage16b_prepared_run.json" || { echo "Missing Stage-16B prepared contract"; exit 1; }
 
 python tracking/stage17_residual_advantage.py \
   --input "$STAGE16_CACHE" \
