@@ -52,6 +52,9 @@ This pilot does not combine several masks or claim that their effects add.
 Run from the repository root in `sglatrack-test`. The existing intervention
 manifest and original tracker checkpoint must still be available. Set paths
 explicitly so a new login cannot silently expand unset variables to the cwd.
+Repeating the manifest command audits and reuses an identical existing file
+without writing it. A changed source/configuration or a damaged fingerprint is
+rejected; keep the original file and arguments for resuming this frozen run.
 
 ```bash
 export INTERVENTION_MANIFEST="$PWD/output/stage8/l9_intervention_v1/intervention_manifest.json"

@@ -7,7 +7,7 @@ import numpy as np
 
 from stage4_common import fingerprint, load_manifest, write_json
 from stage8_intervention_common import select_anchor_offsets
-from stage19_compression_common import SCHEMA, nonempty_path
+from stage19_compression_common import SCHEMA, nonempty_path, validate_manifest
 
 
 def build_manifest(source, calibration=12, check=12, anchors=4, horizon=20, seed=2057):
@@ -43,6 +43,24 @@ def build_manifest(source, calibration=12, check=12, anchors=4, horizon=20, seed
     return body
 
 
+def publish_manifest(path, data):
+    """Reuse an identical frozen manifest without modifying it."""
+    path = Path(path)
+    validate_manifest(data)
+    if path.exists():
+        if not path.is_file():
+            raise ValueError("Expected a manifest JSON file, found a directory: {}".format(path))
+        existing = validate_manifest(path)
+        if existing != data:
+            raise ValueError(
+                "Existing Stage-19 manifest differs from the requested source/configuration: {}. "
+                "Use the original arguments or a new output path; the existing file was not modified.".format(path)
+            )
+        return False
+    write_json(path, data)
+    return True
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--source_manifest", type=nonempty_path, required=True)
@@ -54,11 +72,11 @@ def main():
     parser.add_argument("--seed", type=int, default=2057)
     args = parser.parse_args()
     path = Path(args.output).expanduser().resolve()
-    if path.exists():
-        raise FileExistsError("Manifest exists; use a new output path: {}".format(path))
     data = build_manifest(args.source_manifest, args.calibration_sequences,
                           args.check_sequences, args.anchors, args.horizon, args.seed)
-    write_json(path, data)
+    created = publish_manifest(path, data)
+    if not created:
+        print("[reuse, audited] Existing manifest matches the requested source and configuration; file unchanged.")
     print("Manifest: {} ({} calibration / {} development-check videos)".format(
         path, args.calibration_sequences, args.check_sequences))
     print("All selected videos come from source train; source val is excluded.")

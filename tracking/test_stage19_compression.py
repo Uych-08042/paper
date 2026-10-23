@@ -12,10 +12,10 @@ from types import SimpleNamespace
 
 import numpy as np
 
-from stage4_common import fingerprint, write_cache
+from stage4_common import fingerprint, write_cache, write_json
 from stage19_compression_collect import collect_clip
 from stage19_compression_common import load_and_audit_cache, make_run, nonempty_path
-from stage19_compression_manifest import build_manifest
+from stage19_compression_manifest import build_manifest, publish_manifest
 from stage19_compression_summary import analyze, sequence_scores
 from stage19_ffn_compression import compress_ffn, linear_slices, make_masks
 
@@ -114,6 +114,45 @@ class MaskTests(unittest.TestCase):
 
 
 class ManifestTests(unittest.TestCase):
+    def test_repeated_manifest_cli_reuses_frozen_file_without_writing(self):
+        with tempfile.TemporaryDirectory(dir=Path(__file__).resolve().parent) as temp:
+            source = Path(temp) / "source.json"
+            output = Path(temp) / "manifest.json"
+            write_json(source, source_manifest())
+            command = [sys.executable, "-B", str(Path(__file__).with_name("stage19_compression_manifest.py")),
+                       "--source_manifest", str(source), "--output", str(output),
+                       "--calibration_sequences", "2", "--check_sequences", "2"]
+            first = subprocess.run(command, capture_output=True, text=True, timeout=30)
+            self.assertEqual(first.returncode, 0, first.stdout + first.stderr)
+            content, modified = output.read_bytes(), output.stat().st_mtime_ns
+            second = subprocess.run(command, capture_output=True, text=True, timeout=30)
+            self.assertEqual(second.returncode, 0, second.stdout + second.stderr)
+            self.assertIn("[reuse, audited]", second.stdout)
+            self.assertEqual(output.read_bytes(), content)
+            self.assertEqual(output.stat().st_mtime_ns, modified)
+
+    def test_changed_manifest_configuration_does_not_overwrite(self):
+        with tempfile.TemporaryDirectory(dir=Path(__file__).resolve().parent) as temp:
+            path = Path(temp) / "manifest.json"
+            frozen = build_manifest(source_manifest(), 2, 2)
+            self.assertTrue(publish_manifest(path, frozen))
+            content = path.read_bytes()
+            changed = build_manifest(source_manifest(), 2, 2, seed=2058)
+            with self.assertRaisesRegex(ValueError, "differs from the requested source/configuration"):
+                publish_manifest(path, changed)
+            self.assertEqual(path.read_bytes(), content)
+
+    def test_corrupt_existing_manifest_is_not_silently_recreated(self):
+        with tempfile.TemporaryDirectory(dir=Path(__file__).resolve().parent) as temp:
+            path = Path(temp) / "manifest.json"
+            frozen = build_manifest(source_manifest(), 2, 2)
+            broken = dict(frozen, seed=0)
+            write_json(path, broken)
+            content = path.read_bytes()
+            with self.assertRaisesRegex(ValueError, "fingerprint mismatch"):
+                publish_manifest(path, frozen)
+            self.assertEqual(path.read_bytes(), content)
+
     def test_source_val_excluded_and_video_splits_disjoint(self):
         result = build_manifest(source_manifest(), 2, 2)
         source_train = {row["sequence"] for row in source_manifest()["sequences"] if row["split"] == "train"}
