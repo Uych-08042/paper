@@ -3,6 +3,7 @@
 import copy
 import importlib.util
 from pathlib import Path
+import sys
 from tempfile import TemporaryDirectory
 import unittest
 from unittest.mock import patch
@@ -12,11 +13,77 @@ import numpy as np
 from stage4_common import file_hash, write_csv, write_json
 from stage23_branch_credit import ARMS
 from stage23_development import (CONTROLS, METRIC, SCHEMA, SEEDS, evaluate_video, read_sealed,
-                                 sealed, train_arm, update_policy, valid_auc, verify_smoke)
+                                 frozen_split, main, sealed, train_arm, update_policy, valid_auc, verify_smoke)
 from stage23_development_summary import audit_evaluation, load_complete, paired_statistics, progress, summarize
 
 
 class ProtocolTests(unittest.TestCase):
+    def split_fixture(self, fit_count=88, tune_count=22):
+        fit = ["fit-{:03d}".format(i) for i in reversed(range(fit_count))]
+        tune = ["tune-{:03d}".format(i) for i in reversed(range(tune_count))]
+        bundle = dict(fit_videos=fit, tune_videos=tune, pilot_videos=fit[:5],
+                      fit=[dict(sequence=n, frames=100) for n in fit],
+                      tune=[dict(sequence=n, frames=100) for n in tune],
+                      fingerprint="bundle", source_manifest_fingerprint="manifest")
+        manifest = dict(fingerprint="manifest", sequences=[dict(sequence=n, split="train") for n in fit + tune]
+                        + [dict(sequence="held-out", split="val")])
+        return bundle, manifest
+
+    def test_frozen_split_accepts_actual_counts_and_preserves_order(self):
+        for counts in ((96, 24), (88, 22), (3, 1)):
+            with self.subTest(counts=counts):
+                bundle, manifest = self.split_fixture(*counts)
+                before = copy.deepcopy(bundle)
+                fit, tune = frozen_split(bundle, manifest)
+                self.assertEqual(fit, bundle["fit_videos"])
+                self.assertEqual(tune, bundle["tune_videos"])
+                self.assertEqual(bundle, before)
+                self.assertIsNot(fit, bundle["fit_videos"])
+                self.assertIsNot(tune, bundle["tune_videos"])
+
+    def test_stage18_short_clip_filter_can_produce_a_non_nominal_frozen_split(self):
+        from stage18_pilot import select_fit_pilot
+        manifest = dict(sequences=[dict(sequence="video-{:03d}".format(i), split="train", start=0,
+                                        stop=50 if i < 10 else 100) for i in range(120)])
+        pilot, fit_rows, tune_rows = select_fit_pilot(manifest, 5, 64, 2053)
+        bundle = dict(fit_videos=[r["sequence"] for r in fit_rows],
+                      tune_videos=[r["sequence"] for r in tune_rows],
+                      pilot_videos=[r["sequence"] for r in pilot], fit=fit_rows, tune=tune_rows)
+        fit, tune = frozen_split(bundle, manifest)
+        self.assertEqual((len(fit), len(tune)), (88, 22))
+        self.assertTrue(all(int(n.rsplit("-", 1)[1]) >= 10 for n in fit + tune))
+        self.assertEqual(fit, bundle["fit_videos"])
+        self.assertEqual(tune, bundle["tune_videos"])
+
+    def test_frozen_split_still_rejects_leakage_duplicates_and_lineage_changes(self):
+        bundle, manifest = self.split_fixture()
+        invalid = (dict(fit_videos=[]), dict(tune_videos=[]),
+                   dict(fit_videos=[bundle["fit_videos"][0]] * 2),
+                   dict(tune_videos=[bundle["fit_videos"][0]]),
+                   dict(pilot_videos=[bundle["tune_videos"][0]]),
+                   dict(tune_videos=["held-out"]), dict(tune_videos=["missing"]),
+                   dict(fit=list(reversed(bundle["fit"]))),
+                   dict(tune=[dict(sequence="other", frames=100)]),
+                   dict(fit_videos=["../unsafe"]), dict(tune_videos=[{}]))
+        for change in invalid:
+            with self.subTest(change=change), self.assertRaises(ValueError):
+                frozen_split(dict(bundle, **change), manifest)
+
+    def test_cli_reaches_source_loader_for_non_96_24_verified_split(self):
+        bundle, manifest = self.split_fixture()
+        argv = ["stage23_development.py", "--bundle", "bundle.json", "--manifest", "manifest.json",
+                "--checkpoint", "original.pt", "--smoke_dir", "smoke", "--output_dir", "development"]
+        with patch.object(sys, "argv", argv), \
+                patch("stage23_development.verify_representation_bundle", return_value=(Path("bundle.json"), bundle, Path("rep"))), \
+                patch("stage23_development.verify_smoke", return_value={}), \
+                patch("stage23_development.load_manifest", return_value=manifest), \
+                patch("stage23_development.ppo_sources", side_effect=RuntimeError("reached source loader")) as sources, \
+                patch("stage23_development.Runtime") as runtime:
+            with self.assertRaisesRegex(RuntimeError, "reached source loader"):
+                main()
+            sources.assert_called_once_with(manifest, bundle["fit_videos"], 128)
+            runtime.assert_not_called()
+
     def test_metric_excludes_initial_and_invalid_frames(self):
         self.assertAlmostEqual(valid_auc([1., -1.], np.array([True, False])), 100 * 20 / 21)
         self.assertAlmostEqual(valid_auc([0., 1.], np.ones(2, bool)), 100 * 10 / 21)
@@ -157,6 +224,8 @@ class StatisticsTests(unittest.TestCase):
         contract = dict(tune=list(range(5)), bootstrap_samples=500, analysis_seed=2077)
         _, _, decision = summarize(self.trajectories(values), contract)
         self.assertEqual(decision["status"], "CREDIT_EFFECT_ONLY_NOT_COMPETITIVE")
+        self.assertEqual(decision["tune_videos"], 5)
+        self.assertIn("3 seeds on 5 tune videos", decision["warning"])
         values[ARMS[2]] = [81.] * 5
         _, _, decision = summarize(self.trajectories(values), contract)
         self.assertEqual(decision["status"], "NO_CREDIT_EFFECT_ESTABLISHED")

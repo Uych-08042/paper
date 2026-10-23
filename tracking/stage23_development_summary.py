@@ -194,8 +194,10 @@ def summarize(trajectories, contract):
     status = ("DEVELOPMENT_POLICY_GAIN_SUPPORTED" if credit and static and fast else
               "CREDIT_EFFECT_ONLY_NOT_COMPETITIVE" if credit else "NO_CREDIT_EFFECT_ESTABLISHED")
     return summaries, comparisons, dict(status=status, credit_effect_supported=credit,
+        tune_videos=len(contract["tune"]),
         beats_all_six_static_controls_bonferroni=static, beats_fast_and_memory_fast=fast,
-        warning="Development only; tune has been used before. Three seeds are not 72 independent videos. No external or speed claim.")
+        warning=("Development only; tune has been used before. {} seeds on {} tune videos are paired repeats, "
+                 "not additional independent videos. No external or speed claim.").format(len(SEEDS), len(contract["tune"])))
 
 
 def main():
@@ -207,6 +209,7 @@ def main():
         parser.error("input must not be empty")
     directory = Path(args.input).expanduser().resolve()
     contract, rows = progress(directory)
+    print("Frozen data: {} fit / {} tune videos.".format(len(contract.get("fit", [])), len(contract.get("tune", []))))
     if args.status:
         print("seed  arm                reported_live  branch_frames  complete")
         for r in rows:

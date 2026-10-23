@@ -13,13 +13,34 @@ code and outputs are not edited. Startup verifies the passed smoke's code,
 bundle identity, matched counts, and saved checkpoint bytes without loading
 those trained smoke policies as initial weights.
 
+## Frozen Split Compatibility Correction
+
+The initial Stage-23B script incorrectly required exactly 96 fit / 24 tune
+videos. Stage-18 first filters training clips by the pilot's frame requirement
+(64 by default), so the verified frozen split can have different counts.
+The correction uses the existing bundle's exact identities/order, including
+its representation rows, and checks disjointness and train-only membership.
+It never resamples, drops or adds videos to achieve a nominal count. Training
+steps, seeds, objectives and decision thresholds are unchanged.
+
+The reported split-count error occurs before GPU runtime construction and
+before publishing a Stage-23B contract/checkpoint. Sync both Stage-23B Python
+entry points and their test, then rerun the same command/output directory for
+that failed attempt. Do not regenerate the Stage-18 bundle, edit its JSON, or
+rerun passed smoke. If a separate directory already contains a started formal
+run under older code, do not overwrite its contract or bypass its hashes.
+
 ## Fixed Plan
 
 - Arms: ordinary `ppo_gae`, immediate `ppo_cf_h1`, primary `ppo_cf_h20`.
 - Seeds: 2074, 2075, 2076, paired across arms. Fresh policy initialization.
 - Representation, backbone and head: the original frozen Stage-18 bundle.
-- Data: the frozen 96 fit videos; 24 tune videos are development evaluation
-  only. The original validation split, OTB and UAV123 are not loaded.
+- Data: exactly the fit/tune video IDs and order in the verified Stage-18
+  representation bundle. Tune videos are development evaluation only. The
+  original validation split, OTB and UAV123 are not loaded. The nominal 96/24
+  counts apply only when all 120 original train clips meet Stage-18's 64-frame
+  eligibility rule. Do not reconstruct, pad or randomly resample the split.
+  Actual counts are printed at startup and recorded in the new run contract.
 - Fit clip maximum: 128 tracked frames; tune clip maximum: 256. Original
   manifest stop points still apply; clips are not extended to meet the cap.
 - Per seed/arm: 32,768 live transitions in 128 rollouts of 256.
@@ -78,14 +99,15 @@ produced.
 
 The two required credit contrasts are H20 minus ordinary PPO and H20 minus
 H1. First average the three paired seed differences within each video, then
-bootstrap the 24 videos (5,000 samples; analysis seed 2077). The primary
+bootstrap all videos in the frozen tune split (5,000 samples; analysis seed 2077). The primary
 credit criterion requires both video-bootstrap 95% lower bounds above zero
 and all three seed mean differences positive. Requiring both contrasts is
 an intersection claim, not selecting the better of two tests.
 
 The report also shows each seed's mean delta, seed standard deviation, and
-a crossed paired seed/video bootstrap interval. Three seeds do not become
-72 independent videos; seed-population inference remains limited.
+a crossed paired seed/video bootstrap interval. Repeating N tune videos with
+three seeds does not create 3N independent videos; seed-population inference
+remains limited.
 
 - `NO_CREDIT_EFFECT_ESTABLISHED`: the predeclared credit criterion failed.
 - `CREDIT_EFFECT_ONLY_NOT_COMPETITIVE`: credit criterion passed, but the
@@ -149,7 +171,7 @@ trainers on this single GPU or the same output root.
 python tracking/stage23_development_summary.py \
   --input "$STAGE23B_DIR" --status
 
-# Only after all nine final policies and their 24-video evaluations complete:
+# Only after all nine final policies and their frozen-tune evaluations complete:
 python tracking/stage23_development_summary.py --input "$STAGE23B_DIR"
 cat "$STAGE23B_DIR/analysis/stage23b_decision.json"
 ```

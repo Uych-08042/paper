@@ -41,6 +41,32 @@ def read_sealed(path):
     return value
 
 
+def frozen_split(bundle, manifest):
+    """Use verified Stage-18 identities/order, never reconstruct an 80/20 split."""
+    groups = {}
+    for field in ("fit_videos", "tune_videos", "pilot_videos"):
+        names = bundle.get(field)
+        if (not isinstance(names, list) or not names
+                or any(not isinstance(n, str) or not n.strip() or n in (".", "..")
+                       or "/" in n or "\\" in n for n in names)
+                or len(set(names)) != len(names)):
+            raise ValueError("Invalid or duplicate frozen " + field)
+        groups[field] = list(names)
+    fit, tune, pilot = (groups[k] for k in ("fit_videos", "tune_videos", "pilot_videos"))
+    if set(fit) & set(tune) or not set(pilot) <= set(fit):
+        raise ValueError("Frozen fit/tune overlap or pilot videos escaped fit")
+    training = {e["sequence"] for e in manifest["sequences"] if e["split"] == "train"}
+    outside = (set(fit) | set(tune)) - training
+    if outside:
+        raise ValueError("Frozen split escaped manifest training videos: " + "|".join(sorted(outside)))
+    for field, names in (("fit", fit), ("tune", tune)):
+        rows = bundle.get(field)
+        if (not isinstance(rows, list) or any(not isinstance(r, dict) for r in rows)
+                or [r.get("sequence") for r in rows] != names):
+            raise ValueError("Frozen {} identities/order differ from representation rows".format(field))
+    return fit, tune
+
+
 def verify_smoke(directory, bundle_fingerprint):
     directory = Path(directory).expanduser().resolve()
     contract = read_sealed(directory / "stage23_contract.json")
@@ -302,10 +328,9 @@ def main():
     manifest = load_manifest(args.manifest)
     if manifest["fingerprint"] != bundle["source_manifest_fingerprint"]:
         raise ValueError("Source manifest differs from frozen bundle")
-    fit_names, tune_names = bundle["fit_videos"], bundle["tune_videos"]
-    if (len(fit_names) != 96 or len(set(fit_names)) != 96 or len(tune_names) != 24
-            or len(set(tune_names)) != 24 or set(fit_names) & set(tune_names)):
-        raise ValueError("Expected the frozen 96-fit / 24-tune video split")
+    fit_names, tune_names = frozen_split(bundle, manifest)
+    print("Frozen split: {} fit / {} tune videos; preserving verified Stage-18 IDs and order.".format(
+        len(fit_names), len(tune_names)), flush=True)
     fit, tune = ppo_sources(manifest, fit_names, 128), load_sources(manifest, tune_names, 256)
     output = Path(args.output_dir).expanduser().resolve()
     with single_writer(output):
@@ -315,6 +340,8 @@ def main():
         contract = sealed(dict(schema=SCHEMA, bundle_fingerprint=bundle["fingerprint"], manifest_fingerprint=manifest["fingerprint"],
             smoke=smoke, runtime=rt.identity, seeds=list(SEEDS), arms=list(ARMS), primary="ppo_cf_h20",
             fit=list(fit_names), tune=list(tune_names), validation=[], live_steps=STEPS, rollout_steps=ROLLOUT,
+            fit_count=len(fit_names), tune_count=len(tune_names),
+            split_origin="verified_stage18_bundle_exact_ids_and_order",
             anchors=ANCHORS, branch_horizon=HORIZON, repeats=REPEATS, gamma=GAMMA, auxiliary_weight=.5,
             fit_clip_maximum=128, tune_clip_maximum=256, checkpoint_rule="final_only_no_early_stopping",
             deployment="deterministic_argmax_under_causal_P30", metric=METRIC, controls=list(CONTROLS),
