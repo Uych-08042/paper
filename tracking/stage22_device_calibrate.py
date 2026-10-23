@@ -181,6 +181,12 @@ def main(argv=None):
             raise ValueError("Frozen original tracker identity changed: " + key)
     hardware = resolve_gpu(rt.torch, args.gpu)
     if hardware["other_compute_pids"]:
+        if not hardware["current_process_pid_visible"]:
+            raise RuntimeError("GPU UUID was resolved, but nvidia-smi does not show this process's PID aliases. "
+                               "Unmatched GPU PIDs may be host-namespace aliases or other jobs; do not ignore/kill them. "
+                               "Check the exclusive allocation on the host. Run: "
+                               "python tracking/stage22_gpu_hardware.py --gpu %d. PIDs: %s"
+                               % (args.gpu, hardware["other_compute_pids"]))
         raise RuntimeError("Other compute processes already use this GPU: " + str(hardware["other_compute_pids"]))
     repository = Path(__file__).resolve().parent.parent
     inference_files = set((repository / "lib/models").rglob("*.py"))

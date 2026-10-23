@@ -56,6 +56,30 @@ The process is mapped to its physical UUID before telemetry/worker startup.
 Known competing compute PIDs cause rejection; an unambiguous mapping is required.
 This is not a general detector of jobs hidden by containers, permissions or MPS.
 
+### Older Torch / Container Identity Check
+
+If torch omits its UUID property or nvidia-smi cannot see the current PID,
+identity resolution reads the selected current CUDA context's UUID (or PCI
+bus ID) through the installed driver, then verifies it with nvidia-smi. It
+does not assume logical index 0 equals physical index 0, nor map by GPU name or
+memory size. No CUDA toolkit headers, sudo, torch upgrade or extra package is
+needed. Explicit procfs `NSpid` aliases are considered when checking processes.
+The same resolver is used inside the spawned workload process.
+
+For a diagnostic without model weights, dataset access or a load worker:
+
+```bash
+python tracking/stage22_gpu_hardware.py --gpu 0
+```
+
+Expect `GPU_IDENTITY_RESOLVED`, a physical `uuid`, and the `mapping` method.
+Review `other_compute_pids` before starting the smoke. If PID namespaces remain
+unaligned, listed PIDs are not proof of another job; verify the exclusive
+allocation on the host rather than killing PIDs or bypassing the safety check.
+If identity still fails, the error now includes the CUDA driver query error,
+torch UUID representation, PID aliases and `CUDA_VISIBLE_DEVICES` for diagnosis.
+An identity-resolution failure occurs before `run.json` or a worker is created.
+
 Smoke measures one frozen fit-pilot video, eight tracked frames and one
 interleaved repeat per condition. It checks nine paths:
 
@@ -167,3 +191,5 @@ Keep OTB/UAV123 unavailable for new policy selection.
 
 Telemetry query behavior follows the read-only
 [NVIDIA nvidia-smi documentation](https://docs.nvidia.com/deploy/nvidia-smi/index.html).
+Context/device identity queries follow the
+[CUDA Driver API](https://docs.nvidia.com/cuda/archive/12.6.1/cuda-driver-api/group__CUDA__CTX.html).

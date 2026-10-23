@@ -5,6 +5,7 @@ import io
 import tempfile
 import time
 import unittest
+import uuid
 from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import patch
@@ -14,7 +15,8 @@ import numpy as np
 from stage4_common import file_hash, fingerprint, write_csv, write_json
 from stage22_device_calibrate import parse_args, profile_clip
 from stage22_device_summary import audit_files, calibration_decision, summarize_run
-from stage22_gpu_hardware import METRICS, LoadProcess, TelemetrySampler, load_worker, metric_number, resolve_gpu
+from stage22_gpu_hardware import (METRICS, LoadProcess, TelemetrySampler, current_context_identity,
+                                  load_worker, metric_number, process_pid_aliases, property_uuid, resolve_gpu)
 from stage22_resource_common import (
     CONDITIONS, OPERATIONS, SCHEMA, calibration_sources, check_execution_counts, interleaved_order, load_phase,
     predict_box, restore_call, run_operation, sealed, summarize_samples,
@@ -224,6 +226,121 @@ class ContractTests(unittest.TestCase):
 
 
 class HardwareTests(unittest.TestCase):
+    def test_uuid_property_formats(self):
+        identifier = uuid.UUID("12345678-1234-5678-9abc-123456789abc")
+        expected = "GPU-" + str(identifier)
+        for value in (identifier, str(identifier), identifier.bytes, expected.encode("ascii"), expected):
+            self.assertEqual(property_uuid(value), expected)
+        self.assertEqual(property_uuid(None), "")
+
+    def test_procfs_pid_aliases_are_not_guessed(self):
+        with patch("stage22_gpu_hardware.os.getpid", return_value=7), \
+                patch("stage22_gpu_hardware.Path.read_text", return_value="Name:\tpython\nNSpid:\t4567\t7\n"):
+            self.assertEqual(process_pid_aliases(), {"7", "4567"})
+
+    def test_driver_uses_selected_current_context_not_logical_ordinal(self):
+        expected = uuid.UUID("12345678-1234-5678-9abc-123456789abc")
+        def context(pointer):
+            pointer._obj.value = 123
+            return 0
+        def device(pointer):
+            pointer._obj.value = 17
+            return 0
+        def identifier(pointer, device_handle):
+            self.assertEqual(device_handle, 17)
+            pointer._obj.bytes[:] = expected.bytes
+            return 0
+        def pci(buffer, size, device_handle):
+            self.assertEqual(device_handle, 17)
+            buffer.value = b"0000:31:00.0"
+            return 0
+        driver = SimpleNamespace(cuCtxGetCurrent=unittest.mock.Mock(side_effect=context),
+            cuCtxGetDevice=unittest.mock.Mock(side_effect=device),
+            cuDeviceGetUuid_v2=unittest.mock.Mock(side_effect=identifier),
+            cuDeviceGetPCIBusId=unittest.mock.Mock(side_effect=pci))
+        def selected(gpu):
+            self.assertEqual(gpu, 1)
+            return contextlib.nullcontext()
+        torch = SimpleNamespace(cuda=SimpleNamespace(device=selected, synchronize=unittest.mock.Mock()))
+        with patch("stage22_gpu_hardware._cuda_driver", return_value=driver):
+            result = current_context_identity(torch, 1)
+        self.assertEqual(result["uuid"], "GPU-" + str(expected))
+        self.assertEqual(result["pci_bus_id"], "0000:31:00.0")
+        self.assertEqual(result["uuid_api"], "cuDeviceGetUuid_v2")
+        torch.cuda.synchronize.assert_called_once_with(1)
+        driver.cuDeviceGetUuid = driver.cuDeviceGetUuid_v2
+        del driver.cuDeviceGetUuid_v2
+        with patch("stage22_gpu_hardware._cuda_driver", return_value=driver):
+            legacy = current_context_identity(torch, 1)
+        self.assertEqual(legacy["uuid_api"], "cuDeviceGetUuid")
+        self.assertEqual(legacy["uuid"], result["uuid"])
+
+    def test_driver_no_current_context_fails_closed(self):
+        driver = SimpleNamespace(cuCtxGetCurrent=unittest.mock.Mock(return_value=0))
+        torch = SimpleNamespace(cuda=SimpleNamespace(device=lambda gpu: contextlib.nullcontext(),
+                                                     synchronize=lambda gpu: None))
+        with patch("stage22_gpu_hardware._cuda_driver", return_value=driver):
+            with self.assertRaisesRegex(RuntimeError, "no current CUDA context"):
+                current_context_identity(torch, 0)
+
+    def test_older_torch_and_hidden_process_table_use_driver_uuid(self):
+        torch = SimpleNamespace(cuda=SimpleNamespace(get_device_properties=lambda gpu: SimpleNamespace(total_memory=123)))
+        identifier = dict(uuid="GPU-context", pci_bus_id="0000:31:00.0", uuid_api="cuDeviceGetUuid_v2")
+        def query(kind, fields, gpu_uuid=None):
+            if kind == "compute-apps":
+                return []
+            self.assertEqual(gpu_uuid, "GPU-context")
+            return [dict(uuid="GPU-context", name="test", driver_version="x",
+                         **{"memory.total": "123", "mig.mode.current": "Disabled"})]
+        with patch("stage22_gpu_hardware.current_context_identity", return_value=identifier), \
+                patch("stage22_gpu_hardware.smi_query", side_effect=query):
+            result = resolve_gpu(torch, 1)
+        self.assertEqual(result["mapping"], "cuda_current_context_uuid")
+        self.assertEqual(result["logical_cuda_device"], 1)
+
+    def test_driver_pci_fallback_is_physically_queried(self):
+        torch = SimpleNamespace(cuda=SimpleNamespace(get_device_properties=lambda gpu: SimpleNamespace(total_memory=123)))
+        def query(kind, fields, gpu_uuid=None):
+            if kind == "compute-apps":
+                return []
+            self.assertEqual(gpu_uuid, "0000:31:00.0")
+            return [dict(uuid="GPU-from-pci", name="test", driver_version="x",
+                         **{"memory.total": "123", "mig.mode.current": "Disabled"})]
+        with patch("stage22_gpu_hardware.current_context_identity", return_value=dict(uuid="", pci_bus_id="0000:31:00.0")), \
+                patch("stage22_gpu_hardware.smi_query", side_effect=query):
+            result = resolve_gpu(torch, 0)
+        self.assertEqual(result["mapping"], "cuda_current_context_pci")
+        self.assertEqual(result["uuid"], "GPU-from-pci")
+
+    def test_mig_is_still_rejected_after_driver_fallback(self):
+        torch = SimpleNamespace(cuda=SimpleNamespace(get_device_properties=lambda gpu: SimpleNamespace(total_memory=123)))
+        def query(kind, fields, gpu_uuid=None):
+            return [] if kind == "compute-apps" else [dict(uuid="GPU-context", **{"mig.mode.current": "Enabled"})]
+        with patch("stage22_gpu_hardware.current_context_identity", return_value=dict(uuid="GPU-context", pci_bus_id="")), \
+                patch("stage22_gpu_hardware.smi_query", side_effect=query):
+            with self.assertRaisesRegex(RuntimeError, "not a MIG instance"):
+                resolve_gpu(torch, 0)
+
+    def test_conflicting_driver_and_process_identity_is_rejected(self):
+        torch = SimpleNamespace(cuda=SimpleNamespace(get_device_properties=lambda gpu: SimpleNamespace(total_memory=123)))
+        with patch("stage22_gpu_hardware.current_context_identity", return_value=dict(uuid="GPU-context", pci_bus_id="")), \
+                patch("stage22_gpu_hardware.process_pid_aliases", return_value={"7"}), \
+                patch("stage22_gpu_hardware.smi_query", return_value=[dict(pid="7", gpu_uuid="GPU-other")]):
+            with self.assertRaisesRegex(RuntimeError, "UUID disagrees"):
+                resolve_gpu(torch, 0)
+
+    def test_namespace_alias_is_self_but_known_other_process_remains_foreign(self):
+        torch = SimpleNamespace(cuda=SimpleNamespace(get_device_properties=lambda gpu:
+            SimpleNamespace(total_memory=123, uuid="GPU-correct")))
+        def query(kind, fields, gpu_uuid=None):
+            if kind == "compute-apps":
+                return [dict(pid="4567", gpu_uuid="GPU-correct"), dict(pid="9999", gpu_uuid="GPU-correct")]
+            return [dict(uuid="GPU-correct", **{"mig.mode.current": "Disabled"})]
+        with patch("stage22_gpu_hardware.process_pid_aliases", return_value={"7", "4567"}), \
+                patch("stage22_gpu_hardware.smi_query", side_effect=query):
+            result = resolve_gpu(torch, 0)
+        self.assertEqual(result["other_compute_pids"], ["9999"])
+
     def test_logical_index_not_assumed_physical_index(self):
         torch = SimpleNamespace(cuda=SimpleNamespace(get_device_properties=lambda gpu:
             SimpleNamespace(total_memory=123, uuid="GPU-correct")))
@@ -240,7 +357,8 @@ class HardwareTests(unittest.TestCase):
 
     def test_ambiguous_physical_gpu_rejected(self):
         torch = SimpleNamespace(cuda=SimpleNamespace(get_device_properties=lambda gpu: SimpleNamespace()))
-        with patch("stage22_gpu_hardware.smi_query", return_value=[]):
+        with patch("stage22_gpu_hardware.smi_query", return_value=[]), \
+                patch("stage22_gpu_hardware.current_context_identity", side_effect=RuntimeError("unavailable")):
             with self.assertRaisesRegex(RuntimeError, "safely map"):
                 resolve_gpu(torch, 0)
 

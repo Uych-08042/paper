@@ -5,7 +5,9 @@ priorities, MPS configuration or other device-wide settings are changed.
 """
 
 import csv
+import ctypes
 import io
+import json
 import math
 import multiprocessing as mp
 import os
@@ -13,6 +15,8 @@ import shutil
 import subprocess
 import threading
 import time
+import uuid
+from pathlib import Path
 
 from stage22_resource_common import CsvJournal, LOAD_FIELDS, load_phase
 
@@ -41,36 +45,151 @@ def smi_query(kind, fields, gpu_uuid=None):
     return [dict(zip(fields, row)) for row in rows]
 
 
+def process_pid_aliases():
+    """Include only PID-namespace aliases explicitly reported by procfs."""
+    aliases = {str(os.getpid())}
+    try:
+        lines = Path("/proc/self/status").read_text(encoding="utf-8").splitlines()
+    except OSError:
+        return aliases
+    for line in lines:
+        if line.startswith("NSpid:"):
+            aliases.update(value for value in line.split()[1:] if value.isdigit() and int(value) > 0)
+    return aliases
+
+
+def property_uuid(value):
+    if isinstance(value, bytes):
+        if len(value) == 16:
+            return "GPU-" + str(uuid.UUID(bytes=value))
+        try:
+            value = value.decode("ascii")
+        except UnicodeDecodeError:
+            return ""
+    text = str(value).strip()
+    if text.startswith("GPU-"):
+        return text
+    try:
+        return "GPU-" + str(uuid.UUID(text))
+    except ValueError:
+        return ""
+
+
+def _cuda_driver():
+    # Load the installed driver, not a toolkit stub or an arbitrary shell path.
+    if os.name == "nt":
+        return ctypes.WinDLL("nvcuda.dll")
+    return ctypes.CDLL("libcuda.so.1")
+
+
+def current_context_identity(torch, gpu):
+    """Read identifiers from the selected *current context*, not a guessed ordinal.
+
+    Older torch builds omit UUID properties. Driver context queries also avoid
+    dependence on nvidia-smi seeing the Python process's PID namespace.
+    """
+    driver = _cuda_driver()
+    def call(name, types, *args):
+        function = getattr(driver, name)
+        function.argtypes, function.restype = types, ctypes.c_int
+        status = function(*args)
+        if status != 0:
+            raise RuntimeError("%s failed with CUDA driver status %d" % (name, status))
+    with torch.cuda.device(gpu):
+        # The runtime already has a context; this also materializes lazy CUDA
+        # device switching before querying the thread's current driver context.
+        torch.cuda.synchronize(gpu)
+        context = ctypes.c_void_p()
+        call("cuCtxGetCurrent", [ctypes.POINTER(ctypes.c_void_p)], ctypes.byref(context))
+        if not context.value:
+            raise RuntimeError("Selected torch device has no current CUDA context")
+        device = ctypes.c_int()
+        call("cuCtxGetDevice", [ctypes.POINTER(ctypes.c_int)], ctypes.byref(device))
+        identifier, uuid_error, uuid_api = "", "", ""
+        class CUuuid(ctypes.Structure):
+            _fields_ = [("bytes", ctypes.c_ubyte * 16)]
+        for name in ("cuDeviceGetUuid_v2", "cuDeviceGetUuid"):
+            if not hasattr(driver, name):
+                continue
+            try:
+                raw = CUuuid()
+                call(name, [ctypes.POINTER(CUuuid), ctypes.c_int], ctypes.byref(raw), device.value)
+                identifier = "GPU-" + str(uuid.UUID(bytes=bytes(raw.bytes)))
+                uuid_api = name
+                break
+            except RuntimeError as error:
+                uuid_error = str(error)
+        bus_id, pci_error = "", ""
+        try:
+            buffer = ctypes.create_string_buffer(32)
+            call("cuDeviceGetPCIBusId", [ctypes.POINTER(ctypes.c_char), ctypes.c_int, ctypes.c_int],
+                 buffer, len(buffer), device.value)
+            bus_id = buffer.value.decode("ascii")
+        except (AttributeError, RuntimeError) as error:
+            pci_error = str(error)
+        if not identifier and not bus_id:
+            raise RuntimeError("CUDA context has no readable UUID/PCI ID: %s; %s" % (uuid_error, pci_error))
+        return dict(uuid=identifier, pci_bus_id=bus_id, uuid_api=uuid_api,
+                    uuid_error=uuid_error, pci_error=pci_error)
+
+
 def resolve_gpu(torch, gpu):
     """Do not confuse CUDA-visible logical indices with nvidia-smi indices."""
     props = torch.cuda.get_device_properties(gpu)
-    prop_uuid = str(getattr(props, "uuid", ""))
+    prop_uuid = property_uuid(getattr(props, "uuid", ""))
+    aliases = process_pid_aliases()
     processes, process_error = [], ""
     try:
         processes = smi_query("compute-apps", ("pid", "gpu_uuid"))
     except (RuntimeError, OSError, subprocess.SubprocessError) as error:
         process_error = str(error)
-    own = {r["gpu_uuid"] for r in processes if r["pid"] == str(os.getpid())}
+    own = {r["gpu_uuid"] for r in processes if r["pid"] in aliases}
+    context_identity, context_error = None, ""
+    lookup_id = ""
     if prop_uuid.startswith("GPU-"):
         gpu_uuid, mapping = prop_uuid, "torch_device_properties_uuid"
         if own and gpu_uuid not in own:
             raise RuntimeError("Torch UUID disagrees with the current process's physical GPU")
-    elif len(own) == 1:
-        gpu_uuid, mapping = own.pop(), "single_current_process_compute_context"
     else:
-        raise RuntimeError("Cannot safely map logical CUDA device to a physical GPU UUID. "
-                           "Run without MIG/MPS and with readable nvidia-smi process information.")
+        try:
+            context_identity = current_context_identity(torch, gpu)
+        except (OSError, AttributeError, RuntimeError) as error:
+            context_error = str(error)
+        if context_identity:
+            gpu_uuid = context_identity["uuid"]
+            lookup_id = gpu_uuid or context_identity["pci_bus_id"]
+            mapping = "cuda_current_context_uuid" if gpu_uuid else "cuda_current_context_pci"
+            if own and gpu_uuid and gpu_uuid not in own:
+                raise RuntimeError("CUDA context UUID disagrees with the current process's GPU")
+        elif len(own) == 1:
+            gpu_uuid, mapping = next(iter(own)), "single_current_process_compute_context"
+        else:
+            diagnostics = dict(pid=os.getpid(), pid_aliases=sorted(aliases),
+                cuda_visible_devices=os.environ.get("CUDA_VISIBLE_DEVICES"),
+                torch_uuid_repr=repr(getattr(props, "uuid", None)),
+                current_context_error=context_error, process_query_error=process_error,
+                current_process_gpu_uuids=sorted(own))
+            raise RuntimeError("Cannot safely map logical CUDA device to a physical GPU UUID. "
+                               "This does not itself establish MIG/MPS use. Diagnostics: "
+                               + json.dumps(diagnostics, sort_keys=True))
     fields = ("uuid", "name", "driver_version", "memory.total", "mig.mode.current")
-    devices = smi_query("gpu", fields, gpu_uuid)
-    if len(devices) != 1 or devices[0]["uuid"] != gpu_uuid:
+    devices = smi_query("gpu", fields, lookup_id or gpu_uuid)
+    if len(devices) != 1 or (gpu_uuid and devices[0]["uuid"] != gpu_uuid):
         raise RuntimeError("GPU UUID query is ambiguous (MIG is not supported in this pilot)")
+    if not gpu_uuid:
+        gpu_uuid = devices[0]["uuid"]
+        if own and gpu_uuid not in own:
+            raise RuntimeError("CUDA PCI identity disagrees with the current process's GPU")
     if devices[0]["mig.mode.current"].lower() == "enabled" or not gpu_uuid.startswith("GPU-"):
         raise RuntimeError("Use an exclusive full GPU, not a MIG instance")
     foreign = sorted({r["pid"] for r in processes
-                      if r["gpu_uuid"] == gpu_uuid and r["pid"] != str(os.getpid())})
+                      if r["gpu_uuid"] == gpu_uuid and r["pid"] not in aliases})
     return dict(devices[0], logical_cuda_device=gpu, mapping=mapping,
                 cuda_visible_devices=os.environ.get("CUDA_VISIBLE_DEVICES"),
                 other_compute_pids=foreign, process_query_error=process_error,
+                process_pid_aliases=sorted(aliases), current_process_gpu_uuids=sorted(own),
+                current_process_pid_visible=(gpu_uuid in own),
+                current_context_identity=context_identity, current_context_error=context_error,
                 memory_bytes=int(props.total_memory))
 
 
@@ -259,3 +378,29 @@ class LoadProcess:
         finally:
             self.parent.close()
             self.child.close()
+
+
+def main(argv=None):
+    """Read-only identity diagnostic: no tracker, dataset or load worker."""
+    import argparse
+    parser = argparse.ArgumentParser(description=main.__doc__)
+    parser.add_argument("--gpu", type=int, default=0)
+    args = parser.parse_args(argv)
+    if args.gpu < 0:
+        parser.error("--gpu must be a nonnegative CUDA-visible index")
+    try:
+        import torch
+        if not torch.cuda.is_available():
+            raise RuntimeError("CUDA is unavailable")
+        torch.cuda.set_device(args.gpu)
+        context_probe = torch.empty(1, device=torch.device("cuda", args.gpu))
+        hardware = resolve_gpu(torch, args.gpu)
+        print(json.dumps(dict(status="GPU_IDENTITY_RESOLVED", torch=str(torch.__version__),
+                              hardware=hardware), indent=2, allow_nan=False))
+        del context_probe
+    except (ImportError, OSError, RuntimeError) as error:
+        parser.exit(2, "GPU identity diagnostic failed: %s\n" % error)
+
+
+if __name__ == "__main__":
+    main()
