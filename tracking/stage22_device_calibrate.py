@@ -16,7 +16,8 @@ import numpy as np
 
 from stage4_common import file_hash, fingerprint, load_manifest, write_json
 from stage4_runtime import Runtime, add_runtime_arguments
-from stage22_gpu_hardware import LoadProcess, TelemetrySampler, resolve_gpu
+from stage22_gpu_hardware import (LoadProcess, TelemetrySampler, attribute_new_context,
+                                  check_authorized_processes, process_snapshot, resolve_gpu)
 from stage22_resource_common import (
     CONDITIONS, OPERATIONS, RAW_FIELDS, SCHEMA, CsvJournal, calibration_sources,
     check_execution_counts, interleaved_order, load_phase, restore_call, run_operation, sealed,
@@ -171,6 +172,8 @@ def main(argv=None):
                   repeats=1 if args.mode == "smoke" else 3, deadline_ms=1000 / 30,
                   settle_s=max(2., 2 * args.switch_hold_s + args.load_period_ms / 1000))
     sources = calibration_sources(manifest, bundle, config["frames"], config["videos"])
+    before_cuda = process_snapshot()
+    initialization_start = time.monotonic_ns()
     rt = Runtime(args.parameter, args.gpu, args.checkpoint)
     rt.torch.manual_seed(args.seed)
     rt.torch.cuda.manual_seed_all(args.seed)
@@ -180,14 +183,13 @@ def main(argv=None):
         if rt.identity[key] != bundle["runtime"][key]:
             raise ValueError("Frozen original tracker identity changed: " + key)
     hardware = resolve_gpu(rt.torch, args.gpu)
-    if hardware["other_compute_pids"]:
-        if not hardware["current_process_pid_visible"]:
-            raise RuntimeError("GPU UUID was resolved, but nvidia-smi does not show this process's PID aliases. "
-                               "Unmatched GPU PIDs may be host-namespace aliases or other jobs; do not ignore/kill them. "
-                               "Check the exclusive allocation on the host. Run: "
-                               "python tracking/stage22_gpu_hardware.py --gpu %d. PIDs: %s"
-                               % (args.gpu, hardware["other_compute_pids"]))
-        raise RuntimeError("Other compute processes already use this GPU: " + str(hardware["other_compute_pids"]))
+    evidence = attribute_new_context(hardware["uuid"], before_cuda, initialization_start,
+        hardware["process_snapshot"], exclusive_gpu_confirmed=args.exclusive_gpu_confirmed)
+    hardware["process_attribution"] = evidence
+    hardware["attributed_compute_pid"] = evidence["attributed_pid"]
+    hardware["unmatched_compute_pids_before_attribution"] = hardware["other_compute_pids"]
+    hardware["other_compute_pids"] = [p for p in hardware["other_compute_pids"]
+                                      if p != evidence["attributed_pid"]]
     repository = Path(__file__).resolve().parent.parent
     inference_files = set((repository / "lib/models").rglob("*.py"))
     inference_files.update((repository / "lib/test/tracker").rglob("*.py"))
@@ -223,6 +225,7 @@ def main(argv=None):
     output.mkdir(parents=True, exist_ok=False)
     write_json(output / "run.json", run)
     print("Physical GPU: %s (%s)" % (hardware["name"], hardware["uuid"]), flush=True)
+    print("Attributed tracker GPU PID: " + hardware["attributed_compute_pid"], flush=True)
     print("Run fingerprint: " + run["fingerprint"], flush=True)
     conditions = []
     try:
@@ -238,24 +241,30 @@ def main(argv=None):
                     raise RuntimeError("Required GPU utilization/free-memory telemetry is unavailable")
             with rt.torch.no_grad():
                 for condition in args.conditions:
+                    parent_pid = hardware["attributed_compute_pid"]
+                    parent_check = check_authorized_processes(hardware["uuid"], [parent_pid])
                     worker = None
                     if condition != "idle":
                         worker = LoadProcess(config, condition, args.gpu, hardware["uuid"],
-                                             output / ("load_%s.csv" % condition))
+                                             output / ("load_%s.csv" % condition), authorized_parent_pid=parent_pid)
                     primary_error = None
                     try:
                         origin = worker.start() if worker else time.monotonic_ns()
+                        allowed_pids = [parent_pid] + ([worker.ready["attributed_compute_pid"]] if worker else [])
                         row = dict(condition=condition, origin_ns=origin,
-                                   worker=worker.ready if worker else None, execution_checks={})
+                                   worker=worker.ready if worker else None, execution_checks={},
+                                   process_checks=[parent_check])
                         # Let both load phases execute even in the short smoke.
                         # This is untimed apparatus warm-up, never tracker delay.
                         time.sleep(config["settle_s"])
                         if worker:
                             worker.check()
                         for source in sources:
+                            row["process_checks"].append(check_authorized_processes(hardware["uuid"], allowed_pids))
                             checks = profile_clip(rt, source, config, condition, origin, sampler,
                                                   worker, journal, run["fingerprint"])
                             row["execution_checks"][source["sequence"]] = checks
+                            row["process_checks"].append(check_authorized_processes(hardware["uuid"], allowed_pids))
                         if worker:
                             worker.check()
                         row["end_ns"] = time.monotonic_ns()

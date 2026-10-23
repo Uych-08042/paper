@@ -69,13 +69,34 @@ The same resolver is used inside the spawned workload process.
 For a diagnostic without model weights, dataset access or a load worker:
 
 ```bash
-python tracking/stage22_gpu_hardware.py --gpu 0
+python tracking/stage22_gpu_hardware.py --gpu 0 --exclusive_gpu_confirmed
 ```
 
 Expect `GPU_IDENTITY_RESOLVED`, a physical `uuid`, and the `mapping` method.
-Review `other_compute_pids` before starting the smoke. If PID namespaces remain
-unaligned, listed PIDs are not proof of another job; verify the exclusive
-allocation on the host rather than killing PIDs or bypassing the safety check.
+Without `--exclusive_gpu_confirmed`, this remains a raw identity diagnostic;
+unmatched PIDs are not automatically considered other jobs or ignored.
+
+With an explicit exclusive-allocation confirmation, both the diagnostic and
+calibrator take a process-table snapshot **before any torch CUDA initialization**.
+For the selected physical UUID, that baseline must be empty. Two ordered later
+snapshots must each show the same single newly registered GPU PID. This allows
+an observational context attribution when a container's Python PID differs from
+the driver's host-side PID. `attributed_compute_pid` and `process_attribution`
+retain that evidence; the raw `current_process_pid_visible` stays false rather
+than inventing a procfs namespace match. No PID is hardcoded from a prior run.
+
+A pre-existing process, a failed query, multiple new PIDs or changing PIDs blocks
+the run. Worker startup separately requires only the authorized tracker PID
+before spawning, then attributes exactly one additional stable context to the
+child. Process sets are checked before and after each profiling clip. Startup
+evidence and interval checks are preserved in `run.json` / `conditions.json` and
+revalidated by the CPU summary. All checks occur outside path timing.
+
+This is observational evidence under your exclusive-allocation confirmation,
+not a reservation, proof of host PID identity, or protection against every
+concurrent-job race or invisible process. Keep the GPU allocation exclusive.
+Do not kill unmatched PIDs or disable the checks. If the pre-CUDA baseline is
+not empty, check the host's allocation/job ownership before retrying.
 If identity still fails, the error now includes the CUDA driver query error,
 torch UUID representation, PID aliases and `CUDA_VISIBLE_DEVICES` for diagnosis.
 An identity-resolution failure occurs before `run.json` or a worker is created.

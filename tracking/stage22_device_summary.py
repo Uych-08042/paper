@@ -8,6 +8,7 @@ from pathlib import Path
 import numpy as np
 
 from stage4_common import file_hash, write_csv, write_json
+from stage22_gpu_hardware import check_process_evidence, snapshot_pids
 from stage22_resource_common import (
     CONDITIONS, OPERATIONS, SCHEMA, check_execution_counts, load_phase, read_csv, read_sealed, sealed,
     summarize_samples,
@@ -36,6 +37,14 @@ def audit_files(directory):
     if [c["condition"] for c in conditions] != run["conditions"]:
         raise ValueError("Condition list/order mismatch")
     timelines = {c["condition"]: c for c in conditions}
+    parent_pid = None
+    attribution = run["hardware"].get("process_attribution")
+    if attribution is not None:
+        parent_pid = check_process_evidence(attribution)
+        if (attribution["gpu_uuid"] != run["hardware"]["uuid"]
+                or attribution["authorized_existing_pids"]
+                or run["hardware"].get("attributed_compute_pid") != parent_pid):
+            raise ValueError("Tracker process attribution differs from the calibrated GPU")
     telemetry = read_csv(directory / "telemetry.csv")
     telemetry_by_id = {}
     for index, row in enumerate(telemetry):
@@ -55,6 +64,23 @@ def audit_files(directory):
                 raise ValueError("Telemetry observation does not link to a valid recorded sample")
     load_reports = []
     for condition, timeline in timelines.items():
+        if parent_pid is not None:
+            allowed_pids = {parent_pid}
+            if timeline["worker"] is not None:
+                worker_attribution = timeline["worker"].get("process_attribution", {})
+                worker_pid = check_process_evidence(worker_attribution)
+                if (worker_attribution["gpu_uuid"] != run["hardware"]["uuid"]
+                        or set(worker_attribution["authorized_existing_pids"]) != {parent_pid}
+                        or timeline["worker"].get("attributed_compute_pid") != worker_pid):
+                    raise ValueError("Load-worker process attribution differs from its tracker parent")
+                allowed_pids.add(worker_pid)
+            process_checks = timeline.get("process_checks", [])
+            if len(process_checks) != 1 + 2 * len(run["sources"]):
+                raise ValueError("Missing before/after-clip GPU process-set checks")
+            for index, sample in enumerate(process_checks):
+                expected_pids = {parent_pid} if index == 0 else allowed_pids
+                if snapshot_pids(sample, run["hardware"]["uuid"]) != expected_pids:
+                    raise ValueError("Unauthorized process in recorded calibration timeline")
         checks = timeline["execution_checks"]
         if set(checks) != {s["sequence"] for s in run["sources"]}:
             raise ValueError("Missing per-clip execution verification")

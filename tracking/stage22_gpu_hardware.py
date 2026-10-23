@@ -45,6 +45,74 @@ def smi_query(kind, fields, gpu_uuid=None):
     return [dict(zip(fields, row)) for row in rows]
 
 
+def process_snapshot():
+    start = time.monotonic_ns()
+    rows, error = [], ""
+    try:
+        rows = smi_query("compute-apps", ("pid", "gpu_uuid"))
+    except (RuntimeError, OSError, subprocess.SubprocessError) as exc:
+        error = str(exc)
+    return dict(start_ns=start, end_ns=time.monotonic_ns(), rows=rows, error=error)
+
+
+def snapshot_pids(snapshot, gpu_uuid):
+    if (snapshot.get("error") or snapshot["start_ns"] > snapshot["end_ns"]
+            or any(not r["pid"].isdigit() or int(r["pid"]) < 1 or not r["gpu_uuid"]
+                   for r in snapshot["rows"])):
+        raise RuntimeError("GPU process snapshot is unavailable or malformed: " + str(snapshot.get("error")))
+    return {r["pid"] for r in snapshot["rows"] if r["gpu_uuid"] == gpu_uuid}
+
+
+def check_process_evidence(evidence):
+    """Audit a bounded observational attribution, not a host PID namespace proof."""
+    if (evidence.get("schema") != "stage22_exclusive_context_attribution_v1"
+            or evidence.get("exclusive_gpu_confirmed") is not True):
+        raise RuntimeError("GPU context attribution requires an explicit exclusive allocation confirmation")
+    gpu_uuid = evidence["gpu_uuid"]
+    before, after = evidence["before"], evidence["after"]
+    expected = set(evidence["authorized_existing_pids"])
+    if snapshot_pids(before, gpu_uuid) != expected:
+        raise RuntimeError("GPU was not empty of unauthorized processes before CUDA initialization")
+    if before["end_ns"] > evidence["initialization_start_ns"] or len(after) < 2:
+        raise RuntimeError("GPU PID attribution needs a pre-CUDA snapshot and two later observations")
+    previous_end, new_pid = evidence["initialization_start_ns"], None
+    for sample in after:
+        if sample["start_ns"] < previous_end:
+            raise RuntimeError("GPU process snapshots are not ordered around CUDA initialization")
+        observed = snapshot_pids(sample, gpu_uuid)
+        added = observed - expected
+        if not expected.issubset(observed) or len(added) != 1:
+            raise RuntimeError("CUDA initialization did not add exactly one stable GPU process; refusing contention")
+        candidate = next(iter(added))
+        if new_pid is not None and candidate != new_pid:
+            raise RuntimeError("New GPU PID changed between observations; attribution is ambiguous")
+        new_pid, previous_end = candidate, sample["end_ns"]
+    if evidence.get("attributed_pid") != new_pid:
+        raise RuntimeError("Recorded GPU PID differs from initialization evidence")
+    return new_pid
+
+
+def attribute_new_context(gpu_uuid, before, initialization_start_ns, first_after,
+                          *, authorized_existing_pids=(), exclusive_gpu_confirmed=False):
+    second_after = process_snapshot()
+    added = snapshot_pids(first_after, gpu_uuid) - set(authorized_existing_pids)
+    evidence = dict(schema="stage22_exclusive_context_attribution_v1", gpu_uuid=gpu_uuid,
+        exclusive_gpu_confirmed=exclusive_gpu_confirmed, before=before,
+        initialization_start_ns=initialization_start_ns, after=[first_after, second_after],
+        authorized_existing_pids=sorted(authorized_existing_pids),
+        attributed_pid=next(iter(added)) if len(added) == 1 else None,
+        role="Observational attribution under a user-confirmed exclusive allocation; not a reservation or proof of host PID identity")
+    check_process_evidence(evidence)
+    return evidence
+
+
+def check_authorized_processes(gpu_uuid, allowed_pids):
+    sample = process_snapshot()
+    if snapshot_pids(sample, gpu_uuid) != set(allowed_pids):
+        raise RuntimeError("GPU process set changed outside the authorized tracker/load workers; stop and review allocation")
+    return sample
+
+
 def process_pid_aliases():
     """Include only PID-namespace aliases explicitly reported by procfs."""
     aliases = {str(os.getpid())}
@@ -138,11 +206,8 @@ def resolve_gpu(torch, gpu):
     props = torch.cuda.get_device_properties(gpu)
     prop_uuid = property_uuid(getattr(props, "uuid", ""))
     aliases = process_pid_aliases()
-    processes, process_error = [], ""
-    try:
-        processes = smi_query("compute-apps", ("pid", "gpu_uuid"))
-    except (RuntimeError, OSError, subprocess.SubprocessError) as error:
-        process_error = str(error)
+    snapshot = process_snapshot()
+    processes, process_error = snapshot["rows"], snapshot["error"]
     own = {r["gpu_uuid"] for r in processes if r["pid"] in aliases}
     context_identity, context_error = None, ""
     lookup_id = ""
@@ -187,6 +252,7 @@ def resolve_gpu(torch, gpu):
     return dict(devices[0], logical_cuda_device=gpu, mapping=mapping,
                 cuda_visible_devices=os.environ.get("CUDA_VISIBLE_DEVICES"),
                 other_compute_pids=foreign, process_query_error=process_error,
+                process_snapshot=snapshot,
                 process_pid_aliases=sorted(aliases), current_process_gpu_uuids=sorted(own),
                 current_process_pid_visible=(gpu_uuid in own),
                 current_context_identity=context_identity, current_context_error=context_error,
@@ -287,6 +353,7 @@ def load_worker(connection, stop_event, config, condition, gpu, gpu_uuid, path):
             raise RuntimeError("Load kernel exceeds the frozen idle safety bound: %.3f ms. "
                                "Use a new run with a smaller --matrix_size." % idle_ms)
         connection.send(dict(status="ready", gpu_uuid=gpu_uuid, pid=os.getpid(),
+                             process_snapshot=identity["process_snapshot"],
                              idle_max_kernel_ms=idle_ms, matrix_size=size,
                              torch=str(torch.__version__), cuda=str(torch.version.cuda),
                              matmul_allow_tf32=torch.backends.cuda.matmul.allow_tf32,
@@ -328,7 +395,7 @@ def load_worker(connection, stop_event, config, condition, gpu, gpu_uuid, path):
 
 
 class LoadProcess:
-    def __init__(self, config, condition, gpu, gpu_uuid, path):
+    def __init__(self, config, condition, gpu, gpu_uuid, path, *, authorized_parent_pid):
         ctx = mp.get_context("spawn")
         self.parent, child = ctx.Pipe()
         self.stop_event = ctx.Event()
@@ -337,8 +404,11 @@ class LoadProcess:
         self.child = child
         self.ready = None
         self.stopped = False
+        self.gpu_uuid, self.authorized_parent_pid = gpu_uuid, authorized_parent_pid
 
     def start(self):
+        before = check_authorized_processes(self.gpu_uuid, [self.authorized_parent_pid])
+        initialization_start = time.monotonic_ns()
         self.process.start()
         self.child.close()
         if not self.parent.poll(90):
@@ -346,6 +416,13 @@ class LoadProcess:
         self.ready = self.parent.recv()
         if self.ready.get("status") != "ready":
             raise RuntimeError("Contention worker failed: " + str(self.ready))
+        if self.ready.get("gpu_uuid") != self.gpu_uuid:
+            raise RuntimeError("Contention worker UUID differs from its authorized parent GPU")
+        evidence = attribute_new_context(self.gpu_uuid, before, initialization_start,
+            self.ready["process_snapshot"], authorized_existing_pids=[self.authorized_parent_pid],
+            exclusive_gpu_confirmed=True)
+        self.ready["process_attribution"] = evidence
+        self.ready["attributed_compute_pid"] = evidence["attributed_pid"]
         origin = time.monotonic_ns()
         self.parent.send(origin)
         return origin
@@ -385,16 +462,28 @@ def main(argv=None):
     import argparse
     parser = argparse.ArgumentParser(description=main.__doc__)
     parser.add_argument("--gpu", type=int, default=0)
+    parser.add_argument("--exclusive_gpu_confirmed", action="store_true",
+                        help="Also audit an empty-before/single-new-context PID attribution; never starts load")
     args = parser.parse_args(argv)
     if args.gpu < 0:
         parser.error("--gpu must be a nonnegative CUDA-visible index")
     try:
+        before = process_snapshot()
+        initialization_start = time.monotonic_ns()
         import torch
         if not torch.cuda.is_available():
             raise RuntimeError("CUDA is unavailable")
         torch.cuda.set_device(args.gpu)
         context_probe = torch.empty(1, device=torch.device("cuda", args.gpu))
         hardware = resolve_gpu(torch, args.gpu)
+        if args.exclusive_gpu_confirmed:
+            evidence = attribute_new_context(hardware["uuid"], before, initialization_start,
+                hardware["process_snapshot"], exclusive_gpu_confirmed=True)
+            hardware["process_attribution"] = evidence
+            hardware["attributed_compute_pid"] = evidence["attributed_pid"]
+            hardware["unmatched_compute_pids_before_attribution"] = hardware["other_compute_pids"]
+            hardware["other_compute_pids"] = [p for p in hardware["other_compute_pids"]
+                                              if p != evidence["attributed_pid"]]
         print(json.dumps(dict(status="GPU_IDENTITY_RESOLVED", torch=str(torch.__version__),
                               hardware=hardware), indent=2, allow_nan=False))
         del context_probe

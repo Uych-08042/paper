@@ -13,9 +13,10 @@ from unittest.mock import patch
 import numpy as np
 
 from stage4_common import file_hash, fingerprint, write_csv, write_json
-from stage22_device_calibrate import parse_args, profile_clip
+from stage22_device_calibrate import main as calibrate_main, parse_args, profile_clip
 from stage22_device_summary import audit_files, calibration_decision, summarize_run
 from stage22_gpu_hardware import (METRICS, LoadProcess, TelemetrySampler, current_context_identity,
+                                  attribute_new_context, check_authorized_processes, check_process_evidence,
                                   load_worker, metric_number, process_pid_aliases, property_uuid, resolve_gpu)
 from stage22_resource_common import (
     CONDITIONS, OPERATIONS, SCHEMA, calibration_sources, check_execution_counts, interleaved_order, load_phase,
@@ -56,8 +57,24 @@ def csv_rows(rows):
     return [{k: str(v) for k, v in row.items()} for row in rows]
 
 
-def write_fixture(directory):
+def pid_snapshot(start, pids, gpu_uuid="GPU-test"):
+    return dict(start_ns=start, end_ns=start + 1, error="",
+                rows=[dict(pid=str(pid), gpu_uuid=gpu_uuid) for pid in pids])
+
+
+def pid_evidence(start=1, existing=(), new_pid="1000"):
+    all_pids = list(existing) + [new_pid]
+    return dict(schema="stage22_exclusive_context_attribution_v1", gpu_uuid="GPU-test",
+        exclusive_gpu_confirmed=True, before=pid_snapshot(start, existing),
+        initialization_start_ns=start + 2, after=[pid_snapshot(start + 3, all_pids), pid_snapshot(start + 5, all_pids)],
+        authorized_existing_pids=list(existing), attributed_pid=new_pid)
+
+
+def write_fixture(directory, include_process_evidence=False):
     run = synthetic_run()
+    if include_process_evidence:
+        run["hardware"].update(process_attribution=pid_evidence(), attributed_compute_pid="1000")
+        run = sealed({k: v for k, v in run.items() if k != "fingerprint"})
     records = synthetic_records(run)
     write_json(directory / "run.json", run)
     write_csv(directory / "latency_raw.csv", records)
@@ -79,6 +96,15 @@ def write_fixture(directory):
         checks["native_scripted_bbox_max_abs_diff"] = 0.
         timelines.append(dict(condition=condition, origin_ns=origin, end_ns=origin + 4_000_000_000,
                               worker=worker, execution_checks={"fit_video": checks}))
+        if include_process_evidence:
+            pids = ["1000"]
+            if worker:
+                worker_pid = str(1001 + index)
+                worker.update(attributed_compute_pid=worker_pid,
+                    process_attribution=pid_evidence(origin - 100, ["1000"], worker_pid))
+                pids.append(worker_pid)
+            timelines[-1]["process_checks"] = [pid_snapshot(origin - 10, ["1000"]),
+                pid_snapshot(origin + 1, pids), pid_snapshot(origin + 3_000_000_000, pids)]
         if worker:
             phase, duty = load_phase(condition, .11, run["config"])
             name = "load_%s.csv" % condition
@@ -398,6 +424,119 @@ class HardwareTests(unittest.TestCase):
         worker.parent.close.assert_called_once()
 
 
+class ProcessAttributionTests(unittest.TestCase):
+    def test_calibrator_snapshots_before_constructing_cuda_runtime(self):
+        events = []
+        def snapshot():
+            events.append("before_cuda")
+            return pid_snapshot(1, [])
+        def runtime(*args):
+            events.append("cuda_runtime")
+            raise RuntimeError("intentional stop before actual CUDA")
+        with tempfile.TemporaryDirectory(dir=Path(__file__).parent) as tmp:
+            args = ["--bundle", "bundle", "--manifest", "manifest", "--checkpoint", "model",
+                    "--output_dir", str(Path(tmp) / "new_run"), "--exclusive_gpu_confirmed"]
+            with patch("stage18_freeze_representation.verify_representation_bundle", return_value=(None, {}, None)), \
+                    patch("stage22_device_calibrate.load_manifest", return_value={}), \
+                    patch("stage22_device_calibrate.calibration_sources", return_value=[]), \
+                    patch("stage22_device_calibrate.process_snapshot", side_effect=snapshot), \
+                    patch("stage22_device_calibrate.Runtime", side_effect=runtime):
+                with self.assertRaisesRegex(RuntimeError, "intentional stop"):
+                    calibrate_main(args)
+        self.assertEqual(events, ["before_cuda", "cuda_runtime"])
+
+    def test_empty_before_single_new_host_pid_is_attributed(self):
+        proof = pid_evidence(new_pid="2399094")
+        self.assertEqual(check_process_evidence(proof), "2399094")
+
+    def test_existing_job_rejected_even_if_it_exits_before_second_snapshot(self):
+        proof = pid_evidence()
+        proof["before"] = pid_snapshot(1, ["9999"])
+        with self.assertRaisesRegex(RuntimeError, "before CUDA initialization"):
+            check_process_evidence(proof)
+
+    def test_two_added_contexts_are_not_silently_ignored(self):
+        proof = pid_evidence()
+        proof["after"][0] = pid_snapshot(4, ["1000", "9999"])
+        with self.assertRaisesRegex(RuntimeError, "exactly one stable"):
+            check_process_evidence(proof)
+
+    def test_changed_pid_between_observations_is_rejected(self):
+        proof = pid_evidence()
+        proof["after"][1] = pid_snapshot(6, ["9999"])
+        with self.assertRaisesRegex(RuntimeError, "PID changed"):
+            check_process_evidence(proof)
+
+    def test_unreadable_snapshot_cannot_be_interpreted_as_empty_gpu(self):
+        proof = pid_evidence()
+        proof["before"]["error"] = "permission denied"
+        with self.assertRaisesRegex(RuntimeError, "unavailable"):
+            check_process_evidence(proof)
+
+    def test_exclusive_allocation_must_be_explicit(self):
+        proof = pid_evidence()
+        proof["exclusive_gpu_confirmed"] = False
+        with self.assertRaisesRegex(RuntimeError, "explicit exclusive"):
+            check_process_evidence(proof)
+
+    def test_baseline_captured_after_initialization_is_rejected(self):
+        proof = pid_evidence()
+        proof["before"] = pid_snapshot(10, [])
+        with self.assertRaisesRegex(RuntimeError, "pre-CUDA"):
+            check_process_evidence(proof)
+
+    def test_authorized_parent_plus_one_child_is_attributed(self):
+        self.assertEqual(check_process_evidence(pid_evidence(existing=["1000"], new_pid="2000")), "2000")
+
+    def test_missing_parent_or_new_unknown_job_blocks_worker(self):
+        proof = pid_evidence(existing=["1000"], new_pid="2000")
+        proof["after"][1] = pid_snapshot(6, ["2000"])
+        with self.assertRaisesRegex(RuntimeError, "exactly one stable"):
+            check_process_evidence(proof)
+
+    def test_jobs_on_another_physical_gpu_do_not_change_selected_gpu_attribution(self):
+        proof = pid_evidence()
+        proof["before"]["rows"].append(dict(pid="9999", gpu_uuid="GPU-other"))
+        self.assertEqual(check_process_evidence(proof), "1000")
+
+    def test_collects_two_stable_observations(self):
+        proof = pid_evidence()
+        with patch("stage22_gpu_hardware.process_snapshot", return_value=proof["after"][1]):
+            actual = attribute_new_context("GPU-test", proof["before"], 3, proof["after"][0],
+                                           exclusive_gpu_confirmed=True)
+        self.assertEqual(actual["attributed_pid"], "1000")
+        self.assertEqual(len(actual["after"]), 2)
+
+    def test_new_unauthorized_process_aborts_runtime_guard(self):
+        with patch("stage22_gpu_hardware.process_snapshot", return_value=pid_snapshot(10, ["1000", "9999"])):
+            with self.assertRaisesRegex(RuntimeError, "process set changed"):
+                check_authorized_processes("GPU-test", ["1000"])
+
+    def test_busy_gpu_blocks_worker_before_spawn(self):
+        worker = LoadProcess.__new__(LoadProcess)
+        worker.gpu_uuid, worker.authorized_parent_pid = "GPU-test", "1000"
+        worker.process = SimpleNamespace(start=unittest.mock.Mock())
+        with patch("stage22_gpu_hardware.process_snapshot", return_value=pid_snapshot(10, ["1000", "9999"])):
+            with self.assertRaises(RuntimeError):
+                worker.start()
+        worker.process.start.assert_not_called()
+
+    def test_worker_maps_only_its_new_context_and_records_proof(self):
+        worker = LoadProcess.__new__(LoadProcess)
+        worker.gpu_uuid, worker.authorized_parent_pid = "GPU-test", "1000"
+        worker.process = SimpleNamespace(start=unittest.mock.Mock())
+        worker.child = SimpleNamespace(close=unittest.mock.Mock())
+        ready = dict(status="ready", gpu_uuid="GPU-test", process_snapshot=pid_snapshot(4, ["1000", "2000"]))
+        worker.parent = SimpleNamespace(poll=lambda timeout: True, recv=lambda: ready, send=unittest.mock.Mock())
+        with patch("stage22_gpu_hardware.check_authorized_processes", return_value=pid_snapshot(1, ["1000"])), \
+                patch("stage22_gpu_hardware.process_snapshot", return_value=pid_snapshot(6, ["1000", "2000"])), \
+                patch("stage22_gpu_hardware.time.monotonic_ns", side_effect=[3, 10]):
+            self.assertEqual(worker.start(), 10)
+        self.assertEqual(worker.ready["attributed_compute_pid"], "2000")
+        self.assertEqual(worker.ready["process_attribution"]["authorized_existing_pids"], ["1000"])
+        worker.parent.send.assert_called_once_with(10)
+
+
 class ProfilerTests(unittest.TestCase):
     def test_real_loop_restores_common_crop_and_reads_telemetry_before_action(self):
         run = synthetic_run()
@@ -435,6 +574,14 @@ class ProfilerTests(unittest.TestCase):
 
 
 class ReportTests(unittest.TestCase):
+    def test_report_reaudits_container_and_worker_pid_evidence(self):
+        with tempfile.TemporaryDirectory(dir=Path(__file__).parent) as tmp:
+            directory = Path(tmp)
+            write_fixture(directory, include_process_evidence=True)
+            with contextlib.redirect_stdout(io.StringIO()):
+                decision = summarize_run(directory)
+            self.assertEqual(decision["status"], "PILOT_CALIBRATION_ONLY")
+
     def test_complete_report_and_tamper_detection(self):
         with tempfile.TemporaryDirectory(dir=Path(__file__).parent) as tmp:
             directory = Path(tmp)
