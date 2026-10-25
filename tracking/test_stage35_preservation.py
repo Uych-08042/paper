@@ -183,10 +183,24 @@ class TorchTests(unittest.TestCase):
                 self.assertFalse(report["original_checking_labels_loaded"])
                 experiment.status(output, plan)
                 self.assertEqual(sources, {str(p): file_hash(p) for p in root.rglob("*") if p.is_file() and "stage35" not in p.parts and "reference" not in p.parts})
-                corrupt = next((output / "training").rglob("*.pt"))
+                # Directory iteration order differs across filesystems. Corrupt
+                # a deliberate SECOND-seed checkpoint, then resume its owner;
+                # resuming seed[0] does not audit another seed's training tree.
+                corrupt_seed = DESIGN["seeds"][1]
+                corrupt = (output / "training" / ("seed{}".format(corrupt_seed)) / "fold0" /
+                    "preserve_correct" / "step{:06d}.pt".format(DESIGN["updates"]))
+                receipt = experiment.load_sealed(corrupt.with_suffix(".json"))
+                owner_seed = receipt["metadata"]["seed"]
+                self.assertEqual(owner_seed, corrupt_seed)
+                self.assertNotEqual(owner_seed, DESIGN["seeds"][0])
+                self.assertEqual(file_hash(corrupt), receipt["checkpoint_sha256"])
                 corrupt.write_bytes(corrupt.read_bytes() + b"tampered")
+                self.assertNotEqual(file_hash(corrupt), receipt["checkpoint_sha256"])
                 with self.assertRaisesRegex(ValueError, "checkpoint changed"):
-                    experiment.train(rt, plan, output, DESIGN["seeds"][0], False, reader)
+                    experiment.train(rt, plan, output, owner_seed, False, reader)
+                # Evaluation must audit ALL seeds before opening OOF outcomes.
+                with self.assertRaisesRegex(ValueError, "Frozen checkpoint changed"):
+                    experiment.evaluation_models(rt, plan, output)
 
 
 if __name__ == "__main__":
