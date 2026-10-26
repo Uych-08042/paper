@@ -84,6 +84,8 @@ Stage-35B 没有证明普通监督学生稳定超过 SGLA。其平均收益集�
 ```bash
 export STAGE35_ROOT="${STAGE35_ROOT:-$PWD/output/stage35/preserve_correct_oof_v1}"
 export STAGE36_ROOT="$PWD/output/stage36/same_crop_mechanism_v1"
+export CHECKPOINT="${CHECKPOINT:-$PWD/output/checkpoints/train/sglatrack/deit_distilled/sglatrack_ep0297.pth.tar}"
+ls -lh "$CHECKPOINT"
 
 python tracking/test_stage36_same_crop.py
 
@@ -94,6 +96,8 @@ python tracking/stage36_same_crop_collect.py \
 ```
 
 plan-only 不初始化 GPU。它核对旧计划、原决策、完整 96 个缓存、40 个最终 checkpoint、Stage-35B 审计来源，以及所选图像的字节哈希。Stage-36 输出目录必须与 Stage-35 分开。原脚本、数据和结果不改写。
+
+`CHECKPOINT` 必须指向原始 SGLA 权重。若上述默认路径不存在，用 `find "$PWD" -type f -name 'sglatrack_ep0297.pth.tar'` 定位文件，再把实际绝对路径赋给 `CHECKPOINT`。新终端或重新登录后需要重新设置环境变量；此类变量未设置的 Bash 提示发生在 Python 启动之前，恢复变量即可重跑原回放命令，无需重建已冻结计划。
 
 先做一个受损案例的工程回放：
 
