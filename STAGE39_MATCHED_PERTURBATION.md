@@ -58,11 +58,15 @@ SGLA 每帧实际执行七个 Transformer block，不把它称为十二层顺序
 
 ## 服务器命令
 
-通过 Git 同步新增文件后，在仓库根目录执行：
+通过 Git 同步新增文件后，在服务器仓库根目录执行。下面会重新设置路径变量，避免沿用上一次登录或其他工作目录留下的旧值：
 
 ```bash
-export STAGE38_ROOT="${STAGE38_ROOT:-$PWD/output/stage38/fixed_response_geometry_v1}"
+cd ~/workspace/paper
+export STAGE38_ROOT="$PWD/output/stage38/fixed_response_geometry_v1"
 export STAGE39_ROOT="$PWD/output/stage39/matched_parent_perturbation_v1"
+
+ls -l "$STAGE38_ROOT/manifest.json" \
+  "$STAGE38_ROOT/analysis/stage38_diagnostic.json"
 
 python tracking/test_stage39_perturbation.py
 
@@ -82,6 +86,8 @@ python tracking/stage39_perturb_summary.py --input "$STAGE39_ROOT"
 ```
 
 权重查找顺序：`--checkpoint`、环境变量 `CHECKPOINT`、原 tracker 配置；会核对原 SGLA 权重哈希。两份 OOF 学生自动从旧结果恢复。prepare/status/summary 不需要加载 PyTorch 或 GPU，但原数据／权重文件／结果须保留以验证来源。
+
+如果报错路径是 `~/workspace/output/stage38/...`，而仓库是 `~/workspace/paper`，说明输入变量少了 `paper` 这一层。执行上面的 `cd` 和两条 `export` 后重跑 prepare；无需重跑 Stage-38。CLI 会在创建输出或加载 GPU 前检查输入 manifest，显示实际路径和本仓库默认结果位置，不会自动改用另一个实验目录。
 
 smoke 只运行第一视频的第一固定锚点：4模型×7条件×4帧=112帧。`PASS_MATCHED_PARENT_SMOKE` 表示执行完整性通过，不代表科学前提通过。
 

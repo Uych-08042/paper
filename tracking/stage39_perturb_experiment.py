@@ -231,6 +231,14 @@ def main():
     parser.add_argument("--sequence")
     args = parser.parse_args()
     root = Path(args.input).expanduser().resolve()
+    if not (root / "manifest.json").is_file():
+        stage = "Stage-38" if args.mode == "prepare" else "Stage-39"
+        variable = "STAGE38_ROOT" if args.mode == "prepare" else "STAGE39_ROOT"
+        relative = "stage38/fixed_response_geometry_v1" if args.mode == "prepare" else "stage39/matched_parent_perturbation_v1"
+        expected = Path(__file__).resolve().parents[1] / "output" / relative
+        parser.error("{} manifest not found: {}. --input must be the result directory containing manifest.json. "
+            "Check {} (an already-set environment variable may retain an old path). "
+            "Default result location for this checkout: {}".format(stage, root / "manifest.json", variable, expected))
     if args.mode == "prepare":
         if not args.output_dir:
             parser.error("prepare requires --output_dir")
