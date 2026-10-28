@@ -1,5 +1,11 @@
 # [CVPR'2025] - SGLATrack
 
+> 本仓库的后续实验已整理至 Stage-44（2026-10-29）。接手工作请先阅读
+> [工作交接文档](WORK_HANDOFF.md) 和 [实验文档索引](docs/README.md)。
+> 已停止且不在当前依赖链中的脚本位于 [历史代码归档](archive/README.md)；
+> `tracking/` 中的早期公共模块仍可能是冻结实验的必要依赖。
+> 下文为原 SGLATrack 项目说明，不代表本项目后续实验已取得同等结果。
+
 The official implementation for the **CVPR 2025** paper
 
 \[[_Similarity-Guided Layer-Adaptive Vision Transformer for UAV Tracking_](https://arxiv.org/abs/2503.06625)\]

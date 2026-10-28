@@ -1,2 +1,10 @@
 *.csv
 *.npz
+
+# Regenerable local caches; source, checkpoints and sealed evidence stay explicit.
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
