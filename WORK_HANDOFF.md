@@ -180,7 +180,7 @@ python -B tools/test_workspace_maintenance.py
 python -B tracking/stage44_matched_experiment.py --help
 ```
 
-`check_workspace.py`核对本次整理快照、移动归档字节和活动依赖，不代表服务器GPU结果校验。将来主动修改README或其他被快照文件时，应明确维护该快照，不把正常变更误认为科研结果被篡改。
+`check_workspace.py`核对本次整理快照、移动归档内容和活动依赖，不代表服务器GPU结果校验。清单保留原始字节SHA，并为UTF-8文本另存仅将CRLF转LF的SHA；Windows/Linux检出的纯换行差异单列为`line_ending_only_differences`，不会被误报为内容改动。权重/二进制仍严格逐字节核对，实验自身的`file_hash`和指纹校验未修改。将来主动修改README或其他被快照文件时，应明确维护该快照，不把正常变更误认为科研结果被篡改。
 
 ### 需要恢复历史PPO/路由实验时
 
