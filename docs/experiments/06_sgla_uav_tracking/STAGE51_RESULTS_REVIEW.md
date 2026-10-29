@@ -92,4 +92,4 @@ state_mix相对native_replay，平均失效事件数从0.9167降至0.6250，末�
 
 下一轮可固定当前fit-only状态池、普通监督和原始SGLA结构，把“原生成功轨迹的能力保持”与“错误后的恢复”分开检验。一个具体候选是原CENTER头的响应分支／几何分支更新对照，保留原生及本轮joint训练参考，用于核查哪些更新造成共同损伤；不是仅凭现有均值认定某个分支有错。训练折与预算仍匹配，不能把当前held-out坏帧回填训练。
 
-0176、0226、0204应保留为恢复分岔对照，而不是只保留有利视频；0304、0307保留为能力保护重点。精确种子与新失效起点仍需现有seed_video_summary／events，后续按需要读取即可，不根据AUC猜测。当前不搜索混合比例、步数或checkpoint。[Stage-52固定状态池分支适配](STAGE52_FIXED_STATE_BRANCH_ADAPTATION.md)已实现并通过3项真实CPU测试，服务器运行待完成；复用本轮joint与全部训练状态，新增仅响应／仅几何更新两组。
+0176、0226、0204应保留为恢复分岔对照，而不是只保留有利视频；0304、0307保留为能力保护重点。精确种子与新失效起点仍需现有seed_video_summary／events，后续按需要读取即可，不根据AUC猜测。当前不搜索混合比例、步数或checkpoint。[Stage-52固定状态池分支适配](STAGE52_FIXED_STATE_BRANCH_ADAPTATION.md)已由用户报告完成，scope／policy／focus三表已收到；结果与后续问题见[Stage-52结果复核](STAGE52_RESULTS_REVIEW.md)。
