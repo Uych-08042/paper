@@ -1,7 +1,7 @@
 # 工作交接：SGLATrack 无人机跟踪与模型压缩探索
 
 更新日期：2026-10-29（Asia/Hong_Kong）  
-当前完成阶段：Stage-49，用户已提供冻结轨迹诊断的focus与onsets完整文本。Stage-48状态仍为 `REVIEW_NATIVE_HEAD_STABILITY_PILOT`；Stage-50共同父框×冻结头重放已实现并通过4项CPU测试，服务器CUDA采集待执行。Stage-45检测支线暂不执行。
+当前结果阶段：Stage-50，用户已提供共同父框重放的crossed_matrix与focus各25行完整文本。Stage-48状态仍为 `REVIEW_NATIVE_HEAD_STABILITY_PILOT`；Stage-51拟合组预测状态匹配训练已实现并通过4项CPU测试，服务器待执行。Stage-45检测支线暂不执行。
 整理前 Git 基点：`91052cd71d49d1397197ea9d5f532f12d37d2c91`
 
 ## 1. 接手后首先要知道的结论
@@ -30,7 +30,11 @@
 
 [Stage-49冻结轨迹时序诊断](docs/experiments/06_sgla_uav_tracking/STAGE49_HEAD_TRAJECTORY_AUDIT.md)已由用户提供focus与onsets，详细解释见[Stage-49结果复核](docs/experiments/06_sgla_uav_tracking/STAGE49_RESULTS_REVIEW.md)。`0304`有554附近的当帧中心错误及1080附近的尺寸失真两类路径：组合2132在1078输出中心误差仅0.0498，但宽比4.0717、IoU0.1786；2133在1081也类似。`0307`原生398失效、474恢复；适配模型大多385～392首次失效后持续到末尾，组合2132虽471恢复仍在487复发。`0226`各臂首次失效相近，但正常模型329～339恢复，rank2133与组合2132一直未恢复至1860。`0176`获益组合2133仍在160严重失效，240才恢复，收益不是避免最初失跟。`0170`4／6帧失效位于视频末尾并被截断，不能称为已经观察到恢复的短暂波动。
 
-新增实现核对：Stage-48普通回归框来自raw最高响应位置，原生实际输出来自Hann加权最高位置，额外尺寸约束在GT格点；三者可能不同。这是待验证的监督／执行位置差异，尚不能认定根因。[Stage-50共同父框×冻结头重放](docs/experiments/06_sgla_uav_tracking/STAGE50_SHARED_PARENT_HEAD_REPLAY.md)已实现：0304／0204起点和0226／0176／0307恢复窗口共95个输入，每个比较原生头及所在held-out折的8个训练头。每输入一次原生完整前向提取GPU特征，再运行8个头；合计95次完整前向＋760次仅头前向，smoke的15个输入在正式采集中复用。检查自身模型对角线复现、原生选层、解码与实际调用计数，并记录raw／Hann／GT格点的size与offset。4项CPU测试通过，服务器待执行；本轮不训练、不滚动后续分支。Stage-1～49原始Python源码与既有成绩保持冻结。
+新增实现核对：Stage-48普通回归框来自raw最高响应位置，原生实际输出来自Hann加权最高位置，额外尺寸约束在GT格点；三者可能不同。[Stage-50共同父框×冻结头重放](docs/experiments/06_sgla_uav_tracking/STAGE50_SHARED_PARENT_HEAD_REPLAY.md)固定95个输入，每输入一次原生完整前向，再由原生头及所在held-out折8个训练头共享GPU特征；协议预算95次完整前向＋760次仅头前向，smoke的15个输入复用。4项CPU测试通过；用户已提供crossed_matrix与focus两张表。本机未核验服务器95个完整输入的缓存、diagnostic及全部调用计数。
+
+最新[Stage-50结果复核](docs/experiments/06_sgla_uav_tracking/STAGE50_RESULTS_REVIEW.md)：大多数关注输入跨头差异小，换历史后共同成功或失败。0204:664在原生／组合2133历史上9头全为0，在组合2132历史上9头均≥0.7343；0226:338失败历史上各头均≤0.0103，正常历史上均≥0.5063；0176:240成功历史上各头均≥0.5623，原生历史coverage=0、所有头IoU0。0304:554的rank2132历史是明确例外：原生头0.6096、8个适配头全0，不能全归因于历史。0304两起晚期尺寸失真样本的Hann与GT格点相同；0204成功历史上Hann反而将raw IoU0纠正为0.7479，故单纯监督格点不一致不宜列为当前首要解释。Stage-1～50实验Python源码及既有成绩保持冻结。
+
+[Stage-51拟合组预测状态匹配训练](docs/experiments/06_sgla_uav_tracking/STAGE51_MATCHED_STATE_SOURCE.md)现已实现。保留原生SGLA结构，只用普通监督训练原头；`native_replay`采用两份相同原生视图，`state_mix`采用同一原生视图＋固定fit内监督模型的预测父框。±1像素旧视图仅用于来源审计与分布参考，不进入优化。每折固定Stage-48 supervised_seed2132，仅在该折fit组生成12条新增轨迹，禁止复用互补折的held-out轨迹作训练状态。每视频48个均匀时刻，额外576次原生特征前向，保留全部出裁剪／失效样本；原始头初始化、两视图、抽样与256步预算匹配。新训练8个头，评价48条完整OOF轨迹；固定离线donor混合不是新模型迭代on-policy训练。4项真实CPU测试通过；状态变化／目标分辨率小表、普通负例处理、折隔离、优化器断点恢复与缓存复用均已验证。服务器采集与训练待执行。
 
 Stage-46用户报告的标识：plan `445dc1c25a5b48662f8d796c52cf4ff4a828ee40b48ddfb485aa692fbbbd0015`，run `4c58e05cf3b15cc304922ef16336015d6ca42cd0737def4f57028f1aced71fa6`，decision `8ba76d6de665755786f6fd70a347f7a64f91d7d96686c67132a52c239e61cba0`。
 
@@ -43,7 +47,7 @@ Stage-46用户报告的标识：plan `445dc1c25a5b48662f8d796c52cf4ff4a828ee40b4
 | `README.md` | 原 SGLATrack 项目说明及本项目入口；原论文的成绩不是后续实验成绩 |
 | `WORK_HANDOFF.md` | 当前研究、结论、环境与交接说明 |
 | `docs/README.md` | 全部阶段说明的分类索引 |
-| `tracking/` | 当前保留的运行、评估、几何、损失和测试依赖，最新入口为 Stage-50 |
+| `tracking/` | 当前保留的运行、评估、几何、损失和测试依赖，最新入口为 Stage-51 |
 | `lib/`、`experiments/` | 原模型、数据接口、训练/推理实现与 YAML 配置 |
 | `environment_sgla1.yml` | 原环境说明；实际服务器环境另见下节 |
 | `output/checkpoints/` | 原始 SGLA 权重，是后续初始化、来源校验与复现的基础 |
@@ -127,7 +131,8 @@ Stage-46用户报告的标识：plan `445dc1c25a5b48662f8d796c52cf4ff4a828ee40b4
 | Stage-47：固定历史搜索与响应重放 | 用户报告400次完成；E03微小实际裁剪变化令保留GT从第1降至第2，E04宽度达GT的4.22倍 | 支持分别检验选择间隔与尺寸校准，不是全视频训练收益 |
 | Stage-48：原生预测头稳定性 | `REVIEW_NATIVE_HEAD_STABILITY_PILOT`；组合61.5648 vs 原生63.4512，低IoU与稳定视频保护未过；固定父框探针改善却未转成闭环收益 | 先定位3条受损视频及普通头适配已有损伤；不以正交互认定方法成立 |
 | Stage-49：冻结轨迹时序诊断 | 用户已提供focus／onsets；0304起点有中心／尺寸两类，0226与0176主要在恢复分岔，0170末尾截断 | 区分当帧输出与后续恢复；下一步共同父框重放，不新增方法成绩 |
-| Stage-50：共同父框×冻结头重放 | 实现及4项CPU测试通过，服务器待执行；95次原生完整前向＋760次仅头前向 | 用交叉IoU矩阵与raw／Hann／GT格点几何决定执行位置对齐或自身状态训练对照 |
+| Stage-50：共同父框×冻结头重放 | 用户提供25行交叉矩阵及focus；多数差异随历史变化，0304:554仍有原生／适配头当前能力差异 | 优先检验自身状态训练覆盖；晚期Hann=GT仍尺寸失真，格点不一致不足以解释 |
+| Stage-51：拟合组预测状态匹配训练 | 实现及4项CPU测试通过，服务器待执行；固定fit-only donor，8个新头、48条新OOF轨迹 | 普通监督下对比训练状态来源；重点评价恢复／复发、原生保持与实际状态暴露 |
 
 ## 6. Stage-44 压缩前提的精确记录
 
@@ -193,7 +198,8 @@ decision_fingerprint: b393b7f9a835b36ac264fbc772659596369da6086d4432dbd6fa0c6891
 | Stage-47 | `output/stage47/matched_search_response_v1/`，用户已报告完成 |
 | Stage-48 | `output/stage48/native_head_stability_v1/`，用户已提供完整汇总及逐视频／种子明细；下一步可作缓存时序诊断 |
 | Stage-49 | Stage-48下`analysis/trajectory_audit_v1/`，用户已提供focus／onsets；其余产物仍在服务器 |
-| Stage-50 | `output/stage50/shared_parent_frozen_heads_v1/`，已实现、CPU测试通过；服务器待采集，入口见Stage-50协议 |
+| Stage-50 | `output/stage50/shared_parent_frozen_heads_v1/`，用户已提供crossed_matrix／focus完整文本；其余缓存与诊断报告在服务器，本机未核验 |
+| Stage-51 | `output/stage51/fit_only_state_source_v1/`，已实现并通过CPU验证；服务器命令见Stage-51协议 |
 
 Stage-44沿Stage-43→42→41→40继续校验更早来源。单独复制一个末端结果目录到新路径，不能保证可复核；不要改原指纹来绕过路径/来源错误。
 
@@ -226,7 +232,7 @@ python -B tools/restore_legacy_tracking.py --apply
 
 ### 当前服务器入口与历史结果
 
-当前待执行入口为[Stage-50共同父框×冻结头重放](docs/experiments/06_sgla_uav_tracking/STAGE50_SHARED_PARENT_HEAD_REPLAY.md)，该文给出测试、prepare、smoke、collect及两张小表的`cat`命令。Stage-49结果已收到，不重复请求完整时间线。
+Stage-50两张关注表已收到，当前解释见[Stage-50结果复核](docs/experiments/06_sgla_uav_tracking/STAGE50_RESULTS_REVIEW.md)。当前待执行入口为[Stage-51](docs/experiments/06_sgla_uav_tracking/STAGE51_MATCHED_STATE_SOURCE.md)，包括prepare、fit内状态采集、smoke、两种子训练、完整OOF评价与三张小表的`cat`命令。不重复启动已完成的训练或请求已收到的Stage-49／50表。
 
 以下仅用于复核Stage-44历史压缩对照（无新训练）：
 
@@ -265,7 +271,7 @@ cat "$STAGE44_ROOT/analysis/stage44_video_influence.csv"
 3. 在新的设计中预先固定对照、数据使用、验证门槛与停止规则；若需要独立结论，先重新审计哪些源组/基准未用于设计。
 4. 若讨论创新性，重新检索并与已有压缩、跟踪训练及恢复方法区分。旧novelty review仅是2026-10-11的历史判断。
 
-Stage-46、46B、47、48已由用户报告完成，Stage-49已提供focus／onsets结果，不重复启动旧训练。Stage-48原实现的6项CPU测试与Stage-49的5项纯NumPy测试通过；维护清单检查通过。最新服务器数值、逐视频／种子明细和诊断表均来自用户终端，本机未重算完整模型和轨迹产物。Stage-50已实现并通过4项CPU测试（本次6.245秒），包含共同特征真实小型Torch头重放、完整prepare／smoke／collect／summary、缓存复用与篡改拒绝；服务器运行和实际机制读数待完成。提交与推送遵循下列协作约定。
+Stage-46、46B、47、48已由用户报告完成，Stage-49已提供focus／onsets结果，不重复启动旧训练。Stage-48原实现的6项CPU测试与Stage-49的5项纯NumPy测试通过；维护清单检查通过。最新服务器数值、逐视频／种子明细和诊断表均来自用户终端，本机未重算完整模型和轨迹产物。Stage-50原实现4项CPU测试通过（6.245秒），包含共同特征真实小型Torch头重放、完整prepare／smoke／collect／summary、缓存复用与篡改拒绝；用户现已提供两张关注表，解释已记录，服务器完整缓存与诊断哈希未在本机核验。Stage-51的4项CPU测试覆盖源结果绑定、fit／held-out方向、普通两视图及出裁剪负例、真实Torch完整流程、带AdamW状态的中断恢复、冻结网络、缓存／结果／checkpoint篡改拒绝，服务器待执行。提交与推送遵循下列协作约定。
 
 ## 10. 用户协作约定
 

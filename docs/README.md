@@ -87,7 +87,9 @@
 - [STAGE48_RESULTS_REVIEW.md](experiments/06_sgla_uav_tracking/STAGE48_RESULTS_REVIEW.md) — **当前结果**：已定位0304／0307共有损伤、0226种子分岔及0176单种子收益；需继续冻结轨迹时序诊断
 - [STAGE49_HEAD_TRAJECTORY_AUDIT.md](experiments/06_sgla_uav_tracking/STAGE49_HEAD_TRAJECTORY_AUDIT.md) — 六视频冻结轨迹时序诊断；用户已提供focus与onsets
 - [STAGE49_RESULTS_REVIEW.md](experiments/06_sgla_uav_tracking/STAGE49_RESULTS_REVIEW.md) — **当前结果**：0304起点分中心／尺寸两类；0226与0176的差别集中于恢复
-- [STAGE50_SHARED_PARENT_HEAD_REPLAY.md](experiments/06_sgla_uav_tracking/STAGE50_SHARED_PARENT_HEAD_REPLAY.md) — **下一轮入口**：95个共同预测父框输入×9个冻结头；实现与4项CPU测试通过，服务器待执行
+- [STAGE50_SHARED_PARENT_HEAD_REPLAY.md](experiments/06_sgla_uav_tracking/STAGE50_SHARED_PARENT_HEAD_REPLAY.md) — 95个共同预测父框输入×9个冻结头；用户已提供关注交叉矩阵与focus
+- [STAGE50_RESULTS_REVIEW.md](experiments/06_sgla_uav_tracking/STAGE50_RESULTS_REVIEW.md) — **当前结果**：多数关注输入的差异随历史改变，保留0304的原生／适配头差异；优先检验自身状态训练覆盖
+- [STAGE51_MATCHED_STATE_SOURCE.md](experiments/06_sgla_uav_tracking/STAGE51_MATCHED_STATE_SOURCE.md) — **下一轮入口**：原生状态与固定fit内预测状态的匹配普通监督；8个新头／48条OOF轨迹，4项CPU测试通过，服务器待执行
 - [STAGE45_TEMPORAL_SIGNAL_PILOT.md](experiments/05_uav_detection/STAGE45_TEMPORAL_SIGNAL_PILOT.md) — **暂不执行**的 YOLOFT 视频检测支线；保留实现与 CPU 检查记录
 - [无人机检测研究方向调研](research/UAV_DETECTION_RESEARCH_DIRECTIONS_2026-10-29.md) — 检测文献与机制参考，不代表切换当前主任务
 
