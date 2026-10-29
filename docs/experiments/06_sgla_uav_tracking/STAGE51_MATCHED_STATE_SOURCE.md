@@ -1,6 +1,6 @@
 # Stage-51：拟合组预测状态的匹配训练对照
 
-状态：实现与CPU验证完成，服务器训练待执行。主任务继续采用原生SGLA的首帧框初始化单目标跟踪。
+状态：用户已提供服务器完成输出及policy、paired、state_support、video_influence、video_summary五张表，结果为`REVIEW_FIT_STATE_SOURCE_PILOT`；见[结果复核](STAGE51_RESULTS_REVIEW.md)。本机未核验完整服务器缓存与decision哈希。下列冻结协议与命令保留用于复现，主任务继续采用原生SGLA的首帧框初始化单目标跟踪。
 
 ## 问题与固定对照
 
