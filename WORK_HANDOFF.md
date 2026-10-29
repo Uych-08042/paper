@@ -1,7 +1,7 @@
 # 工作交接：SGLATrack 无人机跟踪与模型压缩探索
 
 更新日期：2026-10-29（Asia/Hong_Kong）  
-当前完成阶段：Stage-44。Stage-46 原生 SGLA 相机补偿搜索原型已实现，待服务器 smoke；Stage-45 检测支线暂不执行。
+当前完成阶段：Stage-46，用户已报告48条完整轨迹和汇总。Stage-46B 缓存时序审计已实现，待服务器执行；Stage-45 检测支线暂不执行。
 整理前 Git 基点：`91052cd71d49d1397197ea9d5f532f12d37d2c91`
 
 ## 1. 接手后首先要知道的结论
@@ -16,7 +16,11 @@
 
 此前助手将下一轮默认转成 [Stage-45 视频检测原型](docs/experiments/05_uav_detection/STAGE45_TEMPORAL_SIGNAL_PILOT.md)，这与用户重申的核心任务不一致，**现标记为暂不执行的检测支线**。其代码和 CPU 检查记录保留供参考，不作为当前服务器操作入口；未由助手运行服务器 GPU 实验。现阶段无需为这条支线新增 XS-VID 数据、YOLOFT 权重或检测环境。
 
-后续立项边界见 [SGLA 无人机跟踪研究范围](docs/research/SGLA_UAV_TRACKING_RESEARCH_SCOPE.md)。当前下一轮为 [Stage-46 原生 SGLA 相机补偿搜索原型](docs/experiments/06_sgla_uav_tracking/STAGE46_CAMERA_SEARCH_PILOT.md)：从已消耗的 Stage-27 源组固定选12段完整视频，比较原生、普通速度、仅背景补偿、背景加相对速度四组，不训练新模型，不额外调用检测器。已通过8项本地 CPU 测试；完整 SGLA 权重下的 GPU smoke 和48条完整轨迹尚待服务器运行。
+后续立项边界见 [SGLA 无人机跟踪研究范围](docs/research/SGLA_UAV_TRACKING_RESEARCH_SCOPE.md)。[Stage-46 原生 SGLA 相机补偿搜索原型](docs/experiments/06_sgla_uav_tracking/STAGE46_CAMERA_SEARCH_PILOT.md)从已消耗的 Stage-27 源组固定选12段完整视频，四组48条轨迹已由用户在服务器完成。原生、普通速度、仅相机补偿、相机加速度AUC分别为63.4512、63.6449、64.8664、60.8608，状态为 `REVIEW_CAMERA_SEARCH_PILOT`；原生框误差0，预算与权重检查通过。
+
+仅相机补偿在`0176`上+48.8111、`0204`上+18.5254，在原稳定`0304`上−50.1173；其余9个视频描述均值约−0.0262。全部背景拟合通过，仍不能区分运动是否适合搜索中心修正。当前下一轮为 [Stage-46B 搜索偏移缓存时序审计](docs/experiments/06_sgla_uav_tracking/STAGE46B_SEARCH_SHIFT_AUDIT.md)：保留旧代码与产物，先审计全部48个NPZ/receipt，再读取上述三个案例的四组历史；分别定位浮点父框、整数裁剪、输出与失败变化，不训练、不打开图像或checkpoint、不使用GPU。实际Stage-46/46B缓存仍在服务器，本机未持有完整产物。
+
+Stage-46用户报告的标识：plan `445dc1c25a5b48662f8d796c52cf4ff4a828ee40b48ddfb485aa692fbbbd0015`，run `4c58e05cf3b15cc304922ef16336015d6ca42cd0737def4f57028f1aced71fa6`，decision `8ba76d6de665755786f6fd70a347f7a64f91d7d96686c67132a52c239e61cba0`。
 
 本文为当前状态入口。`docs/archive/manuscript/` 的旧组会、Introduction 和 novelty review 只反映历史设想，不应直接用于当前论文结论。
 
@@ -49,7 +53,7 @@
 
 - 工作区：`E:\Program Files\paper\paper`，PowerShell。
 - 本机 `output/` 约 99 MiB，主要是原始权重、UAV123 原始预测及 Stage-4/5 元数据。
-- **本机没有完整 Stage-16～44 GPU 实验产物。**后文近期数值来自用户在会话中提供的服务器终端输出/附件，不能假称已在本机对全部原始结果文件重新核验。
+- **本机没有完整 Stage-16～46 GPU 实验产物。**后文近期数值来自用户在会话中提供的服务器终端输出/附件，不能假称已在本机对全部原始结果文件重新核验。
 - 原始权重：`output/checkpoints/train/sglatrack/deit_distilled/sglatrack_ep0297.pth.tar`。
 - 本次整理核对的本机权重 SHA256：`88447c7724704edaf03488f519d3e300385fef05c2f1fac02fe22f7941cf334e`。服务器运行仍以其原始 manifest 中的权重哈希为准。
 
@@ -107,6 +111,7 @@
 | Stage-42：冻结模型×父框交换 | 92起点/368分支，87完整后续窗口；增强失败后+10帧换一次父框，4支持视频平均后40帧IoU +0.1441；当帧及固定时刻无稳定收益 | 条件性状态效应，GT时刻/另一模型父框不可部署，不能变成在线收益主张 |
 | Stage-43：GT-free历史恢复 | `NO_GT_FREE_RECOVERY_GAIN_ESTABLISHED`。augmented history相对native −1.2926；clean −6.1104；局部搜索对augmented近乎持平 | 当前运动/响应门控恢复停止，不继续调阈值 |
 | Stage-44：匹配结构适配 | `MATCHED_RETAINED_CONTROL_DEGRADED`，压缩缺口未建立；详见下一节 | 研究前提未通过，不自动展开新损失/恢复模块 |
+| Stage-46：原生SGLA搜索运动 | `REVIEW_CAMERA_SEARCH_PILOT`；仅相机补偿均值+1.4153点但受单视频收益/损伤主导，相机加速度较原生−2.5904点 | 以Stage-46B定位偏移、裁剪与失败的时序，暂未采用新策略 |
 
 ## 6. 最新 Stage-44 的精确状态
 
@@ -167,6 +172,8 @@ decision_fingerprint: b393b7f9a835b36ac264fbc772659596369da6086d4432dbd6fa0c6891
 | Stage-42 | `output/stage42/frozen_model_parent_swap_v1/` |
 | Stage-43 | `output/stage43/online_history_recovery_v1/` |
 | Stage-44 | `output/stage44/matched_structure_adaptation_v1/` |
+| Stage-46 | `output/stage46/sgla_camera_search_v1/` |
+| Stage-46B | Stage-46下新增`analysis/search_shift_audit_v1/`，待服务器执行 |
 
 Stage-44沿Stage-43→42→41→40继续校验更早来源。单独复制一个末端结果目录到新路径，不能保证可复核；不要改原指纹来绕过路径/来源错误。
 
