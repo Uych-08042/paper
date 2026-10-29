@@ -83,7 +83,9 @@
 - [STAGE46_CAMERA_SEARCH_PILOT.md](experiments/06_sgla_uav_tracking/STAGE46_CAMERA_SEARCH_PILOT.md) — 原生 SGLA 四组48轨迹已由用户报告完成；收益与损伤集中，尚无稳定改进
 - [STAGE46B_SEARCH_SHIFT_AUDIT.md](experiments/06_sgla_uav_tracking/STAGE46B_SEARCH_SHIFT_AUDIT.md) — 用户已报告完成；关键起点目标仍在裁剪内，需继续区分输出响应与形状问题
 - [STAGE47_MATCHED_SEARCH_RESPONSE.md](experiments/06_sgla_uav_tracking/STAGE47_MATCHED_SEARCH_RESPONSE.md) — 用户已报告400次重放完成；固定历史下观察到裁剪引起的选框翻转与独立的宽度膨胀案例
-- [STAGE48_NATIVE_HEAD_STABILITY.md](experiments/06_sgla_uav_tracking/STAGE48_NATIVE_HEAD_STABILITY.md) — **当前下一轮**：原生SGLA预测头的排序×尺寸约束；匹配两视图监督、2折2种子OOF，待服务器执行
+- [STAGE48_NATIVE_HEAD_STABILITY.md](experiments/06_sgla_uav_tracking/STAGE48_NATIVE_HEAD_STABILITY.md) — 原生SGLA预测头的排序×尺寸约束；用户已报告四臂OOF完成，状态REVIEW
+- [STAGE48_RESULTS_REVIEW.md](experiments/06_sgla_uav_tracking/STAGE48_RESULTS_REVIEW.md) — **当前结果**：已定位0304／0307共有损伤、0226种子分岔及0176单种子收益；需继续冻结轨迹时序诊断
+- [STAGE49_HEAD_TRAJECTORY_AUDIT.md](experiments/06_sgla_uav_tracking/STAGE49_HEAD_TRAJECTORY_AUDIT.md) — **当前下一轮**：六视频冻结轨迹的失效／恢复、中心／尺寸与种子分歧诊断；纯CPU，待服务器执行
 - [STAGE45_TEMPORAL_SIGNAL_PILOT.md](experiments/05_uav_detection/STAGE45_TEMPORAL_SIGNAL_PILOT.md) — **暂不执行**的 YOLOFT 视频检测支线；保留实现与 CPU 检查记录
 - [无人机检测研究方向调研](research/UAV_DETECTION_RESEARCH_DIRECTIONS_2026-10-29.md) — 检测文献与机制参考，不代表切换当前主任务
 
