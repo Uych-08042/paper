@@ -1,7 +1,7 @@
 # 工作交接：SGLATrack 无人机跟踪与模型压缩探索
 
 更新日期：2026-10-29（Asia/Hong_Kong）  
-当前完成阶段：Stage-46B，用户已报告缓存时序审计完成。Stage-47 固定历史搜索与响应重放已实现，待服务器GPU执行；Stage-45 检测支线暂不执行。
+当前完成阶段：Stage-47，用户已报告400次固定历史重放完成。Stage-48原生SGLA预测头的排序／尺寸稳定性OOF实验已实现并完成CPU夹具检查，待服务器GPU执行；Stage-45检测支线暂不执行。
 整理前 Git 基点：`91052cd71d49d1397197ea9d5f532f12d37d2c91`
 
 ## 1. 接手后首先要知道的结论
@@ -20,7 +20,9 @@
 
 仅相机补偿在`0176`上+48.8111、`0204`上+18.5254，在原稳定`0304`上−50.1173；其余9个视频描述均值约−0.0262。全部背景拟合通过，仍不能区分运动是否适合搜索中心修正。[Stage-46B 搜索偏移缓存时序审计](docs/experiments/06_sgla_uav_tracking/STAGE46B_SEARCH_SHIFT_AUDIT.md)已由用户完成，原代码与产物保留。`0204:664`原生父框中心误差约0.071但输出约1.362；`0304:555`仅相机父框约0.086但输出约0.992，均coverage=1。`0176:158`组合策略相对速度项远大于相机项。`0304:1087`组合输出中心误差约0.065、IoU约0.172，需要宽高与横纵误差而非直接认定中心跳变。三个案例各组均无相对原生的选层序列差异。以上是时序/几何线索，不是唯一因果解释。
 
-当前下一轮为 [Stage-47 固定历史搜索与响应重放](docs/experiments/06_sgla_uav_tracking/STAGE47_MATCHED_SEARCH_RESPONSE.md)：固定上述四起点及±2帧，在四种自身历史上各比较不偏移、普通速度、仅相机、仅相对速度、组合，共400次独立原生前向；smoke的100次在完整采集中复用。每次历史父框/矩阵/速度相同，仅本帧搜索干预不同，结果不继续滚动。保存raw/size/offset、裁剪像素SHA，检查旧策略复现、6+1实际调用、裁剪变化与浮点映射离线探针，并单列E04形状。实际Stage-46/46B缓存仍在服务器，本机未持有完整产物，尚未运行Stage-47实际GPU实验。
+[Stage-47 固定历史搜索与响应重放](docs/experiments/06_sgla_uav_tracking/STAGE47_MATCHED_SEARCH_RESPONSE.md)已由用户完成400次独立原生前向，状态 `COMPLETE_MATCHED_SEARCH_RESPONSE_DIAGNOSTIC`。其最直接的新证据是：`0304:555`固定camera_only历史上，不偏移IoU0.7703；约0.22像素速度提议改变实际裁剪后IoU0，GT仍保留但从第1降至第2，浮点映射单改没有造成该损伤。`0304:1087`组合策略中心误差仅0.065，宽度却是GT的4.22倍，离线GT尺寸置于预测中心IoU约0.8524，表明尺寸是另一条问题。`0176:158`各干预均无IoU≥0.5的dense候选；`0204:664`仅相对速度的当帧IoU0.7189，但单帧相机干预仍IoU0，不能用完整相机轨迹收益替代当帧证据。
+
+当前下一轮为 [Stage-48 原生预测头排序与尺寸稳定性](docs/experiments/06_sgla_uav_tracking/STAGE48_NATIVE_HEAD_STABILITY.md)。固定原生骨干／选择器／独立候选块，仅训练原CENTER头，BN缓冲冻结；普通两视图监督、加排序、加尺寸、两者组合四臂。复用Stage-46的12个已消费源组，2折每折6 fit／6 held-out、2种子2132/2133、每视频48个均匀时刻、原生父框及预定±1像素视图、256步，16个正式头及96条新完整轨迹。各臂共享缓存特征与训练预算。排序资格来自冻结原生GT匹配框，尺寸在GT中心格点监督并作同帧两视图一致性；推理不使用GT或新分支。此为开发OOF，非新外部验证，也不证明压缩收益。完整命令见该文档；服务器尚未执行，本机不持有完整Stage-16～47产物。
 
 Stage-46用户报告的标识：plan `445dc1c25a5b48662f8d796c52cf4ff4a828ee40b48ddfb485aa692fbbbd0015`，run `4c58e05cf3b15cc304922ef16336015d6ca42cd0737def4f57028f1aced71fa6`，decision `8ba76d6de665755786f6fd70a347f7a64f91d7d96686c67132a52c239e61cba0`。
 
@@ -55,7 +57,7 @@ Stage-46用户报告的标识：plan `445dc1c25a5b48662f8d796c52cf4ff4a828ee40b4
 
 - 工作区：`E:\Program Files\paper\paper`，PowerShell。
 - 本机 `output/` 约 99 MiB，主要是原始权重、UAV123 原始预测及 Stage-4/5 元数据。
-- **本机没有完整 Stage-16～46 GPU 实验产物。**后文近期数值来自用户在会话中提供的服务器终端输出/附件，不能假称已在本机对全部原始结果文件重新核验。
+- **本机没有完整 Stage-16～47 GPU 实验产物。**后文近期数值来自用户在会话中提供的服务器终端输出/附件，不能假称已在本机对全部原始结果文件重新核验。
 - 原始权重：`output/checkpoints/train/sglatrack/deit_distilled/sglatrack_ep0297.pth.tar`。
 - 本次整理核对的本机权重 SHA256：`88447c7724704edaf03488f519d3e300385fef05c2f1fac02fe22f7941cf334e`。服务器运行仍以其原始 manifest 中的权重哈希为准。
 
@@ -75,7 +77,7 @@ Stage-46用户报告的标识：plan `445dc1c25a5b48662f8d796c52cf4ff4a828ee40b4
 - **Fast / 六层模型**：L1–L6 后接预测头。后期实验物理删除候选块和选择器。
 - **原生 SGLA**：L1–L6 后，由原选择器挑选 L7–L12 中一个独立候选块执行，再预测。
 - 原生 SGLA 保存候选结构，但通常每次执行 **6+1 个块**，不是串行十二层 ViT。把 L7–L12 连续执行称为原生 SGLA 是错误的。
-- 后期适配主要只训练 L5–L6，其他前缀、候选、选择器、归一化与头冻结；这不是完整模型充分训练后的能力比较。
+- Stage-34～44后期适配主要只训练L5–L6，其他前缀、候选、选择器、归一化与头冻结；这不是完整模型充分训练后的能力比较。Stage-48改为仅训练原CENTER头，骨干与候选选择结构保持冻结。
 - `tracking/validation_metrics.py` 与阶段公共模块定义官方框/IoU口径；当前 AUC 使用离散成功阈值，不能把单状态平均 IoU 差值直接当成 AUC 百分点。
 - **同状态诊断**：同一父框/裁剪上比较输出；不能代替各自闭环轨迹。
 - **完整闭环**：首帧初始化后，每个策略用自身预测生成下一帧搜索裁剪。
@@ -114,6 +116,8 @@ Stage-46用户报告的标识：plan `445dc1c25a5b48662f8d796c52cf4ff4a828ee40b4
 | Stage-43：GT-free历史恢复 | `NO_GT_FREE_RECOVERY_GAIN_ESTABLISHED`。augmented history相对native −1.2926；clean −6.1104；局部搜索对augmented近乎持平 | 当前运动/响应门控恢复停止，不继续调阈值 |
 | Stage-44：匹配结构适配 | `MATCHED_RETAINED_CONTROL_DEGRADED`，压缩缺口未建立；详见下一节 | 研究前提未通过，不自动展开新损失/恢复模块 |
 | Stage-46：原生SGLA搜索运动 | `REVIEW_CAMERA_SEARCH_PILOT`；仅相机补偿均值+1.4153点但受单视频收益/损伤主导，相机加速度较原生−2.5904点 | 以Stage-46B定位偏移、裁剪与失败的时序，暂未采用新策略 |
+| Stage-47：固定历史搜索与响应重放 | 用户报告400次完成；E03微小实际裁剪变化令保留GT从第1降至第2，E04宽度达GT的4.22倍 | 支持分别检验选择间隔与尺寸校准，不是全视频训练收益 |
+| Stage-48：原生预测头稳定性 | 已实现四臂匹配训练与源组OOF；CPU夹具通过，服务器待运行 | 比较新增排序／尺寸约束和普通两视图头监督，保留原SGLA基线 |
 
 ## 6. 最新 Stage-44 的精确状态
 
@@ -176,7 +180,8 @@ decision_fingerprint: b393b7f9a835b36ac264fbc772659596369da6086d4432dbd6fa0c6891
 | Stage-44 | `output/stage44/matched_structure_adaptation_v1/` |
 | Stage-46 | `output/stage46/sgla_camera_search_v1/` |
 | Stage-46B | Stage-46下`analysis/search_shift_audit_v1/`，用户已报告完成 |
-| Stage-47 | `output/stage47/matched_search_response_v1/`，待服务器GPU运行 |
+| Stage-47 | `output/stage47/matched_search_response_v1/`，用户已报告完成 |
+| Stage-48 | `output/stage48/native_head_stability_v1/`，当前下一轮，待服务器prepare／collect／smoke／train／evaluate |
 
 Stage-44沿Stage-43→42→41→40继续校验更早来源。单独复制一个末端结果目录到新路径，不能保证可复核；不要改原指纹来绕过路径/来源错误。
 
@@ -244,7 +249,7 @@ cat "$STAGE44_ROOT/analysis/stage44_video_influence.csv"
 3. 在新的设计中预先固定对照、数据使用、验证门槛与停止规则；若需要独立结论，先重新审计哪些源组/基准未用于设计。
 4. 若讨论创新性，重新检索并与已有压缩、跟踪训练及恢复方法区分。旧novelty review仅是2026-10-11的历史判断。
 
-Stage-46 已有固定设计与运行入口，服务器 `prepare` 将绑定实际冻结来源、选择顺序与源码哈希；完成 smoke 后运行完整原型。后续不重复启动已完成的旧阶段；提交与推送遵循下列协作约定。
+Stage-46、46B、47已由用户报告完成，不重复启动。Stage-48新增5个Python文件，6项CPU测试通过，覆盖来源变更拒绝、特征采集、fit／held-out数组隔离、梯度分流、安全头复制、续训、16头与96轨迹、重复汇总及checkpoint篡改拒绝；维护清单检查通过。并非原始SGLA服务器GPU精度复现。服务器按Stage-48文档先采集与smoke，再训练两种子并评估。提交与推送遵循下列协作约定。
 
 ## 10. 用户协作约定
 
