@@ -93,7 +93,9 @@
 - [STAGE51_RESULTS_REVIEW.md](experiments/06_sgla_uav_tracking/STAGE51_RESULTS_REVIEW.md) — **当前结果**：0226／0204获益、0176恢复取舍、0304／0307共同损伤；两折状态暴露不对称，下一步优先研究原生能力保持
 - [STAGE52_FIXED_STATE_BRANCH_ADAPTATION.md](experiments/06_sgla_uav_tracking/STAGE52_FIXED_STATE_BRANCH_ADAPTATION.md) — 用户已报告完成；scope／policy／focus／paired／factor五表已收到，协议与复现命令保留
 - [STAGE52_RESULTS_REVIEW.md](experiments/06_sgla_uav_tracking/STAGE52_RESULTS_REVIEW.md) — **当前结果**：几何对原生10胜2负、对joint仅3胜9负；0304／0307长期损伤抵消多数收益，区间跨零，下一步检验适配能力保持
-- [STAGE53_NATIVE_GEOMETRY_PRESERVATION.md](experiments/06_sgla_uav_tracking/STAGE53_NATIVE_GEOMETRY_PRESERVATION.md) — **当前待运行**：固定状态与几何更新，全状态／正确fit状态的原生几何保持；3项真实CPU测试通过，新增8个模型和48条OOF轨迹
+- [STAGE53_NATIVE_GEOMETRY_PRESERVATION.md](experiments/06_sgla_uav_tracking/STAGE53_NATIVE_GEOMETRY_PRESERVATION.md) — 用户已报告REVIEW，scope／policy／retention／focus四表已收到，协议与复现命令保留
+- [STAGE53_RESULTS_REVIEW.md](experiments/06_sgla_uav_tracking/STAGE53_RESULTS_REVIEW.md) — **当前结果**：约束确有梯度，但多数收益幅度下降；0307／0176局部改善伴随0304早期失效与0204高分分支丢失
+- [STAGE54_SHORT_ROLLOUT_ENDPOINT.md](experiments/06_sgla_uav_tracking/STAGE54_SHORT_ROLLOUT_ENDPOINT.md) — **当前待运行**：实时两帧自身状态、匹配普通监督及原生末帧保持；3项真实CPU测试通过，新增8个模型／48条OOF轨迹
 - [STAGE45_TEMPORAL_SIGNAL_PILOT.md](experiments/05_uav_detection/STAGE45_TEMPORAL_SIGNAL_PILOT.md) — **暂不执行**的 YOLOFT 视频检测支线；保留实现与 CPU 检查记录
 - [无人机检测研究方向调研](research/UAV_DETECTION_RESEARCH_DIRECTIONS_2026-10-29.md) — 检测文献与机制参考，不代表切换当前主任务
 

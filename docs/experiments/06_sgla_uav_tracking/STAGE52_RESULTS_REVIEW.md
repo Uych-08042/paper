@@ -102,4 +102,4 @@ geometry_only平均末尾未恢复事件0.4583，高于原生0.2500；恢复事�
 
 本轮五张表已收到，足以形成下一阶段问题定义，不重复请求或重新训练。具体目标可以固定为：以geometry_only／joint作简单对照，保留多数视频的改善，检验训练期行为保持或受约束适配能否减少0304／0307长期未恢复，并保留0176／0226／0204的恢复取舍。训练保护依据只来自fit组，不能根据held-out视频名称选择分支或把坏帧回填训练。
 
-完整video／seed／events仅在具体机制设计确需时读取，不把追加诊断无限延长为推进前提。[Stage-53原生几何保持](STAGE53_NATIVE_GEOMETRY_PRESERVATION.md)已实现并通过3项真实CPU测试，服务器待运行；本轮源码和结果保持冻结，不搜索种子、步数或checkpoint。所有结果仍为已消费源组的开发证据。
+完整video／seed／events仅在具体机制设计确需时读取，不把追加诊断无限延长为推进前提。[Stage-53原生几何保持](STAGE53_NATIVE_GEOMETRY_PRESERVATION.md)已由用户报告REVIEW，四张结果表已收到，解释见[Stage-53复核](STAGE53_RESULTS_REVIEW.md)；本轮源码和结果保持冻结，不搜索种子、步数或checkpoint。所有结果仍为已消费源组的开发证据。
