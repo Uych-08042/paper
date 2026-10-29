@@ -77,6 +77,13 @@
 - [STAGE43_ONLINE_HISTORY_RECOVERY.md](experiments/04_closed_loop_compression/STAGE43_ONLINE_HISTORY_RECOVERY.md) — Stage-43：单模型历史状态恢复的小规模验证
 - [STAGE44_MATCHED_STRUCTURE_ADAPTATION.md](experiments/04_closed_loop_compression/STAGE44_MATCHED_STRUCTURE_ADAPTATION.md) — Stage-44：压缩结构 × 相同适配预算的基础对照
 
+## 当前研究范围与暂存支线
+
+- [SGLA 无人机跟踪研究范围](research/SGLA_UAV_TRACKING_RESEARCH_SCOPE.md) — 用户已明确原生 SGLA 基线与单目标跟踪任务，后续立项遵循此范围
+- [STAGE46_CAMERA_SEARCH_PILOT.md](experiments/06_sgla_uav_tracking/STAGE46_CAMERA_SEARCH_PILOT.md) — **当前下一轮**：原生 SGLA 的背景运动补偿与搜索中心预测；CPU 检查完成，待服务器运行
+- [STAGE45_TEMPORAL_SIGNAL_PILOT.md](experiments/05_uav_detection/STAGE45_TEMPORAL_SIGNAL_PILOT.md) — **暂不执行**的 YOLOFT 视频检测支线；保留实现与 CPU 检查记录
+- [无人机检测研究方向调研](research/UAV_DETECTION_RESEARCH_DIRECTIONS_2026-10-29.md) — 检测文献与机制参考，不代表切换当前主任务
+
 ## 交接与维护
 
 - [历史写作材料说明](archive/README.md)
