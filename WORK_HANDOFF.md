@@ -1,7 +1,7 @@
 # 工作交接：SGLATrack 无人机跟踪与模型压缩探索
 
 更新日期：2026-10-29（Asia/Hong_Kong）  
-当前完成阶段：Stage-46，用户已报告48条完整轨迹和汇总。Stage-46B 缓存时序审计已实现，待服务器执行；Stage-45 检测支线暂不执行。
+当前完成阶段：Stage-46B，用户已报告缓存时序审计完成。Stage-47 固定历史搜索与响应重放已实现，待服务器GPU执行；Stage-45 检测支线暂不执行。
 整理前 Git 基点：`91052cd71d49d1397197ea9d5f532f12d37d2c91`
 
 ## 1. 接手后首先要知道的结论
@@ -18,7 +18,9 @@
 
 后续立项边界见 [SGLA 无人机跟踪研究范围](docs/research/SGLA_UAV_TRACKING_RESEARCH_SCOPE.md)。[Stage-46 原生 SGLA 相机补偿搜索原型](docs/experiments/06_sgla_uav_tracking/STAGE46_CAMERA_SEARCH_PILOT.md)从已消耗的 Stage-27 源组固定选12段完整视频，四组48条轨迹已由用户在服务器完成。原生、普通速度、仅相机补偿、相机加速度AUC分别为63.4512、63.6449、64.8664、60.8608，状态为 `REVIEW_CAMERA_SEARCH_PILOT`；原生框误差0，预算与权重检查通过。
 
-仅相机补偿在`0176`上+48.8111、`0204`上+18.5254，在原稳定`0304`上−50.1173；其余9个视频描述均值约−0.0262。全部背景拟合通过，仍不能区分运动是否适合搜索中心修正。当前下一轮为 [Stage-46B 搜索偏移缓存时序审计](docs/experiments/06_sgla_uav_tracking/STAGE46B_SEARCH_SHIFT_AUDIT.md)：保留旧代码与产物，先审计全部48个NPZ/receipt，再读取上述三个案例的四组历史；分别定位浮点父框、整数裁剪、输出与失败变化，不训练、不打开图像或checkpoint、不使用GPU。实际Stage-46/46B缓存仍在服务器，本机未持有完整产物。
+仅相机补偿在`0176`上+48.8111、`0204`上+18.5254，在原稳定`0304`上−50.1173；其余9个视频描述均值约−0.0262。全部背景拟合通过，仍不能区分运动是否适合搜索中心修正。[Stage-46B 搜索偏移缓存时序审计](docs/experiments/06_sgla_uav_tracking/STAGE46B_SEARCH_SHIFT_AUDIT.md)已由用户完成，原代码与产物保留。`0204:664`原生父框中心误差约0.071但输出约1.362；`0304:555`仅相机父框约0.086但输出约0.992，均coverage=1。`0176:158`组合策略相对速度项远大于相机项。`0304:1087`组合输出中心误差约0.065、IoU约0.172，需要宽高与横纵误差而非直接认定中心跳变。三个案例各组均无相对原生的选层序列差异。以上是时序/几何线索，不是唯一因果解释。
+
+当前下一轮为 [Stage-47 固定历史搜索与响应重放](docs/experiments/06_sgla_uav_tracking/STAGE47_MATCHED_SEARCH_RESPONSE.md)：固定上述四起点及±2帧，在四种自身历史上各比较不偏移、普通速度、仅相机、仅相对速度、组合，共400次独立原生前向；smoke的100次在完整采集中复用。每次历史父框/矩阵/速度相同，仅本帧搜索干预不同，结果不继续滚动。保存raw/size/offset、裁剪像素SHA，检查旧策略复现、6+1实际调用、裁剪变化与浮点映射离线探针，并单列E04形状。实际Stage-46/46B缓存仍在服务器，本机未持有完整产物，尚未运行Stage-47实际GPU实验。
 
 Stage-46用户报告的标识：plan `445dc1c25a5b48662f8d796c52cf4ff4a828ee40b48ddfb485aa692fbbbd0015`，run `4c58e05cf3b15cc304922ef16336015d6ca42cd0737def4f57028f1aced71fa6`，decision `8ba76d6de665755786f6fd70a347f7a64f91d7d96686c67132a52c239e61cba0`。
 
@@ -173,7 +175,8 @@ decision_fingerprint: b393b7f9a835b36ac264fbc772659596369da6086d4432dbd6fa0c6891
 | Stage-43 | `output/stage43/online_history_recovery_v1/` |
 | Stage-44 | `output/stage44/matched_structure_adaptation_v1/` |
 | Stage-46 | `output/stage46/sgla_camera_search_v1/` |
-| Stage-46B | Stage-46下新增`analysis/search_shift_audit_v1/`，待服务器执行 |
+| Stage-46B | Stage-46下`analysis/search_shift_audit_v1/`，用户已报告完成 |
+| Stage-47 | `output/stage47/matched_search_response_v1/`，待服务器GPU运行 |
 
 Stage-44沿Stage-43→42→41→40继续校验更早来源。单独复制一个末端结果目录到新路径，不能保证可复核；不要改原指纹来绕过路径/来源错误。
 
