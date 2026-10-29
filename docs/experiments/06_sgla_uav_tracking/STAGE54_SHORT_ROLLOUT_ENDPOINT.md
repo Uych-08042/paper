@@ -2,7 +2,7 @@
 
 Stage-53说明固定采样状态、单Hann格点的几何接近未能保住完整轨迹。本轮把训练样本改为**当前训练头实际推进的两帧短分支**，检验在后继自身状态上保持原生短分支末帧结果，能否兼顾适配收益和长期稳定性。
 
-实现及3项真实CPU测试已完成，服务器实验待运行。Stage-1～53实验Python源码和既有结果保持冻结。主任务继续为VisDrone-SOT单目标跟踪，原生SGLA骨干、候选、选择器、响应参数及BN缓冲冻结；只更新原size／offset参数。推理仍为原生SGLA的一条路径。
+用户已报告服务器完成，状态`REVIEW_SHORT_ROLLOUT_ENDPOINT_PILOT`，scope／policy／retention／focus／paired／video_summary六表已收到，详见[结果复核](STAGE54_RESULTS_REVIEW.md)。保持对匹配普通监督AUC+0.7265、4胜8负、CI[−2.3364,+3.9123]；对静态保持12胜0负、CI[+0.2479,+5.0494]；对原生AUC+0.5567；但可靠帧−3.5250、低IoU略高且0304仍新增失效，保护要求未满足。3项真实CPU测试已通过；本机未独立重验完整服务器产物。以下保留冻结协议和历史复现命令，不重跑已完成训练。Stage-1～54实验Python源码和既有结果保持冻结。主任务继续为VisDrone-SOT单目标跟踪，原生SGLA骨干、候选、选择器、响应参数及BN缓冲冻结；只更新原size／offset参数。推理仍为原生SGLA的一条路径。
 
 ## 对照
 
@@ -96,7 +96,7 @@ cat "$STAGE54_ROOT/analysis/stage54_retention_summary.csv"
 cat "$STAGE54_ROOT/analysis/stage54_focus.csv"
 ```
 
-先提供这四张表，分别8、5、5、25行。中断后重跑同一root／seed，按已提交参数和AdamW状态续训；完整评价按轨迹缓存复用。Stage-51～53及其上游产物需保留。
+四张主要表及paired／video_summary均已收到，区间、逐视频主比较与留一已复核，不重复索取或重训。确需恢复既有中断时，重跑同一root／seed，按已提交参数和AdamW状态续训；完整评价按轨迹缓存复用。Stage-51～54及其上游产物需保留。
 
 ## 判读与输出
 
