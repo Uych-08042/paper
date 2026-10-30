@@ -2,12 +2,12 @@
 
 更新日期：2026-10-30（Asia/Hong_Kong）
 
-当前结果阶段：Stage-56，用户报告`REVIEW_FIRST_TRANSITION_PRESERVATION_PILOT`，decision／policy／scope／paired／focus五份材料已齐。第一步＋末帧保持AUC62.6900，较完整末帧控制−1.3179、两个种子均负；较半强度控制+0.3947、3胜9负。控制复现通过，0304保护未恢复，0176／0307局部收益丢失与0204种子分支互换并存。Stage-57相对参考质量选择现已实现并通过CPU测试，GPU结果尚未产生；Stage-45检测支线暂不执行。
+当前结果阶段：Stage-57，用户报告`REVIEW_QUALITY_SELECTIVE_PRESERVATION_PILOT`，decision／policy／scope／paired／focus五份材料已齐。质量选择AUC60.4022，较完整保持−3.6057、两个种子均负；较条件等数量随机+1.0364、6胜6负。只保留20.52%的eligible，掩码与控制复现有实际支持；0204双种子无失效，0176／0307恢复丢失及0304早期持续失效抵消收益。Stage-58完整保持梯度投影与同长度控制已实现，5项真实CPU测试通过（219.308秒、无跳过）、服务器GPU未运行；Stage-45检测支线暂不执行。
 整理前 Git 基点：`91052cd71d49d1397197ea9d5f532f12d37d2c91`
 
 ## 0. 下一次对话的直接接续入口
 
-本节记录截至2026-10-30本次对话结束时的具体状态。**最新结果见[Stage-56复核](docs/experiments/06_sgla_uav_tracking/STAGE56_RESULTS_REVIEW.md)。当前服务器入口是[Stage-57质量选择保持](docs/experiments/06_sgla_uav_tracking/STAGE57_QUALITY_SELECTIVE_PRESERVATION.md)，已完成实现及5项真实CPU测试，GPU结果待运行；Stage-54～56不重跑。**
+本节记录截至2026-10-30本次对话结束时的具体状态。**最新结果见[Stage-57复核](docs/experiments/06_sgla_uav_tracking/STAGE57_RESULTS_REVIEW.md)，五份材料已齐、服务器实验完成。当前新入口是[Stage-58梯度方向与长度控制](docs/experiments/06_sgla_uav_tracking/STAGE58_PROJECTED_ENDPOINT_GRADIENT.md)，实现已准备、5项真实CPU测试通过（219.308秒、无跳过），服务器GPU尚未运行；Stage-57协议只保留历史命令，不重跑Stage-54～57。**
 
 **先读本节，再读[Stage-54结果复核](docs/experiments/06_sgla_uav_tracking/STAGE54_RESULTS_REVIEW.md)和[Stage-55结果复核](docs/experiments/06_sgla_uav_tracking/STAGE55_RESULTS_REVIEW.md)**；下文早期阶段的“下一步”均为当时历史，不应覆盖此处当前状态。研究范围文档末尾的Stage-46待运行说明也是历史文字。
 
@@ -17,7 +17,8 @@
 - 评价采用首帧GT初始化后的完整自身预测轨迹。当前12个源组、2折每折6 fit／6 held-out、种子2132／2133已反复用于设计，是开发证据；不要称为新的独立外部验证。
 - 原生SGLA执行6个前缀块＋L7～L12中1个独立候选块，保留原始首帧模板，原生实现没有在线模板更新。它不是串行12层ViT。
 - Stage-54训练和完整OOF已完成，状态为`REVIEW_SHORT_ROLLOUT_ENDPOINT_PILOT`。Stage-55诊断已完成，状态为`COMPLETE_MATCHED_PARENT_CONTINUATION_DIAGNOSTIC`；该COMPLETE不是新方法PASS。
-- **Stage-56服务器已报告完成并为REVIEW。** 12头／72条新完整OOF、4个完整末帧控制精确复现检查通过；主要AUC差−1.3179、名义CI[−5.3575,+1.5984]、6胜6负，种子差−2.0925／−0.5432。五份结果已齐，不重复索取，不重跑Stage-54～56。Stage-57已准备，5项真实CPU测试通过（170.601秒、无跳过），服务器尚未运行。
+- **Stage-56服务器已报告完成并为REVIEW。** 12头／72条新完整OOF、4个完整末帧控制精确复现检查通过；主要AUC差−1.3179、名义CI[−5.3575,+1.5984]、6胜6负，种子差−2.0925／−0.5432。五份结果已齐，不重复索取，不重跑Stage-54～56。
+- **Stage-57已完成并为REVIEW。** 主要质量选择对完整保持−3.6057、两个种子均负，对随机+1.0364但区间跨零；0204双种子无失效，整体恢复与原稳定保护未过。五份材料已齐，见第0.7节；Stage-58实现和验证状态见第0.8节。
 - 当前以“保住多数适配收益，减少持续失跟及原稳定轨迹损伤”为主问题。新增价值可以建立在已有方法上；用户不要求绝对原创，也不希望因有相似工作就结束探索。
 
 ### 0.2 Stage-54：主要对照、结果及不能丢失的取舍
@@ -73,7 +74,7 @@ C05／2133自己的32帧均值差仍为−0.1732：M=+0.3620被H=−0.5351抵消
 
 当前检验两个相互关联的问题：**分岔前正确状态的保护，以及恢复附近的稳健推进**，兼顾0307条件收益与0204／0304损伤。Stage-56已将其具体化为三臂：Lsup+Pend、Lsup+0.5Pend、Lsup+0.5Pend+0.5Pfirst。保持两帧长度、原头size／offset更新范围和其他训练配置；三臂执行相同的首末梯度审计。主要对比双时刻保持与完整末帧控制，同时对比半强度控制，区分第一步监督与减弱旧约束的效果。完整末帧控制须复现Stage-54对应权重及轨迹。
 
-Stage-56上述固定配方已经完成，未达预定保护与改进目标。后续优先检验原生参考与当前有效修正是否冲突：原生IoU≥0.5不表示比当前预测更优；这仍是假设，现有汇总不能证明梯度冲突。Stage-57已将其落实为完整末帧控制／条件等数量随机选择／相对IoU质量选择三个训练臂，主要对比质量选择与完整末帧，必要控制为质量选择与随机选择。只在fit内用参考IoU严格高于当前预测+1e-6来保留约束；不使用在线GT，也不搜索首末系数。若设计确实依赖精确中心／尺寸／选点信息，先读服务器现有`stage55_point_details.csv`、`stage55_rollout_summary.csv`、`stage55_timelines.csv`，不重跑GPU采集。长表可让用户用文件附件提供；当前三张关注表已足够支持本次机制判断。
+Stage-56上述固定配方已经完成，未达预定保护与改进目标。后续优先检验原生参考与当前有效修正是否冲突：原生IoU≥0.5不表示比当前预测更优；这仍是假设，现有汇总不能证明梯度冲突。Stage-57已将其落实为完整末帧控制／条件等数量随机选择／相对IoU质量选择三个训练臂，主要对比质量选择与完整末帧，必要控制为质量选择与随机选择。只在fit内用参考IoU严格高于当前预测+1e-6来保留约束；不使用在线GT，也不搜索首末系数。该轮已完成：质量选择未超过完整保持，只在0204等出现局部进展。下一轮应区分当前IoU代理、持续保持强度与优化／后继风险之间的差别，不能把梯度冲突当成已证实原因。若设计确实依赖精确中心／尺寸／选点信息，先读服务器现有`stage55_point_details.csv`、`stage55_rollout_summary.csv`、`stage55_timelines.csv`，不重跑GPU采集。长表可让用户用文件附件提供；当前三张关注表已足够支持本次机制判断。
 
 设计时核对真实梯度：响应参数冻结时，固定特征上的响应排序损失无法更新该分支；父框detach时，未来损失不能直接反传进前帧父框。普通回归用raw峰值，原生推理用Hann峰值，实际监督格点要写清并测试。不要未经证据把这处差异认定为当前全部病因。前轮的冻结范围是实验处理，不是用户要求未来永久冻结响应；若下一轮改变范围，单独预声明并匹配对照。
 
@@ -95,14 +96,16 @@ Stage-56上述固定配方已经完成，未达预定保护与改进目标。后
 | `tracking/stage56_transition_experiment.py`、`stage56_transition_summary.py` | prepare／smoke／train／evaluate与结果汇总 |
 | `tracking/test_stage56_transition.py` | 4项真实CPU测试＋增强目标函数检查已通过 |
 | `tracking/stage57_quality_common.py`、`stage57_quality_runtime.py` | 完整Stage-56来源、相对质量／条件等数量选择、直接末帧梯度 |
-| `tracking/stage57_quality_experiment.py`、`stage57_quality_summary.py` | 当前prepare／smoke／train／evaluate及统计入口 |
+| `tracking/stage57_quality_experiment.py`、`stage57_quality_summary.py` | 已完成阶段的prepare／smoke／train／evaluate及统计入口 |
 | `tracking/test_stage57_quality.py` | 5项真实CPU测试通过，170.601秒、无跳过 |
+| `tracking/stage58_gradient_common.py`、`stage58_gradient_runtime.py` | Stage-57完整来源及gS／gP、单侧投影／同长度控制 |
+| `tracking/stage58_gradient_experiment.py`、`stage58_gradient_summary.py`、`test_stage58_gradient.py` | 当前新实验与CPU测试入口，具体状态见第0.8节 |
 | `output/stage54/short_rollout_endpoint_v1/` | 服务器训练、完整OOF及6张已收到表所在目录 |
 | `output/stage55/matched_parent_continuation_v1/` | 服务器共同输入及分支缓存、3张已收到关注表和详细几何 |
 | `output/stage56/first_transition_preservation_v1/` | 服务器已完成12头／72轨迹；五份结果已收到，完整GPU产物仍在服务器 |
-| `output/stage57/quality_selective_endpoint_v1/` | 新阶段独立输出目录，输入为完整Stage-56；GPU结果尚未产生 |
+| `output/stage57/quality_selective_endpoint_v1/` | 服务器已完成12头／72条新OOF，五份结果已齐，完整GPU产物仍在服务器 |
 
-Stage-54已收到scope／policy／retention／focus／paired／video_summary六表；Stage-55已收到focus／crossed_matrix／branch_contrasts三表，分别10／25／50行。Stage-56 decision及policy／scope／paired／focus也已收齐，四表6／12／40／30行。**不要在新对话中再次请求这些材料或重跑已完成阶段。** 本机保存了复核文档和数值记录，没有服务器完整缓存、模型和未提供的diagnostic原件；Stage-56提供了decision完整文本，已重算其自身指纹和四张粘贴CSV的SHA，但未独立重验服务器全部模型／缓存SHA或真实调用。仍未收到的Stage-54总体种子差在服务器decision中，但它不妨碍判断已有保护条件未过，无需为此默认追加索取。
+Stage-54已收到scope／policy／retention／focus／paired／video_summary六表；Stage-55已收到focus／crossed_matrix／branch_contrasts三表，分别10／25／50行。Stage-56 decision及policy／scope／paired／focus也已收齐，四表6／12／40／30行。Stage-57同样已收到decision及四表，行数也为6／12／40／30。**不要在新对话中再次请求这些材料或重跑已完成阶段。** 本机保存了复核文档和数值记录，没有服务器完整缓存、模型和未提供的diagnostic原件；Stage-56／57提供了decision完整文本，均已重算自身指纹和四张粘贴CSV的SHA，但未独立重验服务器全部模型／缓存SHA或真实调用。仍未收到的Stage-54总体种子差在服务器decision中，但它不妨碍判断已有保护条件未过，无需为此默认追加索取。
 
 用户查看文件偏好`cat`。定位服务器现有产物时先进入仓库再设置变量，防止此前出现的`~/workspace/output`误指；以下只定位，不启动实验：
 
@@ -123,11 +126,11 @@ $env:PYTHONDONTWRITEBYTECODE='1'
 & 'D:\Users\23920\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe' -B tracking/test_stage55_matched.py -v
 ```
 
-维护检查为`python -B tools/check_workspace.py`，最近通过：505个保留文件、200个归档移动、106个原活动依赖、0个再生缓存；`git diff --check`和文档链接检查通过。Stage-1～55 Python源码保持冻结。Git工作树有本次结果／交接文档修改，以及新增`docs/experiments/06_sgla_uav_tracking/STAGE55_RESULTS_REVIEW.md`；这些需要随仓库一起同步，但本助手未替用户commit或push，不覆盖现有未提交修改。实验自身指纹校验严格，后续改变设计应新建阶段／目录，不直接改旧代码或收据。
+维护检查为`python -B tools/check_workspace.py`，最近通过：505个保留文件、200个归档移动、106个原活动依赖、0个再生缓存；`git diff --check`和文档链接检查通过。Stage-1～57 Python源码保持冻结。Git工作树有Stage-57结果／交接文档修改、新增Stage-58的5个Python及协议；这些需要随仓库一起同步，但本助手未替用户commit或push，不覆盖现有未提交修改。实验自身指纹校验严格，后续改变设计应新建阶段／目录，不直接改旧代码或收据。
 
 可在下一次对话给出以下接续提示：
 
-> 先读取WORK_HANDOFF.md第0节及Stage-54、Stage-55结果复核。核心任务仍是基于SGLA的无人机单目标跟踪。Stage-56已报告REVIEW，五份材料已齐，Stage-57已经实现并通过CPU测试，GPU结果待运行。请先读Stage-57协议，接续执行或分析新结果；不要重复索取Stage-54～56已有结果或重跑旧阶段。
+> 先读取WORK_HANDOFF.md第0节及Stage-54、Stage-55结果复核。核心任务仍是基于SGLA的无人机单目标跟踪。Stage-57已报告REVIEW，五份材料已齐，Stage-58已准备完整保持／同长度控制／单侧梯度投影，详见第0.8节与协议，服务器GPU尚未运行。请保持原生SGLA任务，接续Stage-58；不要重复索取Stage-54～57已有材料或重跑旧阶段。
 
 ### 0.6 Stage-56最新结果与接续边界
 
@@ -139,20 +142,37 @@ $env:PYTHONDONTWRITEBYTECODE='1'
 
 五条关注视频贡献主要宏差−1.3148，其余7条均值约−0.0052。T−H的+0.3947也集中0176／0307，其余7条平均−0.4168。原固定10条获益队列仍10/10对原生为正，但E／H／T平均幅度约+6.0741／+5.2380／+5.0287。少数大损伤、种子分支互换与多数小收益必须同时记录。
 
-五份材料在本机完成内部自洽核验：decision指纹、四张CSV按原CRLF还原的SHA、40条宏指标差、report／paired对应及scope计数。没有从全部12条video_summary重算bootstrap或独立验证服务器完整GPU产物。Stage-56全部Python保持冻结，复核详见链接。当前不需索取更多表作主要判断；如新设计依赖逐样本梯度或参考与GT误差，可读服务器现有history及详细轨迹，不能从宏结果补造几何病因。本次已准备Stage-57并完成CPU测试，没有登录服务器或执行GPU采集；不代用户提交或推送。
+五份材料在本机完成内部自洽核验：decision指纹、四张CSV按原CRLF还原的SHA、40条宏指标差、report／paired对应及scope计数。没有从全部12条video_summary重算bootstrap或独立验证服务器完整GPU产物。Stage-56全部Python保持冻结，复核详见链接。当前不需索取更多表作主要判断；如新设计依赖逐样本梯度或参考与GT误差，可读服务器现有history及详细轨迹，不能从宏结果补造几何病因。Stage-57也已由用户报告完成并提供五份材料，本助手没有登录服务器或执行GPU采集；不代用户提交或推送。
 
 
-### 0.7 当前服务器入口：Stage-57相对质量选择
+### 0.7 Stage-57最新结果与接续边界
 
-三臂均为普通监督＋末帧保持，保持两帧自身推进、原始头初始化、size／offset更新范围和256步等配置不变。`endpoint_control`保留所有原合格参考并须精确复现Stage-56完整末帧控制；`quality_select`仅保留原生末帧IoU > 当前末帧IoU + 1e-6；`count_matched`在它自己当前同批eligible中随机保留相同k项。GT质量判断在actor推进后才附加，仅用于fit训练，不进入在线推理。
+完整保持E／条件等数量随机R／质量选择Q的AUC64.0079／59.3657／60.4022，低IoU14.7953%／23.9019%／21.8560%。Q−E为−3.6057，名义CI[−12.7607,+3.6011]，8胜4负，两个总体种子差−4.8582／−2.3532；Q−R为+1.0364，CI[−4.7107,+6.9128]，6胜6负。家族区间均跨零，主要与能力保护未过。
 
-随机匹配是本臂当前输入上的条件等数量，不保证不同训练臂全程实际保留数量一致。每步只有两个末帧项，全开／全关无法隔离质量选择，scope报告掩码分歧、混合批次、较优／平局／较差参考、实际保留数及质量差。空选择是合法普通监督批次，不重新抽样；缺少选择暴露应为REVIEW，不换阈值或种子寻找效果。
+四个E精确复现检查通过，scope均冻结响应／缓冲、响应误差0、解码最大0.00024414。正式预算24,576次完整训练＋12,288次仅头，72条OOF共81,150次head／568,050个block。5项真实CPU测试170.601秒通过是前轮实现验证，本次只核对结果，不重新训练或推理。
 
-输入`STAGE56_ROOT`，新输出`STAGE57_ROOT=$PWD/output/stage57/quality_selective_endpoint_v1`。固定12个新头、72条新完整OOF，正式24,576次完整训练前向＋12,288次仅头，另计3个8步smoke头。依次prepare、smoke、train seed2132／2133、evaluate、summary；全部命令见协议。原生6+1结构、响应／BN冻结，无额外推理模块、第一步保持或BPTT。
+每臂4模型eligible合计1550个。E全保留，R保留315（20.3226%），Q保留318（20.5161%）。Q无误选／漏选，R保留71个非较优、漏掉71个较优，二者实际总量接近但不是相同状态轨迹。Q当前状态上与影子随机有154个位置分歧＝77步／1024步（7.52%），混合批次161。Q所选参考当前平均IoU优势+0.02541，R为+0.01607；规则成功选到了当前更优参考，仍未转化为整体闭环收益。
 
-主要为quality_select−endpoint_control，必要控制quality_select−count_matched，两条AUC对比使用97.5%家族区间；继续检查双种子、可靠帧≥−0.5、低IoU不恶化、无新原稳定视频失效与真实选择暴露。CPU5项170.601秒全部通过：完整来源、实际目标／掩码梯度、未来GT隔离、fit隔离、精确控制、12模型／72轨迹合成流程、AdamW恢复、缓存及篡改拒绝。CLI／AST／维护检查通过，未获得GPU结果。
+0176：E两个种子约61／59，Q约16／16，两种子都无记录恢复、末尾未恢复；0307的Q两个种子也均丢失E的恢复。0304的Q均555失效至末尾，R反而两种子约1077／1082才失效。0226的Q两个种子均338恢复；R2133掉到7.1941且不恢复，Q−R+25.2906均值主要来自这一个种子。0204的Q首次双种子无失效（76.4593／76.7644），比E+21.5346、比R+9.6117，是应保留的局部积极证据，不能抵消其他大损伤。
 
-后续优先回传Stage-57 decision／policy／scope／paired／focus五份材料，cat查看，长表可附件。无需重复提交Stage-54～56。Stage-1～56源码冻结，Stage-57 prepare将绑定新5个Python文件；助手没有提交／推送或登录服务器。
+Q对原生−3.0490、可靠帧−5.4126、低IoU+7.3987个百分点，有两个原稳定视频新增失效；已知0304，另一条不在focus中，名称和严重度未知，不猜0170。原固定10条获益队列正收益数量降为Q的8/10、R的7/10。Q−E多数小胜与少数大损伤并存；五条关注视频宏贡献−3.8143，其余7条平均+0.3576。Q−R五条宏贡献+1.0732，其余7条平均−0.0631。
+
+五份材料在本机核对了decision指纹、按原CRLF还原的四张CSV SHA、40条宏指标差、report／paired对应及选择计数恒等式。未独立重验完整模型／缓存，也未从全12视频明细重算bootstrap。Stage-54无保持普通短分支63.2814仍高于Q，不能把丢掉约80%约束直接认定为唯一损伤原因。当前IoU代理、持续正则、梯度方向及后继搜索风险仍需区分。
+
+用户现已要求继续，Stage-58将检验全体合格项的梯度方向，而不按当帧IoU删除项；具体实现与验证见第0.8节。不搜索本轮阈值／权重／种子，也不默认重复扩充锚点。完整history／video／seed／events仍在服务器，具体设计确需时再读，不重复请求已有五份材料。Stage-1～57实验Python冻结；未代用户提交／推送或登录服务器。
+
+### 0.8 当前服务器入口：Stage-58完整保持的梯度方向与长度
+
+[Stage-58协议与命令](docs/experiments/06_sgla_uav_tracking/STAGE58_PROJECTED_ENDPOINT_GRADIENT.md)。输入完整Stage-57，输出独立`output/stage58/projected_endpoint_gradient_v1/`；Stage-1～57实验Python冻结。
+
+三臂保留全部原eligible。gS为普通两帧GT监督梯度，gP为完整末帧中心／log尺寸保持梯度。endpoint_control保留原标量backward；若gS·gP<0，projected_anchor去掉gP沿gS的反向分量；norm_matched仅将原gP缩到同一当前状态的投影范数，保留原方向。零梯度／反向共线均合法。区别是全体保持项的优化方向，不再通过当前IoU删约束；当前IoU只作诊断。单侧投影借鉴已有梯度投影，不宣称完全原创或既有损伤原因已被证实。
+
+只更新原size／offset，其余网络和BN冻结，当前两帧own-state与GT隔离规则不变，父框和argmax截断。投影在clip／AdamW之前，不能保证AdamW实际位移或长期稳定；每步报告实际位移相对gS的内积和反向次数。三臂均计算gS／gP／影子投影，并支付原始scalar backward；仅处理臂在梯度确实改变时覆盖grad；无操作批次保留原始backward逐位结果，控制须精确复现Stage-57权重和boxes／previous／peak／layer。
+
+同种子、2折、256步、相同起点与视图，12个新头／72条新OOF，复用60条上下文。正式24,576次完整训练／172,032个block＋12,288次仅头重算；拆梯度不额外重放头，梯度处理开销另计，不声称全部FLOPs相等。主要投影−完整，必要控制投影−同长度；家族区间与原生保护沿用。每个处理模型至少13／256步非平凡投影、实际修改非零才有机制曝光。无曝光仍报告REVIEW，不改种子。
+
+新增5个文件：`tracking/stage58_gradient_common.py`、`stage58_gradient_runtime.py`、`stage58_gradient_experiment.py`、`stage58_gradient_summary.py`、`test_stage58_gradient.py`。最终5项真实CPU Torch／OpenCV测试通过，219.308秒、无跳过。覆盖实际CENTER小通道头、未来GT隔离、末帧梯度、单次头重算、投影／零向量／非法值、无操作逐位backward、AdamW反向位移反例、完整Stage-51→57合成来源、fit隔离、12模型／72OOF、四个控制精确复现、控制与投影臂AdamW断点一致、缓存复用与来源／结果／checkpoint篡改拒绝。5文件AST、纯NumPy CLI帮助及维护检查通过；CPU合成流程不是GPU精度复现。助手未登录服务器、未运行GPU、未commit／push。用户同步代码后按协议逐条prepare／smoke／train2132／train2133／evaluate／summary，再用cat查看decision／policy／scope／paired／focus五份材料。
+
 
 ## 1. 接手后首先要知道的结论
 
@@ -233,7 +253,7 @@ Stage-46用户报告的标识：plan `445dc1c25a5b48662f8d796c52cf4ff4a828ee40b4
 
 - 工作区：`E:\Program Files\paper\paper`，PowerShell。
 - 本机 `output/` 约 99 MiB，主要是原始权重、UAV123 原始预测及 Stage-4/5 元数据。
-- **本机没有完整 Stage-16～56实验产物。**后文近期数值来自用户在会话中提供的服务器终端输出/附件，不能假称已在本机对全部原始结果文件重新核验。
+- **本机没有完整 Stage-16～57实验产物。**后文近期数值来自用户在会话中提供的服务器终端输出/附件，不能假称已在本机对全部原始结果文件重新核验。
 - 原始权重：`output/checkpoints/train/sglatrack/deit_distilled/sglatrack_ep0297.pth.tar`。
 - 本次整理核对的本机权重 SHA256：`88447c7724704edaf03488f519d3e300385fef05c2f1fac02fe22f7941cf334e`。服务器运行仍以其原始 manifest 中的权重哈希为准。
 
@@ -373,6 +393,7 @@ decision_fingerprint: b393b7f9a835b36ac264fbc772659596369da6086d4432dbd6fa0c6891
 | Stage-54 | `output/stage54/short_rollout_endpoint_v1/`，六张结果表已收到；正式8模型／48条新OOF，训练16,384次完整前向＋8,192次仅头前向；完整服务器模型／轨迹／decision未在本机核验 |
 | Stage-55 | `output/stage55/matched_parent_continuation_v1/`，已提供focus／crossed_matrix／branch_contrasts三表；协议75输入／125分支／4,075次完整＋300次仅头，完整缓存与diagnostic未在本机重验 |
 | Stage-56 | `output/stage56/first_transition_preservation_v1/`，REVIEW，五份材料已齐；12头／72条新OOF，完整模型及轨迹未在本机重验 |
+| Stage-57 | `output/stage57/quality_selective_endpoint_v1/`，REVIEW，五份材料已齐；12头／72条新OOF；材料内部校验通过，完整GPU产物未在本机重验 |
 
 Stage-44沿Stage-43→42→41→40继续校验更早来源。单独复制一个末端结果目录到新路径，不能保证可复核；不要改原指纹来绕过路径/来源错误。
 
@@ -407,7 +428,7 @@ python -B tools/restore_legacy_tracking.py --apply
 
 Stage-52五表、Stage-53四表、Stage-54六表已收齐，最新结论见[Stage-54复核](docs/experiments/06_sgla_uav_tracking/STAGE54_RESULTS_REVIEW.md)。不重跑旧训练或重复请求现有表。[Stage-54协议](docs/experiments/06_sgla_uav_tracking/STAGE54_SHORT_ROLLOUT_ENDPOINT.md)保留历史复现入口。paired／video_summary也已收到，并用固定种子从12视频AUC重算主要区间、胜负及留一，全部相符；不再重复索取。当前已有结果足够判断主要统计条件及能力保护未通过，同时保留对旧静态方案12/12改善的开发价值。
 
-Stage-55 focus／crossed_matrix／branch_contrasts也已收到，最新结论见[Stage-55复核](docs/experiments/06_sgla_uav_tracking/STAGE55_RESULTS_REVIEW.md)。已有三表足够作当前机制判断，不重复索取或重跑采集。[Stage-55协议](docs/experiments/06_sgla_uav_tracking/STAGE55_MATCHED_PARENT_CONTINUATION.md)保留历史复现入口。精确中心／宽高／选点归因可使用既有point_details及timelines，当前没有追加采集或新训练。Stage-56也已报告REVIEW并提供五份材料，详见最新复核；Stage-57已准备并通过CPU测试，GPU结果尚未产生。
+Stage-55 focus／crossed_matrix／branch_contrasts也已收到，最新结论见[Stage-55复核](docs/experiments/06_sgla_uav_tracking/STAGE55_RESULTS_REVIEW.md)。已有三表足够作当前机制判断，不重复索取或重跑采集。[Stage-55协议](docs/experiments/06_sgla_uav_tracking/STAGE55_MATCHED_PARENT_CONTINUATION.md)保留历史复现入口。精确中心／宽高／选点归因可使用既有point_details及timelines，当前没有追加采集或新训练。Stage-56也已报告REVIEW并提供五份材料，详见最新复核；Stage-57也已报告REVIEW并提供五份材料，Stage-58已准备，验证状态见第0.8节。
 
 以下仅用于复核Stage-44历史压缩对照（无新训练）：
 
@@ -446,7 +467,7 @@ cat "$STAGE44_ROOT/analysis/stage44_video_influence.csv"
 3. 在新的设计中预先固定对照、数据使用、验证门槛与停止规则；若需要独立结论，先重新审计哪些源组/基准未用于设计。
 4. 若讨论创新性，重新检索并与已有压缩、跟踪训练及恢复方法区分。旧novelty review仅是2026-10-11的历史判断。
 
-Stage-46、46B、47、48已由用户报告完成，Stage-49已提供focus／onsets结果，不重复启动旧训练。Stage-48原实现的6项CPU测试与Stage-49的5项纯NumPy测试通过；维护清单检查通过。最新服务器数值、逐视频／种子明细和诊断表均来自用户终端，本机未重算完整模型和轨迹产物。Stage-50原实现4项CPU测试通过（6.245秒），包含共同特征真实小型Torch头重放、完整prepare／smoke／collect／summary、缓存复用与篡改拒绝；用户现已提供两张关注表，解释已记录，服务器完整缓存与诊断哈希未在本机核验。Stage-51的4项CPU测试覆盖源结果绑定、fit／held-out方向、普通两视图及出裁剪负例、真实Torch完整流程、带AdamW状态的中断恢复、冻结网络、缓存／结果／checkpoint篡改拒绝；用户现已提供五张支持与结果表，主要对象已定位，完整缓存及新逐种子／事件尚未在本机核验。Stage-52已完成3项真实CPU测试（35.652秒）：仓库实际CENTER小通道分支、梯度与BN冻结、完整Stage-51来源校验、fit隔离、续训一致性及48条OOF合成流程；用户已报告服务器完成并提供scope／policy／focus／paired／factor五表；实现审计通过，但未建立同时保护0304／0307的固定更新范围。完整服务器产物未在本机核验。Stage-53的3项真实CPU测试通过（53.814秒）：连续Hann格点资格、平均权重匹配、size／offset保持梯度、冻结响应和BN、完整Stage-52来源、fit隔离、断点AdamW恢复与48条OOF合成流程。用户已报告服务器REVIEW并提供四张完整表，本机未独立重验全部产物；未达到本轮整体改进与保持目标。Stage-54的3项真实CPU测试通过（92.571秒，无跳过），覆盖当前两帧actor、后续GT不改变输出、末帧size／offset梯度、冻结响应、原生解码、完整Stage-53来源、fit隔离、断点恢复及48条新OOF合成流程；纯NumPy CLI和5文件AST通过。用户已报告Stage-54服务器REVIEW并提供六表；主比较区间跨零、原生能力保护未过，对旧静态方案12/12改善；四项AUC bootstrap区间及逐视频算术核对相符，本机未独立重验完整产物。Stage-55的3项真实CPU测试通过（90.476秒，无跳过），覆盖完整Stage-54来源、实际CENTER与原生decode／hook、共同特征、自己预测作为后继父框、GT隔离、缓存恢复、精确预算及来源／checkpoint／缓存／结果表篡改拒绝；4文件AST和纯NumPy CLI通过。用户现已报告Stage-55完成并提供三张关注表；分解算术相符，最大残差约5.55e-17，完整服务器调用与缓存哈希未在本机重验。Stage-56也已报告REVIEW并提供五份材料，详见最新复核；Stage-57已准备并通过CPU测试，GPU结果尚未产生。提交与推送遵循下列协作约定。
+Stage-46、46B、47、48已由用户报告完成，Stage-49已提供focus／onsets结果，不重复启动旧训练。Stage-48原实现的6项CPU测试与Stage-49的5项纯NumPy测试通过；维护清单检查通过。最新服务器数值、逐视频／种子明细和诊断表均来自用户终端，本机未重算完整模型和轨迹产物。Stage-50原实现4项CPU测试通过（6.245秒），包含共同特征真实小型Torch头重放、完整prepare／smoke／collect／summary、缓存复用与篡改拒绝；用户现已提供两张关注表，解释已记录，服务器完整缓存与诊断哈希未在本机核验。Stage-51的4项CPU测试覆盖源结果绑定、fit／held-out方向、普通两视图及出裁剪负例、真实Torch完整流程、带AdamW状态的中断恢复、冻结网络、缓存／结果／checkpoint篡改拒绝；用户现已提供五张支持与结果表，主要对象已定位，完整缓存及新逐种子／事件尚未在本机核验。Stage-52已完成3项真实CPU测试（35.652秒）：仓库实际CENTER小通道分支、梯度与BN冻结、完整Stage-51来源校验、fit隔离、续训一致性及48条OOF合成流程；用户已报告服务器完成并提供scope／policy／focus／paired／factor五表；实现审计通过，但未建立同时保护0304／0307的固定更新范围。完整服务器产物未在本机核验。Stage-53的3项真实CPU测试通过（53.814秒）：连续Hann格点资格、平均权重匹配、size／offset保持梯度、冻结响应和BN、完整Stage-52来源、fit隔离、断点AdamW恢复与48条OOF合成流程。用户已报告服务器REVIEW并提供四张完整表，本机未独立重验全部产物；未达到本轮整体改进与保持目标。Stage-54的3项真实CPU测试通过（92.571秒，无跳过），覆盖当前两帧actor、后续GT不改变输出、末帧size／offset梯度、冻结响应、原生解码、完整Stage-53来源、fit隔离、断点恢复及48条新OOF合成流程；纯NumPy CLI和5文件AST通过。用户已报告Stage-54服务器REVIEW并提供六表；主比较区间跨零、原生能力保护未过，对旧静态方案12/12改善；四项AUC bootstrap区间及逐视频算术核对相符，本机未独立重验完整产物。Stage-55的3项真实CPU测试通过（90.476秒，无跳过），覆盖完整Stage-54来源、实际CENTER与原生decode／hook、共同特征、自己预测作为后继父框、GT隔离、缓存恢复、精确预算及来源／checkpoint／缓存／结果表篡改拒绝；4文件AST和纯NumPy CLI通过。用户现已报告Stage-55完成并提供三张关注表；分解算术相符，最大残差约5.55e-17，完整服务器调用与缓存哈希未在本机重验。Stage-56也已报告REVIEW并提供五份材料，详见最新复核；Stage-57也已报告REVIEW并提供五份材料，Stage-58已准备，验证状态见第0.8节。提交与推送遵循下列协作约定。
 
 ## 10. 用户协作约定
 

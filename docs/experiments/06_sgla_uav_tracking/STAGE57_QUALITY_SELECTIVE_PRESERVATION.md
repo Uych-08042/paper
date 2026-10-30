@@ -1,6 +1,6 @@
 # Stage-57：按拟合组相对质量选择末帧保持
 
-日期：2026-10-30。实现已准备，服务器GPU结果尚未产生。核心仍为原生SGLA上的无人机单目标跟踪，使用现有VisDrone-SOT。Stage-1～56源码及固定结果保持冻结。
+日期：2026-10-30。用户已报告`REVIEW_QUALITY_SELECTIVE_PRESERVATION_PILOT`，五份结果已齐，详见[Stage-57结果复核](STAGE57_RESULTS_REVIEW.md)。以下保留预定设计及历史复现入口，不重跑已完成阶段。核心仍为原生SGLA上的无人机单目标跟踪，使用现有VisDrone-SOT。Stage-1～56源码及固定结果保持冻结。
 
 ## 本轮要回答的问题
 
@@ -56,7 +56,7 @@ scope新增eligible、较优／平局／较差参考数、随机选中数、实�
 
 本机验证已完成：真实CPU Torch／OpenCV的5项测试全部通过，170.601秒、无跳过。覆盖质量／平局／无资格及非法标签、条件等数量掩码、真实CENTER头目标与梯度、未选中和空掩码的零梯度、后续GT不改变actor、完整Stage-51→56来源生成与Stage-57三臂12模型／72轨迹合成流程、fit隔离、4个控制精确复现、AdamW断点恢复、缓存复用与来源表／结果表／checkpoint篡改拒绝。5文件AST、无需Torch的CLI帮助及维护检查通过。它们不代表服务器精度结果。
 
-用户同步5个Stage-57 Python文件及本文档后，在原环境逐条执行，上一条成功再继续。输入是Stage-56，输出为新目录，不重跑已完成的Stage-54～56。
+以下为已经由用户完成的历史复现命令，不是下一轮指令。输入是Stage-56，输出为新目录，不重跑已完成的Stage-54～56。
 
 ```bash
 cd ~/workspace/paper
@@ -74,7 +74,7 @@ python -B tracking/stage57_quality_experiment.py --mode evaluate --input "$STAGE
 python -B tracking/stage57_quality_summary.py --input "$STAGE57_ROOT"
 ```
 
-查看并优先回传五份结果，大表可附件：
+以下五份材料已收齐，不重复索取；查看历史结果使用cat：
 
 ```bash
 cat "$STAGE57_ROOT/analysis/stage57_decision.json"
