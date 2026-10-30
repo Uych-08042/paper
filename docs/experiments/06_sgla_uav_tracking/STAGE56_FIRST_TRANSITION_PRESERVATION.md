@@ -1,6 +1,6 @@
 # Stage-56：第一步状态更新保护与末帧保持的匹配训练
 
-日期：2026-10-30。状态：实现及本机CPU验证完成，**尚无服务器GPU结果**。主任务仍是原生SGLATrack上的VisDrone-SOT单目标跟踪，不更换检测器、骨干、候选结构或选择器。Stage-1～55源码及产物保持冻结。
+日期：2026-10-30。状态：用户已报告`REVIEW_FIRST_TRANSITION_PRESERVATION_PILOT`，五份结果已收齐，详见[Stage-56结果复核](STAGE56_RESULTS_REVIEW.md)。以下保留预定设计及历史复现命令，不重复启动已完成训练。主任务仍是原生SGLATrack上的VisDrone-SOT单目标跟踪，不更换检测器、骨干、候选结构或选择器。Stage-1～55源码及产物保持冻结。
 
 ## 问题与本轮差异
 
@@ -60,7 +60,7 @@ Pfirst直接约束第一帧几何，Pend直接约束第二帧几何。父框、�
 
 ## 服务器执行
 
-用户同步包含5个新Python文件和本协议的仓库后，在原环境执行。输入必须是已经完成的Stage-54，**不是Stage-55根目录**；输出使用新的独立目录。
+以下为已经由用户完成的历史复现入口，不是下一轮指令。输入必须是已经完成的Stage-54，**不是Stage-55根目录**；输出使用新的独立目录。
 
 ```bash
 cd ~/workspace/paper
@@ -88,4 +88,4 @@ cat "$STAGE56_ROOT/analysis/stage56_paired.csv"
 cat "$STAGE56_ROOT/analysis/stage56_focus.csv"
 ```
 
-另有retention_summary、video_summary、seed_video_summary、events；大表可附件传回。先传上述5个文件即可，不重复提交Stage-54／55已有表。服务器完整模型、收据、缓存和上游来源需保留；Git不备份这些被忽略的实验产物。本助手未登录服务器、未执行本轮GPU实验，未代为commit／push。
+另有retention_summary、video_summary、seed_video_summary、events；大表可附件传回。上述5份材料均已收到，不重复索取，也不重复提交Stage-54／55已有表。服务器完整模型、收据、缓存和上游来源需保留；Git不备份这些被忽略的实验产物。本助手未登录服务器、未执行本轮GPU实验，未代为commit／push。
