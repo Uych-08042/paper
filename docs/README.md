@@ -97,12 +97,15 @@
 - [STAGE53_RESULTS_REVIEW.md](experiments/06_sgla_uav_tracking/STAGE53_RESULTS_REVIEW.md) — **当前结果**：约束确有梯度，但多数收益幅度下降；0307／0176局部改善伴随0304早期失效与0204高分分支丢失
 - [STAGE54_SHORT_ROLLOUT_ENDPOINT.md](experiments/06_sgla_uav_tracking/STAGE54_SHORT_ROLLOUT_ENDPOINT.md) — 用户已报告REVIEW，scope／policy／retention／focus／paired／video_summary六表已收到；协议及历史复现命令保留
 - [STAGE54_RESULTS_REVIEW.md](experiments/06_sgla_uav_tracking/STAGE54_RESULTS_REVIEW.md) — **当前结果**：对旧静态保持12胜0负、名义CI为正；对匹配普通监督4胜8负、CI跨零，0307／0304改善伴随0204损伤，可靠帧及新增失效保护未过
-- [STAGE55_MATCHED_PARENT_CONTINUATION.md](experiments/06_sgla_uav_tracking/STAGE55_MATCHED_PARENT_CONTINUATION.md) — **当前待运行**：5锚点×5历史×5冻结头，共同特征与32帧自身分支；3项真实CPU测试通过，无新增训练
+- [STAGE55_MATCHED_PARENT_CONTINUATION.md](experiments/06_sgla_uav_tracking/STAGE55_MATCHED_PARENT_CONTINUATION.md) — 用户已报告完整诊断完成，focus／crossed_matrix／branch_contrasts三表已齐；协议及历史复现入口保留
+- [STAGE55_RESULTS_REVIEW.md](experiments/06_sgla_uav_tracking/STAGE55_RESULTS_REVIEW.md) — **当前结果**：0204／0304当帧大差随起点变化；0307恢复附近同起点换头可放大收益，也存在种子与起点依赖的损伤
+- [STAGE56_FIRST_TRANSITION_PRESERVATION.md](experiments/06_sgla_uav_tracking/STAGE56_FIRST_TRANSITION_PRESERVATION.md) — **当前服务器入口**：三臂匹配训练第一步状态更新保护；4项真实CPU测试通过，GPU结果待运行
 - [STAGE45_TEMPORAL_SIGNAL_PILOT.md](experiments/05_uav_detection/STAGE45_TEMPORAL_SIGNAL_PILOT.md) — **暂不执行**的 YOLOFT 视频检测支线；保留实现与 CPU 检查记录
 - [无人机检测研究方向调研](research/UAV_DETECTION_RESEARCH_DIRECTIONS_2026-10-29.md) — 检测文献与机制参考，不代表切换当前主任务
 
 ## 交接与维护
 
+- [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口) — 先读第0节：Stage-54／55关键数值、已收材料、代码与环境、Stage-56已实现方案、服务器命令及接续提示
 - [历史写作材料说明](archive/README.md)
 - [整理报告](maintenance/CLEANUP_REPORT.md)
 - [逐文件整理清单](maintenance/CLEANUP_MANIFEST.json)

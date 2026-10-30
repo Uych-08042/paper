@@ -2,7 +2,7 @@
 
 Stage-54六表已齐：末帧保持对匹配普通监督+0.7265 AUC、4胜8负、区间跨零；对旧静态保持12胜0负。下一步聚焦0204高分适配分支丢失、0304种子分岔及0307恢复改善，区分当帧几何差异和后续历史放大。本轮只使用既有模型进行诊断，新增训练为0。
 
-实现已完成，3项真实CPU测试通过（90.476秒，无跳过），4个新Python文件的AST及纯NumPy CLI帮助检查通过；服务器尚未运行。Stage-1～54实验Python与结果保持冻结。核心任务仍为以原生SGLA开展无人机单目标跟踪研究。
+用户已报告`COMPLETE_MATCHED_PARENT_CONTINUATION_DIAGNOSTIC`，focus／crossed_matrix／branch_contrasts三表已收到，详见[结果复核](STAGE55_RESULTS_REVIEW.md)。0204／0304的大幅当帧差主要随进入窗口的状态变化；0307恢复附近存在共同起点上放大的模型收益，也有起点依赖的损伤。3项真实CPU测试通过（90.476秒，无跳过），本机未独立重验服务器完整缓存。以下保留冻结协议及历史复现命令，不重跑已完成采集。Stage-1～55实验Python与结果保持冻结。核心任务仍为以原生SGLA开展无人机单目标跟踪研究。
 
 ## 固定锚点
 
@@ -85,7 +85,7 @@ cat "$STAGE55_ROOT/analysis/stage55_crossed_matrix.csv"
 cat "$STAGE55_ROOT/analysis/stage55_branch_contrasts.csv"
 ```
 
-成功状态为`COMPLETE_MATCHED_PARENT_CONTINUATION_DIAGNOSTIC`。先提供以上三张表，分别10、25、50行；完整轨迹和逐帧几何保存在本轮目录，初步判读无需粘贴4,000行timeline。
+成功状态为`COMPLETE_MATCHED_PARENT_CONTINUATION_DIAGNOSTIC`。以上三张表已收到，分别10、25、50行，不重复索取。完整轨迹和逐帧几何保存在本轮目录，初步判读无需粘贴4,000行timeline。
 
 | 结果文件 | 用途 |
 |---|---|
