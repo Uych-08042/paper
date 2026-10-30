@@ -1,6 +1,6 @@
 # Stage-58：完整末帧保持的梯度方向与长度控制
 
-日期：2026-10-30。核心为原生SGLA上的无人机单目标跟踪，使用现有VisDrone-SOT。Stage-1～57实验Python及服务器结果冻结。本轮实现已准备，5项真实CPU测试通过（219.308秒、无跳过）；服务器GPU结果尚未产生。
+日期：2026-10-30。核心为原生SGLA上的无人机单目标跟踪，使用现有VisDrone-SOT。Stage-1～57实验Python及服务器结果冻结。5项真实CPU测试通过（219.308秒、无跳过）。2026-10-31用户已报告`REVIEW_PROJECTED_ENDPOINT_GRADIENT_PILOT`，五份结果已齐，见[结果复核](STAGE58_RESULTS_REVIEW.md)；以下保留原定设计与历史命令。
 
 ## 从Stage-57继续的问题
 
@@ -72,7 +72,7 @@ history在既定保存步写入累计计数和标量，不保存全部逐步梯�
 
 ## 服务器执行
 
-本机5项CPU Torch／OpenCV测试全部通过，219.308秒、无跳过。覆盖真实CENTER小通道头及原生解码、仅一次头重算、未来GT不改变actor、末帧直接梯度、投影与同长度数学性质／零向量／非法值、无操作批次原backward逐位保持、AdamW位移反向反例、完整Stage-51→57合成来源、fit隔离、12模型／72条OOF、四个完整控制精确复现、控制与投影臂断点恢复及AdamW状态一致、缓存复用和来源／结果／checkpoint篡改拒绝。5文件AST、纯NumPy CLI帮助及维护检查通过。CPU合成流程不代表服务器精度结果。助手未登录服务器或执行GPU实验，未代用户commit／push。同步新增5个Stage-58 Python文件及本协议，保留Stage-57及全部上游产物，在原环境逐条执行：
+本机5项CPU Torch／OpenCV测试全部通过，219.308秒、无跳过。覆盖真实CENTER小通道头及原生解码、仅一次头重算、未来GT不改变actor、末帧直接梯度、投影与同长度数学性质／零向量／非法值、无操作批次原backward逐位保持、AdamW位移反向反例、完整Stage-51→57合成来源、fit隔离、12模型／72条OOF、四个完整控制精确复现、控制与投影臂断点恢复及AdamW状态一致、缓存复用和来源／结果／checkpoint篡改拒绝。5文件AST、纯NumPy CLI帮助及维护检查通过。CPU合成流程不代表服务器精度结果。助手未登录服务器或执行GPU实验，未代用户commit／push。以下为用户已经完成的历史复现命令，不是新一轮执行指令；保留Stage-57及全部上游产物：
 
 ```bash
 cd ~/workspace/paper
@@ -88,7 +88,7 @@ python -B tracking/stage58_gradient_experiment.py --mode evaluate --input "$STAG
 python -B tracking/stage58_gradient_summary.py --input "$STAGE58_ROOT"
 ```
 
-优先用cat查看并提供以下五份材料，长表可附件；完整逐视频／逐种子／retention／events也会生成并保留：
+以下五份材料已收齐，不重复索取；cat命令保留供历史查看。完整逐视频／逐种子／retention／events仍在服务器：
 
 ```bash
 cat "$STAGE58_ROOT/analysis/stage58_decision.json"
