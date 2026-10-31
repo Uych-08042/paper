@@ -104,14 +104,16 @@
 - [STAGE57_QUALITY_SELECTIVE_PRESERVATION.md](experiments/06_sgla_uav_tracking/STAGE57_QUALITY_SELECTIVE_PRESERVATION.md) — 用户已报告REVIEW，decision／policy／scope／paired／focus五份材料已齐；协议保留历史入口
 - [STAGE57_RESULTS_REVIEW.md](experiments/06_sgla_uav_tracking/STAGE57_RESULTS_REVIEW.md) — **结果复核**：质量选择保留20.52%参考，对完整保持−3.6057、双种子均负；0204双种子无失效，0176／0307恢复及0304保护未保住
 - [STAGE58_PROJECTED_ENDPOINT_GRADIENT.md](experiments/06_sgla_uav_tracking/STAGE58_PROJECTED_ENDPOINT_GRADIENT.md) — 用户已报告REVIEW，decision／policy／scope／paired／focus五份材料已齐；协议保留历史复现入口
-- [STAGE58_RESULTS_REVIEW.md](experiments/06_sgla_uav_tracking/STAGE58_RESULTS_REVIEW.md) — **当前结果**：全部保持与647／1024步投影生效，对完整保持−2.7575、双种子均负；对同长度+1.6460，主要来自0176，0226单种子恢复崩溃
-- [STAGE59_PARENT_COMPONENT_CONTINUATION.md](experiments/06_sgla_uav_tracking/STAGE59_PARENT_COMPONENT_CONTINUATION.md) — **当前新实验入口**：预测父框中心×尺寸×冻结头、32帧后继；3640次完整＋112次仅头，4项真实CPU测试通过（301.661秒、无跳过），服务器未运行
+- [STAGE58_RESULTS_REVIEW.md](experiments/06_sgla_uav_tracking/STAGE58_RESULTS_REVIEW.md) — **结果复核**：全部保持与647／1024步投影生效，对完整保持−2.7575、双种子均负；对同长度+1.6460，主要来自0176，0226单种子恢复崩溃
+- [STAGE59_PARENT_COMPONENT_CONTINUATION.md](experiments/06_sgla_uav_tracking/STAGE59_PARENT_COMPONENT_CONTINUATION.md) — 用户已报告条件诊断完成，diagnostic／focus／crossed_matrix／factor_summary／exposure五份材料已齐；保留预定协议及历史入口
+- [STAGE59_RESULTS_REVIEW.md](experiments/06_sgla_uav_tracking/STAGE59_RESULTS_REVIEW.md) — **当前结果**：0304特定混合父框有32帧条件修复，0204主要受尺寸来源影响；0226／0176与0307呈不同中心×尺寸交互，没有统一放缩或全视频新方法结论
+- [STAGE60_CAUSAL_SEARCH_STATE_VALUE.md](experiments/06_sgla_uav_tracking/STAGE60_CAUSAL_SEARCH_STATE_VALUE.md) — **当前新实验入口**：SGLA自身历史四候选，匹配当帧／8帧后继收益与响应选择；4项真实CPU测试通过，服务器未运行，四候选成本单列
 - [STAGE45_TEMPORAL_SIGNAL_PILOT.md](experiments/05_uav_detection/STAGE45_TEMPORAL_SIGNAL_PILOT.md) — **暂不执行**的 YOLOFT 视频检测支线；保留实现与 CPU 检查记录
 - [无人机检测研究方向调研](research/UAV_DETECTION_RESEARCH_DIRECTIONS_2026-10-29.md) — 检测文献与机制参考，不代表切换当前主任务
 
 ## 交接与维护
 
-- [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口) — 先读第0节：Stage-54／55关键数值、已收材料、代码与环境、Stage-56～58已完成结果、梯度与实际更新的区别、Stage-59实现与验证状态
+- [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口) — 先读第0节：Stage-54～59已完成结果与材料、父框分量效应边界、Stage-60设计／CPU验证及当前服务器入口
 - [历史写作材料说明](archive/README.md)
 - [整理报告](maintenance/CLEANUP_REPORT.md)
 - [逐文件整理清单](maintenance/CLEANUP_MANIFEST.json)

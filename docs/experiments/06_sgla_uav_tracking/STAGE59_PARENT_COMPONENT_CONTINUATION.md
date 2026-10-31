@@ -1,6 +1,6 @@
 # Stage-59：后继搜索父框的中心／尺寸与冻结头交叉诊断
 
-日期：2026-10-31。主任务仍为原生SGLA无人机单目标跟踪，使用现有VisDrone-SOT。Stage-1～58实验Python及固定结果保持冻结。本轮代码已准备，4项真实CPU测试通过（301.661秒、无跳过），服务器未运行。
+日期：2026-10-31。主任务仍为原生SGLA无人机单目标跟踪，使用现有VisDrone-SOT。用户已报告`COMPLETE_PARENT_COMPONENT_CONTINUATION_DIAGNOSTIC`，五份优先材料已齐，见[结果复核](STAGE59_RESULTS_REVIEW.md)。本协议保留预定设计与历史复现入口，Stage-1～59实验Python及固定结果冻结，不重复采集。本轮原先4项真实CPU测试通过（301.661秒、无跳过）；当前新入口是[Stage-60](STAGE60_CAUSAL_SEARCH_STATE_VALUE.md)。
 
 ## 本轮问题与新增信息
 
@@ -77,9 +77,9 @@ D = 头在EE起点的差 + P头下先换尺寸的差 + 再换中心的差
 
 窗口IoU是0～1，不能称为全视频AUC百分点。局部事件在窗口边界可能截断；完整视频最终恢复／未恢复仍以Stage-58为准。无总体bootstrap或方法PASS，完成只标记`COMPLETE_PARENT_COMPONENT_CONTINUATION_DIAGNOSTIC`。不得按本轮GT结果在线挑起点／头，也不据此搜索权重、分支长度或高分种子。
 
-## 服务器执行
+## 服务器执行（历史复现入口，已完成）
 
-本机4项CPU Torch／OpenCV测试全部通过，301.661秒、无跳过。覆盖分量重建与原组合逐位复制、事件锚点和精确预算、含交互的两条记账恒等式、真实CENTER小通道头／原生解码／共享响应、自己输出形成后继父框、后续GT不改变actor、完整Stage-51→58合成来源及本轮prepare／smoke／collect／summary、来源对角线复现、smoke缓存复用与断点重复运行、结果／缓存／来源表／checkpoint篡改拒绝。4文件AST、纯NumPy CLI帮助、文档链接和维护检查通过。CPU合成流程不代表服务器精度结果。助手没有登录服务器或执行GPU采集，不代用户commit／push。同步新增4个Stage-59 Python文件及本协议，保留Stage-58和上游模型／轨迹，在原环境逐条运行：
+本机4项CPU Torch／OpenCV测试此前全部通过，301.661秒、无跳过。覆盖分量重建与原组合逐位复制、事件锚点和精确预算、含交互的两条记账恒等式、真实CENTER小通道头／原生解码／共享响应、自己输出形成后继父框、后续GT不改变actor、完整Stage-51→58合成来源及本轮prepare／smoke／collect／summary、来源对角线复现、smoke缓存复用与断点重复运行、结果／缓存／来源表／checkpoint篡改拒绝。4文件AST、纯NumPy CLI帮助、文档链接和维护检查通过。CPU合成流程不代表服务器精度结果。用户现已运行完成并提供结果，助手没有登录服务器或执行GPU采集，不代用户commit／push。以下命令仅供历史复现，不作为本次或下次默认操作；继续保留Stage-58和上游模型／轨迹：
 
 ```bash
 cd ~/workspace/paper
@@ -93,7 +93,7 @@ python -B tracking/stage59_parent_collect.py --mode collect --input "$STAGE59_RO
 python -B tracking/stage59_parent_summary.py --input "$STAGE59_ROOT"
 ```
 
-优先用cat查看并提供以下5份材料，长表可以附件；逐帧大表与完整缓存继续保留在服务器：
+以下5份优先材料已全部收到并复核，不重复索取；cat命令保留作定位参考，逐帧大表与完整缓存继续保留在服务器：
 
 ```bash
 cat "$STAGE59_ROOT/analysis/stage59_diagnostic.json"

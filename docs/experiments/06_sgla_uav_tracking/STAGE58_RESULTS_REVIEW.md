@@ -110,7 +110,7 @@ Stage-57说明当前IoU选择不够，Stage-58又说明当前聚合梯度兼容�
 
 后续更值得区分同状态的当步改善、形成下一次搜索输入的几何变化，以及恢复后能否稳定推进。若具体设计依赖中心／尺寸／响应选点／裁剪，先用服务器已有详细表及缓存，不能由宏指标补造病因。不在这组结果上搜索投影阈值、权重、种子、步数或checkpoint；需要新的可测机制及匹配控制。
 
-本轮复核后用户要求继续，已准备[Stage-59父框中心／尺寸交叉后继诊断](STAGE59_PARENT_COMPONENT_CONTINUATION.md)并通过4项CPU测试，服务器未运行。Stage-58固定判读不变。Stage-1～58实验Python冻结，不重跑已完成Stage-54～58，也不重复索取已齐五份材料。完整GPU产物仍在服务器，本机没有独立外部验证结论。
+本轮复核后用户要求继续，[Stage-59父框中心／尺寸交叉后继诊断](STAGE59_PARENT_COMPONENT_CONTINUATION.md)已由用户运行完成，五份材料已齐，见[Stage-59结果复核](STAGE59_RESULTS_REVIEW.md)。当前证据进一步区分中心与尺寸的条件交互，Stage-58固定判读不变。Stage-1～59实验Python冻结，不重跑已完成Stage-54～59，也不重复索取已有材料。新入口[Stage-60](STAGE60_CAUSAL_SEARCH_STATE_VALUE.md)已准备、待服务器；完整GPU产物仍在服务器，本机没有独立外部验证结论。
 
 ## 来源标识
 
