@@ -5,6 +5,7 @@ import io
 import json
 from pathlib import Path
 import tempfile
+import sys
 from types import SimpleNamespace
 import unittest
 from unittest.mock import Mock, patch
@@ -35,12 +36,56 @@ class RuntimeReplayTests(unittest.TestCase):
 
         runtime_module=SimpleNamespace(Runtime=Runtime)
         fake_torch=SimpleNamespace(__version__="fixture-torch",version=SimpleNamespace(cuda="fixture-cuda"),manual_seed=Mock(),
-            cuda=SimpleNamespace(is_available=lambda:True,manual_seed_all=Mock(),get_device_name=lambda gpu:"fixture-device",
+            cuda=SimpleNamespace(is_available=lambda:True,device_count=lambda:1,manual_seed_all=Mock(),get_device_name=lambda gpu:"fixture-device",
                                  get_device_properties=lambda gpu:SimpleNamespace(uuid="fixture-uuid")),
             backends=SimpleNamespace(cudnn=SimpleNamespace(benchmark=True,deterministic=False),cuda=SimpleNamespace(matmul=SimpleNamespace(allow_tf32=True))))
         fake_cv2=SimpleNamespace(__version__="fixture-cv2",setNumThreads=Mock())
         args=SimpleNamespace(mode="smoke",parameter="deit_distilled",gpu=0,checkpoint=str(checkpoint))
         return root,plan,args,params,runtime_module,built,fake_torch,fake_cv2
+
+    def test_inventory_finds_original_gpu_after_cuda_visibility_remapping(self):
+        with tempfile.TemporaryDirectory(prefix="stage61-runtime-",dir=Path(__file__).parent) as directory:
+            root,plan,args,params,module,built,torch,cv2=self.fixture(directory)
+            torch.cuda.device_count=lambda:3
+            torch.cuda.get_device_name=lambda gpu:["NVIDIA L40","fixture-device","fixture-device"][gpu]
+            torch.cuda.get_device_properties=lambda gpu:SimpleNamespace(uuid=["l40-uuid","other-uuid","fixture-uuid"][gpu])
+            inventory=helper.gpu_inventory(plan,torch)
+            self.assertEqual(inventory["same_model_indices"],[1,2])
+            self.assertEqual(helper.source_gpu(inventory),2)
+            self.assertEqual(built,[])
+
+    def test_auto_selection_never_substitutes_l40_or_another_same_model_card(self):
+        with tempfile.TemporaryDirectory(prefix="stage61-runtime-",dir=Path(__file__).parent) as directory:
+            root,plan,args,params,module,built,torch,cv2=self.fixture(directory)
+            for name in ("NVIDIA L40","fixture-device"):
+                torch.cuda.get_device_name=lambda gpu:name
+                torch.cuda.get_device_properties=lambda gpu:SimpleNamespace(uuid="other-uuid")
+                with self.assertRaisesRegex(ValueError,"never substitutes"):
+                    helper.source_gpu(helper.gpu_inventory(plan,torch))
+            self.assertEqual(built,[])
+
+    def test_auto_cli_routes_real_experiment_parser_to_the_original_logical_gpu(self):
+        import stage61_search_common as common
+        import stage61_search_experiment as experiment
+        import stage46_motion_experiment as legacy
+        class StopAtRuntime(Exception): pass
+        for option in (["--gpu","auto"],["--gpu=auto"]):
+            with self.subTest(option=option),tempfile.TemporaryDirectory(prefix="stage61-runtime-",dir=Path(__file__).parent) as directory:
+                root,plan,args,params,module,built,torch,cv2=self.fixture(directory)
+                torch.cuda.device_count=lambda:2
+                torch.cuda.get_device_name=lambda gpu:["NVIDIA L40","fixture-device"][gpu]
+                torch.cuda.get_device_properties=lambda gpu:SimpleNamespace(uuid=["l40-uuid","fixture-uuid"][gpu])
+                argv=["stage61_runtime_replay.py","--mode","smoke","--input",str(root),"--checkpoint",args.checkpoint]+option
+                with patch.dict("sys.modules",torch=torch),patch.object(sys,"argv",argv),\
+                     patch.object(common,"read_sealed",return_value=plan),patch.object(common,"load_plan",return_value=(plan,{})),\
+                     patch.object(helper,"checked_runtime",side_effect=StopAtRuntime) as startup,\
+                     contextlib.redirect_stdout(io.StringIO()):
+                    with self.assertRaises(StopAtRuntime): helper.main()
+                    self.assertEqual(startup.call_args.args[0].gpu,1)
+                    self.assertIs(startup.call_args.kwargs["maker"],make_runtime)
+                    self.assertEqual(sys.argv,argv)
+                self.assertIs(legacy.make_runtime,make_runtime)
+                self.assertEqual(built,[])
 
     def test_frozen_config_restoration_and_real_legacy_factory(self):
         with tempfile.TemporaryDirectory(prefix="stage61-runtime-",dir=Path(__file__).parent) as directory:

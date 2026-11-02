@@ -2,14 +2,14 @@
 
 更新日期：2026-11-02（Asia/Hong_Kong）
 
-当前结果阶段：Stage-60，用户报告`REVIEW_CAUSAL_SEARCH_STATE_PILOT`，decision／policy／paired／scope／fit_support五份材料已齐。response AUC67.7506，对current +3.7427、9胜3负但区间跨零；future对immediate +3.6137，对current仅+0.1842、对response −3.5585且家族区间全负，保护未过。来源重放误差0，预算／曝光通过，四表SHA与JSON指纹重算相符。Stage-1～60实验Python冻结；Stage-61已实现并通过本机CPU测试，服务器首次启动身份检查退出，尚无推理结果；独立启动修复入口见第0.12节。Stage-45检测支线暂不执行。
+当前结果阶段：Stage-60，用户报告`REVIEW_CAUSAL_SEARCH_STATE_PILOT`，decision／policy／paired／scope／fit_support五份材料已齐。response AUC67.7506，对current +3.7427、9胜3负但区间跨零；future对immediate +3.6137，对current仅+0.1842、对response −3.5585且家族区间全负，保护未过。来源重放误差0，预算／曝光通过，四表SHA与JSON指纹重算相符。Stage-1～61实验Python冻结。用户已确认目前只能使用L40；原Stage-61因L20／L40身份不符未进入推理，现新增L40六组完整重测入口`tools/run_stage61_l40.sh`，见第0.13节，尚无服务器L40结果。Stage-45检测支线暂不执行。
 
 2026-11-01新增交接：**SGLATrackV2源码发现、训练日志判读与后续启发见第0.11节**。当前实验仍使用V1／E，不因V2发布默认切换基线；优先补原始V1权重上的候选选择与同预算控制，再考虑V2迁移及搜索状态—特征记忆一致性。此次只整理知识与建议，未启动新实验。
 整理前 Git 基点：`91052cd71d49d1397197ea9d5f532f12d37d2c91`
 
 ## 0. 下一次对话的直接接续入口
 
-本节更新至2026-11-02。**最新已完成实验结果见[Stage-60复核](docs/experiments/06_sgla_uav_tracking/STAGE60_RESULTS_REVIEW.md)，五份材料已齐，详见第0.10节；V2启发见第0.11节。下一轮[Stage-61原始V1历史候选与匹配重裁剪](docs/experiments/06_sgla_uav_tracking/STAGE61_NATIVE_HISTORY_MATCHED_RECROP.md)已完成代码及本机CPU验证；服务器首次启动身份检查退出，已补独立启动入口及具体差异诊断，见第0.12节，尚无服务器推理结果。不重跑Stage-54～60；保留自身历史＋响应选择分支，补原始权重及同预算控制，暂不切换V2。**
+本节更新至2026-11-02。**最新已完成实验结果见[Stage-60复核](docs/experiments/06_sgla_uav_tracking/STAGE60_RESULTS_REVIEW.md)，五份材料已齐，详见第0.10节；V2启发见第0.11节。原Stage-61协议及启动诊断见第0.12节。用户随后确认仅能使用L40，当前直接入口改为[Stage-61 L40六组完整重测](docs/experiments/06_sgla_uav_tracking/STAGE61_L40_DEVICE_MATCHED_RUN.md)，见第0.13节。保持原权重与E头，不重新训练Stage-54～60；本轮在L40重测全部六组推理对照，不混用L20旧轨迹作为主要控制。尚无服务器L40结果，暂不切换V2。**
 
 **先读本节与Stage-60结果复核**；[Stage-54](docs/experiments/06_sgla_uav_tracking/STAGE54_RESULTS_REVIEW.md)和[Stage-55](docs/experiments/06_sgla_uav_tracking/STAGE55_RESULTS_REVIEW.md)保留较早的保持处理／父框后继证据。下文早期阶段的“下一步”均为当时历史，不应覆盖当前状态。研究范围文档末尾的Stage-46待运行说明也是历史文字。
 
@@ -25,6 +25,7 @@
 - **Stage-59已完成条件诊断。** 7锚点×2种子、56个共享输入／112条分支，五份材料已齐，见第0.9节。中心×尺寸可强烈交互，特定混合父框能恢复同一冻结头的后继表现；没有新方法采用门槛。
 - **Stage-60已完成并为REVIEW。** 96条OOF、8个scorer，SGLA权重固定。response方向积极但总体区间跨零；future未超过response，且新增current稳定视频失效。五份材料已齐，见第0.10节；Stage-1～60实验Python冻结。
 - **Stage-61代码已准备，尚无服务器结果。** 新增原始V1历史选择、原始V1当帧重裁剪和E当帧重裁剪；复用原生／E current及E response。3项CPU测试通过，见第0.12节。
+- **Stage-61当前运行方式已改为L40六组完整重测。** 用户仅能用L40；上项为原L20复用方案的历史设计。新目录下108条完整轨迹全部重新推理，原权重和E训练头继续复用，见第0.13节。
 - 当前以“保住多数适配收益，减少持续失跟及原稳定轨迹损伤”为主问题。新增价值可以建立在已有方法上；用户不要求绝对原创，也不希望因有相似工作就结束探索。
 
 ### 0.2 Stage-54：主要对照、结果及不能丢失的取舍
@@ -111,6 +112,7 @@ Stage-56上述固定配方已经完成，未达预定保护与改进目标。后
 | `tracking/stage60_state_experiment.py`、`stage60_state_summary.py`、`test_stage60_state.py` | 已完成prepare／smoke／collect／fit／evaluate及汇总；4项真实CPU测试此前通过，结果见第0.10节 |
 | `tracking/stage61_search_common.py`、`stage61_search_runtime.py`、`stage61_search_experiment.py`、`stage61_search_summary.py`、`test_stage61_search.py` | 原始V1／E匹配重裁剪流程与3项已通过CPU测试；服务器待运行，见第0.12节 |
 | `tools/run_stage61_search.sh`、`tools/stage61_runtime_replay.py` | 读取封存配置严格复现启动身份，顺序运行prepare／smoke／evaluate／summary；cat合并9份结果及2份启动记录，不执行Git提交或推送 |
+| `tools/run_stage61_l40.sh`、`tools/stage61_l40_common.py`、`stage61_l40_experiment.py`、`stage61_l40_summary.py`、`test_stage61_l40.py` | 当前L40独立入口；全部六组新完整轨迹，来源L20数据只进入描述性桥接表，见第0.13节 |
 | `output/stage54/short_rollout_endpoint_v1/` | 服务器训练、完整OOF及6张已收到表所在目录 |
 | `output/stage55/matched_parent_continuation_v1/` | 服务器共同输入及分支缓存、3张已收到关注表和详细几何 |
 | `output/stage56/first_transition_preservation_v1/` | 服务器已完成12头／72轨迹；五份结果已收到，完整GPU产物仍在服务器 |
@@ -145,7 +147,7 @@ $env:PYTHONDONTWRITEBYTECODE='1'
 
 可在下一次对话给出以下接续提示：
 
-> 先读取WORK_HANDOFF.md第0节（特别是0.10～0.12）及Stage-61协议。核心任务仍是SGLA无人机单目标跟踪，当前使用V1／E，尚未切换V2。Stage-60五份材料已齐，response对current +3.7427但区间跨零，future未胜过response。Stage-61已完成代码与3项CPU验证，服务器尚未运行：在原始V1与E中比较历史四候选和当帧重裁剪四候选，q0复用保证每帧四次调用。使用一键脚本收集新结果，不重跑Stage-54～60或重复索取旧材料，不把4次搜索当作免费。V2仍为后续迁移与记忆一致性研究方向。
+> 先读取WORK_HANDOFF.md第0节（特别是0.10～0.13）及Stage-61 L40协议。核心任务仍是SGLA无人机单目标跟踪，当前使用V1／E，尚未切换V2。Stage-60五份材料已齐，response对current +3.7427但区间跨零，future未胜过response。用户目前只能使用L40；原Stage-61的L20身份检查在推理前退出。当前入口为tools/run_stage61_l40.sh，独立新目录在L40完整重测原始V1／E的current／history／recrop六组，q0复用保证多候选每帧四次调用。保持原训练权重，108条新完整轨迹／365175次正式搜索，另960次smoke；旧L20轨迹只用于来源和桥接描述。未有服务器L40结果。使用cat结果包接续，不重复训练Stage-54～60或索取旧材料，不把额外搜索当作免费。
 
 ### 0.6 Stage-56最新结果与接续边界
 
@@ -365,6 +367,36 @@ bash tools/run_stage61_search.sh
 **同日启动故障与修复：** 用户首次服务器启动在`stage46_motion_experiment.make_runtime`比较`rt.identity != source_run["runtime"]`时退出，未进入图像推理；堆栈没有差异字段，实际根因尚待服务器启动诊断，不能认定一定是错误权重或YAML漂移。为了保留已prepare的manifest及封存代码，未改Stage-1～61实验Python或任何旧JSON；新增`tools/stage61_runtime_replay.py`和4项启动回归。新入口从Stage-61 manifest的`runtime.config`复制EasyDict／TrackerParams，临时在内存替换原参数加载，仍调用原工厂；权重SHA、完整配置、Torch／CUDA、设备及UUID、网格、OpenCV／NumPy、原模型摘要必须精确匹配。若当前YAML／全局配置漂移，会记录差异并按封存快照构造；真正的权重／环境差异仍拒绝。4项回归通过，使用真实旧工厂，但CUDA／Runtime构造由fixture替代，不能作为GPU验证。
 
 一键脚本的smoke／evaluate现改用上述独立入口，prepare／summary不变。原Stage-61目录可继续使用，不删manifest或旧来源，也不修改校验条件。启动记录写入`diagnostics/stage61_runtime_smoke.json`及`stage61_runtime_evaluate.json`，带launcher SHA与计划指纹，成功为`EXACT_SOURCE_RUNTIME_VERIFIED`，不一致为`RUNTIME_MISMATCH`且逐字段列expected／actual；模型构造失败为`RUNTIME_CONSTRUCTION_FAILED`并保留原异常。如仍失败，优先`cat "$STAGE61_ROOT/diagnostics/stage61_runtime_smoke.json"`读取新证据，再按实际字段定位，不盲目换权重、改GPU或重跑旧实验。修复后本机4项启动测试及3项原Stage-61测试全部通过，后者20.689秒、无跳过；新入口help、Bash只读语法检查、维护检查通过。尚无服务器smoke／AUC结果。
+
+**后续已定位设备差异：** 用户新堆栈明确`tracker.device expected='NVIDIA L20' actual='NVIDIA L40'`；当前退出原因已知是所选GPU型号不符，不再仅写“根因未知”，也不能认定已证实YAML漂移或错误权重。补充的`--list-gpus`只读列出CUDA逻辑编号／型号／UUID，`--gpu auto`仅自动选中源型号＋UUID唯一匹配的可见原卡；7项启动回归通过，包括实际CLI参数传递及重映射编号。**用户随后明确回答目前只能使用L40，因此当前应使用第0.13节的新入口**，而非继续尝试原卡自动选择。服务器仍未进入本轮图像推理。
+
+### 0.13 2026-11-02：仅有L40，新增全部六组同卡重测
+
+新固定协议为[STAGE61_L40_DEVICE_MATCHED_RUN.md](docs/experiments/06_sgla_uav_tracking/STAGE61_L40_DEVICE_MATCHED_RUN.md)。用户确认仅有L40后，已新增4个Python文件与1个Bash脚本到`tools/`，不改Stage-1～61封存实验Python，不编辑原L20 manifest或旧报告。原Stage-61目录继续作为冻结计划及完整Stage-60来源链入口；其smoke没有通过也可以读取已封存计划。
+
+新目录`output/stage61/v1_history_matched_recrop_l40_v1/`，schema为`stage61_l40_device_matched_recrop_v1`。新manifest同时记录原L20来源与实际L40运行身份，只声明GPU型号／UUID变化，原checkpoint／配置／模型状态／软件仍严格校验。新运行的smoke、evaluate和resume绑定新设备身份；当前只支持此次声明的L40，同型号旧卡自动选择不是迁移校验的替代。
+
+在原始V1和固定E上，current／history／recrop全部重新推理。原生每视频只一个确定性运行，E保留两个原种子和原折；不重训、不选checkpoint、不改候选或评分规则。所有主要指标、可靠帧、失败帧和原稳定视频都从**本轮L40原生current**定义；L20旧轨迹只进入`stage61_l40_device_bridge.csv`作描述，不参与主比较或方法采用门槛。
+
+按既有13525跟踪帧：原生36条121725次搜索，E72条243450次搜索，合计**108条新完整轨迹／365175次正式搜索／2556225次block**，复用完整评价轨迹数0。首视频前32帧的三网络×三政策864次smoke，另三条独立公共current路径共96次，smoke总960；正式＋smoke366135次搜索。模板初始化单列、不算搜索，无新模型或仅头额外前向。
+
+smoke要求原生及两个E种子的current actor与独立原生公共`NativeObserver.step`路径在本次L40上框及层精确一致；跨L20／L40的前缀差只记录为描述性诊断。原四次调用／因果历史／裁剪与解码审计沿用原actor。新NPZ／receipt绑定计划与实际runtime指纹，旧L20 receipt不能填补新缓存。已完成项只读恢复，篡改拒绝。主要及必要比较、家族区间、保护条件沿用原Stage-61，不因迁移追改阈值。
+
+服务器同步本次新增工具后，在`sglatrack-test`中执行：
+
+```bash
+cd ~/workspace/paper
+export CHECKPOINT="$PWD/output/checkpoints/train/sglatrack/deit_distilled/sglatrack_ep0297.pth.tar"
+export STAGE61_ROOT="$PWD/output/stage61/v1_history_matched_recrop_v1"
+export STAGE61_L40_ROOT="$PWD/output/stage61/v1_history_matched_recrop_l40_v1"
+bash tools/run_stage61_l40.sh
+```
+
+默认CUDA逻辑GPU0，可设置`STAGE61_L40_GPU`。顺序prepare／smoke／evaluate／summary；prepare只读设备与源，summary无需GPU。一键脚本用cat合并decision＋9张CSV（含device_bridge）及2份启动记录到仓库results的`stage61_l40_results_<UTC>_<pid>.txt`，不自动commit／push。仍需保留全部原来源链与新完整产物，Git报告不是缓存备份。
+
+本机L40新增**3项测试通过，23.837秒，无跳过**，另有7项启动回归通过。覆盖仅GPU身份变化及软件保持、旧L20 receipt拒绝、真实小通道CENTER与原公共解码的完整Stage-59→60→61来源及新六组流程、独立public smoke误差0、预算、原文件逐字节不变、恢复不重复前向、源／缓存／报告篡改拒绝。主动污染旧L20数组后，device_bridge改变，L40主比较／必要比较／交互／保护不变。上游Stage-58边界、骨干、图像和设备为fixture，不等于真实GPU验证。新CLI help／AST、Bash只读语法、LF、维护检查通过。
+
+本机验证记录和服务器结果分开：尚无真实L40 smoke或AUC。不能把CPU合成测试或成功建立新manifest写成实验方法PASS，也不能称为新外部验证或部署加速。
 
 ## 1. 接手后首先要知道的结论
 

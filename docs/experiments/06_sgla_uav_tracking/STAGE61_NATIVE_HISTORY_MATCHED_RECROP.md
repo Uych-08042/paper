@@ -2,6 +2,8 @@
 
 日期：2026-11-02，Asia/Hong_Kong。主任务仍为 SGLA 无人机单目标跟踪，使用既有 VisDrone-SOT 的 12 个已消耗开发源组。接续 [Stage-60 复核](STAGE60_RESULTS_REVIEW.md)和 WORK_HANDOFF 第 0.11 节，保持原 V1 基线，不接入 V2。本文是本轮固定协议，尚无服务器结果。
 
+**当前运行入口更新：用户已确认仅能使用 L40，应使用[独立 L40 六组重测协议](STAGE61_L40_DEVICE_MATCHED_RUN.md)和 `tools/run_stage61_l40.sh`。本文保留原 L20 来源复用方案及启动诊断，原始封存代码不变。**
+
 ## 问题与本轮新增信息
 
 Stage-60 的 response 使用几何适配头 E，对 current 宏 AUC +3.7427、9 胜 3 负，但区间跨零，而且从每帧一次增加至四次搜索。尚不能确定收益是否依赖 E 的适配，或普通额外裁剪也能提供相同收益。
@@ -89,7 +91,7 @@ E 内对比及 `[(E history−E recrop)−(native history−native recrop)]` 为
 
 ## 启动身份校验修复（2026-11-02）
 
-服务器首次启动在旧 `make_runtime` 的原生运行环境身份比较处退出，尚未进入图像推理。原错误只报告总比较失败，**目前没有实际差异字段，不能断言权重错误或已经确认配置漂移**。
+服务器首次启动在旧 `make_runtime` 的原生运行环境身份比较处退出，尚未进入图像推理。新增诊断后用户报告明确差异：**封存源为 `NVIDIA L20`，当前选中的设备是 `NVIDIA L40`**。当前错误来自硬件型号不一致；此前的配置漂移仅是假设，不能写成已证实原因，也不能由这条错误断言权重错误。
 
 新增独立入口 [stage61_runtime_replay.py](../../../tools/stage61_runtime_replay.py)：从现有封存 manifest 的 `runtime.config` 构造独立 EasyDict／TrackerParams，只在内存中替换参数加载；仍调用原 Stage-46 工厂并严格核对原 checkpoint SHA、完整配置、PyTorch／CUDA、GPU 型号／UUID、网格维度、OpenCV／NumPy 和原网络状态摘要。当前 YAML 与封存配置的差异另行记录；不同权重或环境直接报出具体字段并停止，不能用此入口放行。
 
@@ -102,6 +104,15 @@ Stage-1～60及 Stage-61 五个实验 Python 文件、现有 manifest／run／�
 ```bash
 cat "$STAGE61_ROOT/diagnostics/stage61_runtime_smoke.json"
 ```
+
+补充只读设备清单与 `--gpu auto`：清单使用 PyTorch 的 CUDA 逻辑编号，直接对应原脚本的 `--gpu`，不把 `nvidia-smi` 物理编号误当成 `CUDA_VISIBLE_DEVICES` 重映射后的编号。自动选择同时匹配源型号及 UUID；同型号另一张卡、L40 或多个模糊匹配均不会替代原卡。7 项启动回归通过。以下命令仅用于仍可访问原卡时查询或续跑；用户随后已确认仅有 L40，当前使用本文顶部链接的新入口：
+
+```bash
+python -B tools/stage61_runtime_replay.py --list-gpus --input "$STAGE61_ROOT"
+STAGE61_GPU=auto bash tools/run_stage61_search.sh
+```
+
+原卡不可见时，此命令在推理前停止并打印清单。**不能把旧 manifest 的 L20 改成 L40，也不能只跳过设备／UUID检查后混用旧L20对照与新L40轨迹。** 用户确认仅有 L40 后，已按独立协议实现新目录中全部六组同设备重测，保持原始 V1 和固定 E，无重新训练。原 L20 证据只作来源及描述性桥接。这个独立流程尚无服务器结果，自动选卡也不是跨型号迁移入口。
 
 ## 服务器运行
 

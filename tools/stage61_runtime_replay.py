@@ -8,6 +8,7 @@ from __future__ import annotations
 import argparse
 import copy
 import importlib
+import json
 from pathlib import Path
 import sys
 from unittest.mock import patch
@@ -18,6 +19,28 @@ if str(REPO / "tracking") not in sys.path:
 if str(REPO) not in sys.path:
     sys.path.insert(0, str(REPO))
 from stage4_common import file_hash, fingerprint, write_json
+
+
+def gpu_inventory(plan, torch):
+    """CUDA logical indices, including visibility remapping; no model or images."""
+    expected=plan["runtime_identity"]
+    devices=[]
+    if torch.cuda.is_available():
+        for index in range(torch.cuda.device_count()):
+            devices.append(dict(index=index,name=torch.cuda.get_device_name(index),
+                uuid=str(getattr(torch.cuda.get_device_properties(index),"uuid","unavailable"))))
+    exact=[r["index"] for r in devices if r["name"]==expected["tracker"]["device"] and r["uuid"]==expected["gpu_uuid"]]
+    return dict(source_device=expected["tracker"]["device"],source_gpu_uuid=expected["gpu_uuid"],
+        visible_cuda_devices=devices,exact_source_indices=exact,
+        same_model_indices=[r["index"] for r in devices if r["name"]==expected["tracker"]["device"]])
+
+
+def source_gpu(inventory):
+    matches=inventory["exact_source_indices"]
+    if len(matches)!=1:
+        raise ValueError("Original source GPU is not uniquely visible. Auto selection never substitutes a different GPU.\n"+
+                         json.dumps(inventory,ensure_ascii=False,indent=2))
+    return matches[0]
 
 
 def differences(expected, actual, prefix="runtime"):
@@ -71,6 +94,8 @@ def checked_runtime(args, plan, root, maker=None, parameter_module=None, runtime
     def reject(rows):
         diagnostic["mismatches"]=rows; publish("RUNTIME_MISMATCH")
         detail="\n".join("  {}: expected={} actual={}".format(r["field"],repr(r["expected"]),repr(r["actual"])) for r in rows[:30])
+        if "gpu_inventory" in diagnostic:
+            detail+="\nVisible CUDA GPUs: "+json.dumps(diagnostic["gpu_inventory"],ensure_ascii=False)
         raise ValueError("Stage-61 runtime identity mismatch; no image inference started:\n"+detail+"\nDiagnostic: "+str(path))
 
     bound=differences(plan["runtime_identity"]["tracker"],expected,"sealed.runtime")
@@ -83,6 +108,9 @@ def checked_runtime(args, plan, root, maker=None, parameter_module=None, runtime
     bad=differences(subset,actual,"tracker")
     if bad: reject(bad)
     if not torch.cuda.is_available(): reject([dict(field="tracker.cuda_available",expected=True,actual=False)])
+    diagnostic["gpu_inventory"]=gpu_inventory(plan,torch)
+    indices=[r["index"] for r in diagnostic["gpu_inventory"]["visible_cuda_devices"]]
+    if args.gpu not in indices: reject([dict(field="tracker.cuda_logical_index",expected=indices,actual=args.gpu)])
     device=torch.cuda.get_device_name(args.gpu)
     if device!=expected["device"]: reject([dict(field="tracker.device",expected=expected["device"],actual=device)])
     parameter_module=parameter_module or importlib.import_module("lib.test.parameter.sglatrack")
@@ -132,20 +160,36 @@ def main():
     import stage46_motion_experiment as legacy
     parser=argparse.ArgumentParser(add_help=False)
     parser.add_argument("--mode"); parser.add_argument("--input")
+    parser.add_argument("--gpu")
+    parser.add_argument("--list-gpus",action="store_true")
     known,_=parser.parse_known_args()
+    if known.list_gpus:
+        if not known.input: raise ValueError("--list-gpus requires --input Stage-61 directory")
+        import torch
+        plan=common.read_sealed(Path(known.input).expanduser().resolve()/"manifest.json")
+        print(json.dumps(gpu_inventory(plan,torch),ensure_ascii=False,indent=2)); return
     if known.mode not in ("smoke","evaluate"):
         experiment.main(); return
     if not known.input: raise ValueError("Need --input Stage-61 output directory")
     root=Path(known.input).expanduser().resolve()
     # Full frozen source/code checks still run inside experiment.main before this adapter is called.
     plan=common.read_sealed(root/"manifest.json")
+    if known.gpu=="auto":
+        import torch
+        index=source_gpu(gpu_inventory(plan,torch))
+        values=list(sys.argv)
+        for i,value in enumerate(values):
+            if value=="--gpu": values[i+1]=str(index)
+            elif value=="--gpu=auto": values[i]="--gpu="+str(index)
+        print("[Stage-61 startup] Original source GPU found at CUDA logical index "+str(index),flush=True)
+    else: values=list(sys.argv)
     maker=legacy.make_runtime
 
     def launch(args,source):
         if source["runtime"]!=plan["runtime"]: raise ValueError("Caller/source runtime binding changed")
         return checked_runtime(args,plan,root,maker=maker)
 
-    with patch.object(legacy,"make_runtime",launch): experiment.main()
+    with patch.object(legacy,"make_runtime",launch),patch.object(sys,"argv",values): experiment.main()
 
 
 if __name__=="__main__": main()
