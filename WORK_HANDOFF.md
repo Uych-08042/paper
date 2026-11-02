@@ -2,14 +2,14 @@
 
 更新日期：2026-11-02（Asia/Hong_Kong）
 
-当前结果阶段：Stage-60，用户报告`REVIEW_CAUSAL_SEARCH_STATE_PILOT`，decision／policy／paired／scope／fit_support五份材料已齐。response AUC67.7506，对current +3.7427、9胜3负但区间跨零；future对immediate +3.6137，对current仅+0.1842、对response −3.5585且家族区间全负，保护未过。来源重放误差0，预算／曝光通过，四表SHA与JSON指纹重算相符。Stage-1～60实验Python冻结；Stage-61已实现并通过本机CPU测试，尚未在服务器运行，入口见第0.12节。Stage-45检测支线暂不执行。
+当前结果阶段：Stage-60，用户报告`REVIEW_CAUSAL_SEARCH_STATE_PILOT`，decision／policy／paired／scope／fit_support五份材料已齐。response AUC67.7506，对current +3.7427、9胜3负但区间跨零；future对immediate +3.6137，对current仅+0.1842、对response −3.5585且家族区间全负，保护未过。来源重放误差0，预算／曝光通过，四表SHA与JSON指纹重算相符。Stage-1～60实验Python冻结；Stage-61已实现并通过本机CPU测试，服务器首次启动身份检查退出，尚无推理结果；独立启动修复入口见第0.12节。Stage-45检测支线暂不执行。
 
 2026-11-01新增交接：**SGLATrackV2源码发现、训练日志判读与后续启发见第0.11节**。当前实验仍使用V1／E，不因V2发布默认切换基线；优先补原始V1权重上的候选选择与同预算控制，再考虑V2迁移及搜索状态—特征记忆一致性。此次只整理知识与建议，未启动新实验。
 整理前 Git 基点：`91052cd71d49d1397197ea9d5f532f12d37d2c91`
 
 ## 0. 下一次对话的直接接续入口
 
-本节更新至2026-11-02。**最新已完成实验结果见[Stage-60复核](docs/experiments/06_sgla_uav_tracking/STAGE60_RESULTS_REVIEW.md)，五份材料已齐，详见第0.10节；V2启发见第0.11节。下一轮[Stage-61原始V1历史候选与匹配重裁剪](docs/experiments/06_sgla_uav_tracking/STAGE61_NATIVE_HISTORY_MATCHED_RECROP.md)已完成代码及本机CPU验证，服务器尚未运行，直接入口见第0.12节。不重跑Stage-54～60；保留自身历史＋响应选择分支，补原始权重及同预算控制，暂不切换V2。**
+本节更新至2026-11-02。**最新已完成实验结果见[Stage-60复核](docs/experiments/06_sgla_uav_tracking/STAGE60_RESULTS_REVIEW.md)，五份材料已齐，详见第0.10节；V2启发见第0.11节。下一轮[Stage-61原始V1历史候选与匹配重裁剪](docs/experiments/06_sgla_uav_tracking/STAGE61_NATIVE_HISTORY_MATCHED_RECROP.md)已完成代码及本机CPU验证；服务器首次启动身份检查退出，已补独立启动入口及具体差异诊断，见第0.12节，尚无服务器推理结果。不重跑Stage-54～60；保留自身历史＋响应选择分支，补原始权重及同预算控制，暂不切换V2。**
 
 **先读本节与Stage-60结果复核**；[Stage-54](docs/experiments/06_sgla_uav_tracking/STAGE54_RESULTS_REVIEW.md)和[Stage-55](docs/experiments/06_sgla_uav_tracking/STAGE55_RESULTS_REVIEW.md)保留较早的保持处理／父框后继证据。下文早期阶段的“下一步”均为当时历史，不应覆盖当前状态。研究范围文档末尾的Stage-46待运行说明也是历史文字。
 
@@ -110,7 +110,7 @@ Stage-56上述固定配方已经完成，未达预定保护与改进目标。后
 | `tracking/stage60_state_common.py`、`stage60_state_runtime.py` | 自身历史四候选、GT-free白名单特征、岭回归、原生探测与后继标签 |
 | `tracking/stage60_state_experiment.py`、`stage60_state_summary.py`、`test_stage60_state.py` | 已完成prepare／smoke／collect／fit／evaluate及汇总；4项真实CPU测试此前通过，结果见第0.10节 |
 | `tracking/stage61_search_common.py`、`stage61_search_runtime.py`、`stage61_search_experiment.py`、`stage61_search_summary.py`、`test_stage61_search.py` | 原始V1／E匹配重裁剪流程与3项已通过CPU测试；服务器待运行，见第0.12节 |
-| `tools/run_stage61_search.sh` | 顺序运行prepare／smoke／evaluate／summary，并用cat合并9份结果；不执行Git提交或推送 |
+| `tools/run_stage61_search.sh`、`tools/stage61_runtime_replay.py` | 读取封存配置严格复现启动身份，顺序运行prepare／smoke／evaluate／summary；cat合并9份结果及2份启动记录，不执行Git提交或推送 |
 | `output/stage54/short_rollout_endpoint_v1/` | 服务器训练、完整OOF及6张已收到表所在目录 |
 | `output/stage55/matched_parent_continuation_v1/` | 服务器共同输入及分支缓存、3张已收到关注表和详细几何 |
 | `output/stage56/first_transition_preservation_v1/` | 服务器已完成12头／72轨迹；五份结果已收到，完整GPU产物仍在服务器 |
@@ -352,14 +352,19 @@ V2提供三条可发展的启发：
 
 ```bash
 cd ~/workspace/paper
+export CHECKPOINT="$PWD/output/checkpoints/train/sglatrack/deit_distilled/sglatrack_ep0297.pth.tar"
 bash tools/run_stage61_search.sh
 ```
 
 脚本默认CHECKPOINT为原V1权重、STAGE60_ROOT为`$PWD/output/stage60/causal_search_state_value_v1`、STAGE61_ROOT为`$PWD/output/stage61/v1_history_matched_recrop_v1`，GPU0；可用`STAGE61_GPU`指定设备，但原runtime/GPU身份必须仍符合封存源。单独命令详见协议。`.gitattributes`只对该新脚本固定LF，避免Windows换行造成Bash错误。
 
-结束后使用cat合并JSON及8张CSV到`docs/experiments/06_sgla_uav_tracking/results/stage61_results_<UTC>_<pid>.txt`；一共9份材料含逐视频、种子和事件，便于直接读完整新结果。不自动commit／push。来源模型、原始NPZ和所有上游产物继续保留在服务器。
+结束后使用cat合并JSON及8张CSV、另附2份启动身份记录到`docs/experiments/06_sgla_uav_tracking/results/stage61_results_<UTC>_<pid>.txt`；9份分析材料含逐视频、种子和事件，便于直接读完整新结果。不自动commit／push。来源模型、原始NPZ和所有上游产物继续保留在服务器。
 
 新增汇总按指标有利方向修正最差视频值，**不修改旧Stage-60字段**。只为新轨迹报告新pipeline计时；原生确定性基线不复制成两种子。当前尚无Stage-61真实决策或表现，下一次若用户上传结果先读它们，不重复跑本轮或替换基线。
+
+**同日启动故障与修复：** 用户首次服务器启动在`stage46_motion_experiment.make_runtime`比较`rt.identity != source_run["runtime"]`时退出，未进入图像推理；堆栈没有差异字段，实际根因尚待服务器启动诊断，不能认定一定是错误权重或YAML漂移。为了保留已prepare的manifest及封存代码，未改Stage-1～61实验Python或任何旧JSON；新增`tools/stage61_runtime_replay.py`和4项启动回归。新入口从Stage-61 manifest的`runtime.config`复制EasyDict／TrackerParams，临时在内存替换原参数加载，仍调用原工厂；权重SHA、完整配置、Torch／CUDA、设备及UUID、网格、OpenCV／NumPy、原模型摘要必须精确匹配。若当前YAML／全局配置漂移，会记录差异并按封存快照构造；真正的权重／环境差异仍拒绝。4项回归通过，使用真实旧工厂，但CUDA／Runtime构造由fixture替代，不能作为GPU验证。
+
+一键脚本的smoke／evaluate现改用上述独立入口，prepare／summary不变。原Stage-61目录可继续使用，不删manifest或旧来源，也不修改校验条件。启动记录写入`diagnostics/stage61_runtime_smoke.json`及`stage61_runtime_evaluate.json`，带launcher SHA与计划指纹，成功为`EXACT_SOURCE_RUNTIME_VERIFIED`，不一致为`RUNTIME_MISMATCH`且逐字段列expected／actual；模型构造失败为`RUNTIME_CONSTRUCTION_FAILED`并保留原异常。如仍失败，优先`cat "$STAGE61_ROOT/diagnostics/stage61_runtime_smoke.json"`读取新证据，再按实际字段定位，不盲目换权重、改GPU或重跑旧实验。修复后本机4项启动测试及3项原Stage-61测试全部通过，后者20.689秒、无跳过；新入口help、Bash只读语法检查、维护检查通过。尚无服务器smoke／AUC结果。
 
 ## 1. 接手后首先要知道的结论
 

@@ -12,8 +12,8 @@ test -f "$CHECKPOINT"
 test -f "$STAGE60_ROOT/manifest.json"
 
 python -B tracking/stage61_search_experiment.py --mode prepare --input "$STAGE60_ROOT" --output_dir "$STAGE61_ROOT"
-python -B tracking/stage61_search_experiment.py --mode smoke --input "$STAGE61_ROOT" --checkpoint "$CHECKPOINT" --gpu "$stage61_gpu"
-python -B tracking/stage61_search_experiment.py --mode evaluate --input "$STAGE61_ROOT" --checkpoint "$CHECKPOINT" --gpu "$stage61_gpu"
+python -B tools/stage61_runtime_replay.py --mode smoke --input "$STAGE61_ROOT" --checkpoint "$CHECKPOINT" --gpu "$stage61_gpu"
+python -B tools/stage61_runtime_replay.py --mode evaluate --input "$STAGE61_ROOT" --checkpoint "$CHECKPOINT" --gpu "$stage61_gpu"
 python -B tracking/stage61_search_summary.py --input "$STAGE61_ROOT"
 
 stage61_report_dir="$PWD/docs/experiments/06_sgla_uav_tracking/results"
@@ -26,10 +26,18 @@ stage61_files=(stage61_decision.json stage61_policy_summary.csv stage61_paired.c
 for stage61_file in "${stage61_files[@]}"; do
   test -f "$STAGE61_ROOT/analysis/$stage61_file"
 done
+for stage61_mode in smoke evaluate; do
+  test -f "$STAGE61_ROOT/diagnostics/stage61_runtime_${stage61_mode}.json"
+done
 {
   for stage61_file in "${stage61_files[@]}"; do
     printf '\n===== %s =====\n' "$stage61_file"
     cat -- "$STAGE61_ROOT/analysis/$stage61_file"
+    printf '\n'
+  done
+  for stage61_mode in smoke evaluate; do
+    printf '\n===== stage61_runtime_%s.json =====\n' "$stage61_mode"
+    cat -- "$STAGE61_ROOT/diagnostics/stage61_runtime_${stage61_mode}.json"
     printf '\n'
   done
 } > "$stage61_report"

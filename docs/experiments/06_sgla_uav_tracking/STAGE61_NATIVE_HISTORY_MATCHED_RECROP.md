@@ -87,6 +87,22 @@ E 内对比及 `[(E history−E recrop)−(native history−native recrop)]` 为
 
 合成 fixture 的上游 Stage-58 来源边界、骨干与采样图像由测试构造；使用真实 CENTER、原公共 decode 和实际调用 hook。它不是完整 GPU 精度复现，也没有重新训练上游阶段。服务器完整 Stage-61 尚未运行。
 
+## 启动身份校验修复（2026-11-02）
+
+服务器首次启动在旧 `make_runtime` 的原生运行环境身份比较处退出，尚未进入图像推理。原错误只报告总比较失败，**目前没有实际差异字段，不能断言权重错误或已经确认配置漂移**。
+
+新增独立入口 [stage61_runtime_replay.py](../../../tools/stage61_runtime_replay.py)：从现有封存 manifest 的 `runtime.config` 构造独立 EasyDict／TrackerParams，只在内存中替换参数加载；仍调用原 Stage-46 工厂并严格核对原 checkpoint SHA、完整配置、PyTorch／CUDA、GPU 型号／UUID、网格维度、OpenCV／NumPy 和原网络状态摘要。当前 YAML 与封存配置的差异另行记录；不同权重或环境直接报出具体字段并停止，不能用此入口放行。
+
+Stage-1～60及 Stage-61 五个实验 Python 文件、现有 manifest／run／轨迹均不修改，因此保留已 prepare 的 Stage-61 目录即可。该入口只修复启动参数复现与诊断，不改变候选、选择、种子、预算或分析。4 项本机启动回归通过，覆盖真实旧工厂调用契约、配置快照恢复，以及错误权重／软件／模型摘要／GPU UUID／网格维度／封存绑定拒绝；CUDA 构造与设备在测试中由 fixture 替代，不等于真实 GPU 验证。
+
+修复后原 Stage-61 的 3 项 CPU 测试也全部通过，20.689 秒、无跳过；新入口 CLI help、Bash 只读 `-n`、维护检查均通过。没有服务器 GPU 结果。
+
+启动记录位于 `diagnostics/stage61_runtime_smoke.json` 和 `stage61_runtime_evaluate.json`，含封存计划指纹与新入口 SHA。成功状态为 `EXACT_SOURCE_RUNTIME_VERIFIED`；身份差异为 `RUNTIME_MISMATCH`；模型构造异常为 `RUNTIME_CONSTRUCTION_FAILED`，保留原异常。单独读取：
+
+```bash
+cat "$STAGE61_ROOT/diagnostics/stage61_runtime_smoke.json"
+```
+
 ## 服务器运行
 
 同步这次代码后，在原 conda 环境执行：
@@ -98,12 +114,12 @@ export STAGE60_ROOT="$PWD/output/stage60/causal_search_state_value_v1"
 export STAGE61_ROOT="$PWD/output/stage61/v1_history_matched_recrop_v1"
 
 python -B tracking/stage61_search_experiment.py --mode prepare --input "$STAGE60_ROOT" --output_dir "$STAGE61_ROOT"
-python -B tracking/stage61_search_experiment.py --mode smoke --input "$STAGE61_ROOT" --checkpoint "$CHECKPOINT" --gpu 0
-python -B tracking/stage61_search_experiment.py --mode evaluate --input "$STAGE61_ROOT" --checkpoint "$CHECKPOINT" --gpu 0
+python -B tools/stage61_runtime_replay.py --mode smoke --input "$STAGE61_ROOT" --checkpoint "$CHECKPOINT" --gpu 0
+python -B tools/stage61_runtime_replay.py --mode evaluate --input "$STAGE61_ROOT" --checkpoint "$CHECKPOINT" --gpu 0
 python -B tracking/stage61_search_summary.py --input "$STAGE61_ROOT"
 ```
 
-也可使用[一键脚本](../../../tools/run_stage61_search.sh)，顺序执行以上流程并以 `cat` 合并本轮全部 9 份分析材料到仓库 `results` 下的 TXT；脚本不执行 commit／push：
+也可使用[一键脚本](../../../tools/run_stage61_search.sh)，顺序执行以上流程并以 `cat` 合并本轮全部 9 份分析材料及 2 份启动记录到仓库 `results` 下的 TXT；脚本不执行 commit／push：
 
 ```bash
 bash tools/run_stage61_search.sh
