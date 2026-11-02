@@ -1,6 +1,6 @@
 # Stage-60：SGLA自身历史候选与后继收益选择
 
-日期：2026-10-31。主任务为原生SGLA无人机单目标跟踪，数据为现有VisDrone-SOT。输入完整Stage-59根目录，沿用其Stage-58来源中的完整末帧保持头E；不更新SGLA骨干、候选、选择器、响应或几何参数。仅拟合轻量线性选择器。服务器尚未运行本轮。
+日期：2026-10-31。主任务为原生SGLA无人机单目标跟踪，数据为现有VisDrone-SOT。用户已报告`REVIEW_CAUSAL_SEARCH_STATE_PILOT`，五份优先材料已齐，见[结果复核](STAGE60_RESULTS_REVIEW.md)。本协议保留预定设计及历史复现入口，不重跑已完成阶段。输入完整Stage-59，沿用其Stage-58来源中的完整末帧保持头E；仅拟合轻量线性选择器，不更新SGLA参数。Stage-1～60实验Python及结果冻结。
 
 ## 从Stage-59继续检验什么
 
@@ -83,9 +83,9 @@ smoke先完成第一个fit视频及前2个窗口，这些提交缓存被正式co
 
 4项CPU测试全部通过（10.333秒、无跳过），覆盖：分量构造与current逐位复制；零基准动作价值与并列保守选择；源组隔离／缓存篡改拒绝；真实CENTER的四候选调用与仅接受自身历史；未来GT改变只影响离线标签；完整Stage-59→Stage-60 prepare／smoke／collect／fit／evaluate／summary；fit和评价缓存复用、held-out GT不改变本折scorer、来源／模型／结果表篡改拒绝。跳过真实Torch／OpenCV测试不算通过。CPU合成测试不代表GPU精度或方法效果。
 
-## 服务器执行
+## 服务器执行（历史复现入口，已完成）
 
-同步5个Stage-60 Python文件与文档，保留Stage-59及完整上游模型／轨迹，在原环境逐条运行：
+用户已完成本轮服务器流程，以下仅保留历史复现命令，不作为下次默认操作；继续保留Stage-60、Stage-59及完整上游模型／轨迹：
 
 ```bash
 cd ~/workspace/paper
@@ -101,7 +101,7 @@ python -B tracking/stage60_state_experiment.py --mode evaluate --input "$STAGE60
 python -B tracking/stage60_state_summary.py --input "$STAGE60_ROOT"
 ```
 
-优先用cat提供以下五份材料，过长时作为文件附件：
+以下五份材料已全部收到并复核，不重复索取；cat命令只作定位参考：
 
 ```bash
 cat "$STAGE60_ROOT/analysis/stage60_decision.json"

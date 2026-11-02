@@ -1,0 +1,2 @@
+# Preserve a runnable Bash workflow when this Windows workspace is checked out.
+tools/run_stage61_search.sh text eol=lf

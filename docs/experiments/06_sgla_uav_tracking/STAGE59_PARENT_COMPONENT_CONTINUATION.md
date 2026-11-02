@@ -1,6 +1,6 @@
 # Stage-59：后继搜索父框的中心／尺寸与冻结头交叉诊断
 
-日期：2026-10-31。主任务仍为原生SGLA无人机单目标跟踪，使用现有VisDrone-SOT。用户已报告`COMPLETE_PARENT_COMPONENT_CONTINUATION_DIAGNOSTIC`，五份优先材料已齐，见[结果复核](STAGE59_RESULTS_REVIEW.md)。本协议保留预定设计与历史复现入口，Stage-1～59实验Python及固定结果冻结，不重复采集。本轮原先4项真实CPU测试通过（301.661秒、无跳过）；当前新入口是[Stage-60](STAGE60_CAUSAL_SEARCH_STATE_VALUE.md)。
+日期：2026-10-31。主任务仍为原生SGLA无人机单目标跟踪，使用现有VisDrone-SOT。用户已报告`COMPLETE_PARENT_COMPONENT_CONTINUATION_DIAGNOSTIC`，五份优先材料已齐，见[结果复核](STAGE59_RESULTS_REVIEW.md)。本协议保留预定设计与历史复现入口，不重复采集。本轮原先4项真实CPU测试通过（301.661秒、无跳过）；后续Stage-60也已完成，当前结果见[Stage-60复核](STAGE60_RESULTS_REVIEW.md)。Stage-1～60实验Python及结果冻结。
 
 ## 本轮问题与新增信息
 

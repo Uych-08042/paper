@@ -66,7 +66,7 @@ P头下PE−PP的32帧均值+0.8177、末帧+0.8498；EE、EP、PP的相应均�
 
 ## 当前接续状态
 
-Stage-59本身没有新训练，结果判读保持不变。随后用户要求继续，现已准备[Stage-60自身历史候选与后继收益选择](STAGE60_CAUSAL_SEARCH_STATE_VALUE.md)，通过4项真实CPU测试，待服务器运行。Stage-1～59实验Python与来源结果冻结，不重跑Stage-54～59或重复索取已有五份材料。细分响应排序／输出宽高若确为新设计所需，使用服务器既有point_details、branch_contrasts、rollout_summary及timelines，不从当前表补造。
+Stage-59本身没有新训练，结果判读保持不变。随后[Stage-60自身历史候选与后继收益选择](STAGE60_CAUSAL_SEARCH_STATE_VALUE.md)已由用户完成并报告REVIEW，五份材料已齐，见[Stage-60结果复核](STAGE60_RESULTS_REVIEW.md)。Stage-1～60实验Python与来源结果冻结，不重跑Stage-54～60或重复索取已有材料。细分响应排序／输出宽高若确为新设计所需，使用服务器既有详细表与缓存，不从汇总表补造。
 
 这些是7个已消费锚点的条件干预，不是独立外部验证、全视频AUC提升或已成立新方法。32帧边界会截断局部事件，某些差为0不能推出绝对IoU或绝对恢复率为0；所提供表未列全部分支绝对窗口值。
 

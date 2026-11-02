@@ -1,26 +1,30 @@
 # 工作交接：SGLATrack 无人机跟踪与模型压缩探索
 
-更新日期：2026-10-31（Asia/Hong_Kong）
+更新日期：2026-11-02（Asia/Hong_Kong）
 
-当前结果阶段：Stage-59，五份材料已齐，条件机制结论见第0.9节：中心与搜索尺寸有明显条件交互，特定混合父框能恢复冻结头；这不是全视频新方法通过。当前新服务器入口为Stage-60：用单个SGLA自身历史构造四候选，对照响应峰值、当帧收益与8帧后继收益选择；5个新Python文件已准备，4项真实CPU测试通过（10.333秒、无跳过），服务器未运行，见第0.10节。Stage-45检测支线暂不执行。
+当前结果阶段：Stage-60，用户报告`REVIEW_CAUSAL_SEARCH_STATE_PILOT`，decision／policy／paired／scope／fit_support五份材料已齐。response AUC67.7506，对current +3.7427、9胜3负但区间跨零；future对immediate +3.6137，对current仅+0.1842、对response −3.5585且家族区间全负，保护未过。来源重放误差0，预算／曝光通过，四表SHA与JSON指纹重算相符。Stage-1～60实验Python冻结；Stage-61已实现并通过本机CPU测试，尚未在服务器运行，入口见第0.12节。Stage-45检测支线暂不执行。
+
+2026-11-01新增交接：**SGLATrackV2源码发现、训练日志判读与后续启发见第0.11节**。当前实验仍使用V1／E，不因V2发布默认切换基线；优先补原始V1权重上的候选选择与同预算控制，再考虑V2迁移及搜索状态—特征记忆一致性。此次只整理知识与建议，未启动新实验。
 整理前 Git 基点：`91052cd71d49d1397197ea9d5f532f12d37d2c91`
 
 ## 0. 下一次对话的直接接续入口
 
-本节记录截至2026-10-31本次对话结束时的具体状态。**最新结果见[Stage-59复核](docs/experiments/06_sgla_uav_tracking/STAGE59_RESULTS_REVIEW.md)，五份材料已齐，不重跑Stage-54～59。用户随后要求下一轮，当前入口为[Stage-60自身历史搜索状态选择](docs/experiments/06_sgla_uav_tracking/STAGE60_CAUSAL_SEARCH_STATE_VALUE.md)，4项真实CPU测试通过（10.333秒、无跳过），服务器未运行，详见第0.10节。Stage-59离线较好混合框不能直接当作已可部署的在线选择，Stage-60正在检验因果候选与选择能力。**
+本节更新至2026-11-02。**最新已完成实验结果见[Stage-60复核](docs/experiments/06_sgla_uav_tracking/STAGE60_RESULTS_REVIEW.md)，五份材料已齐，详见第0.10节；V2启发见第0.11节。下一轮[Stage-61原始V1历史候选与匹配重裁剪](docs/experiments/06_sgla_uav_tracking/STAGE61_NATIVE_HISTORY_MATCHED_RECROP.md)已完成代码及本机CPU验证，服务器尚未运行，直接入口见第0.12节。不重跑Stage-54～60；保留自身历史＋响应选择分支，补原始权重及同预算控制，暂不切换V2。**
 
-**先读本节，再读[Stage-54结果复核](docs/experiments/06_sgla_uav_tracking/STAGE54_RESULTS_REVIEW.md)和[Stage-55结果复核](docs/experiments/06_sgla_uav_tracking/STAGE55_RESULTS_REVIEW.md)**；下文早期阶段的“下一步”均为当时历史，不应覆盖此处当前状态。研究范围文档末尾的Stage-46待运行说明也是历史文字。
+**先读本节与Stage-60结果复核**；[Stage-54](docs/experiments/06_sgla_uav_tracking/STAGE54_RESULTS_REVIEW.md)和[Stage-55](docs/experiments/06_sgla_uav_tracking/STAGE55_RESULTS_REVIEW.md)保留较早的保持处理／父框后继证据。下文早期阶段的“下一步”均为当时历史，不应覆盖当前状态。研究范围文档末尾的Stage-46待运行说明也是历史文字。
 
 ### 0.1 固定目标与当前进度
 
 - 用户目标是**以SGLA为基础开展无人机单目标跟踪研究**，数据目前只有VisDrone-SOT；不默认改为检测、多目标跟踪或要求补齐XS-VID／VisDrone-VID。
 - 评价采用首帧GT初始化后的完整自身预测轨迹。当前12个源组、2折每折6 fit／6 held-out、种子2132／2133已反复用于设计，是开发证据；不要称为新的独立外部验证。
-- 原生SGLA执行6个前缀块＋L7～L12中1个独立候选块，保留原始首帧模板，原生实现没有在线模板更新。它不是串行12层ViT。
+- 当前使用的V1原生SGLA执行6个前缀块＋L7～L12中1个独立候选块，保留原始首帧模板，原生实现没有在线模板更新。它不是串行12层ViT。V2另有4＋1路径与历史特征，详见第0.11节，勿混用版本描述。
 - Stage-54训练和完整OOF已完成，状态为`REVIEW_SHORT_ROLLOUT_ENDPOINT_PILOT`。Stage-55诊断已完成，状态为`COMPLETE_MATCHED_PARENT_CONTINUATION_DIAGNOSTIC`；该COMPLETE不是新方法PASS。
 - **Stage-56服务器已报告完成并为REVIEW。** 12头／72条新完整OOF、4个完整末帧控制精确复现检查通过；主要AUC差−1.3179、名义CI[−5.3575,+1.5984]、6胜6负，种子差−2.0925／−0.5432。五份结果已齐，不重复索取，不重跑Stage-54～56。
 - **Stage-57已完成并为REVIEW。** 主要质量选择对完整保持−3.6057、两个种子均负，对随机+1.0364但区间跨零；0204双种子无失效，整体恢复与原稳定保护未过。五份材料已齐，见第0.7节；Stage-58已报告完成，结果与接续边界见第0.8节。
 - **Stage-58已完成并为REVIEW。** 12头／72条OOF，四个完整控制精确复现检查通过，投影曝光充分；主比较未过，能力保护未过。五份结果已齐，详见第0.8节。
-- **Stage-59已完成条件诊断。** 7锚点×2种子、56个共享输入／112条分支，五份材料已齐，见第0.9节。中心×尺寸可强烈交互，特定混合父框能恢复同一冻结头的后继表现；没有新方法采用门槛。Stage-1～59实验Python冻结；Stage-60已准备，见第0.10节。
+- **Stage-59已完成条件诊断。** 7锚点×2种子、56个共享输入／112条分支，五份材料已齐，见第0.9节。中心×尺寸可强烈交互，特定混合父框能恢复同一冻结头的后继表现；没有新方法采用门槛。
+- **Stage-60已完成并为REVIEW。** 96条OOF、8个scorer，SGLA权重固定。response方向积极但总体区间跨零；future未超过response，且新增current稳定视频失效。五份材料已齐，见第0.10节；Stage-1～60实验Python冻结。
+- **Stage-61代码已准备，尚无服务器结果。** 新增原始V1历史选择、原始V1当帧重裁剪和E当帧重裁剪；复用原生／E current及E response。3项CPU测试通过，见第0.12节。
 - 当前以“保住多数适配收益，减少持续失跟及原稳定轨迹损伤”为主问题。新增价值可以建立在已有方法上；用户不要求绝对原创，也不希望因有相似工作就结束探索。
 
 ### 0.2 Stage-54：主要对照、结果及不能丢失的取舍
@@ -104,16 +108,19 @@ Stage-56上述固定配方已经完成，未达预定保护与改进目标。后
 | `tracking/stage58_gradient_experiment.py`、`stage58_gradient_summary.py`、`test_stage58_gradient.py` | 已完成阶段与CPU验证入口，结果见第0.8节 |
 | `tracking/stage59_parent_common.py`、`stage59_parent_collect.py`、`stage59_parent_summary.py`、`test_stage59_parent.py` | 已完成的父框分量交叉与32帧后继诊断；4项真实CPU测试此前已通过，结果见第0.9节 |
 | `tracking/stage60_state_common.py`、`stage60_state_runtime.py` | 自身历史四候选、GT-free白名单特征、岭回归、原生探测与后继标签 |
-| `tracking/stage60_state_experiment.py`、`stage60_state_summary.py`、`test_stage60_state.py` | prepare／smoke／collect／fit／evaluate及汇总；4项真实CPU测试通过，待服务器 |
+| `tracking/stage60_state_experiment.py`、`stage60_state_summary.py`、`test_stage60_state.py` | 已完成prepare／smoke／collect／fit／evaluate及汇总；4项真实CPU测试此前通过，结果见第0.10节 |
+| `tracking/stage61_search_common.py`、`stage61_search_runtime.py`、`stage61_search_experiment.py`、`stage61_search_summary.py`、`test_stage61_search.py` | 原始V1／E匹配重裁剪流程与3项已通过CPU测试；服务器待运行，见第0.12节 |
+| `tools/run_stage61_search.sh` | 顺序运行prepare／smoke／evaluate／summary，并用cat合并9份结果；不执行Git提交或推送 |
 | `output/stage54/short_rollout_endpoint_v1/` | 服务器训练、完整OOF及6张已收到表所在目录 |
 | `output/stage55/matched_parent_continuation_v1/` | 服务器共同输入及分支缓存、3张已收到关注表和详细几何 |
 | `output/stage56/first_transition_preservation_v1/` | 服务器已完成12头／72轨迹；五份结果已收到，完整GPU产物仍在服务器 |
 | `output/stage57/quality_selective_endpoint_v1/` | 服务器已完成12头／72条新OOF，五份结果已齐，完整GPU产物仍在服务器 |
 | `output/stage58/projected_endpoint_gradient_v1/` | 服务器已完成12头／72条新OOF，五份结果已齐；内部校验通过，完整GPU产物仍在服务器 |
 | `output/stage59/parent_component_continuation_v1/` | 服务器已完成56共享输入／112条32帧分支，五份材料已齐；完整8表／缓存仍在服务器 |
-| `output/stage60/causal_search_state_value_v1/` | 新服务器输出目录，当前未运行；勿与Stage-59或Stage-58来源目录重叠 |
+| `output/stage60/causal_search_state_value_v1/` | 服务器已完成96条OOF；五份优先材料已齐，完整9表／fit缓存／模型／轨迹仍在服务器 |
+| `docs/experiments/06_sgla_uav_tracking/results/stage60_results_20261031T042013Z.txt` | 用户已上传并同步的五份合并原件，保持字节不变 |
 
-Stage-54已收到scope／policy／retention／focus／paired／video_summary六表；Stage-55已收到focus／crossed_matrix／branch_contrasts三表，分别10／25／50行。Stage-56 decision及policy／scope／paired／focus也已收齐，四表6／12／40／30行。Stage-57及Stage-58同样已收到decision及四表，四表行数各为6／12／40／30。Stage-59已收到diagnostic及focus／crossed_matrix／factor_summary／exposure，四表14／56／42／14行。**不要在新对话中再次请求这些材料或重跑已完成阶段。** 本机保存了复核文档和数值记录，没有服务器完整缓存、模型和未提供的diagnostic原件；Stage-56～59提供了decision或diagnostic完整文本，均已重算自身指纹和四张粘贴CSV的SHA，但未独立重验服务器全部模型／缓存SHA或真实调用。仍未收到的Stage-54总体种子差在服务器decision中，但它不妨碍判断已有保护条件未过，无需为此默认追加索取。
+Stage-54已收到scope／policy／retention／focus／paired／video_summary六表；Stage-55已收到focus／crossed_matrix／branch_contrasts三表，分别10／25／50行。Stage-56 decision及policy／scope／paired／focus也已收齐，四表6／12／40／30行。Stage-57及Stage-58同样已收到decision及四表，四表行数各为6／12／40／30。Stage-59已收到diagnostic及focus／crossed_matrix／factor_summary／exposure，四表14／56／42／14行。Stage-60已收到decision及policy／paired／scope／fit_support，四表5／30／8／24行，原件已存本机仓库results目录。**不要在新对话中再次请求这些材料或重跑已完成阶段。** 本机未持有服务器完整缓存／模型及未提供的详细表；Stage-56～60提供的decision或diagnostic完整文本均已重算自身指纹及四表SHA，但未独立重验服务器全部模型／缓存SHA或真实调用。仍未收到的Stage-54总体种子差不影响判断已有保护条件未过，无需为此默认追加索取。
 
 用户查看文件偏好`cat`。定位服务器现有产物时先进入仓库再设置变量，防止此前出现的`~/workspace/output`误指；以下只定位，不启动实验：
 
@@ -124,7 +131,7 @@ export STAGE54_ROOT="$PWD/output/stage54/short_rollout_endpoint_v1"
 export STAGE55_ROOT="$PWD/output/stage55/matched_parent_continuation_v1"
 ```
 
-仓库忽略CSV／NPZ等实验产物，Git同步不是结果备份。服务器要保留Stage-54／55及上游来源链的manifest、run、收据、模型、特征缓存和轨迹；不能只留下analysis表或删除被新阶段校验引用的来源文件。
+仓库忽略CSV／NPZ等实验产物，Git同步不是结果备份。服务器要保留Stage-54～60及上游来源链的manifest、run、收据、模型、特征缓存和轨迹；不能只留下analysis表或删除被新阶段校验引用的来源文件。
 
 本机前轮CPU测试使用下面的已有运行时；仅在新改动需要验证时按需使用，CPU合成测试不是GPU精度复现：
 
@@ -134,11 +141,11 @@ $env:PYTHONDONTWRITEBYTECODE='1'
 & 'D:\Users\23920\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe' -B tracking/test_stage60_state.py -v
 ```
 
-维护检查为`python -B tools/check_workspace.py`，最近通过：505个保留文件、200个归档移动、106个原活动依赖、0个再生缓存；`git diff --check`和文档链接检查通过。Stage-1～59 Python源码保持冻结。本次新增5个Stage-60 Python文件与协议，更新交接／索引及前轮后续链接，保留既有Stage-59复核编辑；需要随仓库一起同步。本助手未替用户commit或push，不覆盖现有未提交修改。实验自身指纹校验严格，后续改变设计应新建阶段／目录，不直接改旧代码或收据。
+维护检查为`python -B tools/check_workspace.py`，最近通过：505个保留文件、200个归档移动、106个原活动依赖、0个再生缓存；`git diff --check`和文档链接检查通过。Stage-1～60 Python源码保持冻结。本次仅新增Stage-60复核与更新交接／索引／前轮后续链接；原始合并TXT不改。本助手未替用户commit或push，不覆盖现有未提交修改。实验自身指纹校验严格，后续改变设计应新建阶段／目录，不直接改旧代码或收据。
 
 可在下一次对话给出以下接续提示：
 
-> 先读取WORK_HANDOFF.md第0节，特别是0.9／0.10及Stage-60协议。核心任务仍是SGLA无人机单目标跟踪。Stage-59五份材料已齐，Stage-60已实现自身历史四候选、当帧／后继收益选择及完整OOF流程，4项真实CPU测试通过，服务器未运行。先接续该入口或复核用户提供的Stage-60结果，不直接跳到Stage-61。不能在线读未来GT，也不能把四候选计算当成免费；不要重复索取已有表或重跑Stage-54～59。
+> 先读取WORK_HANDOFF.md第0节（特别是0.10～0.12）及Stage-61协议。核心任务仍是SGLA无人机单目标跟踪，当前使用V1／E，尚未切换V2。Stage-60五份材料已齐，response对current +3.7427但区间跨零，future未胜过response。Stage-61已完成代码与3项CPU验证，服务器尚未运行：在原始V1与E中比较历史四候选和当帧重裁剪四候选，q0复用保证每帧四次调用。使用一键脚本收集新结果，不重跑Stage-54～60或重复索取旧材料，不把4次搜索当作免费。V2仍为后续迁移与记忆一致性研究方向。
 
 ### 0.6 Stage-56最新结果与接续边界
 
@@ -224,13 +231,13 @@ C01／C03的中心×尺寸均值交互约−0.8837／−0.7378；C04约−0.8161
 
 这轮把问题具体化为**中心与搜索范围的条件兼容性**：混合两个失败路径的分量仍可形成较好起点；较小中心误差、coverage=1、更大目标像素都不是充分条件。共同EE换头的窗口均值范围−0.0083～+0.0162，部分自身差却很大，支持重视输入条件，但不说明所有头作用均小。尺寸交换改变搜索范围／分辨率等，不能等同输出尺寸回归。0176较小搜索有时好、有时坏，0204较大搜索好，不默认统一放缩或平滑。
 
-当前无新方法采用、独立外部泛化或全视频提升结论。有效混合起点是保存的两模型来源预测的离线交叉；单个在线系统的因果候选及选择能力由新准备的Stage-60检验，见第0.10节。不要按GT在线挑框，不重跑Stage-54～59，也不重复索取五份已齐材料。详细point_details／rollout_summary／branch_contrasts／timelines仍留服务器，仅在设计确需时利用。
+Stage-59没有建立新方法采用、独立外部泛化或全视频提升。单个在线系统的因果候选及选择能力随后已由Stage-60检验，见第0.10节。不要按GT在线挑框，不重跑Stage-54～60，也不重复索取已齐材料。Stage-59详细point_details／rollout_summary／branch_contrasts／timelines仍留服务器，仅在设计确需时利用。
 
 Stage-59 plan为`f572d132a9d39091d3dc251855f54a6b112eb8f3c65e633a61a9665ba701c647`，run为`771caa5ef9fffadbd8d0ecf6e75d89f906be1630a32fccba01cd2731a43224fc`，diagnostic为`94d7c73c7030bfe73d7fb8b21a5d2e116b3620484d8be5002a3908673405c6a4`；附件SHA及完整细节见结果复核。助手没有commit／push或登录服务器。
 
-### 0.10 当前服务器入口：Stage-60自身历史候选与后继收益
+### 0.10 最新结果：Stage-60自身历史候选与后继收益
 
-[协议、完整预算与命令](docs/experiments/06_sgla_uav_tracking/STAGE60_CAUSAL_SEARCH_STATE_VALUE.md)。输入完整Stage-59，输出新`output/stage60/causal_search_state_value_v1/`。沿用来源E完整末帧保持头，不用投影P作为部署基础；SGLA全部参数／BN和原首帧模板固定，仅拟合8个小岭回归scorer。
+[完整结果复核](docs/experiments/06_sgla_uav_tracking/STAGE60_RESULTS_REVIEW.md)，[预定协议与历史命令](docs/experiments/06_sgla_uav_tracking/STAGE60_CAUSAL_SEARCH_STATE_VALUE.md)。用户已报告`REVIEW_CAUSAL_SEARCH_STATE_PILOT`，五份材料已齐。输入完整Stage-59，输出`output/stage60/causal_search_state_value_v1/`。沿用来源E完整末帧保持头，SGLA全部参数／BN和首帧模板固定，仅拟合8个小岭回归scorer。
 
 最近至多5个已接受框，组成当前中心／t−2滞后中心×当前尺寸／log中位历史尺寸四候选。current整个框逐位复制。response按Hann峰值选择；immediate_value学当帧相对收益；future_value学8帧均值相对收益。两种学习器共享24维GT-free响应／几何／历史交互特征、候选、拟合样本、RMS缩放、λ=0.01及无截距模型。current收益恒0，需高1e-6才改选；不搜索窗口、系数或threshold。四候选都走原生完整网络，只把选中原始输出接入自身历史，不平滑输出，不从其他OOF轨迹取在线父框。
 
@@ -240,10 +247,119 @@ Stage-59 plan为`f572d132a9d39091d3dc251855f54a6b112eb8f3c65e633a61a9665ba701c64
 
 主要对比future−immediate，必要控制future−response／current；三个AUC对比用家族区间。积极开发要求主均值及对current均值均≥+0.5、三个家族下界>0、两个种子主要收益均正；不新损伤current稳定视频，低IoU不升，可靠帧差下界≥−1.0，current原获益视频仍全获益，至少4视频有实际预测变化。只标记PROMISING／REVIEW开发pilot，不等于独立方法通过。
 
-本机4项真实CPU测试通过（10.333秒、无跳过），覆盖组件／动作价值、源组隔离、真实CENTER／原生解码与调用、接受历史和GT隔离、真实生成Stage-59诊断再接Stage-60完整流程、缓存复用／恢复、held-out GT不改变本折scorer，以及来源／模型／结果篡改拒绝。上游Stage-58边界用合成fixture，未重复旧训练链；CPU流程不代替GPU精度验证。5文件AST／纯NumPy CLI与维护检查见当前记录。服务器未运行，助手无commit／push或服务器登录。
+本机原先4项真实CPU测试通过（10.333秒、无跳过），包含真实CENTER／原生解码、float32 Hann近并列峰、GT隔离、Stage-59→60合成流程和篡改拒绝。服务器现已完成，本机重算JSON指纹、四表CRLF SHA、30条配对均值及主要对照均相符；current来源框误差0，最大解码0.00048828125。调用397,132＋额外smoke416符合固定预算；support通过。未独立重验服务器全模型／原始缓存，本次不重跑CPU或GPU。
 
-同步5个新Python文件后按协议依次prepare／smoke／collect／fit／evaluate／summary。优先cat提供decision／policy_summary／paired／scope_summary／fit_support五份；其他逐视频／种子／retention／focus／events、fit缓存／模型／轨迹及完整来源继续保留。Stage-60尚无结果，不预写效果，也不开始Stage-61。
+| 策略 | 宏AUC | 低IoU | 可靠帧AUC | 相对current稳定视频新增失效 |
+|---|---:|---:|---:|---:|
+| native | 63.4512 | 14.4573% | 75.5602 | — |
+| current | 64.0079 | 14.7953% | 72.0353 | 0 |
+| response | 67.7506 | 10.7647% | 73.3873 | 0 |
+| immediate | 60.5784 | 21.0583% | 67.5821 | 1 |
+| future | 64.1921 | 15.0800% | 69.7859 | 1 |
 
+主要future−immediate +3.6137，CI[−2.9970,+10.6309]、9胜3负、最小留一+1.4009；种子+0.0536／+7.1738，大部分均值来自2133。对current仅+0.1842，CI[−8.1315,+7.9157]、6胜6负，可靠帧−2.2494、低IoU+0.2847个百分点，保护未过。对response −3.5585，名义CI[−9.5467,−0.2118]、家族CI[−12.0978,−0.1294]、1胜11负；去掉最差负视频后仍约−0.6866。不能把优于一个退化immediate控制写成优于更强简单控制。
+
+response对current +3.7427，CI[−1.0196,+9.5075]、9胜3负、最小留一+1.7356；低IoU−4.0306个百分点，未引入额外current稳定失效。对固定current失败帧队列（8视频）+18.2745，名义CI[+0.6839,+38.5658]、6胜2负。积极信号值得保留，但全视频区间仍跨零、中位差仅+0.1265、最大视频差约+25.8206；不能追认PASS。对native描述性宏差+4.2994，直接配对区间未提供；可靠帧仍−2.1730，仍有1条原生稳定视频失效。
+
+24条自身轨迹的事件由均值还原：current 23失效／14恢复／9末尾未恢复；response 13／6／7；immediate 16／3／13；future 13／2／11。future事件减少却恢复更少、未恢复更多，不是恢复机制已增强。原生可靠帧与current失败帧队列不是互斥分区，不能加和解释全视频贡献。
+
+fit为576个唯一状态／1,728个非current动作样本，两个标签共享；平均3.2587份不同裁剪，314／576有正8帧选项，事后最佳均值+0.007263（0～1 IoU，非AUC上限）。future非零目标257～353／432，fit MSE甚至可下降约85.1%，仍不代表OOF选择可靠。在线future宏预测改变68.95%、取整裁剪改变63.76%，所有12视频有处理；不是未学习或没有干预。fold0拟合0003／0204／0226／0237／0307／0342，部署另6；fold1相反，不能把同名fit行当其自身OOF训练覆盖。
+
+仪表化中位pipeline current6.39ms、response22.86ms、immediate23.02ms、future23.15ms；response约3.58倍，实际搜索4倍。不含读图／哈希，不能当部署FPS。immediate P95=353.65ms显著异常，其他选择组约26.6ms；仅凭汇总不能指定是算法固有开销或运行负载。
+
+response−current还同时增加了搜索预算和多裁剪选择，未隔离历史构造优于同预算普通多裁剪。后续若验证该分支方法价值，需对应计算控制或验证减少探测次数仍保留收益，不能把全部正差归功于历史先验。
+
+已有五份材料足够主判读，不重复索取。逐视频／种子／retention／focus／events及四候选缓存仍留服务器；后续需要定位response负收益或future损伤时优先离线利用。可以同状态对比缓存即时排序，不能把反复选择的实际后继冒充全部候选的普通8帧回报。Stage-60复核时下一轮尚未设计，现已由第0.12节落实Stage-61；Stage-1～60代码与结果冻结，不搜索λ／阈值／窗口／种子或重跑本轮。
+
+解释字段时注意：Stage-60的`worst_video_delta`统一存原始delta最小值，只有AUC等正向指标可称最差；低IoU／最长失效的该字段不是最差损伤。均值／CI／REVIEW无此问题。原封存Python和CSV保留，后续新阶段按有利方向重算最差，勿沿用错误命名。
+
+Stage-60 plan为`5dbcda645746c948a3bcb30b5e0879e67eba8f399fbbbcb14e924f76dd28c873`，run为`f7d13fbe13ddec2b3739eb07e12f4c48d871d34ded2f93d20842688618104cc4`，decision为`f127ade8e2b00691c815de4dc06b7654a7dd12b94354849667119850f754ed15`；合并TXT SHA及细节见结果复核。无独立外部验证或部署收益结论，助手无commit／push或服务器登录。
+
+
+### 0.11 2026-11-01：SGLATrackV2源码、日志与下一轮启发
+
+**本节是已核对的相关方法事实、研究假设和建议顺序，不是已冻结的Stage-61协议，也不表示用户已要求切换V2或启动训练。** 用户要求将这些启发写入交接，便于下次实验接续。SGLA无人机单目标跟踪目标不变；已有相似方法不构成否定方向的理由，需检验新增价值。
+
+**版本与来源。** 官方[V2目录](https://github.com/GXNU-ZhongLab/SGLATrack/tree/main/SGLATrackV2)的README称其为SGLATrack扩展版，阅读时仍写TPAMI在审，没有可直接核对的V1／V2成绩对照表。本轮比较公开源码，未加载V2权重或运行V2推理。2026-11-01查询GitHub API时，上游main提交为`6eb0f977d3a5f6c080b8b2ec89c3e97705384afe`，提交时间2026-08-14T07:44:29Z；下列链接固定该提交方便追溯。逐文件SHA下载核验遇超时，未完成；不要描述为已完整归档／逐字节验证V2来源，下次实际接入前应自行固定代码与权重SHA。
+
+- [V2 README](https://github.com/GXNU-ZhongLab/SGLATrack/blob/6eb0f977d3a5f6c080b8b2ec89c3e97705384afe/SGLATrackV2/README.md)。
+- [活动CAE骨干与历史token生成](https://github.com/GXNU-ZhongLab/SGLATrack/blob/6eb0f977d3a5f6c080b8b2ec89c3e97705384afe/SGLATrackV2/lib/models/sglatrackv2/vit_cae_async.py)。
+- [模型训练／推理入口](https://github.com/GXNU-ZhongLab/SGLATrack/blob/6eb0f977d3a5f6c080b8b2ec89c3e97705384afe/SGLATrackV2/lib/models/sglatrackv2/sglatrackv2.py)。
+- [在线跟踪器及记忆更新](https://github.com/GXNU-ZhongLab/SGLATrack/blob/6eb0f977d3a5f6c080b8b2ec89c3e97705384afe/SGLATrackV2/lib/test/tracker/sglatrackv2.py)。
+- [多搜索帧训练Actor](https://github.com/GXNU-ZhongLab/SGLATrack/blob/6eb0f977d3a5f6c080b8b2ec89c3e97705384afe/SGLATrackV2/lib/train/actors/sglatrackv2.py)。
+- [公开配置baseline_WOCE_cae.yaml](https://github.com/GXNU-ZhongLab/SGLATrack/blob/6eb0f977d3a5f6c080b8b2ec89c3e97705384afe/SGLATrackV2/experiments/sglatrackv2/baseline_WOCE_cae.yaml)。
+
+**已经确认的代码变化（针对当前V1 DeiT与上述V2 CAE配置，不能推广为所有变体）。**
+
+| 模块 | 当前V1 | V2公开实现 | 接续解释 |
+|---|---|---|---|
+| 模板与交互 | 每帧联合编码固定首帧模板与搜索图 | 初始化`mode='z'`编码并缓存`self.z`；搜索queries读取模板／历史／搜索信息 | 缓存配套改变交互结构，不能在V1直接缓存后宣称输出不变 |
+| 历史状态 | 上一预测框决定裁剪，无原生特征记忆 | 将`hlist`作为前缀加入搜索；选中候选块按搜索对模板／历史前缀注意力排序，提取6个搜索特征token | 当前帧信息影响后续特征；高注意力不等于GT确认可靠 |
+| 记忆更新 | 原模板固定 | 活动代码为`self.hlist = aux_dict['hlist']` | 每帧替换紧凑特征记忆，并非注释中的每5帧累积多帧库 |
+| 选层 | 6公共前缀＋L7～L12中1个独立块 | `start_layer=3`，4公共前缀＋L5～L12中1个独立块 | 自适应仍主要选择候选身份，不能说V2串行执行12层或由难度任意改变深度 |
+| 骨干与输入 | DeiT-Tiny、192维，搜索256、模板128，搜索倍率4 | CAEv2-Small、384维，输入尺寸不变，搜索倍率5，预训练`caev2_small_300ep.pth` | 不只改变记忆；块数减少不等于已测出速度提升，V1／V2总差有多项混杂 |
+| 训练 | 一模板、一搜索帧 | 一模板、四搜索帧，顺序处理并传递历史；逐帧GIoU／L1／focal／相似度选层损失相加 | 四搜索帧是训练输入数量，不是同一当前图像四次候选探测，也不证明自身预测裁剪的闭环稳定性已解决 |
+
+推理中新增模板图像采集／模板库更新代码被注释，配置中`TEMPLATE_NUMBER:3`不能据此认定动态模板更新已启用；`CE_LOC:[]`／`CE_KEEP_RATIO:[]`不应被说成当前配置已使用token剔除。选层仍用候选块输入／输出余弦相似度生成标签，并非未来IoU／强化学习选层。V2在线仍从上一预测框生成一个搜索裁剪，没有本项目的中心×尺寸四候选选择。
+
+**与当前实验、方法框架的关系。** 我们目前用V1 `sglatrack_ep0297.pth.tar`作原始网络基础；native为未适配原头，Stage-60 current／response／两种value策略在同折同种子共享E几何适配头。E对应Stage-54 rollout_preserve／Stage-58 endpoint_control，只曾训练size／offset，Stage-60网络完全固定，两种value仅额外拟合8个评分器。尚未用到V2的CAE或hlist。原生63.4512是VisDrone2019-SOT train来源的12个开发视频宏AUC，不是官方全测试集成绩，也不是V2成绩。裁剪本身属于原生机制；当前新增价值假设是因果历史中心—尺寸组合的搜索输入选择，而非“首次引入裁剪”。[初始中英文方法图及图注](docs/figures/sgla_search_state_v1/README.md)明确画的是V1／E，尚未接入V2记忆。
+
+V2提供三条可发展的启发：
+
+1. **迁移对照：** 在已有时序特征记忆的模型上，搜索父框是否仍造成持续失跟？若历史几何选择仍有效，支持其价值超出单个E头；若收益变小，可能表明特征记忆缓解部分问题，但需匹配证据。须先做同一模型内部比较，不能将V1／V2总差唯一归因于记忆。
+2. **搜索状态与记忆的一致性：** 可检验“不合适裁剪→关注干扰物→生成错误记忆→后续定位与裁剪继续受影响”的双反馈假设。未来选择准则可同时关注即时定位与后续记忆质量，而不只取当前最大响应。该错误链及相应收益目前均未验证，不写成既有发现或已实现新模块。
+3. **成本设计：** V2的模板缓存有减少重复模板处理的设计意义，但不能直接移植到V1联合自注意力而假定等价。不同裁剪的搜索特征仍需分别算；每帧候选次数、模板初始化、额外memory读写和实际时延分别记账。
+
+**若接入V2，候选探测的状态隔离是必要工程要求。** 每个候选都从同一份`t−1`已接受状态开始，包含预测框、框历史、hlist与其他可变跟踪状态；首帧缓存模板保持一致。为各分支克隆会被原地修改的张量，不仅复制Python引用。四次探测不得串行覆盖共享hlist；仅在确定选择后一次性提交“选中原始框＋该分支生成的记忆”，其他候选均丢弃。逻辑frame_id每个真实图像推进一次，不能把四次probe计成四帧。先核对单路径V2原生控制重放，再检查候选调用顺序不改变各自结果、未选分支不污染状态、未来GT不改变动作，保留实际调用／状态审计。
+
+```text
+同一已接受状态：b(t−1)、H(t−1)、h(t−1)、固定模板缓存
+  ├─ q0 → 原始输出b0、分支记忆h0
+  ├─ q1 → 原始输出b1、分支记忆h1
+  ├─ q2 → 原始输出b2、分支记忆h2
+  └─ q3 → 原始输出b3、分支记忆h3
+选择k后仅提交bk、hk；未选输出和特征不进入已接受历史。
+```
+
+未来若做匹配起点后继诊断，必须连同特征记忆一起绑定起点；只交换父框而混用另一条轨迹的hlist不再是同状态比较。应明确处理对象是“几何”“记忆”还是二者联合，并匹配相应对照；不默认联合改动就能唯一归因。GT仍仅限初始化及fit离线监督／评价。
+
+**建议的下一轮顺序（尚未立项／实现）。** 先利用Stage-60现有详细表／四候选缓存定位响应负例；优先补“原始V1权重＋历史候选响应选择”，明确当前收益是否依赖E适配头，再增加同预算普通多裁剪控制，分离历史构造与4次搜索的作用。固定配方后在未参与设计的源组评价；既有12组继续标记开发证据。随后才将V2作为相关方法／迁移对照，比较V2自身基线、V2历史候选和同预算普通多裁剪；必要时再针对记忆一致性提出新处理。当前不因追求创新立即全网重训、叠加记忆模块或搜索窗口／阈值／种子。推理策略可以固定网络形成方法；若学习评分，先训练和验证评分器本身的独立价值。若普通同预算多裁剪已取得相同效果，应如实调整历史构造的贡献定位，而非只改命名。
+
+**用户提供的V2训练日志已读取，无须重复索取。** 原件在本机仓库外`E:\Program Files\LETrack\SGLATrackV2\logs\odtrack-baseline_WOCE_cae.log`，4,466,676字节，SHA256=`b5da971fcc4f36525ba53e358d8ce493433538697ed5deedd8376a0ef98e6652`，未复制进Git／未修改。6000条均为train，epoch1～300完整，每轮234 batch，50／100／150／200／234打印，同坐标4条不同记录，兼容4个分布式进程但不能单凭日志确认GPU数或认作4次独立实验。已记录指标全部有限，无报错文本；没有验证／测试AUC、LR、配置展开、预训练加载或checkpoint保存记录，不能证明泛化、最佳轮次、最终权重已保存或模型具体身份。FPS是训练吞吐，不是部署推理速度。
+
+轮末四条等权后再对四个搜索位置平均：epoch1 loss6.85437／IoU0.26871，10为1.16119／0.72551，50为0.86831／0.79077，100为0.79195／0.80802，240为0.71022／0.82751，300为0.66797／0.83762。epoch297 IoU0.83737，与300接近，但不能据训练IoU选择测试最优checkpoint。epoch300四位置IoU分别0.850958／0.838595／0.833533／0.827403，最后比第一低0.023555；这是待解释的位置差，不能单独证明记忆污染或真实闭环误差累积。全日志每帧loss符合`2*giou+5*l1+location+0.2*cos`，舍入最大残差0.000042。cos是选层辅助损失，不是余弦值或选层准确率；日志也不能隔离历史记忆相对无记忆的贡献。若下次环境没有此外部文件，先利用上述已记录分析，不默认日志丢失意味着必须重跑训练。
+
+本次只修改交接文档；Stage-1～60实验代码／封存结果不改，V2没有安装、训练、推理或与现有source链混用；未commit／push，也未登录服务器。下一次明确要求“进行下一轮实验”时，以本节及0.10设计具体有限对照，不把研究建议误写为已经完成的新阶段。
+
+
+### 0.12 2026-11-02：Stage-61已准备，等待服务器推理
+
+用户本次明确要求先读交接再进行下一轮。已按0.11的建议实现[Stage-61固定协议](docs/experiments/06_sgla_uav_tracking/STAGE61_NATIVE_HISTORY_MATCHED_RECROP.md)，没有切换V2或新增训练。**当前只有本机CPU验证，没有Stage-61真实AUC／GPU结果。**
+
+本轮明确两个问题：历史候选是否在**原始未适配V1**上也有效；同样四次调用下，历史是否超过只用**当帧初次解码框**构造的重裁剪。网络来源为原始V1／已有E，政策为current／history／recrop，六个策略分别报告。原始V1每视频只计一个确定性运行，不伪造两个种子；E沿用原折／2132和2133，先在视频内平均。
+
+历史组原样使用Stage-60的当前／滞后中心×当前／近5框log中位尺寸。重裁剪令B为自身上一接受框，先用B预测当帧D；四候选是B中心×B尺寸、B中心×D尺寸、D中心×B尺寸、D本身。**q0直接复用已执行的这次调用，仅另做3次，所以每帧4次而非5次。** 不增加扰动幅度、尺度超参或触发规则；统一Hann峰值及原1e−6并列规则，只提交选中原始输出。重裁剪候选／评分不依赖更早历史；旧24维日志保留但历史特征不参与控制。
+
+新增native history 12条、native recrop 12条、E recrop 24条，合计**48条完整轨迹、216,400次搜索／1,514,800次block**。复用封存native current 12条、Stage-60 E current／response各24条，合计60条旧轨迹，旧推理不重跑。第一视频前32帧的native及两E种子×三政策smoke有864次额外搜索，校验native/E current及E history来源前缀精确复现；正式＋smoke共217,264次。模板初始化不计入搜索次数。匹配的是每帧网络调用，不把历史时延和本轮时延冒充同时重测。
+
+主要比较native history−native recrop，必要比较native history−native current；两项AUC给Bonferroni家族区间。均值均≥+0.5、家族下界均>0，并通过原稳定失效、低IoU与可靠帧容差保护及有效曝光，才标PROMISING开发pilot；否则REVIEW。E内对比和基线×候选来源交互为次要描述。这个当帧重裁剪控制不穷尽所有普通多裁剪，不以一个控制替代外部确认。
+
+新增5个Python文件：`stage61_search_common.py`、`stage61_search_runtime.py`、`stage61_search_experiment.py`、`stage61_search_summary.py`及`test_stage61_search.py`。prepare只读取验证完整Stage-60及上游源，不写旧报告。新输出`output/stage61/v1_history_matched_recrop_v1/`，入口`prepare → smoke → evaluate → summary`，无collect／fit／train阶段。分项NPZ／receipt支持只读恢复及篡改拒绝。
+
+本机最终**3项CPU测试通过，16.958秒，无跳过**，5文件AST及两个NumPy-only CLI help通过。测试覆盖真实小通道CENTER／原公共解码、真实调用hook、修改全部未来GT不改变预测／候选／特征／动作、候选调用顺序、只接受选中状态；真实运行合成Stage-59→60→61协议流程（上游Stage-58边界模拟，骨干／采样为fixture），验证旧Stage-60所有文件字节不变、smoke来源前缀误差0、缓存恢复不重复前向和源／缓存／报告篡改拒绝。来源评分器只验封存包，不重新拟合。维护检查PASS（505保留／200归档／106模块／0缓存）、本地链接与diff检查通过；Bash只读`-n`语法检查通过，Windows沙箱阻止MSYS初始化后只在沙箱外做了该语法检查，没有执行实验。这不代表真实服务器效果或重新训练全部来源链。
+
+服务器同步代码并进入`sglatrack-test`后：
+
+```bash
+cd ~/workspace/paper
+bash tools/run_stage61_search.sh
+```
+
+脚本默认CHECKPOINT为原V1权重、STAGE60_ROOT为`$PWD/output/stage60/causal_search_state_value_v1`、STAGE61_ROOT为`$PWD/output/stage61/v1_history_matched_recrop_v1`，GPU0；可用`STAGE61_GPU`指定设备，但原runtime/GPU身份必须仍符合封存源。单独命令详见协议。`.gitattributes`只对该新脚本固定LF，避免Windows换行造成Bash错误。
+
+结束后使用cat合并JSON及8张CSV到`docs/experiments/06_sgla_uav_tracking/results/stage61_results_<UTC>_<pid>.txt`；一共9份材料含逐视频、种子和事件，便于直接读完整新结果。不自动commit／push。来源模型、原始NPZ和所有上游产物继续保留在服务器。
+
+新增汇总按指标有利方向修正最差视频值，**不修改旧Stage-60字段**。只为新轨迹报告新pipeline计时；原生确定性基线不复制成两种子。当前尚无Stage-61真实决策或表现，下一次若用户上传结果先读它们，不重复跑本轮或替换基线。
 
 ## 1. 接手后首先要知道的结论
 
