@@ -2,18 +2,18 @@
 
 更新日期：2026-11-03（Asia/Hong_Kong）
 
-当前结果阶段：Stage-64已完成，状态`REVIEW_CANDIDATE_RELIABILITY_PILOT`。decision及6张CSV已齐，原件逐字节归档，指纹／6表SHA／96条scope预算／来源AUC及四项AUC bootstrap复核通过。reliability对quality −4.3668 AUC、2胜10负，对Hann −3.3714、对q0 −1.5742，保护未过；0226／0307恢复丢失、0003新增短末尾失效。E0304／2132消除原失效，局部+28.2761，但E总体两种子均负。详见第0.20节。Stage-1～64及L40工具源码按结果冻结，Stage-45检测支线暂不执行。
+当前结果阶段：Stage-65已完成，状态`COMPLETE_CACHED_SAME_STATE_SELECTOR_DIAGNOSTIC`。diagnostic及5表已齐、逐字节归档；指纹／5表SHA／预算／24同状态差值／120窗口计数及10来源锚点相符。0003共同状态上有良好q0被低框替换；0226／0307退化历史常无良好公共候选，单改评分不能当帧修复。详见第0.22节。最新完整轨迹结果仍为Stage-64 REVIEW，非新方法通过。Stage-1～65源码与旧结果冻结，Stage-45检测支线暂不执行。
 
-下一轮Stage-65缓存实验已实现，服务器待运行，入口见第0.21节及[固定协议](docs/experiments/06_sgla_uav_tracking/STAGE65_CACHED_SAME_STATE_SELECTION.md)。在共同保存状态比较四规则，区分有效q0被错误替换、良好替代漏选与全候选不足，并检查fit特征支持。新增0网络／图像／训练，只复用Stage-64及原生fit缓存；不重跑旧summary。后续再发展连续质量＋状态保护的小原型，保留非q0恢复。Stage-64 quality仍损伤0307且对Hann区间跨零，不能改列已验证方法。
+下一轮Stage-66已实现并通过4项本机测试，服务器待运行，见0.23及[固定协议](docs/experiments/06_sgla_uav_tracking/STAGE66_NATIVE_Q0_TAKEOVER.md)。原生SGLA五组：Hann／q0／quality／统一门槛／条件保护，60条新完整轨迹、270500搜索；新增两个绝对q0 IoU预测器，SGLA冻结，fit加权接管率匹配控制。需L40 GPU，可nohup后台运行。E迁移与弱候选几何推进本轮不执行；尚无Stage-66收益结果。
 
 2026-11-01新增交接：**SGLATrackV2源码发现、训练日志判读与后续启发见第0.11节**。当前实验仍使用V1／E，不因V2发布默认切换基线；优先补原始V1权重上的候选选择与同预算控制，再考虑V2迁移及搜索状态—特征记忆一致性。此次只整理知识与建议，未启动新实验。
 整理前 Git 基点：`91052cd71d49d1397197ea9d5f532f12d37d2c91`
 
 ## 0. 下一次对话的直接接续入口
 
-本节更新至2026-11-03。**最新已完成结果为[Stage-64复核](docs/experiments/06_sgla_uav_tracking/STAGE64_RESULTS_REVIEW.md)，先读0.20，再读0.21的Stage-65已准备入口；0.19保留固定方案及测试历史。Stage-63的32帧共同起点局部效果见0.18，Stage-64首次可靠性原型未实现总体改进，不能混为同一种证据。Stage-61～64材料均齐，均不重跑；Stage-65待服务器CPU缓存分析，没有新GPU需求。**
+本节更新至2026-11-03。**最新已完成结果为[Stage-65复核](docs/experiments/06_sgla_uav_tracking/STAGE65_RESULTS_REVIEW.md)，先读0.22，再读0.23的Stage-66准备入口和0.20的Stage-64完整成绩。Stage-63一次选择后继、Stage-64完整政策、Stage-65同状态影子选择是三种证据，不能混用。Stage-61～65材料均齐，不重跑；Stage-66待服务器L40运行。**
 
-**先读本节0.20与Stage-64结果复核，再读0.18的单次选择后继、0.16的候选诊断及0.14的完整视频取舍**；[Stage-60](docs/experiments/06_sgla_uav_tracking/STAGE60_RESULTS_REVIEW.md)、[Stage-54](docs/experiments/06_sgla_uav_tracking/STAGE54_RESULTS_REVIEW.md)和[Stage-55](docs/experiments/06_sgla_uav_tracking/STAGE55_RESULTS_REVIEW.md)保留较早证据。下文早期阶段的“下一步”和“尚无结果”均为当时历史，不覆盖当前状态；研究范围文档末尾的Stage-46待运行说明也是历史。
+**先读本节0.22与Stage-65结果复核，再读0.20、0.18的完整政策／单次选择后继、0.16候选诊断及0.14完整视频取舍**；[Stage-60](docs/experiments/06_sgla_uav_tracking/STAGE60_RESULTS_REVIEW.md)、[Stage-54](docs/experiments/06_sgla_uav_tracking/STAGE54_RESULTS_REVIEW.md)和[Stage-55](docs/experiments/06_sgla_uav_tracking/STAGE55_RESULTS_REVIEW.md)保留较早证据。下文早期阶段的“下一步”和“尚无结果”均为当时历史，不覆盖当前状态；研究范围文档末尾的Stage-46待运行说明也是历史。
 
 ### 0.1 固定目标与当前进度
 
@@ -31,7 +31,8 @@
 - **Stage-62已完成条件诊断，五份材料已齐。** 全量108条来源、121725状态／365175输出，新增0训练／图像／网络调用；4表SHA、指纹、来源和关注记录相符。失败附近候选不足与部分事件内漏选并存，恢复损伤有出裁剪和可见却输出差两类。详见第0.16节，不重复请求现有五份材料，不把COMPLETE当采用门槛。
 - **Stage-63已完成条件后继诊断，六份材料已齐。** 12例／48短分支／6000搜索／0训练；原生0304一次q0保护和E0307一次q2恢复各有32帧效果，统一q0回退不足；4个N负例锚点dense也无良好框，后继均未恢复。5表哈希／48分支算术／36对比相符，详见第0.18节；不重复索取或重跑。
 - **Stage-64已完成并为REVIEW，七份回传材料已齐。** 4个评分器、96条新完整轨迹／432800搜索，0 SGLA训练。原生reliability对匹配quality −4.3668、2胜10负；对Hann／q0也负，保护未过。E0304／2132局部修复未抵消0226双种子损伤，E总体两种子均负。见0.20，不重跑。
-- **Stage-65已准备，服务器待运行。** 读取96条Stage-64轨迹与24个原生fit参考缓存；共同状态四规则重评分、fit支持与10个固定关注事件。0新增网络／图像／训练，见0.21。
+- **Stage-65已完成缓存诊断，六份回传材料已齐。** 96条自身轨迹＋24个fit参考、135250状态出现次数；新增网络／图像／训练0。0003有害替换成立，0226／0307不同历史的候选可用性分化；两评分器同状态IoU差小。见0.22，不重跑。
+- **Stage-66已准备，服务器待运行。** 原生五组60轨迹，0 SGLA训练、两个绝对q0预测器；连续quality系数复用，统一门槛匹配fit接管率。4项真实CPU测试通过，102.906秒、无跳过，见0.23。
 - 当前以“保住多数适配收益，减少持续失跟及原稳定轨迹损伤”为主问题。新增价值可以建立在已有方法上；用户不要求绝对原创，也不希望因有相似工作就结束探索。
 
 ### 0.2 Stage-54：主要对照、结果及不能丢失的取舍
@@ -606,6 +607,8 @@ bash tools/run_stage64_reliability.sh
 
 ### 0.21 2026-11-03：Stage-65共同缓存状态诊断已准备
 
+本节为准备历史；服务器已完成，实际结果与下一次接续以0.22为准，以下“尚未运行”为当时叙述。
+
 用户要求下一步实验，已实现[固定协议](docs/experiments/06_sgla_uav_tracking/STAGE65_CACHED_SAME_STATE_SELECTION.md)及4个tools文件：`stage65_selection_common.py`、`stage65_selection_audit.py`、`test_stage65_selection.py`、`run_stage65_selection.sh`。输入完整Stage-64，新root为`output/stage65/cached_same_state_selection_v1/`。**服务器尚未运行，不能预报错误率或分布差异。** Stage-1～64源码及旧权重／模型／缓存／报告冻结；旧Stage-64结果复核的“尚未实现Stage-65”为准备前历史。
 
 这是一轮快速CPU缓存实验，不是另训评分器或方法采用门槛。对同一保存预测历史和四个公共框分别应用q0／Hann／quality／reliability，影子选择不推进状态；GT只作离线标签。分析有效q0被丢弃、良好替代漏选与四候选不足。E的quality／q0只是影子选择，不能写成新完整E政策。
@@ -633,6 +636,67 @@ bash tools/run_stage65_selection.sh
 ```
 
 结果为`docs/experiments/06_sgla_uav_tracking/results/stage65_results_<UTC>_<pid>.txt`。未代commit／push，上一轮Stage-64归档与交接修改保留；现阶段不在这些结果上直接挑在线阈值。用户目标仍是SGLA无人机SOT，有相似工作不是否定增量价值的理由。
+
+### 0.22 2026-11-03：Stage-65完成，有害接管与退化历史的候选不足并存
+
+用户上传`D:\Users\23920\Desktop\stage65_results_20261103T081800Z_253219.txt`，已用cat读取、逐字节归档；完整[结果复核](docs/experiments/06_sgla_uav_tracking/STAGE65_RESULTS_REVIEW.md)为当前入口。diagnostic＋policy_summary／matched_summary／feature_shift／scope／focus五表32／24／8／120／120行齐全；其余六张逐视频／种子／focus_frames表与reference、原NPZ留服务器，不重复索取同一回传集合。
+
+状态`COMPLETE_CACHED_SAME_STATE_SELECTOR_DIAGNOSTIC`，不是采用PASS。96条64轨迹108200状态＋24原生fit参考27050，共135250状态出现次数、541000缓存框／规则应用；0新网络／图像／训练／模型／完整轨迹。旧评分器只重建核对，Stage-64原成绩保留。四规则在同一保存状态内输入相同，影子选择不推进；跨提供政策的同帧历史不同。E的quality／q0仍只是影子选择，不能写成已执行新E政策。
+
+**同状态差与自身历史差：** quality−reliability的当前IoU宏差，在native H／0／Q／R历史分别+0.001304／+0.001352／+0.000903／+0.001055；E H／R为+0.001857／+0.000607。选择索引分歧约44%～49%，不等于有意义改框。native Q自身平均IoU0.671970、R自身0.625095，差0.046875；在R历史换Q只+0.001055，Q跨两种历史差0.045821，两者相加为自身差。是描述性代数分解，不是97%以上因果归因。R历史逐帧四框最好均值0.641975仍低于Q自身；只限制固定输入重选的当帧空间，不是未来或全视频oracle上界。
+
+**F01原生0003，108～144：** H／0／Q历史37状态q0全良好；R影子分别把1／2／1个良好q0换为低框，Q没有同类损伤。实际R历史已有5状态四框全低，q0选31良好／6低、R选30良好／7低，含1次良好q0降为低；H／Q影子也只能31良好／6低。本表不能定位那次替换是否恰为138或唯一根因，逐帧表仍在服务器。支持接管保护，同时不能只靠末尾改评分挽回全部状态。
+
+**F02／F03与F06／F07：** 0226原生94～154四历史均0/61有好候选；E两种子97～157 H／R也全部0/61。到原生恢复309～369，0／Q历史各33/61有好候选，H／R历史则61状态四框全低。R历史换Q仍0良好；Q历史q0选32良好，Q／R均31。R在早期F02自身历史当前均IoU0.1859还高于同状态Q0.1813，却没实现完整恢复，不能把即时均值视为长期效用。
+
+**F04／F05原生0307：** 356～416，H历史有31个好候选状态，0／Q各9，R为0。恢复444～504，H有39、0有33，Q／R历史都0。H历史q0好35，H选35（丢2、救2）；Q选30、丢5个好q0且救0；R选31、丢4且救0。Q／R各自历史却分别53／45低帧，换当帧评分不能创造良好框。需要保护恢复依赖的状态，未定位更早唯一几何干预。
+
+**F08 E0304／2132，1063～1123：** R历史61/61有好候选，R选60好、均值0.7283；同状态H影子61全好、0.7706反而更高。原H历史只有19状态有好候选，H／R各选17、均值0.2709／0.2605。Stage-64完整+28.2761 AUC伴随更好进入历史，不能说R每帧都更优，也不能声称H移到该好历史后已得到全视频收益。
+
+**F09／F10 E0307：** 2132 H历史441～501恰1个好候选状态，四影子规则全0良好，与Stage-63 475帧q2唯一机会吻合；仍未学会该恢复选择，q0保护不能替代非q0救回。R自身该窗口61状态四框全低。2133在481～541两历史都0好候选，R也全低。Stage-63一次接受q2的32帧后效与本轮无推进的影子比较保持区分。
+
+**特征／标签线索：** native fit history／recrop任一维超界候选对20.22%／16.44%，held H／0／Q／R为25.54%／24.84%／22.17%／26.69%，E H／R为22.94%／25.09%。轨迹内P99 max绝对标准化坐标的宏均值对应fit12.61／11.34、native53.56／37.00／17.59／47.51、E14.50／49.01；不是全帧合池P99或在线OOD阈值。fit history与held native H按来源控制是同一批原生历史，不同折fit／held视角使用不同scale和参考区间，标准化差异包含参考变化，不能全归于原始状态迁移。H尾部更大但完整成绩好于R，不能用尾部单判病因。三级效用同值但连续IoU不同的候选对约53.17%～64.69%，说明信息压平，不证明唯一根因。两目标误差单位不同，只作同目标跨来源比较。条件率是支持视频宏均值，不是全帧池比；重点病例用整数计数解释，避免8.49%等稀疏分母比例误读。
+
+本机验证JSON自身指纹、5表字节SHA、source64报告／training指纹及runtime；120组合／两折fit与held不交叉、预算；六实际政策低IoU／非q0／Hann改选率与64相符。24同状态差值由政策表重建，120关注窗口整数计数／条件率／守恒／regret相符，30×4规则齐全；10锚点与旧64／L40事件相符。**未读服务器逐帧候选／模型系数／reference数组／receipt或留存六表，未独立重算4模型、每帧分数／IoU、具体有害接管帧、完整32／8行宏聚合。** 本机表间核对与服务器固定代码原始审计分别陈述。
+
+原件103080字节、509行，SHA`e2cdaffe622614515a73471e7c6925b9c3f59d3e58fd9cb73bf20d9e52816b04`；diagnostic指纹`0d840346bce337d1df0327798e3ce0497599f573b3b84f707ea16c9d7944c451`。plan `6924322621361b6d5fae1d148eb01f1ae313cc2be7fbd6f246d21c4e136056b3`，reference `9f012d8f0450febab94b76ecb48245f0fbb21007d7136212cae4fb3b734a659f`。新增原件`-text`属性，Stage-1～65源码／旧结果冻结；不代commit／push，不重复测试未变代码或GPU。
+
+**Stage-66尚未实现。** 优先连续质量＋绝对q0可靠性判断的接管保护，匹配单纯提高门槛的控制、保留非q0恢复；弱候选推进可另列处理。旧差分评分器把q0固定0，没有直接预测q0是否好，不能用该0作安全判断。新判别与阈值限fit侧确定，再检验完整自身轨迹；不用GT帧号或全开发结果挑规则。无需先证明所有病因，也不因相似工作否定SGLA无人机SOT的增量空间。
+
+### 0.23 2026-11-03：Stage-66原生SGLA接管保护原型已准备
+
+用户要求下一步实验，已实现[固定协议](docs/experiments/06_sgla_uav_tracking/STAGE66_NATIVE_Q0_TAKEOVER.md)和5个tools新文件：`stage66_takeover_common.py`、`stage66_takeover_experiment.py`、`stage66_takeover_summary.py`、`test_stage66_takeover.py`、`run_stage66_takeover.sh`。输入完整Stage-65及全部上游，新root为`output/stage66/native_q0_takeover_v1/`；源码／旧模型／结果Stage-1～65冻结，先前归档和交接未提交修改保留，不代commit／push。**服务器尚未运行，不能预报原型收益。**
+
+研究仍为原始SGLATrack V1无人机SOT，6个前缀＋1个独立候选块、首帧模板和原头全部冻结。先只评原生五组Hann／q0／quality／margin／protect，不加E，降低本轮成本并先检验基础对照；E迁移后续单独设计。原quality已经在0003稳定，保护保留不应宣传为新增修复R失败；主要关注Q尚存0307等损伤及全12视频取舍。
+
+每帧四个原history候选都执行原网络。原Stage-64 quality系数和scale原值复用；q0为本帧从最新父框得到的公共解码输出。新增2折×1绝对q0 IoU岭回归：输入同一64项特征的q0行，不再做相对q0相减；fit加权中心／标准差（下限1e-6）、截距、岭系数0.01，输出截断[0,1]。仅用本折6组原生history／recrop完整缓存，27050状态，GT只为fit标签，E／held-out标签不进入拟合。它预测IoU，不是校准概率或安全保证。
+
+protect规则固定：原quality提议增益g；预测当前q0 IoU≥0.5时，只有g>0.02才允许替代，否则q0；预测<0.5时沿用quality，包括非q0恢复。0.5／0.02不按本轮结果搜索。返回q0仍更新当前解码框和历史，不是冻结上一帧；本轮没有所有候选弱时的独立几何修复。
+
+margin控制在相同fit状态上按quality增益统一截断，以最接近protect加权接管率为目标；整组同分不拆，完全同距时保留较少接管的前缀。门槛为最高未接收增益、严格大于，避免相邻浮点数中点取整问题。记录Q／P／margin fit率、匹配差和最大同分组权重。它是fit侧率匹配，实际评价历史不同可产生不同接管率，不能声称评价精确等干预；五组网络预算相同。
+
+12视频×5＝60条**全部新完整自身轨迹**，270500搜索／1893500块；首视频五组32帧smoke共640搜索直接复用，额外0。新权重只有2个CPU小预测器，0 SGLA训练。允许新L40 UUID显式声明，其余运行身份保持；同新卡新执行Hann／q0／quality控制，分别对原history完整字段／current框／Stage-64 quality完整字段精确复现，失败即停止，不放松阈值。原始V1 checkpoint同0.5节，不能换学习头。
+
+主比较P−Q，必要P−margin／Hann／q0；原12组全保留，视频bootstrap种子2166、20000次，4项AUC家族端点0.05/8与1−0.05/8。积极pilot要求4家族下界均>0，对Q／Hann均值≥+0.5，且相对q0无新增原稳定视频失败、低IoU均值不增、可靠帧名义CI下界≥−1，至少4视频有保护否决、至少4视频仍接收非q0；否则REVIEW。即便PROMISING也只是已消耗开发pilot，不是外部确认。
+
+每帧保存绝对q0预测／资格、原Q提议与增益、实际否决和既有候选数据，供summary重建全部选择、原拟合与率匹配。报告实际接管率、否决率、绝对q0离线误差／条件精度，以及AUC／失效／可靠帧／尺寸／恢复取舍；不声称速度或能耗收益。输入Stage-65 plan／reference／diagnostic、11表及其64模型／receipt／来源代码全核对，不运行旧summary补来源。
+
+最终4项真实CPU测试通过，102.906秒、无跳过。覆盖绝对状态门控、弱q0保留非q0、并列、加权率匹配含相邻浮点、schema／模型绑定，以及真实小型CENTER Stage-59→64缓存／65诊断后接66。验证fit只读本折原生组、held-out GT改变不改拟合输入、未来GT改变不改演员输出，3条控制复现、smoke复用、续跑零新推理、旧来源字节与原权重不变，源表／模型／缓存／新报告篡改拒绝。小流程2视频、10轨迹、160正式搜索（80 smoke已含）；另有GT隔离重放，未算正式预算。上游骨干／图像／设备为fixture，不代表服务器60轨迹已完成。CLI／4 Python AST／Bash LF／只读bash -n通过，Bash检查经自动审批在沙箱外执行。
+
+同步新文件后，在原`sglatrack-test`环境并取得L40 GPU运行：
+
+```bash
+cd ~/workspace/paper
+export CHECKPOINT="$PWD/output/checkpoints/train/sglatrack/deit_distilled/sglatrack_ep0297.pth.tar"
+export STAGE65_ROOT="$PWD/output/stage65/cached_same_state_selection_v1"
+export STAGE66_ROOT="$PWD/output/stage66/native_q0_takeover_v1"
+export STAGE66_GPU=0
+bash -n tools/run_stage66_takeover.sh
+mkdir -p output/stage66
+nohup bash tools/run_stage66_takeover.sh > output/stage66/stage66_run.log 2>&1 < /dev/null &
+```
+
+脚本prepare→fit→smoke→evaluate→summary，cat合并decision及policy_summary／paired／calibration／scope／focus／video_influence六表，生成`docs/experiments/06_sgla_uav_tracking/results/stage66_results_<UTC>_<pid>.txt`，回传一个TXT即可。日志在root父目录，不阻碍prepare空目录检查；`tail -f output/stage66/stage66_run.log`查看，Ctrl+C仅退出查看。nohup不延长GPU任务分配，仍需保持计算资源有效。
 
 ## 1. 接手后首先要知道的结论
 

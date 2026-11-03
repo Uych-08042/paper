@@ -119,14 +119,16 @@
 - [STAGE63_MATCHED_ONE_CHOICE_CONTINUATION.md](experiments/06_sgla_uav_tracking/STAGE63_MATCHED_ONE_CHOICE_CONTINUATION.md) — 已完成12例／48短分支／6000搜索／0训练，保留结果前固定方案与4项CPU测试记录
 - [STAGE63_RESULTS_REVIEW.md](experiments/06_sgla_uav_tracking/STAGE63_RESULTS_REVIEW.md) — 共同起点后继证据：0304一次q0保护、0307／2132在475一次q2选择均实现32帧良好；统一q0回退不足，四负例锚点dense也无良好框
 - [STAGE64_CAUSAL_CANDIDATE_RELIABILITY.md](experiments/06_sgla_uav_tracking/STAGE64_CAUSAL_CANDIDATE_RELIABILITY.md) — 已完成96完整轨迹／432800搜索，保留原生fit侧连续质量／离散可靠性匹配协议、3项CPU测试与历史执行入口
-- [STAGE64_RESULTS_REVIEW.md](experiments/06_sgla_uav_tracking/STAGE64_RESULTS_REVIEW.md) — **最新结果**：reliability对quality −4.3668、2胜10负，对Hann／q0也负且保护未过；E0304单种子完整修复，但0226恢复丢失与0003新增失效，E两种子总体均负
-- [STAGE65_CACHED_SAME_STATE_SELECTION.md](experiments/06_sgla_uav_tracking/STAGE65_CACHED_SAME_STATE_SELECTION.md) — **下一轮已准备，服务器待运行**：相同保存状态四规则比较、有效q0损伤／良好候选漏选／候选不足及fit特征支持；0新增训练／图像／GPU，3项真实CPU测试通过
+- [STAGE64_RESULTS_REVIEW.md](experiments/06_sgla_uav_tracking/STAGE64_RESULTS_REVIEW.md) — 最新完整政策结果：reliability对quality −4.3668、2胜10负，对Hann／q0也负且保护未过；E0304单种子修复，E两种子总体均负
+- [STAGE65_CACHED_SAME_STATE_SELECTION.md](experiments/06_sgla_uav_tracking/STAGE65_CACHED_SAME_STATE_SELECTION.md) — 已完成120缓存数据集、135250状态出现次数；保留共同状态四规则／fit支持／10事件的固定协议和3项CPU测试历史
+- [STAGE65_RESULTS_REVIEW.md](experiments/06_sgla_uav_tracking/STAGE65_RESULTS_REVIEW.md) — **最新诊断**：0003良好q0被低框替换；0226／0307退化历史常无好候选，E0307唯一机会四规则都漏选；接管保护与弱候选推进需要区分，标准化差异包含跨折参考变化
+- [STAGE66_NATIVE_Q0_TAKEOVER.md](experiments/06_sgla_uav_tracking/STAGE66_NATIVE_Q0_TAKEOVER.md) — **下一轮已准备，服务器待运行**：原生五组60完整轨迹、270500搜索；连续quality＋绝对q0判断的条件保护，对比fit率匹配统一门槛，2个小预测器、0 SGLA训练，4项真实CPU测试通过
 - [STAGE45_TEMPORAL_SIGNAL_PILOT.md](experiments/05_uav_detection/STAGE45_TEMPORAL_SIGNAL_PILOT.md) — **暂不执行**的 YOLOFT 视频检测支线；保留实现与 CPU 检查记录
 - [无人机检测研究方向调研](research/UAV_DETECTION_RESEARCH_DIRECTIONS_2026-10-29.md) — 检测文献与机制参考，不代表切换当前主任务
 
 ## 交接与维护
 
-- [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口) — 先读0.20的Stage-64结果与0.21的Stage-65缓存实验入口；旧阶段不重跑，Stage-65待服务器运行
+- [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口) — 先读0.22的Stage-65诊断与0.23的Stage-66准备入口；旧阶段不重跑，Stage-66待L40运行
 - [历史写作材料说明](archive/README.md)
 - [整理报告](maintenance/CLEANUP_REPORT.md)
 - [逐文件整理清单](maintenance/CLEANUP_MANIFEST.json)
