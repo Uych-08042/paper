@@ -1,0 +1,1278 @@
+
+===== stage61_l40_decision.json =====
+{
+  "schema": "stage61_l40_device_matched_recrop_v1",
+  "status": "REVIEW_L40_NATIVE_HISTORY_RECROP_PILOT",
+  "role": "consumed_development_l40_all_six_arms_remeasured",
+  "plan_fingerprint": "448629c6e14e0978ce235430ac0077aa77aa6674c3183e1d2683cb1a583f0a3e",
+  "run_fingerprint": "352b22e2dba08429b9af4497a3ba89e6d249c51b8192112a80647b4433dbe05e",
+  "comparison_runtime": {
+    "tracker": {
+      "parameter": "deit_distilled",
+      "checkpoint_sha256": "88447c7724704edaf03488f519d3e300385fef05c2f1fac02fe22f7941cf334e",
+      "config": {
+        "MODEL": {
+          "PRETRAIN_FILE": "deit_tiny_distilled_patch16_224.pth",
+          "EXTRA_MERGER": false,
+          "RETURN_INTER": false,
+          "RETURN_STAGES": [],
+          "BACKBONE": {
+            "TYPE": "deit_tiny_distilled_patch16",
+            "STRIDE": 16,
+            "MID_PE": false,
+            "SEP_SEG": false,
+            "CAT_MODE": "direct",
+            "MERGE_LAYER": 0,
+            "ADD_CLS_TOKEN": false,
+            "CLS_TOKEN_USE_MODE": "ignore",
+            "CE_LOC": [],
+            "CE_KEEP_RATIO": [],
+            "CE_TEMPLATE_RANGE": "ALL"
+          },
+          "HEAD": {
+            "TYPE": "CENTER",
+            "NUM_CHANNELS": 256
+          }
+        },
+        "TRAIN": {
+          "LR": 0.0004,
+          "WEIGHT_DECAY": 0.0001,
+          "EPOCH": 300,
+          "LR_DROP_EPOCH": 240,
+          "BATCH_SIZE": 32,
+          "NUM_WORKER": 4,
+          "OPTIMIZER": "ADAMW",
+          "BACKBONE_MULTIPLIER": 0.1,
+          "GIOU_WEIGHT": 2.0,
+          "L1_WEIGHT": 5.0,
+          "FREEZE_LAYERS": [
+            0
+          ],
+          "PRINT_INTERVAL": 50,
+          "VAL_EPOCH_INTERVAL": 999,
+          "GRAD_CLIP_NORM": 0.1,
+          "AMP": false,
+          "CE_START_EPOCH": 20,
+          "CE_WARM_EPOCH": 80,
+          "DROP_PATH_RATE": 0.1,
+          "SCHEDULER": {
+            "TYPE": "step",
+            "DECAY_RATE": 0.1
+          }
+        },
+        "DATA": {
+          "SAMPLER_MODE": "causal",
+          "MEAN": [
+            0.485,
+            0.456,
+            0.406
+          ],
+          "STD": [
+            0.229,
+            0.224,
+            0.225
+          ],
+          "MAX_SAMPLE_INTERVAL": 200,
+          "TRAIN": {
+            "DATASETS_NAME": [
+              "LASOT",
+              "GOT10K_vottrain",
+              "COCO17",
+              "TRACKINGNET"
+            ],
+            "DATASETS_RATIO": [
+              1,
+              1,
+              1,
+              1
+            ],
+            "SAMPLE_PER_EPOCH": 60000
+          },
+          "VAL": {
+            "DATASETS_NAME": [
+              "GOT10K_votval"
+            ],
+            "DATASETS_RATIO": [
+              1
+            ],
+            "SAMPLE_PER_EPOCH": 10000
+          },
+          "SEARCH": {
+            "SIZE": 256,
+            "FACTOR": 4.0,
+            "CENTER_JITTER": 3,
+            "SCALE_JITTER": 0.25,
+            "NUMBER": 1
+          },
+          "TEMPLATE": {
+            "NUMBER": 1,
+            "SIZE": 128,
+            "FACTOR": 2.0,
+            "CENTER_JITTER": 0,
+            "SCALE_JITTER": 0
+          }
+        },
+        "TEST": {
+          "TEMPLATE_FACTOR": 2.0,
+          "TEMPLATE_SIZE": 128,
+          "SEARCH_FACTOR": 4.0,
+          "SEARCH_SIZE": 256,
+          "EPOCH": 297
+        }
+      },
+      "torch": "2.7.1+cu118",
+      "cuda": "11.8",
+      "device": "NVIDIA L40",
+      "lens_z": 64,
+      "lens_x": 256,
+      "embed_dim": 192
+    },
+    "opencv": "5.0.0",
+    "numpy": "1.26.4",
+    "gpu_uuid": "ca7219a3-ba4a-8d0e-3299-2f85a384374c",
+    "model_state_sha256": "13af4170053b1e6f4b371c872fce2036cd5c225dffd0831093ddd790eb11e70f"
+  },
+  "source_runtime": {
+    "tracker": {
+      "parameter": "deit_distilled",
+      "checkpoint_sha256": "88447c7724704edaf03488f519d3e300385fef05c2f1fac02fe22f7941cf334e",
+      "config": {
+        "MODEL": {
+          "PRETRAIN_FILE": "deit_tiny_distilled_patch16_224.pth",
+          "EXTRA_MERGER": false,
+          "RETURN_INTER": false,
+          "RETURN_STAGES": [],
+          "BACKBONE": {
+            "TYPE": "deit_tiny_distilled_patch16",
+            "STRIDE": 16,
+            "MID_PE": false,
+            "SEP_SEG": false,
+            "CAT_MODE": "direct",
+            "MERGE_LAYER": 0,
+            "ADD_CLS_TOKEN": false,
+            "CLS_TOKEN_USE_MODE": "ignore",
+            "CE_LOC": [],
+            "CE_KEEP_RATIO": [],
+            "CE_TEMPLATE_RANGE": "ALL"
+          },
+          "HEAD": {
+            "TYPE": "CENTER",
+            "NUM_CHANNELS": 256
+          }
+        },
+        "TRAIN": {
+          "LR": 0.0004,
+          "WEIGHT_DECAY": 0.0001,
+          "EPOCH": 300,
+          "LR_DROP_EPOCH": 240,
+          "BATCH_SIZE": 32,
+          "NUM_WORKER": 4,
+          "OPTIMIZER": "ADAMW",
+          "BACKBONE_MULTIPLIER": 0.1,
+          "GIOU_WEIGHT": 2.0,
+          "L1_WEIGHT": 5.0,
+          "FREEZE_LAYERS": [
+            0
+          ],
+          "PRINT_INTERVAL": 50,
+          "VAL_EPOCH_INTERVAL": 999,
+          "GRAD_CLIP_NORM": 0.1,
+          "AMP": false,
+          "CE_START_EPOCH": 20,
+          "CE_WARM_EPOCH": 80,
+          "DROP_PATH_RATE": 0.1,
+          "SCHEDULER": {
+            "TYPE": "step",
+            "DECAY_RATE": 0.1
+          }
+        },
+        "DATA": {
+          "SAMPLER_MODE": "causal",
+          "MEAN": [
+            0.485,
+            0.456,
+            0.406
+          ],
+          "STD": [
+            0.229,
+            0.224,
+            0.225
+          ],
+          "MAX_SAMPLE_INTERVAL": 200,
+          "TRAIN": {
+            "DATASETS_NAME": [
+              "LASOT",
+              "GOT10K_vottrain",
+              "COCO17",
+              "TRACKINGNET"
+            ],
+            "DATASETS_RATIO": [
+              1,
+              1,
+              1,
+              1
+            ],
+            "SAMPLE_PER_EPOCH": 60000
+          },
+          "VAL": {
+            "DATASETS_NAME": [
+              "GOT10K_votval"
+            ],
+            "DATASETS_RATIO": [
+              1
+            ],
+            "SAMPLE_PER_EPOCH": 10000
+          },
+          "SEARCH": {
+            "SIZE": 256,
+            "FACTOR": 4.0,
+            "CENTER_JITTER": 3,
+            "SCALE_JITTER": 0.25,
+            "NUMBER": 1
+          },
+          "TEMPLATE": {
+            "NUMBER": 1,
+            "SIZE": 128,
+            "FACTOR": 2.0,
+            "CENTER_JITTER": 0,
+            "SCALE_JITTER": 0
+          }
+        },
+        "TEST": {
+          "TEMPLATE_FACTOR": 2.0,
+          "TEMPLATE_SIZE": 128,
+          "SEARCH_FACTOR": 4.0,
+          "SEARCH_SIZE": 256,
+          "EPOCH": 297
+        }
+      },
+      "torch": "2.7.1+cu118",
+      "cuda": "11.8",
+      "device": "NVIDIA L20",
+      "lens_z": 64,
+      "lens_x": 256,
+      "embed_dim": 192
+    },
+    "opencv": "5.0.0",
+    "numpy": "1.26.4",
+    "gpu_uuid": "bd2283f0-25e4-2734-53c1-e3a243ca482c",
+    "model_state_sha256": "13af4170053b1e6f4b371c872fce2036cd5c225dffd0831093ddd790eb11e70f"
+  },
+  "declared_runtime_differences": [
+    {
+      "field": "runtime.gpu_uuid",
+      "expected": "bd2283f0-25e4-2734-53c1-e3a243ca482c",
+      "actual": "ca7219a3-ba4a-8d0e-3299-2f85a384374c"
+    },
+    {
+      "field": "runtime.tracker.device",
+      "expected": "NVIDIA L20",
+      "actual": "NVIDIA L40"
+    }
+  ],
+  "comparison_cohort": "new L40 trajectories only; original L20 traces are provenance/bridge descriptions",
+  "pilot_pass": false,
+  "primary": {
+    "contrast": "native_history_minus_native_recrop",
+    "metric": "auc",
+    "videos": 12,
+    "mean_delta": 6.514959625659588,
+    "median_delta": 0.09701327304721019,
+    "ci_low": -7.669235796229183,
+    "ci_high": 20.956626516851234,
+    "wins": 9,
+    "ties": 0,
+    "losses": 3,
+    "minimum_leave_one_video_out": 2.397271972581023,
+    "favorable_direction": "positive",
+    "worst_video_delta": -48.49206349206349,
+    "worst_leave_one_video_out_delta": 2.397271972581023,
+    "family_ci_low": -9.786986080217973,
+    "family_ci_high": 23.000775642356707,
+    "supported_videos": "uav0000176_00000_s|uav0000003_00000_s|uav0000226_05370_s|uav0000170_00000_s|uav0000126_07915_s|uav0000304_00253_s|uav0000307_04531_s|uav0000147_00000_s|uav0000329_00276_s|uav0000204_00000_s|uav0000237_00001_s|uav0000342_01518_s",
+    "excluded_videos": ""
+  },
+  "overall": {
+    "contrast": "native_history_minus_native_current",
+    "metric": "auc",
+    "videos": 12,
+    "mean_delta": 1.7971642591745738,
+    "median_delta": -0.00457020917379225,
+    "ci_low": -10.817904523878164,
+    "ci_high": 14.4368405902182,
+    "wins": 6,
+    "ties": 0,
+    "losses": 6,
+    "minimum_leave_one_video_out": -2.7343321892652175,
+    "favorable_direction": "positive",
+    "worst_video_delta": -49.979518689196105,
+    "worst_leave_one_video_out_delta": -2.7343321892652175,
+    "family_ci_low": -12.369582517896502,
+    "family_ci_high": 15.989588488401592,
+    "supported_videos": "uav0000176_00000_s|uav0000003_00000_s|uav0000226_05370_s|uav0000170_00000_s|uav0000126_07915_s|uav0000304_00253_s|uav0000307_04531_s|uav0000147_00000_s|uav0000329_00276_s|uav0000204_00000_s|uav0000237_00001_s|uav0000342_01518_s",
+    "excluded_videos": ""
+  },
+  "retention_guard": false,
+  "support_pass": true,
+  "origin_by_proposal_interaction": {
+    "contrast": "endpoint_minus_native_history_vs_recrop_interaction",
+    "metric": "auc",
+    "videos": 12,
+    "mean_delta": 0.14760382629002855,
+    "median_delta": 0.11424678473029104,
+    "ci_low": -8.073624811265589,
+    "ci_high": 10.437360207455605,
+    "wins": 7,
+    "ties": 0,
+    "losses": 5,
+    "minimum_leave_one_video_out": -4.2361754283418,
+    "favorable_direction": "positive",
+    "worst_video_delta": -24.679089026915115,
+    "worst_leave_one_video_out_delta": -4.2361754283418,
+    "family_ci_low": null,
+    "family_ci_high": null
+  },
+  "native_deterministic_runs_per_video": 1,
+  "endpoint_seeds": [
+    2132,
+    2133
+  ],
+  "videos": 12,
+  "new_full_trajectories": 108,
+  "reused_full_trajectories": 0,
+  "formal_search_calls": 365175,
+  "formal_block_calls": 2556225,
+  "additional_smoke_search_calls": 960,
+  "maximum_public_control_box_error": 0.0,
+  "maximum_decode_error": 0.00048828124954525265,
+  "exact_four_pass_budget": true,
+  "new_models": 0,
+  "training_performed": false,
+  "sgla_weights_unchanged": true,
+  "original_checking_labels_loaded": false,
+  "external_generalization_established": false,
+  "novel_method_established": false,
+  "evidence_sha256": {
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000176_00000_s__native__s0__current.npz": "8120ae1b3b7b4ea1422c79916cade20f1e7b4e17be080212129fbeb04b75c088",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000176_00000_s__native__s0__current.receipt.json": "832d6da22be6686845289fbda9d7d56520f6654a0776cc7f03415a6487076066",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000176_00000_s__native__s0__history.npz": "a2b39dc12b1ac9bb5e60e5ce003263b5476ac7c8764531d023ec31dbc8491eaf",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000176_00000_s__native__s0__history.receipt.json": "acd8e33f3f034e63edc6f7f9b1e657ab4dc17e9d827b22b773bbdf3fa6c26342",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000176_00000_s__native__s0__recrop.npz": "6a90f8a4024656415f6e6568b3e6b939a44854beab6fb168c3801ac3bcdada18",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000176_00000_s__native__s0__recrop.receipt.json": "e27da018ea29239d57794d45bab161c91e545c701da62f58eef1ececafdc3a38",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000176_00000_s__endpoint__s2132__current.npz": "30c2d44e84db8579b7ea7e62cf66e3f0a63c8da93c90399ed2a41477b1c9db5e",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000176_00000_s__endpoint__s2132__current.receipt.json": "8891ab3fef4a518999de92fe42af5a3c5c04bf8540ef5e9950c044043fabd79b",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000176_00000_s__endpoint__s2132__history.npz": "1f75154f1c3d43ada3e80fea7f490f5bd20d52e62c8b871cab24d28058cca9e4",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000176_00000_s__endpoint__s2132__history.receipt.json": "e6c0b1203caa0f87558b63cf914e4282794a1844b9c300151010020ae52e2e77",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000176_00000_s__endpoint__s2132__recrop.npz": "dce5856a4898b18f65d79e84dfa407d249f0c51ccfa322bb618d6189304a1181",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000176_00000_s__endpoint__s2132__recrop.receipt.json": "27a6471c196feb82f10b9578f1a2c7da9096acc816220b4221e624e9234509a8",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000176_00000_s__endpoint__s2133__current.npz": "1ac716a14e24a1e37572275a9cacf6120448ca29a3aae8f4bc19b64e87c4bc04",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000176_00000_s__endpoint__s2133__current.receipt.json": "afcd5228ea6fb03fac61078ffc0493d5d18757647f1d2b91b237a430d34860aa",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000176_00000_s__endpoint__s2133__history.npz": "0c804f08d1d683d61fd133ae6a2a4eeaba76b3c2d62197307642b49aa1595b4c",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000176_00000_s__endpoint__s2133__history.receipt.json": "e6591da04081a18f25a50ab0fdff889957d77dd0b8150a6fa9703969695073c7",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000176_00000_s__endpoint__s2133__recrop.npz": "5051431df339b4505e3b26105ac5ecba5f1750def41c19b393ea7ffff90a4b2b",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000176_00000_s__endpoint__s2133__recrop.receipt.json": "4033a3ba458c0695461f7256a194d050cc35154acf4a58b0653d9e1037d6f2e0",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000003_00000_s__native__s0__history.npz": "983552847675e90ec92f44a5eac665ccaa9ed4605d2918003004e39b3fc928d6",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000003_00000_s__native__s0__history.receipt.json": "abf0559dfedf7f599ecc5757657da721880a257b639808326ce829dc59db2d36",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000003_00000_s__native__s0__recrop.npz": "7eedb363f4e4179a6ec577856ccacfbe7d65760a411f60d5ea0eefe6feaeb580",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000003_00000_s__native__s0__recrop.receipt.json": "0e2a90f8d8447699826eb8936f9db7d344bab1c6cc827f7c49eff5a0d005fadc",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000003_00000_s__endpoint__s2132__current.npz": "4f08529fa20db20b936d0883cfda96013003f0a9b3a437dbec8cfe79b60dcbb7",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000003_00000_s__endpoint__s2132__current.receipt.json": "9f91881bf0170c3bad889cff97d70c212f290518c2611b4fa3884ff0937b4837",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000003_00000_s__endpoint__s2132__history.npz": "0f3d36ebf7feb911b00f695b9637b8ce1145eeb8a109ff8275cfd44152e8010c",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000003_00000_s__endpoint__s2132__history.receipt.json": "4aed4176157935371da79a5d38576b4815812df1e26b3a958e8372debd00b5db",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000003_00000_s__endpoint__s2132__recrop.npz": "eb8c8ba909a1173940cf46a18c7014d15d56d6b2ae5a20268c02ccc45e783043",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000003_00000_s__endpoint__s2132__recrop.receipt.json": "c94258a7713f593005958bd4b88c8328b319904d40a218529148302807da8155",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000003_00000_s__endpoint__s2133__current.npz": "90a4b53eb7339bba8121dae9cbe5b9357b6767c79e44e7ee515a814f1fa9719c",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000003_00000_s__endpoint__s2133__current.receipt.json": "31014adc46df2e5dad1f744c992a44f7b95f03525b03e54cbc731ed0f2ba883f",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000003_00000_s__endpoint__s2133__history.npz": "84c660d6a21f1c0b48be3f30abc15c0823f7b035a18de963997796478fa81565",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000003_00000_s__endpoint__s2133__history.receipt.json": "8b94fdcb7d4a1e9331817d52ae7f34ac1dae449ef24ce07571a45a9053833608",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000003_00000_s__endpoint__s2133__recrop.npz": "7ec5d73a8bdc1073b21e16e68403a459f577d09eeda9f778abafc7a5c73d4a57",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000003_00000_s__endpoint__s2133__recrop.receipt.json": "68ef90a3cffbe32271175da37b82ddd446e4b488d42e9133c99fc96064ff9e06",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000003_00000_s__native__s0__current.npz": "a80726bdc64047e88a7b9556f7eb247b73c96446d256736292f2eb9ed4e98bc4",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000003_00000_s__native__s0__current.receipt.json": "9c7a5d563ccee34192555f8454aa0f23dd920c496b88723673774a98b6e81685",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000226_05370_s__native__s0__recrop.npz": "b5f185970d92933f06989e2bd49a395ea5eef2eaedc7e88657460223da9642e8",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000226_05370_s__native__s0__recrop.receipt.json": "58c8a5ab951e566ee6b897de147b0e44a5f8f4bcf3b73dc0709029850128967a",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000226_05370_s__endpoint__s2132__current.npz": "19d04141a1a527cf1cb68a25539dba4ab56ce2494c23ed25d170537a7a3d1d84",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000226_05370_s__endpoint__s2132__current.receipt.json": "04b657f1200811a528b5a3f262d25d242c916d17c5e1b6fa06de1b03a28da7d6",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000226_05370_s__endpoint__s2132__history.npz": "9e64284ed7f9ee6fb0a226f2be9b94dc11fd012b54b217e999be564cd865d928",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000226_05370_s__endpoint__s2132__history.receipt.json": "e81246809eaa4cd459868fedfd52f700bb18db5d2503ec53f36374dd0adb6f12",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000226_05370_s__endpoint__s2132__recrop.npz": "464ea20c90e2d7f95e452adf589cd8bac9b928a481fe779d82d5e3be4d072b1d",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000226_05370_s__endpoint__s2132__recrop.receipt.json": "e95a99b9fb5545499caddca99a33a82eae507714c8c3c2b9b53441ff6350eef9",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000226_05370_s__endpoint__s2133__current.npz": "df331acae219cbc93877ea11f868956b69cbb2d2defb4c8269d5939a7a09f2b8",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000226_05370_s__endpoint__s2133__current.receipt.json": "c409b4fb9082b6541413d086c9c039a1bdf6c8a10f2fbb2e3215f1c473f59e75",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000226_05370_s__endpoint__s2133__history.npz": "6493601d131534fae392d47c477f27055c79c89b486f05fbb151a749f27c2f67",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000226_05370_s__endpoint__s2133__history.receipt.json": "c4a67af2502e980be2c10a600a97c75a9f0df46a9750b0bf2b6cc6c9d96c3f6f",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000226_05370_s__endpoint__s2133__recrop.npz": "fc2cd1adc5a865e17bdf42591994e4ce5c9cde46d5b8fa6a233f3ff1d1b2864f",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000226_05370_s__endpoint__s2133__recrop.receipt.json": "4a55f89f445f7980144ba7fa2b2c43f43f1666edce38125157943995e2509dc4",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000226_05370_s__native__s0__current.npz": "4a3c52475016c21d7e1dcb46c8843d9c2b19b3ceba503fabc0bee6b8499b643c",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000226_05370_s__native__s0__current.receipt.json": "45a20cd387aeeff58b688db3ae2baab439234849727b468bd1ebc46b1914793a",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000226_05370_s__native__s0__history.npz": "38bd4d5d81443912e9af820dd282e0c2d05aaca8572d6d0f37dc613df0fbe792",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000226_05370_s__native__s0__history.receipt.json": "a909c071f76157de7b273cbc5844ab4dad3c01ba96698103435a6bb839cf0fac",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000170_00000_s__endpoint__s2132__current.npz": "bcaa386a0ff712c4f74663d5eb24d8fd52c6ae9cab5cd368c2b8ac74bfb1d7fb",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000170_00000_s__endpoint__s2132__current.receipt.json": "e8610a20c185e6cf960c2134447c8e42577b08e8b1bd1cb9b1911722c3a568c6",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000170_00000_s__endpoint__s2132__history.npz": "674bf388d0bcad6074e39673fa49dcf4abcb5f96a3ee445bc617e2e148f8cc74",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000170_00000_s__endpoint__s2132__history.receipt.json": "09d27f6110957f328ddab93648ff54777d8ea030357c7e7f16c24ba0acb62ea9",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000170_00000_s__endpoint__s2132__recrop.npz": "887e604e8376f3346e7fc25b9c392b8c159fca6768d7bd49b93f4095bde5dc2d",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000170_00000_s__endpoint__s2132__recrop.receipt.json": "96ff447d5f5664f735c26cc942e3549dd0d88603cb70e72182f87c5c28d327f9",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000170_00000_s__endpoint__s2133__current.npz": "150608cbccf1352cf4eb91d49bfbf9e7644cdf75ca1c360513b70d42a6bcd527",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000170_00000_s__endpoint__s2133__current.receipt.json": "dc4714f05e714c38bbdd27e8e585772e4e560fb8d6a5d306c27f47ed18917d35",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000170_00000_s__endpoint__s2133__history.npz": "917e01872216c4d4bdff6c9716135bd7dc00a836c4eb46cdec085dca12cac26a",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000170_00000_s__endpoint__s2133__history.receipt.json": "2c250d7cd6c7ddea7ea2c2e87404ef7453e39e6d5a67eabd3d8b3b9de81e52a6",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000170_00000_s__endpoint__s2133__recrop.npz": "564491bef0150b9ccb57b31fa75a0c51ebde5b7b747eb24be35612da8ee2d15f",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000170_00000_s__endpoint__s2133__recrop.receipt.json": "14b3f8c90d8186c5639ea657d7b5ff3121f71935fae1e0a5773754f41eef18f4",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000170_00000_s__native__s0__current.npz": "76c286a89980bf4d7bbc83e862223e08b47f536bceedbcae24f910f630edbe7a",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000170_00000_s__native__s0__current.receipt.json": "4f066eaa13b2335b4deeb660a01ed17884bdcc64a789e7de663f82e2c5e8bb4a",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000170_00000_s__native__s0__history.npz": "3ab3abcabd8dc3ae2bb2c5b5d5854bb9d90d981c7619ebc7b6b8ce4c6a0c3f67",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000170_00000_s__native__s0__history.receipt.json": "99e63e7d9a21c30a07813082ffba9d2541a6f966aebc7034d6bcc3c2278d4808",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000170_00000_s__native__s0__recrop.npz": "a0149439bc807c6b322c3d9be4d54a9221a751b715128bcf9367cda13737feda",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000170_00000_s__native__s0__recrop.receipt.json": "c6f4196bb01ed005504887971b89a058ae3154d367fdd7c2c1b811559addeaa7",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000126_07915_s__endpoint__s2132__history.npz": "0857f6316b4df94d86466bf2a927ba2893140a6d42d7afc41770e6e4a543df78",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000126_07915_s__endpoint__s2132__history.receipt.json": "2ad470f6111071d1f6049ef3c0aceee23e45bfab0384326dea2aa2413b0edb66",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000126_07915_s__endpoint__s2132__recrop.npz": "f07188f437de6720a80af3ca3696b54bc1e57468cbcb4a6c1312ad8cc24d8562",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000126_07915_s__endpoint__s2132__recrop.receipt.json": "9d6d6c4a46765ff38f9a2fad9f483def61fda7df49758baf504c3f141b8a3f15",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000126_07915_s__endpoint__s2133__current.npz": "62923d94cb7e25043508efe6ffeb4635c204e64e3d66b53746e6745258b94b22",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000126_07915_s__endpoint__s2133__current.receipt.json": "bf2883decbab22f06ffd8531a6481eec81efb6d52c600ef4db75d560a972fd65",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000126_07915_s__endpoint__s2133__history.npz": "6af6f78e5e7779648a181c976233d2d4806c2dacbbc967675b500fb550b56acf",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000126_07915_s__endpoint__s2133__history.receipt.json": "3a979252171f933ae1fb495d0ba5fdfc91b1eeb2349298bc3a476674f1e2dafa",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000126_07915_s__endpoint__s2133__recrop.npz": "cc72befa93a6c1c2a108920ba933d56c2b274c68dd7fe80fc2753dadb4ac871d",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000126_07915_s__endpoint__s2133__recrop.receipt.json": "594cd425cc439c2d8a4a45be51b9798f7c561fa7347bd872d940eb5f03bbf818",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000126_07915_s__native__s0__current.npz": "7bdf0227567e1ac8336778991716d2fb8896f3c7eca9b8f601f8d71067b3b129",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000126_07915_s__native__s0__current.receipt.json": "4b9c4a5387d0ed66087874dd0429ae6cbf618eda8c12e7b00300527054b79079",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000126_07915_s__native__s0__history.npz": "027561b7c349adf31c82b97a3f7fb9387c745320327cbd1c58872000ae4356e2",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000126_07915_s__native__s0__history.receipt.json": "30a430a64a1c934441aabfe79ca6520ab50ad9045b74fa24e99273ace2f4d099",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000126_07915_s__native__s0__recrop.npz": "ec4a33dcad738fb01848ea5edb764711d28b18708b7d5abcb74354f90ccd96e9",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000126_07915_s__native__s0__recrop.receipt.json": "682c55968fed3365c2fb57a3fa1fe82077c07bf84155e58a74130d8eb1888f51",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000126_07915_s__endpoint__s2132__current.npz": "6e63dd360dc28b4e79f8ad7b32d3a690ccbf0289210e344d31235f55f524c2fe",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000126_07915_s__endpoint__s2132__current.receipt.json": "9116ee20402217ad215dd4a85d1c0c57f7a7b145bb00efb72e49ccc9346b98f2",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000304_00253_s__endpoint__s2132__recrop.npz": "e173e79c90a925cb55687f75442aa6d30ccccd2dfb3737e8b806e1e36bd7b174",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000304_00253_s__endpoint__s2132__recrop.receipt.json": "1585632f41a5fa923beb6de9676c1153677b14145d2b0cc2b65bfaf9a26fb93e",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000304_00253_s__endpoint__s2133__current.npz": "41cf1c91caefaf783dbd4865cfc1e436c1e5cb50a9b380c17829b43f472a683d",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000304_00253_s__endpoint__s2133__current.receipt.json": "369d8497caf74c0b7670a38d32a39307ab10727dc749e38b811610f4f4766ea9",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000304_00253_s__endpoint__s2133__history.npz": "59d8d6e74894abf406022c1f70b46e33d03a07024eeb1bc9c3bea2d9e042432a",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000304_00253_s__endpoint__s2133__history.receipt.json": "aee5bf19afdd3402f3d59942b09308af806bb3553db98ae7df16dd4a195ea941",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000304_00253_s__endpoint__s2133__recrop.npz": "14a8fec5c8130bff63ffa5e0fb1cf52e7900850fd8f77ba7f0de2f97d447b522",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000304_00253_s__endpoint__s2133__recrop.receipt.json": "50745fd94cffad0a8e2f00146a2f363ed2c7d529c038d7881b37eda71e87f413",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000304_00253_s__native__s0__current.npz": "cd37da8b5d14a088cb0e6662af3387eada14070347f1b6b1e04e30335ce69fec",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000304_00253_s__native__s0__current.receipt.json": "7e7d3e7a8d823af156edab34d2a6d4d27a8ac6ebef083fb2285e36882fcf0a33",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000304_00253_s__native__s0__history.npz": "410fc389e0be5543a4938c432927abe179daaf23e175846231bf9097850d8606",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000304_00253_s__native__s0__history.receipt.json": "75d2ec95908b8ab8c09a9e72cf619fe9e0b0d04b8566bf6938f850e0d2b03139",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000304_00253_s__native__s0__recrop.npz": "3a97fbd26cd919da3e39d41ca90d8f2d531d5e3ca0c8cde06e7de65716279a12",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000304_00253_s__native__s0__recrop.receipt.json": "9b5c06876cf56d1980317767b2dde730dc6494938f40974e13e286382f249d61",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000304_00253_s__endpoint__s2132__current.npz": "703ad56338e5bf80ffd279d27049e862b92d534427b008a85f9eb9f79d7a61fd",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000304_00253_s__endpoint__s2132__current.receipt.json": "22734a5ffb55855e5b6712334a78df88987ff8fcfcfc05048c1b9ae9a7ec7338",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000304_00253_s__endpoint__s2132__history.npz": "63143ec9f151f153b4c406ca5bd340ed7f1d3b1ca9fdca7453fb87bd4dae7abb",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000304_00253_s__endpoint__s2132__history.receipt.json": "cdea95027fe591157f6feda3d50de3837f5c2355fc5f92c15147c9c44f03bfe8",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000307_04531_s__endpoint__s2133__current.npz": "e30a312339c437f8deadd2b07cb3a0bb3c0b13c8e652a5b8e3ba184dfcc508ab",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000307_04531_s__endpoint__s2133__current.receipt.json": "71bd410554fcc96866050fc64a93daee6d1dc6c21c58c25f65446f1b12cb10ae",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000307_04531_s__endpoint__s2133__history.npz": "36af5fd04e64057ae49e4b2fa5d40052084bf724d79f7d707dd99c0a11c16bcc",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000307_04531_s__endpoint__s2133__history.receipt.json": "b56c3485ee7bb6509731d4ed8f7eaed4d05cb6ecd747b64e19e92afe18e18163",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000307_04531_s__endpoint__s2133__recrop.npz": "c0b50d95d666a8015f15e7d1b147c2e4965b5a2f2b5f8ba504e8db33372a0020",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000307_04531_s__endpoint__s2133__recrop.receipt.json": "c35bb97e185dcae97c5cef5ed3fb5caff78613cadc9b2d462b117f6171627f16",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000307_04531_s__native__s0__current.npz": "758a7bbc65ad069202b8cf233251da51a0143f3b21c6941f32da1b828e02b388",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000307_04531_s__native__s0__current.receipt.json": "2b05375ce24a5bb08a7bd644bb11844268d6d471f079d82f0e48ea30b9a5126b",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000307_04531_s__native__s0__history.npz": "4e434b53ac61a7b89a1e78aa9237c415942286d87cd5342960c7faab155a4bac",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000307_04531_s__native__s0__history.receipt.json": "fd43af0036d619f63c1118201737deef077e397c85ddcc68c5a3060e6b5e5bf4",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000307_04531_s__native__s0__recrop.npz": "d01ea57453a892f28acf20048dd3d3ba10d22b8be85ff8eb7bebe6f6b3e33322",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000307_04531_s__native__s0__recrop.receipt.json": "81a3027543787253a223cc7c0bd0790780b2cce27ecb292817a0e5fe9e41c9d7",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000307_04531_s__endpoint__s2132__current.npz": "a063c4e25587fef2e72082cfe612facce05dd293f8ea254561fc2691160d3456",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000307_04531_s__endpoint__s2132__current.receipt.json": "7fc252ba4ef493c77d7b792d9630ed237893bf2363161fb69dfb09c75b237401",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000307_04531_s__endpoint__s2132__history.npz": "c97c4d56de0ed32822cac4f5b16c0a0690a743a4e32ac33f372a0e171e068d0a",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000307_04531_s__endpoint__s2132__history.receipt.json": "abc52e3eefa23eec52be4b17551eabeab79be8ef67c364d5a83bb1851f8fb8ce",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000307_04531_s__endpoint__s2132__recrop.npz": "b66eb61ce178c84333eee4362432a2c3a69f062546951f3b7771bc2d806d2be5",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000307_04531_s__endpoint__s2132__recrop.receipt.json": "635f4f1dac034572fc0a08daf5e38b1a1e778f6f892586066070e83d099ef5eb",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000147_00000_s__endpoint__s2133__history.npz": "8446a6fae202c606354e81a228a52945c136a6bef628e3f4ecaf2769b4b4ad26",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000147_00000_s__endpoint__s2133__history.receipt.json": "3d9937818318e0a90b7136eae39c3e3f33037015b90ed0ff735b8bc1da9d7d66",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000147_00000_s__endpoint__s2133__recrop.npz": "c188f6de410423c318b1517774708de4f0073dc96939506d94b6b59f385479a8",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000147_00000_s__endpoint__s2133__recrop.receipt.json": "3fa9268c6dab95f8691738534314e608ab6f7139248a81fa66832fbce54d494d",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000147_00000_s__native__s0__current.npz": "aa4d1723170954ab69f5d12e9475aa2487dfbdfedb2f67eaddd01387d48a56f2",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000147_00000_s__native__s0__current.receipt.json": "676812e3a16e5cfccc548dd717f62a81d835a81930d473793775596c81638c64",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000147_00000_s__native__s0__history.npz": "d2d6dad9dd010e77c38d36776638cb0b2b4af9686f821cce905528c1ea545f44",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000147_00000_s__native__s0__history.receipt.json": "b140241a262f58ba63290fddbcc0e94efe6963ba777ae641e7fab900af47f186",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000147_00000_s__native__s0__recrop.npz": "9f1d052ad34cfc5a531d34524223a3ddc94c7298f48ec31a583ee5eff4ed2ab4",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000147_00000_s__native__s0__recrop.receipt.json": "a3b7fd71b81bc597e19f31f4783a2523e3c1fbe0bf41c5bdc3f5ca138b469ee8",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000147_00000_s__endpoint__s2132__current.npz": "31a432bcaf7c5ac612a6b4441d415481d437817eba5f0d0097a0e75f3361e3df",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000147_00000_s__endpoint__s2132__current.receipt.json": "5a31d28c78b5e3f51707549a886b8bbba387710328e187ccb9e2bbacd58fa078",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000147_00000_s__endpoint__s2132__history.npz": "2a00fa05991263e805196d4b210a7dbb9c46dcd7fe922357c225772615ebd04d",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000147_00000_s__endpoint__s2132__history.receipt.json": "a4527d383497434cffdf0f96f25dca825974457c102bfecb83aa490f76c1c631",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000147_00000_s__endpoint__s2132__recrop.npz": "4575c5d0bfc9e2ff079cd60115181506c78f464d82c0b36c7d2bb464acbb257b",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000147_00000_s__endpoint__s2132__recrop.receipt.json": "a5cd7b424327fa6e72643db63ec097cadd5d357e8d8cc78128e629cfcb9da166",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000147_00000_s__endpoint__s2133__current.npz": "9ea777532cd69982ad46b01010ab52b161ff16f693d9f3094398597d62293054",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000147_00000_s__endpoint__s2133__current.receipt.json": "2ae2506d9a5aaf250413ac02d4d5ce7307f18415de3b01342fba4f9d3decf0f8",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000329_00276_s__endpoint__s2133__recrop.npz": "9d35f758870e520d22a61de8b7eb62d8847db16ab6cdb58a4daccc7fd768b419",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000329_00276_s__endpoint__s2133__recrop.receipt.json": "e1f76ba2c6f375432c7002359837d39843539e73fcef6a07bb53553e18b80a7d",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000329_00276_s__native__s0__current.npz": "a2f6c2bdcdd46af7f0eeb67986d98e19cfa23fd88c48a57baa932de6b47c0e52",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000329_00276_s__native__s0__current.receipt.json": "8b9938a77a871d46d36327caab549eef644cb45a58e7610d8edcf425b3170486",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000329_00276_s__native__s0__history.npz": "6e6102325a2b8559fa569b072c84d46198736e550b467f68a109b741d371eece",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000329_00276_s__native__s0__history.receipt.json": "1d7c80ad9538cf1083f8a14099a4f1625dd252dbadc4e2fa7b486ab49e30aff3",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000329_00276_s__native__s0__recrop.npz": "d442a72f05343ab2586565952c184fd63f0431f6f5304a9a1d0ebf6930c41671",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000329_00276_s__native__s0__recrop.receipt.json": "467c212e8ac271532ea07d892de5e62872d9949c4a7e259c14c66fe3367389bc",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000329_00276_s__endpoint__s2132__current.npz": "d3300011db18fede7193d8cf6f16e8b796bd416ce8fdb5960427b945bc74e378",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000329_00276_s__endpoint__s2132__current.receipt.json": "05c8d916435cc3b49950972ba6ff4a90b1d8fc7f05822cd32c073c915ec3aaf8",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000329_00276_s__endpoint__s2132__history.npz": "0b83385fb0c6acecb359a17532bf6daa9f060e3afa47ee57af9b31ace9f9d2a2",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000329_00276_s__endpoint__s2132__history.receipt.json": "03c865b853bc6582e186bbc57d56f498403a04dc740cdbf9556f45e4c49448b4",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000329_00276_s__endpoint__s2132__recrop.npz": "098dd05fd12d579621607f1fe5b362fa82290a660ac170190dff0316b8404362",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000329_00276_s__endpoint__s2132__recrop.receipt.json": "17ed2786fcbc67993e88da9a0e27afc88bb9e4d846e7ad44fe3d1d41da7562a7",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000329_00276_s__endpoint__s2133__current.npz": "e090e124e4270d55f8911ba694e1f86dfafb8d9873e49170c28c52ea63f51e20",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000329_00276_s__endpoint__s2133__current.receipt.json": "bb9f5ee94665e0d9919c7653a9fa8f863a16d87d985010e18396f4499b9d0a2b",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000329_00276_s__endpoint__s2133__history.npz": "5486580a7b7bb1fbb236f80d5533e6e6795bdd03b965ee19ad3eee0e7f2ea9f7",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000329_00276_s__endpoint__s2133__history.receipt.json": "059147cfd85a6a03a499b38f1a1c942ff359fcaba8df34c148781bd0d9f3e850",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000204_00000_s__native__s0__current.npz": "4c9233cbc069af93242e207439648f91d378c5cfa602b1776cddbe0374fab14c",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000204_00000_s__native__s0__current.receipt.json": "ada38bebe5ab2289020d807ae71ea7a3a27b9b7a1c2ef786bcf318569054a400",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000204_00000_s__native__s0__history.npz": "705a740841616c0841537c996a45d3189638e9eccc724553bb38892b9ee7d5da",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000204_00000_s__native__s0__history.receipt.json": "8b6dc6e726bca38c8cfe383fbb213697ca0dc75900028f85a339d66e11d7d311",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000204_00000_s__native__s0__recrop.npz": "b9ea66774c39992cd2e79212ccf45b2fb8403be09b44410e038703eb9d0d56bf",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000204_00000_s__native__s0__recrop.receipt.json": "f0b82fbc6114ee700b6b53c60e8fc090dbbd9d7a6179fb7b06d06e4f77666dfe",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000204_00000_s__endpoint__s2132__current.npz": "205d77b756d3814a8b0a203d4fc05b07db8c8577f1fe99fe793a4d9bebf07139",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000204_00000_s__endpoint__s2132__current.receipt.json": "449eabadff7218976e07e4985bf1b6ee623d5ca5b9d553ee067525e46162470d",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000204_00000_s__endpoint__s2132__history.npz": "44b85cf5a2dc6a22a6b0f55c282b955773349c8b4c26a7e42364a0c2410eaaea",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000204_00000_s__endpoint__s2132__history.receipt.json": "23f5c8ab610a81ba3ebec6d7eab038e4f60ab74103106a00d068b1dc3ed62f53",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000204_00000_s__endpoint__s2132__recrop.npz": "24b7cf3b02ba468ee5e74dc6cc1a25a1ed820b00514ab9f5172ff3680717213b",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000204_00000_s__endpoint__s2132__recrop.receipt.json": "cb2d3b0e1514da583043730ce6083ed9611bc9ae7006e0470236c2e8a255273e",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000204_00000_s__endpoint__s2133__current.npz": "4faf66c6698ba18b33098549df530c7f845a0e50e6f3eb4a535accadd16f86c1",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000204_00000_s__endpoint__s2133__current.receipt.json": "456b92dfb28e59590f88728a1422e10cfe68929c3122d85968cbd5234f430c1b",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000204_00000_s__endpoint__s2133__history.npz": "70d7c4fafb20aa90270c1a0a50c4f8c8606085feaa22750cdc041708795651c7",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000204_00000_s__endpoint__s2133__history.receipt.json": "95d257a81a2f5255e797afcccd8f54174d9beeb882539410a48d3c6a7032362a",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000204_00000_s__endpoint__s2133__recrop.npz": "7529875eecc80e2bb8e13c42fb353e75c4237606959fa5d3afddd0ce69d58149",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000204_00000_s__endpoint__s2133__recrop.receipt.json": "1fa60315302c02f98436c467c397089ab47f74374648c638ec5306dd14bd0669",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000237_00001_s__native__s0__history.npz": "dff2d6c88e3ce69ef646113677a59563862d4f25d73bba5184882991a2e9cd9d",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000237_00001_s__native__s0__history.receipt.json": "9b7184fe41329bd35761bd6fa200e9dad20c849ba531c54bfc5e5079a99f95d9",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000237_00001_s__native__s0__recrop.npz": "74074bdd4c40569a8cc5b8823dd573b818adf296fc1cbf99463fc865f8f82ce3",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000237_00001_s__native__s0__recrop.receipt.json": "ba548bc6d65cee1d20116c16fde36d6bdc84cc525a61d2f8155e7ca28154b580",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000237_00001_s__endpoint__s2132__current.npz": "306afcd29d3c531a12e58442e89598a309f08a87ecbf274107942ea14378c309",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000237_00001_s__endpoint__s2132__current.receipt.json": "c850f3d80d274faabbaea74bb7386d6367fec064da03c485f1bdc29affd1473c",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000237_00001_s__endpoint__s2132__history.npz": "074f84505088671b3da57c1e3ad823f0dba3cce7aa4d93db006857badb13cfbd",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000237_00001_s__endpoint__s2132__history.receipt.json": "7cda54d151b66b46761b5fcaae32d9dec88b319706000715daf13f58151d341b",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000237_00001_s__endpoint__s2132__recrop.npz": "52cae2fb76059103d739c787c8d1c5f51a57679f3f4e1f7d8f0b4342bd22aca8",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000237_00001_s__endpoint__s2132__recrop.receipt.json": "2e9798828da35a909dc7b3ef1db1a14a647f55eba4d31e7ee773b5dcb47e7d9c",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000237_00001_s__endpoint__s2133__current.npz": "fc8b9347dfbaf4e05d1a0377b6b5e76a24ec4d99cdbc209fb01539dcc2ef32f0",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000237_00001_s__endpoint__s2133__current.receipt.json": "15b59072d463555084d4f333dd11db20e9140a6b6de28b643e6a039c6471d884",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000237_00001_s__endpoint__s2133__history.npz": "acc206f3ad7cb592c0a2204ffaead8086bf4bec647c92999fb1f54c543af05f6",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000237_00001_s__endpoint__s2133__history.receipt.json": "7e9154fa16798fd23c643513758c03cad40bb0cd98e2922a8776ff3189882154",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000237_00001_s__endpoint__s2133__recrop.npz": "bb56cf42b75831ce2b4e5fde32e12af23d7a33d6fa7334530e9094e8b5324352",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000237_00001_s__endpoint__s2133__recrop.receipt.json": "6e4c3c3f84b121b1fbce0764077c1c4e3bc5898fb60ee1cb89a483319c51cfdc",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000237_00001_s__native__s0__current.npz": "094c5f43edf6863f4fd4c4d532930f6a52b955a5a000b3499f57e60006f7d1a5",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000237_00001_s__native__s0__current.receipt.json": "ded2eb5a6ef83d084a0897acef3e6ff354395751791675e750bc08f19b5cc45a",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000342_01518_s__native__s0__recrop.npz": "14908a361e30219a40d32bb52a20b289816a15c91af553c54c9700e317699186",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000342_01518_s__native__s0__recrop.receipt.json": "1e1ce2011550409b46c3196343c61aa947f70c99212fa8824579a2b2012e4fdc",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000342_01518_s__endpoint__s2132__current.npz": "1fc25e3681e5ffc7345ec748b33d0f4501cbe0a327a77401f21bac0e19764937",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000342_01518_s__endpoint__s2132__current.receipt.json": "9df2ce57ebe10e99fd7195ad6386ef910650c1da9a2a57d0d1ea9b7f1e6c0754",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000342_01518_s__endpoint__s2132__history.npz": "dbe55435eb4d1b0bfb8e5de995daa5925024072d885fcacde0b734919b9e1f5e",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000342_01518_s__endpoint__s2132__history.receipt.json": "c5427e36b62f1d50fca0b4f78d5f72ae00221156a6d43d1bba32f0315b2c20b2",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000342_01518_s__endpoint__s2132__recrop.npz": "87450949d6c483c36ebf554e682b6232d1ccfc3e518fd8c72c7d391d0f442f80",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000342_01518_s__endpoint__s2132__recrop.receipt.json": "cdaf1006cf43387e5adeafd65fc834ec18af2c91054942f23aaf2997ea660db4",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000342_01518_s__endpoint__s2133__current.npz": "3aadfa14742d746aed308617a5bf56c5aea9a634dc99bad168ce98f30c0eafda",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000342_01518_s__endpoint__s2133__current.receipt.json": "d2236efcbfd77707e7808fda290713023d405ce2040a5b682977b56493a7195e",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000342_01518_s__endpoint__s2133__history.npz": "93c0b474e0bb3ff91d84184982ac46dd642b860f92e9b76653b91b20f179cdef",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000342_01518_s__endpoint__s2133__history.receipt.json": "0f46b3dcddecd0ad8c7d90745b373949eb367e98b2bb16847cc018d0393bf317",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000342_01518_s__endpoint__s2133__recrop.npz": "36df7f37e3673ff0be1c387f94221670273dcbbdf67d569f5fbc278362f2cf30",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000342_01518_s__endpoint__s2133__recrop.receipt.json": "dd2193e3d5e44ec3c21059a7090cccca5f67727510b89416c6410c610798806d",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000342_01518_s__native__s0__current.npz": "18b8d7edc4a0772c696bd9e1d81cbec4ad363f120e011e0aa5a18b24c3f54214",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000342_01518_s__native__s0__current.receipt.json": "4d747711252a5d96365776878112db321902d346b374fa25d970bb92f693e8f1",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000342_01518_s__native__s0__history.npz": "e198200fd32a9a4bcb729dd213c3329bc127e4c489a85964bb7d1a0d16855937",
+    "/home/u25600003160604/workspace/paper/output/stage61/v1_history_matched_recrop_l40_v1/evaluation/traces/uav0000342_01518_s__native__s0__history.receipt.json": "088cf95bef62d108375403bfd20c7e1c1d1d5123d57f3db3f34327218a1203a6"
+  },
+  "table_sha256": {
+    "stage61_l40_device_bridge.csv": "b553a1dc7e88a908e0034293f5aba0f2c3ea7f364371e1f5ddddff3aa8a81c8b",
+    "stage61_l40_policy_summary.csv": "c23faf4c0e7d7c78b48fae07e50eed778ebe21461b1af5f0eab20770a82159e8",
+    "stage61_l40_paired.csv": "5b4c1b6e75ca419b3e732bcfb38827fa4bcc3a179f6b3622a7e185681c1ac0f6",
+    "stage61_l40_video_summary.csv": "d821eff76e89e7f03fcacfdd1cbc8e902ae7d0b874ec634f4153a5a199025d10",
+    "stage61_l40_seed_video_summary.csv": "10e058eda74b61bcdbc674afb7bbfe9e7701ec6ba88a78f0570c489b4f232de9",
+    "stage61_l40_scope_summary.csv": "5aa40d837169030e71a6779e9900b026067cac8f57b5acd658e30b8b98d09fe6",
+    "stage61_l40_proposal_summary.csv": "d23922ac5a4b184666725a6179103dfd1b87f501a13182539a759409d8d7d177",
+    "stage61_l40_video_influence.csv": "e630a1d02ef30fa0c30f639dc94b6780d4ed0f6921cd75dda404d7b660e61de8",
+    "stage61_l40_events.csv": "4cb013240bbe31eaddd92675ae2433a781bba8579bbf2a1ac003b7fa4f35e64e"
+  },
+  "warnings": [
+    "Same consumed twelve development source groups; no independent confirmation.",
+    "Original V1 runs are deterministic and counted once; E seeds average within videos before conditional video bootstrap.",
+    "Recrop uses the current image's first decoded box, not older history, for the second center/size. q0 is reused, so total calls stay four.",
+    "This control tests a current-frame refinement alternative; it does not exhaust all ordinary multiscale or spatial searches.",
+    "Whole policies follow their own accepted boxes. Origin interaction is conditional on existing E fits, not a pure training causal effect.",
+    "All six arms and timings are newly executed on the bound L40. Image reads/hashes and first ten frames are excluded.",
+    "Independent public L40 current prefixes reproduce exactly in smoke. No L20 trajectory is used as a control in primary method comparisons.",
+    "The device bridge describes old versus new whole trajectories; it is not a method gain or an isolated causal GPU effect.",
+    "Existing E fits stay frozen from their source training; rerunning inference does not add training seeds or independent videos.",
+    "No V2, template update, scorer learning, crop-amplitude search or deployment speedup is claimed."
+  ],
+  "next_step": "Preserve the fixed comparison; inspect native transfer, equal-call recrop control and failure retention before independent-source validation",
+  "fingerprint": "6a0232fe6632df91dc13c987862bb6fba8145cac8371f02c08a6beaf499ba56c"
+}
+
+
+===== stage61_l40_policy_summary.csv =====
+arm,videos,runs_per_video,calls_per_frame,logical_head_calls,newly_executed_head_calls,introduced_failure_videos,introduced_vs_own_current_videos,median_new_pipeline_ms,p95_new_pipeline_ms,auc,low_iou_fraction,failure_events,longest_failure_fraction,reliable_auc,reliable_auc_supported_videos,mean_abs_log_size_error,oversize3_fraction,unrecovered_events,recovered_events,relapse_events,native_failure_auc,native_failure_auc_supported_videos,selected_noncurrent_fraction,changed_prediction_fraction,changed_crop_fraction,mean_distinct_crop_pixels
+native_current,12,1,1,13525,13525,0,0,6.110796704888344,8.123111724853516,63.45118150594076,0.14457277622166684,0.5833333333333334,0.15425033222568213,75.56023758900591,12,0.260759205373905,0.06752857668100788,0.25,0.3333333333333333,0.0,5.384008900298097,7,0.0,0.0,0.0,1.0
+native_history,12,1,4,54100,54100,0,0,23.08531478047371,362.89150565862656,65.24834576511533,0.13057182051828511,0.5833333333333334,0.1350365901659816,70.05480303420367,12,0.33185250828537344,0.06855067346121976,0.25,0.3333333333333333,0.08333333333333333,26.060403950561813,7,0.5779235274502764,0.5779235274502764,0.5779235274502764,3.3187308285335746
+native_recrop,12,1,4,54100,54100,1,1,23.251479491591454,26.391578093171116,58.73338613945574,0.20730486986438024,0.6666666666666666,0.2168652350874383,70.6020188568115,12,0.2395722309892119,0.05245612506409227,0.4166666666666667,0.25,0.0,6.220464808476869,7,0.7686952340844052,0.7686952340844052,0.7686952340844052,3.4972917028255055
+endpoint_current,12,2,1,27050,27050,1,0,6.06680940836668,7.881640363484621,64.00787605735148,0.1479533086568187,0.9583333333333334,0.1506201142699994,72.03526615737816,12,0.2275067204797144,0.043819946605011505,0.375,0.5833333333333334,0.2916666666666667,14.54277114446495,7,0.0,0.0,0.0,1.0
+endpoint_history,12,2,4,108200,108200,1,0,23.139127530157566,26.713418681174517,67.75058956778284,0.10764710436498313,0.5416666666666666,0.11513390902104,73.38727940738171,12,0.20828964814382003,0.04795705019446168,0.2916666666666667,0.25,0.0,27.2385767471759,7,0.5700476962871838,0.5700476962871838,0.5700476962871838,3.3180431131983923
+endpoint_recrop,12,2,4,108200,108200,1,0,23.21564219892025,27.692216262221333,61.08802611583322,0.20235394714553542,0.5833333333333334,0.2096750544315796,71.02321650041739,12,0.31073201609705786,0.11039422150418284,0.4166666666666667,0.16666666666666666,0.0,17.610372651747422,7,0.7658894635690059,0.7658894635690059,0.7658894635690059,3.501417811127721
+
+
+===== stage61_l40_paired.csv =====
+contrast,metric,videos,mean_delta,median_delta,ci_low,ci_high,wins,ties,losses,minimum_leave_one_video_out,favorable_direction,worst_video_delta,worst_leave_one_video_out_delta,family_ci_low,family_ci_high,supported_videos,excluded_videos
+native_history_minus_native_recrop,auc,12,6.514959625659588,0.09701327304721019,-7.669235796229183,20.956626516851234,9,0,3,2.397271972581023,positive,-48.49206349206349,2.397271972581023,-9.786986080217973,23.000775642356707,uav0000176_00000_s|uav0000003_00000_s|uav0000226_05370_s|uav0000170_00000_s|uav0000126_07915_s|uav0000304_00253_s|uav0000307_04531_s|uav0000147_00000_s|uav0000329_00276_s|uav0000204_00000_s|uav0000237_00001_s|uav0000342_01518_s,
+native_history_minus_native_recrop,low_iou_fraction,12,-0.07673304934609508,-0.0007953340402969272,-0.29280433424275426,0.1450968170761937,6,4,2,-0.16088375666690335,negative,0.8489247311827958,-0.012506435063775275,,,uav0000176_00000_s|uav0000003_00000_s|uav0000226_05370_s|uav0000170_00000_s|uav0000126_07915_s|uav0000304_00253_s|uav0000307_04531_s|uav0000147_00000_s|uav0000329_00276_s|uav0000204_00000_s|uav0000237_00001_s|uav0000342_01518_s,
+native_history_minus_native_recrop,longest_failure_fraction,12,-0.08182864492145668,-0.001325556733828212,-0.29579941798135984,0.13609738530294105,6,4,2,-0.1636077885946683,negative,0.817741935483871,-0.01771336044217562,,,uav0000176_00000_s|uav0000003_00000_s|uav0000226_05370_s|uav0000170_00000_s|uav0000126_07915_s|uav0000304_00253_s|uav0000307_04531_s|uav0000147_00000_s|uav0000329_00276_s|uav0000204_00000_s|uav0000237_00001_s|uav0000342_01518_s,
+native_history_minus_native_recrop,reliable_auc,12,-0.547215822607838,0.02623807705355574,-15.566759154289104,13.21495956769712,7,0,5,-5.326087757197228,positive,-63.89920990817851,-5.326087757197228,,,uav0000176_00000_s|uav0000003_00000_s|uav0000226_05370_s|uav0000170_00000_s|uav0000126_07915_s|uav0000304_00253_s|uav0000307_04531_s|uav0000147_00000_s|uav0000329_00276_s|uav0000204_00000_s|uav0000237_00001_s|uav0000342_01518_s,
+native_history_minus_native_recrop,native_failure_auc,7,19.83993914208494,0.3497726477789438,-0.619697762554905,43.30052361096127,5,0,2,10.607606270881172,positive,-2.8379028379028384,10.607606270881172,,,uav0000176_00000_s|uav0000226_05370_s|uav0000307_04531_s|uav0000147_00000_s|uav0000204_00000_s|uav0000237_00001_s|uav0000342_01518_s,uav0000003_00000_s|uav0000170_00000_s|uav0000126_07915_s|uav0000304_00253_s|uav0000329_00276_s
+native_history_minus_native_current,auc,12,1.7971642591745738,-0.00457020917379225,-10.817904523878164,14.4368405902182,6,0,6,-2.7343321892652175,positive,-49.979518689196105,-2.7343321892652175,-12.369582517896502,15.989588488401592,uav0000176_00000_s|uav0000003_00000_s|uav0000226_05370_s|uav0000170_00000_s|uav0000126_07915_s|uav0000304_00253_s|uav0000307_04531_s|uav0000147_00000_s|uav0000329_00276_s|uav0000204_00000_s|uav0000237_00001_s|uav0000342_01518_s,
+native_history_minus_native_current,low_iou_fraction,12,-0.01400095570338171,0.0,-0.2071553764545253,0.1983729786250219,5,6,1,-0.0957234277272473,negative,0.8849462365591398,0.055459367971677435,,,uav0000176_00000_s|uav0000003_00000_s|uav0000226_05370_s|uav0000170_00000_s|uav0000126_07915_s|uav0000304_00253_s|uav0000307_04531_s|uav0000147_00000_s|uav0000329_00276_s|uav0000204_00000_s|uav0000237_00001_s|uav0000342_01518_s,
+native_history_minus_native_current,longest_failure_fraction,12,-0.019213742059700525,0.0,-0.21335297409337398,0.18199408243088663,5,6,1,-0.09515399427040644,negative,0.8161290322580645,0.0500072960521742,,,uav0000176_00000_s|uav0000003_00000_s|uav0000226_05370_s|uav0000170_00000_s|uav0000126_07915_s|uav0000304_00253_s|uav0000307_04531_s|uav0000147_00000_s|uav0000329_00276_s|uav0000204_00000_s|uav0000237_00001_s|uav0000342_01518_s,
+native_history_minus_native_current,reliable_auc,12,-5.505434554802235,-0.13682504739190904,-16.254318994675028,-0.07627576189921707,2,0,10,-6.016074709134906,positive,-64.42878496690155,-6.016074709134906,,,uav0000176_00000_s|uav0000003_00000_s|uav0000226_05370_s|uav0000170_00000_s|uav0000126_07915_s|uav0000304_00253_s|uav0000307_04531_s|uav0000147_00000_s|uav0000329_00276_s|uav0000204_00000_s|uav0000237_00001_s|uav0000342_01518_s,
+native_history_minus_native_current,native_failure_auc,7,20.676395050263718,5.0,-0.02684800372694201,44.17536732908756,6,0,1,11.66664887284354,positive,-6.012506012506012,11.66664887284354,,,uav0000176_00000_s|uav0000226_05370_s|uav0000307_04531_s|uav0000147_00000_s|uav0000204_00000_s|uav0000237_00001_s|uav0000342_01518_s,uav0000003_00000_s|uav0000170_00000_s|uav0000126_07915_s|uav0000304_00253_s|uav0000329_00276_s
+native_recrop_minus_native_current,auc,12,-4.717795366485014,-0.15364566789326695,-13.214094964430354,-0.17037249735471052,3,0,9,-5.199531559366906,positive,-50.12836438923396,-5.199531559366906,,,uav0000176_00000_s|uav0000003_00000_s|uav0000226_05370_s|uav0000170_00000_s|uav0000126_07915_s|uav0000304_00253_s|uav0000307_04531_s|uav0000147_00000_s|uav0000329_00276_s|uav0000204_00000_s|uav0000237_00001_s|uav0000342_01518_s,
+native_recrop_minus_native_current,low_iou_fraction,12,0.06273209364271337,0.0005302226935312848,0.001346745925988561,0.17794198585145107,2,4,6,0.0067222312729468695,negative,0.6788405797101449,0.06904309881120571,,,uav0000176_00000_s|uav0000003_00000_s|uav0000226_05370_s|uav0000170_00000_s|uav0000126_07915_s|uav0000304_00253_s|uav0000307_04531_s|uav0000147_00000_s|uav0000329_00276_s|uav0000204_00000_s|uav0000237_00001_s|uav0000342_01518_s,
+native_recrop_minus_native_current,longest_failure_fraction,12,0.06261490286175615,0.0,4.986926791907967e-05,0.17810872673743813,3,4,5,0.0065943867846299095,negative,0.6788405797101449,0.06891525432288875,,,uav0000176_00000_s|uav0000003_00000_s|uav0000226_05370_s|uav0000170_00000_s|uav0000126_07915_s|uav0000304_00253_s|uav0000307_04531_s|uav0000147_00000_s|uav0000329_00276_s|uav0000204_00000_s|uav0000237_00001_s|uav0000342_01518_s,
+native_recrop_minus_native_current,reliable_auc,12,-4.958218732194398,-0.16169418343331188,-13.769140143899556,-0.19131658500035906,2,0,10,-5.415320391433962,positive,-51.908768315018314,-5.415320391433962,,,uav0000176_00000_s|uav0000003_00000_s|uav0000226_05370_s|uav0000170_00000_s|uav0000126_07915_s|uav0000304_00253_s|uav0000307_04531_s|uav0000147_00000_s|uav0000329_00276_s|uav0000204_00000_s|uav0000237_00001_s|uav0000342_01518_s,
+native_recrop_minus_native_current,native_failure_auc,7,0.8364559081787711,-0.035803795202291155,-1.0018021808591056,2.9696014355240834,3,0,4,-0.00093575059241043,positive,-3.174603174603174,-0.00093575059241043,,,uav0000176_00000_s|uav0000226_05370_s|uav0000307_04531_s|uav0000147_00000_s|uav0000204_00000_s|uav0000237_00001_s|uav0000342_01518_s,uav0000003_00000_s|uav0000170_00000_s|uav0000126_07915_s|uav0000304_00253_s|uav0000329_00276_s
+endpoint_history_minus_endpoint_recrop,auc,12,6.662563451949616,0.21393417469769815,0.003937160997347149,17.40799003126017,8,0,4,2.458866874267615,positive,-1.4403689403689413,2.458866874267615,,,uav0000176_00000_s|uav0000003_00000_s|uav0000226_05370_s|uav0000170_00000_s|uav0000126_07915_s|uav0000304_00253_s|uav0000307_04531_s|uav0000147_00000_s|uav0000329_00276_s|uav0000204_00000_s|uav0000237_00001_s|uav0000342_01518_s,
+endpoint_history_minus_endpoint_recrop,low_iou_fraction,12,-0.09470684278055226,0.0,-0.25304820085367746,0.0011135809518630253,5,5,2,-0.10414744530116943,negative,0.00913978494623656,-0.03141039740283122,,,uav0000176_00000_s|uav0000003_00000_s|uav0000226_05370_s|uav0000170_00000_s|uav0000126_07915_s|uav0000304_00253_s|uav0000307_04531_s|uav0000147_00000_s|uav0000329_00276_s|uav0000204_00000_s|uav0000237_00001_s|uav0000342_01518_s,
+endpoint_history_minus_endpoint_recrop,longest_failure_fraction,12,-0.09454114541053958,-0.0009278897136797484,-0.2530277522881879,0.0013892850323425354,6,5,1,-0.1049375967951177,negative,0.019819819819819784,-0.030877730477186872,,,uav0000176_00000_s|uav0000003_00000_s|uav0000226_05370_s|uav0000170_00000_s|uav0000126_07915_s|uav0000304_00253_s|uav0000307_04531_s|uav0000147_00000_s|uav0000329_00276_s|uav0000204_00000_s|uav0000237_00001_s|uav0000342_01518_s,
+endpoint_history_minus_endpoint_recrop,reliable_auc,12,2.364062906964328,0.2569411265063479,-0.2949000832619341,6.996953924443098,10,0,2,0.17357062378126512,positive,-2.7738417278543466,0.17357062378126512,,,uav0000176_00000_s|uav0000003_00000_s|uav0000226_05370_s|uav0000170_00000_s|uav0000126_07915_s|uav0000304_00253_s|uav0000307_04531_s|uav0000147_00000_s|uav0000329_00276_s|uav0000204_00000_s|uav0000237_00001_s|uav0000342_01518_s,
+endpoint_history_minus_endpoint_recrop,native_failure_auc,7,9.628204095428481,0.12476606363068754,-0.45025790503020807,28.71615651615633,4,0,3,0.19470630077702822,positive,-1.282051282051281,0.19470630077702822,,,uav0000176_00000_s|uav0000226_05370_s|uav0000307_04531_s|uav0000147_00000_s|uav0000204_00000_s|uav0000237_00001_s|uav0000342_01518_s,uav0000003_00000_s|uav0000170_00000_s|uav0000126_07915_s|uav0000304_00253_s|uav0000329_00276_s
+endpoint_history_minus_endpoint_current,auc,12,3.7427135104313596,0.12645616865565756,-1.0318372334290653,9.615859666923049,9,0,3,1.7356360197867169,positive,-9.966120835686056,1.7356360197867169,,,uav0000176_00000_s|uav0000003_00000_s|uav0000226_05370_s|uav0000170_00000_s|uav0000126_07915_s|uav0000304_00253_s|uav0000307_04531_s|uav0000147_00000_s|uav0000329_00276_s|uav0000204_00000_s|uav0000237_00001_s|uav0000342_01518_s,
+endpoint_history_minus_endpoint_current,low_iou_fraction,12,-0.04030620429183555,0.0,-0.12478197805135473,0.04181041673649646,5,4,3,-0.06690728335010637,negative,0.2523056653491436,-0.01269240731704853,,,uav0000176_00000_s|uav0000003_00000_s|uav0000226_05370_s|uav0000170_00000_s|uav0000126_07915_s|uav0000304_00253_s|uav0000307_04531_s|uav0000147_00000_s|uav0000329_00276_s|uav0000204_00000_s|uav0000237_00001_s|uav0000342_01518_s,
+endpoint_history_minus_endpoint_current,longest_failure_fraction,12,-0.03548620524895942,-0.0014581124072110332,-0.11919444904239201,0.04603486949364247,6,4,2,-0.06356549974937388,negative,0.2733860342555995,-0.007434226543001849,,,uav0000176_00000_s|uav0000003_00000_s|uav0000226_05370_s|uav0000170_00000_s|uav0000126_07915_s|uav0000304_00253_s|uav0000307_04531_s|uav0000147_00000_s|uav0000329_00276_s|uav0000204_00000_s|uav0000237_00001_s|uav0000342_01518_s,
+endpoint_history_minus_endpoint_current,reliable_auc,12,1.3520132500035729,0.09750851853908671,-2.70041118083666,6.7905482677021745,9,0,3,-0.9563691202092225,positive,-11.3170584689572,-0.9563691202092225,,,uav0000176_00000_s|uav0000003_00000_s|uav0000226_05370_s|uav0000170_00000_s|uav0000126_07915_s|uav0000304_00253_s|uav0000307_04531_s|uav0000147_00000_s|uav0000329_00276_s|uav0000204_00000_s|uav0000237_00001_s|uav0000342_01518_s,
+endpoint_history_minus_endpoint_current,native_failure_auc,7,12.695805602710951,1.0073260073260073,-0.8785632801841576,35.36559336141169,5,0,2,1.8257054136015374,positive,-4.737854737854736,1.8257054136015374,,,uav0000176_00000_s|uav0000226_05370_s|uav0000307_04531_s|uav0000147_00000_s|uav0000204_00000_s|uav0000237_00001_s|uav0000342_01518_s,uav0000003_00000_s|uav0000170_00000_s|uav0000126_07915_s|uav0000304_00253_s|uav0000329_00276_s
+endpoint_recrop_minus_endpoint_current,auc,12,-2.9198499415182564,-0.03210792977494492,-11.836265589479199,3.9891414375808796,6,0,6,-5.023825094250345,positive,-43.87711213517665,-5.023825094250345,,,uav0000176_00000_s|uav0000003_00000_s|uav0000226_05370_s|uav0000170_00000_s|uav0000126_07915_s|uav0000304_00253_s|uav0000307_04531_s|uav0000147_00000_s|uav0000329_00276_s|uav0000204_00000_s|uav0000237_00001_s|uav0000342_01518_s,
+endpoint_recrop_minus_endpoint_current,low_iou_fraction,12,0.054400638488716735,0.0,-0.04445784110051793,0.18459418464502617,5,4,3,0.00046052058006635315,negative,0.6477419354838709,0.08328258380982108,,,uav0000176_00000_s|uav0000003_00000_s|uav0000226_05370_s|uav0000170_00000_s|uav0000126_07915_s|uav0000304_00253_s|uav0000307_04531_s|uav0000147_00000_s|uav0000329_00276_s|uav0000204_00000_s|uav0000237_00001_s|uav0000342_01518_s,
+endpoint_recrop_minus_endpoint_current,longest_failure_fraction,12,0.05905494016158016,0.0,-0.04463298460182755,0.19756917491963072,5,4,3,0.0010804625809613438,negative,0.6967741935483871,0.088458710755679,,,uav0000176_00000_s|uav0000003_00000_s|uav0000226_05370_s|uav0000170_00000_s|uav0000126_07915_s|uav0000304_00253_s|uav0000307_04531_s|uav0000147_00000_s|uav0000329_00276_s|uav0000204_00000_s|uav0000237_00001_s|uav0000342_01518_s,
+endpoint_recrop_minus_endpoint_current,reliable_auc,12,-1.0120496569607553,-0.08736511765734889,-3.371398760676377,0.3331512589299429,5,0,7,-1.2050642722400162,positive,-13.287371910789624,-1.2050642722400162,,,uav0000176_00000_s|uav0000003_00000_s|uav0000226_05370_s|uav0000170_00000_s|uav0000126_07915_s|uav0000304_00253_s|uav0000307_04531_s|uav0000147_00000_s|uav0000329_00276_s|uav0000204_00000_s|uav0000237_00001_s|uav0000342_01518_s,
+endpoint_recrop_minus_endpoint_current,native_failure_auc,7,3.0676015072824696,0.16739119572278022,-23.427286097244966,33.10603249216841,4,0,3,-9.386405020459911,positive,-55.1296941540844,-9.386405020459911,,,uav0000176_00000_s|uav0000226_05370_s|uav0000307_04531_s|uav0000147_00000_s|uav0000204_00000_s|uav0000237_00001_s|uav0000342_01518_s,uav0000003_00000_s|uav0000170_00000_s|uav0000126_07915_s|uav0000304_00253_s|uav0000329_00276_s
+endpoint_minus_native_history_vs_recrop_interaction,auc,12,0.14760382629002855,0.11424678473029104,-8.073624811265589,10.437360207455605,7,0,5,-4.2361754283418,positive,-24.679089026915115,-4.2361754283418,,,,
+
+
+===== stage61_l40_video_influence.csv =====
+sequence,native_history_minus_recrop,native_history_minus_current,primary_leave_one_out,endpoint_history_minus_recrop,endpoint_history_minus_current
+uav0000176_00000_s,51.8095238095238,51.64362519201228,2.397271972581023,52.90322580645162,9.02611367127497
+uav0000003_00000_s,-0.06613756613755584,-0.19841269841269593,7.113241188550237,0.6613756613756578,0.016534391534392512
+uav0000226_05370_s,-48.49206349206349,-49.979518689196105,11.51559809090714,-0.12288786482334757,-0.5453149001536133
+uav0000170_00000_s,0.03714961161769281,-0.033772374197909016,7.103851445117942,0.16717325227962476,0.08780817291454923
+uav0000126_07915_s,0.015141191611775184,0.022711787417662777,7.105852210573025,-0.049208872738276455,0.1135589370883423
+uav0000304_00253_s,50.2360248447205,0.10766045548653835,2.540317333017687,25.556935817805382,25.82056590752243
+uav0000307_04531_s,3.6200514461384046,1.273605621431713,6.77813309652515,1.6249451032059739,-9.966120835686056
+uav0000147_00000_s,0.18876018876019174,0.36465036465036604,7.090068665377714,-1.4403689403689413,-0.7839982839982795
+uav0000329_00276_s,0.09555661729574183,-0.09555661729574183,7.098541717329028,0.23092849179806763,0.13935340022297282
+uav0000204_00000_s,21.250193888630356,18.53575306344036,5.175392874480427,0.24559226513623855,20.46946900367096
+uav0000237_00001_s,-0.6131549609810492,-0.03185220576524728,7.1629700426269185,-0.02388915432393901,0.322503583373134
+uav0000342_01518_s,0.09846992879867855,-0.042922789476335765,7.098276870828761,0.19693985759732868,0.21208907741251437
+
+
+===== stage61_l40_scope_summary.csv =====
+sequence,origin,policy,seed,fold,head_sha256,tracked_frames,head_calls,block_calls,calls_per_frame,maximum_decode_error,weights_unchanged,training_performed
+uav0000176_00000_s,native,current,0,-1,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,775,775,5425,1,6.103515625e-05,True,False
+uav0000176_00000_s,native,history,0,-1,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,775,3100,21700,4,6.103515625e-05,True,False
+uav0000176_00000_s,native,recrop,0,-1,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,775,3100,21700,4,6.103515625e-05,True,False
+uav0000176_00000_s,endpoint,current,2132,0,aa6608c4f0a6c0352baeb2c6c328bf185bd096f1865466391ef10cae5a376a7e,775,775,5425,1,6.103515625e-05,True,False
+uav0000176_00000_s,endpoint,history,2132,0,aa6608c4f0a6c0352baeb2c6c328bf185bd096f1865466391ef10cae5a376a7e,775,3100,21700,4,6.103515625e-05,True,False
+uav0000176_00000_s,endpoint,recrop,2132,0,aa6608c4f0a6c0352baeb2c6c328bf185bd096f1865466391ef10cae5a376a7e,775,3100,21700,4,0.000244140625,True,False
+uav0000176_00000_s,endpoint,current,2133,0,452fd963961a56f19dad01961c7ce8389e3674945ca1d07e284f1ccecc57d5b6,775,775,5425,1,6.103515625e-05,True,False
+uav0000176_00000_s,endpoint,history,2133,0,452fd963961a56f19dad01961c7ce8389e3674945ca1d07e284f1ccecc57d5b6,775,3100,21700,4,6.103515625e-05,True,False
+uav0000176_00000_s,endpoint,recrop,2133,0,452fd963961a56f19dad01961c7ce8389e3674945ca1d07e284f1ccecc57d5b6,775,3100,21700,4,0.000244140625,True,False
+uav0000003_00000_s,native,history,0,-1,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,144,576,4032,4,7.629394758623675e-06,True,False
+uav0000003_00000_s,native,recrop,0,-1,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,144,576,4032,4,7.62939453125e-06,True,False
+uav0000003_00000_s,endpoint,current,2132,1,11e1adf9936a5ac3ec768af70b5a2dca21cabd0b3c9ee53b467a55432137b013,144,144,1008,1,7.62939453125e-06,True,False
+uav0000003_00000_s,endpoint,history,2132,1,11e1adf9936a5ac3ec768af70b5a2dca21cabd0b3c9ee53b467a55432137b013,144,576,4032,4,7.62939453125e-06,True,False
+uav0000003_00000_s,endpoint,recrop,2132,1,11e1adf9936a5ac3ec768af70b5a2dca21cabd0b3c9ee53b467a55432137b013,144,576,4032,4,7.62939453125e-06,True,False
+uav0000003_00000_s,endpoint,current,2133,1,c444567713baf38788314b79080a44ff95880edc03c33e5aca7194abe199bd71,144,144,1008,1,7.62939453125e-06,True,False
+uav0000003_00000_s,endpoint,history,2133,1,c444567713baf38788314b79080a44ff95880edc03c33e5aca7194abe199bd71,144,576,4032,4,7.62939453125e-06,True,False
+uav0000003_00000_s,endpoint,recrop,2133,1,c444567713baf38788314b79080a44ff95880edc03c33e5aca7194abe199bd71,144,576,4032,4,7.62939453125e-06,True,False
+uav0000003_00000_s,native,current,0,-1,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,144,144,1008,1,7.62939453125e-06,True,False
+uav0000226_05370_s,native,recrop,0,-1,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,1860,7440,52080,4,6.103515625e-05,True,False
+uav0000226_05370_s,endpoint,current,2132,1,11e1adf9936a5ac3ec768af70b5a2dca21cabd0b3c9ee53b467a55432137b013,1860,1860,13020,1,6.103515625e-05,True,False
+uav0000226_05370_s,endpoint,history,2132,1,11e1adf9936a5ac3ec768af70b5a2dca21cabd0b3c9ee53b467a55432137b013,1860,7440,52080,4,6.103515625e-05,True,False
+uav0000226_05370_s,endpoint,recrop,2132,1,11e1adf9936a5ac3ec768af70b5a2dca21cabd0b3c9ee53b467a55432137b013,1860,7440,52080,4,6.103515625e-05,True,False
+uav0000226_05370_s,endpoint,current,2133,1,c444567713baf38788314b79080a44ff95880edc03c33e5aca7194abe199bd71,1860,1860,13020,1,6.103515625e-05,True,False
+uav0000226_05370_s,endpoint,history,2133,1,c444567713baf38788314b79080a44ff95880edc03c33e5aca7194abe199bd71,1860,7440,52080,4,6.103515625e-05,True,False
+uav0000226_05370_s,endpoint,recrop,2133,1,c444567713baf38788314b79080a44ff95880edc03c33e5aca7194abe199bd71,1860,7440,52080,4,6.103515625e-05,True,False
+uav0000226_05370_s,native,current,0,-1,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,1860,1860,13020,1,6.103515625e-05,True,False
+uav0000226_05370_s,native,history,0,-1,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,1860,7440,52080,4,0.00048828124954525265,True,False
+uav0000170_00000_s,endpoint,current,2132,0,aa6608c4f0a6c0352baeb2c6c328bf185bd096f1865466391ef10cae5a376a7e,1410,1410,9870,1,7.62939453125e-06,True,False
+uav0000170_00000_s,endpoint,history,2132,0,aa6608c4f0a6c0352baeb2c6c328bf185bd096f1865466391ef10cae5a376a7e,1410,5640,39480,4,7.62939453125e-06,True,False
+uav0000170_00000_s,endpoint,recrop,2132,0,aa6608c4f0a6c0352baeb2c6c328bf185bd096f1865466391ef10cae5a376a7e,1410,5640,39480,4,7.62939453125e-06,True,False
+uav0000170_00000_s,endpoint,current,2133,0,452fd963961a56f19dad01961c7ce8389e3674945ca1d07e284f1ccecc57d5b6,1410,1410,9870,1,7.62939453125e-06,True,False
+uav0000170_00000_s,endpoint,history,2133,0,452fd963961a56f19dad01961c7ce8389e3674945ca1d07e284f1ccecc57d5b6,1410,5640,39480,4,7.62939453125e-06,True,False
+uav0000170_00000_s,endpoint,recrop,2133,0,452fd963961a56f19dad01961c7ce8389e3674945ca1d07e284f1ccecc57d5b6,1410,5640,39480,4,7.62939453125e-06,True,False
+uav0000170_00000_s,native,current,0,-1,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,1410,1410,9870,1,7.62939453125e-06,True,False
+uav0000170_00000_s,native,history,0,-1,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,1410,5640,39480,4,7.62939453125e-06,True,False
+uav0000170_00000_s,native,recrop,0,-1,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,1410,5640,39480,4,7.62939453125e-06,True,False
+uav0000126_07915_s,endpoint,history,2132,0,aa6608c4f0a6c0352baeb2c6c328bf185bd096f1865466391ef10cae5a376a7e,629,2516,17612,4,3.0517578125e-05,True,False
+uav0000126_07915_s,endpoint,recrop,2132,0,aa6608c4f0a6c0352baeb2c6c328bf185bd096f1865466391ef10cae5a376a7e,629,2516,17612,4,3.0517578125e-05,True,False
+uav0000126_07915_s,endpoint,current,2133,0,452fd963961a56f19dad01961c7ce8389e3674945ca1d07e284f1ccecc57d5b6,629,629,4403,1,3.0517578125e-05,True,False
+uav0000126_07915_s,endpoint,history,2133,0,452fd963961a56f19dad01961c7ce8389e3674945ca1d07e284f1ccecc57d5b6,629,2516,17612,4,3.0517578352373675e-05,True,False
+uav0000126_07915_s,endpoint,recrop,2133,0,452fd963961a56f19dad01961c7ce8389e3674945ca1d07e284f1ccecc57d5b6,629,2516,17612,4,3.0517578125e-05,True,False
+uav0000126_07915_s,native,current,0,-1,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,629,629,4403,1,3.0517578125e-05,True,False
+uav0000126_07915_s,native,history,0,-1,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,629,2516,17612,4,3.0517578125e-05,True,False
+uav0000126_07915_s,native,recrop,0,-1,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,629,2516,17612,4,3.0517578125e-05,True,False
+uav0000126_07915_s,endpoint,current,2132,0,aa6608c4f0a6c0352baeb2c6c328bf185bd096f1865466391ef10cae5a376a7e,629,629,4403,1,3.0517578125e-05,True,False
+uav0000304_00253_s,endpoint,recrop,2132,0,aa6608c4f0a6c0352baeb2c6c328bf185bd096f1865466391ef10cae5a376a7e,1725,6900,48300,4,6.103515625e-05,True,False
+uav0000304_00253_s,endpoint,current,2133,0,452fd963961a56f19dad01961c7ce8389e3674945ca1d07e284f1ccecc57d5b6,1725,1725,12075,1,1.52587890625e-05,True,False
+uav0000304_00253_s,endpoint,history,2133,0,452fd963961a56f19dad01961c7ce8389e3674945ca1d07e284f1ccecc57d5b6,1725,6900,48300,4,7.62939453125e-06,True,False
+uav0000304_00253_s,endpoint,recrop,2133,0,452fd963961a56f19dad01961c7ce8389e3674945ca1d07e284f1ccecc57d5b6,1725,6900,48300,4,2.6702880859375e-05,True,False
+uav0000304_00253_s,native,current,0,-1,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,1725,1725,12075,1,7.62939453125e-06,True,False
+uav0000304_00253_s,native,history,0,-1,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,1725,6900,48300,4,7.62939453125e-06,True,False
+uav0000304_00253_s,native,recrop,0,-1,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,1725,6900,48300,4,3.0517578125e-05,True,False
+uav0000304_00253_s,endpoint,current,2132,0,aa6608c4f0a6c0352baeb2c6c328bf185bd096f1865466391ef10cae5a376a7e,1725,1725,12075,1,2.6702880859375e-05,True,False
+uav0000304_00253_s,endpoint,history,2132,0,aa6608c4f0a6c0352baeb2c6c328bf185bd096f1865466391ef10cae5a376a7e,1725,6900,48300,4,3.0517578125e-05,True,False
+uav0000307_04531_s,endpoint,current,2133,1,c444567713baf38788314b79080a44ff95880edc03c33e5aca7194abe199bd71,759,759,5313,1,3.0517578125e-05,True,False
+uav0000307_04531_s,endpoint,history,2133,1,c444567713baf38788314b79080a44ff95880edc03c33e5aca7194abe199bd71,759,3036,21252,4,6.103515630684342e-05,True,False
+uav0000307_04531_s,endpoint,recrop,2133,1,c444567713baf38788314b79080a44ff95880edc03c33e5aca7194abe199bd71,759,3036,21252,4,0.0001220703125,True,False
+uav0000307_04531_s,native,current,0,-1,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,759,759,5313,1,3.0517578125e-05,True,False
+uav0000307_04531_s,native,history,0,-1,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,759,3036,21252,4,3.0517578352373675e-05,True,False
+uav0000307_04531_s,native,recrop,0,-1,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,759,3036,21252,4,3.0517578125e-05,True,False
+uav0000307_04531_s,endpoint,current,2132,1,11e1adf9936a5ac3ec768af70b5a2dca21cabd0b3c9ee53b467a55432137b013,759,759,5313,1,3.0517578125e-05,True,False
+uav0000307_04531_s,endpoint,history,2132,1,11e1adf9936a5ac3ec768af70b5a2dca21cabd0b3c9ee53b467a55432137b013,759,3036,21252,4,6.103515636368684e-05,True,False
+uav0000307_04531_s,endpoint,recrop,2132,1,11e1adf9936a5ac3ec768af70b5a2dca21cabd0b3c9ee53b467a55432137b013,759,3036,21252,4,6.103515630684342e-05,True,False
+uav0000147_00000_s,endpoint,history,2133,0,452fd963961a56f19dad01961c7ce8389e3674945ca1d07e284f1ccecc57d5b6,2220,8880,62160,4,3.0517578125e-05,True,False
+uav0000147_00000_s,endpoint,recrop,2133,0,452fd963961a56f19dad01961c7ce8389e3674945ca1d07e284f1ccecc57d5b6,2220,8880,62160,4,0.000244140625,True,False
+uav0000147_00000_s,native,current,0,-1,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,2220,2220,15540,1,0.00012207031261368684,True,False
+uav0000147_00000_s,native,history,0,-1,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,2220,8880,62160,4,6.103515625e-05,True,False
+uav0000147_00000_s,native,recrop,0,-1,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,2220,8880,62160,4,6.103515625e-05,True,False
+uav0000147_00000_s,endpoint,current,2132,0,aa6608c4f0a6c0352baeb2c6c328bf185bd096f1865466391ef10cae5a376a7e,2220,2220,15540,1,0.0001220703125,True,False
+uav0000147_00000_s,endpoint,history,2132,0,aa6608c4f0a6c0352baeb2c6c328bf185bd096f1865466391ef10cae5a376a7e,2220,8880,62160,4,6.103515625e-05,True,False
+uav0000147_00000_s,endpoint,recrop,2132,0,aa6608c4f0a6c0352baeb2c6c328bf185bd096f1865466391ef10cae5a376a7e,2220,8880,62160,4,6.103515625e-05,True,False
+uav0000147_00000_s,endpoint,current,2133,0,452fd963961a56f19dad01961c7ce8389e3674945ca1d07e284f1ccecc57d5b6,2220,2220,15540,1,6.103515625e-05,True,False
+uav0000329_00276_s,endpoint,recrop,2133,0,452fd963961a56f19dad01961c7ce8389e3674945ca1d07e284f1ccecc57d5b6,598,2392,16744,4,7.62939453125e-06,True,False
+uav0000329_00276_s,native,current,0,-1,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,598,598,4186,1,7.62939453125e-06,True,False
+uav0000329_00276_s,native,history,0,-1,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,598,2392,16744,4,7.62939453125e-06,True,False
+uav0000329_00276_s,native,recrop,0,-1,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,598,2392,16744,4,7.62939453125e-06,True,False
+uav0000329_00276_s,endpoint,current,2132,0,aa6608c4f0a6c0352baeb2c6c328bf185bd096f1865466391ef10cae5a376a7e,598,598,4186,1,7.62939453125e-06,True,False
+uav0000329_00276_s,endpoint,history,2132,0,aa6608c4f0a6c0352baeb2c6c328bf185bd096f1865466391ef10cae5a376a7e,598,2392,16744,4,7.62939453125e-06,True,False
+uav0000329_00276_s,endpoint,recrop,2132,0,aa6608c4f0a6c0352baeb2c6c328bf185bd096f1865466391ef10cae5a376a7e,598,2392,16744,4,1.52587890625e-05,True,False
+uav0000329_00276_s,endpoint,current,2133,0,452fd963961a56f19dad01961c7ce8389e3674945ca1d07e284f1ccecc57d5b6,598,598,4186,1,7.62939453125e-06,True,False
+uav0000329_00276_s,endpoint,history,2133,0,452fd963961a56f19dad01961c7ce8389e3674945ca1d07e284f1ccecc57d5b6,598,2392,16744,4,1.5258788835126325e-05,True,False
+uav0000204_00000_s,native,current,0,-1,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,921,921,6447,1,0.00012207031261368684,True,False
+uav0000204_00000_s,native,history,0,-1,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,921,3684,25788,4,1.52587890625e-05,True,False
+uav0000204_00000_s,native,recrop,0,-1,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,921,3684,25788,4,0.00012207031261368684,True,False
+uav0000204_00000_s,endpoint,current,2132,1,11e1adf9936a5ac3ec768af70b5a2dca21cabd0b3c9ee53b467a55432137b013,921,921,6447,1,0.00012207031261368684,True,False
+uav0000204_00000_s,endpoint,history,2132,1,11e1adf9936a5ac3ec768af70b5a2dca21cabd0b3c9ee53b467a55432137b013,921,3684,25788,4,1.52587890625e-05,True,False
+uav0000204_00000_s,endpoint,recrop,2132,1,11e1adf9936a5ac3ec768af70b5a2dca21cabd0b3c9ee53b467a55432137b013,921,3684,25788,4,1.52587890625e-05,True,False
+uav0000204_00000_s,endpoint,current,2133,1,c444567713baf38788314b79080a44ff95880edc03c33e5aca7194abe199bd71,921,921,6447,1,0.00012207031261368684,True,False
+uav0000204_00000_s,endpoint,history,2133,1,c444567713baf38788314b79080a44ff95880edc03c33e5aca7194abe199bd71,921,3684,25788,4,1.52587890625e-05,True,False
+uav0000204_00000_s,endpoint,recrop,2133,1,c444567713baf38788314b79080a44ff95880edc03c33e5aca7194abe199bd71,921,3684,25788,4,1.52587890625e-05,True,False
+uav0000237_00001_s,native,history,0,-1,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,598,2392,16744,4,1.52587890625e-05,True,False
+uav0000237_00001_s,native,recrop,0,-1,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,598,2392,16744,4,1.52587890625e-05,True,False
+uav0000237_00001_s,endpoint,current,2132,1,11e1adf9936a5ac3ec768af70b5a2dca21cabd0b3c9ee53b467a55432137b013,598,598,4186,1,1.52587890625e-05,True,False
+uav0000237_00001_s,endpoint,history,2132,1,11e1adf9936a5ac3ec768af70b5a2dca21cabd0b3c9ee53b467a55432137b013,598,2392,16744,4,1.52587890625e-05,True,False
+uav0000237_00001_s,endpoint,recrop,2132,1,11e1adf9936a5ac3ec768af70b5a2dca21cabd0b3c9ee53b467a55432137b013,598,2392,16744,4,1.52587890625e-05,True,False
+uav0000237_00001_s,endpoint,current,2133,1,c444567713baf38788314b79080a44ff95880edc03c33e5aca7194abe199bd71,598,598,4186,1,1.1444091796875e-05,True,False
+uav0000237_00001_s,endpoint,history,2133,1,c444567713baf38788314b79080a44ff95880edc03c33e5aca7194abe199bd71,598,2392,16744,4,1.52587890625e-05,True,False
+uav0000237_00001_s,endpoint,recrop,2133,1,c444567713baf38788314b79080a44ff95880edc03c33e5aca7194abe199bd71,598,2392,16744,4,1.52587890625e-05,True,False
+uav0000237_00001_s,native,current,0,-1,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,598,598,4186,1,9.5367431640625e-06,True,False
+uav0000342_01518_s,native,recrop,0,-1,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,1886,7544,52808,4,5.340576177559342e-05,True,False
+uav0000342_01518_s,endpoint,current,2132,1,11e1adf9936a5ac3ec768af70b5a2dca21cabd0b3c9ee53b467a55432137b013,1886,1886,13202,1,6.103515625e-05,True,False
+uav0000342_01518_s,endpoint,history,2132,1,11e1adf9936a5ac3ec768af70b5a2dca21cabd0b3c9ee53b467a55432137b013,1886,7544,52808,4,3.051757818184342e-05,True,False
+uav0000342_01518_s,endpoint,recrop,2132,1,11e1adf9936a5ac3ec768af70b5a2dca21cabd0b3c9ee53b467a55432137b013,1886,7544,52808,4,6.103515625e-05,True,False
+uav0000342_01518_s,endpoint,current,2133,1,c444567713baf38788314b79080a44ff95880edc03c33e5aca7194abe199bd71,1886,1886,13202,1,1.52587890625e-05,True,False
+uav0000342_01518_s,endpoint,history,2133,1,c444567713baf38788314b79080a44ff95880edc03c33e5aca7194abe199bd71,1886,7544,52808,4,3.051757818184342e-05,True,False
+uav0000342_01518_s,endpoint,recrop,2133,1,c444567713baf38788314b79080a44ff95880edc03c33e5aca7194abe199bd71,1886,7544,52808,4,3.051757818184342e-05,True,False
+uav0000342_01518_s,native,current,0,-1,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,1886,1886,13202,1,3.051757818184342e-05,True,False
+uav0000342_01518_s,native,history,0,-1,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,1886,7544,52808,4,3.051757818184342e-05,True,False
+
+
+===== stage61_l40_proposal_summary.csv =====
+sequence,arm,seed,selected_noncurrent_fraction,changed_prediction_fraction,changed_crop_fraction,mean_distinct_crop_pixels
+uav0000176_00000_s,native_current,0,0.0,0.0,0.0,1.0
+uav0000176_00000_s,native_history,0,0.6232258064516129,0.6232258064516129,0.6232258064516129,3.8129032258064517
+uav0000176_00000_s,native_recrop,0,0.8141935483870968,0.8141935483870968,0.8141935483870968,3.904516129032258
+uav0000176_00000_s,endpoint_current,2132,0.0,0.0,0.0,1.0
+uav0000176_00000_s,endpoint_history,2132,0.6141935483870967,0.6141935483870967,0.6141935483870967,3.8038709677419353
+uav0000176_00000_s,endpoint_recrop,2132,0.8064516129032258,0.8064516129032258,0.8064516129032258,3.943225806451613
+uav0000176_00000_s,endpoint_current,2133,0.0,0.0,0.0,1.0
+uav0000176_00000_s,endpoint_history,2133,0.632258064516129,0.632258064516129,0.632258064516129,3.7948387096774194
+uav0000176_00000_s,endpoint_recrop,2133,0.7935483870967742,0.7935483870967742,0.7935483870967742,3.930322580645161
+uav0000003_00000_s,native_current,0,0.0,0.0,0.0,1.0
+uav0000003_00000_s,native_history,0,0.5902777777777778,0.5902777777777778,0.5902777777777778,3.6180555555555554
+uav0000003_00000_s,native_recrop,0,0.9513888888888888,0.9513888888888888,0.9513888888888888,3.6944444444444446
+uav0000003_00000_s,endpoint_current,2132,0.0,0.0,0.0,1.0
+uav0000003_00000_s,endpoint_history,2132,0.5625,0.5625,0.5625,3.673611111111111
+uav0000003_00000_s,endpoint_recrop,2132,0.9444444444444444,0.9444444444444444,0.9444444444444444,3.7222222222222223
+uav0000003_00000_s,endpoint_current,2133,0.0,0.0,0.0,1.0
+uav0000003_00000_s,endpoint_history,2133,0.5555555555555556,0.5555555555555556,0.5555555555555556,3.5902777777777777
+uav0000003_00000_s,endpoint_recrop,2133,0.9652777777777778,0.9652777777777778,0.9652777777777778,3.7083333333333335
+uav0000226_05370_s,native_current,0,0.0,0.0,0.0,1.0
+uav0000226_05370_s,native_history,0,0.6983870967741935,0.6983870967741935,0.6983870967741935,3.903763440860215
+uav0000226_05370_s,native_recrop,0,0.7833333333333333,0.7833333333333333,0.7833333333333333,3.6623655913978497
+uav0000226_05370_s,endpoint_current,2132,0.0,0.0,0.0,1.0
+uav0000226_05370_s,endpoint_history,2132,0.5967741935483871,0.5967741935483871,0.5967741935483871,3.5709677419354837
+uav0000226_05370_s,endpoint_recrop,2132,0.7768817204301075,0.7768817204301075,0.7768817204301075,3.6344086021505375
+uav0000226_05370_s,endpoint_current,2133,0.0,0.0,0.0,1.0
+uav0000226_05370_s,endpoint_history,2133,0.5903225806451613,0.5903225806451613,0.5903225806451613,3.533333333333333
+uav0000226_05370_s,endpoint_recrop,2133,0.7602150537634409,0.7602150537634409,0.7602150537634409,3.652688172043011
+uav0000170_00000_s,native_current,0,0.0,0.0,0.0,1.0
+uav0000170_00000_s,native_history,0,0.48652482269503544,0.48652482269503544,0.48652482269503544,2.765957446808511
+uav0000170_00000_s,native_recrop,0,0.6907801418439716,0.6907801418439716,0.6907801418439716,2.9815602836879433
+uav0000170_00000_s,endpoint_current,2132,0.0,0.0,0.0,1.0
+uav0000170_00000_s,endpoint_history,2132,0.4957446808510638,0.4957446808510638,0.4957446808510638,2.7106382978723405
+uav0000170_00000_s,endpoint_recrop,2132,0.6921985815602837,0.6921985815602837,0.6921985815602837,2.9957446808510637
+uav0000170_00000_s,endpoint_current,2133,0.0,0.0,0.0,1.0
+uav0000170_00000_s,endpoint_history,2133,0.4957446808510638,0.4957446808510638,0.4957446808510638,2.7411347517730498
+uav0000170_00000_s,endpoint_recrop,2133,0.6950354609929078,0.6950354609929078,0.6950354609929078,2.997872340425532
+uav0000126_07915_s,native_current,0,0.0,0.0,0.0,1.0
+uav0000126_07915_s,native_history,0,0.6550079491255962,0.6550079491255962,0.6550079491255962,3.4181240063593004
+uav0000126_07915_s,native_recrop,0,0.7647058823529411,0.7647058823529411,0.7647058823529411,3.6263910969793325
+uav0000126_07915_s,endpoint_current,2132,0.0,0.0,0.0,1.0
+uav0000126_07915_s,endpoint_history,2132,0.6136724960254372,0.6136724960254372,0.6136724960254372,3.4022257551669317
+uav0000126_07915_s,endpoint_recrop,2132,0.7901430842607313,0.7901430842607313,0.7901430842607313,3.60731319554849
+uav0000126_07915_s,endpoint_current,2133,0.0,0.0,0.0,1.0
+uav0000126_07915_s,endpoint_history,2133,0.5993640699523053,0.5993640699523053,0.5993640699523053,3.4038155802861687
+uav0000126_07915_s,endpoint_recrop,2133,0.7678855325914149,0.7678855325914149,0.7678855325914149,3.6089030206677264
+uav0000304_00253_s,native_current,0,0.0,0.0,0.0,1.0
+uav0000304_00253_s,native_history,0,0.6289855072463768,0.6289855072463768,0.6289855072463768,3.3507246376811595
+uav0000304_00253_s,native_recrop,0,0.7773913043478261,0.7773913043478261,0.7773913043478261,3.628405797101449
+uav0000304_00253_s,endpoint_current,2132,0.0,0.0,0.0,1.0
+uav0000304_00253_s,endpoint_history,2132,0.6243478260869565,0.6243478260869565,0.6243478260869565,3.418550724637681
+uav0000304_00253_s,endpoint_recrop,2132,0.767536231884058,0.767536231884058,0.767536231884058,3.5866666666666664
+uav0000304_00253_s,endpoint_current,2133,0.0,0.0,0.0,1.0
+uav0000304_00253_s,endpoint_history,2133,0.6307246376811594,0.6307246376811594,0.6307246376811594,3.3466666666666667
+uav0000304_00253_s,endpoint_recrop,2133,0.7443478260869565,0.7443478260869565,0.7443478260869565,3.5982608695652174
+uav0000307_04531_s,native_current,0,0.0,0.0,0.0,1.0
+uav0000307_04531_s,native_history,0,0.6060606060606061,0.6060606060606061,0.6060606060606061,3.4888010540184453
+uav0000307_04531_s,native_recrop,0,0.766798418972332,0.766798418972332,0.766798418972332,3.656126482213439
+uav0000307_04531_s,endpoint_current,2132,0.0,0.0,0.0,1.0
+uav0000307_04531_s,endpoint_history,2132,0.6508563899868248,0.6508563899868248,0.6508563899868248,3.7628458498023716
+uav0000307_04531_s,endpoint_recrop,2132,0.7799736495388669,0.7799736495388669,0.7799736495388669,3.7891963109354414
+uav0000307_04531_s,endpoint_current,2133,0.0,0.0,0.0,1.0
+uav0000307_04531_s,endpoint_history,2133,0.6521739130434783,0.6521739130434783,0.6521739130434783,3.7799736495388667
+uav0000307_04531_s,endpoint_recrop,2133,0.7747035573122529,0.7747035573122529,0.7747035573122529,3.841897233201581
+uav0000147_00000_s,native_current,0,0.0,0.0,0.0,1.0
+uav0000147_00000_s,native_history,0,0.5495495495495496,0.5495495495495496,0.5495495495495496,3.150900900900901
+uav0000147_00000_s,native_recrop,0,0.7905405405405406,0.7905405405405406,0.7905405405405406,3.404054054054054
+uav0000147_00000_s,endpoint_current,2132,0.0,0.0,0.0,1.0
+uav0000147_00000_s,endpoint_history,2132,0.5554054054054054,0.5554054054054054,0.5554054054054054,3.1797297297297296
+uav0000147_00000_s,endpoint_recrop,2132,0.7549549549549549,0.7549549549549549,0.7549549549549549,3.3626126126126126
+uav0000147_00000_s,endpoint_current,2133,0.0,0.0,0.0,1.0
+uav0000147_00000_s,endpoint_history,2133,0.5283783783783784,0.5283783783783784,0.5283783783783784,3.14009009009009
+uav0000147_00000_s,endpoint_recrop,2133,0.7833333333333333,0.7833333333333333,0.7833333333333333,3.5153153153153154
+uav0000329_00276_s,native_current,0,0.0,0.0,0.0,1.0
+uav0000329_00276_s,native_history,0,0.46321070234113715,0.46321070234113715,0.46321070234113715,2.8812709030100336
+uav0000329_00276_s,native_recrop,0,0.6688963210702341,0.6688963210702341,0.6688963210702341,3.1254180602006687
+uav0000329_00276_s,endpoint_current,2132,0.0,0.0,0.0,1.0
+uav0000329_00276_s,endpoint_history,2132,0.4531772575250836,0.4531772575250836,0.4531772575250836,2.849498327759197
+uav0000329_00276_s,endpoint_recrop,2132,0.7307692307692307,0.7307692307692307,0.7307692307692307,3.12876254180602
+uav0000329_00276_s,endpoint_current,2133,0.0,0.0,0.0,1.0
+uav0000329_00276_s,endpoint_history,2133,0.44816053511705684,0.44816053511705684,0.44816053511705684,2.8160535117056855
+uav0000329_00276_s,endpoint_recrop,2133,0.6872909698996655,0.6872909698996655,0.6872909698996655,3.1053511705685617
+uav0000204_00000_s,native_current,0,0.0,0.0,0.0,1.0
+uav0000204_00000_s,native_history,0,0.6080347448425625,0.6080347448425625,0.6080347448425625,3.1650380021715527
+uav0000204_00000_s,native_recrop,0,0.7318132464712269,0.7318132464712269,0.7318132464712269,3.560260586319218
+uav0000204_00000_s,endpoint_current,2132,0.0,0.0,0.0,1.0
+uav0000204_00000_s,endpoint_history,2132,0.6232356134636265,0.6232356134636265,0.6232356134636265,3.271444082519001
+uav0000204_00000_s,endpoint_recrop,2132,0.6840390879478827,0.6840390879478827,0.6840390879478827,3.414766558089034
+uav0000204_00000_s,endpoint_current,2133,0.0,0.0,0.0,1.0
+uav0000204_00000_s,endpoint_history,2133,0.6210640608034745,0.6210640608034745,0.6210640608034745,3.234527687296417
+uav0000204_00000_s,endpoint_recrop,2133,0.7133550488599348,0.7133550488599348,0.7133550488599348,3.435396308360478
+uav0000237_00001_s,native_current,0,0.0,0.0,0.0,1.0
+uav0000237_00001_s,native_history,0,0.5618729096989966,0.5618729096989966,0.5618729096989966,3.3127090301003346
+uav0000237_00001_s,native_recrop,0,0.7474916387959866,0.7474916387959866,0.7474916387959866,3.471571906354515
+uav0000237_00001_s,endpoint_current,2132,0.0,0.0,0.0,1.0
+uav0000237_00001_s,endpoint_history,2132,0.5752508361204013,0.5752508361204013,0.5752508361204013,3.351170568561873
+uav0000237_00001_s,endpoint_recrop,2132,0.754180602006689,0.754180602006689,0.754180602006689,3.459866220735786
+uav0000237_00001_s,endpoint_current,2133,0.0,0.0,0.0,1.0
+uav0000237_00001_s,endpoint_history,2133,0.580267558528428,0.580267558528428,0.580267558528428,3.3060200668896322
+uav0000237_00001_s,endpoint_recrop,2133,0.7725752508361204,0.7725752508361204,0.7725752508361204,3.471571906354515
+uav0000342_01518_s,native_current,0,0.0,0.0,0.0,1.0
+uav0000342_01518_s,native_history,0,0.46394485683987274,0.46394485683987274,0.46394485683987274,2.9565217391304346
+uav0000342_01518_s,native_recrop,0,0.7370095440084835,0.7370095440084835,0.7370095440084835,3.2523860021208906
+uav0000342_01518_s,endpoint_current,2132,0.0,0.0,0.0,1.0
+uav0000342_01518_s,endpoint_history,2132,0.4867444326617179,0.4867444326617179,0.4867444326617179,2.9766702014846236
+uav0000342_01518_s,endpoint_recrop,2132,0.7264050901378579,0.7264050901378579,0.7264050901378579,3.264050901378579
+uav0000342_01518_s,endpoint_current,2133,0.0,0.0,0.0,1.0
+uav0000342_01518_s,endpoint_history,2133,0.49522799575821846,0.49522799575821846,0.49522799575821846,2.97507953340403
+uav0000342_01518_s,endpoint_recrop,2133,0.7158006362672322,0.7158006362672322,0.7158006362672322,3.2592788971367974
+
+
+===== stage61_l40_video_summary.csv =====
+sequence,arm,introduced_failure,introduced_vs_own_current,auc,low_iou_fraction,failure_events,longest_failure_fraction,reliable_auc,mean_abs_log_size_error,oversize3_fraction,unrecovered_events,recovered_events,relapse_events,native_failure_auc,selected_noncurrent_fraction,changed_prediction_fraction,changed_crop_fraction,mean_distinct_crop_pixels
+uav0000176_00000_s,native_current,False,False,16.098310291858677,0.7935483870967742,1.0,0.792258064516129,78.69352869352869,0.5001436193447626,0.2167741935483871,1.0,0.0,0.0,0.13937282229965156,0.0,0.0,0.0,1.0
+uav0000003_00000_s,native_current,False,False,79.2989417989418,0.0,0.0,0.0,79.2989417989418,0.07127429112053354,0.0,0.0,0.0,0.0,,0.0,0.0,0.0,1.0
+uav0000226_05370_s,native_current,False,False,55.06144393241167,0.0532258064516129,1.0,0.12258064516129032,67.33717702327567,0.2881988136430797,0.016666666666666666,0.0,1.0,0.0,11.832611832611832,0.0,0.0,0.0,1.0
+uav0000170_00000_s,native_current,False,False,75.05572441742655,0.0,0.0,0.0,75.19940264060008,0.11245434436328261,0.0,0.0,0.0,0.0,,0.0,0.0,0.0,1.0
+uav0000126_07915_s,native_current,False,False,88.00060564766447,0.0,0.0,0.0,88.00060564766447,0.03961251799034821,0.0,0.0,0.0,0.0,,0.0,0.0,0.0,1.0
+uav0000304_00253_s,native_current,False,False,72.28709454796412,0.0,0.0,0.0,73.60061813186813,0.10890217273102508,0.0,0.0,0.0,0.0,,0.0,0.0,0.0,1.0
+uav0000307_04531_s,native_current,False,False,66.50981868373172,0.052700922266139656,1.0,0.10013175230566534,73.62115732368896,0.21260482395440747,0.002635046113306983,0.0,1.0,0.0,18.452380952380953,0.0,0.0,0.0,1.0
+uav0000147_00000_s,native_current,False,False,37.674817674817675,0.4292792792792793,1.0,0.42882882882882883,69.60367555498304,1.098591656911442,0.42882882882882883,1.0,0.0,0.0,0.0749512816669165,0.0,0.0,0.0,1.0
+uav0000329_00276_s,native_current,False,False,73.34766682592769,0.0,0.0,0.0,73.34766682592769,0.11763613341756236,0.0,0.0,0.0,0.0,,0.0,0.0,0.0,1.0
+uav0000204_00000_s,native_current,False,False,53.92172069696499,0.248642779587405,1.0,0.249728555917481,71.47688060731538,0.2838306825336285,0.0749185667752443,0.0,1.0,0.0,1.1021002287377835,0.0,0.0,0.0,1.0
+uav0000237_00001_s,native_current,False,False,72.8380315336837,0.08695652173913043,1.0,0.08695652173913043,79.83398864132809,0.10816645597465077,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,1.0
+uav0000342_01518_s,native_current,False,False,71.32000201989598,0.07051961823966066,1.0,0.07051961823966066,76.70920817894881,0.1876949525021377,0.07051961823966066,1.0,0.0,0.0,6.086645184389545,0.0,0.0,0.0,1.0
+uav0000176_00000_s,native_history,False,False,67.74193548387096,0.015483870967741935,2.0,0.011612903225806452,78.2967032967033,0.1869656993701161,0.0,0.0,2.0,1.0,65.1258226867983,0.6232258064516129,0.6232258064516129,0.6232258064516129,3.8129032258064517
+uav0000003_00000_s,native_history,False,False,79.1005291005291,0.0,0.0,0.0,79.1005291005291,0.06835355750580253,0.0,0.0,0.0,0.0,,0.5902777777777778,0.5902777777777778,0.5902777777777778,3.6180555555555554
+uav0000226_05370_s,native_history,False,False,5.081925243215566,0.9381720430107527,1.0,0.9387096774193548,2.9083920563741192,2.2690565791795008,0.6295698924731182,1.0,0.0,0.0,5.82010582010582,0.6983870967741935,0.6983870967741935,0.6983870967741935,3.903763440860215
+uav0000170_00000_s,native_history,False,False,75.02195204322864,0.0,0.0,0.0,75.16546176560432,0.11264531207728659,0.0,0.0,0.0,0.0,,0.48652482269503544,0.48652482269503544,0.48652482269503544,2.765957446808511
+uav0000126_07915_s,native_history,False,False,88.02331743508213,0.0,0.0,0.0,88.02331743508213,0.039252740019820785,0.0,0.0,0.0,0.0,,0.6550079491255962,0.6550079491255962,0.6550079491255962,3.4181240063593004
+uav0000304_00253_s,native_history,False,False,72.39475500345065,0.0,0.0,0.0,73.71222527472527,0.108662178407206,0.0,0.0,0.0,0.0,,0.6289855072463768,0.6289855072463768,0.6289855072463768,3.3507246376811595
+uav0000307_04531_s,native_history,False,False,67.78342430516344,0.03689064558629776,1.0,0.09486166007905138,73.48553345388788,0.19256007336035316,0.005270092226613966,0.0,1.0,0.0,23.452380952380953,0.6060606060606061,0.6060606060606061,0.6060606060606061,3.4888010540184453
+uav0000147_00000_s,native_history,False,False,38.03946803946804,0.41936936936936936,1.0,0.41936936936936936,69.41045128601485,0.46894941314267025,0.11936936936936937,1.0,0.0,0.0,0.8494478588917205,0.5495495495495496,0.5495495495495496,0.5495495495495496,3.150900900900901
+uav0000329_00276_s,native_history,False,False,73.25211020863195,0.0,0.0,0.0,73.25211020863195,0.11779461886302801,0.0,0.0,0.0,0.0,,0.46321070234113715,0.46321070234113715,0.46321070234113715,2.8812709030100336
+uav0000204_00000_s,native_history,False,False,72.45747376040535,0.0,0.0,0.0,71.33885438233264,0.12150304218480062,0.0,0.0,0.0,0.0,75.83697234352256,0.6080347448425625,0.6080347448425625,0.6080347448425625,3.1650380021715527
+uav0000237_00001_s,native_history,False,False,72.80617932791846,0.08695652173913043,1.0,0.08695652173913043,79.30974224552206,0.11019324838913809,0.0,0.0,1.0,0.0,5.0366300366300365,0.5618729096989966,0.5618729096989966,0.5618729096989966,3.3127090301003346
+uav0000342_01518_s,native_history,False,False,71.27707923041964,0.06998939554612937,1.0,0.0689289501590668,76.65431590503637,0.18629363692475842,0.06839872746553552,1.0,0.0,0.0,6.301467955603295,0.46394485683987274,0.46394485683987274,0.46394485683987274,2.9565217391304346
+uav0000176_00000_s,native_recrop,False,False,15.932411674347158,0.7987096774193548,1.0,0.7987096774193548,78.35775335775335,0.4995849174531084,0.21935483870967742,1.0,0.0,0.0,0.08517228029423152,0.8141935483870968,0.8141935483870968,0.8141935483870968,3.904516129032258
+uav0000003_00000_s,native_recrop,False,False,79.16666666666666,0.0,0.0,0.0,79.16666666666666,0.07191471322996341,0.0,0.0,0.0,0.0,,0.9513888888888888,0.9513888888888888,0.9513888888888888,3.6944444444444446
+uav0000226_05370_s,native_recrop,False,False,53.57398873527905,0.08924731182795699,1.0,0.12096774193548387,66.80760196455263,0.2851897217780104,0.0032258064516129032,0.0,1.0,0.0,8.658008658008658,0.7833333333333333,0.7833333333333333,0.7833333333333333,3.6623655913978497
+uav0000170_00000_s,native_recrop,False,False,74.98480243161094,0.0,0.0,0.0,75.12812680310898,0.11347031857342767,0.0,0.0,0.0,0.0,,0.6907801418439716,0.6907801418439716,0.6907801418439716,2.9815602836879433
+uav0000126_07915_s,native_recrop,False,False,88.00817624347036,0.0,0.0,0.0,88.00817624347036,0.039109630051073825,0.0,0.0,0.0,0.0,,0.7647058823529411,0.7647058823529411,0.7647058823529411,3.6263910969793325
+uav0000304_00253_s,native_recrop,True,True,22.158730158730158,0.6788405797101449,1.0,0.6788405797101449,21.691849816849818,0.22191104683684323,0.004057971014492754,1.0,0.0,0.0,,0.7773913043478261,0.7773913043478261,0.7773913043478261,3.628405797101449
+uav0000307_04531_s,native_recrop,False,False,64.16337285902503,0.06455862977602109,1.0,0.14756258234519104,70.81826401446655,0.23769599443240336,0.005270092226613966,0.0,1.0,0.0,21.785714285714285,0.766798418972332,0.766798418972332,0.766798418972332,3.656126482213439
+uav0000147_00000_s,native_recrop,False,False,37.85070785070785,0.4243243243243243,1.0,0.4243243243243243,69.5306797200395,0.615037596046243,0.21576576576576575,1.0,0.0,0.0,0.4996752111127767,0.7905405405405406,0.7905405405405406,0.7905405405405406,3.404054054054054
+uav0000329_00276_s,native_recrop,False,False,73.1565535913362,0.0,0.0,0.0,73.1565535913362,0.11896495290778246,0.0,0.0,0.0,0.0,,0.6688963210702341,0.6688963210702341,0.6688963210702341,3.1254180602006687
+uav0000204_00000_s,native_recrop,False,False,51.20727987177499,0.28013029315960913,1.0,0.28013029315960913,68.06073153899241,0.3765899877559186,0.11074918566775244,1.0,0.0,0.0,0.6030359742150135,0.7318132464712269,0.7318132464712269,0.7318132464712269,3.560260586319218
+uav0000237_00001_s,native_recrop,False,False,73.4193342888995,0.0802675585284281,1.0,0.0802675585284281,79.9038881607689,0.10717641108722452,0.0,0.0,1.0,0.0,5.86080586080586,0.7474916387959866,0.7474916387959866,0.7474916387959866,3.471571906354515
+uav0000342_01518_s,native_recrop,False,False,71.17860930162097,0.07158006362672323,1.0,0.07158006362672323,76.59393440373267,0.18822148171854425,0.07104984093319194,1.0,0.0,0.0,6.050841389187254,0.7370095440084835,0.7370095440084835,0.7370095440084835,3.2523860021208906
+uav0000176_00000_s,endpoint_current,False,False,60.064516129032256,0.1535483870967742,3.5,0.10451612903225807,76.08363858363857,0.2848113869099136,0.0903225806451613,0.5,3.0,2.5,56.27564847077042,0.0,0.0,0.0,1.0
+uav0000003_00000_s,endpoint_current,False,False,80.72089947089947,0.0,0.0,0.0,80.72089947089947,0.05979396027096248,0.0,0.0,0.0,0.0,,0.0,0.0,0.0,1.0
+uav0000226_05370_s,endpoint_current,False,False,57.21966205837174,0.04408602150537634,1.0,0.11612903225806451,69.3444373265001,0.27004299540787746,0.015860215053763442,0.0,1.0,0.0,18.662818662818662,0.0,0.0,0.0,1.0
+uav0000170_00000_s,endpoint_current,False,False,78.76055386693685,0.0,0.0,0.0,78.90914027763635,0.0766802773257734,0.0,0.0,0.0,0.0,,0.0,0.0,0.0,1.0
+uav0000126_07915_s,endpoint_current,False,False,88.8106593988947,0.0,0.0,0.0,88.8106593988947,0.03437396581781965,0.0,0.0,0.0,0.0,,0.0,0.0,0.0,1.0
+uav0000304_00253_s,endpoint_current,True,False,33.40648723257419,0.527536231884058,1.0,0.527536231884058,33.247481684981686,0.3395262232942715,0.017971014492753623,1.0,0.0,0.0,,0.0,0.0,0.0,1.0
+uav0000307_04531_s,endpoint_current,False,False,51.33007089528829,0.2015810276679842,2.0,0.20948616600790515,56.49110910186859,0.43055647586122736,0.08498023715415019,0.5,1.5,1.0,19.404761904761905,0.0,0.0,0.0,1.0
+uav0000147_00000_s,endpoint_current,False,False,38.410553410553405,0.42882882882882883,1.0,0.42882882882882883,70.80381295890763,0.5542147906145154,0.17342342342342343,1.0,0.0,0.0,0.17488632388947184,0.0,0.0,0.0,1.0
+uav0000329_00276_s,endpoint_current,False,False,76.15862398471094,0.0,0.0,0.0,76.15862398471094,0.08914652264350115,0.0,0.0,0.0,0.0,,0.0,0.0,0.0,1.0
+uav0000204_00000_s,endpoint_current,False,False,55.07729693397446,0.26330076004343106,1.0,0.26438653637350706,73.04347826086956,0.3524133392489423,0.10749185667752442,0.5,0.5,0.0,1.039717196922437,0.0,0.0,0.0,1.0
+uav0000237_00001_s,endpoint_current,False,False,73.80554228380316,0.08444816053511706,1.0,0.08444816053511706,80.48055919615553,0.10504521586632795,0.0,0.0,1.0,0.0,4.487179487179487,0.0,0.0,0.0,1.0
+uav0000342_01518_s,endpoint_current,False,False,74.3296470231783,0.07211028632025451,1.0,0.07211028632025451,80.32935364347469,0.1334754924954405,0.035790031813361614,1.0,0.0,0.0,1.7543859649122806,0.0,0.0,0.0,1.0
+uav0000176_00000_s,endpoint_history,False,False,69.09062980030723,0.01032258064516129,1.0,0.0064516129032258064,76.66361416361417,0.1757336428708323,0.0,0.0,1.0,0.0,67.37514518002322,0.6232258064516129,0.6232258064516129,0.6232258064516129,3.7993548387096774
+uav0000003_00000_s,endpoint_history,False,False,80.73743386243386,0.0,0.0,0.0,80.73743386243386,0.05814321377610715,0.0,0.0,0.0,0.0,,0.5590277777777778,0.5590277777777778,0.5590277777777778,3.6319444444444446
+uav0000226_05370_s,endpoint_history,False,False,56.674347158218126,0.05887096774193548,1.0,0.11317204301075268,69.37006192611574,0.2694645276953367,0.01424731182795699,0.0,1.0,0.0,13.924963924963926,0.5935483870967742,0.5935483870967742,0.5935483870967742,3.5521505376344082
+uav0000170_00000_s,endpoint_history,False,False,78.8483620398514,0.0,0.0,0.0,78.99059837762618,0.07658471896794802,0.0,0.0,0.0,0.0,,0.4957446808510638,0.4957446808510638,0.4957446808510638,2.725886524822695
+uav0000126_07915_s,endpoint_history,False,False,88.92421833598304,0.0,0.0,0.0,88.92421833598304,0.034163769998795834,0.0,0.0,0.0,0.0,,0.6065182829888712,0.6065182829888712,0.6065182829888712,3.40302066772655
+uav0000304_00253_s,endpoint_history,True,False,59.22705314009662,0.18347826086956523,0.5,0.18347826086956523,59.99170100732601,0.1376907782201956,0.007246376811594203,0.5,0.0,0.0,,0.6275362318840579,0.6275362318840579,0.6275362318840579,3.382608695652174
+uav0000307_04531_s,endpoint_history,False,False,41.36395005960223,0.4538866930171278,1.0,0.48287220026350464,45.17405063291139,0.836225674852265,0.3465085638998683,1.0,0.0,0.0,18.095238095238095,0.6515151515151516,0.6515151515151516,0.6515151515151516,3.771409749670619
+uav0000147_00000_s,endpoint_history,False,False,37.626555126555125,0.4346846846846847,1.0,0.44617117117117117,69.12061488256259,0.45993077416997347,0.13828828828828826,1.0,0.0,0.0,0.6121021336131515,0.5418918918918919,0.5418918918918919,0.5418918918918919,3.15990990990991
+uav0000329_00276_s,endpoint_history,False,False,76.29797738493392,0.0,0.0,0.0,76.29797738493392,0.08864780361983576,0.0,0.0,0.0,0.0,,0.4506688963210702,0.4506688963210702,0.4506688963210702,2.832775919732441
+uav0000204_00000_s,endpoint_history,False,False,75.54676593764542,0.0,0.0,0.0,74.4375431331953,0.09496959077565298,0.0,0.0,0.0,0.0,78.95612393428988,0.6221498371335505,0.6221498371335505,0.6221498371335505,3.252985884907709
+uav0000237_00001_s,endpoint_history,False,False,74.1280458671763,0.0802675585284281,1.0,0.0802675585284281,80.72957623416339,0.10318586846503519,0.0,0.0,1.0,0.0,5.4945054945054945,0.5777591973244147,0.5777591973244147,0.5777591973244147,3.3285953177257523
+uav0000342_01518_s,endpoint_history,False,False,74.54173610059081,0.07025450689289502,1.0,0.06919406150583245,80.2099629477151,0.16473541431386202,0.06919406150583245,1.0,0.0,0.0,6.211958467597565,0.4909862142099682,0.4909862142099682,0.4909862142099682,2.9758748674443267
+uav0000176_00000_s,endpoint_recrop,False,False,16.187403993855604,0.8012903225806451,1.0,0.8012903225806451,75.6868131868132,1.0406962699432774,0.5748387096774193,1.0,0.0,0.0,1.1459543166860242,0.8,0.8,0.8,3.936774193548387
+uav0000003_00000_s,endpoint_recrop,False,False,80.0760582010582,0.0,0.0,0.0,80.0760582010582,0.059833183420367295,0.0,0.0,0.0,0.0,,0.9548611111111112,0.9548611111111112,0.9548611111111112,3.7152777777777777
+uav0000226_05370_s,endpoint_recrop,False,False,56.79723502304147,0.04973118279569892,1.0,0.12177419354838709,69.03480674781122,0.27294669698712026,0.020698924731182795,0.0,1.0,0.0,14.405964405964404,0.7685483870967742,0.7685483870967742,0.7685483870967742,3.643548387096774
+uav0000170_00000_s,endpoint_recrop,False,False,78.68118878757177,0.0,0.0,0.0,78.82598513389675,0.07712917388794094,0.0,0.0,0.0,0.0,,0.6936170212765957,0.6936170212765957,0.6936170212765957,2.9968085106382976
+uav0000126_07915_s,endpoint_recrop,False,False,88.97342720872132,0.0,0.0,0.0,88.97342720872132,0.03353050026349488,0.0,0.0,0.0,0.0,,0.7790143084260731,0.7790143084260731,0.7790143084260731,3.608108108108108
+uav0000304_00253_s,endpoint_recrop,True,False,33.67011732229124,0.5240579710144927,1.0,0.5240579710144927,33.532222985347985,0.24755391604711602,0.014202898550724638,1.0,0.0,0.0,,0.7559420289855072,0.7559420289855072,0.7559420289855072,3.592463768115942
+uav0000307_04531_s,endpoint_recrop,False,False,39.73900495639626,0.4729907773386034,1.0,0.4888010540184453,43.203737191078964,0.8303411902660784,0.3675889328063241,1.0,0.0,0.0,18.333333333333332,0.7773386034255599,0.7773386034255599,0.7773386034255599,3.8155467720685112
+uav0000147_00000_s,endpoint_recrop,False,False,39.06692406692407,0.4263513513513514,1.0,0.4263513513513514,71.89445661041694,0.7085539029381012,0.27635135135135136,1.0,0.0,0.0,0.34227751961225206,0.7691441441441441,0.7691441441441441,0.7691441441441441,3.438963963963964
+uav0000329_00276_s,endpoint_recrop,False,False,76.06704889313585,0.0,0.0,0.0,76.06704889313585,0.09056670204673073,0.0,0.0,0.0,0.0,,0.7090301003344481,0.7090301003344481,0.7090301003344481,3.1170568561872907
+uav0000204_00000_s,endpoint_recrop,False,False,75.30117367250918,0.0,0.0,0.0,74.15458937198068,0.09691747248966405,0.0,0.0,0.0,0.0,78.83135787065919,0.6986970684039088,0.6986970684039088,0.6986970684039088,3.425081433224756
+uav0000237_00001_s,endpoint_recrop,False,False,74.15193502150024,0.08277591973244147,1.0,0.08277591973244147,80.62909567496723,0.10354432797269866,0.0,0.0,1.0,0.0,6.776556776556776,0.7633779264214047,0.7633779264214047,0.7633779264214047,3.4657190635451505
+uav0000342_01518_s,endpoint_recrop,False,False,74.34479624299348,0.07104984093319194,1.0,0.07104984093319194,80.20035679978042,0.16717085690210376,0.07104984093319194,1.0,0.0,0.0,3.4371643394199785,0.7211028632025451,0.7211028632025451,0.7211028632025451,3.2616648992576884
+
+
+===== stage61_l40_seed_video_summary.csv =====
+sequence,origin,policy,arm,seed,provenance,introduced_vs_own_current,changed,auc,low_iou_fraction,failure_events,reliable_auc,introduced_failure,mean_abs_log_size_error,oversize3_fraction,longest_failure_fraction,unrecovered_events,recovered_events,relapse_events,first_failure_frame,native_failure_auc,selected_noncurrent_fraction,changed_prediction_fraction,changed_crop_fraction,mean_distinct_crop_pixels
+uav0000176_00000_s,native,current,native_current,0,new_L40_inference,False,False,16.098310291858677,0.7935483870967742,1,78.69352869352869,False,0.5001436193447626,0.2167741935483871,0.792258064516129,1,0,0,162,0.13937282229965156,0.0,0.0,0.0,1.0
+uav0000176_00000_s,native,history,native_history,0,new_L40_inference,False,True,67.74193548387096,0.015483870967741935,2,78.2967032967033,False,0.1869656993701161,0.0,0.011612903225806452,0,2,1,407,65.1258226867983,0.6232258064516129,0.6232258064516129,0.6232258064516129,3.8129032258064517
+uav0000176_00000_s,native,recrop,native_recrop,0,new_L40_inference,False,True,15.932411674347158,0.7987096774193548,1,78.35775335775335,False,0.4995849174531084,0.21935483870967742,0.7987096774193548,1,0,0,157,0.08517228029423152,0.8141935483870968,0.8141935483870968,0.8141935483870968,3.904516129032258
+uav0000176_00000_s,endpoint,current,endpoint_current,2132,new_L40_inference,False,False,61.01382488479262,0.14580645161290323,4,75.64102564102564,False,0.3063823111052585,0.10967741935483871,0.10580645161290322,1,3,3,158,57.622919086333724,0.0,0.0,0.0,1.0
+uav0000176_00000_s,endpoint,history,endpoint_history,2132,new_L40_inference,False,True,69.0937019969278,0.01032258064516129,1,76.49572649572649,False,0.17616234712292958,0.0,0.0064516129032258064,0,1,0,407,67.44096012388695,0.6141935483870967,0.6141935483870967,0.6141935483870967,3.8038709677419353
+uav0000176_00000_s,endpoint,recrop,endpoint_recrop,2132,new_L40_inference,False,True,16.19662058371736,0.8012903225806451,1,75.91575091575092,False,1.0564610920779964,0.5819354838709677,0.8012903225806451,1,0,0,155,1.1227255129694156,0.8064516129032258,0.8064516129032258,0.8064516129032258,3.943225806451613
+uav0000176_00000_s,endpoint,current,endpoint_current,2133,new_L40_inference,False,False,59.11520737327189,0.16129032258064516,3,76.52625152625151,False,0.26324046271456875,0.07096774193548387,0.1032258064516129,0,3,2,162,54.928377855207124,0.0,0.0,0.0,1.0
+uav0000176_00000_s,endpoint,history,endpoint_history,2133,new_L40_inference,False,True,69.08755760368663,0.01032258064516129,1,76.83150183150184,False,0.175304938618735,0.0,0.0064516129032258064,0,1,0,315,67.3093302361595,0.632258064516129,0.632258064516129,0.632258064516129,3.7948387096774194
+uav0000176_00000_s,endpoint,recrop,endpoint_recrop,2133,new_L40_inference,False,True,16.178187403993853,0.8012903225806451,1,75.45787545787546,False,1.0249314478085583,0.567741935483871,0.8012903225806451,1,0,0,155,1.1691831204026326,0.7935483870967742,0.7935483870967742,0.7935483870967742,3.930322580645161
+uav0000003_00000_s,native,current,native_current,0,new_L40_inference,False,False,79.2989417989418,0.0,0,79.2989417989418,False,0.07127429112053354,0.0,0.0,0,0,0,,,0.0,0.0,0.0,1.0
+uav0000003_00000_s,native,history,native_history,0,new_L40_inference,False,True,79.1005291005291,0.0,0,79.1005291005291,False,0.06835355750580253,0.0,0.0,0,0,0,,,0.5902777777777778,0.5902777777777778,0.5902777777777778,3.6180555555555554
+uav0000003_00000_s,native,recrop,native_recrop,0,new_L40_inference,False,True,79.16666666666666,0.0,0,79.16666666666666,False,0.07191471322996341,0.0,0.0,0,0,0,,,0.9513888888888888,0.9513888888888888,0.9513888888888888,3.6944444444444446
+uav0000003_00000_s,endpoint,current,endpoint_current,2132,new_L40_inference,False,False,80.62169312169311,0.0,0,80.62169312169311,False,0.06015415482056577,0.0,0.0,0,0,0,,,0.0,0.0,0.0,1.0
+uav0000003_00000_s,endpoint,history,endpoint_history,2132,new_L40_inference,False,True,80.85317460317461,0.0,0,80.85317460317461,False,0.05824147205023687,0.0,0.0,0,0,0,,,0.5625,0.5625,0.5625,3.673611111111111
+uav0000003_00000_s,endpoint,recrop,endpoint_recrop,2132,new_L40_inference,False,True,80.15873015873017,0.0,0,80.15873015873017,False,0.05962294999684752,0.0,0.0,0,0,0,,,0.9444444444444444,0.9444444444444444,0.9444444444444444,3.7222222222222223
+uav0000003_00000_s,endpoint,current,endpoint_current,2133,new_L40_inference,False,False,80.82010582010582,0.0,0,80.82010582010582,False,0.0594337657213592,0.0,0.0,0,0,0,,,0.0,0.0,0.0,1.0
+uav0000003_00000_s,endpoint,history,endpoint_history,2133,new_L40_inference,False,True,80.62169312169311,0.0,0,80.62169312169311,False,0.05804495550197743,0.0,0.0,0,0,0,,,0.5555555555555556,0.5555555555555556,0.5555555555555556,3.5902777777777777
+uav0000003_00000_s,endpoint,recrop,endpoint_recrop,2133,new_L40_inference,False,True,79.99338624338624,0.0,0,79.99338624338624,False,0.06004341684388706,0.0,0.0,0,0,0,,,0.9652777777777778,0.9652777777777778,0.9652777777777778,3.7083333333333335
+uav0000226_05370_s,native,current,native_current,0,new_L40_inference,False,False,55.06144393241167,0.0532258064516129,1,67.33717702327567,False,0.2881988136430797,0.016666666666666666,0.12258064516129032,0,1,0,110,11.832611832611832,0.0,0.0,0.0,1.0
+uav0000226_05370_s,native,history,native_history,0,new_L40_inference,False,True,5.081925243215566,0.9381720430107527,1,2.9083920563741192,False,2.2690565791795008,0.6295698924731182,0.9387096774193548,1,0,0,115,5.82010582010582,0.6983870967741935,0.6983870967741935,0.6983870967741935,3.903763440860215
+uav0000226_05370_s,native,recrop,native_recrop,0,new_L40_inference,False,True,53.57398873527905,0.08924731182795699,1,66.80760196455263,False,0.2851897217780104,0.0032258064516129032,0.12096774193548387,0,1,0,112,8.658008658008658,0.7833333333333333,0.7833333333333333,0.7833333333333333,3.6623655913978497
+uav0000226_05370_s,endpoint,current,endpoint_current,2132,new_L40_inference,False,False,57.04557091653866,0.046236559139784944,1,69.37433269271834,False,0.2712723144257507,0.016666666666666666,0.11451612903225807,0,1,0,125,14.911014911014911,0.0,0.0,0.0,1.0
+uav0000226_05370_s,endpoint,history,endpoint_history,2132,new_L40_inference,False,True,56.29800307219662,0.07204301075268817,1,69.32735426008969,False,0.267565457272937,0.010752688172043012,0.11290322580645161,0,1,0,129,13.804713804713806,0.5967741935483871,0.5967741935483871,0.5967741935483871,3.5709677419354837
+uav0000226_05370_s,endpoint,recrop,endpoint_recrop,2132,new_L40_inference,False,True,56.69226830517153,0.0521505376344086,1,69.0155882980995,False,0.2752126537240194,0.025806451612903226,0.12096774193548387,0,1,0,113,12.554112554112553,0.7768817204301075,0.7768817204301075,0.7768817204301075,3.6344086021505375
+uav0000226_05370_s,endpoint,current,endpoint_current,2133,new_L40_inference,False,False,57.39375320020481,0.041935483870967745,1,69.31454196028187,False,0.26881367639000425,0.015053763440860216,0.11774193548387096,0,1,0,111,22.414622414622414,0.0,0.0,0.0,1.0
+uav0000226_05370_s,endpoint,history,endpoint_history,2133,new_L40_inference,False,True,57.05069124423963,0.0456989247311828,1,69.41276959214179,False,0.27136359811773636,0.017741935483870968,0.11344086021505376,0,1,0,127,14.045214045214044,0.5903225806451613,0.5903225806451613,0.5903225806451613,3.533333333333333
+uav0000226_05370_s,endpoint,recrop,endpoint_recrop,2133,new_L40_inference,False,True,56.902201740911416,0.047311827956989246,1,69.05402519752295,False,0.2706807402502211,0.015591397849462365,0.12258064516129032,0,1,0,110,16.257816257816256,0.7602150537634409,0.7602150537634409,0.7602150537634409,3.652688172043011
+uav0000170_00000_s,native,current,native_current,0,new_L40_inference,False,False,75.05572441742655,0.0,0,75.19940264060008,False,0.11245434436328261,0.0,0.0,0,0,0,,,0.0,0.0,0.0,1.0
+uav0000170_00000_s,native,history,native_history,0,new_L40_inference,False,True,75.02195204322864,0.0,0,75.16546176560432,False,0.11264531207728659,0.0,0.0,0,0,0,,,0.48652482269503544,0.48652482269503544,0.48652482269503544,2.765957446808511
+uav0000170_00000_s,native,recrop,native_recrop,0,new_L40_inference,False,True,74.98480243161094,0.0,0,75.12812680310898,False,0.11347031857342767,0.0,0.0,0,0,0,,,0.6907801418439716,0.6907801418439716,0.6907801418439716,2.9815602836879433
+uav0000170_00000_s,endpoint,current,endpoint_current,2132,new_L40_inference,False,False,78.8145896656535,0.0,0,78.96005159012999,False,0.07567598815414098,0.0,0.0,0,0,0,,,0.0,0.0,0.0,1.0
+uav0000170_00000_s,endpoint,history,endpoint_history,2132,new_L40_inference,False,True,78.90577507598783,0.0,0,79.0449037776194,False,0.07548382023914908,0.0,0.0,0,0,0,,,0.4957446808510638,0.4957446808510638,0.4957446808510638,2.7106382978723405
+uav0000170_00000_s,endpoint,recrop,endpoint_recrop,2132,new_L40_inference,False,True,78.7065180682202,0.0,0,78.85144079014357,False,0.07639504688899268,0.0,0.0,0,0,0,,,0.6921985815602837,0.6921985815602837,0.6921985815602837,2.9957446808510637
+uav0000170_00000_s,endpoint,current,endpoint_current,2133,new_L40_inference,False,False,78.7065180682202,0.0,0,78.85822896514271,False,0.07768456649740581,0.0,0.0,0,0,0,,,0.0,0.0,0.0,1.0
+uav0000170_00000_s,endpoint,history,endpoint_history,2133,new_L40_inference,False,True,78.79094900371496,0.0,0,78.93629297763296,False,0.07768561769674695,0.0,0.0,0,0,0,,,0.4957446808510638,0.4957446808510638,0.4957446808510638,2.7411347517730498
+uav0000170_00000_s,endpoint,recrop,endpoint_recrop,2133,new_L40_inference,False,True,78.65585950692333,0.0,0,78.80052947764995,False,0.07786330088688918,0.0,0.0,0,0,0,,,0.6950354609929078,0.6950354609929078,0.6950354609929078,2.997872340425532
+uav0000126_07915_s,native,current,native_current,0,new_L40_inference,False,False,88.00060564766447,0.0,0,88.00060564766447,False,0.03961251799034821,0.0,0.0,0,0,0,,,0.0,0.0,0.0,1.0
+uav0000126_07915_s,native,history,native_history,0,new_L40_inference,False,True,88.02331743508213,0.0,0,88.02331743508213,False,0.039252740019820785,0.0,0.0,0,0,0,,,0.6550079491255962,0.6550079491255962,0.6550079491255962,3.4181240063593004
+uav0000126_07915_s,native,recrop,native_recrop,0,new_L40_inference,False,True,88.00817624347036,0.0,0,88.00817624347036,False,0.039109630051073825,0.0,0.0,0,0,0,,,0.7647058823529411,0.7647058823529411,0.7647058823529411,3.6263910969793325
+uav0000126_07915_s,endpoint,current,endpoint_current,2132,new_L40_inference,False,False,88.86365356953593,0.0,0,88.86365356953593,False,0.033779017024880224,0.0,0.0,0,0,0,,,0.0,0.0,0.0,1.0
+uav0000126_07915_s,endpoint,history,endpoint_history,2132,new_L40_inference,False,True,88.99992429404195,0.0,0,88.99992429404195,False,0.03369943355139305,0.0,0.0,0,0,0,,,0.6136724960254372,0.6136724960254372,0.6136724960254372,3.4022257551669317
+uav0000126_07915_s,endpoint,recrop,endpoint_recrop,2132,new_L40_inference,False,True,89.0302066772655,0.0,0,89.0302066772655,False,0.03305931009232587,0.0,0.0,0,0,0,,,0.7901430842607313,0.7901430842607313,0.7901430842607313,3.60731319554849
+uav0000126_07915_s,endpoint,current,endpoint_current,2133,new_L40_inference,False,False,88.75766522825347,0.0,0,88.75766522825347,False,0.034968914610759086,0.0,0.0,0,0,0,,,0.0,0.0,0.0,1.0
+uav0000126_07915_s,endpoint,history,endpoint_history,2133,new_L40_inference,False,True,88.84851237792414,0.0,0,88.84851237792414,False,0.034628106446198625,0.0,0.0,0,0,0,,,0.5993640699523053,0.5993640699523053,0.5993640699523053,3.4038155802861687
+uav0000126_07915_s,endpoint,recrop,endpoint_recrop,2133,new_L40_inference,False,True,88.91664774017715,0.0,0,88.91664774017715,False,0.03400169043466389,0.0,0.0,0,0,0,,,0.7678855325914149,0.7678855325914149,0.7678855325914149,3.6089030206677264
+uav0000304_00253_s,native,current,native_current,0,new_L40_inference,False,False,72.28709454796412,0.0,0,73.60061813186813,False,0.10890217273102508,0.0,0.0,0,0,0,,,0.0,0.0,0.0,1.0
+uav0000304_00253_s,native,history,native_history,0,new_L40_inference,False,True,72.39475500345065,0.0,0,73.71222527472527,False,0.108662178407206,0.0,0.0,0,0,0,,,0.6289855072463768,0.6289855072463768,0.6289855072463768,3.3507246376811595
+uav0000304_00253_s,native,recrop,native_recrop,0,new_L40_inference,True,True,22.158730158730158,0.6788405797101449,1,21.691849816849818,True,0.22191104683684323,0.004057971014492754,0.6788405797101449,1,0,0,555,,0.7773913043478261,0.7773913043478261,0.7773913043478261,3.628405797101449
+uav0000304_00253_s,endpoint,current,endpoint_current,2132,new_L40_inference,False,False,44.35058661145618,0.37565217391304345,1,44.57989926739927,True,0.19378866896073602,0.03304347826086956,0.37565217391304345,1,0,0,1078,,0.0,0.0,0.0,1.0
+uav0000304_00253_s,endpoint,history,endpoint_history,2132,new_L40_inference,False,True,44.82263630089717,0.36695652173913046,1,45.060668498168496,True,0.1780033917279777,0.014492753623188406,0.36695652173913046,1,0,0,1093,,0.6243478260869565,0.6243478260869565,0.6243478260869565,3.418550724637681
+uav0000304_00253_s,endpoint,recrop,endpoint_recrop,2132,new_L40_inference,False,True,44.800552104899936,0.36927536231884056,1,45.04635989010989,True,0.18345695167806805,0.020869565217391306,0.36927536231884056,1,0,0,1089,,0.767536231884058,0.767536231884058,0.767536231884058,3.5866666666666664
+uav0000304_00253_s,endpoint,current,endpoint_current,2133,new_L40_inference,False,False,22.4623878536922,0.6794202898550724,1,21.915064102564102,True,0.485263777627807,0.002898550724637681,0.6794202898550724,1,0,0,554,,0.0,0.0,0.0,1.0
+uav0000304_00253_s,endpoint,history,endpoint_history,2133,new_L40_inference,False,True,73.63146997929607,0.0,0,74.92273351648352,False,0.09737816471241353,0.0,0.0,0,0,0,,,0.6307246376811594,0.6307246376811594,0.6307246376811594,3.3466666666666667
+uav0000304_00253_s,endpoint,recrop,endpoint_recrop,2133,new_L40_inference,False,True,22.53968253968254,0.6788405797101449,1,22.01808608058608,True,0.31165088041616396,0.007536231884057971,0.6788405797101449,1,0,0,555,,0.7443478260869565,0.7443478260869565,0.7443478260869565,3.5982608695652174
+uav0000307_04531_s,native,current,native_current,0,new_L40_inference,False,False,66.50981868373172,0.052700922266139656,1,73.62115732368896,False,0.21260482395440747,0.002635046113306983,0.10013175230566534,0,1,0,398,18.452380952380953,0.0,0.0,0.0,1.0
+uav0000307_04531_s,native,history,native_history,0,new_L40_inference,False,True,67.78342430516344,0.03689064558629776,1,73.48553345388788,False,0.19256007336035316,0.005270092226613966,0.09486166007905138,0,1,0,399,23.452380952380953,0.6060606060606061,0.6060606060606061,0.6060606060606061,3.4888010540184453
+uav0000307_04531_s,native,recrop,native_recrop,0,new_L40_inference,False,True,64.16337285902503,0.06455862977602109,1,70.81826401446655,False,0.23769599443240336,0.005270092226613966,0.14756258234519104,0,1,0,393,21.785714285714285,0.766798418972332,0.766798418972332,0.766798418972332,3.656126482213439
+uav0000307_04531_s,endpoint,current,endpoint_current,2132,new_L40_inference,False,False,54.70857644770688,0.12121212121212122,2,59.817661241711875,False,0.358743977524861,0.030303030303030304,0.1844532279314888,0,2,1,389,20.952380952380953,0.0,0.0,0.0,1.0
+uav0000307_04531_s,endpoint,history,endpoint_history,2132,new_L40_inference,False,True,41.48315452663279,0.45849802371541504,1,45.2833031946956,False,0.8132133703084831,0.3438735177865613,0.48484848484848486,1,0,0,392,18.452380952380953,0.6508563899868248,0.6508563899868248,0.6508563899868248,3.7628458498023716
+uav0000307_04531_s,endpoint,recrop,endpoint_recrop,2132,new_L40_inference,False,True,39.531965618922136,0.47167325428194995,1,43.03044002411091,False,0.8261302618564402,0.3544137022397892,0.49538866930171277,1,0,0,384,18.452380952380953,0.7799736495388669,0.7799736495388669,0.7799736495388669,3.7891963109354414
+uav0000307_04531_s,endpoint,current,endpoint_current,2133,new_L40_inference,False,False,47.95156534286969,0.28194993412384717,2,53.16455696202531,False,0.5023689741975937,0.13965744400527008,0.23451910408432147,1,1,1,389,17.857142857142858,0.0,0.0,0.0,1.0
+uav0000307_04531_s,endpoint,history,endpoint_history,2133,new_L40_inference,False,True,41.24474559257168,0.4492753623188406,1,45.064798071127186,False,0.8592379793960467,0.34914361001317523,0.48089591567852435,1,0,0,395,17.738095238095237,0.6521739130434783,0.6521739130434783,0.6521739130434783,3.7799736495388667
+uav0000307_04531_s,endpoint,recrop,endpoint_recrop,2133,new_L40_inference,False,True,39.94604429387038,0.4743083003952569,1,43.37703435804702,False,0.8345521186757165,0.380764163372859,0.48221343873517786,1,0,0,394,18.21428571428571,0.7747035573122529,0.7747035573122529,0.7747035573122529,3.841897233201581
+uav0000147_00000_s,native,current,native_current,0,new_L40_inference,False,False,37.674817674817675,0.4292792792792793,1,69.60367555498304,False,1.098591656911442,0.42882882882882883,0.42882882882882883,1,0,0,1269,0.0749512816669165,0.0,0.0,0.0,1.0
+uav0000147_00000_s,native,history,native_history,0,new_L40_inference,False,True,38.03946803946804,0.41936936936936936,1,69.41045128601485,False,0.46894941314267025,0.11936936936936937,0.41936936936936936,1,0,0,1290,0.8494478588917205,0.5495495495495496,0.5495495495495496,0.5495495495495496,3.150900900900901
+uav0000147_00000_s,native,recrop,native_recrop,0,new_L40_inference,False,True,37.85070785070785,0.4243243243243243,1,69.5306797200395,False,0.615037596046243,0.21576576576576575,0.4243243243243243,1,0,0,1279,0.4996752111127767,0.7905405405405406,0.7905405405405406,0.7905405405405406,3.404054054054054
+uav0000147_00000_s,endpoint,current,endpoint_current,2132,new_L40_inference,False,False,38.946803946803946,0.4306306306306306,1,71.98677487225729,False,0.4590921091283471,0.12342342342342343,0.4306306306306306,1,0,0,1265,0.1049317943336831,0.0,0.0,0.0,1.0
+uav0000147_00000_s,endpoint,history,endpoint_history,2132,new_L40_inference,False,True,37.155727155727156,0.45045045045045046,1,68.7363132809481,False,0.49759265651321793,0.14234234234234233,0.47387387387387386,1,0,0,1169,0.4047369210013491,0.5554054054054054,0.5554054054054054,0.5554054054054054,3.1797297297297296
+uav0000147_00000_s,endpoint,recrop,endpoint_recrop,2132,new_L40_inference,False,True,39.225654225654225,0.42342342342342343,1,71.97389325432607,False,0.48044556700898267,0.12387387387387387,0.42342342342342343,1,0,0,1281,0.579623244890821,0.7549549549549549,0.7549549549549549,0.7549549549549549,3.3626126126126126
+uav0000147_00000_s,endpoint,current,endpoint_current,2133,new_L40_inference,False,False,37.87430287430287,0.42702702702702705,1,69.62085104555798,False,0.6493374721006836,0.22342342342342342,0.42702702702702705,1,0,0,1273,0.24484085344526058,0.0,0.0,0.0,1.0
+uav0000147_00000_s,endpoint,history,endpoint_history,2133,new_L40_inference,False,True,38.097383097383094,0.4189189189189189,1,69.50491648417709,False,0.422268891826729,0.13423423423423422,0.41846846846846847,1,0,0,1292,0.8194673462249539,0.5283783783783784,0.5283783783783784,0.5283783783783784,3.14009009009009
+uav0000147_00000_s,endpoint,recrop,endpoint_recrop,2133,new_L40_inference,False,True,38.90819390819391,0.4292792792792793,1,71.8150199665078,False,0.9366622388672197,0.42882882882882883,0.4292792792792793,1,0,0,1268,0.1049317943336831,0.7833333333333333,0.7833333333333333,0.7833333333333333,3.5153153153153154
+uav0000329_00276_s,native,current,native_current,0,new_L40_inference,False,False,73.34766682592769,0.0,0,73.34766682592769,False,0.11763613341756236,0.0,0.0,0,0,0,,,0.0,0.0,0.0,1.0
+uav0000329_00276_s,native,history,native_history,0,new_L40_inference,False,True,73.25211020863195,0.0,0,73.25211020863195,False,0.11779461886302801,0.0,0.0,0,0,0,,,0.46321070234113715,0.46321070234113715,0.46321070234113715,2.8812709030100336
+uav0000329_00276_s,native,recrop,native_recrop,0,new_L40_inference,False,True,73.1565535913362,0.0,0,73.1565535913362,False,0.11896495290778246,0.0,0.0,0,0,0,,,0.6688963210702341,0.6688963210702341,0.6688963210702341,3.1254180602006687
+uav0000329_00276_s,endpoint,current,endpoint_current,2132,new_L40_inference,False,False,76.28603280777195,0.0,0,76.28603280777195,False,0.08838468730436567,0.0,0.0,0,0,0,,,0.0,0.0,0.0,1.0
+uav0000329_00276_s,endpoint,history,endpoint_history,2132,new_L40_inference,False,True,76.2541806020067,0.0,0,76.2541806020067,False,0.08792374392251341,0.0,0.0,0,0,0,,,0.4531772575250836,0.4531772575250836,0.4531772575250836,2.849498327759197
+uav0000329_00276_s,endpoint,recrop,endpoint_recrop,2132,new_L40_inference,False,True,76.11880872750439,0.0,0,76.11880872750439,False,0.08996449242878267,0.0,0.0,0,0,0,,,0.7307692307692307,0.7307692307692307,0.7307692307692307,3.12876254180602
+uav0000329_00276_s,endpoint,current,endpoint_current,2133,new_L40_inference,False,False,76.03121516164994,0.0,0,76.03121516164994,False,0.08990835798263663,0.0,0.0,0,0,0,,,0.0,0.0,0.0,1.0
+uav0000329_00276_s,endpoint,history,endpoint_history,2133,new_L40_inference,False,True,76.34177416786112,0.0,0,76.34177416786112,False,0.08937186331715812,0.0,0.0,0,0,0,,,0.44816053511705684,0.44816053511705684,0.44816053511705684,2.8160535117056855
+uav0000329_00276_s,endpoint,recrop,endpoint_recrop,2133,new_L40_inference,False,True,76.01528905876732,0.0,0,76.01528905876732,False,0.09116891166467878,0.0,0.0,0,0,0,,,0.6872909698996655,0.6872909698996655,0.6872909698996655,3.1053511705685617
+uav0000204_00000_s,native,current,native_current,0,new_L40_inference,False,False,53.92172069696499,0.248642779587405,1,71.47688060731538,False,0.2838306825336285,0.0749185667752443,0.249728555917481,0,1,0,664,1.1021002287377835,0.0,0.0,0.0,1.0
+uav0000204_00000_s,native,history,native_history,0,new_L40_inference,False,True,72.45747376040535,0.0,0,71.33885438233264,False,0.12150304218480062,0.0,0.0,0,0,0,,75.83697234352256,0.6080347448425625,0.6080347448425625,0.6080347448425625,3.1650380021715527
+uav0000204_00000_s,native,recrop,native_recrop,0,new_L40_inference,False,True,51.20727987177499,0.28013029315960913,1,68.06073153899241,False,0.3765899877559186,0.11074918566775244,0.28013029315960913,1,0,0,664,0.6030359742150135,0.7318132464712269,0.7318132464712269,0.7318132464712269,3.560260586319218
+uav0000204_00000_s,endpoint,current,endpoint_current,2132,new_L40_inference,False,False,53.74075797528566,0.28013029315960913,1,71.38026224982747,False,0.35325535975784766,0.10966340933767643,0.28013029315960913,1,0,0,664,0.8317737575379496,0.0,0.0,0.0,1.0
+uav0000204_00000_s,endpoint,history,endpoint_history,2132,new_L40_inference,False,True,75.46145494028231,0.0,0,74.37543133195307,False,0.09602493292918651,0.0,0.0,0,0,0,,78.81056352672073,0.6232356134636265,0.6232356134636265,0.6232356134636265,3.271444082519001
+uav0000204_00000_s,endpoint,recrop,endpoint_recrop,2132,new_L40_inference,False,True,75.27015149164986,0.0,0,74.16839199447895,False,0.09735998562433096,0.0,0.0,0,0,0,,78.66500311915159,0.6840390879478827,0.6840390879478827,0.6840390879478827,3.414766558089034
+uav0000204_00000_s,endpoint,current,endpoint_current,2133,new_L40_inference,False,False,56.41383589266326,0.24647122692725298,1,74.70669427191167,False,0.35157131874003694,0.10532030401737243,0.248642779587405,0,1,0,664,1.2476606363069247,0.0,0.0,0.0,1.0
+uav0000204_00000_s,endpoint,history,endpoint_history,2133,new_L40_inference,False,True,75.63207693500853,0.0,0,74.49965493443754,False,0.09391424862211943,0.0,0.0,0,0,0,,79.10168434185901,0.6210640608034745,0.6210640608034745,0.6210640608034745,3.234527687296417
+uav0000204_00000_s,endpoint,recrop,endpoint_recrop,2133,new_L40_inference,False,True,75.33219585336849,0.0,0,74.1407867494824,False,0.09647495935499714,0.0,0.0,0,0,0,,78.99771262216677,0.7133550488599348,0.7133550488599348,0.7133550488599348,3.435396308360478
+uav0000237_00001_s,native,current,native_current,0,new_L40_inference,False,False,72.8380315336837,0.08695652173913043,1,79.83398864132809,False,0.10816645597465077,0.0,0.08695652173913043,0,1,0,242,0.0,0.0,0.0,0.0,1.0
+uav0000237_00001_s,native,history,native_history,0,new_L40_inference,False,True,72.80617932791846,0.08695652173913043,1,79.30974224552206,False,0.11019324838913809,0.0,0.08695652173913043,0,1,0,246,5.0366300366300365,0.5618729096989966,0.5618729096989966,0.5618729096989966,3.3127090301003346
+uav0000237_00001_s,native,recrop,native_recrop,0,new_L40_inference,False,True,73.4193342888995,0.0802675585284281,1,79.9038881607689,False,0.10717641108722452,0.0,0.0802675585284281,0,1,0,243,5.86080586080586,0.7474916387959866,0.7474916387959866,0.7474916387959866,3.471571906354515
+uav0000237_00001_s,endpoint,current,endpoint_current,2132,new_L40_inference,False,False,73.65026278069756,0.08528428093645485,1,80.31454783748362,False,0.104885934044952,0.0,0.08528428093645485,0,1,0,240,4.487179487179487,0.0,0.0,0.0,1.0
+uav0000237_00001_s,endpoint,history,endpoint_history,2132,new_L40_inference,False,True,74.04045230132186,0.08193979933110368,1,80.72520751419833,False,0.10362599205986328,0.0,0.08193979933110368,0,1,0,242,4.670329670329671,0.5752508361204013,0.5752508361204013,0.5752508361204013,3.351170568561873
+uav0000237_00001_s,endpoint,recrop,endpoint_recrop,2132,new_L40_inference,False,True,74.17582417582418,0.08193979933110368,1,80.58540847531674,False,0.10350684081092741,0.0,0.08193979933110368,0,1,0,240,7.6007326007326,0.754180602006689,0.754180602006689,0.754180602006689,3.459866220735786
+uav0000237_00001_s,endpoint,current,endpoint_current,2133,new_L40_inference,False,False,73.96082178690875,0.08361204013377926,1,80.64657055482743,False,0.10520449768770389,0.0,0.08361204013377926,0,1,0,241,4.487179487179487,0.0,0.0,0.0,1.0
+uav0000237_00001_s,endpoint,history,endpoint_history,2133,new_L40_inference,False,True,74.21563943303073,0.07859531772575251,1,80.73394495412845,False,0.10274574487020709,0.0,0.07859531772575251,0,1,0,246,6.318681318681318,0.580267558528428,0.580267558528428,0.580267558528428,3.3060200668896322
+uav0000237_00001_s,endpoint,recrop,endpoint_recrop,2133,new_L40_inference,False,True,74.12804586717631,0.08361204013377926,1,80.67278287461774,False,0.10358181513446992,0.0,0.08361204013377926,0,1,0,240,5.952380952380952,0.7725752508361204,0.7725752508361204,0.7725752508361204,3.471571906354515
+uav0000342_01518_s,native,current,native_current,0,new_L40_inference,False,False,71.32000201989598,0.07051961823966066,1,76.70920817894881,False,0.1876949525021377,0.07051961823966066,0.07051961823966066,1,0,0,1754,6.086645184389545,0.0,0.0,0.0,1.0
+uav0000342_01518_s,native,history,native_history,0,new_L40_inference,False,True,71.27707923041964,0.06998939554612937,1,76.65431590503637,False,0.18629363692475842,0.06839872746553552,0.0689289501590668,1,0,0,1757,6.301467955603295,0.46394485683987274,0.46394485683987274,0.46394485683987274,2.9565217391304346
+uav0000342_01518_s,native,recrop,native_recrop,0,new_L40_inference,False,True,71.17860930162097,0.07158006362672323,1,76.59393440373267,False,0.18822148171854425,0.07104984093319194,0.07158006362672323,1,0,0,1752,6.050841389187254,0.7370095440084835,0.7370095440084835,0.7370095440084835,3.2523860021208906
+uav0000342_01518_s,endpoint,current,endpoint_current,2132,new_L40_inference,False,False,74.33722163308589,0.07158006362672323,1,80.17565527651983,False,0.16616460185632792,0.07158006362672323,0.07158006362672323,1,0,0,1752,3.508771929824561,0.0,0.0,0.0,1.0
+uav0000342_01518_s,endpoint,history,endpoint_history,2132,new_L40_inference,False,True,74.47608948139171,0.07051961823966066,1,80.12625222999863,False,0.165367771577272,0.06945917285259809,0.06945917285259809,1,0,0,1756,6.229860365198711,0.4867444326617179,0.4867444326617179,0.4867444326617179,2.9766702014846236
+uav0000342_01518_s,endpoint,recrop,endpoint_recrop,2132,new_L40_inference,False,True,74.07716002625865,0.07104984093319194,1,80.0741045697818,False,0.16723432348912548,0.07104984093319194,0.07104984093319194,1,0,0,1753,1.0741138560687433,0.7264050901378579,0.7264050901378579,0.7264050901378579,3.264050901378579
+uav0000342_01518_s,endpoint,current,endpoint_current,2133,new_L40_inference,False,False,74.32207241327072,0.07264050901378578,1,80.48305201042953,False,0.10078638313455306,0.0,0.07264050901378578,1,0,0,1750,0.0,0.0,0.0,0.0,1.0
+uav0000342_01518_s,endpoint,history,endpoint_history,2133,new_L40_inference,False,True,74.60738271978992,0.06998939554612937,1,80.29367366543158,False,0.164103057050452,0.0689289501590668,0.0689289501590668,1,0,0,1757,6.19405656999642,0.49522799575821846,0.49522799575821846,0.49522799575821846,2.97507953340403
+uav0000342_01518_s,endpoint,recrop,endpoint_recrop,2133,new_L40_inference,False,True,74.61243245972832,0.07104984093319194,1,80.32660902977906,False,0.167107390315082,0.07104984093319194,0.07104984093319194,1,0,0,1753,5.800214822771213,0.7158006362672322,0.7158006362672322,0.7158006362672322,3.2592788971367974
+
+
+===== stage61_l40_events.csv =====
+sequence,arm,seed,event,onset_frame,confirmation_frame,end_frame,recovery_frame,censor,duration_frames,low_iou_frames
+uav0000176_00000_s,native_current,0,1,162,164,775,,video_end,614,614
+uav0000176_00000_s,native_history,0,1,407,409,411,412,none,5,4
+uav0000176_00000_s,native_history,0,2,458,460,466,467,none,9,4
+uav0000176_00000_s,native_recrop,0,1,157,159,775,,video_end,619,619
+uav0000176_00000_s,endpoint_current,2132,1,158,160,239,240,none,82,51
+uav0000176_00000_s,endpoint_current,2132,2,407,409,411,412,none,5,3
+uav0000176_00000_s,endpoint_current,2132,3,459,461,467,468,none,9,3
+uav0000176_00000_s,endpoint_current,2132,4,723,725,775,,video_end,53,53
+uav0000176_00000_s,endpoint_history,2132,1,407,409,411,412,none,5,3
+uav0000176_00000_s,endpoint_recrop,2132,1,155,157,775,,video_end,621,621
+uav0000176_00000_s,endpoint_current,2133,1,162,164,241,242,none,80,64
+uav0000176_00000_s,endpoint_current,2133,2,407,409,412,413,none,6,4
+uav0000176_00000_s,endpoint_current,2133,3,697,699,757,758,none,61,53
+uav0000176_00000_s,endpoint_history,2133,1,315,317,319,320,none,5,5
+uav0000176_00000_s,endpoint_recrop,2133,1,155,157,775,,video_end,621,621
+uav0000226_05370_s,native_current,0,1,110,112,337,338,none,228,99
+uav0000226_05370_s,native_history,0,1,115,117,1860,,video_end,1746,1744
+uav0000226_05370_s,native_recrop,0,1,112,114,336,337,none,225,165
+uav0000226_05370_s,endpoint_current,2132,1,125,127,337,338,none,213,79
+uav0000226_05370_s,endpoint_history,2132,1,129,131,338,339,none,210,131
+uav0000226_05370_s,endpoint_recrop,2132,1,113,115,337,338,none,225,97
+uav0000226_05370_s,endpoint_current,2133,1,111,113,329,330,none,219,78
+uav0000226_05370_s,endpoint_history,2133,1,127,129,337,338,none,211,81
+uav0000226_05370_s,endpoint_recrop,2133,1,110,112,337,338,none,228,88
+uav0000304_00253_s,native_recrop,0,1,555,557,1725,,video_end,1171,1171
+uav0000304_00253_s,endpoint_current,2132,1,1078,1080,1725,,video_end,648,648
+uav0000304_00253_s,endpoint_history,2132,1,1093,1095,1725,,video_end,633,633
+uav0000304_00253_s,endpoint_recrop,2132,1,1089,1091,1725,,video_end,637,637
+uav0000304_00253_s,endpoint_current,2133,1,554,556,1725,,video_end,1172,1172
+uav0000304_00253_s,endpoint_recrop,2133,1,555,557,1725,,video_end,1171,1171
+uav0000307_04531_s,native_current,0,1,398,400,473,474,none,76,39
+uav0000307_04531_s,native_history,0,1,399,401,470,471,none,72,28
+uav0000307_04531_s,native_recrop,0,1,393,395,504,505,none,112,46
+uav0000307_04531_s,endpoint_current,2132,1,389,391,470,471,none,82,48
+uav0000307_04531_s,endpoint_current,2132,2,592,594,731,732,none,140,40
+uav0000307_04531_s,endpoint_history,2132,1,392,394,759,,video_end,368,348
+uav0000307_04531_s,endpoint_recrop,2132,1,384,386,759,,video_end,376,358
+uav0000307_04531_s,endpoint_current,2133,1,389,391,510,511,none,122,110
+uav0000307_04531_s,endpoint_current,2133,2,582,584,759,,video_end,178,103
+uav0000307_04531_s,endpoint_history,2133,1,395,397,759,,video_end,365,341
+uav0000307_04531_s,endpoint_recrop,2133,1,394,396,759,,video_end,366,360
+uav0000147_00000_s,native_current,0,1,1269,1271,2220,,video_end,952,952
+uav0000147_00000_s,native_history,0,1,1290,1292,2220,,video_end,931,931
+uav0000147_00000_s,native_recrop,0,1,1279,1281,2220,,video_end,942,942
+uav0000147_00000_s,endpoint_current,2132,1,1265,1267,2220,,video_end,956,956
+uav0000147_00000_s,endpoint_history,2132,1,1169,1171,2220,,video_end,1052,1000
+uav0000147_00000_s,endpoint_recrop,2132,1,1281,1283,2220,,video_end,940,940
+uav0000147_00000_s,endpoint_current,2133,1,1273,1275,2220,,video_end,948,948
+uav0000147_00000_s,endpoint_history,2133,1,1292,1294,2220,,video_end,929,929
+uav0000147_00000_s,endpoint_recrop,2133,1,1268,1270,2220,,video_end,953,953
+uav0000204_00000_s,native_current,0,1,664,666,893,894,none,230,229
+uav0000204_00000_s,native_recrop,0,1,664,666,921,,video_end,258,258
+uav0000204_00000_s,endpoint_current,2132,1,664,666,921,,video_end,258,258
+uav0000204_00000_s,endpoint_current,2133,1,664,666,892,893,none,229,227
+uav0000237_00001_s,native_current,0,1,242,244,293,294,none,52,52
+uav0000237_00001_s,native_history,0,1,246,248,297,298,none,52,52
+uav0000237_00001_s,native_recrop,0,1,243,245,290,291,none,48,48
+uav0000237_00001_s,endpoint_current,2132,1,240,242,290,291,none,51,51
+uav0000237_00001_s,endpoint_history,2132,1,242,244,290,291,none,49,49
+uav0000237_00001_s,endpoint_recrop,2132,1,240,242,288,289,none,49,49
+uav0000237_00001_s,endpoint_current,2133,1,241,243,290,291,none,50,50
+uav0000237_00001_s,endpoint_history,2133,1,246,248,292,293,none,47,47
+uav0000237_00001_s,endpoint_recrop,2133,1,240,242,289,290,none,50,50
+uav0000342_01518_s,native_current,0,1,1754,1756,1886,,video_end,133,133
+uav0000342_01518_s,native_history,0,1,1757,1759,1886,,video_end,130,130
+uav0000342_01518_s,native_recrop,0,1,1752,1754,1886,,video_end,135,135
+uav0000342_01518_s,endpoint_current,2132,1,1752,1754,1886,,video_end,135,135
+uav0000342_01518_s,endpoint_history,2132,1,1756,1758,1886,,video_end,131,131
+uav0000342_01518_s,endpoint_recrop,2132,1,1753,1755,1886,,video_end,134,134
+uav0000342_01518_s,endpoint_current,2133,1,1750,1752,1886,,video_end,137,137
+uav0000342_01518_s,endpoint_history,2133,1,1757,1759,1886,,video_end,130,130
+uav0000342_01518_s,endpoint_recrop,2133,1,1753,1755,1886,,video_end,134,134
+
+
+===== stage61_l40_device_bridge.csv =====
+sequence,origin,policy,seed,source_device,current_device,source_auc,l40_auc,l40_minus_source_auc,maximum_box_error,changed_box_frames,role
+uav0000176_00000_s,native,current,0,NVIDIA L20,NVIDIA L40,16.098310291858677,16.098310291858677,0.0,0.0,0,descriptive_device_bridge_not_method_gain
+uav0000176_00000_s,endpoint,current,2132,NVIDIA L20,NVIDIA L40,61.01382488479262,61.01382488479262,0.0,0.0,0,descriptive_device_bridge_not_method_gain
+uav0000176_00000_s,endpoint,history,2132,NVIDIA L20,NVIDIA L40,69.0937019969278,69.0937019969278,0.0,0.0,0,descriptive_device_bridge_not_method_gain
+uav0000176_00000_s,endpoint,current,2133,NVIDIA L20,NVIDIA L40,59.11520737327189,59.11520737327189,0.0,0.0,0,descriptive_device_bridge_not_method_gain
+uav0000176_00000_s,endpoint,history,2133,NVIDIA L20,NVIDIA L40,69.08755760368663,69.08755760368663,0.0,0.0,0,descriptive_device_bridge_not_method_gain
+uav0000003_00000_s,native,current,0,NVIDIA L20,NVIDIA L40,79.2989417989418,79.2989417989418,0.0,0.0,0,descriptive_device_bridge_not_method_gain
+uav0000003_00000_s,endpoint,current,2132,NVIDIA L20,NVIDIA L40,80.62169312169311,80.62169312169311,0.0,0.0,0,descriptive_device_bridge_not_method_gain
+uav0000003_00000_s,endpoint,history,2132,NVIDIA L20,NVIDIA L40,80.85317460317461,80.85317460317461,0.0,0.0,0,descriptive_device_bridge_not_method_gain
+uav0000003_00000_s,endpoint,current,2133,NVIDIA L20,NVIDIA L40,80.82010582010582,80.82010582010582,0.0,0.0,0,descriptive_device_bridge_not_method_gain
+uav0000003_00000_s,endpoint,history,2133,NVIDIA L20,NVIDIA L40,80.62169312169311,80.62169312169311,0.0,0.0,0,descriptive_device_bridge_not_method_gain
+uav0000226_05370_s,native,current,0,NVIDIA L20,NVIDIA L40,55.06144393241167,55.06144393241167,0.0,0.0,0,descriptive_device_bridge_not_method_gain
+uav0000226_05370_s,endpoint,current,2132,NVIDIA L20,NVIDIA L40,57.04557091653866,57.04557091653866,0.0,0.0,0,descriptive_device_bridge_not_method_gain
+uav0000226_05370_s,endpoint,history,2132,NVIDIA L20,NVIDIA L40,56.29800307219662,56.29800307219662,0.0,0.0,0,descriptive_device_bridge_not_method_gain
+uav0000226_05370_s,endpoint,current,2133,NVIDIA L20,NVIDIA L40,57.39375320020481,57.39375320020481,0.0,0.0,0,descriptive_device_bridge_not_method_gain
+uav0000226_05370_s,endpoint,history,2133,NVIDIA L20,NVIDIA L40,57.05069124423963,57.05069124423963,0.0,0.0,0,descriptive_device_bridge_not_method_gain
+uav0000170_00000_s,native,current,0,NVIDIA L20,NVIDIA L40,75.05572441742655,75.05572441742655,0.0,0.0,0,descriptive_device_bridge_not_method_gain
+uav0000170_00000_s,endpoint,current,2132,NVIDIA L20,NVIDIA L40,78.8145896656535,78.8145896656535,0.0,0.0,0,descriptive_device_bridge_not_method_gain
+uav0000170_00000_s,endpoint,history,2132,NVIDIA L20,NVIDIA L40,78.90577507598783,78.90577507598783,0.0,0.0,0,descriptive_device_bridge_not_method_gain
+uav0000170_00000_s,endpoint,current,2133,NVIDIA L20,NVIDIA L40,78.7065180682202,78.7065180682202,0.0,0.0,0,descriptive_device_bridge_not_method_gain
+uav0000170_00000_s,endpoint,history,2133,NVIDIA L20,NVIDIA L40,78.79094900371496,78.79094900371496,0.0,0.0,0,descriptive_device_bridge_not_method_gain
+uav0000126_07915_s,native,current,0,NVIDIA L20,NVIDIA L40,88.00060564766447,88.00060564766447,0.0,0.0,0,descriptive_device_bridge_not_method_gain
+uav0000126_07915_s,endpoint,current,2132,NVIDIA L20,NVIDIA L40,88.86365356953593,88.86365356953593,0.0,0.0,0,descriptive_device_bridge_not_method_gain
+uav0000126_07915_s,endpoint,history,2132,NVIDIA L20,NVIDIA L40,88.99992429404195,88.99992429404195,0.0,0.0,0,descriptive_device_bridge_not_method_gain
+uav0000126_07915_s,endpoint,current,2133,NVIDIA L20,NVIDIA L40,88.75766522825347,88.75766522825347,0.0,0.0,0,descriptive_device_bridge_not_method_gain
+uav0000126_07915_s,endpoint,history,2133,NVIDIA L20,NVIDIA L40,88.84851237792414,88.84851237792414,0.0,0.0,0,descriptive_device_bridge_not_method_gain
+uav0000304_00253_s,native,current,0,NVIDIA L20,NVIDIA L40,72.28709454796412,72.28709454796412,0.0,0.0,0,descriptive_device_bridge_not_method_gain
+uav0000304_00253_s,endpoint,current,2132,NVIDIA L20,NVIDIA L40,44.35058661145618,44.35058661145618,0.0,0.0,0,descriptive_device_bridge_not_method_gain
+uav0000304_00253_s,endpoint,history,2132,NVIDIA L20,NVIDIA L40,44.82263630089717,44.82263630089717,0.0,0.0,0,descriptive_device_bridge_not_method_gain
+uav0000304_00253_s,endpoint,current,2133,NVIDIA L20,NVIDIA L40,22.4623878536922,22.4623878536922,0.0,0.0,0,descriptive_device_bridge_not_method_gain
+uav0000304_00253_s,endpoint,history,2133,NVIDIA L20,NVIDIA L40,73.63146997929607,73.63146997929607,0.0,0.0,0,descriptive_device_bridge_not_method_gain
+uav0000307_04531_s,native,current,0,NVIDIA L20,NVIDIA L40,66.50981868373172,66.50981868373172,0.0,0.0,0,descriptive_device_bridge_not_method_gain
+uav0000307_04531_s,endpoint,current,2132,NVIDIA L20,NVIDIA L40,54.70857644770688,54.70857644770688,0.0,0.0,0,descriptive_device_bridge_not_method_gain
+uav0000307_04531_s,endpoint,history,2132,NVIDIA L20,NVIDIA L40,41.48315452663279,41.48315452663279,0.0,0.0,0,descriptive_device_bridge_not_method_gain
+uav0000307_04531_s,endpoint,current,2133,NVIDIA L20,NVIDIA L40,47.95156534286969,47.95156534286969,0.0,0.0,0,descriptive_device_bridge_not_method_gain
+uav0000307_04531_s,endpoint,history,2133,NVIDIA L20,NVIDIA L40,41.24474559257168,41.24474559257168,0.0,0.0,0,descriptive_device_bridge_not_method_gain
+uav0000147_00000_s,native,current,0,NVIDIA L20,NVIDIA L40,37.674817674817675,37.674817674817675,0.0,0.0,0,descriptive_device_bridge_not_method_gain
+uav0000147_00000_s,endpoint,current,2132,NVIDIA L20,NVIDIA L40,38.946803946803946,38.946803946803946,0.0,0.0,0,descriptive_device_bridge_not_method_gain
+uav0000147_00000_s,endpoint,history,2132,NVIDIA L20,NVIDIA L40,37.155727155727156,37.155727155727156,0.0,0.0,0,descriptive_device_bridge_not_method_gain
+uav0000147_00000_s,endpoint,current,2133,NVIDIA L20,NVIDIA L40,37.87430287430287,37.87430287430287,0.0,0.0,0,descriptive_device_bridge_not_method_gain
+uav0000147_00000_s,endpoint,history,2133,NVIDIA L20,NVIDIA L40,38.097383097383094,38.097383097383094,0.0,0.0,0,descriptive_device_bridge_not_method_gain
+uav0000329_00276_s,native,current,0,NVIDIA L20,NVIDIA L40,73.34766682592769,73.34766682592769,0.0,0.0,0,descriptive_device_bridge_not_method_gain
+uav0000329_00276_s,endpoint,current,2132,NVIDIA L20,NVIDIA L40,76.28603280777195,76.28603280777195,0.0,0.0,0,descriptive_device_bridge_not_method_gain
+uav0000329_00276_s,endpoint,history,2132,NVIDIA L20,NVIDIA L40,76.2541806020067,76.2541806020067,0.0,0.0,0,descriptive_device_bridge_not_method_gain
+uav0000329_00276_s,endpoint,current,2133,NVIDIA L20,NVIDIA L40,76.03121516164994,76.03121516164994,0.0,0.0,0,descriptive_device_bridge_not_method_gain
+uav0000329_00276_s,endpoint,history,2133,NVIDIA L20,NVIDIA L40,76.34177416786112,76.34177416786112,0.0,0.0,0,descriptive_device_bridge_not_method_gain
+uav0000204_00000_s,native,current,0,NVIDIA L20,NVIDIA L40,53.92172069696499,53.92172069696499,0.0,0.0,0,descriptive_device_bridge_not_method_gain
+uav0000204_00000_s,endpoint,current,2132,NVIDIA L20,NVIDIA L40,53.74075797528566,53.74075797528566,0.0,0.0,0,descriptive_device_bridge_not_method_gain
+uav0000204_00000_s,endpoint,history,2132,NVIDIA L20,NVIDIA L40,75.46145494028231,75.46145494028231,0.0,0.0,0,descriptive_device_bridge_not_method_gain
+uav0000204_00000_s,endpoint,current,2133,NVIDIA L20,NVIDIA L40,56.41383589266326,56.41383589266326,0.0,0.0,0,descriptive_device_bridge_not_method_gain
+uav0000204_00000_s,endpoint,history,2133,NVIDIA L20,NVIDIA L40,75.63207693500853,75.63207693500853,0.0,0.0,0,descriptive_device_bridge_not_method_gain
+uav0000237_00001_s,native,current,0,NVIDIA L20,NVIDIA L40,72.8380315336837,72.8380315336837,0.0,0.0,0,descriptive_device_bridge_not_method_gain
+uav0000237_00001_s,endpoint,current,2132,NVIDIA L20,NVIDIA L40,73.65026278069756,73.65026278069756,0.0,0.0,0,descriptive_device_bridge_not_method_gain
+uav0000237_00001_s,endpoint,history,2132,NVIDIA L20,NVIDIA L40,74.04045230132186,74.04045230132186,0.0,0.0,0,descriptive_device_bridge_not_method_gain
+uav0000237_00001_s,endpoint,current,2133,NVIDIA L20,NVIDIA L40,73.96082178690875,73.96082178690875,0.0,0.0,0,descriptive_device_bridge_not_method_gain
+uav0000237_00001_s,endpoint,history,2133,NVIDIA L20,NVIDIA L40,74.21563943303073,74.21563943303073,0.0,0.0,0,descriptive_device_bridge_not_method_gain
+uav0000342_01518_s,native,current,0,NVIDIA L20,NVIDIA L40,71.32000201989598,71.32000201989598,0.0,0.0,0,descriptive_device_bridge_not_method_gain
+uav0000342_01518_s,endpoint,current,2132,NVIDIA L20,NVIDIA L40,74.33722163308589,74.33722163308589,0.0,0.0,0,descriptive_device_bridge_not_method_gain
+uav0000342_01518_s,endpoint,history,2132,NVIDIA L20,NVIDIA L40,74.47608948139171,74.47608948139171,0.0,0.0,0,descriptive_device_bridge_not_method_gain
+uav0000342_01518_s,endpoint,current,2133,NVIDIA L20,NVIDIA L40,74.32207241327072,74.32207241327072,0.0,0.0,0,descriptive_device_bridge_not_method_gain
+uav0000342_01518_s,endpoint,history,2133,NVIDIA L20,NVIDIA L40,74.60738271978992,74.60738271978992,0.0,0.0,0,descriptive_device_bridge_not_method_gain
+
+
+===== stage61_runtime_smoke.json =====
+{
+  "schema": "stage61_runtime_replay_diagnostic_v1",
+  "role": "startup_identity_only",
+  "plan_fingerprint": "448629c6e14e0978ce235430ac0077aa77aa6674c3183e1d2683cb1a583f0a3e",
+  "launcher_sha256": "065a2e003edc9db7225512af0c8e3928093c042a5ea193d8ebdbbfbb122eeeb8",
+  "mode": "smoke",
+  "config_source": "sealed manifest runtime.config",
+  "current_yaml_differences": [],
+  "mismatches": [],
+  "status": "EXACT_SOURCE_RUNTIME_VERIFIED",
+  "gpu_inventory": {
+    "source_device": "NVIDIA L40",
+    "source_gpu_uuid": "ca7219a3-ba4a-8d0e-3299-2f85a384374c",
+    "visible_cuda_devices": [
+      {
+        "index": 0,
+        "name": "NVIDIA L40",
+        "uuid": "ca7219a3-ba4a-8d0e-3299-2f85a384374c"
+      }
+    ],
+    "exact_source_indices": [
+      0
+    ],
+    "same_model_indices": [
+      0
+    ]
+  },
+  "frozen_config_restored": false,
+  "verified_runtime_fingerprint": "0bd9fb1d688a82cc08bd57ddbd5b47788982dc87ed2bea420457fde51caa0c98"
+}
+
+
+===== stage61_runtime_evaluate.json =====
+{
+  "schema": "stage61_runtime_replay_diagnostic_v1",
+  "role": "startup_identity_only",
+  "plan_fingerprint": "448629c6e14e0978ce235430ac0077aa77aa6674c3183e1d2683cb1a583f0a3e",
+  "launcher_sha256": "065a2e003edc9db7225512af0c8e3928093c042a5ea193d8ebdbbfbb122eeeb8",
+  "mode": "evaluate",
+  "config_source": "sealed manifest runtime.config",
+  "current_yaml_differences": [],
+  "mismatches": [],
+  "status": "EXACT_SOURCE_RUNTIME_VERIFIED",
+  "gpu_inventory": {
+    "source_device": "NVIDIA L40",
+    "source_gpu_uuid": "ca7219a3-ba4a-8d0e-3299-2f85a384374c",
+    "visible_cuda_devices": [
+      {
+        "index": 0,
+        "name": "NVIDIA L40",
+        "uuid": "ca7219a3-ba4a-8d0e-3299-2f85a384374c"
+      }
+    ],
+    "exact_source_indices": [
+      0
+    ],
+    "same_model_indices": [
+      0
+    ]
+  },
+  "frozen_config_restored": false,
+  "verified_runtime_fingerprint": "0bd9fb1d688a82cc08bd57ddbd5b47788982dc87ed2bea420457fde51caa0c98"
+}
+

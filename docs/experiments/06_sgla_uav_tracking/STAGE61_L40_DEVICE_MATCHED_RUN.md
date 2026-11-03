@@ -2,6 +2,8 @@
 
 日期：2026-11-02。用户确认目前只能使用 NVIDIA L40；原来源运行记录为 NVIDIA L20。接续[原 Stage-61 协议](STAGE61_NATIVE_HISTORY_MATCHED_RECROP.md)，研究问题、模型、候选、选择与统计规则均沿用原方案。此文件在收到任何 L40 推理结果前声明设备迁移及额外计算。
 
+**结果状态更新：服务器已完成，完整材料已收到，状态为`REVIEW_L40_NATIVE_HISTORY_RECROP_PILOT`；判读见[结果复核](STAGE61_L40_RESULTS_REVIEW.md)。以下保留预声明方案，不据结果修改门槛，也不再次运行本轮。**
+
 ## 设备迁移与证据边界
 
 原 Stage-61 复用 L20 上的完整对照，而新运行选中了 L40，因身份不符在图像推理前退出。既有 L20 manifest、代码、权重、报告和轨迹均保留。新的输出为 `output/stage61/v1_history_matched_recrop_l40_v1/`，独立 schema 为 `stage61_l40_device_matched_recrop_v1`。
@@ -79,4 +81,4 @@ cat "$STAGE61_L40_ROOT/analysis/stage61_l40_device_bridge.csv"
 
 本机 3 项 L40 测试全部通过，23.837 秒、无跳过：硬件迁移只接受 L40 且保持源软件；旧 L20 schema／receipt 不能填入新缓存；真实小通道 CENTER 和原公共解码的 Stage-59→60→61 来源流程、六组新推理、三条独立 public smoke、总预算、源文件逐字节不变、恢复不重复前向、缓存／源／报告篡改拒绝。主动改变旧 L20 数组后，设备桥接表改变，主要／必要比较、交互与保护结论保持不变。fixture 的上游 Stage-58 边界、骨干与图像为合成构造，设备绑定使用 fixture，不能当作真实 GPU 复现。
 
-另有 7 项启动回归通过；新 CLI help、AST、Bash 只读 `-n`、LF 换行和维护检查均通过。本机 CPU 合成验证与服务器真实精度须分开记录。当前没有 L40 的真实 smoke 或 AUC 结果。
+另有 7 项启动回归通过；新 CLI help、AST、Bash 只读 `-n`、LF 换行和维护检查均通过。本段为服务器执行前的本机验证记录，真实结果另见上述复核，不能混为同一层次的证据。
