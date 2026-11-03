@@ -7,6 +7,7 @@ tools/run_stage64_reliability.sh text eol=lf
 tools/run_stage65_selection.sh text eol=lf
 tools/run_stage66_takeover.sh text eol=lf
 tools/run_stage67_veto.sh text eol=lf
+tools/run_stage67_summary_repair.sh text eol=lf
 # Preserve the uploaded experiment bundle byte-for-byte, including mixed CSV/JSON endings.
 docs/experiments/06_sgla_uav_tracking/results/stage61_l40_results_20261102T143543Z_40176.txt -text
 docs/experiments/06_sgla_uav_tracking/results/stage62_results_20261103T004524Z_148362.txt -text

@@ -4,16 +4,16 @@
 
 当前结果阶段：Stage-66已完成，状态`REVIEW_NATIVE_Q0_TAKEOVER_PILOT`。decision及6表已齐、原件逐字节归档，指纹／6表SHA／4项AUC bootstrap／60条预算及36条来源控制汇总相符。protect对quality −2.8546、对margin −2.4791 AUC，主要损伤为0176丢失恢复，0307仍未恢复；原稳定视频新增失败0，但低IoU及可靠帧保护未过。详见0.24。Stage-1～66源码及旧结果冻结，Stage-45检测支线暂不执行。
 
-下一步Stage-67已实现，服务器尚未运行。先读0.25和[Stage-67协议](docs/experiments/06_sgla_uav_tracking/STAGE67_MATCHED_VETO_CONTINUATION.md)：同一protect历史上一次放行／否决Q提议，再各由Q／protect推进32帧；最多8锚点、32短分支、4000搜索、0训练。保留Stage-66负结果，不在0.5／0.02等参数上补搜；当前q0好不等于拒绝替代有利。
+Stage-67服务器已运行到汇总，但锚点CSV的可选frame字段不统一导致导出失败，尚无结果数值。先读0.26的汇总恢复入口，再读0.25和[Stage-67协议](docs/experiments/06_sgla_uav_tracking/STAGE67_MATCHED_VETO_CONTINUATION.md)。同步新增修复文件后运行`bash tools/run_stage67_summary_repair.sh`，不重跑GPU、不编辑manifest；原5个Stage-67脚本继续冻结。
 
 2026-11-01新增交接：**SGLATrackV2源码发现、训练日志判读与后续启发见第0.11节**。当前实验仍使用V1／E，不因V2发布默认切换基线；优先补原始V1权重上的候选选择与同预算控制，再考虑V2迁移及搜索状态—特征记忆一致性。此次只整理知识与建议，未启动新实验。
 整理前 Git 基点：`91052cd71d49d1397197ea9d5f532f12d37d2c91`
 
 ## 0. 下一次对话的直接接续入口
 
-本节更新至2026-11-03。**最新结果为[Stage-66复核](docs/experiments/06_sgla_uav_tracking/STAGE66_RESULTS_REVIEW.md)，Stage-67已准备但待服务器运行，先读0.25执行入口和0.24结果，再读0.22共同状态诊断和0.20原评分器完整成绩。Stage-63一次选择后继、Stage-65影子选择、Stage-66自身完整政策是不同证据，不混用。Stage-61～66回传材料齐全，不重跑。**
+本节更新至2026-11-03。**最新数值结果为[Stage-66复核](docs/experiments/06_sgla_uav_tracking/STAGE66_RESULTS_REVIEW.md)，Stage-67已完成采集并在CSV汇总失败，先读0.26恢复入口、0.25设计和0.24结果。Stage-63一次选择后继、Stage-65影子选择、Stage-66自身完整政策是不同证据，不混用。Stage-61～66回传材料齐全，不重跑；Stage-67也只恢复CPU汇总。**
 
-**先读本节0.25和0.24，再读0.22、0.20、0.18的共同状态／完整政策／单次选择后继，必要时读0.16和0.14**；[Stage-60](docs/experiments/06_sgla_uav_tracking/STAGE60_RESULTS_REVIEW.md)、[Stage-54](docs/experiments/06_sgla_uav_tracking/STAGE54_RESULTS_REVIEW.md)和[Stage-55](docs/experiments/06_sgla_uav_tracking/STAGE55_RESULTS_REVIEW.md)保留较早证据。下文早期阶段的“下一步”和“尚无结果”均为当时历史，不覆盖当前状态；研究范围文档末尾的Stage-46待运行说明也是历史。
+**先读本节0.26、0.25和0.24，再读0.22、0.20、0.18的共同状态／完整政策／单次选择后继，必要时读0.16和0.14**；[Stage-60](docs/experiments/06_sgla_uav_tracking/STAGE60_RESULTS_REVIEW.md)、[Stage-54](docs/experiments/06_sgla_uav_tracking/STAGE54_RESULTS_REVIEW.md)和[Stage-55](docs/experiments/06_sgla_uav_tracking/STAGE55_RESULTS_REVIEW.md)保留较早证据。下文早期阶段的“下一步”和“尚无结果”均为当时历史，不覆盖当前状态；研究范围文档末尾的Stage-46待运行说明也是历史。
 
 ### 0.1 固定目标与当前进度
 
@@ -33,7 +33,7 @@
 - **Stage-64已完成并为REVIEW，七份回传材料已齐。** 4个评分器、96条新完整轨迹／432800搜索，0 SGLA训练。原生reliability对匹配quality −4.3668、2胜10负；对Hann／q0也负，保护未过。E0304／2132局部修复未抵消0226双种子损伤，E总体两种子均负。见0.20，不重跑。
 - **Stage-65已完成缓存诊断，六份回传材料已齐。** 96条自身轨迹＋24个fit参考、135250状态出现次数；新增网络／图像／训练0。0003有害替换成立，0226／0307不同历史的候选可用性分化；两评分器同状态IoU差小。见0.22，不重跑。
 - **Stage-66已完成并为REVIEW，七份回传材料齐全。** 原生五组60轨迹／270500搜索，0 SGLA训练、2个q0预测器；protect对Q −2.8546、对margin −2.4791，0176恢复受损、0307未修复，fit接管率匹配接近。稳定集0新增失败但保护未过，见0.24。
-- **Stage-67已实现，尚无服务器结果。** 原生共同历史、一次放行／否决×Q／protect后继2×2诊断，最多8锚点、32短分支、4000搜索，0训练。支持缺失明确记录、不替换／不截短。执行入口及验证记录见0.25。
+- **Stage-67已完成服务器采集，CSV汇总失败、尚无数值回传。** 原生共同历史、一次放行／否决×Q／protect后继2×2诊断，最多8锚点、32短分支、4000搜索，0训练。设计历史见0.25，当前只按0.26恢复汇总。
 - 当前以“保住多数适配收益，减少持续失跟及原稳定轨迹损伤”为主问题。新增价值可以建立在已有方法上；用户不要求绝对原创，也不希望因有相似工作就结束探索。
 
 ### 0.2 Stage-54：主要对照、结果及不能丢失的取舍
@@ -727,6 +727,8 @@ P平均失败事件0.5低于Q0.8333，同时平均末尾未恢复事件0.3333高
 
 ### 0.25 2026-11-03：Stage-67已准备，共同起点放行／否决后继诊断
 
+本节保留准备历史。服务器已运行到汇总并暴露锚点CSV字段不一致，当前恢复入口以0.26为准，不按下面原采集命令重新启动GPU。
+
 用户授权继续下一轮；已先读0.24。新增[Stage-67协议](docs/experiments/06_sgla_uav_tracking/STAGE67_MATCHED_VETO_CONTINUATION.md)、`tools/stage67_veto_common.py`／`stage67_veto_experiment.py`／`stage67_veto_summary.py`／`test_stage67_veto.py`／`run_stage67_veto.sh`；只添加新命名空间，Stage-1～66源码和旧产物冻结。服务器尚未执行，无Stage-67成绩，未代commit／push。
 
 **核心问题：** 当前q0质量预测／fit接管率不能判断某次否决的后继价值。固定全部SGLA V1权重、原首帧模板、四候选生成和Stage-66两类评分参数，直接做一次选择的局部干预，不更名重试Stage-60未来均值评分器，不新增训练或阈值搜索。
@@ -742,6 +744,16 @@ P平均失败事件0.5低于Q0.8333，同时平均末尾未恢复事件0.3333高
 服务器执行：激活`sglatrack-test`，进入`/home/u25600003160604/workspace/paper`，同步本轮文件后`bash tools/run_stage67_veto.sh`。默认Stage-66输入`output/stage66/native_q0_takeover_v1`；新根`output/stage67/matched_veto_continuation_v1`，GPU0原始V1 checkpoint，观察并绑定L40 UUID。需要后台时先`mkdir -p output/stage67`，然后`nohup bash tools/run_stage67_veto.sh > output/stage67/run_stage67.log 2>&1 < /dev/null &`，日志在新根的父目录，勿污染prepare空目录。
 
 脚本依次prepare／smoke／collect／summary，以`cat`汇总8份文件为`docs/experiments/06_sgla_uav_tracking/results/stage67_results_<UTC>_<PID>.txt`：diagnostic、anchors、case_summary、branch_summary、contrasts、scope、cached_video、divergences。逐帧veto_frames／timelines留服务器，先回传TXT即可。不得用本轮局部32帧干预推断更晚315等整视频失效已被避免；等待结果再确定可学习的新目标。
+
+### 0.26 2026-11-03：Stage-67锚点CSV导出修复，保留已完成分支
+
+用户回传`stage67_veto_summary.py:115 → stage46_shift_audit.publish_table → csv.DictWriter`报错`dict contains fields not in fieldnames: 'frame'`。汇总已通过来源／完成标记／分支审计，失败在第一张anchors表导出。首F01请求没有frame、P01固定请求有frame=664，原发布器按首行取表头；原小样本测试仅一种请求，未覆盖此混合形状。尚未收到任何Stage-67效果数值，不推断是否达成局部收益。
+
+**修复方式：** 原Stage-67 common／experiment／summary／test／run五文件均已纳入manifest代码SHA，因此保持字节不变。新增`tools/stage67_summary_repair.py`、`tools/test_stage67_summary_repair.py`、`tools/run_stage67_summary_repair.sh`；仅在原汇总调用内替换CSV发布适配器，将锚点请求规范为固定6列（case_id、sequence、selector、frame、status、resolved_frame），仅缺失的可选frame补None。保留frame=664与resolved_frame的区别，不丢弃未知列；其他表不变，已存在不同字节的结果仍拒绝覆盖。完整执行原load_plan／代码哈希／来源／receipt／对角线／预算校验，未放宽任何校验或重签旧manifest。新增`analysis/stage67_summary_repair.json`绑定修复代码SHA、原封存代码SHA、原计划／run指纹及汇总表哈希。
+
+**执行：** 将三个新增修复文件同步到服务器，进入原仓库及`sglatrack-test`环境，运行`bash tools/run_stage67_summary_repair.sh`。自定义路径沿用原`STAGE67_ROOT`；默认`output/stage67/matched_veto_continuation_v1`。无需checkpoint或GPU参数，不再运行原全流程shell，不删collection、不改manifest、不重跑prepare／smoke／collect。新shell汇总原8份材料＋修复receipt为`docs/experiments/06_sgla_uav_tracking/results/stage67_results_<UTC>_<PID>.txt`，回传此文件即可。
+
+**验证完成：** 三项导出回归单独运行3/3通过（0.040秒），覆盖真实8请求形状、原报错复现后恢复、空可选frame、unsupported P01、已解析帧不混淆、其他表原始字节、幂等／不同结果拒绝和来源失败不绕过。真实CPU Torch／OpenCV／CENTER完整来源链恢复用例也通过（含上游生成，所在批次131.039秒）；在同一原封存计划内加入一种固定帧unsupported请求后恢复全部汇总，核对manifest／run／smoke／所有collection NPZ和receipt字节不变、0新增推理、原对角线／篡改拒绝。首次批次另3项受默认TEMP沙箱权限影响，已把新测试临时目录移入workspace后单独全部通过，无跳过；未修改原封存测试。Bash语法检查通过，check_workspace为PASS（505／200／106、0缓存、0换行差异），171处本地文档链接及git diff --check通过；原Stage-67五封存文件git diff为空。未代commit／push。
 
 ## 1. 接手后首先要知道的结论
 

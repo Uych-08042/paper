@@ -1,6 +1,22 @@
 # Stage-67：同一起点的一次放行／否决及后继诊断
 
-日期：2026-11-03，Asia/Hong_Kong。已读交接0.24和[Stage-66复核](STAGE66_RESULTS_REVIEW.md)。本轮已实现，服务器尚未运行，没有Stage-67实验成绩。
+日期：2026-11-03，Asia/Hong_Kong。已读交接0.24和[Stage-66复核](STAGE66_RESULTS_REVIEW.md)。服务器已运行到汇总，因锚点CSV的可选`frame`列导出失败，尚未收到结果数值；按下节修复汇总即可。下文固定设计和原采集入口保留为历史，不重跑已完成的GPU分支。
+
+## 已完成采集后的汇总恢复
+
+原`stage67_anchors.csv`直接导出`plan["requests"]`，首行F01没有`frame`字段，固定帧请求P01则有`frame=664`。原CSV发布器仅用首行生成表头，最后一行触发`dict contains fields not in fieldnames: 'frame'`；这是导出问题。原测试只有一种请求形状，漏掉了混合请求回归。
+
+Stage-67的5个原脚本已经由manifest封存，直接修改summary或test会造成代码哈希不符。新增`tools/stage67_summary_repair.py`只在本次汇总调用内，为锚点表补齐统一的6列：case_id、sequence、selector、frame、status、resolved_frame。未指定的请求frame为空，已解析的实际锚点仍留在resolved_frame，未知字段继续拒绝，其他表沿用原发布器，已有不同字节结果不覆盖。
+
+该入口完整调用原汇总及原来源／代码／receipt／对角线／预算校验，不修改manifest或缓存，不启动prepare、smoke、collect、训练、图像读取或GPU推理。另写`analysis/stage67_summary_repair.json`记录修复代码SHA、原代码指纹、诊断及9表哈希。
+
+同步三个新增修复文件后，在原服务器仓库、`sglatrack-test`环境执行：
+
+```bash
+bash tools/run_stage67_summary_repair.sh
+```
+
+如原实验用了自定义根目录，先`export STAGE67_ROOT="原Stage-67根目录"`。新脚本只重建汇总并通过`cat`生成结果TXT，包含原8份材料和修复receipt。不要重跑原`run_stage67_veto.sh`，也不要编辑manifest／删除collection。新增回归覆盖8种真实请求形状、未支持的固定帧、原失败后恢复和原CENTER来源链；准确验证记录见交接0.26。
 
 ## 研究问题
 
