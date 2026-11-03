@@ -122,13 +122,15 @@
 - [STAGE64_RESULTS_REVIEW.md](experiments/06_sgla_uav_tracking/STAGE64_RESULTS_REVIEW.md) — 最新完整政策结果：reliability对quality −4.3668、2胜10负，对Hann／q0也负且保护未过；E0304单种子修复，E两种子总体均负
 - [STAGE65_CACHED_SAME_STATE_SELECTION.md](experiments/06_sgla_uav_tracking/STAGE65_CACHED_SAME_STATE_SELECTION.md) — 已完成120缓存数据集、135250状态出现次数；保留共同状态四规则／fit支持／10事件的固定协议和3项CPU测试历史
 - [STAGE65_RESULTS_REVIEW.md](experiments/06_sgla_uav_tracking/STAGE65_RESULTS_REVIEW.md) — **最新诊断**：0003良好q0被低框替换；0226／0307退化历史常无好候选，E0307唯一机会四规则都漏选；接管保护与弱候选推进需要区分，标准化差异包含跨折参考变化
-- [STAGE66_NATIVE_Q0_TAKEOVER.md](experiments/06_sgla_uav_tracking/STAGE66_NATIVE_Q0_TAKEOVER.md) — **下一轮已准备，服务器待运行**：原生五组60完整轨迹、270500搜索；连续quality＋绝对q0判断的条件保护，对比fit率匹配统一门槛，2个小预测器、0 SGLA训练，4项真实CPU测试通过
+- [STAGE66_NATIVE_Q0_TAKEOVER.md](experiments/06_sgla_uav_tracking/STAGE66_NATIVE_Q0_TAKEOVER.md) — 已完成原生五组60完整轨迹／270500搜索；保留绝对q0条件保护、fit率匹配门槛协议与4项CPU测试历史
+- [STAGE66_RESULTS_REVIEW.md](experiments/06_sgla_uav_tracking/STAGE66_RESULTS_REVIEW.md) — **最新完整结果**：protect对quality −2.8546、对margin −2.4791，0176恢复受损、0307未修复；稳定集0新增失败但保护未过，fit率匹配接近、评价实际率不同
+- [STAGE67_MATCHED_VETO_CONTINUATION.md](experiments/06_sgla_uav_tracking/STAGE67_MATCHED_VETO_CONTINUATION.md) — 下一轮：共同protect历史、一次放行／否决×两种后继控制器；最多8锚点／32短分支／4000搜索，无训练，服务器尚未运行
 - [STAGE45_TEMPORAL_SIGNAL_PILOT.md](experiments/05_uav_detection/STAGE45_TEMPORAL_SIGNAL_PILOT.md) — **暂不执行**的 YOLOFT 视频检测支线；保留实现与 CPU 检查记录
 - [无人机检测研究方向调研](research/UAV_DETECTION_RESEARCH_DIRECTIONS_2026-10-29.md) — 检测文献与机制参考，不代表切换当前主任务
 
 ## 交接与维护
 
-- [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口) — 先读0.22的Stage-65诊断与0.23的Stage-66准备入口；旧阶段不重跑，Stage-66待L40运行
+- [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口) — 先读0.25的Stage-67执行入口和0.24的Stage-66结果；旧阶段不重跑，Stage-67待服务器运行
 - [历史写作材料说明](archive/README.md)
 - [整理报告](maintenance/CLEANUP_REPORT.md)
 - [逐文件整理清单](maintenance/CLEANUP_MANIFEST.json)

@@ -1,0 +1,557 @@
+
+===== stage66_decision.json =====
+{
+  "schema": "stage66_native_absolute_q0_takeover_v1",
+  "status": "REVIEW_NATIVE_Q0_TAKEOVER_PILOT",
+  "role": "consumed_development_native_q0_takeover_protection",
+  "plan_fingerprint": "8351c4a03155cbe15b2b82a25c979f99d348f2ae0c7d8d03ec5063d3e3631941",
+  "run_fingerprint": "abcdecfb20ca8dc9336dec90cd6f6bdfa75bd65ac7e26d2339f5b8ab5c69031a",
+  "training_fingerprint": "32366a30715670fa3610d6b00dadc5784494a8dac1a56078a7105b1d024c9cea",
+  "primary": {
+    "contrast": "protect_minus_quality",
+    "metric": "auc",
+    "videos": 12,
+    "mean_delta": -2.854622600771771,
+    "median_delta": -0.22257534588032257,
+    "ci_low": -8.278465725198286,
+    "ci_high": 0.08178702729953154,
+    "wins": 3,
+    "ties": 0,
+    "losses": 9,
+    "minimum_leave_one_video_out": -3.2461488783116095,
+    "favorable_direction": "positive",
+    "worst_video_delta": -31.93855606758833,
+    "worst_leave_one_video_out_delta": -3.2461488783116095,
+    "family_ci_low": -10.82492316536128,
+    "family_ci_high": 0.2159626189533423,
+    "supported_videos": "uav0000176_00000_s|uav0000003_00000_s|uav0000226_05370_s|uav0000170_00000_s|uav0000126_07915_s|uav0000304_00253_s|uav0000307_04531_s|uav0000147_00000_s|uav0000329_00276_s|uav0000204_00000_s|uav0000237_00001_s|uav0000342_01518_s"
+  },
+  "rate_control": {
+    "contrast": "protect_minus_margin",
+    "metric": "auc",
+    "videos": 12,
+    "mean_delta": -2.4790620743580427,
+    "median_delta": -0.026961522581053998,
+    "ci_low": -7.8146880205676865,
+    "ci_high": 0.42428364164528637,
+    "wins": 3,
+    "ties": 1,
+    "losses": 8,
+    "minimum_leave_one_video_out": -2.879530738430688,
+    "favorable_direction": "positive",
+    "worst_video_delta": -31.102918586789556,
+    "worst_leave_one_video_out_delta": -2.879530738430688,
+    "family_ci_low": -10.37566583134833,
+    "family_ci_high": 0.5825564749445443,
+    "supported_videos": "uav0000176_00000_s|uav0000003_00000_s|uav0000226_05370_s|uav0000170_00000_s|uav0000126_07915_s|uav0000304_00253_s|uav0000307_04531_s|uav0000147_00000_s|uav0000329_00276_s|uav0000204_00000_s|uav0000237_00001_s|uav0000342_01518_s"
+  },
+  "against_hann": {
+    "contrast": "protect_minus_hann",
+    "metric": "auc",
+    "videos": 12,
+    "mean_delta": -1.8591903085208255,
+    "median_delta": -0.13124782211139774,
+    "ci_low": -12.490817950986687,
+    "ci_high": 9.762259760413468,
+    "wins": 5,
+    "ties": 0,
+    "losses": 7,
+    "minimum_leave_one_video_out": -6.579713451123868,
+    "favorable_direction": "positive",
+    "worst_video_delta": -38.89400921658986,
+    "worst_leave_one_video_out_delta": -6.579713451123868,
+    "family_ci_low": -15.27421747663212,
+    "family_ci_high": 13.268101145232283,
+    "supported_videos": "uav0000176_00000_s|uav0000003_00000_s|uav0000226_05370_s|uav0000170_00000_s|uav0000126_07915_s|uav0000304_00253_s|uav0000307_04531_s|uav0000147_00000_s|uav0000329_00276_s|uav0000204_00000_s|uav0000237_00001_s|uav0000342_01518_s"
+  },
+  "against_q0": {
+    "contrast": "protect_minus_q0",
+    "metric": "auc",
+    "videos": 12,
+    "mean_delta": -0.0620260493462513,
+    "median_delta": -0.08267195767195545,
+    "ci_low": -6.151479873048326,
+    "ci_high": 5.353404385679521,
+    "wins": 4,
+    "ties": 2,
+    "losses": 6,
+    "minimum_leave_one_video_out": -1.7616638692408975,
+    "favorable_direction": "positive",
+    "worst_video_delta": -27.071961854570546,
+    "worst_leave_one_video_out_delta": -1.7616638692408975,
+    "family_ci_low": -8.09150363874582,
+    "family_ci_high": 6.77589067296518,
+    "supported_videos": "uav0000176_00000_s|uav0000003_00000_s|uav0000226_05370_s|uav0000170_00000_s|uav0000126_07915_s|uav0000304_00253_s|uav0000307_04531_s|uav0000147_00000_s|uav0000329_00276_s|uav0000204_00000_s|uav0000237_00001_s|uav0000342_01518_s"
+  },
+  "retention_guard": false,
+  "support_pass": true,
+  "pilot_pass": false,
+  "full_trajectories": 60,
+  "formal_search_calls": 270500,
+  "formal_block_calls": 1893500,
+  "smoke_calls_reused": 640,
+  "additional_smoke_calls": 0,
+  "new_critics": 2,
+  "source_quality_unchanged": true,
+  "sgla_training_performed": false,
+  "critic_fitting_performed": true,
+  "fit_origins": [
+    "native"
+  ],
+  "runtime": {
+    "tracker": {
+      "parameter": "deit_distilled",
+      "checkpoint_sha256": "88447c7724704edaf03488f519d3e300385fef05c2f1fac02fe22f7941cf334e",
+      "config": {
+        "MODEL": {
+          "PRETRAIN_FILE": "deit_tiny_distilled_patch16_224.pth",
+          "EXTRA_MERGER": false,
+          "RETURN_INTER": false,
+          "RETURN_STAGES": [],
+          "BACKBONE": {
+            "TYPE": "deit_tiny_distilled_patch16",
+            "STRIDE": 16,
+            "MID_PE": false,
+            "SEP_SEG": false,
+            "CAT_MODE": "direct",
+            "MERGE_LAYER": 0,
+            "ADD_CLS_TOKEN": false,
+            "CLS_TOKEN_USE_MODE": "ignore",
+            "CE_LOC": [],
+            "CE_KEEP_RATIO": [],
+            "CE_TEMPLATE_RANGE": "ALL"
+          },
+          "HEAD": {
+            "TYPE": "CENTER",
+            "NUM_CHANNELS": 256
+          }
+        },
+        "TRAIN": {
+          "LR": 0.0004,
+          "WEIGHT_DECAY": 0.0001,
+          "EPOCH": 300,
+          "LR_DROP_EPOCH": 240,
+          "BATCH_SIZE": 32,
+          "NUM_WORKER": 4,
+          "OPTIMIZER": "ADAMW",
+          "BACKBONE_MULTIPLIER": 0.1,
+          "GIOU_WEIGHT": 2.0,
+          "L1_WEIGHT": 5.0,
+          "FREEZE_LAYERS": [
+            0
+          ],
+          "PRINT_INTERVAL": 50,
+          "VAL_EPOCH_INTERVAL": 999,
+          "GRAD_CLIP_NORM": 0.1,
+          "AMP": false,
+          "CE_START_EPOCH": 20,
+          "CE_WARM_EPOCH": 80,
+          "DROP_PATH_RATE": 0.1,
+          "SCHEDULER": {
+            "TYPE": "step",
+            "DECAY_RATE": 0.1
+          }
+        },
+        "DATA": {
+          "SAMPLER_MODE": "causal",
+          "MEAN": [
+            0.485,
+            0.456,
+            0.406
+          ],
+          "STD": [
+            0.229,
+            0.224,
+            0.225
+          ],
+          "MAX_SAMPLE_INTERVAL": 200,
+          "TRAIN": {
+            "DATASETS_NAME": [
+              "LASOT",
+              "GOT10K_vottrain",
+              "COCO17",
+              "TRACKINGNET"
+            ],
+            "DATASETS_RATIO": [
+              1,
+              1,
+              1,
+              1
+            ],
+            "SAMPLE_PER_EPOCH": 60000
+          },
+          "VAL": {
+            "DATASETS_NAME": [
+              "GOT10K_votval"
+            ],
+            "DATASETS_RATIO": [
+              1
+            ],
+            "SAMPLE_PER_EPOCH": 10000
+          },
+          "SEARCH": {
+            "SIZE": 256,
+            "FACTOR": 4.0,
+            "CENTER_JITTER": 3,
+            "SCALE_JITTER": 0.25,
+            "NUMBER": 1
+          },
+          "TEMPLATE": {
+            "NUMBER": 1,
+            "SIZE": 128,
+            "FACTOR": 2.0,
+            "CENTER_JITTER": 0,
+            "SCALE_JITTER": 0
+          }
+        },
+        "TEST": {
+          "TEMPLATE_FACTOR": 2.0,
+          "TEMPLATE_SIZE": 128,
+          "SEARCH_FACTOR": 4.0,
+          "SEARCH_SIZE": 256,
+          "EPOCH": 297
+        }
+      },
+      "torch": "2.7.1+cu118",
+      "cuda": "11.8",
+      "device": "NVIDIA L40",
+      "lens_z": 64,
+      "lens_x": 256,
+      "embed_dim": 192
+    },
+    "opencv": "5.0.0",
+    "numpy": "1.26.4",
+    "gpu_uuid": "ca7219a3-ba4a-8d0e-3299-2f85a384374c",
+    "model_state_sha256": "13af4170053b1e6f4b371c872fce2036cd5c225dffd0831093ddd790eb11e70f"
+  },
+  "declared_runtime_differences": [],
+  "maximum_source_box_error": 0.0,
+  "original_checking_labels_loaded": false,
+  "external_generalization_established": false,
+  "novel_method_established": false,
+  "evidence_sha256": {
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000176_00000_s__native__s0__hann.npz": "c4c010d1319612a0ab9d691b66549c4cc598236da97fe6b740ecb167bd959f49",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000176_00000_s__native__s0__hann.receipt.json": "62555d88047e722e314f2c890a4d47ec250e96739a3a1f4aeb06deac2e514bbb",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000176_00000_s__native__s0__q0.npz": "f970575c3c90316dbf0ec37d334767b12cf45100262afe3b29dbc37dfe9d349f",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000176_00000_s__native__s0__q0.receipt.json": "e6a0bd75ef8982183b310e2b723ea54d32ad6e300af43ecf9ed578c1067a81e4",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000176_00000_s__native__s0__quality.npz": "70c01abd78da7fed27d21a8f7ad6b59e187ba861a0edbaedf9cec51b23ee81e9",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000176_00000_s__native__s0__quality.receipt.json": "e5add0c8d455f8e7c8218280cc0d7f670c4badb2a20c822597a2539455d4ca55",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000176_00000_s__native__s0__margin.npz": "fc66624b1e52c63efbef849797fe6dc10165e58abf074832e844fd3873813605",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000176_00000_s__native__s0__margin.receipt.json": "a8311ce7d8b8463123dda58a8d02970925b34a26cbdfe4418683feabcfa38e79",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000176_00000_s__native__s0__protect.npz": "aafde39d1ad25c9ad7d053422c7c925f06708f7a3e1fe44256a16a861439cf74",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000176_00000_s__native__s0__protect.receipt.json": "792235373b32de604b83f3bdc79d9a0d215af6c014c57676c9b189effc3022ae",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000003_00000_s__native__s0__hann.npz": "cd3b141cb315757263527c7bb7f01d12dbf306414488eb63be46b4288f40a184",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000003_00000_s__native__s0__hann.receipt.json": "ce7a3596f688cb41c01b644083476daa38a1cbd7c810562820ed717a45c9caf8",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000003_00000_s__native__s0__q0.npz": "20245d66c6dc22bace03be4adffd5ab5e3544325f7d93c3b23f202c1ce0985b4",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000003_00000_s__native__s0__q0.receipt.json": "603591a91d3891653a0eb404441ab67c53062d21e1396c294207317a122c785e",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000003_00000_s__native__s0__quality.npz": "4192c0451633b0f7b692229a40f3e00dfef8171d24768bc43486eb9899ef2e3c",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000003_00000_s__native__s0__quality.receipt.json": "0cd9bc236420d80bce38244573ef7b448fc74a3119ba5830cdb0feef9e8f3a88",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000003_00000_s__native__s0__margin.npz": "92538d3ea45abb1f50551c5cb19d452ea81e13f856da532f9204e5b509eefc7a",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000003_00000_s__native__s0__margin.receipt.json": "867adcdf28866e3a6b23064de14546dbdf97b41363dda36d310630c658c21690",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000003_00000_s__native__s0__protect.npz": "a99598824557abb208efc65cbaa26c8640ec9e926695cf020aaef9677c21a5c2",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000003_00000_s__native__s0__protect.receipt.json": "8882bcf4e551e800f5c410789b9343aa7a2d3dea27a3924f83627a754dfd0061",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000226_05370_s__native__s0__hann.npz": "67ddd06f92c1204e903d371405b36b9b85f7d270d329ed1bbfa6aa02ca016480",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000226_05370_s__native__s0__hann.receipt.json": "4b590ab4b3ae217ac9af3716d84a71df80db93a529a309ba408e80e56b417280",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000226_05370_s__native__s0__q0.npz": "780084ad595ca7d15824f2b6c2a772ae4c77868738c8829217d2a7ac6ee1fdbe",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000226_05370_s__native__s0__q0.receipt.json": "f1dd35ecc04350d5e0b35c12fe231cf10550f62637733ae21c3bfc9a1c87a47d",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000226_05370_s__native__s0__quality.npz": "da5348b13c4c256c1e5955dbdeac21e6bbab82ca1789e2bf96ce1bbc9147853e",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000226_05370_s__native__s0__quality.receipt.json": "3637c844f12ac5317d9eb28509caf000b747f60b13c20603ddf2e4fc0e5d452a",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000226_05370_s__native__s0__margin.npz": "9f381650073dbed29581659d04405892ef22d0569e30ca2ff87b153768a0e80e",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000226_05370_s__native__s0__margin.receipt.json": "5d49904679fbd2be10f3bfff9a99706abcc09ea01789822c0e0cc9fd5bc4845a",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000226_05370_s__native__s0__protect.npz": "bcd0a4a1a210839086a39bc87275d37bdb1be482adae96688fa62b4e4d372952",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000226_05370_s__native__s0__protect.receipt.json": "87c88b499b53c7bf7c58c552a5d746216acc87a591c623760eca38ddc2b76c5a",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000170_00000_s__native__s0__hann.npz": "e9cedf36cdcf6f7003ccc7d1fb48c934164ebad2ae25a34fd26c893b4e89c104",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000170_00000_s__native__s0__hann.receipt.json": "6795659e43b27344834a3f028e4238d69f14b9d1d80de8021f3d80de99d49ac1",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000170_00000_s__native__s0__q0.npz": "185bfe162a6d081e02a28783c9de130e72cf15950d1fe3ab6a4cc2d9f712a518",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000170_00000_s__native__s0__q0.receipt.json": "cce1c4f1e44f186a2c27d3d6025a86cc55deaedf7c4381225827ee6a313f2e42",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000170_00000_s__native__s0__quality.npz": "4b8701c5eac1dd1cfc3405c6c9e421fead324b1b866ea7e6bb43cfdc1e574761",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000170_00000_s__native__s0__quality.receipt.json": "fe5dc168e44c4b23cd83c8ab5b0ab339f216568226cd41f96d3e1020a9340ad6",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000170_00000_s__native__s0__margin.npz": "0ac0e4d5928e105873ec832c8bc9afe855386a4473549ce4d479f895830b0bdb",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000170_00000_s__native__s0__margin.receipt.json": "0d791954f3ee51c059180e5d7af46799d7a39df2349d89d058dd31fc41ba0464",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000170_00000_s__native__s0__protect.npz": "9f41b12e192383faa095224ee694faa25ba35d075eb2e1880e96743497ed8fc1",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000170_00000_s__native__s0__protect.receipt.json": "c5349ba02fe010d738e54b27f82a147c4266ffa3ea0c1daaff8c3e1b8e6a0e29",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000126_07915_s__native__s0__hann.npz": "8da5cec409b845312bcfafa19208a2c4b32f3d393ea2c74dfffcfd48ba61644c",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000126_07915_s__native__s0__hann.receipt.json": "980db72b055eeaf04272509e48726d29da938d8cfc428af7c13f5355fca6243e",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000126_07915_s__native__s0__q0.npz": "9b4ddf64e258c76c87290ddb5a496baac5d5344eb570a33cc74fbb8c63d01fd5",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000126_07915_s__native__s0__q0.receipt.json": "45264202b6125de34e1d5014d744a09ee6061f0adfe6486b68177d4074de54bc",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000126_07915_s__native__s0__quality.npz": "b8803e195c49f04ce6e3233c0015b43e68c52ffcca760f10ee59fdbc56cf665e",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000126_07915_s__native__s0__quality.receipt.json": "f69f0a93d1021ca1499e868c2e93a3af2614335ecd4d65fcf46bd34449ce9716",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000126_07915_s__native__s0__margin.npz": "a2ede5ee2eb4203d390f54feadb30288f6cfcdc0f468c347a16f520d25317596",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000126_07915_s__native__s0__margin.receipt.json": "4cbf6ede168007e0a2fe4200472d82ac127613c617cbf49c0ed601aa538999b7",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000126_07915_s__native__s0__protect.npz": "6aa0421bc05213f90d4f779c9e0999144ebe1e2e0313e95837b7e63daca932d5",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000126_07915_s__native__s0__protect.receipt.json": "5bb6080b5a6a1acefd8e75eee1004179b8677529b51edade3d2cc63db7177e69",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000304_00253_s__native__s0__hann.npz": "3b3d109fb5708ee0792758fb9120de29bc29038b21d58238beda4efadc0c536d",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000304_00253_s__native__s0__hann.receipt.json": "46080778261bf4f13f701626056d1f7ccd4ff8eff32463160e75379babf26240",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000304_00253_s__native__s0__q0.npz": "bcb973246ce3b01a3a3fd170c4bafb5eff687d6ca38577dd52352084e4c9b962",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000304_00253_s__native__s0__q0.receipt.json": "050d46a64f5db4f5780a8be4899ed08438b3e3c91dd2d6892df4bfc8a600e6bb",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000304_00253_s__native__s0__quality.npz": "af5a717c813d2155af1e6b80ba43f4b6855c1f90fb00ed9b1e1d5af25a42903f",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000304_00253_s__native__s0__quality.receipt.json": "082418ddb6ac5150b0955a179ca016a1aa6a7a0419449cb076e42529478d34e7",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000304_00253_s__native__s0__margin.npz": "b1e1ac0676b137a128d35085d5c181917b83c2e719362fca2fca269d5eadd46b",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000304_00253_s__native__s0__margin.receipt.json": "b221f4e87a4a75ace63ae27a77b157786004dbe714e1b6b3b066833cbd4e95db",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000304_00253_s__native__s0__protect.npz": "d6064900a04bae518979a3d24fe7edd2324ea385daa8876b1b0f15df359a1e68",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000304_00253_s__native__s0__protect.receipt.json": "11f6131ddb082277684b3c3b0e0e27dfc04168d135a23d330b7fbe9f3145d1b1",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000307_04531_s__native__s0__hann.npz": "f36f6b8944826a3a44ece97adf8213e5b74212fa6937e6914c9ae3fe3509406f",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000307_04531_s__native__s0__hann.receipt.json": "740557fdbd97136771b4b3184fee6f6175cb21cd5d160cfab139ee5eb7528ad4",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000307_04531_s__native__s0__q0.npz": "f497e0cc43fdd9b7d36ec8e0b0520d057fa96efac416b56d9eff360c7714ffe2",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000307_04531_s__native__s0__q0.receipt.json": "8e833e06c924cbe1eda73e2ca09457fdf1c177f876744b9efcffcec347fe319a",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000307_04531_s__native__s0__quality.npz": "7e31cd4eb24bb97a9c7525e608592f6e21db78c8705371e1f51852b0324feec3",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000307_04531_s__native__s0__quality.receipt.json": "22ee4e55890091cb884b4b635b1cedffd94bf0d55c9f6d17e17f9d11ed4a7878",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000307_04531_s__native__s0__margin.npz": "e2c3046fcfc4129cf333eb242e8cd52dc0af1115b092fa821098285d5b637561",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000307_04531_s__native__s0__margin.receipt.json": "794e3d986ac5dcbcc8e896636c37e5004eacb9adcca5f59f4fc95b082af306e7",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000307_04531_s__native__s0__protect.npz": "d05e49a8da097222bea2a34a5fd253e66b6dfc790f5e9caeabacfdafd1c6b1f9",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000307_04531_s__native__s0__protect.receipt.json": "bb440eb24b61d6d4ffdbeac6a7bc4e3d4ccc3187443880dfac617c04fcd45062",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000147_00000_s__native__s0__hann.npz": "90f40d9fd575e26ace4ed303e9c62ea211f79bac5bdd1785f65e82979bb7c0d6",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000147_00000_s__native__s0__hann.receipt.json": "81f1315ff8d6da7c2460c67b417ff39a885982dce9f1bfbb27af4e1c19a34871",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000147_00000_s__native__s0__q0.npz": "e1f3d4372fa5d8e0939ca1fb4cb0342a1bc230cda38d5e688b00dfb7eeda4e69",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000147_00000_s__native__s0__q0.receipt.json": "c63a113ea7a7e8f4b3ad0eda3a252428bff9570ad6973f7c4c987d9fb4d2ff3b",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000147_00000_s__native__s0__quality.npz": "cbf1343cb8cd9972d6f48f83561d674755b0cde58529d6bc50fa40246f9db329",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000147_00000_s__native__s0__quality.receipt.json": "ba5c90bcb8ecea74e76d92718338a333bdd2ea55fe1fdd93954198073cc4ad5f",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000147_00000_s__native__s0__margin.npz": "e069d8b40efd08c79dd3bac1a541edc83ca625bd35d721835dd193b4819f7efb",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000147_00000_s__native__s0__margin.receipt.json": "bcc130550c68dfebd570dc985d8cde33c3420f3094a63c2e8c4d29df908489f3",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000147_00000_s__native__s0__protect.npz": "1b7d0622458c435f9590d5367e1717c04bddfd5122465877f2599f45698fb94b",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000147_00000_s__native__s0__protect.receipt.json": "46cd01b2f4040061dce305c2bf37f83890e62d055e5cbbcb5190cb1c07def682",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000329_00276_s__native__s0__hann.npz": "93c694f24f1154625a7d58d6bf8f365b038e60d64c605fbc9c2082582dbfb804",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000329_00276_s__native__s0__hann.receipt.json": "6169a9b5ef77c71db87a11a1720ceeed838db47d9c71af4153d3de4fff4afaa8",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000329_00276_s__native__s0__q0.npz": "f2840f9e2cb13282226336655c67ff300102d5cb8904fe21443f2d79e79eb685",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000329_00276_s__native__s0__q0.receipt.json": "6a5a0652a258a0f16bb0d139229b6e99195112610bc5d824b221afe8d53a0201",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000329_00276_s__native__s0__quality.npz": "e6fa336fa170c5c6684d8a1c71ac978e51caed79f6ae99a61568761f8b1ee06c",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000329_00276_s__native__s0__quality.receipt.json": "067c00163123644a053dde69fa185a647a5cba465baf41a995203bea14d2c31a",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000329_00276_s__native__s0__margin.npz": "29d10415888612370b40dc81a6f4316c7bd0f7cb701d7f1d123c77cdf72848f6",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000329_00276_s__native__s0__margin.receipt.json": "4972c6e792baa44beae7ccbead9796f54ec9cf0b2f272f2ba63ed5c99980c052",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000329_00276_s__native__s0__protect.npz": "8e53f090d0e2f51f0d766b189ce7dad1ea8e4b31f0dde6752c34b1ae0cb15778",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000329_00276_s__native__s0__protect.receipt.json": "6cfe336c1d161d8b2846b9bf04936ac050e1c2cfd42d6b6636d52835e2ecb93c",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000204_00000_s__native__s0__hann.npz": "6126cf4eca8f260eb1bfc20a9ab10c33124de4b01b3cc2021491e3c40d4ec0fa",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000204_00000_s__native__s0__hann.receipt.json": "c40dc62074d8c96ab4985975507818e9ad785944044fd6906382bee8fd8c96a7",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000204_00000_s__native__s0__q0.npz": "57dc9dd6be08e5450ede0f1dbf32594efbf013c1f25aafba4f523bac57b82abb",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000204_00000_s__native__s0__q0.receipt.json": "0636348d0d46250a1da81286326f51fb549de824ced7fc6d582b13cb04a3645c",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000204_00000_s__native__s0__quality.npz": "f7053b870d73b87b901a8ced846125e5230c89f6c9061915e4284ef13e783de8",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000204_00000_s__native__s0__quality.receipt.json": "d1205e9cf15c5e90823094a4ef14862f8a39a47bb8ad86355f8fc455971eee66",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000204_00000_s__native__s0__margin.npz": "e62cdae00378a39edcc10be36a719d4d950af331fd80950df1b8b495b776d952",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000204_00000_s__native__s0__margin.receipt.json": "05c604d537c4da1820cb68dee7e90007224724c590bae984651d8fe4af3664bf",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000204_00000_s__native__s0__protect.npz": "c8e496b1235e1e1334c2e0af27860e3bcca90bb40d853082e991a3e21e2a1a4a",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000204_00000_s__native__s0__protect.receipt.json": "1c84fdaaea3449c7a7a3b296bd96a28e6901f77dbfbce51870c79aaae281a2f2",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000237_00001_s__native__s0__hann.npz": "886972252c6f912fae7c25b1abaa8ad23a73a322c3a7228b8d3d0cdfd81dd045",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000237_00001_s__native__s0__hann.receipt.json": "e3ebbd5cd3c057dfd675eb1bbf154d5d5f4219522dc8beee0214f60173b67079",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000237_00001_s__native__s0__q0.npz": "203d01b6e4fe5a8b9206523360ff484566417151e0014ccf3f93137f5f116d47",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000237_00001_s__native__s0__q0.receipt.json": "811e4dd0fc85773f1eeaa9431789a60eeaf04a7fa6b6b374f7e97811cdc0b2d6",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000237_00001_s__native__s0__quality.npz": "ac392989b5307b87969771722eb65b520969ca710423b1cc2697ef8684d5fc3f",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000237_00001_s__native__s0__quality.receipt.json": "07d863a4fa7c719b5a62c5d9e04c64894ca59633a59501f0f377aa88eeff757a",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000237_00001_s__native__s0__margin.npz": "420e0ced162db6163a2cdd0009dd9ea6d91d99432d4ef31eb51d76a8687ee6f9",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000237_00001_s__native__s0__margin.receipt.json": "3414684895b38a6737e1bc406cd2a6ff4e6781effc7b38a48f64c96d30619812",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000237_00001_s__native__s0__protect.npz": "03aa659eb095d8f6b15ab5c512d07c455ef58851b54260d1fb4e5e0702a6601d",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000237_00001_s__native__s0__protect.receipt.json": "c8258c20f521a9a932a9a89a621d8daa6b0046eb5de0a2c72d180d3d8ca8e632",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000342_01518_s__native__s0__hann.npz": "8b02ba106dfd27c5788eea26fef7c45856e698eb1cfefa870d69cdcc248a41d4",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000342_01518_s__native__s0__hann.receipt.json": "4bceb9e22e7ec3b5ddb59f0ddd414cd8ec99d8c5197013ceab893f5dc6d006fa",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000342_01518_s__native__s0__q0.npz": "d18d69675f863edd3069cbce3126ad704d454807ab079fe9ec060e7657b6fed7",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000342_01518_s__native__s0__q0.receipt.json": "e036162d1d8feee7d28a00157f1d0b302ccd12e1a2e74824f51c90a4ab7f9ba0",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000342_01518_s__native__s0__quality.npz": "4426df49b8f02b0ae598ae28fa1a90a5f696aa8b0ad0de81d2105bfc7f172968",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000342_01518_s__native__s0__quality.receipt.json": "160ac897d0af472f60324feeb4fcbd03bb8663b3d4692f036589c9c67e0da17d",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000342_01518_s__native__s0__margin.npz": "e9235309ce8a9a65189586b7430c72de2d38c8cb654732f8dbe00c0f89d6252c",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000342_01518_s__native__s0__margin.receipt.json": "85db2abe37c8211ab54455a7237fe46468be21342365b56fef4057ae218c16ad",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000342_01518_s__native__s0__protect.npz": "8359570ce29ed55deb181619b9c2a781bfb0d2bcd9613aa7176e71a23631b8c5",
+    "/home/u25600003160604/workspace/paper/output/stage66/native_q0_takeover_v1/evaluation/traces/uav0000342_01518_s__native__s0__protect.receipt.json": "3f0feb2da746129fd28bcb8d65064ba0645c854fabeed25d9b2f045c95042ea7"
+  },
+  "table_sha256": {
+    "stage66_policy_summary.csv": "307440c306d97888119448574fdd22dbaf8c10e55a1ae45059b325223ed42caf",
+    "stage66_paired.csv": "777243df3ec11dcd5ff1fc1d1b46eee20c1f1fee5b6cf0c40d8ae23319850342",
+    "stage66_calibration.csv": "c4e50298f22d241e670569c50d6e8c139832a649c472508238e64c2d41bad505",
+    "stage66_scope.csv": "32c8639483a95ae8eae4a0c0deaabb26c00fed19f226e5ae9ed3a95dda7ba10f",
+    "stage66_focus.csv": "f56f4e2f80e1c967c5146f8b35e4190d7630dc3278435dab3561749d55a13ba6",
+    "stage66_video_summary.csv": "9f1d6489a5fc13eb14ae38ba13577bb8450de9ed39d5ce7569bec2fb25349155",
+    "stage66_events.csv": "c34c7bc62313152a891128a32fa890c0277f60568bd23c013269ec30f782929a",
+    "stage66_video_influence.csv": "5684a503866586877cfbf2643011f365d428db7bd3832f42305cd9da87b0e032",
+    "stage66_fit_support.csv": "a2181effe4c2075fb657e2e65fe0659fcd2befc13abd4b79c36d87671038aaad"
+  },
+  "warnings": [
+    "Consumed twelve-group development cohort; conditional video bootstrap is not independent external or training validation.",
+    "Native V1 only; E transfer and weak-candidate geometry repair are not evaluated in this stage.",
+    "Absolute q0 IoU is a clipped ridge prediction, not a calibrated reliability probability or guarantee.",
+    "Fixed good threshold .5 and protected gain .02; no outcome-driven threshold or checkpoint search.",
+    "Margin-only control matches weighted fit acceptance as closely as tied gains allow; realized own-history evaluation rates can differ.",
+    "All five policies actually run four searches per frame, including q0; no speedup claim.",
+    "Hann, q0 and quality controls reproduce frozen source outputs; only physical L40 UUID may differ explicitly.",
+    "GT enters fit/evaluation only; online choices use current four candidates and own accepted history."
+  ],
+  "next_step": "Preserve this fixed result; compare protection to frozen quality, fit-rate margin control, Hann and q0 before transfer or new design",
+  "fingerprint": "85e139b06020c9b918cbb76b642702c27eb2cf8c80cba3072673b5d3d30187a9"
+}
+
+
+===== stage66_policy_summary.csv =====
+policy,videos,introduced_failure_videos,auc,low_iou_fraction,failure_events,longest_failure_fraction,reliable_auc,mean_abs_log_size_error,oversize3_fraction,unrecovered_events,recovered_events,relapse_events,native_failure_auc,selected_nonq0_fraction,quality_nonq0_fraction,veto_fraction,qualified_fraction,mean_q0_absolute_error,qualified_q0_good_precision,qualified_q0_good_precision_supported_videos
+hann,12,0,65.24834576511533,0.13057182051828511,0.5833333333333334,0.1350365901659816,70.05480303420367,0.33185250828537344,0.06855067346121976,0.25,0.3333333333333333,0.08333333333333333,26.060403950561813,0.5779235274502764,0.753655465981616,0.0,0.8489469912809136,0.18079825364892965,0.8690919371344533,12
+q0,12,0,63.45118150594076,0.14457277622166684,0.5833333333333334,0.15425033222568213,75.56023758900591,0.260759205373905,0.06752857668100788,0.25,0.3333333333333333,0.0,5.384008900298097,0.0,0.7751204662802823,0.0,0.7936912635411808,0.16540581828645198,0.8809330899591475,12
+quality,12,0,66.24377805736628,0.11005889374103377,0.8333333333333334,0.11539718626025196,72.58529057324897,0.22204423964753825,0.0504762558309064,0.25,0.5833333333333334,0.3333333333333333,24.697375107896075,0.7674736430503136,0.7674736430503136,0.0,0.823197736365256,0.14887402091249222,0.9114278776258607,12
+margin,12,0,65.86821753095255,0.11012619369314584,0.6666666666666666,0.11611763812316268,72.3763703366047,0.22776617673303112,0.05942442012246357,0.3333333333333333,0.3333333333333333,0.16666666666666666,23.492022595340746,0.1972271177596003,0.7657774095234582,0.568550291763858,0.8227038356148985,0.14982941573892855,0.9047201540147509,12
+protect,12,0,63.3891554565945,0.14892568833583467,0.5,0.1561150600370831,72.46389717982733,0.2411408807675756,0.06305394440308094,0.3333333333333333,0.16666666666666666,0.0,18.069859429980685,0.15087194007724056,0.765617917750589,0.6147459776733483,0.8035640670145678,0.1615763372785712,0.8821651947794945,12
+
+
+===== stage66_paired.csv =====
+contrast,metric,videos,mean_delta,median_delta,ci_low,ci_high,wins,ties,losses,minimum_leave_one_video_out,favorable_direction,worst_video_delta,worst_leave_one_video_out_delta,family_ci_low,family_ci_high,supported_videos
+protect_minus_quality,auc,12,-2.854622600771771,-0.22257534588032257,-8.278465725198286,0.08178702729953154,3,0,9,-3.2461488783116095,positive,-31.93855606758833,-3.2461488783116095,-10.82492316536128,0.2159626189533423,uav0000176_00000_s|uav0000003_00000_s|uav0000226_05370_s|uav0000170_00000_s|uav0000126_07915_s|uav0000304_00253_s|uav0000307_04531_s|uav0000147_00000_s|uav0000329_00276_s|uav0000204_00000_s|uav0000237_00001_s|uav0000342_01518_s
+protect_minus_quality,low_iou_fraction,12,0.038866794594800906,0.0,-0.00641012036727068,0.12380213315917171,3,5,4,-0.002761150764616017,negative,0.49677419354838703,0.04473429189211696,,,uav0000176_00000_s|uav0000003_00000_s|uav0000226_05370_s|uav0000170_00000_s|uav0000126_07915_s|uav0000304_00253_s|uav0000307_04531_s|uav0000147_00000_s|uav0000329_00276_s|uav0000204_00000_s|uav0000237_00001_s|uav0000342_01518_s
+protect_minus_quality,reliable_auc,12,-0.12139339342164135,-0.22575963737450877,-0.49471323076343504,0.38682066442519325,3,1,8,-0.33697363512527995,positive,-1.024713682941531,-0.33697363512527995,,,uav0000176_00000_s|uav0000003_00000_s|uav0000226_05370_s|uav0000170_00000_s|uav0000126_07915_s|uav0000304_00253_s|uav0000307_04531_s|uav0000147_00000_s|uav0000329_00276_s|uav0000204_00000_s|uav0000237_00001_s|uav0000342_01518_s
+protect_minus_quality,longest_failure_fraction,12,0.040717873776831115,0.0,-0.005190874189266419,0.12837937660313056,3,6,3,-0.0025013224487355564,negative,0.5161290322580645,0.045934650180785457,,,uav0000176_00000_s|uav0000003_00000_s|uav0000226_05370_s|uav0000170_00000_s|uav0000126_07915_s|uav0000304_00253_s|uav0000307_04531_s|uav0000147_00000_s|uav0000329_00276_s|uav0000204_00000_s|uav0000237_00001_s|uav0000342_01518_s
+protect_minus_margin,auc,12,-2.4790620743580427,-0.026961522581053998,-7.8146880205676865,0.42428364164528637,3,1,8,-2.879530738430688,positive,-31.102918586789556,-2.879530738430688,-10.37566583134833,0.5825564749445443,uav0000176_00000_s|uav0000003_00000_s|uav0000226_05370_s|uav0000170_00000_s|uav0000126_07915_s|uav0000304_00253_s|uav0000307_04531_s|uav0000147_00000_s|uav0000329_00276_s|uav0000204_00000_s|uav0000237_00001_s|uav0000342_01518_s
+protect_minus_margin,low_iou_fraction,12,0.03879949464268883,-0.0002651113467656424,-0.0035432774699834194,0.12151563919804195,6,5,1,-0.0022480586302632073,negative,0.4903225806451612,0.043108735113627304,,,uav0000176_00000_s|uav0000003_00000_s|uav0000226_05370_s|uav0000170_00000_s|uav0000126_07915_s|uav0000304_00253_s|uav0000307_04531_s|uav0000147_00000_s|uav0000329_00276_s|uav0000204_00000_s|uav0000237_00001_s|uav0000342_01518_s
+protect_minus_margin,reliable_auc,12,0.08752684322262579,-0.032316682186735335,-0.12463060131946546,0.41623186139611473,3,0,9,-0.05863420489473208,positive,-0.2718635531135476,-0.05863420489473208,,,uav0000176_00000_s|uav0000003_00000_s|uav0000226_05370_s|uav0000170_00000_s|uav0000126_07915_s|uav0000304_00253_s|uav0000307_04531_s|uav0000147_00000_s|uav0000329_00276_s|uav0000204_00000_s|uav0000237_00001_s|uav0000342_01518_s
+protect_minus_margin,longest_failure_fraction,12,0.03999742191392039,0.0,-0.0019357952507133246,0.1225361485570838,4,7,1,-0.0010585309326147097,negative,0.4916129032258065,0.04422006144275186,,,uav0000176_00000_s|uav0000003_00000_s|uav0000226_05370_s|uav0000170_00000_s|uav0000126_07915_s|uav0000304_00253_s|uav0000307_04531_s|uav0000147_00000_s|uav0000329_00276_s|uav0000204_00000_s|uav0000237_00001_s|uav0000342_01518_s
+protect_minus_hann,auc,12,-1.8591903085208255,-0.13124782211139774,-12.490817950986687,9.762259760413468,5,0,7,-6.579713451123868,positive,-38.89400921658986,-6.579713451123868,-15.27421747663212,13.268101145232283,uav0000176_00000_s|uav0000003_00000_s|uav0000226_05370_s|uav0000170_00000_s|uav0000126_07915_s|uav0000304_00253_s|uav0000307_04531_s|uav0000147_00000_s|uav0000329_00276_s|uav0000204_00000_s|uav0000237_00001_s|uav0000342_01518_s
+protect_minus_hann,low_iou_fraction,12,0.01835386781754955,0.0005302226935312848,-0.17852847537204916,0.1889353350605589,1,5,6,-0.03276352249815709,negative,0.5806451612903225,0.10066756254583119,,,uav0000176_00000_s|uav0000003_00000_s|uav0000226_05370_s|uav0000170_00000_s|uav0000126_07915_s|uav0000304_00253_s|uav0000307_04531_s|uav0000147_00000_s|uav0000329_00276_s|uav0000204_00000_s|uav0000237_00001_s|uav0000342_01518_s
+protect_minus_hann,reliable_auc,12,2.409094145623659,0.034009271394594975,-7.552705924186813,15.662424256605387,7,0,5,-3.2255653018176536,positive,-30.040687160940323,-3.2255653018176536,,,uav0000176_00000_s|uav0000003_00000_s|uav0000226_05370_s|uav0000170_00000_s|uav0000126_07915_s|uav0000304_00253_s|uav0000307_04531_s|uav0000147_00000_s|uav0000329_00276_s|uav0000204_00000_s|uav0000237_00001_s|uav0000342_01518_s
+protect_minus_hann,longest_failure_fraction,12,0.02107846987110149,0.0,-0.16544668566527423,0.18623141214655944,1,6,5,-0.03002583345439955,negative,0.5832258064516129,0.0979213806218468,,,uav0000176_00000_s|uav0000003_00000_s|uav0000226_05370_s|uav0000170_00000_s|uav0000126_07915_s|uav0000304_00253_s|uav0000307_04531_s|uav0000147_00000_s|uav0000329_00276_s|uav0000204_00000_s|uav0000237_00001_s|uav0000342_01518_s
+protect_minus_q0,auc,12,-0.0620260493462513,-0.08267195767195545,-6.151479873048326,5.353404385679521,4,2,6,-1.7616638692408975,positive,-27.071961854570546,-1.7616638692408975,-8.09150363874582,6.77589067296518,uav0000176_00000_s|uav0000003_00000_s|uav0000226_05370_s|uav0000170_00000_s|uav0000126_07915_s|uav0000304_00253_s|uav0000307_04531_s|uav0000147_00000_s|uav0000329_00276_s|uav0000204_00000_s|uav0000237_00001_s|uav0000342_01518_s
+protect_minus_q0,low_iou_fraction,12,0.004352912114167845,0.0,-0.07447913588947674,0.0974420813915093,3,4,5,-0.03381886171567365,negative,0.42424242424242425,0.027352520450674468,,,uav0000176_00000_s|uav0000003_00000_s|uav0000226_05370_s|uav0000170_00000_s|uav0000126_07915_s|uav0000304_00253_s|uav0000307_04531_s|uav0000147_00000_s|uav0000329_00276_s|uav0000204_00000_s|uav0000237_00001_s|uav0000342_01518_s
+protect_minus_q0,reliable_auc,12,-3.0963404091785764,-0.10189040738367794,-8.507727566013802,-0.09325130337126249,2,3,7,-3.383315128313328,positive,-30.176311030741402,-3.383315128313328,,,uav0000176_00000_s|uav0000003_00000_s|uav0000226_05370_s|uav0000170_00000_s|uav0000126_07915_s|uav0000304_00253_s|uav0000307_04531_s|uav0000147_00000_s|uav0000329_00276_s|uav0000204_00000_s|uav0000237_00001_s|uav0000342_01518_s
+protect_minus_q0,longest_failure_fraction,12,0.0018647278114009638,0.0,-0.07532984211887944,0.08947143884346381,3,5,4,-0.032700450244791,negative,0.3820816864295125,0.0247368445140266,,,uav0000176_00000_s|uav0000003_00000_s|uav0000226_05370_s|uav0000170_00000_s|uav0000126_07915_s|uav0000304_00253_s|uav0000307_04531_s|uav0000147_00000_s|uav0000329_00276_s|uav0000204_00000_s|uav0000237_00001_s|uav0000342_01518_s
+
+
+===== stage66_calibration.csv =====
+fold,fit_videos,states,threshold,protected_fit_acceptance,margin_fit_acceptance,acceptance_mismatch,largest_tied_gain_mass,quality_fit_acceptance
+0,6,12336,0.00793420846229062,0.1435492980453119,0.1435822844277107,3.2986382398791925e-05,0.0005787037037037038,0.7108152301362622
+1,6,14714,0.005383219356751451,0.19212746237536607,0.19210263574630326,2.4826629062807415e-05,0.00013935340022296546,0.7213248763153579
+
+
+===== stage66_scope.csv =====
+sequence,origin,seed,fold,policy,head_sha256,tracked_frames,head_calls,block_calls,maximum_decode_error,sgla_training_performed
+uav0000176_00000_s,native,0,0,hann,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,775,3100,21700,6.103515625e-05,False
+uav0000176_00000_s,native,0,0,q0,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,775,3100,21700,6.103515625e-05,False
+uav0000176_00000_s,native,0,0,quality,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,775,3100,21700,6.103515625e-05,False
+uav0000176_00000_s,native,0,0,margin,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,775,3100,21700,6.103515625e-05,False
+uav0000176_00000_s,native,0,0,protect,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,775,3100,21700,6.103515625e-05,False
+uav0000003_00000_s,native,0,1,hann,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,144,576,4032,7.629394758623675e-06,False
+uav0000003_00000_s,native,0,1,q0,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,144,576,4032,7.62939453125e-06,False
+uav0000003_00000_s,native,0,1,quality,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,144,576,4032,7.629394758623675e-06,False
+uav0000003_00000_s,native,0,1,margin,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,144,576,4032,7.62939453125e-06,False
+uav0000003_00000_s,native,0,1,protect,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,144,576,4032,7.62939453125e-06,False
+uav0000226_05370_s,native,0,1,hann,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,1860,7440,52080,0.00048828124954525265,False
+uav0000226_05370_s,native,0,1,q0,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,1860,7440,52080,6.103515625e-05,False
+uav0000226_05370_s,native,0,1,quality,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,1860,7440,52080,6.103515625e-05,False
+uav0000226_05370_s,native,0,1,margin,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,1860,7440,52080,0.0001220703125,False
+uav0000226_05370_s,native,0,1,protect,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,1860,7440,52080,6.103515625e-05,False
+uav0000170_00000_s,native,0,0,hann,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,1410,5640,39480,7.62939453125e-06,False
+uav0000170_00000_s,native,0,0,q0,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,1410,5640,39480,7.62939453125e-06,False
+uav0000170_00000_s,native,0,0,quality,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,1410,5640,39480,7.62939453125e-06,False
+uav0000170_00000_s,native,0,0,margin,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,1410,5640,39480,7.62939453125e-06,False
+uav0000170_00000_s,native,0,0,protect,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,1410,5640,39480,7.62939453125e-06,False
+uav0000126_07915_s,native,0,0,hann,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,629,2516,17612,3.0517578125e-05,False
+uav0000126_07915_s,native,0,0,q0,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,629,2516,17612,3.0517578125e-05,False
+uav0000126_07915_s,native,0,0,quality,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,629,2516,17612,3.0517578125e-05,False
+uav0000126_07915_s,native,0,0,margin,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,629,2516,17612,3.0517578125e-05,False
+uav0000126_07915_s,native,0,0,protect,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,629,2516,17612,3.0517578125e-05,False
+uav0000304_00253_s,native,0,0,hann,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,1725,6900,48300,7.62939453125e-06,False
+uav0000304_00253_s,native,0,0,q0,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,1725,6900,48300,7.62939453125e-06,False
+uav0000304_00253_s,native,0,0,quality,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,1725,6900,48300,7.62939453125e-06,False
+uav0000304_00253_s,native,0,0,margin,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,1725,6900,48300,1.52587890625e-05,False
+uav0000304_00253_s,native,0,0,protect,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,1725,6900,48300,1.52587890625e-05,False
+uav0000307_04531_s,native,0,1,hann,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,759,3036,21252,3.0517578352373675e-05,False
+uav0000307_04531_s,native,0,1,q0,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,759,3036,21252,3.0517578125e-05,False
+uav0000307_04531_s,native,0,1,quality,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,759,3036,21252,0.0001220703125,False
+uav0000307_04531_s,native,0,1,margin,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,759,3036,21252,0.0001220703125,False
+uav0000307_04531_s,native,0,1,protect,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,759,3036,21252,6.103515630684342e-05,False
+uav0000147_00000_s,native,0,0,hann,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,2220,8880,62160,6.103515625e-05,False
+uav0000147_00000_s,native,0,0,q0,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,2220,8880,62160,0.00012207031272737368,False
+uav0000147_00000_s,native,0,0,quality,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,2220,8880,62160,3.0517578125e-05,False
+uav0000147_00000_s,native,0,0,margin,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,2220,8880,62160,3.0517578125e-05,False
+uav0000147_00000_s,native,0,0,protect,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,2220,8880,62160,3.0517578125e-05,False
+uav0000329_00276_s,native,0,0,hann,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,598,2392,16744,7.62939453125e-06,False
+uav0000329_00276_s,native,0,0,q0,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,598,2392,16744,7.62939453125e-06,False
+uav0000329_00276_s,native,0,0,quality,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,598,2392,16744,7.62939453125e-06,False
+uav0000329_00276_s,native,0,0,margin,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,598,2392,16744,7.62939453125e-06,False
+uav0000329_00276_s,native,0,0,protect,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,598,2392,16744,7.62939453125e-06,False
+uav0000204_00000_s,native,0,1,hann,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,921,3684,25788,1.52587890625e-05,False
+uav0000204_00000_s,native,0,1,q0,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,921,3684,25788,0.00012207031261368684,False
+uav0000204_00000_s,native,0,1,quality,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,921,3684,25788,1.52587890625e-05,False
+uav0000204_00000_s,native,0,1,margin,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,921,3684,25788,1.52587890625e-05,False
+uav0000204_00000_s,native,0,1,protect,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,921,3684,25788,1.52587890625e-05,False
+uav0000237_00001_s,native,0,1,hann,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,598,2392,16744,1.52587890625e-05,False
+uav0000237_00001_s,native,0,1,q0,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,598,2392,16744,1.52587890625e-05,False
+uav0000237_00001_s,native,0,1,quality,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,598,2392,16744,1.52587890625e-05,False
+uav0000237_00001_s,native,0,1,margin,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,598,2392,16744,1.52587890625e-05,False
+uav0000237_00001_s,native,0,1,protect,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,598,2392,16744,1.52587890625e-05,False
+uav0000342_01518_s,native,0,1,hann,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,1886,7544,52808,3.051757818184342e-05,False
+uav0000342_01518_s,native,0,1,q0,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,1886,7544,52808,3.051757818184342e-05,False
+uav0000342_01518_s,native,0,1,quality,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,1886,7544,52808,3.051757823868684e-05,False
+uav0000342_01518_s,native,0,1,margin,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,1886,7544,52808,3.051757818184342e-05,False
+uav0000342_01518_s,native,0,1,protect,6487dd828cd834b2ea54617a009d8fb6a25e75ea4f13f054c2b1960337bb6129,1886,7544,52808,3.051757818184342e-05,False
+
+
+===== stage66_focus.csv =====
+sequence,policy,auc,first_failure,first_recovery,terminal_unrecovered,introduced_failure
+uav0000176_00000_s,hann,67.74193548387096,407,412,0,False
+uav0000176_00000_s,q0,16.098310291858677,162,,1,False
+uav0000176_00000_s,quality,60.78648233486943,380,387,0,False
+uav0000176_00000_s,margin,59.95084485407066,432,439,1,False
+uav0000176_00000_s,protect,28.847926267281103,315,,1,False
+uav0000003_00000_s,hann,79.1005291005291,,,0,False
+uav0000003_00000_s,q0,79.2989417989418,,,0,False
+uav0000003_00000_s,quality,79.92724867724867,,,0,False
+uav0000003_00000_s,margin,79.33201058201058,,,0,False
+uav0000003_00000_s,protect,79.13359788359789,,,0,False
+uav0000226_05370_s,hann,5.081925243215566,115,,1,False
+uav0000226_05370_s,q0,55.06144393241167,110,338,0,False
+uav0000226_05370_s,quality,55.19969278033794,112,339,0,False
+uav0000226_05370_s,margin,55.148489503328214,114,339,0,False
+uav0000226_05370_s,protect,55.148489503328214,126,339,0,False
+uav0000170_00000_s,hann,75.02195204322864,,,0,False
+uav0000170_00000_s,q0,75.05572441742655,,,0,False
+uav0000170_00000_s,quality,75.02532928064844,,,0,False
+uav0000170_00000_s,margin,74.80580884836205,,,0,False
+uav0000170_00000_s,protect,74.7821681864235,,,0,False
+uav0000126_07915_s,hann,88.02331743508213,,,0,False
+uav0000126_07915_s,q0,88.00060564766447,,,0,False
+uav0000126_07915_s,quality,87.9703232644409,,,0,False
+uav0000126_07915_s,margin,88.03088803088804,,,0,False
+uav0000126_07915_s,protect,88.00060564766447,,,0,False
+uav0000304_00253_s,hann,72.39475500345065,,,0,False
+uav0000304_00253_s,q0,72.28709454796412,,,0,False
+uav0000304_00253_s,quality,71.80676328502416,,,0,False
+uav0000304_00253_s,margin,72.1104209799862,,,0,False
+uav0000304_00253_s,protect,71.85093167701864,,,0,False
+uav0000307_04531_s,hann,67.78342430516344,399,471,0,False
+uav0000307_04531_s,q0,66.50981868373172,398,474,0,False
+uav0000307_04531_s,quality,40.698914611958095,386,,1,False
+uav0000307_04531_s,margin,37.51176359872012,393,,1,False
+uav0000307_04531_s,protect,39.43785682916118,394,,1,False
+uav0000147_00000_s,hann,38.03946803946804,1290,,1,False
+uav0000147_00000_s,q0,37.674817674817675,1269,,1,False
+uav0000147_00000_s,quality,32.35092235092235,1036,,1,False
+uav0000147_00000_s,margin,33.66151866151866,1073,,1,False
+uav0000147_00000_s,protect,33.803088803088805,1073,,1,False
+uav0000329_00276_s,hann,73.25211020863195,,,0,False
+uav0000329_00276_s,q0,73.34766682592769,,,0,False
+uav0000329_00276_s,quality,73.38748208313426,,,0,False
+uav0000329_00276_s,margin,73.35562987736901,,,0,False
+uav0000329_00276_s,protect,73.34766682592769,,,0,False
+uav0000204_00000_s,hann,72.45747376040535,,,0,False
+uav0000204_00000_s,q0,53.92172069696499,664,894,0,False
+uav0000204_00000_s,quality,72.86076211157645,,,0,False
+uav0000204_00000_s,margin,72.78320665942816,,,0,False
+uav0000204_00000_s,protect,72.55571066645985,,,0,False
+uav0000237_00001_s,hann,72.80617932791846,246,298,0,False
+uav0000237_00001_s,q0,72.8380315336837,242,294,0,False
+uav0000237_00001_s,quality,73.32377767160376,240,292,0,False
+uav0000237_00001_s,margin,72.3045070871158,240,298,0,False
+uav0000237_00001_s,protect,72.3761745500876,240,296,0,False
+uav0000342_01518_s,hann,71.27707923041964,1757,,1,False
+uav0000342_01518_s,q0,71.32000201989598,1754,,1,False
+uav0000342_01518_s,quality,71.58763823663081,1754,,1,False
+uav0000342_01518_s,margin,71.42352168863304,1752,,1,False
+uav0000342_01518_s,protect,71.3856486390951,1753,,1,False
+
+
+===== stage66_video_influence.csv =====
+sequence,quality_gain,margin_gain,hann_gain,q0_gain
+uav0000176_00000_s,-31.93855606758833,-31.102918586789556,-38.89400921658986,12.749615975422426
+uav0000003_00000_s,-0.7936507936507837,-0.19841269841269593,0.033068783068785024,-0.1653439153439109
+uav0000226_05370_s,-0.05120327700972638,0.0,50.06656426011265,0.08704557091654408
+uav0000170_00000_s,-0.2431610942249307,-0.023640661938543417,-0.2397838568051327,-0.2735562310030417
+uav0000126_07915_s,0.03028238322356458,-0.03028238322356458,-0.022711787417662777,0.0
+uav0000304_00253_s,0.04416839199447509,-0.259489302967566,-0.5438233264320189,-0.43616287094548056
+uav0000307_04531_s,-1.261057782796918,1.9260932304410545,-28.34556747600226,-27.071961854570546
+uav0000147_00000_s,1.452166452166452,0.14157014157014203,-4.236379236379236,-3.8717288717288696
+uav0000329_00276_s,-0.039815257206569754,-0.007963051441322477,0.09555661729574183,0.0
+uav0000204_00000_s,-0.30505144511660376,-0.2274959929683149,0.09823690605449542,18.633989969494856
+uav0000237_00001_s,-0.9476031215161669,0.07166746297180282,-0.43000477783085955,-0.46185698359610683
+uav0000342_01518_s,-0.20198959753571444,-0.03787304953795001,0.10856940867545006,0.0656466191991143
+
