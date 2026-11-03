@@ -1,6 +1,6 @@
 # Stage-68：fit组成对后继增益学习与完整轨迹检验
 
-日期：2026-11-03，Asia/Hong_Kong。已读交接0.27及[Stage-67复核](STAGE67_RESULTS_REVIEW.md)。本轮已实现，服务器尚未启动；以下在取得Stage-68结果前固定，不按结果补搜时间窗、岭系数、阈值或样本。
+2026-11-04结果更新：服务器已完成384对和84条完整轨迹，状态`REVIEW_PAIRED_TAKEOVER_ADVANTAGE_PILOT`，decision＋8表齐全。future AUC66.9254、对immediate +4.3644、对Q +0.6816，但区间跨零、稳定集及可靠帧保护未过，详见[结果复核](STAGE68_RESULTS_REVIEW.md)和交接0.29。下文为2026-11-03结果前固定方案及历史执行入口，不重跑、不按结果补搜时间窗、岭系数、阈值或样本。
 
 ## 问题与新增检验
 
