@@ -111,13 +111,18 @@
 - [STAGE59_RESULTS_REVIEW.md](experiments/06_sgla_uav_tracking/STAGE59_RESULTS_REVIEW.md) — **结果复核**：0304特定混合父框有32帧条件修复，0204主要受尺寸来源影响；0226／0176与0307呈不同中心×尺寸交互，没有统一放缩或全视频新方法结论
 - [STAGE60_CAUSAL_SEARCH_STATE_VALUE.md](experiments/06_sgla_uav_tracking/STAGE60_CAUSAL_SEARCH_STATE_VALUE.md) — 用户已报告REVIEW、96条完整OOF完成，decision／policy／paired／scope／fit_support五份材料已齐；保留预定设计与历史入口
 - [STAGE60_RESULTS_REVIEW.md](experiments/06_sgla_uav_tracking/STAGE60_RESULTS_REVIEW.md) — **当前结果**：response对current +3.7427但CI跨零；future对immediate +3.6137，对response −3.5585且家族区间全负，能力保护未过；四候选与响应分支值得继续检验
-- [STAGE61_NATIVE_HISTORY_MATCHED_RECROP.md](experiments/06_sgla_uav_tracking/STAGE61_NATIVE_HISTORY_MATCHED_RECROP.md) — **代码已准备，服务器待运行**：原始V1／E的历史候选与当帧重裁剪四次调用对照；48条新轨迹，3项CPU测试通过；附一键执行与cat结果汇总脚本
+- [STAGE61_NATIVE_HISTORY_MATCHED_RECROP.md](experiments/06_sgla_uav_tracking/STAGE61_NATIVE_HISTORY_MATCHED_RECROP.md) — 原始L20复用方案因GPU身份不符未运行；保留固定协议，后续改用L40全部六组重测
+- [STAGE61_L40_DEVICE_MATCHED_RUN.md](experiments/06_sgla_uav_tracking/STAGE61_L40_DEVICE_MATCHED_RUN.md) — L40全部108条完整轨迹已完成，保留设备匹配方案与历史执行入口
+- [STAGE61_L40_RESULTS_REVIEW.md](experiments/06_sgla_uav_tracking/STAGE61_L40_RESULTS_REVIEW.md) — **完整视频复核**：原生history对current +1.7972、对recrop +6.5150但家族区间跨零，0226恢复保护未过；E收益保留0307损伤与种子依赖
+- [STAGE62_CACHED_CANDIDATE_SELECTION_AUDIT.md](experiments/06_sgla_uav_tracking/STAGE62_CACHED_CANDIDATE_SELECTION_AUDIT.md) — 已完成缓存诊断；保留结果前固定方案与4项本机测试记录，0新增训练／图像／网络调用
+- [STAGE62_RESULTS_REVIEW.md](experiments/06_sgla_uav_tracking/STAGE62_RESULTS_REVIEW.md) — **最新结果**：0226与E0307失败附近候选不足，恢复附近分别有覆盖丢失和可见却输出差；全量事件仍有漏选机会，下一步检验有效状态与恢复机会保护
+- [STAGE63_MATCHED_ONE_CHOICE_CONTINUATION.md](experiments/06_sgla_uav_tracking/STAGE63_MATCHED_ONE_CHOICE_CONTINUATION.md) — **下一轮已准备，服务器待运行**：12个共同历史病例、一次接受q0～q3后按原规则继续32帧；48短分支／6000搜索／0训练，新增响应图；4项真实CPU测试通过
 - [STAGE45_TEMPORAL_SIGNAL_PILOT.md](experiments/05_uav_detection/STAGE45_TEMPORAL_SIGNAL_PILOT.md) — **暂不执行**的 YOLOFT 视频检测支线；保留实现与 CPU 检查记录
 - [无人机检测研究方向调研](research/UAV_DETECTION_RESEARCH_DIRECTIONS_2026-10-29.md) — 检测文献与机制参考，不代表切换当前主任务
 
 ## 交接与维护
 
-- [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口) — 先读第0节，尤其0.10～0.12：Stage-60结果、V2启发及Stage-61已准备的执行入口；当前尚无Stage-61服务器结果
+- [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口) — 先读0.16的Stage-62诊断及0.17的Stage-63已准备方案；Stage-63待服务器运行，Stage-61／62不重跑
 - [历史写作材料说明](archive/README.md)
 - [整理报告](maintenance/CLEANUP_REPORT.md)
 - [逐文件整理清单](maintenance/CLEANUP_MANIFEST.json)
