@@ -1,5 +1,7 @@
 # Stage-64：GT-free候选可靠性选择原型
 
+2026-11-03结果更新：服务器已完成96条完整轨迹，状态`REVIEW_CANDIDATE_RELIABILITY_PILOT`，主要对比和保护未过。七份回传材料已齐，详见[Stage-64结果复核](STAGE64_RESULTS_REVIEW.md)。下文保留结果前协议及准备验证记录，不按结果修改设计或重复运行。
+
 日期：2026-11-03，Asia/Hong_Kong。已先读WORK_HANDOFF第0.18节及[Stage-63结果复核](STAGE63_RESULTS_REVIEW.md)。本协议在得到Stage-64服务器结果前固定；本机只准备代码与验证，未运行服务器推理。
 
 ## 问题与本轮新增差异

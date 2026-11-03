@@ -117,14 +117,16 @@
 - [STAGE62_CACHED_CANDIDATE_SELECTION_AUDIT.md](experiments/06_sgla_uav_tracking/STAGE62_CACHED_CANDIDATE_SELECTION_AUDIT.md) — 已完成缓存诊断；保留结果前固定方案与4项本机测试记录，0新增训练／图像／网络调用
 - [STAGE62_RESULTS_REVIEW.md](experiments/06_sgla_uav_tracking/STAGE62_RESULTS_REVIEW.md) — 全量候选诊断：0226与E0307失败附近候选不足，恢复附近有覆盖丢失和可见却输出差；全量事件仍有漏选机会
 - [STAGE63_MATCHED_ONE_CHOICE_CONTINUATION.md](experiments/06_sgla_uav_tracking/STAGE63_MATCHED_ONE_CHOICE_CONTINUATION.md) — 已完成12例／48短分支／6000搜索／0训练，保留结果前固定方案与4项CPU测试记录
-- [STAGE63_RESULTS_REVIEW.md](experiments/06_sgla_uav_tracking/STAGE63_RESULTS_REVIEW.md) — **最新结果**：0304一次q0保护、0307／2132在475一次q2选择均实现32帧良好；统一q0回退不足，四负例锚点dense也无良好框，下一步开发GT-free候选可靠性
-- [STAGE64_CAUSAL_CANDIDATE_RELIABILITY.md](experiments/06_sgla_uav_tracking/STAGE64_CAUSAL_CANDIDATE_RELIABILITY.md) — **下一轮已准备，服务器待运行**：原生fit侧小评分器，当前IoU／可靠性标签匹配对照；原生四组、E两组双种子，96完整轨迹／432800搜索，SGLA冻结；3项真实CPU测试通过
+- [STAGE63_RESULTS_REVIEW.md](experiments/06_sgla_uav_tracking/STAGE63_RESULTS_REVIEW.md) — 共同起点后继证据：0304一次q0保护、0307／2132在475一次q2选择均实现32帧良好；统一q0回退不足，四负例锚点dense也无良好框
+- [STAGE64_CAUSAL_CANDIDATE_RELIABILITY.md](experiments/06_sgla_uav_tracking/STAGE64_CAUSAL_CANDIDATE_RELIABILITY.md) — 已完成96完整轨迹／432800搜索，保留原生fit侧连续质量／离散可靠性匹配协议、3项CPU测试与历史执行入口
+- [STAGE64_RESULTS_REVIEW.md](experiments/06_sgla_uav_tracking/STAGE64_RESULTS_REVIEW.md) — **最新结果**：reliability对quality −4.3668、2胜10负，对Hann／q0也负且保护未过；E0304单种子完整修复，但0226恢复丢失与0003新增失效，E两种子总体均负
+- [STAGE65_CACHED_SAME_STATE_SELECTION.md](experiments/06_sgla_uav_tracking/STAGE65_CACHED_SAME_STATE_SELECTION.md) — **下一轮已准备，服务器待运行**：相同保存状态四规则比较、有效q0损伤／良好候选漏选／候选不足及fit特征支持；0新增训练／图像／GPU，3项真实CPU测试通过
 - [STAGE45_TEMPORAL_SIGNAL_PILOT.md](experiments/05_uav_detection/STAGE45_TEMPORAL_SIGNAL_PILOT.md) — **暂不执行**的 YOLOFT 视频检测支线；保留实现与 CPU 检查记录
 - [无人机检测研究方向调研](research/UAV_DETECTION_RESEARCH_DIRECTIONS_2026-10-29.md) — 检测文献与机制参考，不代表切换当前主任务
 
 ## 交接与维护
 
-- [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口) — 先读0.18的Stage-63结果与0.19的Stage-64已准备方案；Stage-63六份材料已齐，Stage-64待服务器运行
+- [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口) — 先读0.20的Stage-64结果与0.21的Stage-65缓存实验入口；旧阶段不重跑，Stage-65待服务器运行
 - [历史写作材料说明](archive/README.md)
 - [整理报告](maintenance/CLEANUP_REPORT.md)
 - [逐文件整理清单](maintenance/CLEANUP_MANIFEST.json)
