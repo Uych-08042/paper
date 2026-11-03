@@ -1,0 +1,505 @@
+
+===== stage67_diagnostic.json =====
+{
+  "schema": "stage67_matched_veto_continuation_v1",
+  "status": "COMPLETE_MATCHED_VETO_CONTINUATION_DIAGNOSTIC",
+  "role": "consumed_development_matched_veto_continuation_diagnostic",
+  "plan_fingerprint": "e2abf26a28870109844eee69a461453dc1178dc85f07304e4e4e55d6ba7eff09",
+  "run_fingerprint": "c2c5061ec2111d23b6a7084a20dcf2671bf955b868f56cb5e158c03455a1cb73",
+  "source_report_fingerprint": "85e139b06020c9b918cbb76b642702c27eb2cf8c80cba3072673b5d3d30187a9",
+  "source_training_fingerprint": "32366a30715670fa3610d6b00dadc5784494a8dac1a56078a7105b1d024c9cea",
+  "runtime": {
+    "tracker": {
+      "parameter": "deit_distilled",
+      "checkpoint_sha256": "88447c7724704edaf03488f519d3e300385fef05c2f1fac02fe22f7941cf334e",
+      "config": {
+        "MODEL": {
+          "PRETRAIN_FILE": "deit_tiny_distilled_patch16_224.pth",
+          "EXTRA_MERGER": false,
+          "RETURN_INTER": false,
+          "RETURN_STAGES": [],
+          "BACKBONE": {
+            "TYPE": "deit_tiny_distilled_patch16",
+            "STRIDE": 16,
+            "MID_PE": false,
+            "SEP_SEG": false,
+            "CAT_MODE": "direct",
+            "MERGE_LAYER": 0,
+            "ADD_CLS_TOKEN": false,
+            "CLS_TOKEN_USE_MODE": "ignore",
+            "CE_LOC": [],
+            "CE_KEEP_RATIO": [],
+            "CE_TEMPLATE_RANGE": "ALL"
+          },
+          "HEAD": {
+            "TYPE": "CENTER",
+            "NUM_CHANNELS": 256
+          }
+        },
+        "TRAIN": {
+          "LR": 0.0004,
+          "WEIGHT_DECAY": 0.0001,
+          "EPOCH": 300,
+          "LR_DROP_EPOCH": 240,
+          "BATCH_SIZE": 32,
+          "NUM_WORKER": 4,
+          "OPTIMIZER": "ADAMW",
+          "BACKBONE_MULTIPLIER": 0.1,
+          "GIOU_WEIGHT": 2.0,
+          "L1_WEIGHT": 5.0,
+          "FREEZE_LAYERS": [
+            0
+          ],
+          "PRINT_INTERVAL": 50,
+          "VAL_EPOCH_INTERVAL": 999,
+          "GRAD_CLIP_NORM": 0.1,
+          "AMP": false,
+          "CE_START_EPOCH": 20,
+          "CE_WARM_EPOCH": 80,
+          "DROP_PATH_RATE": 0.1,
+          "SCHEDULER": {
+            "TYPE": "step",
+            "DECAY_RATE": 0.1
+          }
+        },
+        "DATA": {
+          "SAMPLER_MODE": "causal",
+          "MEAN": [
+            0.485,
+            0.456,
+            0.406
+          ],
+          "STD": [
+            0.229,
+            0.224,
+            0.225
+          ],
+          "MAX_SAMPLE_INTERVAL": 200,
+          "TRAIN": {
+            "DATASETS_NAME": [
+              "LASOT",
+              "GOT10K_vottrain",
+              "COCO17",
+              "TRACKINGNET"
+            ],
+            "DATASETS_RATIO": [
+              1,
+              1,
+              1,
+              1
+            ],
+            "SAMPLE_PER_EPOCH": 60000
+          },
+          "VAL": {
+            "DATASETS_NAME": [
+              "GOT10K_votval"
+            ],
+            "DATASETS_RATIO": [
+              1
+            ],
+            "SAMPLE_PER_EPOCH": 10000
+          },
+          "SEARCH": {
+            "SIZE": 256,
+            "FACTOR": 4.0,
+            "CENTER_JITTER": 3,
+            "SCALE_JITTER": 0.25,
+            "NUMBER": 1
+          },
+          "TEMPLATE": {
+            "NUMBER": 1,
+            "SIZE": 128,
+            "FACTOR": 2.0,
+            "CENTER_JITTER": 0,
+            "SCALE_JITTER": 0
+          }
+        },
+        "TEST": {
+          "TEMPLATE_FACTOR": 2.0,
+          "TEMPLATE_SIZE": 128,
+          "SEARCH_FACTOR": 4.0,
+          "SEARCH_SIZE": 256,
+          "EPOCH": 297
+        }
+      },
+      "torch": "2.7.1+cu118",
+      "cuda": "11.8",
+      "device": "NVIDIA L40",
+      "lens_z": 64,
+      "lens_x": 256,
+      "embed_dim": 192
+    },
+    "opencv": "5.0.0",
+    "numpy": "1.26.4",
+    "gpu_uuid": "ca7219a3-ba4a-8d0e-3299-2f85a384374c",
+    "model_state_sha256": "13af4170053b1e6f4b371c872fce2036cd5c225dffd0831093ddd790eb11e70f"
+  },
+  "declared_runtime_differences": [],
+  "requested_anchors": 8,
+  "supported_anchors": 7,
+  "unsupported_requests": [
+    {
+      "case_id": "R01",
+      "sequence": "uav0000226_05370_s",
+      "selector": "last_veto_before_first_recovery",
+      "status": "no_changed_veto_in_declared_window",
+      "resolved_frame": null
+    }
+  ],
+  "counterfactual_branches": 28,
+  "formal_search_calls": 3500,
+  "formal_block_calls": 24500,
+  "smoke_calls_reused": 128,
+  "additional_smoke_calls": 0,
+  "maximum_source_box_error": 0.0,
+  "training_performed": false,
+  "new_models": 0,
+  "new_full_trajectories": 0,
+  "original_checking_labels_loaded": false,
+  "external_generalization_established": false,
+  "novel_method_established": false,
+  "evidence_sha256": {
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/F01__shared.npz": "cfec584ca8733dc253e32357b0c19342d92714027b99dee76956c5258f3a3004",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/F01__shared.receipt.json": "b43ca1bf953ad4a02c0840047933dc3a0f3956452505dd4757e6b77b76199a5e",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/F01__quality__veto.npz": "7a4a8af8ee448e71b689c57d7e7d94ee6136c2f886a795eb37f72b72d79c8b45",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/F01__quality__veto.receipt.json": "279e7981b4c3eb07eebb156631aff9e44af62306c75e9ed6e7519da9bf4f0fd6",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/F01__quality__allow.npz": "39be3fc7eb96e7e37cd1c40dc1b5a0b11eac47596c370849f66c4d7fb78977d6",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/F01__quality__allow.receipt.json": "a7500632a7547ca38a829377ad898c1526213ab85bc61f9496c6df9ebf1545c6",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/F01__protect__veto.npz": "4a468f80bae21e8d874e0eaabdb790257d8c969713a15c9dcf76e72b88ac0ef2",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/F01__protect__veto.receipt.json": "21d62ce8f9ce977c79657f6f0db95a1c0c75c7cac26c294563119fecb8578be6",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/F01__protect__allow.npz": "15a71fad1f9b5005e54e5c1aa3ade569280053b41a1017aedf3d6f4c1a69737a",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/F01__protect__allow.receipt.json": "21378ad066067b2daf0d5f941eea4e2f97a911adad0dc78cc361f1a484b07824",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/F02__shared.npz": "f15e1c106ef7aade2ba9423bf5e5b3c4e8dc53787ec37261344d2ca7a691fb68",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/F02__shared.receipt.json": "507b92d3791ecfb6a0c4845f0b981a24112e290e652bc44aa8c158340c23e752",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/F02__quality__veto.npz": "92bcccbf5f50e3479c664558dbbf7c105804f3014f7006e703bc2a6ae05213c8",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/F02__quality__veto.receipt.json": "95b2ad22133e8f350f8d1c846464c86712f0b622eab3ab1bf9c8a6538c539398",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/F02__quality__allow.npz": "99680e660bd024a4ecb361cc64b3104083866dba5bd63ef612b485bb1a75b038",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/F02__quality__allow.receipt.json": "05a6b5a9920d1156fd4d0fde83215284214a07bfe81d519e906b7418bdb73b9c",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/F02__protect__veto.npz": "49b6a2f07f2ed542cd628155a3a5191784353177b53b72eb67c7ac354c619deb",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/F02__protect__veto.receipt.json": "58e97ea632d64ff31eb096265819685b8e0dc5ec416997c0665d04fd8008a293",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/F02__protect__allow.npz": "781cea6175105c4a2a06c336815d6e34f51a26f90b25b95b73e696e87c106e0e",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/F02__protect__allow.receipt.json": "61d5457fc5b9739f31ea14f4759547dbb20f660c97dc781087a15f1531bba70e",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/F03__shared.npz": "56fb4a9cf769406c182cfab0a16f4c03994873be48a101adbc68c2e7b5cac551",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/F03__shared.receipt.json": "e641d599cde95d7819c49415826699a3641bb16408b24c7751ad835de89cb04f",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/F03__quality__veto.npz": "42a6a131a4e89096ddb7e87d437ccbdc741d5c5198d004ca56aded4d7426dc79",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/F03__quality__veto.receipt.json": "0c51bd09c9558a663bd17e5f37e6bca1a51762f06af53bd593a3e0a40a4505f1",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/F03__quality__allow.npz": "5e06030ba9592b1d49fa26a7edfe92f53b684f77a93ad6351ee9c55d33c5aa04",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/F03__quality__allow.receipt.json": "43a4e89059d53ae66a370149a5719f4d57da6ae22dd84f5add9dcece0f7141df",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/F03__protect__veto.npz": "0b2b6fd557e96265f01521c73a1ae4f5a1bdc264df7b28c24c4aefc446ac4882",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/F03__protect__veto.receipt.json": "e77a76110745e8302694e60b2f80cf35ec7ab9e81f8f277dde7b98382b5540fc",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/F03__protect__allow.npz": "4bcb3087c241009ded4581642428facb348d652c5dd49b356147301ab6a50bab",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/F03__protect__allow.receipt.json": "964363e725eae0295f6951afda99ce78da8c00a8e7b7e19ec2e459cdf16a0f87",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/F04__shared.npz": "1012816e930d7469956a7b53e6d1b57c9d3ce8d709e8540b11e75e124e0db8f7",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/F04__shared.receipt.json": "0d838f7680056fcfe1717877a1639ae14da96b3405047688dc21217775261c7a",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/F04__quality__veto.npz": "0ca177bb709357385f3e80489a0e54788288d2e799471015311e62edee744837",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/F04__quality__veto.receipt.json": "c21b5f8158f5ee74cb9a96bd55207ecb3cd0b0e6adf1d8d7ab022c01746c7e9f",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/F04__quality__allow.npz": "bd346ce1b910ef31010d67bca4c4f433aef400a3beb9e9257ca3ea670ed5b1cf",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/F04__quality__allow.receipt.json": "c63f1c93855e982e0b75adf135a61a2e8f15e79ac1a3dd673d2d78e546200323",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/F04__protect__veto.npz": "beb51a6a6ab9782a860a3d63a5fb7dca3533deb4654e0f691ee20b347e4d6a46",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/F04__protect__veto.receipt.json": "fe4cca25b7c6e0862318a4fd5273618346e88446c63935d8b71d6f67bcb5f5b8",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/F04__protect__allow.npz": "20970df6bfabd50071522bd4ab4b62183430199583f39d91f650030f25b80183",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/F04__protect__allow.receipt.json": "d8b5816864187ac24848f6f5116a04a250d9a4428e87c96e3ea69bd2e7c3a971",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/E01__shared.npz": "d5ac2853ea11f01c989b43eaeca4818ab4ce2e2847fc204711c3e6669b2ac26d",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/E01__shared.receipt.json": "1cf5223a7e352e50a9242b610e0686aea36eaf44f405dc434f167969fba3e95b",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/E01__quality__veto.npz": "83c714773b45b496f521da620b4c57c1fd0c45926f18a2d0e082b6e2de440174",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/E01__quality__veto.receipt.json": "f2fccc0d701765198452ea34d16d06f72c335f3ba61a1f6656fa517fb83108d0",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/E01__quality__allow.npz": "e35630259bad273c81dbbdcf24cab6a58f6e7babfc0e84cd3d7190c4c80b919d",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/E01__quality__allow.receipt.json": "1f3295bdee904a4034fab7488af048916772d875c11c24f9dfdf13bda82cfa70",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/E01__protect__veto.npz": "50f436b63b0d133bb8a83265a4ba107cbfc1abc4b976d2abea3caf42612d9b78",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/E01__protect__veto.receipt.json": "c60f1ef0c6d2616a6278e905a9ea901078de3b5dac3a741bed30c034ca35c949",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/E01__protect__allow.npz": "fa36ffbf9b4f805000ffbe7fca0ca7410c0bd9c23d21ad7bcf3fb885a40bc2dc",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/E01__protect__allow.receipt.json": "0f7c37f9a89639f7e9edaa084c115a16c35a1bb95d3e3cf8e499bb3a2e8d6201",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/E02__shared.npz": "8f158d5dffbd50b8fa42b16f7202f5102eced1841a4fc1647c65c1449355424e",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/E02__shared.receipt.json": "1ddd54b20b5043da2e0d7bd51fcc998fcc46ed191f3033391a2e01e8979b98f0",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/E02__quality__veto.npz": "e2fb2dd941e80081e2adb5538468d4b8f2ba6b2075745327d742b60bc9dd1585",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/E02__quality__veto.receipt.json": "8fca4baa9518be01e38fc89812ae1a17a4fe38225b68e1501572f16e0d896c9e",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/E02__quality__allow.npz": "bf1715f2c6af103d15990f80c758d98b4127276fb7d08826d8efddb604cd49b6",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/E02__quality__allow.receipt.json": "39adc113ffca5bacfdc6647d896947cd4db4f07f37effdf23fa5b1681d95ef0d",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/E02__protect__veto.npz": "7498c6f2259f1a99096e8b328fdc34a8738618f4671464fdcf374b3acff20b10",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/E02__protect__veto.receipt.json": "10d21edcbe6c9012a1d04790a66f9f93ae75b11aedb72e52ca53605f02967f56",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/E02__protect__allow.npz": "bb5a14e79d1fe3be0606469c591ea8438cf69c71f52d7b1ea66cb5ee6fbb84ce",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/E02__protect__allow.receipt.json": "e18d3deb0a22858ded0032d59f913faa3d37c2aa30928a486f367b8b9f4d24af",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/P01__shared.npz": "534a84c2b2be6bd22c46ce98e277d34a794f833b7cb7cd3c48c0a06bbedd8af4",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/P01__shared.receipt.json": "a7b42d55adf44a5be6c41caa4d9fc2621f9cfde645cbd4e1ac7d300f0d81a168",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/P01__quality__veto.npz": "efc238dd53d2a79cd386f6197e661f9684425423979c564798f358533787964b",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/P01__quality__veto.receipt.json": "f13b1a2fd74ffe5e6e77e876a62d3ede8192992ba00680de52cd9f85ba928c4c",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/P01__quality__allow.npz": "2e9498d925ba00b0e47b79fa07b74c597732e08c77966461a31a33cd6ca96f12",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/P01__quality__allow.receipt.json": "415dce537680273b8ece0999e58487040bde8eecd1ed29a8781ba1cf6e2c7dbe",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/P01__protect__veto.npz": "8f23abc6e96d1a25a15373d66d0fa6d5f580954b219ce53908b39fa0fbc2a11d",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/P01__protect__veto.receipt.json": "608f95ab3182e9e90cf74d3537a16e37890981a5ec3159f2a6175dd6eb6e4912",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/P01__protect__allow.npz": "c869112419b89b25e4b0b748ca43486514fa750c37d9ae337e5a2bb41de2df91",
+    "/home/u25600003160604/workspace/paper/output/stage67/matched_veto_continuation_v1/collection/traces/P01__protect__allow.receipt.json": "d41146d0ca90a73473876086cbc49a30e142e30878760389dac45e177c748224"
+  },
+  "table_sha256": {
+    "stage67_anchors.csv": "cd11558f2f68543b2c5619502760a463843e88362fa4cabdd886d128f5b5a9a7",
+    "stage67_case_summary.csv": "feaaea0df4a69ed661fd18b7d2b9d61bb1023ab550b4da1c048143dddc3b7d64",
+    "stage67_branch_summary.csv": "c7efd3256d8040368aea6a1a4c5c4723c70c16c28c2d7568cab6f6b3cf3134c6",
+    "stage67_contrasts.csv": "3567c81fd7688e7ee294c234c82bc0ef7216c8376183c7fe48ae5b23ab5d2a89",
+    "stage67_scope.csv": "6392d17b1b83128cfeb201c2402902912b0d82b422b41b67e08287fb04767735",
+    "stage67_cached_video.csv": "3da370379322301df392657c7c26df7980a3d0cbb0186db687937d0897ace3e5",
+    "stage67_divergences.csv": "69590b7df3263c851ac35cffbce1e349bf43c9ec120f5d01ce3d5dfe4a109395",
+    "stage67_veto_frames.csv": "fb1207171f6fb44c2a314cfa1cf2ceaed637bba88e97815e7caf8cb51895c277",
+    "stage67_timelines.csv": "e541e95cbe3d398efe8535fd72ea993658bebe02f17e6addbe0572d6a19e88ae"
+  },
+  "warnings": [
+    "Consumed development cases, partly selected near already observed events; no population confidence interval or adoption gate.",
+    "Anchor veto compares q0 to the frozen quality proposal, not to an oracle or a refitted scorer.",
+    "Four branches share one incoming protect history and four actual anchor searches. Only the anchor choice is forced; tails follow own accepted predictions.",
+    "Allow-minus-veto within one continuation controller is a local intervention effect. Controller interaction is a separate factorial effect.",
+    "Thirty-two-frame results do not establish avoidance of a later full-video failure. Overlapping anchors are not independent samples.",
+    "Cached shadow candidate IoUs describe immediate opportunities; they are not observed counterfactual futures.",
+    "SGLA V1 weights/template/selector and both CPU critics remain frozen. GT after initialization enters source anchor selection/evaluation only.",
+    "First three good frames is a window-local run, not proof of full-trajectory recovery; event-local rules use source events offline.",
+    "All four searches per state are charged; smoke reuses its committed branch. No speedup or model adoption claim."
+  ],
+  "next_step": "Use case-level matched continuation effects and common-prefix divergence to define a specific future takeover target before any new fitting",
+  "fingerprint": "7ffd6bbfa0ed237779cf76dc01f4a69a2a70ff1a18280808b1fe2623d832af9c"
+}
+
+
+===== stage67_summary_repair.json =====
+{
+  "schema": "stage67_anchor_csv_export_repair_v1",
+  "operation": "fill_optional_requested_frame_in_anchor_csv_only",
+  "plan_fingerprint": "e2abf26a28870109844eee69a461453dc1178dc85f07304e4e4e55d6ba7eff09",
+  "run_fingerprint": "c2c5061ec2111d23b6a7084a20dcf2671bf955b868f56cb5e158c03455a1cb73",
+  "original_code_sha256": {
+    "/home/u25600003160604/workspace/paper/tools/stage67_veto_common.py": "895af3c006011db3caa93712127204452df156ff1f1a9aea00e9013d08a6eafe",
+    "/home/u25600003160604/workspace/paper/tools/stage67_veto_experiment.py": "f1ae176c867163db94d1aa0e58fe6953f2e0f1eda6ab401a1afc4e41a302b3fb",
+    "/home/u25600003160604/workspace/paper/tools/stage67_veto_summary.py": "a31b651555380dee8d8b22ecd3483c3f82d16e05e0cce5ce18896db8862acb77",
+    "/home/u25600003160604/workspace/paper/tools/test_stage67_veto.py": "a3ce2d28051e580297f1f3a1d6373f976a87fa2f3c89e5977cd4d9afcbb64658",
+    "/home/u25600003160604/workspace/paper/tools/run_stage67_veto.sh": "b7aea457ddcdbcca9699f6e8acc237fe7bcc3d9ed725de8c3981705c3fbe14da"
+  },
+  "repair_code_sha256": {
+    "/home/u25600003160604/workspace/paper/tools/stage67_summary_repair.py": "1dbc46babb51a4628c2885acbb76fca1f8b89aaf5768d81662a4d77587b22c15"
+  },
+  "anchor_columns": [
+    "case_id",
+    "sequence",
+    "selector",
+    "frame",
+    "status",
+    "resolved_frame"
+  ],
+  "anchor_rows": 8,
+  "diagnostic_sha256": "bcc475e1aa990157351475687774d60732d705d0a753403d91edc4f9473dad23",
+  "table_sha256": {
+    "stage67_anchors.csv": "cd11558f2f68543b2c5619502760a463843e88362fa4cabdd886d128f5b5a9a7",
+    "stage67_case_summary.csv": "feaaea0df4a69ed661fd18b7d2b9d61bb1023ab550b4da1c048143dddc3b7d64",
+    "stage67_branch_summary.csv": "c7efd3256d8040368aea6a1a4c5c4723c70c16c28c2d7568cab6f6b3cf3134c6",
+    "stage67_contrasts.csv": "3567c81fd7688e7ee294c234c82bc0ef7216c8376183c7fe48ae5b23ab5d2a89",
+    "stage67_scope.csv": "6392d17b1b83128cfeb201c2402902912b0d82b422b41b67e08287fb04767735",
+    "stage67_cached_video.csv": "3da370379322301df392657c7c26df7980a3d0cbb0186db687937d0897ace3e5",
+    "stage67_divergences.csv": "69590b7df3263c851ac35cffbce1e349bf43c9ec120f5d01ce3d5dfe4a109395",
+    "stage67_veto_frames.csv": "fb1207171f6fb44c2a314cfa1cf2ceaed637bba88e97815e7caf8cb51895c277",
+    "stage67_timelines.csv": "e541e95cbe3d398efe8535fd72ea993658bebe02f17e6addbe0572d6a19e88ae"
+  },
+  "manifest_edited": false,
+  "source_hash_checks_relaxed": false,
+  "cache_metadata_edited": false,
+  "training_performed": false,
+  "new_image_reads": 0,
+  "new_search_calls": 0,
+  "interpretation": "Export repair only; the original frozen summary revalidates all recorded branches",
+  "fingerprint": "d3e53d8ebca7eb171498086dfcc6a9a437faa7691dcb04181f2617b4f37e4ba9"
+}
+
+
+===== stage67_anchors.csv =====
+case_id,sequence,selector,frame,status,resolved_frame
+F01,uav0000176_00000_s,first_changed_veto,,supported,3
+F02,uav0000307_04531_s,first_changed_veto,,supported,17
+F03,uav0000226_05370_s,first_changed_veto,,supported,4
+F04,uav0000204_00000_s,first_changed_veto,,supported,20
+E01,uav0000176_00000_s,last_veto_before_first_failure,,supported,310
+E02,uav0000307_04531_s,last_veto_before_first_failure,,supported,370
+R01,uav0000226_05370_s,last_veto_before_first_recovery,,no_changed_veto_in_declared_window,
+P01,uav0000204_00000_s,last_veto_before_fixed_frame,664,supported,664
+
+
+===== stage67_case_summary.csv =====
+case_id,sequence,frame,selector,common_quality_incoming_history,quality_source_diagonal,immediate_allow_gain,allow_gain_under_protect,allow_gain_under_quality,continuation_interaction
+F01,uav0000176_00000_s,3,first_changed_veto,True,True,-0.0290061815592898,0.004565952870754009,0.004054215979192866,-0.0005117368915611431
+F02,uav0000307_04531_s,17,first_changed_veto,True,True,-0.0025527130247899876,0.008187084178656767,0.0025909339446210655,-0.005596150234035702
+F03,uav0000226_05370_s,4,first_changed_veto,True,True,0.0035614502105534296,-0.006868915115884944,-0.0064865199712565436,0.0003823951446284002
+F04,uav0000204_00000_s,20,first_changed_veto,True,True,-0.007619318400774788,-0.0026910748385950978,0.0011111661978737697,0.0038022410364688675
+E01,uav0000176_00000_s,310,last_veto_before_first_failure,False,False,0.018856139380814152,0.49605759455818965,0.5026032114946274,0.006545616936437737
+E02,uav0000307_04531_s,370,last_veto_before_first_failure,False,False,-0.0317841842577799,-0.03697072717220784,-0.009306181768399702,0.02766454540380814
+P01,uav0000204_00000_s,664,last_veto_before_fixed_frame,False,False,0.09116071428571426,0.006102669792224846,-0.0009262858511770444,-0.007028955643401891
+
+
+===== stage67_branch_summary.csv =====
+case_id,sequence,frame,controller,action,forced_choice,common_quality_incoming_history,anchor_iou,mean_iou,successor_mean_iou,endpoint_iou,low_iou_frames,good_iou_frames,first_three_good_frame
+F01,uav0000176_00000_s,3,quality,veto,0,True,0.7146168224299065,0.7102243669231609,0.7100826748100401,0.8603244432224361,0,32,3
+F01,uav0000176_00000_s,3,quality,allow,2,True,0.6856106408706167,0.7142785829023538,0.7152033552259583,0.865320796460177,0,32,3
+F01,uav0000176_00000_s,3,protect,veto,0,True,0.7146168224299065,0.7156072064865977,0.7156391543593943,0.855385456533625,0,32,3
+F01,uav0000176_00000_s,3,protect,allow,2,True,0.6856106408706167,0.7201731593573517,0.7212880793085368,0.865320796460177,0,32,3
+F02,uav0000307_04531_s,17,quality,veto,0,True,0.8454539670420563,0.6636907378454359,0.6578274078713514,0.5846380811878361,0,32,17
+F02,uav0000307_04531_s,17,quality,allow,1,True,0.8429012540172663,0.6662816717900569,0.6605842659117597,0.55523228531206,0,32,17
+F02,uav0000307_04531_s,17,protect,veto,0,True,0.8454539670420563,0.6469013713408055,0.6404964488988296,0.5290239969648107,0,31,17
+F02,uav0000307_04531_s,17,protect,allow,1,True,0.8429012540172663,0.6550884555194623,0.6490299781485656,0.5504217609705241,0,32,17
+F03,uav0000226_05370_s,4,quality,veto,0,True,0.38684416601409555,0.41062930859534436,0.41139657125925555,0.36713138994507816,0,1,
+F03,uav0000226_05370_s,4,quality,allow,1,True,0.390405616224649,0.4041427886240878,0.40458592321761805,0.3608074011774601,0,0,
+F03,uav0000226_05370_s,4,protect,veto,0,True,0.38684416601409555,0.41068841750358487,0.41145758690647166,0.379119695555396,0,1,
+F03,uav0000226_05370_s,4,protect,allow,1,True,0.390405616224649,0.4038195023876999,0.40425220839295967,0.36713138994507816,0,0,
+F04,uav0000204_00000_s,20,quality,veto,0,True,0.813300793166565,0.8309211469606843,0.8314895454701721,0.7740280777537797,0,32,20
+F04,uav0000204_00000_s,20,quality,allow,1,True,0.8056814747657902,0.8320323131585581,0.8328823402034862,0.7643295121300986,0,32,20
+F04,uav0000204_00000_s,20,protect,veto,0,True,0.813300793166565,0.8186946056374829,0.8188685995881577,0.7968280010937927,0,32,20
+F04,uav0000204_00000_s,20,protect,allow,1,True,0.8056814747657902,0.8160035307988878,0.8163365003483426,0.7867170626349892,0,32,20
+E01,uav0000176_00000_s,310,quality,veto,0,False,0.4881861141403126,0.0600530441024344,0.04624229990766414,0.0,27,0,
+E01,uav0000176_00000_s,310,quality,allow,2,False,0.5070422535211268,0.5626562555970618,0.5644502556640274,0.8042358125155468,6,23,320
+E01,uav0000176_00000_s,310,protect,veto,0,False,0.4881861141403126,0.0600530441024344,0.04624229990766414,0.0,27,0,
+E01,uav0000176_00000_s,310,protect,allow,2,False,0.5070422535211268,0.556110638660624,0.5576934897941562,0.7825592551792758,6,23,320
+E02,uav0000307_04531_s,370,quality,veto,0,False,0.4523449319213313,0.2833203542396744,0.2778679485080081,0.15512465373961218,8,0,
+E02,uav0000307_04531_s,370,quality,allow,1,False,0.4205607476635514,0.2740141724712747,0.2692868635941044,0.16710875331564987,9,0,
+E02,uav0000307_04531_s,370,protect,veto,0,False,0.4523449319213313,0.2833203542396744,0.2778679485080081,0.15512465373961218,8,0,
+E02,uav0000307_04531_s,370,protect,allow,1,False,0.4205607476635514,0.24634962706746655,0.2407299134998509,0.1689291101055807,15,0,
+P01,uav0000204_00000_s,664,quality,veto,0,False,0.7057142857142857,0.7607154087816701,0.7624896385580374,0.8541300527240774,0,32,664
+P01,uav0000204_00000_s,664,quality,allow,1,False,0.796875,0.759789122930493,0.7585928043153477,0.8517857142857143,0,32,664
+P01,uav0000204_00000_s,664,protect,veto,0,False,0.7057142857142857,0.7506262355971174,0.752075008173983,0.8678571428571429,0,32,664
+P01,uav0000204_00000_s,664,protect,allow,1,False,0.796875,0.7567289053893422,0.7554338700793211,0.8074792243767313,0,32,664
+
+
+===== stage67_contrasts.csv =====
+case_id,sequence,frame,contrast,continuation,anchor_iou,mean_iou,successor_mean_iou,endpoint_iou,low_iou_frames,good_iou_frames
+F01,uav0000176_00000_s,3,allow_minus_veto,quality,-0.0290061815592898,0.004054215979192866,0.005120680415918288,0.004996353237740947,0,0
+F01,uav0000176_00000_s,3,allow_minus_veto,protect,-0.0290061815592898,0.004565952870754009,0.0056489249491424864,0.009935339926552045,0,0
+F01,uav0000176_00000_s,3,allow_effect_quality_minus_protect,interaction,0.0,-0.0005117368915611431,-0.0005282445332241981,-0.004938986688811098,0,0
+F02,uav0000307_04531_s,17,allow_minus_veto,quality,-0.0025527130247899876,0.0025909339446210655,0.002756858040408261,-0.029405795875776075,0,0
+F02,uav0000307_04531_s,17,allow_minus_veto,protect,-0.0025527130247899876,0.008187084178656767,0.008533529249735938,0.02139776400571336,0,1
+F02,uav0000307_04531_s,17,allow_effect_quality_minus_protect,interaction,0.0,-0.005596150234035702,-0.005776671209327677,-0.050803559881489435,0,-1
+F03,uav0000226_05370_s,4,allow_minus_veto,quality,0.0035614502105534296,-0.0064865199712565436,-0.0068106480416375015,-0.006323988767618083,0,-1
+F03,uav0000226_05370_s,4,allow_minus_veto,protect,0.0035614502105534296,-0.006868915115884944,-0.007205378513511995,-0.011988305610317829,0,-1
+F03,uav0000226_05370_s,4,allow_effect_quality_minus_protect,interaction,0.0,0.0003823951446284002,0.0003947304718744937,0.005664316842699746,0,0
+F04,uav0000204_00000_s,20,allow_minus_veto,quality,-0.007619318400774788,0.0011111661978737697,0.0013927947333141066,-0.009698565623681099,0,0
+F04,uav0000204_00000_s,20,allow_minus_veto,protect,-0.007619318400774788,-0.0026910748385950978,-0.002532099239815122,-0.010110938458803509,0,0
+F04,uav0000204_00000_s,20,allow_effect_quality_minus_protect,interaction,0.0,0.0038022410364688675,0.003924893973129229,0.00041237283512240985,0,0
+E01,uav0000176_00000_s,310,allow_minus_veto,quality,0.018856139380814152,0.5026032114946274,0.5182079557563632,0.8042358125155468,-21,23
+E01,uav0000176_00000_s,310,allow_minus_veto,protect,0.018856139380814152,0.49605759455818965,0.5114511898864921,0.7825592551792758,-21,23
+E01,uav0000176_00000_s,310,allow_effect_quality_minus_protect,interaction,0.0,0.006545616936437737,0.006756765869871173,0.02167655733627094,0,0
+E02,uav0000307_04531_s,370,allow_minus_veto,quality,-0.0317841842577799,-0.009306181768399702,-0.008581084913903692,0.011984099576037688,1,0
+E02,uav0000307_04531_s,370,allow_minus_veto,protect,-0.0317841842577799,-0.03697072717220784,-0.03713803500815721,0.013804456365968526,7,0
+E02,uav0000307_04531_s,370,allow_effect_quality_minus_protect,interaction,0.0,0.02766454540380814,0.02855695009425352,-0.0018203567899308382,-6,0
+P01,uav0000204_00000_s,664,allow_minus_veto,quality,0.09116071428571426,-0.0009262858511770444,-0.0038968342426897173,-0.002344338438363125,0,0
+P01,uav0000204_00000_s,664,allow_minus_veto,protect,0.09116071428571426,0.006102669792224846,0.003358861905338073,-0.06037791848041163,0,0
+P01,uav0000204_00000_s,664,allow_effect_quality_minus_protect,interaction,0.0,-0.007028955643401891,-0.00725569614802779,0.058033580042048505,0,0
+
+
+===== stage67_scope.csv =====
+case_id,kind,controller,action,frames,search_calls,block_calls,source_diagonal
+F01,shared,protect,source,1,4,28,True
+F01,tail,quality,veto,31,124,868,False
+F01,tail,quality,allow,31,124,868,True
+F01,tail,protect,veto,31,124,868,True
+F01,tail,protect,allow,31,124,868,False
+F02,shared,protect,source,1,4,28,True
+F02,tail,quality,veto,31,124,868,False
+F02,tail,quality,allow,31,124,868,True
+F02,tail,protect,veto,31,124,868,True
+F02,tail,protect,allow,31,124,868,False
+F03,shared,protect,source,1,4,28,True
+F03,tail,quality,veto,31,124,868,False
+F03,tail,quality,allow,31,124,868,True
+F03,tail,protect,veto,31,124,868,True
+F03,tail,protect,allow,31,124,868,False
+F04,shared,protect,source,1,4,28,True
+F04,tail,quality,veto,31,124,868,False
+F04,tail,quality,allow,31,124,868,True
+F04,tail,protect,veto,31,124,868,True
+F04,tail,protect,allow,31,124,868,False
+E01,shared,protect,source,1,4,28,True
+E01,tail,quality,veto,31,124,868,False
+E01,tail,quality,allow,31,124,868,False
+E01,tail,protect,veto,31,124,868,True
+E01,tail,protect,allow,31,124,868,False
+E02,shared,protect,source,1,4,28,True
+E02,tail,quality,veto,31,124,868,False
+E02,tail,quality,allow,31,124,868,False
+E02,tail,protect,veto,31,124,868,True
+E02,tail,protect,allow,31,124,868,False
+P01,shared,protect,source,1,4,28,True
+P01,tail,quality,veto,31,124,868,False
+P01,tail,quality,allow,31,124,868,False
+P01,tail,protect,veto,31,124,868,True
+P01,tail,protect,allow,31,124,868,False
+
+
+===== stage67_cached_video.csv =====
+sequence,policy,frame_states,veto_frames,changed_box_veto_frames,first_changed_veto,veto_q0_good_proposal_low,veto_q0_low_proposal_good,mean_immediate_allow_gain_at_veto,new_network_calls,new_image_reads
+uav0000176_00000_s,hann,775,0,0,,0,0,,0,0
+uav0000176_00000_s,q0,775,0,0,,0,0,,0,0
+uav0000176_00000_s,quality,775,0,0,,0,0,,0,0
+uav0000176_00000_s,margin,775,406,392,3,0,0,-0.002325862449106048,0,0
+uav0000176_00000_s,protect,775,296,291,3,0,0,0.0010089971308103233,0,0
+uav0000003_00000_s,hann,144,0,0,,0,0,,0,0
+uav0000003_00000_s,q0,144,0,0,,0,0,,0,0
+uav0000003_00000_s,quality,144,0,0,,0,0,,0,0
+uav0000003_00000_s,margin,144,39,30,2,0,0,-0.003214022626716946,0,0
+uav0000003_00000_s,protect,144,105,99,2,0,0,0.00933287684235845,0,0
+uav0000226_05370_s,hann,1860,0,0,,0,0,,0,0
+uav0000226_05370_s,q0,1860,0,0,,0,0,,0,0
+uav0000226_05370_s,quality,1860,0,0,,0,0,,0,0
+uav0000226_05370_s,margin,1860,836,787,3,0,0,0.0014383935589897408,0,0
+uav0000226_05370_s,protect,1860,835,793,4,0,0,0.005217958561095615,0,0
+uav0000170_00000_s,hann,1410,0,0,,0,0,,0,0
+uav0000170_00000_s,q0,1410,0,0,,0,0,,0,0
+uav0000170_00000_s,quality,1410,0,0,,0,0,,0,0
+uav0000170_00000_s,margin,1410,997,918,2,0,0,-0.0007384503427244117,0,0
+uav0000170_00000_s,protect,1410,1116,1046,2,0,0,-0.0003352063988866094,0,0
+uav0000126_07915_s,hann,629,0,0,,0,0,,0,0
+uav0000126_07915_s,q0,629,0,0,,0,0,,0,0
+uav0000126_07915_s,quality,629,0,0,,0,0,,0,0
+uav0000126_07915_s,margin,629,480,464,2,0,0,0.00014546124832426875,0,0
+uav0000126_07915_s,protect,629,487,473,2,0,0,0.0002858357746234721,0,0
+uav0000304_00253_s,hann,1725,0,0,,0,0,,0,0
+uav0000304_00253_s,q0,1725,0,0,,0,0,,0,0
+uav0000304_00253_s,quality,1725,0,0,,0,0,,0,0
+uav0000304_00253_s,margin,1725,1123,1079,2,0,0,-0.003584164760538495,0,0
+uav0000304_00253_s,protect,1725,1205,1170,2,0,0,-0.00473588872101047,0,0
+uav0000307_04531_s,hann,759,0,0,,0,0,,0,0
+uav0000307_04531_s,q0,759,0,0,,0,0,,0,0
+uav0000307_04531_s,quality,759,0,0,,0,0,,0,0
+uav0000307_04531_s,margin,759,284,271,3,0,0,0.00028529456637738207,0,0
+uav0000307_04531_s,protect,759,184,179,17,0,0,0.0022559227749246106,0,0
+uav0000147_00000_s,hann,2220,0,0,,0,0,,0,0
+uav0000147_00000_s,q0,2220,0,0,,0,0,,0,0
+uav0000147_00000_s,quality,2220,0,0,,0,0,,0,0
+uav0000147_00000_s,margin,2220,1468,1372,3,0,0,-0.0005248457232095618,0,0
+uav0000147_00000_s,protect,2220,1548,1464,3,0,0,-0.00024650763759118273,0,0
+uav0000329_00276_s,hann,598,0,0,,0,0,,0,0
+uav0000329_00276_s,q0,598,0,0,,0,0,,0,0
+uav0000329_00276_s,quality,598,0,0,,0,0,,0,0
+uav0000329_00276_s,margin,598,458,425,4,0,0,1.8637739644621773e-05,0,0
+uav0000329_00276_s,protect,598,496,464,4,0,0,-0.000692026074868894,0,0
+uav0000204_00000_s,hann,921,0,0,,0,0,,0,0
+uav0000204_00000_s,q0,921,0,0,,0,0,,0,0
+uav0000204_00000_s,quality,921,0,0,,0,0,,0,0
+uav0000204_00000_s,margin,921,480,442,3,0,0,0.0012654541756086874,0,0
+uav0000204_00000_s,protect,921,595,557,20,0,0,0.0047207472127092686,0,0
+uav0000237_00001_s,hann,598,0,0,,0,0,,0,0
+uav0000237_00001_s,q0,598,0,0,,0,0,,0,0
+uav0000237_00001_s,quality,598,0,0,,0,0,,0,0
+uav0000237_00001_s,margin,598,293,264,3,0,0,0.0037918573095961404,0,0
+uav0000237_00001_s,protect,598,294,269,3,0,0,0.005901972143031672,0,0
+uav0000342_01518_s,hann,1886,0,0,,0,0,,0,0
+uav0000342_01518_s,q0,1886,0,0,,0,0,,0,0
+uav0000342_01518_s,quality,1886,0,0,,0,0,,0,0
+uav0000342_01518_s,margin,1886,1216,1061,47,0,0,0.0027349583335767743,0,0
+uav0000342_01518_s,protect,1886,1218,1090,3,0,0,0.003814911345176227,0,0
+
+
+===== stage67_divergences.csv =====
+sequence,first_output_divergence,first_crop_divergence,first_selected_index_divergence,protect_changed_veto_at_first_output,common_candidate_boxes_at_first_output
+uav0000176_00000_s,3,4,3,True,True
+uav0000003_00000_s,2,3,2,True,True
+uav0000226_05370_s,4,5,4,True,True
+uav0000170_00000_s,2,3,2,True,True
+uav0000126_07915_s,2,3,2,True,True
+uav0000304_00253_s,2,3,2,True,True
+uav0000307_04531_s,17,18,17,True,True
+uav0000147_00000_s,3,4,3,True,True
+uav0000329_00276_s,4,5,2,True,True
+uav0000204_00000_s,20,21,20,True,True
+uav0000237_00001_s,3,4,3,True,True
+uav0000342_01518_s,3,4,3,True,True
+
