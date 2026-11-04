@@ -128,13 +128,15 @@
 - [STAGE67_RESULTS_REVIEW.md](experiments/06_sgla_uav_tracking/STAGE67_RESULTS_REVIEW.md) — **最新条件诊断**：0176:310一次放行在protect后继下均值+0.4961、低IoU少21帧；0307对应点反而受损，不能统一放行或当作整视频改善
 - [STAGE68_FIT_PAIRED_TAKEOVER_ADVANTAGE.md](experiments/06_sgla_uav_tracking/STAGE68_FIT_PAIRED_TAKEOVER_ADVANTAGE.md) — 已完成384对／84完整轨迹、475468搜索；保留匹配当帧／后继增益与全fit接管率控制的固定协议和测试历史
 - [STAGE68_RESULTS_REVIEW.md](experiments/06_sgla_uav_tracking/STAGE68_RESULTS_REVIEW.md) — **最新完整结果**：future AUC66.9254，修复0304退化当帧控制、0176／0147恢复有进展；对Q仅2胜10负，0307仍损伤，保护未过
-- [STAGE69_CACHED_PAIRED_GATE_AUDIT.md](experiments/06_sgla_uav_tracking/STAGE69_CACHED_PAIRED_GATE_AUDIT.md) — **下一轮已准备、服务器待运行**：冻结预测器的fit误差、7个真实成对目标转移与84缓存同状态门控诊断，4项CPU测试通过，零新推理／训练
+- [STAGE69_CACHED_PAIRED_GATE_AUDIT.md](experiments/06_sgla_uav_tracking/STAGE69_CACHED_PAIRED_GATE_AUDIT.md) — 已完成384对／7真实成对起点／84缓存诊断；保留固定协议与4项CPU测试历史，零新推理／训练
+- [STAGE69_RESULTS_REVIEW.md](experiments/06_sgla_uav_tracking/STAGE69_RESULTS_REVIEW.md) — **最新诊断**：0176:310大恢复收益被future错判且边际特征未越界；0307恢复窗自身历史无好候选，预测与候选支持需分别改进
+- [STAGE70_FIT_HISTORY_SOURCE.md](experiments/06_sgla_uav_tracking/STAGE70_FIT_HISTORY_SOURCE.md) — **下一轮已实现、服务器待运行**：固定每视频32对，比较Hann-only与本折Q／protect混合历史；同模型／目标／率控制，完成一次状态覆盖对照后再决定小规模RL
 - [STAGE45_TEMPORAL_SIGNAL_PILOT.md](experiments/05_uav_detection/STAGE45_TEMPORAL_SIGNAL_PILOT.md) — **暂不执行**的 YOLOFT 视频检测支线；保留实现与 CPU 检查记录
 - [无人机检测研究方向调研](research/UAV_DETECTION_RESEARCH_DIRECTIONS_2026-10-29.md) — 检测文献与机制参考，不代表切换当前主任务
 
 ## 交接与维护
 
-- [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口) — 先读0.30待运行方案、0.29完整结果、0.27条件证据和0.24基线；Stage-61～68材料齐全不重跑
+- [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口) — 先读0.32待运行方案、0.31诊断、0.29完整结果、0.27条件证据和0.24基线；Stage-61～69材料齐全不重跑
 - [历史写作材料说明](archive/README.md)
 - [整理报告](maintenance/CLEANUP_REPORT.md)
 - [逐文件整理清单](maintenance/CLEANUP_MANIFEST.json)
