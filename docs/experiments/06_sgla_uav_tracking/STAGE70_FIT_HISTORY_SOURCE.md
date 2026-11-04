@@ -1,6 +1,6 @@
 # Stage-70：固定配对预算的训练历史来源对照
 
-状态：2026-11-04已实现并通过4项CPU测试，服务器尚未运行。接续[Stage-69诊断](STAGE69_RESULTS_REVIEW.md)和[Stage-68完整结果](STAGE68_RESULTS_REVIEW.md)，沿用原生SGLA V1／VisDrone-SOT。当前已收到的全部旧结果保留，不重跑旧阶段。
+状态：服务器已完成，decision＋11表齐全，见[Stage-70结果复核](STAGE70_RESULTS_REVIEW.md)。下文保留结果前固定协议及4项CPU测试历史，接续[Stage-69诊断](STAGE69_RESULTS_REVIEW.md)和[Stage-68完整结果](STAGE68_RESULTS_REVIEW.md)，沿用原生SGLA V1／VisDrone-SOT；不重跑已完成阶段。
 
 本轮只检验一个主要问题：**用本折模型实际走出的Q／protect历史补充训练，能否改善后继收益门控及完整轨迹保护？** 这是进入小规模强化学习前的一次有边界的训练状态覆盖对照，不执行PPO，不要求现有监督方法先达到完美，也不把本轮通过设为尝试RL的硬性前提。
 
@@ -82,7 +82,7 @@ nohup bash tools/run_stage70_history.sh > output/stage70/run_stage70.log 2>&1 < 
 
 日志位于实验根父目录，不污染prepare的新空根。脚本以`cat`合并decision＋policy_summary／paired／factor_summary／calibration／fit_summary／pair_support／history_support／paired_probe／focus／scope／video_influence，共12份为`docs/experiments/06_sgla_uav_tracking/results/stage70_results_<UTC>_<PID>.txt`。默认CSV行数10／28／3／4／8／36／24／14／120／120／12。fit_pairs、pair_scope、video_summary、events及所有原始缓存留服务器；报告仅列来源集合／运行指纹和表SHA，避免数千路径重复进入TXT。
 
-实现入口为`tools/stage70_history_common.py`／`stage70_history_experiment.py`／`stage70_history_summary.py`，测试为`tools/test_stage70_history.py`，脚本为`tools/run_stage70_history.sh`。本机验证及待运行状态见WORK_HANDOFF第0.32节。旧实验Python／shell、模型和回传原件不修改，不代commit／push。
+实现入口为`tools/stage70_history_common.py`／`stage70_history_experiment.py`／`stage70_history_summary.py`，测试为`tools/test_stage70_history.py`，脚本为`tools/run_stage70_history.sh`。本机准备与验证历史见WORK_HANDOFF第0.32节，已完成结果及下一步边界见第0.33节。旧实验Python／shell、模型和回传原件不修改，不代commit／push。
 
 本机4项测试全部通过，149.798秒、无跳过；包含真实CPU CENTER生成的fit本折历史、真实成对分支、20条微型完整评价、七旧控制逐帧复现、模型重构、held-out标签隔离、动作不读未来GT、原网络／来源不变、续跑和篡改拒绝。微型源2视频×4帧、每视频2对，配额H0／Q1／P1；复用Hann的真实读取和审计另行覆盖，生产16／8／8及预算用独立语义测试核对。继承旧测试仅用于fit路径的因果Q曝光以保证短序列支持，正式参数及held-out控制不替换。微型新增440搜索已含8来源复现，三个可复用smoke包含正式预算。CPU测试不是服务器效果。
 

@@ -2,18 +2,18 @@
 
 更新日期：2026-11-04（Asia/Hong_Kong）
 
-当前诊断阶段：Stage-69已完成，diagnostic＋12表齐全，状态`COMPLETE_CACHED_PAIRED_GATE_DIAGNOSTIC`，见0.31。future在0176:310把真实Q后继+0.5026预测为−0.0324，0307恢复窗口的future历史61帧均无良好候选；预测失准与历史／候选不足并存。最新完整OOF仍为Stage-68 REVIEW，future AUC66.9254、保护未过，见0.29。Stage-1～69实验及修复源码冻结，Stage-45检测支线暂不执行。
+当前结果阶段：Stage-70已完成，decision＋11表齐全，状态`REVIEW_FIT_HISTORY_SOURCE_PILOT`，见0.33。mixed_future AUC65.2286，对原future −1.6968、区间跨零；修复0304稳定事件及旧E01／E02符号，却在0204新增持续失跟，保护未过。Stage-69诊断见0.31，Stage-68旧future仍66.9254且REVIEW；Stage-1～70实验及修复源码冻结，Stage-45检测支线暂不执行。
 
-下一轮Stage-70训练历史来源对照已实现，服务器尚未运行，见0.32及[固定协议](docs/experiments/06_sgla_uav_tracking/STAGE70_FIT_HISTORY_SOURCE.md)。先读0.32运行入口、0.31及[Stage-69结果复核](docs/experiments/06_sgla_uav_tracking/STAGE69_RESULTS_REVIEW.md)，再读0.29完整政策、0.27真实分支及0.24强控制。0.30保留Stage-69固定方案与测试历史；材料已齐，不重跑旧阶段或汇总修复。不据七个定向开发点调阈值，不把同状态当前IoU当作后继收益。
+先读0.34及[Stage-71有限PPO协议](docs/experiments/06_sgla_uav_tracking/STAGE71_BOUNDED_SEARCH_PPO.md)，再读0.33及[Stage-70结果复核](docs/experiments/06_sgla_uav_tracking/STAGE70_RESULTS_REVIEW.md)、0.31诊断和0.29旧政策。Stage-71已实现有限预算搜索决策PPO与匹配监督对照，服务器尚未运行；Stage-70覆盖验证已结束，不再按结果搜索配比／门槛。旧阶段材料齐全，不重跑旧实验或汇总修复。
 
 2026-11-01新增交接：**SGLATrackV2源码发现、训练日志判读与后续启发见第0.11节**。当前实验仍使用V1／E，不因V2发布默认切换基线；优先补原始V1权重上的候选选择与同预算控制，再考虑V2迁移及搜索状态—特征记忆一致性。此次只整理知识与建议，未启动新实验。
 整理前 Git 基点：`91052cd71d49d1397197ea9d5f532f12d37d2c91`
 
 ## 0. 下一次对话的直接接续入口
 
-本节更新至2026-11-04。**下一轮Stage-70已准备、服务器待运行，先读0.32；Stage-69完成，诊断见0.31及[结果复核](docs/experiments/06_sgla_uav_tracking/STAGE69_RESULTS_REVIEW.md)。最新完整政策成绩仍为0.29及[Stage-68](docs/experiments/06_sgla_uav_tracking/STAGE68_RESULTS_REVIEW.md)，再读0.27和0.24。0.30／0.28保留旧固定方案与测试历史。条件后继、同状态影子选择、完整自身政策是不同证据，不混用。Stage-61～69材料齐全不重跑。**
+本节更新至2026-11-04。**下一轮Stage-71已实现、服务器待运行，先读0.34及[有限PPO协议](docs/experiments/06_sgla_uav_tracking/STAGE71_BOUNDED_SEARCH_PPO.md)。最新Stage-70结果见0.33及[复核](docs/experiments/06_sgla_uav_tracking/STAGE70_RESULTS_REVIEW.md)，固定混合历史未建立整体收益。Stage-69见0.31、Stage-68见0.29；条件后继、影子选择、完整自身政策是不同证据。Stage-61～70材料齐全，不重跑旧阶段；无Stage-71服务器精度。**
 
-**先读本节0.32、0.31、0.29、0.27和0.24，必要时读0.30／0.28固定方案，再读0.22、0.20、0.18；0.25／0.26仅为已完成的修复历史**；[Stage-60](docs/experiments/06_sgla_uav_tracking/STAGE60_RESULTS_REVIEW.md)、[Stage-54](docs/experiments/06_sgla_uav_tracking/STAGE54_RESULTS_REVIEW.md)和[Stage-55](docs/experiments/06_sgla_uav_tracking/STAGE55_RESULTS_REVIEW.md)保留较早证据。下文早期阶段的“下一步”和“尚无结果”均为当时历史，不覆盖当前状态；研究范围文档末尾的Stage-46待运行说明也是历史。
+**先读本节0.34、0.33、0.31、0.29、0.27和0.24，必要时读0.32／0.30固定方案，再读0.22、0.20、0.18；0.25／0.26仅为已完成的修复历史**；[Stage-60](docs/experiments/06_sgla_uav_tracking/STAGE60_RESULTS_REVIEW.md)、[Stage-54](docs/experiments/06_sgla_uav_tracking/STAGE54_RESULTS_REVIEW.md)和[Stage-55](docs/experiments/06_sgla_uav_tracking/STAGE55_RESULTS_REVIEW.md)保留较早证据。下文早期阶段的“下一步”和“尚无结果”均为当时历史，不覆盖当前状态；研究范围文档末尾的Stage-46待运行说明也是历史。
 
 ### 0.1 固定目标与当前进度
 
@@ -36,7 +36,8 @@
 - **Stage-67已完成条件诊断，汇总修复成功，9份回传材料齐全。** 8请求／7支持起点／28短分支／3500搜索、0训练。0176:310一次放行在protect后继下均值+0.4961、低IoU少21帧；0307:370放行反而更差，0204:664当帧收益大而后继差小。见0.27，不重跑；局部32帧不是全视频成绩。
 - **Stage-68已完成并为REVIEW，decision＋8表齐全。** 实际384对／84完整轨迹／475468搜索、4个新CPU预测器、0 SGLA训练。future对immediate +4.3644（4胜8负），对Q +0.6816（2胜10负），对率控制+0.9084，区间均跨零；0304大幅修复却新增可恢复事件，0307仍损伤，保护未过，见0.29。
 - **Stage-69已完成缓存诊断，diagnostic＋12表齐全。** 384 fit对／7真实成对起点／84提供者、94675状态出现，零新训练／图像／推理。future在E01漏掉大救援、E02放行不利动作；0307恢复窗future无好候选而Hann／q0有。见0.31，不重跑，不修改已封存模型或阈值。
-- **Stage-70已实现、服务器待运行。** 固定每视频32对，对比Hann-only与16 Hann＋8本折Q＋8本折protect混合历史；模型／目标不变，保持当帧及率控制，十政策本轮同卡评价。见0.32；本轮不执行RL，结束后再决定有预算上限的PPO对照。
+- **Stage-70已完成，decision＋11表齐全。** 同视频32对，Hann-only对16／8／8混合历史，24 fit历史／192新起点／120完整评价／697592搜索。mixed_future对原future −1.6968、6胜6负；旧E01／E02方向改对、0304稳定事件消除，却丢失0204救援，0307未修复。见0.33，不执行后验配比搜索；下一步可准备预算受限RL对照。
+- **Stage-71已实现、服务器待运行。** 固定原SGLA、Q提议与128维表示，PPO在实时自身轨迹上优化累计IoU；同容量myopic监督复用相同状态与更新次数，保留五个旧政策和fit率控制。固定2171／2172、四遍fit、96训练视频／132完整评价，总1027908正式搜索，见0.34；暂无服务器成绩。
 - 当前以“保住多数适配收益，减少持续失跟及原稳定轨迹损伤”为主问题。新增价值可以建立在已有方法上；用户不要求绝对原创，也不希望因有相似工作就结束探索。
 
 ### 0.2 Stage-54：主要对照、结果及不能丢失的取舍
@@ -876,11 +877,13 @@ nohup bash tools/run_stage69_gate.sh > output/stage69/run_stage69.log 2>&1 < /de
 
 维护检查PASS：505保留／200归档移动／106活动模块，0再生缓存、0换行差异；196处所涉本地文档链接、复核文档表格列数和`git diff --check`通过。tracking／lib／tools既有源码未改，不因纯文档与结果归档重跑旧CPU或GPU实验。
 
-**结果复核当时的下一步（现已实现为0.32）：** 优先验证fit状态来源与稀有恢复覆盖，而不是对这七点调门槛。在固定总配对数、相同128维／ridge／32帧Q标签／零门槛下，比较Hann-only与本折冻结Q／protect生成的fit历史混合，保持immediate／future匹配、Q与率控制，并检查0307分岔前原生恢复能力。新fit历史要本折生成，不将held-out已知正负点直接当训练样本；新阶段单独封存。Stage-51的几何头state-mix是不同处理，不能把它当此处门控目标已验证。若覆盖实验仍失败，再区分特征表达和回归形式；完整SGLA研究方向继续保留。
+**结果复核当时的下一步（现已完成，见0.33；0.32保留实现历史）：** 优先验证fit状态来源与稀有恢复覆盖，而不是对这七点调门槛。在固定总配对数、相同128维／ridge／32帧Q标签／零门槛下，比较Hann-only与本折冻结Q／protect生成的fit历史混合，保持immediate／future匹配、Q与率控制，并检查0307分岔前原生恢复能力。新fit历史要本折生成，不将held-out已知正负点直接当训练样本；新阶段单独封存。Stage-51的几何头state-mix是不同处理，不能把它当此处门控目标已验证；完整SGLA研究方向继续保留。
 
 ### 0.32 2026-11-04：Stage-70训练历史来源对照已准备，服务器待运行
 
-用户讨论后要求执行下一步，已按“先完成一次有边界的状态覆盖验证，再决定小规模RL”实现[Stage-70协议](docs/experiments/06_sgla_uav_tracking/STAGE70_FIT_HISTORY_SOURCE.md)。新增`tools/stage70_history_common.py`／`stage70_history_experiment.py`／`stage70_history_summary.py`／`test_stage70_history.py`／`run_stage70_history.sh`。**服务器尚未运行，无新成绩**；Stage-68／69结论不变，未代commit／push。
+本节保留结果前固定方案与测试历史。服务器现已完成，先读0.33，不重跑本节流程。
+
+用户讨论后要求执行下一步，已按“先完成一次有边界的状态覆盖验证，再决定小规模RL”实现[Stage-70协议](docs/experiments/06_sgla_uav_tracking/STAGE70_FIT_HISTORY_SOURCE.md)。新增`tools/stage70_history_common.py`／`stage70_history_experiment.py`／`stage70_history_summary.py`／`test_stage70_history.py`／`run_stage70_history.sh`。**准备时服务器尚未运行、无新成绩**；Stage-68／69结论不变，未代commit／push。
 
 **处理：** 每fit视频32对，控制复用Stage-68 Hann-only 32；mixed固定16 Hann＋8 Q自身历史＋8 protect自身历史。Hann16从原32案例按索引均匀取，Q／protect8从各自有完整32帧、Q提议非q0且实际框改变的时刻均匀选，GT／已知事件／七个关注点不参与采样。任一来源配额不足报错，不补其他来源、不拿held-out补齐。新增Q／protect各12条完整fit历史必须用该折fit-local控制器生成，不能使用旧的相反折OOF Q／protect轨迹当训练历史。
 
@@ -905,6 +908,60 @@ nohup bash tools/run_stage70_history.sh > output/stage70/run_stage70.log 2>&1 < 
 ```
 
 流程prepare→source_bridge→history_smoke→histories→resolve(CPU)→pair_smoke→collect→fit(CPU)→smoke→evaluate→summary。日志在根父目录，勿污染prepare空根；已提交缓存可续跑，receipt／源码／模型变化拒绝覆盖。脚本以cat合并decision＋11 CSV为`docs/experiments/06_sgla_uav_tracking/results/stage70_results_<UTC>_<PID>.txt`；回传此TXT即可。fit_pairs／pair_scope／video_summary／events及模型／NPZ／receipt留服务器，报告只放来源绑定集合指纹，避免海量路径回传。Stage-71尚未准备。
+
+### 0.33 2026-11-04：Stage-70完成，固定混合历史没有整体收益，可结束覆盖验证并准备有限RL对照
+
+用户回传[原件](docs/experiments/06_sgla_uav_tracking/results/stage70_results_20261104T044504Z_498206.txt)，65472字节／648行，SHA`97ce85ad448dd98f032ad358d33ee1affb7335e3f2353d8410f074438fcc496c`；[完整复核](docs/experiments/06_sgla_uav_tracking/STAGE70_RESULTS_REVIEW.md)。decision＋11CSV齐全，行数10／28／3／4／8／36／24／14／120／120／12；状态REVIEW，来源增益／保护／pilot均false。不重跑、不默认索取长表。
+
+**执行：** 12已消费开发源组，两折各6 fit／6 held-out，每视频32对，mixed16 Hann＋8本折Q＋8本折protect，总384，与Hann-only等量；新CPU预测器4个、0 SGLA训练、0 RL。24 fit历史108200搜索，192新共同起点／384短分支48384搜索、192 Hann起点复用，120完整评价541000搜索，来源复现8，共697592搜索／4883144块。smoke256／252／1280包含复用，额外8 bridge单列且已入合计。七旧完整政策84 focus及宏共同字段同Stage-68，baseline fit／calibration／probe同Stage-69，runtime同一L40且差异空；来源控制逐帧0误差为服务器报告。
+
+**宏结果：** mixed_immediate／mixed_future／mixed_rate AUC63.8024／65.2286／63.3604，低IoU13.73%／11.93%／15.00%，可靠帧69.9575／72.8193／72.4885；新增原稳定失败1／0／0。旧future66.9254、Q66.2438、Hann65.2483、q063.4512不变。主mixed_future−future −1.6968，名义CI[−5.2680,+0.2262]、4项关键AUC家族[−6.9591,+0.3122]，6胜6负、中位−0.00718、最差−20.8107、最小留一−1.9343；区间跨零，不称总体显著下降，也无收益成立。0204贡献−1.7342 AUC，其余11合计+0.03745，去掉0204均值仅+0.04086，不能后验排除最差视频来采用。
+
+**关键比较：** mixed_future对mixed_immediate +1.4262（7胜5负）、mixed_rate +1.8682（6胜6负）、Q −1.0152（4胜8负），关键家族区间均跨零；对q0 +1.7774、Hann −0.0197也跨零。mixed_immediate对旧immediate +1.2414（5胜1平6负），主要来自0304+21.6259，去掉后平均−0.6117。来源平均效应−0.2277、future目标平均+2.8953、交互−2.9382，区间均跨零。
+
+**局部修复与新损伤：** 0304 mixed_future无失效，消除旧future1092→1100可恢复新增事件，AUC71.4507对旧−0.0580；mixed_immediate推迟到1084仍终末失跟，43.8454，不能当完全修复。0204 mixed_future664失效不恢复，AUC52.0294对旧future72.8401−20.8107；Q／旧future／mixed_immediate／mixed_rate均无事件，连q0都在894恢复、53.9217。q0该视频原本有事件，所以新损伤不计入“原稳定新增失败”。0307 mixed_future390失效不恢复，39.7766，对旧−0.6211，对Hann／q0仍约−28.0068／−26.7332；未修复。0176 mixed_future仍314→320、末尾未恢复0，66.7465；mixed_rate却314后不恢复、28.3871。0147 mixed_future首次失效1202、无恢复、末尾未恢复1，较旧37.4710低0.4118；旧1116中途恢复消失，不能因起点推迟称成功。0226 mixed_future126→338、55.0384，恢复保留。
+
+**保护与率：** mixed_future虽然原稳定0新增、低IoU对q0−2.5294个百分点，但可靠帧AUC−2.7409，CI[−7.9004,+0.0687]，下界未达−1.0，guard失败。对旧future低IoU+2.2655个百分点、最长失败+2.4593个百分点，终末未恢复宏数0.25→0.3333、恢复数0.8333→0.5。mixed率控制仍在同一fit Hann6168／7357帧校准，阈值0.0033596622／0.0028033046，future拟合率39.35671%／35.30101%、rate39.35277%／35.30709%，误差0.003933／0.006088个百分点在同分上界内；评价mixed F／R／I非q0率41.59%／40.66%／49.68%，实际框40.30%／40.63%／46.70%，不称真实干预完全匹配。
+
+**覆盖验证发生，但不是全面解释：** Hann可用栏384指原32集合，不是原始全帧候选数；新Q／protect可用9282／9342、各选96，固定每视频配额16／8／8全满足。fit新历史与Hann的实际裁剪显著不同，包含坏轨迹：fold0 0226 Q／P低IoU约93.98%／94.03%，fold1 0304约67.83%／37.33%。全轨迹描述不证明所选8点覆盖关键恢复；本机未读新fit_pairs，不推断具体采样缺陷。future样本内fold0准确率54.69→64.58%、MAE0.008595→0.006945；fold1为61.46→55.21%、MAE0.003947→0.014831。合计58.07→59.90%但训练数据和标签已变，不能当同集泛化提升。
+
+**真实旧起点probe：** mixed future对7点从2/7变4/7，immediate4/7→3/7，都是定向开发案例。E01 0176:310预测−0.032445→+0.008300，真实Q差+0.502603，放行方向修复但幅度仍严重低估；E02 0307:370 +0.020676→−0.012063，真实−0.009306，否决方向修复。F01／F02也修复，F03仍错，F04／P01原正确变错。P01 0204:664新预测+0.217238、真实−0.000926，明显过高。该probe是旧protect历史，不能因同帧664就认定它是新完整0204失跟的直接原因；没有新轨迹共同起点续跑。
+
+**本机核对完成：** decision指纹、11CSV字节SHA／行数／唯一键；源指纹与runtime；84旧focus、7旧宏共同字段、baseline fit／calibration／probe；120 focus重算10宏AUC、28均值、7项AUC bootstrap和4家族区间／胜平负／中位／最差／留一、3因子区间、12 influence；36配额／24fit历史／120held-out身份隔离；scope head SHA和4×7调用、总预算、fit混淆整数与14probe算术及校准。未读取服务器manifest／pair_plan／系数、fit_pairs／pair_scope／video_summary／events、NPZ／receipt／来源bridge正文，未独立重构每个标签／模型／共享maps或核实具体失效因果；这些是固定服务器代码报告。无需重跑旧CPU／GPU。
+
+文档与维护检查通过：交接／索引／Stage-68～70相关六份文档的203处本地链接，Stage-70协议／复核54行Markdown表格列数，回传与归档逐字节一致及-text规则；`check_workspace.py`为505保留／200移动／106活动模块、0缓存／0换行差异，`git diff --check`通过。`git ls-files --modified -- tracking lib tools`为空；本次仅结果归档与文档更新，不重跑未改的实验测试。
+
+指纹：decision `7a618d0d2bd31e7dc53a634b439e894da3376887f9f978338021f4af5f79e227`；plan `5c8e81a8d28e57fff5b567782c3924f57fbfb7769686018def211ec82a75a257`；training `25892a2b9e6692391bf5e2ba97fef7aeccefdeb1d40491594e534dc9767f2654`；history run `c8c46476b32f870f269a3cfdc0c4cc12d5a9ce86cf9903eea6e855bbf5a2f23d`；pair plan `885db635c27abe47ec8e6d492c932d6bda22c55ca308100244595ae5ea4d0cca`；pair run `43f1222b7483883615b3aa71d36d2c69a26c75f50c4ddb30ef1511567290d601`；eval run `0d6fbfa5cf7256d587f1cfa3b2c6918275a0ebe8b00db8ac4076c6de6f65b236`。scratch为`D:/Users/23920/Documents/Codex/stage70_bundle_parsed.json`及`review_stage70.py`；原件-text保护字节。未改Stage-1～70实验／修复代码、模型或旧结果，未代commit／push。
+
+**结果复核时提出的下一步（现已实现，见0.34）：** 这次约定的一轮覆盖验证已结束，不继续扫混合比例或门槛。准备有预算上限的搜索决策PPO对照：冻结原SGLA，先保留q0／接受Q提议二元动作，在自己实际滚动轨迹上优化累计收益，GT只用于fit奖励／离线评价；旧缓存不充当任意动作环境。保留原Q／future及同容量／表示、匹配数据暴露与预算的监督控制，预定种子、训练量和评价，不在12组反复挑checkpoint。现监督未过不阻止RL小试验，PPO也不保证修复候选不足／特征信息不足；改记忆或动作另列处理，独立确认需另行预定。
+
+### 0.34 2026-11-04：Stage-71有限预算搜索决策PPO已实现，服务器待运行
+
+用户要求进行下一步，已实现[Stage-71运行前固定协议](docs/experiments/06_sgla_uav_tracking/STAGE71_BOUNDED_SEARCH_PPO.md)，新增`tools/stage71_ppo_common.py`／`stage71_ppo_runtime.py`／`stage71_ppo_experiment.py`／`stage71_ppo_summary.py`／`test_stage71_ppo.py`／`run_stage71_ppo.sh`。Stage-1～70实验及修复源码、旧模型与结果保持冻结；Stage-70仍REVIEW，尚无Stage-71服务器精度，未代commit／push。
+
+**研究处理：** 继续原生SGLA V1／VisDrone-SOT、6＋1独立候选结构、原首帧模板。每帧同样四次搜索，冻结本折Q提出候选，二元动作保留q0／接受Q；无有效异框提议时强制0。沿用128维`[fQ−f0,f0]`，原fit Hann中心／尺度、clip±10，无GT／帧号／视频名／未来观测输入；q0无提议时前64为0，后64仍描述q0。actor和critic各128→32 Tanh→1、4161参数，各臂合8322，独立无共享主干；SGLA不进优化器。
+
+**实际交互与匹配监督：** PPO随机动作形成自己的预测历史，完整fit视频从首帧到自然终止，失败后不GT重置，不用旧缓存模拟任意动作；每段期间policy固定，结束才更新。奖励实际框IoU，gamma0.99／lambda0.95，整段GAE末尾bootstrap0。PPO actor clipped0.2、eligible advantage标准化；myopic actor对同状态Q IoU>q0＋1e-6作BCE，平局q0。两臂同初始化、归一化、PPO状态矩阵、mini-batch排列及更新次数、相同return critic监督和entropy0.01；value MSE0.5，Adam LR3e-4／eps1e-5、clip1、无WD。myopic不额外采自己的fit历史，评价各自滚动；这是累计PPO对当帧监督的共享曝光比较，不声称只隔离长程目标。
+
+**预定有限预算：** 旧12消费源组、两折各6 fit／6 held-out，2171／2172，固定4遍fit，4 epochs／mini256、固定末checkpoint。4 PPO＋4 myopic模型包、96完整fit视频／108200步／432800搜索，每臂1888优化更新；没有按GT失效选窗口或预热挑权重。五旧控制q0／Hann／Q／future／mixed_future各12条，3新政策PPO／myopic／ppo_rate各2×12，合132完整评价／595100搜索；额外每折4次来源复现共8，正式总1027908搜索／7195356块。train smoke复用首job首完整视频及更新；eval smoke首视频前32帧×11＝1408搜索复用。更长视频有更多mini-batch，不写每视频梯度等权。
+
+**控制与保护：** 旧五政策同卡逐帧精确复现，解码差沿原固定容差。ppo_rate在同折全fit Hann状态上按Q gain匹配最终PPO确定性放行率，不使用GT、不新增推理；实际评价率可以不同。主要PPO−myopic；四项家族AUC为对myopic／Q／future／ppo_rate，视频内先平均种子、bootstrap2171／20000，关键区间分位0.05/8和1−0.05/8。PROMISING需四下界>0、对myopic及Q均≥+0.5、每种子对两者均正、原q0稳定任何种子0新增、低IoU差≤0、可靠帧差下界≥−1，并至少4视频放行且4视频否决；否则REVIEW保留。仍属消费开发证据，不据PPO本身宣称创新或外部泛化。
+
+**续跑与源码：** manifest封存完整Stage-70及上游链、源码、设计和L40身份，仅允许物理UUID变化且重测全部对照。每段NPZ／receipt绑定更新前模型，更新保存JSON参数、Adam状态及前链指纹；行为种子和排列由job／段编号固定重建。已提交段在中断后可不推理而补CPU更新，已提交更新不重复；未提交视频按同一policy与seed整段重做，异常未提交尝试耗时不冒充零成本。优化器JSON元组／列表序列化已在新模块规范化，不修改旧模块。
+
+**服务器入口：** 在仓库根／`sglatrack-test`同步新增文件后运行`bash tools/run_stage71_ppo.sh`。默认完整输入`output/stage70/fit_history_source_v1`，新空根`output/stage71/bounded_on_policy_search_ppo_v1`，原V1 checkpoint／GPU0；只有合并TXT不能运行。断线后台：
+
+```bash
+mkdir -p output/stage71
+nohup bash tools/run_stage71_ppo.sh > output/stage71/run_stage71.log 2>&1 < /dev/null &
+echo $!
+```
+
+流程prepare→source_bridge→train_smoke→train→smoke→evaluate→summary，日志在新根父目录。脚本用cat合并decision＋9表为`docs/experiments/06_sgla_uav_tracking/results/stage71_results_<UTC>_<PID>.txt`；回传这一份即可。默认policy8／paired28／seed_effects2／calibration4／training_scope4／fit_support24／focus132／scope132／video_influence12；训练96行及seed_video／video／events长表与模型／优化器／轨迹留服务器。
+
+**本机验证通过：** `python -B -m unittest discover -s tools -p test_stage71_ppo.py -v`四项、179.968秒、无跳过。覆盖GAE自然终止／延迟信用、无提议动作约束、128维因果状态、生产预算／fit-held-out隔离；真实CPU float64 actor／critic、NumPy推理一致、PPO clipping绑定及双臂实际梯度、Adam JSON续跑逐值相同。真实CENTER完整来源链到Stage-70后，新阶段来源复现、实时自身PPO收集、同曝光双臂更新、22条微型完整评价与两次汇总通过，五旧控制精确复现；模拟提交NPZ后更新前中断，续跑复用该轨迹，不重做已提交优化。变后续GT只改变奖励／标签、不变动作／历史；本折held-out GT不可读时，该折fit更新仍相同。旧网络／全部旧文件字节不变，checkpoint／轨迹／上游CSV／结果篡改拒绝；全已提交流程可零推理续跑，汇总无需Torch／OpenCV。微型为2视频×4帧、2遍、hidden4／epochs2，32环境步／128训练搜索、22评价／352搜索、8 bridge，合488；生产4遍／hidden32／epochs4由独立预算语义测试覆盖，不把微型称服务器精度。
+
+最终审查将控制器初始化种子限定为CPU default_generator，避免`torch.manual_seed`同时重设原SGLA的CUDA随机流；补充禁止这两个CUDA／全局种子入口且CPU RNG前后相同的真实Torch测试，定向测试2.544秒通过，CPU初始化分布不变。五新Python AST、纯NumPy CLI、Bash `-n`、所涉四份文档199处本地链接／协议24行表格、`git diff --check`通过；维护505保留／200移动／106活动模块、0缓存／0换行差异。Stage-70原件SHA保持`97ce85ad448dd98f032ad358d33ee1affb7335e3f2353d8410f074438fcc496c`，旧tracking／lib／tools已跟踪源文件无修改。`.gitattributes`新增Stage-71 shell LF规则，未代commit／push。
 
 ## 1. 接手后首先要知道的结论
 
