@@ -1,6 +1,6 @@
 # Stage-72：PPO同状态决策与训练动态缓存诊断
 
-状态：已实现，本机语义与真实缓存工作流验证通过；服务器尚未执行，无新诊断结论。接续[Stage-71结果](STAGE71_RESULTS_REVIEW.md)与[固定PPO协议](STAGE71_BOUNDED_SEARCH_PPO.md)。本轮读取完整Stage-71及上游证据，生成独立Stage-72报告；Stage-1～71代码、模型、轨迹和结果保持原样。
+状态：服务器已完成，`COMPLETE_CACHED_PPO_DECISION_TRAINING_DIAGNOSTIC`，diagnostic＋9表齐全，见[结果复核](STAGE72_RESULTS_REVIEW.md)。本页保留结果前固定协议及实现验证历史，接续[Stage-71结果](STAGE71_RESULTS_REVIEW.md)与[固定PPO协议](STAGE71_BOUNDED_SEARCH_PPO.md)。新增训练／图像／SGLA调用为0；COMPLETE不表示方法采用，Stage-71仍REVIEW。旧代码、模型、轨迹和结果保持原样。
 
 ## 1. 本轮要回答的问题
 

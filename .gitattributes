@@ -13,6 +13,7 @@ tools/run_stage69_gate.sh text eol=lf
 tools/run_stage70_history.sh text eol=lf
 tools/run_stage71_ppo.sh text eol=lf
 tools/run_stage72_ppo_audit.sh text eol=lf
+tools/run_stage73_ppo.sh text eol=lf
 # Preserve the uploaded experiment bundle byte-for-byte, including mixed CSV/JSON endings.
 docs/experiments/06_sgla_uav_tracking/results/stage61_l40_results_20261102T143543Z_40176.txt -text
 docs/experiments/06_sgla_uav_tracking/results/stage62_results_20261103T004524Z_148362.txt -text
@@ -25,3 +26,4 @@ docs/experiments/06_sgla_uav_tracking/results/stage68_results_20261103T175411Z_3
 docs/experiments/06_sgla_uav_tracking/results/stage69_results_20261103T230930Z_471659.txt -text
 docs/experiments/06_sgla_uav_tracking/results/stage70_results_20261104T044504Z_498206.txt -text
 docs/experiments/06_sgla_uav_tracking/results/stage71_results_20261104T114757Z_599124.txt -text
+docs/experiments/06_sgla_uav_tracking/results/stage72_results_20261104T124206Z_685785.txt -text

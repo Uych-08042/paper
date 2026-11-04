@@ -134,13 +134,15 @@
 - [STAGE70_RESULTS_REVIEW.md](experiments/06_sgla_uav_tracking/STAGE70_RESULTS_REVIEW.md) — **最新完整结果**：mixed_future65.2286，对旧future−1.6968；0304稳定及旧E01／E02方向修复，0204新持续失跟、0307未恢复，保护未过；结束本轮覆盖验证，可准备有限RL对照
 - [STAGE71_BOUNDED_SEARCH_PPO.md](experiments/06_sgla_uav_tracking/STAGE71_BOUNDED_SEARCH_PPO.md) — 已完成96实时fit视频／132完整评价、1027908搜索；保留冻结SGLA、PPO与同曝光监督／率控制的运行前协议和验证历史
 - [STAGE71_RESULTS_REVIEW.md](experiments/06_sgla_uav_tracking/STAGE71_RESULTS_REVIEW.md) — **最新完整结果**：PPO61.8565对监督−2.3570、两种子均负；0204双种子无失效，0304新增持续失跟、0307弱于监督，保护未过；不直接扩训当前配方
-- [STAGE72_CACHED_PPO_DIAGNOSTIC.md](experiments/06_sgla_uav_tracking/STAGE72_CACHED_PPO_DIAGNOSTIC.md) — **下一轮已实现，服务器待执行**：在132评价轨迹上比较同状态选择，读取96段既存训练动态；零新增训练／图像／SGLA调用
+- [STAGE72_CACHED_PPO_DIAGNOSTIC.md](experiments/06_sgla_uav_tracking/STAGE72_CACHED_PPO_DIAGNOSTIC.md) — 已完成132评价缓存／96训练段诊断、1082000次规则决定；保留结果前协议与实现验证，零新训练／图像／SGLA调用
+- [STAGE72_RESULTS_REVIEW.md](experiments/06_sgla_uav_tracking/STAGE72_RESULTS_REVIEW.md) — **最新诊断**：同状态PPO／监督当前净差很小，自身滚动候选质量分化；概率多数近半、critic／actor梯度尺度差180～231倍，建议固定预算优化尺度对照，未确立唯一病因
+- [STAGE73_SEPARATE_GRADIENT_CLIP_PPO.md](experiments/06_sgla_uav_tracking/STAGE73_SEPARATE_GRADIENT_CLIP_PPO.md) — **下一轮已实现、服务器待执行**：只改actor／critic梯度裁剪范围；旧共同裁剪包原样复用，96实时fit段／204完整评价，1352508搜索，固定原种子／目标／更新预算
 - [STAGE45_TEMPORAL_SIGNAL_PILOT.md](experiments/05_uav_detection/STAGE45_TEMPORAL_SIGNAL_PILOT.md) — **暂不执行**的 YOLOFT 视频检测支线；保留实现与 CPU 检查记录
 - [无人机检测研究方向调研](research/UAV_DETECTION_RESEARCH_DIRECTIONS_2026-10-29.md) — 检测文献与机制参考，不代表切换当前主任务
 
 ## 交接与维护
 
-- [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口) — 先读0.36待执行缓存诊断、0.35最新PPO结果及0.34／0.33；Stage-61～71材料齐全不重跑
+- [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口) — 先读0.38待执行裁剪对照、0.37缓存诊断、0.36固定方案及0.35完整PPO结果；Stage-61～72材料齐全不重跑
 - [历史写作材料说明](archive/README.md)
 - [整理报告](maintenance/CLEANUP_REPORT.md)
 - [逐文件整理清单](maintenance/CLEANUP_MANIFEST.json)
