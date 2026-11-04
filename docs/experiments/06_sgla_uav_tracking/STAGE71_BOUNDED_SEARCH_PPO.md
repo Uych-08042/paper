@@ -1,6 +1,6 @@
 # Stage-71：冻结SGLA的有限预算搜索决策PPO对照
 
-状态：实现与本机验证通过；服务器尚未运行，无新精度结果。接续[Stage-70结果](STAGE70_RESULTS_REVIEW.md)、[Stage-69诊断](STAGE69_RESULTS_REVIEW.md)及[Stage-68完整对照](STAGE68_RESULTS_REVIEW.md)。本文件为运行前固定协议，不根据回传成绩调整。
+状态：服务器已完成，decision＋9表齐全，见[Stage-71结果复核](STAGE71_RESULTS_REVIEW.md)。PPO未超过匹配监督、能力保护未过，保留本轮结果，不重跑或追加预算。下文保留运行前固定协议及本机验证历史，接续[Stage-70结果](STAGE70_RESULTS_REVIEW.md)、[Stage-69诊断](STAGE69_RESULTS_REVIEW.md)及[Stage-68完整对照](STAGE68_RESULTS_REVIEW.md)。
 
 ## 1. 问题与本轮新增价值
 

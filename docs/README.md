@@ -132,13 +132,15 @@
 - [STAGE69_RESULTS_REVIEW.md](experiments/06_sgla_uav_tracking/STAGE69_RESULTS_REVIEW.md) — **最新诊断**：0176:310大恢复收益被future错判且边际特征未越界；0307恢复窗自身历史无好候选，预测与候选支持需分别改进
 - [STAGE70_FIT_HISTORY_SOURCE.md](experiments/06_sgla_uav_tracking/STAGE70_FIT_HISTORY_SOURCE.md) — 已完成固定32对／16-8-8混合历史对照、24 fit历史／120完整评价／697592搜索；保留结果前协议与测试历史
 - [STAGE70_RESULTS_REVIEW.md](experiments/06_sgla_uav_tracking/STAGE70_RESULTS_REVIEW.md) — **最新完整结果**：mixed_future65.2286，对旧future−1.6968；0304稳定及旧E01／E02方向修复，0204新持续失跟、0307未恢复，保护未过；结束本轮覆盖验证，可准备有限RL对照
-- [STAGE71_BOUNDED_SEARCH_PPO.md](experiments/06_sgla_uav_tracking/STAGE71_BOUNDED_SEARCH_PPO.md) — **下一轮已实现，服务器待运行**：冻结SGLA，二元接受／否决Q提议；实时PPO与同状态／容量／更新预算myopic对照，固定两种子四遍fit，保留五个旧政策及率控制
+- [STAGE71_BOUNDED_SEARCH_PPO.md](experiments/06_sgla_uav_tracking/STAGE71_BOUNDED_SEARCH_PPO.md) — 已完成96实时fit视频／132完整评价、1027908搜索；保留冻结SGLA、PPO与同曝光监督／率控制的运行前协议和验证历史
+- [STAGE71_RESULTS_REVIEW.md](experiments/06_sgla_uav_tracking/STAGE71_RESULTS_REVIEW.md) — **最新完整结果**：PPO61.8565对监督−2.3570、两种子均负；0204双种子无失效，0304新增持续失跟、0307弱于监督，保护未过；不直接扩训当前配方
+- [STAGE72_CACHED_PPO_DIAGNOSTIC.md](experiments/06_sgla_uav_tracking/STAGE72_CACHED_PPO_DIAGNOSTIC.md) — **下一轮已实现，服务器待执行**：在132评价轨迹上比较同状态选择，读取96段既存训练动态；零新增训练／图像／SGLA调用
 - [STAGE45_TEMPORAL_SIGNAL_PILOT.md](experiments/05_uav_detection/STAGE45_TEMPORAL_SIGNAL_PILOT.md) — **暂不执行**的 YOLOFT 视频检测支线；保留实现与 CPU 检查记录
 - [无人机检测研究方向调研](research/UAV_DETECTION_RESEARCH_DIRECTIONS_2026-10-29.md) — 检测文献与机制参考，不代表切换当前主任务
 
 ## 交接与维护
 
-- [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口) — 先读0.34待运行PPO、0.33最新结果、0.31诊断及0.29旧完整结果；Stage-61～70材料齐全不重跑
+- [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口) — 先读0.36待执行缓存诊断、0.35最新PPO结果及0.34／0.33；Stage-61～71材料齐全不重跑
 - [历史写作材料说明](archive/README.md)
 - [整理报告](maintenance/CLEANUP_REPORT.md)
 - [逐文件整理清单](maintenance/CLEANUP_MANIFEST.json)
