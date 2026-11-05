@@ -1,6 +1,6 @@
 # Stage-73：固定预算的actor／critic分别梯度裁剪对照
 
-状态：已实现，3项本机测试及独立数值核对通过；服务器尚未运行，没有新跟踪结果。接续[Stage-72诊断](STAGE72_RESULTS_REVIEW.md)和[Stage-71完整PPO结果](STAGE71_RESULTS_REVIEW.md)。本页固定处理、对照和预算；本轮不编辑Stage-1～72实验／修复源码、模型或结果。
+状态：服务器已完成，decision＋12表齐全，`REVIEW_SEPARATE_CLIP_PPO_PILOT`，见[结果复核](STAGE73_RESULTS_REVIEW.md)。PPO对原共同裁剪+0.5235，主区间跨零、两seed方向相反，保护未过。本页保留结果前处理／对照／预算及实现验证历史，接续[Stage-72诊断](STAGE72_RESULTS_REVIEW.md)和[Stage-71完整PPO结果](STAGE71_RESULTS_REVIEW.md)。旧代码、模型及结果保持原样。
 
 ## 1. 本轮要检验的具体问题
 
