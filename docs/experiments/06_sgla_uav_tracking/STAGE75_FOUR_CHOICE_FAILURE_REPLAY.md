@@ -56,19 +56,32 @@
 
 ## 服务器命令
 
-在服务器仓库根目录及 `sglatrack-test` 环境中，先同步 Stage-75 文件，再执行以下命令。
+在服务器仓库根目录及 `sglatrack-test` 环境中，先查看当前作业可见的 CUDA 逻辑编号。
+
+```bash
+python -B - <<'PY'
+import torch
+for index in range(torch.cuda.device_count()):
+    device = torch.cuda.get_device_properties(index)
+    print(index, device.name, getattr(device, "uuid", "unavailable"))
+PY
+```
+
+例如输出 `1 NVIDIA L40 ...` 时，用下面的命令启动。将 `1` 替换为本次作业中 L40 的逻辑编号。若 `STAGE75_ROOT` 已有 `run.json`，续跑选用其中 `runtime.gpu_uuid` 对应的 L40。
 
 ```bash
 mkdir -p output/stage75
-nohup bash tools/run_stage75_ppo_failure.sh > output/stage75/run_stage75.log 2>&1 < /dev/null &
+STAGE75_GPU=1 nohup bash tools/run_stage75_ppo_failure.sh > output/stage75/run_stage75_l40.log 2>&1 < /dev/null &
 echo $!
 ```
 
 ```bash
-tail -f output/stage75/run_stage75.log
+tail -f output/stage75/run_stage75_l40.log
 ```
 
 脚本按顺序验证来源、输出缓存诊断、运行短分支并用 `cat` 生成 `docs/experiments/06_sgla_uav_tracking/results/stage75_results_*.txt`。可通过 `STAGE74_ROOT`、`STAGE75_ROOT`、`CHECKPOINT`、`STAGE75_GPU` 设置本机路径及设备。回传该 TXT 即可复核本轮。
+
+若启动报 `requires NVIDIA L40, got NVIDIA L20`，原入口已经生成缓存诊断并停在设备检查。当前只有 L20 时，使用下方的独立入口。 [L20 服务器命令](#l20-服务器命令)
 
 若先在 CPU 上检查缓存，可使用同一新根执行以下入口。缓存诊断完成后，完整脚本会继续到 L40 短续跑。
 
@@ -79,6 +92,28 @@ python -B tools/stage75_ppo_failure_experiment.py --mode cached \
 cat output/stage75/four_choice_failure_replay_v1/analysis/stage75_cached.json
 ```
 
+## L20 服务器命令
+
+2026-11-08，服务器当前仅可用 L20。L20 版读取同一份封存的 Stage-74、同样的 13 个起点、原始首帧模板和缓存 PPO 历史。每例先在 L20 上重算共享观测和冻结 PPO 的确定性动作，随后在同一张卡上运行该基准及所有不同输出框的续跑。比较仍使用后续平均 IoU 和窗口低 IoU 帧数，上限仍为 52 条短分支、5092 次搜索。启动检查要求原 SGLA 权重、配置和来源软件版本。
+
+L40 缓存用于检查起点历史及裁剪，并记录两张卡之间的候选框、动作及基准续跑差异。`stage75_l20_device_bridge.csv` 记录这些差异，`stage75_l20_branches.csv` 的增益以 L20 重算的 PPO 分支为基准。若某起点出现动作或轨迹分歧，该例结论适用于相同缓存历史下的 L20 短窗口。原 L40 根和 Stage-74 输入各自独立保存。
+
+同步新增脚本后，在服务器仓库根目录和 `sglatrack-test` 环境执行。默认使用 CUDA 逻辑编号 `0`，可用 `STAGE75_L20_GPU` 指定当前作业的 L20 编号。
+
+```bash
+mkdir -p output/stage75
+nohup bash tools/run_stage75_l20_replay.sh > output/stage75/run_stage75_l20.log 2>&1 < /dev/null &
+echo $!
+```
+
+```bash
+tail -f output/stage75/run_stage75_l20.log
+```
+
+默认根为 `output/stage75/four_choice_failure_replay_l20_v1`，可用 `STAGE75_L20_ROOT` 指定新路径。部分运行以 `run.json` 中的 L20 UUID 绑定续跑，设备换卡后应指定新的输出目录。完成后回传 `docs/experiments/06_sgla_uav_tracking/results/stage75_l20_results_*.txt`。结果包包含 L20 诊断、跨卡差异、分支摘要及三张 L40 缓存对照表。
+
 ## 本机验证
 
 3 项回归测试通过。测试使用小型真实 CENTER 的预测缓存和合成的上游训练记录，覆盖来源核验、原动作复现、中断恢复、GT 隔离与预算。13 个参考事件及窗口长度已与 Stage-74 的服务器回传表逐项核对。正式 L40 运行待执行。
+
+L20 入口通过 2 项本机回归测试，覆盖 GPU 类型和 UUID 绑定、模拟数值漂移后的同卡基准、重复框掩码、裁剪一致性及收据续跑。正式 L20 运行待服务器执行。

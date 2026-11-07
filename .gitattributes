@@ -16,6 +16,7 @@ tools/run_stage72_ppo_audit.sh text eol=lf
 tools/run_stage73_ppo.sh text eol=lf
 tools/run_stage74_ppo.sh text eol=lf
 tools/run_stage75_ppo_failure.sh text eol=lf
+tools/run_stage75_l20_replay.sh text eol=lf
 # Preserve the uploaded experiment bundle byte-for-byte, including mixed CSV/JSON endings.
 docs/experiments/06_sgla_uav_tracking/results/stage61_l40_results_20261102T143543Z_40176.txt -text
 docs/experiments/06_sgla_uav_tracking/results/stage62_results_20261103T004524Z_148362.txt -text
