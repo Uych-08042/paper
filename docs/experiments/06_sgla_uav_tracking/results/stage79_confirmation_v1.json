@@ -1,0 +1,302 @@
+{
+  "schema": "stage79_visdrone_confirmation_v1",
+  "role": "within_visdrone_confirmation_roster",
+  "root": "/home/u25600003160604/workspace/datasets/VisDrone-SOT/VisDrone2019-SOT-train",
+  "inventory_fingerprint": "ee80be3e66c48d3613464ac1032d23c9e9cda773b3b5d86ae9d8c6ba4ecee33f",
+  "exclusion_sources": {
+    "/home/u25600003160604/workspace/paper/output/stage27/uav_failure_diagnostic_v1/manifest.json": "217eb2e2e0a5fd642d3d04c641ba03edca7bdd812aa6fc0167d68b95f2d0330b",
+    "/home/u25600003160604/workspace/paper/output/stage31/continuous_identity_pilot_v1/manifest.json": "420ae7e65430b0143664622c26509ef043fbb6001a661c12d62f2e855209bf46",
+    "/home/u25600003160604/workspace/paper/output/stage76/matched_four_candidate_horizon_v1/manifest.json": "fb195c3665ed599517ec53b3a0d6385621dfd835859f613bcab9cc3b9c4d57b8"
+  },
+  "excluded_groups_by_source": {
+    "stage27": [
+      "uav0000003",
+      "uav0000070",
+      "uav0000076",
+      "uav0000080",
+      "uav0000126",
+      "uav0000147",
+      "uav0000149",
+      "uav0000170",
+      "uav0000173",
+      "uav0000174",
+      "uav0000176",
+      "uav0000200",
+      "uav0000204",
+      "uav0000205",
+      "uav0000226",
+      "uav0000235",
+      "uav0000237",
+      "uav0000238",
+      "uav0000304",
+      "uav0000307",
+      "uav0000308",
+      "uav0000329",
+      "uav0000342",
+      "uav0000349"
+    ],
+    "stage31": [
+      "uav0000016",
+      "uav0000085",
+      "uav0000089",
+      "uav0000090",
+      "uav0000091",
+      "uav0000107",
+      "uav0000148",
+      "uav0000169",
+      "uav0000199",
+      "uav0000236",
+      "uav0000239",
+      "uav0000303",
+      "uav0000331",
+      "uav0000348"
+    ],
+    "stage76": [
+      "uav0000003",
+      "uav0000126",
+      "uav0000147",
+      "uav0000170",
+      "uav0000176",
+      "uav0000204",
+      "uav0000226",
+      "uav0000237",
+      "uav0000304",
+      "uav0000307",
+      "uav0000329",
+      "uav0000342"
+    ],
+    "documented": [
+      "uav0000001",
+      "uav0000002",
+      "uav0000003",
+      "uav0000016",
+      "uav0000085",
+      "uav0000089",
+      "uav0000090",
+      "uav0000126",
+      "uav0000147",
+      "uav0000170",
+      "uav0000173",
+      "uav0000176",
+      "uav0000204",
+      "uav0000226",
+      "uav0000235",
+      "uav0000237",
+      "uav0000304",
+      "uav0000307",
+      "uav0000329",
+      "uav0000342"
+    ],
+    "additional": []
+  },
+  "sequences": [
+    {
+      "sequence": "uav0000014_00667_s",
+      "source_group_proxy": "uav0000014",
+      "frames": 262,
+      "first_image": 1,
+      "last_image": 262
+    },
+    {
+      "sequence": "uav0000043_00377_s",
+      "source_group_proxy": "uav0000043",
+      "frames": 510,
+      "first_image": 1,
+      "last_image": 510
+    },
+    {
+      "sequence": "uav0000049_00435_s",
+      "source_group_proxy": "uav0000049",
+      "frames": 287,
+      "first_image": 1,
+      "last_image": 287
+    },
+    {
+      "sequence": "uav0000068_01488_s",
+      "source_group_proxy": "uav0000068",
+      "frames": 625,
+      "first_image": 1,
+      "last_image": 625
+    },
+    {
+      "sequence": "uav0000071_00816_s",
+      "source_group_proxy": "uav0000071",
+      "frames": 505,
+      "first_image": 1,
+      "last_image": 505
+    },
+    {
+      "sequence": "uav0000072_02544_s",
+      "source_group_proxy": "uav0000072",
+      "frames": 673,
+      "first_image": 1,
+      "last_image": 673
+    },
+    {
+      "sequence": "uav0000084_00000_s",
+      "source_group_proxy": "uav0000084",
+      "frames": 581,
+      "first_image": 1,
+      "last_image": 581
+    },
+    {
+      "sequence": "uav0000099_02520_s",
+      "source_group_proxy": "uav0000099",
+      "frames": 1041,
+      "first_image": 1,
+      "last_image": 1041
+    },
+    {
+      "sequence": "uav0000144_01980_s",
+      "source_group_proxy": "uav0000144",
+      "frames": 181,
+      "first_image": 1,
+      "last_image": 181
+    },
+    {
+      "sequence": "uav0000159_00000_s",
+      "source_group_proxy": "uav0000159",
+      "frames": 931,
+      "first_image": 1,
+      "last_image": 931
+    },
+    {
+      "sequence": "uav0000160_00000_s",
+      "source_group_proxy": "uav0000160",
+      "frames": 1951,
+      "first_image": 1,
+      "last_image": 1951
+    },
+    {
+      "sequence": "uav0000171_00000_s",
+      "source_group_proxy": "uav0000171",
+      "frames": 294,
+      "first_image": 1,
+      "last_image": 294
+    },
+    {
+      "sequence": "uav0000172_00000_s",
+      "source_group_proxy": "uav0000172",
+      "frames": 1485,
+      "first_image": 1,
+      "last_image": 1485
+    },
+    {
+      "sequence": "uav0000175_00000_s",
+      "source_group_proxy": "uav0000175",
+      "frames": 451,
+      "first_image": 1,
+      "last_image": 451
+    },
+    {
+      "sequence": "uav0000178_00025_s",
+      "source_group_proxy": "uav0000178",
+      "frames": 901,
+      "first_image": 1,
+      "last_image": 901
+    },
+    {
+      "sequence": "uav0000182_01075_s",
+      "source_group_proxy": "uav0000182",
+      "frames": 301,
+      "first_image": 1,
+      "last_image": 301
+    },
+    {
+      "sequence": "uav0000198_00000_s",
+      "source_group_proxy": "uav0000198",
+      "frames": 1301,
+      "first_image": 1,
+      "last_image": 1301
+    },
+    {
+      "sequence": "uav0000209_00000_s",
+      "source_group_proxy": "uav0000209",
+      "frames": 923,
+      "first_image": 1,
+      "last_image": 923
+    },
+    {
+      "sequence": "uav0000217_00001_s",
+      "source_group_proxy": "uav0000217",
+      "frames": 210,
+      "first_image": 1,
+      "last_image": 210
+    },
+    {
+      "sequence": "uav0000221_10400_s",
+      "source_group_proxy": "uav0000221",
+      "frames": 2970,
+      "first_image": 1,
+      "last_image": 2970
+    },
+    {
+      "sequence": "uav0000222_00900_s",
+      "source_group_proxy": "uav0000222",
+      "frames": 1051,
+      "first_image": 1,
+      "last_image": 1051
+    },
+    {
+      "sequence": "uav0000223_00300_s",
+      "source_group_proxy": "uav0000223",
+      "frames": 451,
+      "first_image": 1,
+      "last_image": 451
+    },
+    {
+      "sequence": "uav0000232_00960_s",
+      "source_group_proxy": "uav0000232",
+      "frames": 433,
+      "first_image": 1,
+      "last_image": 433
+    },
+    {
+      "sequence": "uav0000240_00001_s",
+      "source_group_proxy": "uav0000240",
+      "frames": 681,
+      "first_image": 1,
+      "last_image": 681
+    },
+    {
+      "sequence": "uav0000252_00001_s",
+      "source_group_proxy": "uav0000252",
+      "frames": 768,
+      "first_image": 1,
+      "last_image": 768
+    },
+    {
+      "sequence": "uav0000300_00000_s",
+      "source_group_proxy": "uav0000300",
+      "frames": 322,
+      "first_image": 1,
+      "last_image": 322
+    },
+    {
+      "sequence": "uav0000325_01656_s",
+      "source_group_proxy": "uav0000325",
+      "frames": 346,
+      "first_image": 1,
+      "last_image": 346
+    },
+    {
+      "sequence": "uav0000352_00759_s",
+      "source_group_proxy": "uav0000352",
+      "frames": 668,
+      "first_image": 1,
+      "last_image": 668
+    }
+  ],
+  "selection": "all eligible source-group proxies, lexicographically first sequence per group",
+  "metrics": [
+    "video_macro_success_auc",
+    "low_iou_fraction",
+    "longest_failure_fraction",
+    "new_failures_on_native_stable"
+  ],
+  "initial_box_only_at_inference": true,
+  "labels_read": false,
+  "images_decoded": false,
+  "pretraining_overlap_verified": false,
+  "fingerprint": "964470edee1409e5310bd79d59fc50f9b341fb9070243ee8436e4b612e559dc3"
+}

@@ -144,13 +144,14 @@
 - Stage-76 L20 已完成 108 条完整轨迹。8 帧收益监督比匹配当帧监督低 6.2616 AUC 点，PPO 稳定保护仍未通过。 [Stage-76 结果](experiments/06_sgla_uav_tracking/STAGE76_RESULTS_REVIEW.md) [固定方案](experiments/06_sgla_uav_tracking/STAGE76_MATCHED_HORIZON_SUPERVISION.md)
 - Stage-77 已完成 105 个固定开发状态和 420 次搜索。0304 早期首败仍有公开好框，晚期 15 帧覆盖完整但网格无好框，伴随预测框持续偏宽。 [Stage-77 结果复核](experiments/06_sgla_uav_tracking/STAGE77_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE77_SGLA_MODULE_DIAGNOSTIC.md)
 - Stage-78 已完成 9 个短窗。只改搜索尺度使 0304 主窗口均值 IoU 提高 0.1627，但使 0204 已有能力对照下降 0.6535，恢复保护未通过。 [Stage-78 结果复核](experiments/06_sgla_uav_tracking/STAGE78_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE78_MATCHED_SCALE_FEEDBACK.md)
-- Stage-79 准备按源视频组冻结确认集，并在两个已知开发窗口交叉尺度与首帧动作。 [Stage-79 固定协议](experiments/06_sgla_uav_tracking/STAGE79_CONFIRMATION_AND_SCALE_CROSS.md)
+- Stage-79 已完成首帧交叉。0204 限幅后强制一次 q2，整窗 28 帧均达到 IoU ≥ 0.5；0304 的同动作尺度收益保留。 [Stage-79 结果复核](experiments/06_sgla_uav_tracking/STAGE79_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE79_CONFIRMATION_AND_SCALE_CROSS.md)
+- Stage-80 转入 12 个开发视频的完整轨迹消融，比较原生 SGLA、原尺度 PPO、限幅 PPO 和限幅加保护。 [Stage-80 固定协议](experiments/06_sgla_uav_tracking/STAGE80_FULL_SCALE_CONSENSUS.md)
 - [STAGE45_TEMPORAL_SIGNAL_PILOT.md](experiments/05_uav_detection/STAGE45_TEMPORAL_SIGNAL_PILOT.md) — **暂不执行**的 YOLOFT 视频检测支线；保留实现与 CPU 检查记录
 - [无人机检测研究方向调研](research/UAV_DETECTION_RESEARCH_DIRECTIONS_2026-10-29.md) — 检测文献与机制参考，不代表切换当前主任务
 
 ## 交接与维护
 
-- 接续时先读 0.48 的确认集与 Stage-79、0.47 的 Stage-78 结果和 0.44 的论文目标。 [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口)
+- 接续时先读 0.49 的 Stage-80 完整轨迹消融、0.48 的 Stage-79 与确认集和 0.44 的论文目标。 [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口)
 - [历史写作材料说明](archive/README.md)
 - [整理报告](maintenance/CLEANUP_REPORT.md)
 - [逐文件整理清单](maintenance/CLEANUP_MANIFEST.json)
