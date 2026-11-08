@@ -142,13 +142,14 @@
 - [STAGE74_RESULTS_REVIEW.md](experiments/06_sgla_uav_tracking/STAGE74_RESULTS_REVIEW.md) — **最新完整结果**：四选一PPO67.2356，对匹配监督+4.0722且双seed正，对Q+0.9918尚不稳；0176／0307恢复、0304单seed保稳，0003及0304剩余损伤使保护未过
 - Stage-75 L20 已完成 13 个起点和 52 条短分支。0003 首败有好框却未选中，0304／2172 在首败前已失去好候选。统一退回 q0 会破坏部分恢复。 [Stage-75 L20 结果复核](experiments/06_sgla_uav_tracking/STAGE75_L20_RESULTS_REVIEW.md) [固定方案](experiments/06_sgla_uav_tracking/STAGE75_FOUR_CHOICE_FAILURE_REPLAY.md)
 - Stage-76 L20 已完成 108 条完整轨迹。8 帧收益监督比匹配当帧监督低 6.2616 AUC 点，PPO 稳定保护仍未通过。 [Stage-76 结果](experiments/06_sgla_uav_tracking/STAGE76_RESULTS_REVIEW.md) [固定方案](experiments/06_sgla_uav_tracking/STAGE76_MATCHED_HORIZON_SUPERVISION.md)
-- Stage-77 已准备 105 个固定开发状态、420 次搜索，用于定位 SGLA 的搜索覆盖、CENTER 解码和四候选选择问题。 [Stage-77 协议与启动命令](experiments/06_sgla_uav_tracking/STAGE77_SGLA_MODULE_DIAGNOSTIC.md)
+- Stage-77 已完成 105 个固定开发状态和 420 次搜索。0304 早期首败仍有公开好框，晚期 15 帧覆盖完整但网格无好框，伴随预测框持续偏宽。 [Stage-77 结果复核](experiments/06_sgla_uav_tracking/STAGE77_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE77_SGLA_MODULE_DIAGNOSTIC.md)
+- Stage-78 已实现 9 个短窗上的三组同起点对照，分开检验后继搜索尺度与当前发布尺寸，待服务器回传。 [Stage-78 固定协议](experiments/06_sgla_uav_tracking/STAGE78_MATCHED_SCALE_FEEDBACK.md)
 - [STAGE45_TEMPORAL_SIGNAL_PILOT.md](experiments/05_uav_detection/STAGE45_TEMPORAL_SIGNAL_PILOT.md) — **暂不执行**的 YOLOFT 视频检测支线；保留实现与 CPU 检查记录
 - [无人机检测研究方向调研](research/UAV_DETECTION_RESEARCH_DIRECTIONS_2026-10-29.md) — 检测文献与机制参考，不代表切换当前主任务
 
 ## 交接与维护
 
-- 接续时先读 0.46 的 Stage-77 运行入口、0.45 的 Stage-76 结果和 0.44 的论文目标。 [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口)
+- 接续时先读 0.47 的 Stage-78 原型与运行入口、0.46 的 Stage-77 结果和 0.44 的论文目标。 [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口)
 - [历史写作材料说明](archive/README.md)
 - [整理报告](maintenance/CLEANUP_REPORT.md)
 - [逐文件整理清单](maintenance/CLEANUP_MANIFEST.json)

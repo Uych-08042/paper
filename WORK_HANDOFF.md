@@ -2,7 +2,7 @@
 
 更新日期：2026-11-08（Asia/Hong_Kong）
 
-**最终交付是提出并验证一个改进后的 SGLA 无人机单目标跟踪方法，再根据完整实验证据写出论文。** 最终方法须包含可独立验证的 SGLA 跟踪机制改动，例如搜索状态更新、搜索区域构造或输出解码。原生 SGLA 是主基线。先用同预算消融量化模块和选择策略各自的贡献，再做独立源视频确认、结果图表与失败分析。当前入口见 0.44–0.46。
+**最终交付是提出并验证一个改进后的 SGLA 无人机单目标跟踪方法，再根据完整实验证据写出论文。** 最终方法须包含可独立验证的 SGLA 跟踪机制改动，例如搜索状态更新、搜索区域构造或输出解码。原生 SGLA 是主基线。先用同预算消融量化模块和选择策略各自的贡献，再做独立源视频确认、结果图表与失败分析。当前入口见 0.44–0.47。
 
 当前完整评价为 Stage-76 L20，见 0.45。匹配 8 帧监督较当帧监督 −6.2616 AUC，2 胜 10 负。冻结 PPO 复测 67.2356，稳定保护仍未通过。Stage-74 的原 PPO 训练结果与配方见 0.41。 [Stage-76 结果复核](docs/experiments/06_sgla_uav_tracking/STAGE76_RESULTS_REVIEW.md)
 
@@ -13,7 +13,7 @@ Stage-75 L20 已完成 13 个固定起点和 52 条短分支。0003 两个首败
 
 ## 0. 下一次对话的直接接续入口
 
-本节更新至 2026-11-08。先读 0.46 的 Stage-77 运行入口、0.45 的 Stage-76 结果与 0.44 的论文目标。Stage-75 失跟诊断见 0.43，Stage-74 PPO 训练与结果见 0.41。 [Stage-77 协议](docs/experiments/06_sgla_uav_tracking/STAGE77_SGLA_MODULE_DIAGNOSTIC.md)
+本节更新至 2026-11-08。先读 0.47 的 Stage-78 原型与运行入口、0.46 的 Stage-77 结果和 0.44 的论文目标。Stage-76 对照见 0.45，Stage-74 PPO 训练与结果见 0.41。 [Stage-78 固定协议](docs/experiments/06_sgla_uav_tracking/STAGE78_MATCHED_SCALE_FEEDBACK.md)
 
 需要回溯历史与配对干预时读 0.33、0.31、0.29、0.27、0.24、0.22、0.20 和 0.18。较早阶段的运行状态按各节日期理解。 [Stage-60](docs/experiments/06_sgla_uav_tracking/STAGE60_RESULTS_REVIEW.md) · [Stage-54](docs/experiments/06_sgla_uav_tracking/STAGE54_RESULTS_REVIEW.md) · [Stage-55](docs/experiments/06_sgla_uav_tracking/STAGE55_RESULTS_REVIEW.md)
 
@@ -1251,9 +1251,15 @@ Stage-76 用同一批 fit 历史、同一四选一模型比较当帧 IoU 标签�
 
 ### 0.46 2026-11-08 Stage-77 搜索与解码定位
 
-服务器已完成 105 个状态、420 次搜索并写出分析，退出时的 hook 清理异常阻断了打包。修复后用 `bash tools/run_stage77_module.sh --pack-only` 从原目录校验并导出。固定回放包括 0304 第 551–560 帧的五条历史、第 1076–1092 帧的三条历史、0003 两个错选事件及 0176／0204 各一个恢复状态。沿用 Stage-76 的原生 SGLA、预测历史与四个裁剪。逐状态区分四候选错选、网格存在好框但解码未取出、覆盖不足、覆盖充分但网格无好框。 [固定窗口、命令和判读](docs/experiments/06_sgla_uav_tracking/STAGE77_SGLA_MODULE_DIAGNOSTIC.md)
+服务器 L20 已完成并导出 105 个状态、420 次搜索。报告指纹与三张表 SHA-256 已核对，重放框最大误差 0 像素、公开好候选变化 0。初次运行的退出清理异常发生在分析写出之后，结果通过 `--pack-only` 从原目录导出。 [原始结果](docs/experiments/06_sgla_uav_tracking/results/stage77_results_20261108T043231Z_242387.txt) · [固定协议](docs/experiments/06_sgla_uav_tracking/STAGE77_SGLA_MODULE_DIAGNOSTIC.md)
 
-回传 `stage77_results_*.txt` 后，先核对好候选是否因换卡改变，再看 0304 两段的分类及 raw／Hann／尺寸结果。根据覆盖和网格证据选定一项 SGLA 原型，保留 PPO 和原生 SGLA 对照，后续用同预算消融检验模块贡献。
+0304 早期首败仍有好候选。晚期 PPO 2172 在 1078–1092 连续 15 帧中四个裁剪全覆盖，但完整网格无好框，60 个输出宽度为真值的 2.27–5.73 倍。只替换中心时 60 个均未达 0.5，只替换尺寸时 13 帧至少一个候选达标。下一轮优先做因果尺度更新，把发布框尺寸和后继搜索尺度拆开做匹配对照，再用同预算完整轨迹检验稳定保护与恢复保留。当前没有新模块闭环结果。 [详细判读与下一轮设计](docs/experiments/06_sgla_uav_tracking/STAGE77_RESULTS_REVIEW.md)
+
+### 0.47 2026-11-08 Stage-78 匹配尺度反馈原型
+
+实现已完成，待服务器 GPU 回传。按历史五帧已限幅宽高的逐轴对数中位数，将当前尺寸增长限制到 1.25 倍。比较原生更新、只限幅后继搜索、只限幅当前发布框三个臂。发布组精确复用原生组轨迹。搜索组冻结 SGLA 和选择器，选择器的历史特征使用本组原始预测，限幅宽高只进入搜索父框构造。
+
+9 个窗口、每臂 244 帧、1,952 次实际搜索。关注 0304／PPO 2172 第 1072–1103 帧，保留另一 PPO 种子、q0、早期错选和恢复对照。用 `bash tools/run_stage78_scale.sh`，回传 `stage78_results_*.txt`。检查原生桥接、裁剪变化与好候选供给，再判定是否进入完整轨迹消融。 [实验方案和命令](docs/experiments/06_sgla_uav_tracking/STAGE78_MATCHED_SCALE_FEEDBACK.md)
 
 ## 1. 接手后首先要知道的结论
 
