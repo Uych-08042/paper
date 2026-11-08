@@ -7,8 +7,10 @@ source_root="${STAGE76_ROOT:-$repo/output/stage76/matched_four_candidate_horizon
 run_root="${STAGE77_ROOT:-$repo/output/stage77/sgla_search_decode_diagnostic_v1}"
 checkpoint="${CHECKPOINT:-$repo/output/checkpoints/train/sglatrack/deit_distilled/sglatrack_ep0297.pth.tar}"
 if [[ $# -eq 0 ]]; then
-  python -B tools/stage77_module_diagnostic.py --input "$source_root" --output_dir "$run_root" \
-    --checkpoint "$checkpoint" --gpu "${STAGE77_GPU:-0}"
+  if [[ ! -f "$run_root/analysis/stage77_diagnostic.json" ]]; then
+    python -B tools/stage77_module_diagnostic.py --input "$source_root" --output_dir "$run_root" \
+      --checkpoint "$checkpoint" --gpu "${STAGE77_GPU:-0}"
+  fi
 elif [[ $# -ne 1 || $1 != --pack-only ]]; then
   printf 'Usage: %s [--pack-only]\n' "$0" >&2
   exit 2

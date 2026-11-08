@@ -44,7 +44,7 @@ echo $!
 bash tools/run_stage77_module.sh --pack-only
 ```
 
-如果原运行指定过 `STAGE77_ROOT`，打包时沿用该目录。此入口检查原 manifest、报告指纹和三张表的 SHA-256，无需 GPU。旧运行的 manifest 绑定了原脚本哈希，直接打包可保留原运行的证据链。
+如果原运行指定过 `STAGE77_ROOT`，打包时沿用该目录。此入口检查原 manifest、报告指纹和三张表的 SHA-256，无需 GPU。启动脚本检测到现成的诊断报告也会直接进入同一校验流程。旧运行的 manifest 绑定了原脚本哈希，直接调用 Python 回放会尝试重新生成 manifest 并被拒绝。若确实要启动新的回放，为 `STAGE77_ROOT` 指定新目录。
 
 ## 本地验证
 
