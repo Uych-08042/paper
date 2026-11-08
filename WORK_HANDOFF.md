@@ -2,7 +2,7 @@
 
 更新日期：2026-11-08（Asia/Hong_Kong）
 
-**最终交付是提出并验证一个改进后的 SGLA 无人机单目标跟踪方法，再根据完整实验证据写出论文。** 最终方法须包含可独立验证的 SGLA 跟踪机制改动，例如搜索状态更新、搜索区域构造或输出解码。原生 SGLA 是主基线。先用同预算消融量化模块和选择策略各自的贡献，再做独立源视频确认、结果图表与失败分析。当前入口见 0.44–0.50。
+**最终交付是提出并验证一个改进后的 SGLA 无人机单目标跟踪方法，再根据完整实验证据写出论文。** 最终方法须包含可独立验证的 SGLA 跟踪机制改动，例如搜索状态更新、搜索区域构造或输出解码。原生 SGLA 是主基线。先用同预算消融量化模块和选择策略各自的贡献，再做独立源视频确认、结果图表与失败分析。当前入口见 0.44–0.51。
 
 当前完整评价为 Stage-76 L20，见 0.45。匹配 8 帧监督较当帧监督 −6.2616 AUC，2 胜 10 负。冻结 PPO 复测 67.2356，稳定保护仍未通过。Stage-74 的原 PPO 训练结果与配方见 0.41。 [Stage-76 结果复核](docs/experiments/06_sgla_uav_tracking/STAGE76_RESULTS_REVIEW.md)
 
@@ -13,7 +13,7 @@ Stage-75 L20 已完成 13 个固定起点和 52 条短分支。0003 两个首败
 
 ## 0. 下一次对话的直接接续入口
 
-本节更新至 2026-11-08。先读 0.50 的 Stage-81 混合尺度实验、0.49 的 Stage-80 完整轨迹结果、0.48 的确认集和 0.44 的论文目标。Stage-76 对照见 0.45，Stage-74 PPO 训练与结果见 0.41。 [Stage-81 固定协议](docs/experiments/06_sgla_uav_tracking/STAGE81_MIXED_SCALE_FULL.md)
+本节更新至 2026-11-08。先读 0.51 的 Stage-82 同历史对照、0.50 的 Stage-81 混合尺度结果、0.48 的确认集和 0.44 的论文目标。Stage-80 完整轨迹见 0.49。 [Stage-82 固定协议](docs/experiments/06_sgla_uav_tracking/STAGE82_SAME_HISTORY_SCALE_SUPPLY.md)
 
 需要回溯历史与配对干预时读 0.33、0.31、0.29、0.27、0.24、0.22、0.20 和 0.18。较早阶段的运行状态按各节日期理解。 [Stage-60](docs/experiments/06_sgla_uav_tracking/STAGE60_RESULTS_REVIEW.md) · [Stage-54](docs/experiments/06_sgla_uav_tracking/STAGE54_RESULTS_REVIEW.md) · [Stage-55](docs/experiments/06_sgla_uav_tracking/STAGE55_RESULTS_REVIEW.md)
 
@@ -1273,7 +1273,11 @@ Stage-76 用同一批 fit 历史、同一四选一模型比较当帧 IoU 标签�
 
 ### 0.50 2026-11-08 Stage-81 混合尺度完整轨迹
 
-实现已完成，待服务器回传。保留 q0 和 q2 的原始尺度，q1 和 q3 仅在限幅提供不同的取整裁剪时替换。比较原生 SGLA、原尺度 PPO、混合尺度 PPO 和混合加 Stage-80 保护，主比较固定为混合 PPO 对原尺度 PPO。12 个开发视频、84 条完整轨迹、338,125 次搜索，确认集零推理。运行 `bash tools/run_stage81_mixed.sh`，回传 `stage81_results_*.txt`。 [固定规则、预算和门槛](docs/experiments/06_sgla_uav_tracking/STAGE81_MIXED_SCALE_FULL.md)
+服务器 L20 完成 12 个开发视频、84 条完整轨迹、338,125 次搜索。原生／原尺度 PPO／混合 PPO／混合加保护的 AUC 为 63.4512／67.2356／63.4649／63.7399。主比较 −3.7707 AUC，95% 区间 [−8.8137, −0.1862]，两种子均负。0304 两种子分别在 555／554 帧失跟，0204／2172 两混合臂均在 664 帧失跟。两套方案均未通过开发门槛，确认集零推理。停止微调当前混合布局；后续若拆解机制，优先做完整开发样本的共同历史候选上界与漏选对照。 [结果复核](docs/experiments/06_sgla_uav_tracking/STAGE81_RESULTS_REVIEW.md) · [回传原件](docs/experiments/06_sgla_uav_tracking/results/stage81_results_20261108T124540Z_389385.txt)
+
+### 0.51 2026-11-08 Stage-82 同历史候选供给与选择诊断
+
+实现已完成，待服务器回传。扫描 12 视频×两种子×两种来源的 48 条完整预测历史，共 54,100 个已记录状态。仅回放裁剪替换帧，两布局共用相同槽位，每个活跃状态实际五或六次搜索。两布局输出不推进历史。报告候选上界、好候选支持、实际选中 IoU、选择损失，以及分别按原尺度和混合 PPO 历史汇总的配对区间。两种来源都需有一致的候选收益且存在 PPO 选择退化，才值得重训选择器。确认集零推理。运行 `bash tools/run_stage82_same_history.sh`。 [固定规则和服务器命令](docs/experiments/06_sgla_uav_tracking/STAGE82_SAME_HISTORY_SCALE_SUPPLY.md)
 
 ## 1. 接手后首先要知道的结论
 
