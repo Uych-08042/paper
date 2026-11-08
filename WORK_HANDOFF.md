@@ -2,7 +2,7 @@
 
 更新日期：2026-11-08（Asia/Hong_Kong）
 
-**最终交付是提出并验证一个改进后的 SGLA 无人机单目标跟踪方法，再根据完整实验证据写出论文。** 最终方法须包含可独立验证的 SGLA 跟踪机制改动，例如搜索状态更新、搜索区域构造或输出解码。原生 SGLA 是主基线。先用同预算消融量化模块和选择策略各自的贡献，再做独立源视频确认、结果图表与失败分析。当前入口见 0.44–0.47。
+**最终交付是提出并验证一个改进后的 SGLA 无人机单目标跟踪方法，再根据完整实验证据写出论文。** 最终方法须包含可独立验证的 SGLA 跟踪机制改动，例如搜索状态更新、搜索区域构造或输出解码。原生 SGLA 是主基线。先用同预算消融量化模块和选择策略各自的贡献，再做独立源视频确认、结果图表与失败分析。当前入口见 0.44–0.48。
 
 当前完整评价为 Stage-76 L20，见 0.45。匹配 8 帧监督较当帧监督 −6.2616 AUC，2 胜 10 负。冻结 PPO 复测 67.2356，稳定保护仍未通过。Stage-74 的原 PPO 训练结果与配方见 0.41。 [Stage-76 结果复核](docs/experiments/06_sgla_uav_tracking/STAGE76_RESULTS_REVIEW.md)
 
@@ -13,7 +13,7 @@ Stage-75 L20 已完成 13 个固定起点和 52 条短分支。0003 两个首败
 
 ## 0. 下一次对话的直接接续入口
 
-本节更新至 2026-11-08。先读 0.47 的 Stage-78 原型与运行入口、0.46 的 Stage-77 结果和 0.44 的论文目标。Stage-76 对照见 0.45，Stage-74 PPO 训练与结果见 0.41。 [Stage-78 固定协议](docs/experiments/06_sgla_uav_tracking/STAGE78_MATCHED_SCALE_FEEDBACK.md)
+本节更新至 2026-11-08。先读 0.48 的确认集与 Stage-79 运行入口、0.47 的 Stage-78 结果和 0.44 的论文目标。Stage-76 对照见 0.45，Stage-74 PPO 训练与结果见 0.41。 [Stage-79 固定协议](docs/experiments/06_sgla_uav_tracking/STAGE79_CONFIRMATION_AND_SCALE_CROSS.md)
 
 需要回溯历史与配对干预时读 0.33、0.31、0.29、0.27、0.24、0.22、0.20 和 0.18。较早阶段的运行状态按各节日期理解。 [Stage-60](docs/experiments/06_sgla_uav_tracking/STAGE60_RESULTS_REVIEW.md) · [Stage-54](docs/experiments/06_sgla_uav_tracking/STAGE54_RESULTS_REVIEW.md) · [Stage-55](docs/experiments/06_sgla_uav_tracking/STAGE55_RESULTS_REVIEW.md)
 
@@ -1257,9 +1257,15 @@ Stage-76 用同一批 fit 历史、同一四选一模型比较当帧 IoU 标签�
 
 ### 0.47 2026-11-08 Stage-78 匹配尺度反馈原型
 
-实现已完成，待服务器 GPU 回传。按历史五帧已限幅宽高的逐轴对数中位数，将当前尺寸增长限制到 1.25 倍。比较原生更新、只限幅后继搜索、只限幅当前发布框三个臂。发布组精确复用原生组轨迹。搜索组冻结 SGLA 和选择器，选择器的历史特征使用本组原始预测，限幅宽高只进入搜索父框构造。
+服务器 L20 已完成 9 个窗口、每臂 244 帧、1,952 次实际搜索。原生组与 Stage-76 框、裁剪及动作精确复现，回传三表 SHA-256 及报告指纹已核对。比较原生更新、只限幅后继搜索、只限幅发布框，历史五帧逐轴对数中位数和 1.25 增长上限固定。 [固定协议](docs/experiments/06_sgla_uav_tracking/STAGE78_MATCHED_SCALE_FEEDBACK.md) · [回传原件](docs/experiments/06_sgla_uav_tracking/results/stage78_results_20261108T051056Z_248317.txt)
 
-9 个窗口、每臂 244 帧、1,952 次实际搜索。关注 0304／PPO 2172 第 1072–1103 帧，保留另一 PPO 种子、q0、早期错选和恢复对照。用 `bash tools/run_stage78_scale.sh`，回传 `stage78_results_*.txt`。检查原生桥接、裁剪变化与好候选供给，再判定是否进入完整轨迹消融。 [实验方案和命令](docs/experiments/06_sgla_uav_tracking/STAGE78_MATCHED_SCALE_FEEDBACK.md)
+0304／2172 主窗口均值 IoU 0.2110→0.3737，好候选帧 6→13，首败推迟 3 帧，窗口内仍未恢复。只修发布框为 0.2339。0204 则 0.7472→0.0936，664 帧好候选仍有 0.7656，PPO 从 q2 改选 q0，666 帧开始四候选均为 0。恢复保护未过。下一轮在 0204:664 和 0304:1075 交叉比较同历史下的裁剪与动作，拆开首帧作用与后续漂移，再决定尺度保护怎么做。 [详细结果与下一轮](docs/experiments/06_sgla_uav_tracking/STAGE78_RESULTS_REVIEW.md)
+
+### 0.48 2026-11-08 确认集与 Stage-79 首帧交叉
+
+待服务器冻结真实确认清单并运行 GPU。固定排除 Stage-27 全部 24 组、Stage-31 全部 14 组、Stage-76 的 12 个开发组及已记录的其他组，按前缀每组取一段完整视频。CPU 阶段只读目录元数据。确认集不进入本轮推理。
+
+Stage-79 用 0204:664 的同历史交叉原始／限幅裁剪与 q0／q2，0304:1075 用共同 q2 比较两尺度，后续交还冻结 PPO。6 条短分支、672 次搜索，先检查自然分支复现，再判断限幅后 q2 可用性和首个动作能否阻断漂移。 [冻结和运行命令](docs/experiments/06_sgla_uav_tracking/STAGE79_CONFIRMATION_AND_SCALE_CROSS.md)
 
 ## 1. 接手后首先要知道的结论
 

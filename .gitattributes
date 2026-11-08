@@ -20,6 +20,7 @@ tools/run_stage75_l20_replay.sh text eol=lf
 tools/run_stage76_horizon.sh text eol=lf
 tools/run_stage77_module.sh text eol=lf
 tools/run_stage78_scale.sh text eol=lf
+tools/run_stage79_cross.sh text eol=lf
 # Preserve the uploaded experiment bundle byte-for-byte, including mixed CSV/JSON endings.
 docs/experiments/06_sgla_uav_tracking/results/stage61_l40_results_20261102T143543Z_40176.txt -text
 docs/experiments/06_sgla_uav_tracking/results/stage62_results_20261103T004524Z_148362.txt -text
@@ -38,3 +39,4 @@ docs/experiments/06_sgla_uav_tracking/results/stage74_results_20261105T080357Z_8
 docs/experiments/06_sgla_uav_tracking/results/stage75_l20_results_20261107T170631Z_35417.txt -text
 docs/experiments/06_sgla_uav_tracking/results/stage76_results_20261108T021842Z_144458.txt -text
 docs/experiments/06_sgla_uav_tracking/results/stage77_results_20261108T043231Z_242387.txt -text
+docs/experiments/06_sgla_uav_tracking/results/stage78_results_20261108T051056Z_248317.txt -text
