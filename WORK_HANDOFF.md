@@ -2,18 +2,20 @@
 
 更新日期：2026-11-08（Asia/Hong_Kong）
 
+**最终交付是根据完整实验证据写出一篇以 SGLA 为基础的无人机单目标跟踪论文。** 先锁定能被同预算对照支持的主贡献，再完成独立源视频确认、结果图表与失败分析，最后交付包含摘要、引言、相关工作、方法、实验及局限的完整论文。当前执行入口见 0.44。 [Stage-76 固定方案](docs/experiments/06_sgla_uav_tracking/STAGE76_MATCHED_HORIZON_SUPERVISION.md)
+
 当前结果阶段：Stage-74四选一PPO已完成，decision＋11表齐全，状态`REVIEW_DIRECT_FOUR_CANDIDATE_PPO_PILOT`，见0.41。PPO67.2356对匹配四选一监督+4.0722、两个seed均正，名义区间正但家族下界−0.01084；对Q+0.9918尚不稳。0176／0307两seed恢复、0304一个seed保稳，0003两seed末尾短失败和0304另一个seed持续失跟使保护未过。此为值得继续推进的开发进展，尚非稳定替换Q。Stage-1～74实验及修复源码冻结，Stage-45检测支线暂不执行。
 
-Stage-75 已实现 13 个固定起点的缓存对照和短续跑。服务器目前只有 L20，使用独立的 L20 入口。接续时读 0.42 的运行命令和 0.41 的 Stage-74 完整结果。0.40、0.39、0.37、0.35 分别记录四选一方案、裁剪结果、缓存诊断和二元 PPO 结果。 [Stage-75 固定方案](docs/experiments/06_sgla_uav_tracking/STAGE75_FOUR_CHOICE_FAILURE_REPLAY.md)
+Stage-75 L20 已完成 13 个固定起点和 52 条短分支。0003 两个首败起点有好框却未选中，0304／2172 在首败前就已缺少好框。接续先读 0.43 的结果，再看 0.42 的协议与 0.41 的 Stage-74 完整评价。 [Stage-75 L20 结果复核](docs/experiments/06_sgla_uav_tracking/STAGE75_L20_RESULTS_REVIEW.md)
 
 2026-11-01新增交接：**SGLATrackV2源码发现、训练日志判读与后续启发见第0.11节**。当前实验仍使用V1／E，不因V2发布默认切换基线；优先补原始V1权重上的候选选择与同预算控制，再考虑V2迁移及搜索状态—特征记忆一致性。此次只整理知识与建议，未启动新实验。
 整理前 Git 基点：`91052cd71d49d1397197ea9d5f532f12d37d2c91`
 
 ## 0. 下一次对话的直接接续入口
 
-本节更新至 2026-11-08。Stage-75 的 L20 入口见 0.42。实验用相同起点的短续跑检查 0003、0304 的剩余损伤，并对照 0176、0307、0204 的收益。Stage-74 仍是最新一轮完整评价，复核见 0.41。 [Stage-74 结果复核](docs/experiments/06_sgla_uav_tracking/STAGE74_RESULTS_REVIEW.md)
+本节更新至 2026-11-08。先读 0.44 的论文目标和 Stage-76。Stage-75 L20 回传已核对，结果见 0.43。Stage-74 是最新的完整视频评价，复核见 0.41。 [Stage-74 结果复核](docs/experiments/06_sgla_uav_tracking/STAGE74_RESULTS_REVIEW.md)
 
-优先读 0.42、0.41、0.40、0.39、0.37 和 0.35。需要回溯历史与配对干预时读 0.33、0.31、0.29、0.27、0.24、0.22、0.20 和 0.18。较早阶段的运行状态按各节日期理解。 [Stage-60](docs/experiments/06_sgla_uav_tracking/STAGE60_RESULTS_REVIEW.md) · [Stage-54](docs/experiments/06_sgla_uav_tracking/STAGE54_RESULTS_REVIEW.md) · [Stage-55](docs/experiments/06_sgla_uav_tracking/STAGE55_RESULTS_REVIEW.md)
+优先读 0.44、0.43、0.42、0.41、0.40、0.39、0.37 和 0.35。需要回溯历史与配对干预时读 0.33、0.31、0.29、0.27、0.24、0.22、0.20 和 0.18。较早阶段的运行状态按各节日期理解。 [Stage-60](docs/experiments/06_sgla_uav_tracking/STAGE60_RESULTS_REVIEW.md) · [Stage-54](docs/experiments/06_sgla_uav_tracking/STAGE54_RESULTS_REVIEW.md) · [Stage-55](docs/experiments/06_sgla_uav_tracking/STAGE55_RESULTS_REVIEW.md)
 
 ### 0.1 固定目标与当前进度
 
@@ -41,7 +43,7 @@ Stage-75 已实现 13 个固定起点的缓存对照和短续跑。服务器目�
 - **Stage-72缓存诊断已完成，diagnostic＋9表齐全。** 132评价缓存／96训练段，192评分上下文／216400状态出现／1082000决定，零新SGLA／图像／训练；同状态PPO−监督当前IoU仅−0.000078～+0.000480，自身PPO好候选少3.4679个百分点，critic／actor尺度差180～231倍且概率多数近半。优化因果未确立，见0.37。
 - **Stage-73已完成并为REVIEW，decision＋12表齐全。** 新8包／96实时fit段／204完整评价、1352508搜索，旧132政策同卡复现。PPO对原PPO+0.5235、9胜3负但两seed+3.6321／−2.5851，对新监督−2.3894；0307贡献主要均值收益，0304未修复、保护未过。见0.39，不重复扩训／调clip。
 - **Stage-74已完成并为REVIEW，decision＋11表齐全。** 96实时fit段／144完整评价、1082008搜索，无恢复支线。四选一PPO67.2356对匹配监督+4.0722、双seed正；对Q+0.9918、5胜7负，保护未过。0176／0307恢复及0304单seed保稳有进展，0003末尾短失败和0304另一个seed持续失跟保留，见0.41。扩展输入与动作是整体处理，不是纯动作数量消融。
-- **Stage-75 L20 入口已准备，短续跑待服务器执行。** 5 视频 13 起点，91 个缓存对照上下文，52 条短分支及 5092 次搜索为上限。基准动作和改选分支均在 L20 上重算，跨卡差异单独记录。见 0.42。
+- **Stage-75 L20 已完成条件诊断。** 5 视频、13 起点、52 短分支、5092 搜索，回传 diagnostic 与 5 表齐全。13 个基准窗口的动作和输出框与 L40 缓存相同。见 0.43。
 - 当前以“保住多数适配收益，减少持续失跟及原稳定轨迹损伤”为主问题。新增价值可以建立在已有方法上；用户不要求绝对原创，也不希望因有相似工作就结束探索。
 
 ### 0.2 Stage-54：主要对照、结果及不能丢失的取舍
@@ -1206,7 +1208,7 @@ Stage-75 用 Stage-74 的完整封存运行和上游缓存定位失败机制。�
 
 窗口最多 32 帧，0003 首败只剩 7／5 帧。上限 52 分支、5092 次搜索、35644 次块调用。训练更新、完整新轨迹、在线恢复支线均为 0。结果适用于这些开发起点。输入仍为 `output/stage74/direct_four_candidate_ppo_v1` 的完整目录。
 
-2026-11-08，原 L40 入口完成缓存诊断后停在设备检查。当前仅可用 L20。新入口用 L40 缓存 PPO 历史固定起点，在 L20 重算共享观测和 PPO 基准，同卡运行所有不同候选的短分支。L40 缓存的动作和输出用于差异表。继续使用原权重、配置与来源软件版本。 [L20 服务器命令](docs/experiments/06_sgla_uav_tracking/STAGE75_FOUR_CHOICE_FAILURE_REPLAY.md#l20-服务器命令)
+2026-11-08，原 L40 入口完成缓存诊断后停在设备检查，当次作业分到 L20。独立入口用 L40 缓存 PPO 历史固定起点，在 L20 重算共享观测和 PPO 基准，同卡运行所有不同候选的短分支。L40 缓存的动作和输出用于差异表。继续使用原权重、配置与来源软件版本。 [L20 服务器命令](docs/experiments/06_sgla_uav_tracking/STAGE75_FOUR_CHOICE_FAILURE_REPLAY.md#l20-服务器命令)
 
 ```bash
 mkdir -p output/stage75
@@ -1216,7 +1218,25 @@ echo $!
 
 同步后在 `sglatrack-test` 环境执行，默认 CUDA 逻辑编号 `0`。用 `tail -f output/stage75/run_stage75_l20.log` 查看。新根 `output/stage75/four_choice_failure_replay_l20_v1` 独立于原 L40 根。回传 `docs/experiments/06_sgla_uav_tracking/results/stage75_l20_results_*.txt`，包含 diagnostic、device_bridge、branches 及 L40 缓存 anchors、same_state、divergence。运行中断后使用已绑定 L20 UUID 继续，换卡时用 `STAGE75_L20_ROOT` 指定新根。
 
-本机 5 项 Stage-75 回归测试通过，包含原 L40 入口的 3 项及 L20 入口的 2 项。L20 测试使用小型真实 CENTER 与模拟输出漂移，核验共享裁剪、同卡比较、重复框掩码及中断续跑。服务器正式短续跑待执行。
+运行前，本机 5 项 Stage-75 回归测试通过，包含原 L40 入口的 3 项及 L20 入口的 2 项。L20 测试使用小型真实 CENTER 与模拟输出漂移，核验共享裁剪、同卡比较、重复框掩码及中断续跑。L20 正式结果已回传，见 0.43。
+
+### 0.43 2026-11-08 Stage-75 L20 回传结果
+
+状态 `COMPLETE_L20_MATCHED_FOUR_CHOICE_FAILURE_REPLAY`。5 个开发视频、13 个预定起点、91 个缓存上下文、52 条 L20 分支、5092 次搜索和 35644 次块调用。13 个起点及基准窗口的 PPO 动作和输出框与 L40 缓存一致。`exact_source_windows=0` 由内部特征和打分的逐字段数值差异产生，起点最大 logit 差约 `2.04e-8`。 [完整结果复核](docs/experiments/06_sgla_uav_tracking/STAGE75_L20_RESULTS_REVIEW.md)
+
+- **0003**。f138／140 的 q0 当帧 IoU 为 0.7208／0.6900，PPO 都选了 IoU 为 0 的 q3。D01 改 q0 只修复首帧，D02 后续均值 IoU +0.2975、低 IoU 少 3 帧且末帧仍为 0。提前 8 帧改选在这两个起点未减少低 IoU 帧数。
+- **0304／2172**。f1078–1090 自身历史连续 13 帧无 IoU ≥ 0.5 的候选，四条参考历史同帧都有。f1082 自身最佳仅 0.2597，四个分支 32 帧内均未出现好框。f1090 最佳降至 0.1926，所有续跑的 32 帧均低于 0.2。稳定种子同帧各分支均保持好框。较早的状态分岔仍待定位。
+- **保留已有收益**。0176／2172 f321 的 q2 是唯一好框，改任何其他选项都导致 32 帧零 IoU。0204／2172 f664 改 q0 也导致 32 帧零 IoU。0307 的两个恢复起点改 q3，后续均值 IoU 分别 +0.3599／+0.3586。固定改 q0 的后续均值为 1 改善、6 持平、6 降低。
+
+接续时分别处理好框被错过与候选池退化，保留 R02、R06 为恢复保护对照。当前证据限于固定开发窗口，完整视频表现以 Stage-74 为准。运行目录 `output/stage75/four_choice_failure_replay_l20_v1`。回传原件、诊断指纹及 5 表 SHA 已核对，逐帧证据留服务器。 [服务器回传原件](docs/experiments/06_sgla_uav_tracking/results/stage75_l20_results_20261107T170631Z_35417.txt)
+
+### 0.44 2026-11-08 论文目标与 Stage-76
+
+最终目标是完成论文全文。当前先回答固定四次搜索下，用后续轨迹收益学习选框能否在完整视频上改善跟踪，以及 PPO 能否提供进一步增益。选取完整视频对照优先于再诊断单个 0304 窗口。Stage-75 继续作为论文失败分析及后续模块定位的依据。
+
+Stage-76 用同一批 fit 历史、同一四选一模型比较当帧 IoU 标签与 8 帧同起点续跑标签，并在同一张卡上重测原 PPO、Q、future 和 q0。固定开发预算为 1152 个 fit 起点与 108 条评价轨迹。PPO 与两套 CE 的历史训练预算分别披露，标签影响由两套匹配 CE 的对照识别。本机 CPU 夹具已通过，服务器正式运行待执行。分配到 L20 或 L40 后，使用 `tools/run_stage76_horizon.sh`，回传 `stage76_results_*.txt`。 [协议和命令](docs/experiments/06_sgla_uav_tracking/STAGE76_MATCHED_HORIZON_SUPERVISION.md)
+
+论文按证据决定主张。完整视频上的收益与保护若得到确认，就以固定搜索预算下的候选选择方法为主线。若仍有稳定损伤或总体增益不确定，则把已验证的条件收益、反例和适用边界写进全文，持续训练或改模块各自需要明确的待验证假设。
 
 ## 1. 接手后首先要知道的结论
 

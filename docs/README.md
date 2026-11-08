@@ -140,13 +140,14 @@
 - [STAGE73_RESULTS_REVIEW.md](experiments/06_sgla_uav_tracking/STAGE73_RESULTS_REVIEW.md) — **最新完整结果**：PPO62.3800，对原PPO+0.5235、两seed反向，对新监督−2.3894；actor步长增大但0304未修复、保护未过，不能只靠裁剪解决
 - [STAGE74_DIRECT_FOUR_CANDIDATE_PPO.md](experiments/06_sgla_uav_tracking/STAGE74_DIRECT_FOUR_CANDIDATE_PPO.md) — 已完成96 fit段／144完整评价、1082008搜索；保留PPO直接选q0～q3、匹配监督／旧二元／Q及零恢复支线的固定协议
 - [STAGE74_RESULTS_REVIEW.md](experiments/06_sgla_uav_tracking/STAGE74_RESULTS_REVIEW.md) — **最新完整结果**：四选一PPO67.2356，对匹配监督+4.0722且双seed正，对Q+0.9918尚不稳；0176／0307恢复、0304单seed保稳，0003及0304剩余损伤使保护未过
-- Stage-75 已准备。对 0003、0304 的失败及收益对照做缓存重评分和 13 个共同起点短续跑。 [Stage-75 固定方案](experiments/06_sgla_uav_tracking/STAGE75_FOUR_CHOICE_FAILURE_REPLAY.md)
+- Stage-75 L20 已完成 13 个起点和 52 条短分支。0003 首败有好框却未选中，0304／2172 在首败前已失去好候选。统一退回 q0 会破坏部分恢复。 [Stage-75 L20 结果复核](experiments/06_sgla_uav_tracking/STAGE75_L20_RESULTS_REVIEW.md) [固定方案](experiments/06_sgla_uav_tracking/STAGE75_FOUR_CHOICE_FAILURE_REPLAY.md)
+- Stage-76 同候选比较当帧监督和 8 帧收益监督，在同卡上复测 PPO、Q 和既有 future。 [Stage-76 固定方案](experiments/06_sgla_uav_tracking/STAGE76_MATCHED_HORIZON_SUPERVISION.md)
 - [STAGE45_TEMPORAL_SIGNAL_PILOT.md](experiments/05_uav_detection/STAGE45_TEMPORAL_SIGNAL_PILOT.md) — **暂不执行**的 YOLOFT 视频检测支线；保留实现与 CPU 检查记录
 - [无人机检测研究方向调研](research/UAV_DETECTION_RESEARCH_DIRECTIONS_2026-10-29.md) — 检测文献与机制参考，不代表切换当前主任务
 
 ## 交接与维护
 
-- 接续时读 0.42 的 Stage-75 方案和服务器入口，以及 0.41 的 Stage-74 完整结果。 [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口)
+- 接续时先读 0.44 的论文目标与 Stage-76、0.43 的 Stage-75 结果和 0.41 的 Stage-74 完整评价。 [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口)
 - [历史写作材料说明](archive/README.md)
 - [整理报告](maintenance/CLEANUP_REPORT.md)
 - [逐文件整理清单](maintenance/CLEANUP_MANIFEST.json)
