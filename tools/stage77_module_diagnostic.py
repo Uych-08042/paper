@@ -268,7 +268,6 @@ def main():
             run(root, plan, source, observer)
         finally:
             observer.handle.remove()
-            observer.pre_handle.remove()
 
 
 if __name__ == "__main__":

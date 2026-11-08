@@ -35,14 +35,14 @@ class ModuleReplay(unittest.TestCase):
         s76, c = stage.s76, stage.c
         with tempfile.TemporaryDirectory(prefix="stage77-", dir=Path(__file__).parent) as tmp:
             folder = Path(tmp)
-            original, _, observer, _ = TorchTests().fixture(folder)
+            original, native, observer, _ = TorchTests().fixture(folder)
             try:
                 entry = original["plan"]["entries"][0]
-                runtime = original["plan"]["runtime_identity"]
+                runtime = dict(original["plan"]["runtime_identity"], tracker=dict(device="cpu"))
                 original_dir, source_dir, root = (folder / name for name in ("original", "source", "new"))
                 root.mkdir()
                 base = {k: v for k, v in original["plan"].items() if k != "fingerprint"}
-                old = stage.io.seal(dict(base, schema=c.SCHEMA, design=dict(c.DESIGN),
+                old = stage.io.seal(dict(base, schema=c.SCHEMA, design=dict(c.DESIGN), runtime_identity=runtime,
                     actor_design=dict(stage.e63.source_common.DESIGN), controller_design=dict(c.c66.DESIGN)))
                 d74 = stage.io.seal(dict(schema=c.SCHEMA, plan_fingerprint=old["fingerprint"],
                                          training_fingerprint="fixture", runtime=runtime))
@@ -69,14 +69,26 @@ class ModuleReplay(unittest.TestCase):
                     evaluation_evidence_fingerprint=c.fingerprint(evidence)))
                 c.publish_identical(source_dir / "analysis/stage76_decision.json", report)
                 window = dict(group="fixture", unit=unit, frames=[2, 3], expected_first_failure=None)
-                with patch.object(stage, "windows", return_value=[window]), contextlib.redirect_stdout(io.StringIO()):
-                    source = stage.load_source(source_dir)
-                    plan = stage.make_plan(source, runtime)
-                    result = stage.run(root, plan, source, observer)
+
+                def checked_runtime(*_):
+                    return native, runtime
+
+                argv = ["stage77", "--input", str(source_dir), "--output_dir", str(root), "--checkpoint", "fixture"]
+                hooks = tuple(native.rt.net._forward_hooks)
+                with (patch("sys.argv", argv), patch.object(stage, "windows", return_value=[window]),
+                      patch.object(s76, "device_runtime", return_value=runtime),
+                      patch.object(s76.startup, "checked_runtime", checked_runtime),
+                      contextlib.redirect_stdout(io.StringIO())):
+                    stage.main()
+                    self.assertEqual(tuple(native.rt.net._forward_hooks), hooks)
+                    report_path = root / "analysis/stage77_diagnostic.json"
+                    result = c.c66.sealed(report_path, stage.SCHEMA)
                     self.assertEqual((result["states"], result["search_calls"], result["block_calls"]), (2, 8, 56))
                     self.assertEqual(result["maximum_public_box_error_px"], 0.)
-                    with patch.object(observer, "capture", side_effect=AssertionError("Committed replay repeated")):
-                        self.assertEqual(stage.run(root, plan, source, observer), result)
+                    with patch.object(stage.e63.Capture, "capture", side_effect=AssertionError("Committed replay repeated")):
+                        stage.main()
+                    self.assertEqual(c.c66.sealed(report_path, stage.SCHEMA), result)
+                    self.assertEqual(tuple(native.rt.net._forward_hooks), hooks)
                 receipt = path.with_suffix(".receipt.json")
                 receipt.write_bytes(receipt.read_bytes() + b"\n")
                 with self.assertRaisesRegex(ValueError, "evaluation evidence changed"):

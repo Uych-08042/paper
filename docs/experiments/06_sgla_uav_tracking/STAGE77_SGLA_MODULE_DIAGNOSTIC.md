@@ -38,6 +38,14 @@ echo $!
 
 分析表默认保存于 `output/stage77/sgla_search_decode_diagnostic_v1/analysis`。启动脚本用 `cat` 合并 `stage77_diagnostic.json`、`stage77_summary.csv`、`stage77_states.csv` 与 `stage77_candidates.csv`，结果包路径写入运行日志。
 
+首轮服务器已打印 `COMPLETE_SGLA_MODULE_DIAGNOSTIC (105 states, 420 searches)`，随后在退出时因清理了实际不存在的 `pre_handle` 而中断打包。同步修复后，从原目录直接校验并导出已经写好的四份文件。
+
+```bash
+bash tools/run_stage77_module.sh --pack-only
+```
+
+如果原运行指定过 `STAGE77_ROOT`，打包时沿用该目录。此入口检查原 manifest、报告指纹和三张表的 SHA-256，无需 GPU。旧运行的 manifest 绑定了原脚本哈希，直接打包可保留原运行的证据链。
+
 ## 本地验证
 
 两项 CPU 测试通过，覆盖分类、小型真实 CENTER 头、缓存续跑和来源回执篡改拒绝。根据 Stage-76 回传表核对了 105 个固定状态及五个首败锚点。Bash 语法、LF 行尾和仓库维护检查均通过。正式结果依赖服务器的完整 Stage-76 缓存及 GPU。
