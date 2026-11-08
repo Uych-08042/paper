@@ -2,9 +2,9 @@
 
 更新日期：2026-11-08（Asia/Hong_Kong）
 
-**最终交付是根据完整实验证据写出一篇以 SGLA 为基础的无人机单目标跟踪论文。** 先锁定能被同预算对照支持的主贡献，再完成独立源视频确认、结果图表与失败分析，最后交付包含摘要、引言、相关工作、方法、实验及局限的完整论文。当前执行入口见 0.44。 [Stage-76 固定方案](docs/experiments/06_sgla_uav_tracking/STAGE76_MATCHED_HORIZON_SUPERVISION.md)
+**最终交付是提出并验证一个改进后的 SGLA 无人机单目标跟踪方法，再根据完整实验证据写出论文。** 最终方法须包含可独立验证的 SGLA 跟踪机制改动，例如搜索状态更新、搜索区域构造或输出解码。原生 SGLA 是主基线。先用同预算消融量化模块和选择策略各自的贡献，再做独立源视频确认、结果图表与失败分析。当前入口见 0.44–0.46。
 
-当前结果阶段：Stage-74四选一PPO已完成，decision＋11表齐全，状态`REVIEW_DIRECT_FOUR_CANDIDATE_PPO_PILOT`，见0.41。PPO67.2356对匹配四选一监督+4.0722、两个seed均正，名义区间正但家族下界−0.01084；对Q+0.9918尚不稳。0176／0307两seed恢复、0304一个seed保稳，0003两seed末尾短失败和0304另一个seed持续失跟使保护未过。此为值得继续推进的开发进展，尚非稳定替换Q。Stage-1～74实验及修复源码冻结，Stage-45检测支线暂不执行。
+当前完整评价为 Stage-76 L20，见 0.45。匹配 8 帧监督较当帧监督 −6.2616 AUC，2 胜 10 负。冻结 PPO 复测 67.2356，稳定保护仍未通过。Stage-74 的原 PPO 训练结果与配方见 0.41。 [Stage-76 结果复核](docs/experiments/06_sgla_uav_tracking/STAGE76_RESULTS_REVIEW.md)
 
 Stage-75 L20 已完成 13 个固定起点和 52 条短分支。0003 两个首败起点有好框却未选中，0304／2172 在首败前就已缺少好框。接续先读 0.43 的结果，再看 0.42 的协议与 0.41 的 Stage-74 完整评价。 [Stage-75 L20 结果复核](docs/experiments/06_sgla_uav_tracking/STAGE75_L20_RESULTS_REVIEW.md)
 
@@ -13,13 +13,13 @@ Stage-75 L20 已完成 13 个固定起点和 52 条短分支。0003 两个首败
 
 ## 0. 下一次对话的直接接续入口
 
-本节更新至 2026-11-08。先读 0.44 的论文目标和 Stage-76。Stage-75 L20 回传已核对，结果见 0.43。Stage-74 是最新的完整视频评价，复核见 0.41。 [Stage-74 结果复核](docs/experiments/06_sgla_uav_tracking/STAGE74_RESULTS_REVIEW.md)
+本节更新至 2026-11-08。先读 0.46 的 Stage-77 运行入口、0.45 的 Stage-76 结果与 0.44 的论文目标。Stage-75 失跟诊断见 0.43，Stage-74 PPO 训练与结果见 0.41。 [Stage-77 协议](docs/experiments/06_sgla_uav_tracking/STAGE77_SGLA_MODULE_DIAGNOSTIC.md)
 
-优先读 0.44、0.43、0.42、0.41、0.40、0.39、0.37 和 0.35。需要回溯历史与配对干预时读 0.33、0.31、0.29、0.27、0.24、0.22、0.20 和 0.18。较早阶段的运行状态按各节日期理解。 [Stage-60](docs/experiments/06_sgla_uav_tracking/STAGE60_RESULTS_REVIEW.md) · [Stage-54](docs/experiments/06_sgla_uav_tracking/STAGE54_RESULTS_REVIEW.md) · [Stage-55](docs/experiments/06_sgla_uav_tracking/STAGE55_RESULTS_REVIEW.md)
+需要回溯历史与配对干预时读 0.33、0.31、0.29、0.27、0.24、0.22、0.20 和 0.18。较早阶段的运行状态按各节日期理解。 [Stage-60](docs/experiments/06_sgla_uav_tracking/STAGE60_RESULTS_REVIEW.md) · [Stage-54](docs/experiments/06_sgla_uav_tracking/STAGE54_RESULTS_REVIEW.md) · [Stage-55](docs/experiments/06_sgla_uav_tracking/STAGE55_RESULTS_REVIEW.md)
 
 ### 0.1 固定目标与当前进度
 
-- 用户目标是**以SGLA为基础开展无人机单目标跟踪研究**，数据目前只有VisDrone-SOT；不默认改为检测、多目标跟踪或要求补齐XS-VID／VisDrone-VID。
+- 用户目标是**修改 SGLA 的跟踪机制，形成新方法并完成无人机单目标跟踪论文**。数据目前只有 VisDrone-SOT，原生 SGLA 保留作对照。
 - 评价采用首帧GT初始化后的完整自身预测轨迹。当前12个源组、2折每折6 fit／6 held-out已反复用于设计，种子按各阶段固定（Stage-71～74为2171／2172），是开发证据；不要称为新的独立外部验证。
 - 当前使用的V1原生SGLA执行6个前缀块＋L7～L12中1个独立候选块，保留原始首帧模板，原生实现没有在线模板更新。它不是串行12层ViT。V2另有4＋1路径与历史特征，详见第0.11节，勿混用版本描述。
 - Stage-54训练和完整OOF已完成，状态为`REVIEW_SHORT_ROLLOUT_ENDPOINT_PILOT`。Stage-55诊断已完成，状态为`COMPLETE_MATCHED_PARENT_CONTINUATION_DIAGNOSTIC`；该COMPLETE不是新方法PASS。
@@ -44,6 +44,7 @@ Stage-75 L20 已完成 13 个固定起点和 52 条短分支。0003 两个首败
 - **Stage-73已完成并为REVIEW，decision＋12表齐全。** 新8包／96实时fit段／204完整评价、1352508搜索，旧132政策同卡复现。PPO对原PPO+0.5235、9胜3负但两seed+3.6321／−2.5851，对新监督−2.3894；0307贡献主要均值收益，0304未修复、保护未过。见0.39，不重复扩训／调clip。
 - **Stage-74已完成并为REVIEW，decision＋11表齐全。** 96实时fit段／144完整评价、1082008搜索，无恢复支线。四选一PPO67.2356对匹配监督+4.0722、双seed正；对Q+0.9918、5胜7负，保护未过。0176／0307恢复及0304单seed保稳有进展，0003末尾短失败和0304另一个seed持续失跟保留，见0.41。扩展输入与动作是整体处理，不是纯动作数量消融。
 - **Stage-75 L20 已完成条件诊断。** 5 视频、13 起点、52 短分支、5092 搜索，回传 diagnostic 与 5 表齐全。13 个基准窗口的动作和输出框与 L40 缓存相同。见 0.43。
+- **Stage-76 L20 已完成选择策略对照。** 1152 个 fit 起点、108 条完整轨迹。8 帧监督较当帧监督 −6.2616 AUC，低 IoU +10.43 个百分点。PPO 同卡复测最高，保护仍未通过。见 0.45。
 - 当前以“保住多数适配收益，减少持续失跟及原稳定轨迹损伤”为主问题。新增价值可以建立在已有方法上；用户不要求绝对原创，也不希望因有相似工作就结束探索。
 
 ### 0.2 Stage-54：主要对照、结果及不能丢失的取舍
@@ -1232,11 +1233,27 @@ echo $!
 
 ### 0.44 2026-11-08 论文目标与 Stage-76
 
-最终目标是完成论文全文。当前先回答固定四次搜索下，用后续轨迹收益学习选框能否在完整视频上改善跟踪，以及 PPO 能否提供进一步增益。选取完整视频对照优先于再诊断单个 0304 窗口。Stage-75 继续作为论文失败分析及后续模块定位的依据。
+最终方法需要改动 SGLA 的一项实际跟踪机制，并用完整轨迹检验贡献。Stage-76 是选择策略的组件对照，用来判断后续收益监督和 PPO 哪种更适合保留。Stage-75 提供失跟诊断及后续模块定位的依据。
 
-Stage-76 用同一批 fit 历史、同一四选一模型比较当帧 IoU 标签与 8 帧同起点续跑标签，并在同一张卡上重测原 PPO、Q、future 和 q0。固定开发预算为 1152 个 fit 起点与 108 条评价轨迹。PPO 与两套 CE 的历史训练预算分别披露，标签影响由两套匹配 CE 的对照识别。本机 CPU 夹具已通过，服务器正式运行待执行。分配到 L20 或 L40 后，使用 `tools/run_stage76_horizon.sh`，回传 `stage76_results_*.txt`。 [协议和命令](docs/experiments/06_sgla_uav_tracking/STAGE76_MATCHED_HORIZON_SUPERVISION.md)
+Stage-76 用同一批 fit 历史、同一四选一模型比较当帧 IoU 标签与 8 帧同起点续跑标签，并在同一张卡上重测原 PPO、Q、future 和 q0。固定开发预算为 1152 个 fit 起点与 108 条评价轨迹。PPO 与两套 CE 的历史训练预算分别披露，标签影响由两套匹配 CE 的对照识别。L20 正式运行已回传，见 0.45。 [协议和命令](docs/experiments/06_sgla_uav_tracking/STAGE76_MATCHED_HORIZON_SUPERVISION.md)
 
-论文按证据决定主张。完整视频上的收益与保护若得到确认，就以固定搜索预算下的候选选择方法为主线。若仍有稳定损伤或总体增益不确定，则把已验证的条件收益、反例和适用边界写进全文，持续训练或改模块各自需要明确的待验证假设。
+模块方向由证据确定。先检查 0304／2172 失跟前后的四个搜索裁剪对目标的覆盖、响应网格可解出的最佳框与实际输出。覆盖不足时优先改原生跟踪流程中的搜索状态与区域构造。覆盖充分且网格中仍有好框时优先改 CENTER 的峰值选择与解码。覆盖充分而整个网格都缺好框时，先定位中心或宽高回归的误差。
+
+确认单一模块改动后，用原／新模块 × 基准／选定策略的同预算消融分别估计两项贡献。另报告原生单搜索 SGLA 与最终方法的完整视频 AUC、长失跟、稳定轨迹损伤和实际开销。模块和策略定型后在未参与设计的源视频上验证，论文按所得证据确定收益和适用边界。
+
+### 0.45 2026-11-08 Stage-76 回传结果
+
+状态 `COMPLETE_MATCHED_HORIZON_SUPERVISION_DEVELOPMENT`。同一张 L20 上完成 1152 个 fit 起点、4062 条短分支、108 条完整轨迹、605244 次搜索。匹配 8 帧监督 AUC 57.1320，当帧监督 63.3936，差 −6.2616、2 胜 10 负，家族区间 [−14.4867, +1.5992]。两种子差 −1.1109／−11.4123，低 IoU 增加 10.43 个百分点。fit 标签有 547 处变化，事后 8 帧均值仅增加 0.00455。 [Stage-76 结果复核](docs/experiments/06_sgla_uav_tracking/STAGE76_RESULTS_REVIEW.md)
+
+冻结 PPO 为 67.2356，比 8 帧监督 +10.1036、家族区间 [+2.8728, +18.4926]，两套训练曝光与预算不同。PPO 比 Q 和既有 future 的差仍为 +0.9918／+0.3102，稳定保护未过。8 帧监督在 0176、0226 的种子 2172 丢失恢复，在 0304 两个种子分别从第 556／554 帧持续失跟。0304 的这个较早失效段与 Stage-75 的 PPO 第 1078–1090 帧候选缺口可分开做模块诊断。Stage-63 在另一条历史的第 555 帧已有裁剪覆盖充分、网格可解好框却未输出的对照，新的两条历史需各自复核。 [Stage-63 结果](docs/experiments/06_sgla_uav_tracking/STAGE63_RESULTS_REVIEW.md) [Stage-75 结果](docs/experiments/06_sgla_uav_tracking/STAGE75_L20_RESULTS_REVIEW.md)
+
+接续优先定位 SGLA 搜索／解码模块的限制。Stage-76 保留为标签消融，回传原件及随包表 SHA 已核对，另由逐种子摘要重建了服务器 `video_summary.csv` 的哈希。服务器根 `output/stage76/matched_four_candidate_horizon_v1`。 [回传原件](docs/experiments/06_sgla_uav_tracking/results/stage76_results_20261108T021842Z_144458.txt)
+
+### 0.46 2026-11-08 Stage-77 搜索与解码定位
+
+实现已就绪，待服务器 GPU 回传。固定重放 0304 第 551–560 帧的五条历史、第 1076–1092 帧的三条历史、0003 两个错选事件及 0176／0204 各一个恢复状态，共 105 个状态、420 次搜索。沿用 Stage-76 的原生 SGLA、预测历史与四个裁剪。逐状态区分四候选错选、网格存在好框但解码未取出、覆盖不足、覆盖充分但网格无好框。服务器在 L20 或 L40 的分配上运行 `bash tools/run_stage77_module.sh`。 [固定窗口、命令和判读](docs/experiments/06_sgla_uav_tracking/STAGE77_SGLA_MODULE_DIAGNOSTIC.md)
+
+回传 `stage77_results_*.txt` 后，先核对好候选是否因换卡改变，再看 0304 两段的分类及 raw／Hann／尺寸结果。根据覆盖和网格证据选定一项 SGLA 原型，保留 PPO 和原生 SGLA 对照，后续用同预算消融检验模块贡献。
 
 ## 1. 接手后首先要知道的结论
 
