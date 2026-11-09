@@ -2,7 +2,7 @@
 
 更新日期：2026-11-08（Asia/Hong_Kong）
 
-**最终交付是提出并验证一个改进后的 SGLA 无人机单目标跟踪方法，再根据完整实验证据写出论文。** 最终方法须包含可独立验证的 SGLA 跟踪机制改动，例如搜索状态更新、搜索区域构造或输出解码。原生 SGLA 是主基线。先用同预算消融量化模块和选择策略各自的贡献，再做独立源视频确认、结果图表与失败分析。当前入口见 0.44–0.52。
+**最终交付是提出并验证一个改进后的 SGLA 无人机单目标跟踪方法，再根据完整实验证据写出论文。** 最终方法须包含可独立验证的 SGLA 跟踪机制改动，例如搜索状态更新、搜索区域构造或输出解码。原生 SGLA 是主基线。先用同预算消融量化模块和选择策略各自的贡献，再做独立源视频确认、结果图表与失败分析。当前入口见 0.53。
 
 当前完整评价为 Stage-76 L20，见 0.45。匹配 8 帧监督较当帧监督 −6.2616 AUC，2 胜 10 负。冻结 PPO 复测 67.2356，稳定保护仍未通过。Stage-74 的原 PPO 训练结果与配方见 0.41。 [Stage-76 结果复核](docs/experiments/06_sgla_uav_tracking/STAGE76_RESULTS_REVIEW.md)
 
@@ -13,7 +13,7 @@ Stage-75 L20 已完成 13 个固定起点和 52 条短分支。0003 两个首败
 
 ## 0. 下一次对话的直接接续入口
 
-本节更新至 2026-11-08。先读 0.52 的 Stage-83 中心保留、0.51 的 Stage-82 结果、0.48 的确认集和 0.44 的论文目标。尺度完整轨迹见 0.49–0.50。 [Stage-83 固定协议](docs/experiments/06_sgla_uav_tracking/STAGE83_CONFLICT_CENTER_MEMORY.md)
+本节更新至 2026-11-09。先读 0.53 的 Stage-84 运行入口，再读 0.52 的 Stage-83 结果、0.51 的 Stage-82 结果、0.48 的确认集和 0.44 的论文目标。尺度完整轨迹见 0.49–0.50。 [Stage-84 协议](docs/experiments/06_sgla_uav_tracking/STAGE84_MATCHED_MOTION_CANDIDATES.md)
 
 需要回溯历史与配对干预时读 0.33、0.31、0.29、0.27、0.24、0.22、0.20 和 0.18。较早阶段的运行状态按各节日期理解。 [Stage-60](docs/experiments/06_sgla_uav_tracking/STAGE60_RESULTS_REVIEW.md) · [Stage-54](docs/experiments/06_sgla_uav_tracking/STAGE54_RESULTS_REVIEW.md) · [Stage-55](docs/experiments/06_sgla_uav_tracking/STAGE55_RESULTS_REVIEW.md)
 
@@ -1279,9 +1279,17 @@ Stage-76 用同一批 fit 历史、同一四选一模型比较当帧 IoU 标签�
 
 服务器 L20 已完成，扫描 48 条预测历史的 54,100 个状态，回放 1,203 个活跃状态、7,218 次搜索。两种来源对应的 Stage-81 框与动作精确复现。原尺度／混合历史的活跃帧候选上界差为 −0.01668／−0.00613，好候选支持差为 −2.74／−1.15 个百分点，选择损失点估计未增加。重训门槛未通过，结束当前混合尺度配方；本轮是同历史诊断，不能从局部 IoU 解释全部整段 AUC 差。确认集零推理，保持封存。 [结果复核](docs/experiments/06_sgla_uav_tracking/STAGE82_RESULTS_REVIEW.md) · [回传原件](docs/experiments/06_sgla_uav_tracking/results/stage82_results_20261108T141916Z_445506.txt)
 
-### 0.52 2026-11-08 Stage-83 冲突前中心短时保留
+### 0.52 2026-11-09 Stage-83 冲突前中心短时保留结果
 
-实现已完成，待服务器运行。两候选近分且位置冲突时，当帧仍按冻结 PPO 输出，下一帧保留原路径，第二帧仅让 q2／q3 多用一帧冲突前中心，q0／q1 和尺寸规则保持原样。比较原生单搜索、原尺度 PPO、中心保留 PPO。12 视频、两种子、60 条完整轨迹、229,925 次搜索。确认集零推理。运行 `bash tools/run_stage83_center_memory.sh`，回传 `stage83_results_*.txt`。 [固定规则、预算和门槛](docs/experiments/06_sgla_uav_tracking/STAGE83_CONFLICT_CENTER_MEMORY.md)
+同一 L20 跑完 12 视频、60 条完整轨迹和 229,925 次搜索。原生、原尺度 PPO、中心保留 PPO 的 AUC 分别为 63.4512、67.2356、65.6062。中心保留相对原尺度 PPO 下降 1.6294 点，95% 配对区间 [−4.8929, +0.0927]，低 IoU 与最长失跟分别增加 2.44 和 2.72 个百分点。五项开发门槛均未通过，原尺度 PPO 已有的两个原生稳定视频失跟仍在。
+
+46 次触发实际改变 45 帧裁剪。只有一帧在该方案的四候选中由保留对独家提供 IoU ≥ 0.5 的框，PPO 仍选到 IoU 为零的框。最大退化来自 `uav0000176_00000_s` 的种子 2172，两臂首败均在 314 帧，原尺度 PPO 后续恢复，中心保留版这次失跟持续至结束。候选日志来自中心保留版自己的历史，无法分离同一历史下候选替换的效果与后续历史分叉的效果。当前配方退出候选，28 组确认集推理为零。 [结果复核](docs/experiments/06_sgla_uav_tracking/STAGE83_RESULTS_REVIEW.md) · [固定协议](docs/experiments/06_sgla_uav_tracking/STAGE83_CONFLICT_CENTER_MEMORY.md)
+
+### 0.53 2026-11-09 Stage-84 固定四候选与运动生成四候选
+
+已实现，待服务器回放。固定 Stage-76 原尺度 PPO 两个种子的历史，在 12 个开发视频、24 条历史、27,050 个状态上，以同一 SGLA、同一当前图像比较两套四候选。新规则保留 q0 与各槽位的宽高，使用过去至多五个预测框估计运动和离散程度，按互补覆盖选另外三个中心。两臂各有 108,200 个逻辑槽位，同帧完全相同的浮点父框共用一次推理，物理调用按实际记录。主要指标为最佳候选 IoU 和至少一个好框的比例。本轮只检验候选供给，确认集仍封存。
+
+本机两项测试通过，含真实 CPU CENTER 微型回放、固定候选复现和续跑缓存。服务器节点 `n1` 在本机无法解析，正式运行尚未启动。服务器运行 `bash tools/run_stage84_motion_candidates.sh`，回传 `stage84_results_*.txt`。 [固定规则、统计门槛和后台命令](docs/experiments/06_sgla_uav_tracking/STAGE84_MATCHED_MOTION_CANDIDATES.md)
 
 ## 1. 接手后首先要知道的结论
 

@@ -1,0 +1,491 @@
+
+===== stage83_decision.json =====
+{
+  "schema": "stage83_conflict_center_memory_v1",
+  "status": "COMPLETE_CONFLICT_CENTER_MEMORY_DEVELOPMENT",
+  "plan_fingerprint": "752a00e91e9c0884b2489cb968e1b47cc501e93d02bd6e14b9f8e72c6c62a656",
+  "runtime": {
+    "tracker": {
+      "parameter": "deit_distilled",
+      "checkpoint_sha256": "88447c7724704edaf03488f519d3e300385fef05c2f1fac02fe22f7941cf334e",
+      "config": {
+        "MODEL": {
+          "PRETRAIN_FILE": "deit_tiny_distilled_patch16_224.pth",
+          "EXTRA_MERGER": false,
+          "RETURN_INTER": false,
+          "RETURN_STAGES": [],
+          "BACKBONE": {
+            "TYPE": "deit_tiny_distilled_patch16",
+            "STRIDE": 16,
+            "MID_PE": false,
+            "SEP_SEG": false,
+            "CAT_MODE": "direct",
+            "MERGE_LAYER": 0,
+            "ADD_CLS_TOKEN": false,
+            "CLS_TOKEN_USE_MODE": "ignore",
+            "CE_LOC": [],
+            "CE_KEEP_RATIO": [],
+            "CE_TEMPLATE_RANGE": "ALL"
+          },
+          "HEAD": {
+            "TYPE": "CENTER",
+            "NUM_CHANNELS": 256
+          }
+        },
+        "TRAIN": {
+          "LR": 0.0004,
+          "WEIGHT_DECAY": 0.0001,
+          "EPOCH": 300,
+          "LR_DROP_EPOCH": 240,
+          "BATCH_SIZE": 32,
+          "NUM_WORKER": 4,
+          "OPTIMIZER": "ADAMW",
+          "BACKBONE_MULTIPLIER": 0.1,
+          "GIOU_WEIGHT": 2.0,
+          "L1_WEIGHT": 5.0,
+          "FREEZE_LAYERS": [
+            0
+          ],
+          "PRINT_INTERVAL": 50,
+          "VAL_EPOCH_INTERVAL": 999,
+          "GRAD_CLIP_NORM": 0.1,
+          "AMP": false,
+          "CE_START_EPOCH": 20,
+          "CE_WARM_EPOCH": 80,
+          "DROP_PATH_RATE": 0.1,
+          "SCHEDULER": {
+            "TYPE": "step",
+            "DECAY_RATE": 0.1
+          }
+        },
+        "DATA": {
+          "SAMPLER_MODE": "causal",
+          "MEAN": [
+            0.485,
+            0.456,
+            0.406
+          ],
+          "STD": [
+            0.229,
+            0.224,
+            0.225
+          ],
+          "MAX_SAMPLE_INTERVAL": 200,
+          "TRAIN": {
+            "DATASETS_NAME": [
+              "LASOT",
+              "GOT10K_vottrain",
+              "COCO17",
+              "TRACKINGNET"
+            ],
+            "DATASETS_RATIO": [
+              1,
+              1,
+              1,
+              1
+            ],
+            "SAMPLE_PER_EPOCH": 60000
+          },
+          "VAL": {
+            "DATASETS_NAME": [
+              "GOT10K_votval"
+            ],
+            "DATASETS_RATIO": [
+              1
+            ],
+            "SAMPLE_PER_EPOCH": 10000
+          },
+          "SEARCH": {
+            "SIZE": 256,
+            "FACTOR": 4.0,
+            "CENTER_JITTER": 3,
+            "SCALE_JITTER": 0.25,
+            "NUMBER": 1
+          },
+          "TEMPLATE": {
+            "NUMBER": 1,
+            "SIZE": 128,
+            "FACTOR": 2.0,
+            "CENTER_JITTER": 0,
+            "SCALE_JITTER": 0
+          }
+        },
+        "TEST": {
+          "TEMPLATE_FACTOR": 2.0,
+          "TEMPLATE_SIZE": 128,
+          "SEARCH_FACTOR": 4.0,
+          "SEARCH_SIZE": 256,
+          "EPOCH": 297
+        }
+      },
+      "torch": "2.7.1+cu118",
+      "cuda": "11.8",
+      "device": "NVIDIA L20",
+      "lens_z": 64,
+      "lens_x": 256,
+      "embed_dim": 192
+    },
+    "opencv": "5.0.0",
+    "numpy": "1.26.4",
+    "gpu_uuid": "bd2283f0-25e4-2734-53c1-e3a243ca482c",
+    "model_state_sha256": "13af4170053b1e6f4b371c872fce2036cd5c225dffd0831093ddd790eb11e70f"
+  },
+  "source_stage82_fingerprint": "aae8065284f5c1042f5baebaf52514fbb6f404f21306a57c51c0048649a7f68c",
+  "confirmation_fingerprint": "964470edee1409e5310bd79d59fc50f9b341fb9070243ee8436e4b612e559dc3",
+  "trajectories": 60,
+  "search_calls": 229925,
+  "block_calls": 1609475,
+  "training_updates": 0,
+  "confirmation_inference_calls": 0,
+  "triggers": 46,
+  "changed_crop_frames": 45,
+  "only_reserved_pair_has_good_frames": 1,
+  "max_source_box_error": 0.0,
+  "source_action_changes": 0,
+  "development_checks": {
+    "practical_auc": false,
+    "paired_auc_positive": false,
+    "low_iou_not_worse": false,
+    "longest_failure_not_worse": false,
+    "no_new_failure_on_native_stable": false
+  },
+  "development_pass": false,
+  "evaluation_evidence_fingerprint": "61a0682bc74b1f02c813dbfc8da186fc3addb411a55a8caf250d2865cde52088",
+  "table_sha256": {
+    "stage83_policy_summary.csv": "3a8afb31be1746eb414c8a7b247b525808be289dd33aaed6607b75c06909ed81",
+    "stage83_paired.csv": "151f91dc1b93f6cbe72a114783620a65a01fa146438762f95eb7d64271d3cf96",
+    "stage83_video_summary.csv": "5d199df0c917d7da6390fb92d0be82663b141c7379a9780af9c6b672a70ae966",
+    "stage83_seed_video_summary.csv": "793f6990b1ea0956acf2548defa3eeb689babcd35365ecc8b11d41751b9ed573",
+    "stage83_scope.csv": "45946d8a7c1572a90a89e8daea76a45cf77537bb0142b57852a7744a47a094f5",
+    "stage83_memory_frames.csv": "dd9589adb364b81a0ded968347fea7025b9fb7ee281561056e13bfbf84edb0c5"
+  },
+  "fingerprint": "f49463a7c541557c1d2ed93b01b00b428e351724a78b60df6fb590b42897b89f"
+}
+
+
+===== stage83_policy_summary.csv =====
+arm,videos,introduced_failure_videos,auc,low_iou_fraction,reliable_auc,longest_failure_fraction
+native_sgla,12,0,63.45118150594076,0.14457277622166684,75.56023758900591,0.1542503322256821
+original_ppo,12,2,67.23560877404917,0.08040420873717148,73.14613184957702,0.0855136863066258
+center_memory_ppo,12,2,65.6061796709174,0.10482679401529672,73.07096186903337,0.11273855142419777
+
+
+===== stage83_paired.csv =====
+contrast,metric,videos,mean_delta,median_delta,ci_low,ci_high,wins,ties,losses,minimum_leave_one_video_out,favorable_direction,worst_video_delta,worst_leave_one_video_out_delta,family_ci_low,family_ci_high
+center_memory_ppo_minus_original_ppo,auc,12,-1.6294291031317663,0.0,-4.892885447057956,0.09270889880988165,3,7,2,-1.8230601154864816,positive,-19.30261136712749,-1.8230601154864816,,
+center_memory_ppo_minus_original_ppo,low_iou_fraction,12,0.024422585278125252,0.0,-0.0011407199625993434,0.07266358574563343,1,8,3,0.0006604156113272515,negative,0.28580645161290325,0.02727820642266645,,
+center_memory_ppo_minus_original_ppo,reliable_auc,12,-0.07516998054366238,0.0,-0.29674006684665066,0.05927324847238028,3,8,1,-0.10238681937824752,positive,-1.2173128944995426,-0.10238681937824752,,
+center_memory_ppo_minus_original_ppo,longest_failure_fraction,12,0.02722486511757199,0.0,-0.00038920056100981887,0.07836433207400949,1,8,3,0.0031895889259143106,negative,0.29161290322580646,0.030017545915161623,,
+center_memory_ppo_minus_native_sgla,auc,12,2.15499816497665,0.0035024181134239996,-3.3577213579633756,9.03597221525048,6,0,6,-0.49227123798385813,positive,-14.149068322981371,-0.49227123798385813,,
+center_memory_ppo_minus_native_sgla,low_iou_fraction,12,-0.03974598220637011,0.0002651113467656424,-0.14000403111009235,0.03736158338731842,3,3,6,-0.06017084751893867,negative,0.18492753623188407,0.0005703654522883249,,
+center_memory_ppo_minus_native_sgla,reliable_auc,12,-2.4892757199725426,-0.06611646121019277,-5.16939227034272,-0.5141907065837149,2,0,10,-2.7252929450824666,positive,-14.662030677655672,-2.7252929450824666,,
+center_memory_ppo_minus_native_sgla,longest_failure_fraction,12,-0.04151178080148435,0.0,-0.14253194447521902,0.03594880834011269,5,4,3,-0.062255276025861714,negative,0.18666666666666668,-0.0009454031030855666,,
+
+
+===== stage83_video_summary.csv =====
+sequence,arm,introduced_failure,auc,low_iou_fraction,reliable_auc,longest_failure_fraction
+uav0000003_00000_s,native_sgla,False,79.2989417989418,0.0,79.2989417989418,0.0
+uav0000003_00000_s,original_ppo,True,76.20701058201058,0.04166666666666667,76.20701058201058,0.04166666666666667
+uav0000003_00000_s,center_memory_ppo,True,76.20701058201058,0.04166666666666667,76.20701058201058,0.04166666666666667
+uav0000126_07915_s,native_sgla,False,88.00060564766447,0.0,88.00060564766447,0.0
+uav0000126_07915_s,original_ppo,False,87.95896737073207,0.0,87.95896737073207,0.0
+uav0000126_07915_s,center_memory_ppo,False,87.95896737073207,0.0,87.95896737073207,0.0
+uav0000147_00000_s,native_sgla,False,37.674817674817675,0.4292792792792793,69.60367555498304,0.42882882882882883
+uav0000147_00000_s,original_ppo,False,37.54504504504504,0.4371621621621622,67.8303061531195,0.42567567567567566
+uav0000147_00000_s,center_memory_ppo,False,36.700986700986704,0.4511261261261261,66.61299325861995,0.46193693693693694
+uav0000170_00000_s,native_sgla,False,75.05572441742655,0.0,75.19940264060008,0.0
+uav0000170_00000_s,original_ppo,False,75.16548463356975,0.0,75.3063163968367,0.0
+uav0000170_00000_s,center_memory_ppo,False,75.16548463356975,0.0,75.3063163968367,0.0
+uav0000176_00000_s,native_sgla,False,16.098310291858677,0.7935483870967742,78.69352869352869,0.792258064516129
+uav0000176_00000_s,original_ppo,False,66.67588325652841,0.024516129032258062,77.014652014652,0.012903225806451613
+uav0000176_00000_s,center_memory_ppo,False,47.37327188940092,0.31032258064516133,77.014652014652,0.30451612903225805
+uav0000204_00000_s,native_sgla,False,53.92172069696499,0.248642779587405,71.47688060731538,0.249728555917481
+uav0000204_00000_s,original_ppo,False,72.55829584819813,0.0,71.432022084196,0.0
+uav0000204_00000_s,center_memory_ppo,False,72.55829584819813,0.0,71.432022084196,0.0
+uav0000226_05370_s,native_sgla,False,55.06144393241167,0.0532258064516129,67.33717702327567,0.12258064516129032
+uav0000226_05370_s,original_ppo,False,54.60957501280082,0.06182795698924731,67.09587871022848,0.11693548387096775
+uav0000226_05370_s,center_memory_ppo,False,55.11008704557092,0.054838709677419356,67.32009395686525,0.11344086021505376
+uav0000237_00001_s,native_sgla,False,72.8380315336837,0.08695652173913043,79.83398864132809,0.08695652173913043
+uav0000237_00001_s,original_ppo,False,73.27599936295589,0.0794314381270903,79.6941896024465,0.07859531772575251
+uav0000237_00001_s,center_memory_ppo,False,73.33174072304507,0.0794314381270903,79.74661424202708,0.07859531772575251
+uav0000304_00253_s,native_sgla,False,72.28709454796412,0.0,73.60061813186813,0.0
+uav0000304_00253_s,original_ppo,True,58.1007591442374,0.18463768115942028,58.89995421245422,0.18434782608695652
+uav0000304_00253_s,center_memory_ppo,True,58.138026224982745,0.18492753623188407,58.93858745421246,0.18666666666666668
+uav0000307_04531_s,native_sgla,False,66.50981868373172,0.052700922266139656,73.62115732368896,0.10013175230566534
+uav0000307_04531_s,original_ppo,False,60.44921262312566,0.06455862977602107,66.22965641952985,0.09552042160737813
+uav0000307_04531_s,center_memory_ppo,False,60.44921262312566,0.06455862977602107,66.22965641952985,0.09552042160737813
+uav0000329_00276_s,native_sgla,False,73.34766682592769,0.0,73.34766682592769,0.0
+uav0000329_00276_s,original_ppo,False,73.4193342888995,0.0,73.4193342888995,0.0
+uav0000329_00276_s,center_memory_ppo,False,73.4193342888995,0.0,73.4193342888995,0.0
+uav0000342_01518_s,native_sgla,False,71.32000201989598,0.07051961823966066,76.70920817894881,0.07051961823966066
+uav0000342_01518_s,original_ppo,False,70.86173812048679,0.07104984093319194,76.66529435981886,0.07051961823966066
+uav0000342_01518_s,center_memory_ppo,False,70.86173812048679,0.07104984093319194,76.66529435981886,0.07051961823966066
+
+
+===== stage83_seed_video_summary.csv =====
+sequence,origin,fold,seed,policy,arm,auc,low_iou_fraction,failure_events,reliable_auc,introduced_failure,mean_abs_log_size_error,oversize3_fraction,longest_failure_fraction,unrecovered_events,recovered_events,relapse_events,first_failure_frame,native_failure_auc
+uav0000126_07915_s,native,0,0,q0,native_sgla,88.00060564766447,0.0,0,88.00060564766447,False,0.03961251799034821,0.0,0.0,0,0,0,,
+uav0000147_00000_s,native,0,0,q0,native_sgla,37.674817674817675,0.4292792792792793,1,69.60367555498304,False,1.098591656911442,0.42882882882882883,0.42882882882882883,1,0,0,1269,0.0749512816669165
+uav0000170_00000_s,native,0,0,q0,native_sgla,75.05572441742655,0.0,0,75.19940264060008,False,0.11245434436328261,0.0,0.0,0,0,0,,
+uav0000176_00000_s,native,0,0,q0,native_sgla,16.098310291858677,0.7935483870967742,1,78.69352869352869,False,0.5001436193447626,0.2167741935483871,0.792258064516129,1,0,0,162,0.13937282229965156
+uav0000304_00253_s,native,0,0,q0,native_sgla,72.28709454796412,0.0,0,73.60061813186813,False,0.10890217273102508,0.0,0.0,0,0,0,,
+uav0000329_00276_s,native,0,0,q0,native_sgla,73.34766682592769,0.0,0,73.34766682592769,False,0.11763613341756236,0.0,0.0,0,0,0,,
+uav0000003_00000_s,native,1,0,q0,native_sgla,79.2989417989418,0.0,0,79.2989417989418,False,0.07127429112053354,0.0,0.0,0,0,0,,
+uav0000204_00000_s,native,1,0,q0,native_sgla,53.92172069696499,0.248642779587405,1,71.47688060731538,False,0.2838306825336285,0.0749185667752443,0.249728555917481,0,1,0,664,1.1021002287377835
+uav0000226_05370_s,native,1,0,q0,native_sgla,55.06144393241167,0.0532258064516129,1,67.33717702327567,False,0.2881988136430797,0.016666666666666666,0.12258064516129032,0,1,0,110,11.832611832611832
+uav0000237_00001_s,native,1,0,q0,native_sgla,72.8380315336837,0.08695652173913043,1,79.83398864132809,False,0.10816645597465077,0.0,0.08695652173913043,0,1,0,242,0.0
+uav0000307_04531_s,native,1,0,q0,native_sgla,66.50981868373172,0.052700922266139656,1,73.62115732368896,False,0.21260482395440747,0.002635046113306983,0.10013175230566534,0,1,0,398,18.452380952380953
+uav0000342_01518_s,native,1,0,q0,native_sgla,71.32000201989598,0.07051961823966066,1,76.70920817894881,False,0.1876949525021377,0.07051961823966066,0.07051961823966066,1,0,0,1754,6.086645184389545
+uav0000126_07915_s,native,0,2171,ppo,original_ppo,87.94761147702324,0.0,0,87.94761147702324,False,0.03992098693431474,0.0,0.0,0,0,0,,
+uav0000126_07915_s,native,0,2171,ppo,center_memory_ppo,87.94761147702324,0.0,0,87.94761147702324,False,0.03992098693431474,0.0,0.0,0,0,0,,
+uav0000147_00000_s,native,0,2171,ppo,original_ppo,38.88888888888889,0.4238738738738739,1,69.32886770578385,False,0.46848749499391973,0.12162162162162163,0.4238738738738739,1,0,0,1280,1.049317943336831
+uav0000147_00000_s,native,0,2171,ppo,center_memory_ppo,38.88888888888889,0.4238738738738739,1,69.32886770578385,False,0.46848749499391973,0.12162162162162163,0.4238738738738739,1,0,0,1280,1.049317943336831
+uav0000170_00000_s,native,0,2171,ppo,original_ppo,75.21445457615671,0.0,0,75.35892475308013,False,0.11169660970984305,0.0,0.0,0,0,0,,
+uav0000170_00000_s,native,0,2171,ppo,center_memory_ppo,75.21445457615671,0.0,0,75.35892475308013,False,0.11169660970984305,0.0,0.0,0,0,0,,
+uav0000176_00000_s,native,0,2171,ppo,original_ppo,66.715821812596,0.02193548387096774,2,77.74725274725274,False,0.19598670987382705,0.0,0.012903225806451613,0,2,1,381,64.15021293070073
+uav0000176_00000_s,native,0,2171,ppo,center_memory_ppo,66.715821812596,0.02193548387096774,2,77.74725274725274,False,0.19598670987382705,0.0,0.012903225806451613,0,2,1,381,64.15021293070073
+uav0000304_00253_s,native,0,2171,ppo,original_ppo,72.39475500345065,0.0,0,73.70650183150184,False,0.10907568635914942,0.0,0.0,0,0,0,,
+uav0000304_00253_s,native,0,2171,ppo,center_memory_ppo,72.39475500345065,0.0,0,73.70650183150184,False,0.10907568635914942,0.0,0.0,0,0,0,,
+uav0000329_00276_s,native,0,2171,ppo,original_ppo,73.4193342888995,0.0,0,73.4193342888995,False,0.11714724614581502,0.0,0.0,0,0,0,,
+uav0000329_00276_s,native,0,2171,ppo,center_memory_ppo,73.4193342888995,0.0,0,73.4193342888995,False,0.11714724614581502,0.0,0.0,0,0,0,,
+uav0000126_07915_s,native,0,2172,ppo,original_ppo,87.9703232644409,0.0,0,87.9703232644409,False,0.03932209584509165,0.0,0.0,0,0,0,,
+uav0000126_07915_s,native,0,2172,ppo,center_memory_ppo,87.9703232644409,0.0,0,87.9703232644409,False,0.03932209584509165,0.0,0.0,0,0,0,,
+uav0000147_00000_s,native,0,2172,ppo,original_ppo,36.2012012012012,0.45045045045045046,2,66.33174460045515,False,0.47655642651518143,0.11891891891891893,0.4274774774774775,1,1,1,1111,0.15989606755608854
+uav0000147_00000_s,native,0,2172,ppo,center_memory_ppo,34.513084513084515,0.4783783783783784,1,63.89711881145605,False,0.4326119557951966,0.12072072072072072,0.5,1,0,0,1111,0.2698246140008994
+uav0000170_00000_s,native,0,2172,ppo,original_ppo,75.11651469098277,0.0,0,75.25370804059328,False,0.1117208980455216,0.0,0.0,0,0,0,,
+uav0000170_00000_s,native,0,2172,ppo,center_memory_ppo,75.11651469098277,0.0,0,75.25370804059328,False,0.1117208980455216,0.0,0.0,0,0,0,,
+uav0000176_00000_s,native,0,2172,ppo,original_ppo,66.63594470046083,0.027096774193548386,4,76.28205128205127,False,0.19607875144709092,0.0,0.012903225806451613,0,4,3,314,64.34378629500581
+uav0000176_00000_s,native,0,2172,ppo,center_memory_ppo,28.030721966205835,0.5987096774193549,1,76.28205128205127,False,0.6803695099891897,0.2270967741935484,0.5961290322580645,1,0,0,314,15.694928377855208
+uav0000304_00253_s,native,0,2172,ppo,original_ppo,43.806763285024154,0.36927536231884056,1,44.09340659340659,True,0.18534051720239636,0.015072463768115942,0.36869565217391304,1,0,0,1090,
+uav0000304_00253_s,native,0,2172,ppo,center_memory_ppo,43.881297446514836,0.36985507246376814,1,44.17067307692308,True,0.18605340850658933,0.01855072463768116,0.37333333333333335,1,0,0,1082,
+uav0000329_00276_s,native,0,2172,ppo,original_ppo,73.4193342888995,0.0,0,73.4193342888995,False,0.11677973054823797,0.0,0.0,0,0,0,,
+uav0000329_00276_s,native,0,2172,ppo,center_memory_ppo,73.4193342888995,0.0,0,73.4193342888995,False,0.11677973054823797,0.0,0.0,0,0,0,,
+uav0000003_00000_s,native,1,2171,ppo,original_ppo,75.76058201058201,0.04861111111111111,1,75.76058201058201,True,0.07246727740979816,0.0,0.04861111111111111,1,0,0,138,
+uav0000003_00000_s,native,1,2171,ppo,center_memory_ppo,75.76058201058201,0.04861111111111111,1,75.76058201058201,True,0.0714204715030658,0.0,0.04861111111111111,1,0,0,138,
+uav0000204_00000_s,native,1,2171,ppo,original_ppo,72.48332557778812,0.0,0,71.31815044858523,False,0.1195986736905763,0.0,0.0,0,0,0,,76.0241214389686
+uav0000204_00000_s,native,1,2171,ppo,center_memory_ppo,72.48332557778812,0.0,0,71.31815044858523,False,0.1195986736905763,0.0,0.0,0,0,0,,76.0241214389686
+uav0000226_05370_s,native,1,2171,ppo,original_ppo,54.377880184331794,0.06774193548387097,1,66.98697416186205,False,0.28386218731193,0.012365591397849462,0.12043010752688173,0,1,0,119,13.9009139009139
+uav0000226_05370_s,native,1,2171,ppo,center_memory_ppo,55.00000000000001,0.06236559139784946,1,67.40550928891736,False,0.2794864946011119,0.012903225806451613,0.11236559139784946,0,1,0,119,21.30832130832131
+uav0000237_00001_s,native,1,2171,ppo,original_ppo,73.39544513457557,0.07525083612040134,1,79.7553516819572,False,0.10402539075513781,0.0,0.07357859531772576,0,1,0,250,7.417582417582418
+uav0000237_00001_s,native,1,2171,ppo,center_memory_ppo,73.38748208313426,0.07525083612040134,1,79.74661424202708,False,0.1042649799264527,0.0,0.07357859531772576,0,1,0,250,7.417582417582418
+uav0000307_04531_s,native,1,2171,ppo,original_ppo,57.40008783487044,0.06982872200263504,2,62.40204942736588,False,0.3137337115671853,0.003952569169960474,0.09354413702239789,0,2,1,403,21.30952380952381
+uav0000307_04531_s,native,1,2171,ppo,center_memory_ppo,57.40008783487044,0.06982872200263504,2,62.40204942736588,False,0.3137337115671853,0.003952569169960474,0.09354413702239789,0,2,1,403,21.30952380952381
+uav0000342_01518_s,native,1,2171,ppo,original_ppo,70.9286471746705,0.07051961823966066,1,76.7201866337313,False,0.13008725126723408,0.0,0.06945917285259809,1,0,0,1756,0.2506265664160401
+uav0000342_01518_s,native,1,2171,ppo,center_memory_ppo,70.9286471746705,0.07051961823966066,1,76.7201866337313,False,0.13008725126723408,0.0,0.06945917285259809,1,0,0,1756,0.2506265664160401
+uav0000003_00000_s,native,1,2172,ppo,original_ppo,76.65343915343915,0.034722222222222224,1,76.65343915343915,True,0.07160124118962058,0.0,0.034722222222222224,1,0,0,140,
+uav0000003_00000_s,native,1,2172,ppo,center_memory_ppo,76.65343915343915,0.034722222222222224,1,76.65343915343915,True,0.0740154650713436,0.0,0.034722222222222224,1,0,0,140,
+uav0000204_00000_s,native,1,2172,ppo,original_ppo,72.63326611860815,0.0,0,71.54589371980677,False,0.11867538064226846,0.0,0.0,0,0,0,,75.94094406321481
+uav0000204_00000_s,native,1,2172,ppo,center_memory_ppo,72.63326611860815,0.0,0,71.54589371980677,False,0.11867538064226846,0.0,0.0,0,0,0,,75.94094406321481
+uav0000226_05370_s,native,1,2172,ppo,original_ppo,54.84126984126985,0.05591397849462366,1,67.20478325859492,False,0.2854388381027245,0.012903225806451613,0.11344086021505376,0,1,0,126,11.736411736411737
+uav0000226_05370_s,native,1,2172,ppo,center_memory_ppo,55.220174091141836,0.047311827956989246,1,67.23467862481314,False,0.2829934088366757,0.010752688172043012,0.11451612903225807,0,1,0,126,14.237614237614238
+uav0000237_00001_s,native,1,2172,ppo,original_ppo,73.1565535913362,0.08361204013377926,1,79.63302752293579,False,0.10637645100177236,0.0,0.08361204013377926,0,1,0,240,5.952380952380952
+uav0000237_00001_s,native,1,2172,ppo,center_memory_ppo,73.27599936295587,0.08361204013377926,1,79.74661424202708,False,0.10611246084657552,0.0,0.08361204013377926,0,1,0,240,6.135531135531135
+uav0000307_04531_s,native,1,2172,ppo,original_ppo,63.49833741138089,0.05928853754940711,1,70.0572634116938,False,0.24410993056041647,0.002635046113306983,0.09749670619235837,0,1,0,397,19.88095238095238
+uav0000307_04531_s,native,1,2172,ppo,center_memory_ppo,63.49833741138089,0.05928853754940711,1,70.0572634116938,False,0.24410993056041647,0.002635046113306983,0.09749670619235837,0,1,0,397,19.88095238095238
+uav0000342_01518_s,native,1,2172,ppo,original_ppo,70.7948290663031,0.07158006362672323,1,76.6104020859064,False,0.12740914318704252,0.0,0.07158006362672323,1,0,0,1752,0.0
+uav0000342_01518_s,native,1,2172,ppo,center_memory_ppo,70.7948290663031,0.07158006362672323,1,76.6104020859064,False,0.12740914318704252,0.0,0.07158006362672323,1,0,0,1752,0.0
+
+
+===== stage83_scope.csv =====
+sequence,origin,fold,seed,policy,arm,frames,search_calls,block_calls,trigger_frames,reserved_frames,changed_crop_frames,only_reserved_pair_has_good_frames,source_box_error,source_action_changes
+uav0000126_07915_s,native,0,0,q0,native_sgla,629,629,4403,0,0,0,0,0.0,
+uav0000147_00000_s,native,0,0,q0,native_sgla,2220,2220,15540,0,0,0,0,0.0,
+uav0000170_00000_s,native,0,0,q0,native_sgla,1410,1410,9870,0,0,0,0,0.0,
+uav0000176_00000_s,native,0,0,q0,native_sgla,775,775,5425,0,0,0,0,0.0,
+uav0000304_00253_s,native,0,0,q0,native_sgla,1725,1725,12075,0,0,0,0,0.0,
+uav0000329_00276_s,native,0,0,q0,native_sgla,598,598,4186,0,0,0,0,0.0,
+uav0000003_00000_s,native,1,0,q0,native_sgla,144,144,1008,0,0,0,0,0.0,
+uav0000204_00000_s,native,1,0,q0,native_sgla,921,921,6447,0,0,0,0,0.0,
+uav0000226_05370_s,native,1,0,q0,native_sgla,1860,1860,13020,0,0,0,0,0.0,
+uav0000237_00001_s,native,1,0,q0,native_sgla,598,598,4186,0,0,0,0,0.0,
+uav0000307_04531_s,native,1,0,q0,native_sgla,759,759,5313,0,0,0,0,0.0,
+uav0000342_01518_s,native,1,0,q0,native_sgla,1886,1886,13202,0,0,0,0,0.0,
+uav0000126_07915_s,native,0,2171,ppo,original_ppo,629,2516,17612,0,0,0,0,0.0,0
+uav0000126_07915_s,native,0,2171,ppo,center_memory_ppo,629,2516,17612,0,0,0,0,,
+uav0000147_00000_s,native,0,2171,ppo,original_ppo,2220,8880,62160,0,0,0,0,0.0,0
+uav0000147_00000_s,native,0,2171,ppo,center_memory_ppo,2220,8880,62160,0,0,0,0,,
+uav0000170_00000_s,native,0,2171,ppo,original_ppo,1410,5640,39480,0,0,0,0,0.0,0
+uav0000170_00000_s,native,0,2171,ppo,center_memory_ppo,1410,5640,39480,0,0,0,0,,
+uav0000176_00000_s,native,0,2171,ppo,original_ppo,775,3100,21700,0,0,0,0,0.0,0
+uav0000176_00000_s,native,0,2171,ppo,center_memory_ppo,775,3100,21700,0,0,0,0,,
+uav0000304_00253_s,native,0,2171,ppo,original_ppo,1725,6900,48300,0,0,0,0,0.0,0
+uav0000304_00253_s,native,0,2171,ppo,center_memory_ppo,1725,6900,48300,0,0,0,0,,
+uav0000329_00276_s,native,0,2171,ppo,original_ppo,598,2392,16744,0,0,0,0,0.0,0
+uav0000329_00276_s,native,0,2171,ppo,center_memory_ppo,598,2392,16744,0,0,0,0,,
+uav0000126_07915_s,native,0,2172,ppo,original_ppo,629,2516,17612,0,0,0,0,0.0,0
+uav0000126_07915_s,native,0,2172,ppo,center_memory_ppo,629,2516,17612,0,0,0,0,,
+uav0000147_00000_s,native,0,2172,ppo,original_ppo,2220,8880,62160,0,0,0,0,0.0,0
+uav0000147_00000_s,native,0,2172,ppo,center_memory_ppo,2220,8880,62160,16,32,16,0,,
+uav0000170_00000_s,native,0,2172,ppo,original_ppo,1410,5640,39480,0,0,0,0,0.0,0
+uav0000170_00000_s,native,0,2172,ppo,center_memory_ppo,1410,5640,39480,0,0,0,0,,
+uav0000176_00000_s,native,0,2172,ppo,original_ppo,775,3100,21700,0,0,0,0,0.0,0
+uav0000176_00000_s,native,0,2172,ppo,center_memory_ppo,775,3100,21700,9,18,9,1,,
+uav0000304_00253_s,native,0,2172,ppo,original_ppo,1725,6900,48300,0,0,0,0,0.0,0
+uav0000304_00253_s,native,0,2172,ppo,center_memory_ppo,1725,6900,48300,7,14,7,0,,
+uav0000329_00276_s,native,0,2172,ppo,original_ppo,598,2392,16744,0,0,0,0,0.0,0
+uav0000329_00276_s,native,0,2172,ppo,center_memory_ppo,598,2392,16744,0,0,0,0,,
+uav0000003_00000_s,native,1,2171,ppo,original_ppo,144,576,4032,0,0,0,0,0.0,0
+uav0000003_00000_s,native,1,2171,ppo,center_memory_ppo,144,576,4032,3,4,2,0,,
+uav0000204_00000_s,native,1,2171,ppo,original_ppo,921,3684,25788,0,0,0,0,0.0,0
+uav0000204_00000_s,native,1,2171,ppo,center_memory_ppo,921,3684,25788,0,0,0,0,,
+uav0000226_05370_s,native,1,2171,ppo,original_ppo,1860,7440,52080,0,0,0,0,0.0,0
+uav0000226_05370_s,native,1,2171,ppo,center_memory_ppo,1860,7440,52080,1,2,1,0,,
+uav0000237_00001_s,native,1,2171,ppo,original_ppo,598,2392,16744,0,0,0,0,0.0,0
+uav0000237_00001_s,native,1,2171,ppo,center_memory_ppo,598,2392,16744,1,2,1,0,,
+uav0000307_04531_s,native,1,2171,ppo,original_ppo,759,3036,21252,0,0,0,0,0.0,0
+uav0000307_04531_s,native,1,2171,ppo,center_memory_ppo,759,3036,21252,0,0,0,0,,
+uav0000342_01518_s,native,1,2171,ppo,original_ppo,1886,7544,52808,0,0,0,0,0.0,0
+uav0000342_01518_s,native,1,2171,ppo,center_memory_ppo,1886,7544,52808,1,2,1,0,,
+uav0000003_00000_s,native,1,2172,ppo,original_ppo,144,576,4032,0,0,0,0,0.0,0
+uav0000003_00000_s,native,1,2172,ppo,center_memory_ppo,144,576,4032,2,4,2,0,,
+uav0000204_00000_s,native,1,2172,ppo,original_ppo,921,3684,25788,0,0,0,0,0.0,0
+uav0000204_00000_s,native,1,2172,ppo,center_memory_ppo,921,3684,25788,1,2,1,0,,
+uav0000226_05370_s,native,1,2172,ppo,original_ppo,1860,7440,52080,0,0,0,0,0.0,0
+uav0000226_05370_s,native,1,2172,ppo,center_memory_ppo,1860,7440,52080,2,4,2,0,,
+uav0000237_00001_s,native,1,2172,ppo,original_ppo,598,2392,16744,0,0,0,0,0.0,0
+uav0000237_00001_s,native,1,2172,ppo,center_memory_ppo,598,2392,16744,2,4,2,0,,
+uav0000307_04531_s,native,1,2172,ppo,original_ppo,759,3036,21252,0,0,0,0,0.0,0
+uav0000307_04531_s,native,1,2172,ppo,center_memory_ppo,759,3036,21252,0,0,0,0,,
+uav0000342_01518_s,native,1,2172,ppo,original_ppo,1886,7544,52808,0,0,0,0,0.0,0
+uav0000342_01518_s,native,1,2172,ppo,center_memory_ppo,1886,7544,52808,1,2,1,0,,
+
+
+===== stage83_memory_frames.csv =====
+sequence,origin,fold,seed,policy,arm,frame,trigger,remaining,crop_changed,selected,selected_iou,latest_best_iou,lag_or_reserved_best_iou,only_reserved_pair_has_good
+uav0000147_00000_s,native,0,2172,ppo,center_memory_ppo,1116,True,0,False,2,0.014795474325500435,0.7147058823529412,0.015293118096856415,False
+uav0000147_00000_s,native,0,2172,ppo,center_memory_ppo,1117,False,2,False,0,0.015544041450777202,0.015544041450777202,0.030560271646859084,False
+uav0000147_00000_s,native,0,2172,ppo,center_memory_ppo,1118,False,1,True,3,0.015544041450777202,0.0,0.015544041450777202,False
+uav0000147_00000_s,native,0,2172,ppo,center_memory_ppo,1278,True,0,False,1,0.0,0.0,0.16697588126159554,False
+uav0000147_00000_s,native,0,2172,ppo,center_memory_ppo,1279,False,2,False,2,0.0,0.0,0.0,False
+uav0000147_00000_s,native,0,2172,ppo,center_memory_ppo,1280,False,1,True,2,0.0,0.004612343509773776,0.0,False
+uav0000147_00000_s,native,0,2172,ppo,center_memory_ppo,1281,True,0,False,2,0.0,0.0,0.0,False
+uav0000147_00000_s,native,0,2172,ppo,center_memory_ppo,1282,False,2,False,2,0.0,0.0,0.0,False
+uav0000147_00000_s,native,0,2172,ppo,center_memory_ppo,1283,False,1,True,1,0.0,0.0,0.0,False
+uav0000147_00000_s,native,0,2172,ppo,center_memory_ppo,2006,True,0,False,2,0.0,0.003020843822374383,0.0,False
+uav0000147_00000_s,native,0,2172,ppo,center_memory_ppo,2007,False,2,False,1,0.0,0.0,0.023779724655819776,False
+uav0000147_00000_s,native,0,2172,ppo,center_memory_ppo,2008,False,1,True,2,0.0,0.0,0.022393337000078572,False
+uav0000147_00000_s,native,0,2172,ppo,center_memory_ppo,2009,True,0,False,2,0.0,0.0,0.0,False
+uav0000147_00000_s,native,0,2172,ppo,center_memory_ppo,2010,False,2,False,1,0.0,0.0,0.0,False
+uav0000147_00000_s,native,0,2172,ppo,center_memory_ppo,2011,False,1,True,2,0.0,0.0,0.0,False
+uav0000147_00000_s,native,0,2172,ppo,center_memory_ppo,2014,True,0,False,2,0.0,0.0,0.0,False
+uav0000147_00000_s,native,0,2172,ppo,center_memory_ppo,2015,False,2,False,1,0.0,0.0,0.0,False
+uav0000147_00000_s,native,0,2172,ppo,center_memory_ppo,2016,False,1,True,2,0.0,0.0,0.0,False
+uav0000147_00000_s,native,0,2172,ppo,center_memory_ppo,2021,True,0,False,1,0.0,0.0,0.0,False
+uav0000147_00000_s,native,0,2172,ppo,center_memory_ppo,2022,False,2,False,2,0.0,0.0,0.0,False
+uav0000147_00000_s,native,0,2172,ppo,center_memory_ppo,2023,False,1,True,2,0.0,0.0,0.0,False
+uav0000147_00000_s,native,0,2172,ppo,center_memory_ppo,2026,True,0,False,2,0.0,0.0,0.0,False
+uav0000147_00000_s,native,0,2172,ppo,center_memory_ppo,2027,False,2,False,2,0.0,0.0,0.0,False
+uav0000147_00000_s,native,0,2172,ppo,center_memory_ppo,2028,False,1,True,2,0.0,0.0,0.0,False
+uav0000147_00000_s,native,0,2172,ppo,center_memory_ppo,2029,True,0,False,2,0.0,0.0,0.0,False
+uav0000147_00000_s,native,0,2172,ppo,center_memory_ppo,2030,False,2,False,2,0.0,0.0,0.0,False
+uav0000147_00000_s,native,0,2172,ppo,center_memory_ppo,2031,False,1,True,2,0.0,0.0,0.0,False
+uav0000147_00000_s,native,0,2172,ppo,center_memory_ppo,2036,True,0,False,2,0.0,0.0,0.0,False
+uav0000147_00000_s,native,0,2172,ppo,center_memory_ppo,2037,False,2,False,1,0.0,0.0,0.0,False
+uav0000147_00000_s,native,0,2172,ppo,center_memory_ppo,2038,False,1,True,2,0.0,0.0,0.0,False
+uav0000147_00000_s,native,0,2172,ppo,center_memory_ppo,2053,True,0,False,2,0.0,0.0,0.0,False
+uav0000147_00000_s,native,0,2172,ppo,center_memory_ppo,2054,False,2,False,2,0.0,0.0,0.0,False
+uav0000147_00000_s,native,0,2172,ppo,center_memory_ppo,2055,False,1,True,1,0.0,0.0,0.0,False
+uav0000147_00000_s,native,0,2172,ppo,center_memory_ppo,2071,True,0,False,2,0.0,0.0,0.0,False
+uav0000147_00000_s,native,0,2172,ppo,center_memory_ppo,2072,False,2,False,2,0.0,0.0,0.0,False
+uav0000147_00000_s,native,0,2172,ppo,center_memory_ppo,2073,False,1,True,2,0.0,0.0,0.0,False
+uav0000147_00000_s,native,0,2172,ppo,center_memory_ppo,2098,True,0,False,1,0.0,0.0,0.0,False
+uav0000147_00000_s,native,0,2172,ppo,center_memory_ppo,2099,False,2,False,1,0.0,0.0,0.0,False
+uav0000147_00000_s,native,0,2172,ppo,center_memory_ppo,2100,False,1,True,1,0.0,0.0,0.0,False
+uav0000147_00000_s,native,0,2172,ppo,center_memory_ppo,2163,True,0,False,2,0.0,0.0,0.0,False
+uav0000147_00000_s,native,0,2172,ppo,center_memory_ppo,2164,False,2,False,1,0.0,0.0,0.0,False
+uav0000147_00000_s,native,0,2172,ppo,center_memory_ppo,2165,False,1,True,2,0.0,0.0,0.0,False
+uav0000147_00000_s,native,0,2172,ppo,center_memory_ppo,2172,True,0,False,2,0.0,0.0,0.0,False
+uav0000147_00000_s,native,0,2172,ppo,center_memory_ppo,2173,False,2,False,2,0.0,0.0,0.0,False
+uav0000147_00000_s,native,0,2172,ppo,center_memory_ppo,2174,False,1,True,2,0.0,0.0,0.0,False
+uav0000147_00000_s,native,0,2172,ppo,center_memory_ppo,2206,True,0,False,2,0.0,0.0,0.0,False
+uav0000147_00000_s,native,0,2172,ppo,center_memory_ppo,2207,False,2,False,1,0.0,0.0,0.0,False
+uav0000147_00000_s,native,0,2172,ppo,center_memory_ppo,2208,False,1,True,2,0.0,0.0,0.0,False
+uav0000176_00000_s,native,0,2172,ppo,center_memory_ppo,314,True,0,False,2,0.18278412444876557,0.7732331759760174,0.661095580800571,False
+uav0000176_00000_s,native,0,2172,ppo,center_memory_ppo,315,False,2,False,2,0.14318327093416128,0.3482192226378273,0.19528588242581923,False
+uav0000176_00000_s,native,0,2172,ppo,center_memory_ppo,316,False,1,True,1,0.11194176238530111,0.5184524210384538,0.5552041505276998,False
+uav0000176_00000_s,native,0,2172,ppo,center_memory_ppo,317,True,0,False,1,0.05137817414123079,0.8635214827295703,0.7519277921893323,False
+uav0000176_00000_s,native,0,2172,ppo,center_memory_ppo,318,False,2,False,1,0.0,0.0,0.8301097046413503,False
+uav0000176_00000_s,native,0,2172,ppo,center_memory_ppo,319,False,1,True,2,0.0,0.0,0.36474895117975575,False
+uav0000176_00000_s,native,0,2172,ppo,center_memory_ppo,320,True,0,False,1,0.0,0.046345352605318656,0.0,False
+uav0000176_00000_s,native,0,2172,ppo,center_memory_ppo,321,False,2,False,1,0.0,0.0,0.7865747485874702,False
+uav0000176_00000_s,native,0,2172,ppo,center_memory_ppo,322,False,1,True,2,0.0,0.0,0.5444841067482576,True
+uav0000176_00000_s,native,0,2172,ppo,center_memory_ppo,323,True,0,False,1,0.0,0.0,0.0,False
+uav0000176_00000_s,native,0,2172,ppo,center_memory_ppo,324,False,2,False,2,0.0,0.0,0.0,False
+uav0000176_00000_s,native,0,2172,ppo,center_memory_ppo,325,False,1,True,2,0.0,0.0,0.0,False
+uav0000176_00000_s,native,0,2172,ppo,center_memory_ppo,469,True,0,False,1,0.0,0.0,0.0,False
+uav0000176_00000_s,native,0,2172,ppo,center_memory_ppo,470,False,2,False,2,0.0,0.0,0.0,False
+uav0000176_00000_s,native,0,2172,ppo,center_memory_ppo,471,False,1,True,1,0.0,0.0,0.0,False
+uav0000176_00000_s,native,0,2172,ppo,center_memory_ppo,621,True,0,False,2,0.0,0.0,0.0,False
+uav0000176_00000_s,native,0,2172,ppo,center_memory_ppo,622,False,2,False,1,0.0,0.0,0.0,False
+uav0000176_00000_s,native,0,2172,ppo,center_memory_ppo,623,False,1,True,1,0.0,0.0,0.0,False
+uav0000176_00000_s,native,0,2172,ppo,center_memory_ppo,676,True,0,False,1,0.0,0.0,0.0,False
+uav0000176_00000_s,native,0,2172,ppo,center_memory_ppo,677,False,2,False,1,0.0,0.0,0.0,False
+uav0000176_00000_s,native,0,2172,ppo,center_memory_ppo,678,False,1,True,2,0.0,0.0,0.0,False
+uav0000176_00000_s,native,0,2172,ppo,center_memory_ppo,731,True,0,False,2,0.0,0.0,0.0,False
+uav0000176_00000_s,native,0,2172,ppo,center_memory_ppo,732,False,2,False,2,0.0,0.0,0.0,False
+uav0000176_00000_s,native,0,2172,ppo,center_memory_ppo,733,False,1,True,2,0.0,0.0,0.0,False
+uav0000176_00000_s,native,0,2172,ppo,center_memory_ppo,734,True,0,False,2,0.0,0.0,0.0,False
+uav0000176_00000_s,native,0,2172,ppo,center_memory_ppo,735,False,2,False,2,0.0,0.0,0.0,False
+uav0000176_00000_s,native,0,2172,ppo,center_memory_ppo,736,False,1,True,2,0.0,0.0,0.0,False
+uav0000304_00253_s,native,0,2172,ppo,center_memory_ppo,554,True,0,False,2,0.76431829700963,0.7891373801916933,0.8451400329489291,False
+uav0000304_00253_s,native,0,2172,ppo,center_memory_ppo,555,False,2,False,2,0.7702702702702703,0.8263013698630137,0.7702702702702703,False
+uav0000304_00253_s,native,0,2172,ppo,center_memory_ppo,556,False,1,True,0,0.8078231292517006,0.8078231292517006,0.8078231292517006,False
+uav0000304_00253_s,native,0,2172,ppo,center_memory_ppo,1096,True,0,False,2,0.11621966794380588,0.0,0.11621966794380588,False
+uav0000304_00253_s,native,0,2172,ppo,center_memory_ppo,1097,False,2,False,2,0.0,0.10094847190637307,0.0,False
+uav0000304_00253_s,native,0,2172,ppo,center_memory_ppo,1098,False,1,True,2,0.0,0.0,0.0,False
+uav0000304_00253_s,native,0,2172,ppo,center_memory_ppo,1100,True,0,False,1,0.0,0.0,0.0,False
+uav0000304_00253_s,native,0,2172,ppo,center_memory_ppo,1101,False,2,False,2,0.0,0.0,0.0,False
+uav0000304_00253_s,native,0,2172,ppo,center_memory_ppo,1102,False,1,True,2,0.0,0.0,0.0,False
+uav0000304_00253_s,native,0,2172,ppo,center_memory_ppo,1105,True,0,False,2,0.0,0.0,0.0,False
+uav0000304_00253_s,native,0,2172,ppo,center_memory_ppo,1106,False,2,False,2,0.0,0.0,0.0,False
+uav0000304_00253_s,native,0,2172,ppo,center_memory_ppo,1107,False,1,True,2,0.0,0.0,0.0,False
+uav0000304_00253_s,native,0,2172,ppo,center_memory_ppo,1129,True,0,False,2,0.0,0.0,0.0,False
+uav0000304_00253_s,native,0,2172,ppo,center_memory_ppo,1130,False,2,False,1,0.0,0.0,0.0,False
+uav0000304_00253_s,native,0,2172,ppo,center_memory_ppo,1131,False,1,True,2,0.0,0.0,0.0,False
+uav0000304_00253_s,native,0,2172,ppo,center_memory_ppo,1132,True,0,False,1,0.0,0.0,0.0,False
+uav0000304_00253_s,native,0,2172,ppo,center_memory_ppo,1133,False,2,False,2,0.0,0.0,0.0,False
+uav0000304_00253_s,native,0,2172,ppo,center_memory_ppo,1134,False,1,True,2,0.0,0.0,0.0,False
+uav0000304_00253_s,native,0,2172,ppo,center_memory_ppo,1302,True,0,False,1,0.0,0.0,0.0,False
+uav0000304_00253_s,native,0,2172,ppo,center_memory_ppo,1303,False,2,False,0,0.0,0.0,0.0,False
+uav0000304_00253_s,native,0,2172,ppo,center_memory_ppo,1304,False,1,True,3,0.0,0.0,0.0,False
+uav0000003_00000_s,native,1,2171,ppo,center_memory_ppo,138,True,0,False,3,0.0,0.7408716136631331,0.0,False
+uav0000003_00000_s,native,1,2171,ppo,center_memory_ppo,139,False,2,False,3,0.0,0.0,0.0,False
+uav0000003_00000_s,native,1,2171,ppo,center_memory_ppo,140,False,1,True,1,0.0,0.0,0.0,False
+uav0000003_00000_s,native,1,2171,ppo,center_memory_ppo,141,True,0,False,1,0.0,0.0,0.0,False
+uav0000003_00000_s,native,1,2171,ppo,center_memory_ppo,142,False,2,False,1,0.0,0.0,0.0,False
+uav0000003_00000_s,native,1,2171,ppo,center_memory_ppo,143,False,1,True,2,0.0,0.0,0.0,False
+uav0000003_00000_s,native,1,2171,ppo,center_memory_ppo,144,True,0,False,1,0.0,0.0,0.0,False
+uav0000226_05370_s,native,1,2171,ppo,center_memory_ppo,213,True,0,False,0,0.0,0.0,0.0,False
+uav0000226_05370_s,native,1,2171,ppo,center_memory_ppo,214,False,2,False,0,0.0,0.0,0.0,False
+uav0000226_05370_s,native,1,2171,ppo,center_memory_ppo,215,False,1,True,0,0.0,0.0,0.0,False
+uav0000237_00001_s,native,1,2171,ppo,center_memory_ppo,249,True,0,False,3,0.47058823529411764,0.0,0.47058823529411764,False
+uav0000237_00001_s,native,1,2171,ppo,center_memory_ppo,250,False,2,False,0,0.0,0.0,0.0,False
+uav0000237_00001_s,native,1,2171,ppo,center_memory_ppo,251,False,1,True,2,0.0,0.0,0.0,False
+uav0000342_01518_s,native,1,2171,ppo,center_memory_ppo,1755,True,0,False,2,0.26623433529050916,0.0,0.2857463272401032,False
+uav0000342_01518_s,native,1,2171,ppo,center_memory_ppo,1756,False,2,False,1,0.0,0.11564996368917937,0.26709164818920916,False
+uav0000342_01518_s,native,1,2171,ppo,center_memory_ppo,1757,False,1,True,1,0.0,0.0,0.23668321481282706,False
+uav0000003_00000_s,native,1,2172,ppo,center_memory_ppo,138,True,0,False,0,0.6808510638297872,0.7560096153846154,0.0,False
+uav0000003_00000_s,native,1,2172,ppo,center_memory_ppo,139,False,2,False,0,0.7546239210850801,0.7755856966707768,0.0,False
+uav0000003_00000_s,native,1,2172,ppo,center_memory_ppo,140,False,1,True,3,0.0,0.6899661781285231,0.0,False
+uav0000003_00000_s,native,1,2172,ppo,center_memory_ppo,142,True,0,False,0,0.0,0.0,0.0,False
+uav0000003_00000_s,native,1,2172,ppo,center_memory_ppo,143,False,2,False,0,0.0,0.0,0.0,False
+uav0000003_00000_s,native,1,2172,ppo,center_memory_ppo,144,False,1,True,3,0.0,0.0,0.0,False
+uav0000204_00000_s,native,1,2172,ppo,center_memory_ppo,664,True,0,False,2,0.7057142857142857,0.765625,0.7272727272727273,False
+uav0000204_00000_s,native,1,2172,ppo,center_memory_ppo,665,False,2,False,0,0.75,0.75,0.7371794871794872,False
+uav0000204_00000_s,native,1,2172,ppo,center_memory_ppo,666,False,1,True,0,0.7704402515723271,0.7704402515723271,0.7232704402515723,False
+uav0000226_05370_s,native,1,2172,ppo,center_memory_ppo,238,True,0,False,0,0.0,0.30128205128205127,0.42071611253196933,False
+uav0000226_05370_s,native,1,2172,ppo,center_memory_ppo,239,False,2,False,0,0.0,0.0,0.41857506361323155,False
+uav0000226_05370_s,native,1,2172,ppo,center_memory_ppo,240,False,1,True,1,0.0,0.0,0.48525073746312686,False
+uav0000226_05370_s,native,1,2172,ppo,center_memory_ppo,244,True,0,False,3,0.0,0.0,0.0,False
+uav0000226_05370_s,native,1,2172,ppo,center_memory_ppo,245,False,2,False,0,0.37745098039215685,0.37745098039215685,0.0,False
+uav0000226_05370_s,native,1,2172,ppo,center_memory_ppo,246,False,1,True,0,0.4288041707396546,0.4288041707396546,0.0,False
+uav0000237_00001_s,native,1,2172,ppo,center_memory_ppo,241,True,0,False,0,0.0,0.0,0.6577181208053692,False
+uav0000237_00001_s,native,1,2172,ppo,center_memory_ppo,242,False,2,False,0,0.0,0.0,0.0,False
+uav0000237_00001_s,native,1,2172,ppo,center_memory_ppo,243,False,1,True,0,0.0,0.0,0.0,False
+uav0000237_00001_s,native,1,2172,ppo,center_memory_ppo,290,True,0,False,0,0.7526881720430108,0.7526881720430108,0.0,False
+uav0000237_00001_s,native,1,2172,ppo,center_memory_ppo,291,False,2,False,3,0.7526881720430108,0.8385093167701864,0.7526881720430108,False
+uav0000237_00001_s,native,1,2172,ppo,center_memory_ppo,292,False,1,True,0,0.8383233532934131,0.8383233532934131,0.0,False
+uav0000342_01518_s,native,1,2172,ppo,center_memory_ppo,1753,True,0,False,0,0.0,0.0,0.15758591785414922,False
+uav0000342_01518_s,native,1,2172,ppo,center_memory_ppo,1754,False,2,False,1,0.0,0.0,0.0,False
+uav0000342_01518_s,native,1,2172,ppo,center_memory_ppo,1755,False,1,True,1,0.0,0.0,0.0,False
+

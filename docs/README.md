@@ -4,7 +4,7 @@
 
 历史入口脚本如已归档，先按[代码恢复说明](../archive/README.md)恢复；代码块在仓库根目录执行。
 
-论文图示：[SGLA 方法框架图 v2（参考 ECCV 论文版式，中英文 SVG／PNG及图注）](figures/sgla_search_state_v2/README.md)；保留[初稿 v1](figures/sgla_search_state_v1/README.md)。依据 Stage-54～60，区分当前保留主线与学习评分支线。
+论文图示见 [SGLA 四候选 PPO 框架图 v3](figures/sgla_search_state_v3/README.md)。新版参考 IEEE TPAMI 的 TCTrack++，按 Stage-74／76 展示四候选搜索、在线决策和训练，图注记录截至 Stage-83 的证据。早期的 [v2](figures/sgla_search_state_v2/README.md) 和 [v1](figures/sgla_search_state_v1/README.md) 描述 Stage-54～60 的方案。
 
 ## Stage-1～15：基线、候选层与动态计算
 
@@ -148,13 +148,14 @@
 - Stage-80 完成 84 条完整轨迹。限幅加保护比原尺度 PPO 低 0.9463 AUC，修复 0204 但 0304 首败提前，开发门槛未通过。 [Stage-80 结果复核](experiments/06_sgla_uav_tracking/STAGE80_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE80_FULL_SCALE_CONSENSUS.md)
 - Stage-81 完成 84 条完整轨迹。混合尺度比原尺度 PPO 低 3.7707 AUC，两套混合方案均未通过开发门槛。 [Stage-81 结果复核](experiments/06_sgla_uav_tracking/STAGE81_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE81_MIXED_SCALE_FULL.md)
 - Stage-82 完成 1,203 个同历史活跃状态。两种来源上混合布局的候选上界均下降，选择器重训门槛未通过。 [Stage-82 结果复核](experiments/06_sgla_uav_tracking/STAGE82_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE82_SAME_HISTORY_SCALE_SUPPLY.md)
-- Stage-83 检验候选冲突后短时保留旧搜索中心的作用，待服务器跑完整轨迹。 [Stage-83 固定协议](experiments/06_sgla_uav_tracking/STAGE83_CONFLICT_CENTER_MEMORY.md)
+- Stage-83 完成 60 条完整轨迹。短时保留旧中心比原尺度 PPO 低 1.6294 AUC，低 IoU 与最长失跟比例均升高，五项开发门槛均未通过。 [Stage-83 结果复核](experiments/06_sgla_uav_tracking/STAGE83_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE83_CONFLICT_CENTER_MEMORY.md)
+- Stage-84 比较固定四候选与运动生成四候选，在 27,050 个冻结历史状态下检验候选供给。待服务器回放。 [Stage-84 固定协议](experiments/06_sgla_uav_tracking/STAGE84_MATCHED_MOTION_CANDIDATES.md)
 - [STAGE45_TEMPORAL_SIGNAL_PILOT.md](experiments/05_uav_detection/STAGE45_TEMPORAL_SIGNAL_PILOT.md) — **暂不执行**的 YOLOFT 视频检测支线；保留实现与 CPU 检查记录
 - [无人机检测研究方向调研](research/UAV_DETECTION_RESEARCH_DIRECTIONS_2026-10-29.md) — 检测文献与机制参考，不代表切换当前主任务
 
 ## 交接与维护
 
-- 接续时先读 0.52 的 Stage-83、0.51 的 Stage-82 结果、0.48 的确认集和 0.44 的论文目标。 [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口)
+- 接续时先读 0.53 的 Stage-84、0.52 的 Stage-83 结果、0.48 的确认集和 0.44 的论文目标。 [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口)
 - [历史写作材料说明](archive/README.md)
 - [整理报告](maintenance/CLEANUP_REPORT.md)
 - [逐文件整理清单](maintenance/CLEANUP_MANIFEST.json)
