@@ -1,8 +1,8 @@
 # 工作交接：SGLATrack 无人机跟踪与模型压缩探索
 
-更新日期：2026-11-08（Asia/Hong_Kong）
+更新日期：2026-11-10（Asia/Hong_Kong）
 
-**最终交付是提出并验证一个改进后的 SGLA 无人机单目标跟踪方法，再根据完整实验证据写出论文。** 最终方法须包含可独立验证的 SGLA 跟踪机制改动，例如搜索状态更新、搜索区域构造或输出解码。原生 SGLA 是主基线。先用同预算消融量化模块和选择策略各自的贡献，再做独立源视频确认、结果图表与失败分析。当前入口见 0.54。
+**最终交付是提出并验证一个改进后的 SGLA 无人机单目标跟踪方法，再根据完整实验证据写出论文。** 最终方法须包含可独立验证的 SGLA 跟踪机制改动，例如搜索状态更新、搜索区域构造或输出解码。原生 SGLA 是主基线。先用同预算消融量化模块和选择策略各自的贡献，再做独立源视频确认、结果图表与失败分析。当前入口见 0.55。
 
 当前完整评价为 Stage-76 L20，见 0.45。匹配 8 帧监督较当帧监督 −6.2616 AUC，2 胜 10 负。冻结 PPO 复测 67.2356，稳定保护仍未通过。Stage-74 的原 PPO 训练结果与配方见 0.41。 [Stage-76 结果复核](docs/experiments/06_sgla_uav_tracking/STAGE76_RESULTS_REVIEW.md)
 
@@ -13,7 +13,7 @@ Stage-75 L20 已完成 13 个固定起点和 52 条短分支。0003 两个首败
 
 ## 0. 下一次对话的直接接续入口
 
-本节更新至 2026-11-09。先读 0.54 的 Stage-85 运行入口和 0.53 的 Stage-84 结果，再看 0.48 的确认集与 0.44 的论文目标。 [Stage-85 固定协议](docs/experiments/06_sgla_uav_tracking/STAGE85_MOTION_CANDIDATE_CLOSED_LOOP.md)
+本节更新至 2026-11-10。先读 0.55 的 Stage-86 运行入口，再读 0.54 的 Stage-85 闭环结果、0.53 的 Stage-84 固定历史结果、0.48 的确认集与 0.44 的论文目标。 [Stage-85 结果复核](docs/experiments/06_sgla_uav_tracking/STAGE85_RESULTS_REVIEW.md)
 
 需要回溯历史与配对干预时读 0.33、0.31、0.29、0.27、0.24、0.22、0.20 和 0.18。较早阶段的运行状态按各节日期理解。 [Stage-60](docs/experiments/06_sgla_uav_tracking/STAGE60_RESULTS_REVIEW.md) · [Stage-54](docs/experiments/06_sgla_uav_tracking/STAGE54_RESULTS_REVIEW.md) · [Stage-55](docs/experiments/06_sgla_uav_tracking/STAGE55_RESULTS_REVIEW.md)
 
@@ -1293,9 +1293,17 @@ Stage-76 用同一批 fit 历史、同一四选一模型比较当帧 IoU 标签�
 
 ### 0.54 2026-11-09 Stage-85 运动生成四候选完整闭环
 
-已实现，待服务器运行。保留 Stage-84 生成器和原 Stage-74 PPO，三臂为原生 SGLA、固定四候选 PPO、运动生成四候选 PPO。每臂从首帧初始化并由自身预测推进，12 个开发视频、60 条完整轨迹、229,925 次搜索。两 PPO 臂每帧各四次搜索。主要比较运动对固定，要求 AUC 至少 +0.5 且配对区间下界大于零，低 IoU 和最长失跟不增加，原生稳定视频零新增失跟。候选供给、选框差距和恢复事件按各自历史描述。Stage-84 必须为已通过、未改生成器的完整运行。确认集仍封存。
+服务器 L20 完成 12 个开发视频、60 条完整轨迹、229,925 次搜索。两 PPO 臂共用冻结的 Stage-74 策略，每个跟踪帧各搜索四次。原生 SGLA、固定四候选 PPO、运动生成四候选 PPO 的 AUC 分别为 63.4512、67.2356、62.6914。运动对固定的 AUC 差为 −4.5442 点，95% 配对区间 [−11.9225, +0.9403]，低 IoU 和最长失跟分别增加 7.03 和 7.45 个百分点。五项开发门槛均未通过。`0304` 和 `0176` 的提前且持续失跟是主要退化来源。
 
-在服务器执行 `bash tools/run_stage85_motion_closed_loop.sh`，需要 Stage-76／84 原运行目录及上游收据。回传 `stage85_results_*.txt`。本机通过真实 CPU CENTER 小样本闭环、来源绑定和缓存续跑测试。服务器节点 `n1` 在本机无法解析，正式 GPU 运行尚未启动。 [固定协议与后台命令](docs/experiments/06_sgla_uav_tracking/STAGE85_MOTION_CANDIDATE_CLOSED_LOOP.md)
+各自历史上，运动生成的最佳候选 IoU 从 0.70046 降至 0.65308，实际选框 IoU 从 0.68250 降至 0.63664，选框与最佳候选的平均差距略缩小。Stage-84 的 +0.00179 来自固定历史上的候选回放。Stage-85 的闭环统计涵盖已经分叉的轨迹，首次偏离的原因仍需同历史诊断。固定四候选 PPO 继续作为开发对照，当前运动生成配方退出待确认候选。28 组确认集推理为零。本机从回传表重算并核对结论，逐帧 GPU 缓存留在服务器。 [结果复核](docs/experiments/06_sgla_uav_tracking/STAGE85_RESULTS_REVIEW.md) · [固定协议](docs/experiments/06_sgla_uav_tracking/STAGE85_MOTION_CANDIDATE_CLOSED_LOOP.md)
+
+若接续候选生成方向，先做同历史、等搜索预算的三臂诊断，比较固定布局、零速度覆盖、运动覆盖，再用同一冻结 PPO 比较实际选框。把首次输出分叉和失跟前窗口分开分析，必要时只替换一帧布局、用共同后续策略重放，以区分候选损失、选择错误与误差传播。 [待补的机制对照](docs/experiments/06_sgla_uav_tracking/STAGE85_RESULTS_REVIEW.md#待补的机制对照)
+
+### 0.55 2026-11-10 Stage-86 同输出搜索中心干预
+
+脚本已就绪，待服务器正式运行。Stage-86 复用 Stage-76 固定四候选 PPO，覆盖 12 个开发视频、两个种子 2171／2172。两臂共用起点已发布框。只在下一帧把干预臂 q0、q1 的搜索中心移到最近两个输出框中心的中点，q2、q3 和全部搜索框尺寸保持一致，其后两臂都按原布局和冻结 PPO 各自续跑。按预测位移选高／低组，共 144 个配对窗口，每支 16 帧，18,432 次搜索。无训练，确认集只核对名单。 [固定协议](docs/experiments/06_sgla_uav_tracking/STAGE86_SEARCH_CENTER_WRITE.md)
+
+服务器执行 `bash tools/run_stage86_search_center.sh`。完成后先核对固定臂复现、预算与首帧实际改裁剪的窗口数，再看配对续跑 IoU 和低 IoU，占比变化与新增失效、返回稳定跟踪同时解释。结果 TXT 在 `docs/experiments/06_sgla_uav_tracking/results/`。该阶段只提供机制证据。若发现收益和伤害依状态分化，再决定是否值得设计条件化写入。
 
 ## 1. 接手后首先要知道的结论
 

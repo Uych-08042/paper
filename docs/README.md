@@ -150,7 +150,7 @@
 - Stage-82 完成 1,203 个同历史活跃状态。两种来源上混合布局的候选上界均下降，选择器重训门槛未通过。 [Stage-82 结果复核](experiments/06_sgla_uav_tracking/STAGE82_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE82_SAME_HISTORY_SCALE_SUPPLY.md)
 - Stage-83 完成 60 条完整轨迹。短时保留旧中心比原尺度 PPO 低 1.6294 AUC，低 IoU 与最长失跟比例均升高，五项开发门槛均未通过。 [Stage-83 结果复核](experiments/06_sgla_uav_tracking/STAGE83_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE83_CONFLICT_CENTER_MEMORY.md)
 - Stage-84 完成 27,050 个同历史配对状态。运动生成四候选的最佳 IoU 提高 0.00179，候选供给门槛通过。好框比例按视频等权略升，按帧累计新增 107、丢失 110。 [Stage-84 结果复核](experiments/06_sgla_uav_tracking/STAGE84_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE84_MATCHED_MOTION_CANDIDATES.md)
-- Stage-85 将 Stage-84 生成器接入冻结 PPO，在 12 个开发视频的 60 条完整轨迹上比较 AUC 和失跟。待服务器执行。 [Stage-85 固定协议](experiments/06_sgla_uav_tracking/STAGE85_MOTION_CANDIDATE_CLOSED_LOOP.md)
+- Stage-85 完成 12 个开发视频的 60 条闭环轨迹。运动生成四候选比固定布局低 4.5442 AUC 点，五项开发门槛均未通过。 [Stage-85 结果复核](experiments/06_sgla_uav_tracking/STAGE85_RESULTS_REVIEW.md)
 - [STAGE45_TEMPORAL_SIGNAL_PILOT.md](experiments/05_uav_detection/STAGE45_TEMPORAL_SIGNAL_PILOT.md) — **暂不执行**的 YOLOFT 视频检测支线；保留实现与 CPU 检查记录
 - [无人机检测研究方向调研](research/UAV_DETECTION_RESEARCH_DIRECTIONS_2026-10-29.md) — 检测文献与机制参考，不代表切换当前主任务
 

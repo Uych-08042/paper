@@ -27,6 +27,7 @@ tools/run_stage82_same_history.sh text eol=lf
 tools/run_stage83_center_memory.sh text eol=lf
 tools/run_stage84_motion_candidates.sh text eol=lf
 tools/run_stage85_motion_closed_loop.sh text eol=lf
+tools/run_stage86_search_center.sh text eol=lf
 # Preserve the uploaded experiment bundle byte-for-byte, including mixed CSV/JSON endings.
 docs/experiments/06_sgla_uav_tracking/results/stage61_l40_results_20261102T143543Z_40176.txt -text
 docs/experiments/06_sgla_uav_tracking/results/stage62_results_20261103T004524Z_148362.txt -text
@@ -53,3 +54,4 @@ docs/experiments/06_sgla_uav_tracking/results/stage81_results_20261108T124540Z_3
 docs/experiments/06_sgla_uav_tracking/results/stage82_results_20261108T141916Z_445506.txt -text
 docs/experiments/06_sgla_uav_tracking/results/stage83_results_20261108T161211Z_471623.txt -text
 docs/experiments/06_sgla_uav_tracking/results/stage84_results_20261109T083329Z_725427.txt -text
+docs/experiments/06_sgla_uav_tracking/results/stage85_results_20261109T095536Z_742846.txt -text
