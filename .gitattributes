@@ -33,6 +33,7 @@ tools/run_stage88_single_layout.sh text eol=lf
 tools/run_stage89_conflict_sampling.sh text eol=lf
 tools/run_stage91_template_appearance.sh text eol=lf
 tools/run_stage92_recent_appearance.sh text eol=lf
+tools/run_stage93_appearance_closed_loop.sh text eol=lf
 # Preserve the uploaded experiment bundle byte-for-byte, including mixed CSV/JSON endings.
 docs/experiments/06_sgla_uav_tracking/results/stage61_l40_results_20261102T143543Z_40176.txt -text
 docs/experiments/06_sgla_uav_tracking/results/stage62_results_20261103T004524Z_148362.txt -text
@@ -66,3 +67,4 @@ docs/experiments/06_sgla_uav_tracking/results/stage88_results_20261110T034627Z_1
 docs/experiments/06_sgla_uav_tracking/results/stage89_results_20261110T043903Z_1088951.txt -text
 docs/experiments/06_sgla_uav_tracking/results/stage90_results_frozen_signal_audit_v1.txt -text
 docs/experiments/06_sgla_uav_tracking/results/stage91_results_20261110T052818Z_1112822.txt -text
+docs/experiments/06_sgla_uav_tracking/results/stage92_results_20261110T053910Z_1124695.txt -text
