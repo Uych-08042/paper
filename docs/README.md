@@ -153,12 +153,13 @@
 - Stage-85 完成 12 个开发视频的 60 条闭环轨迹。运动生成四候选比固定布局低 4.5442 AUC 点，五项开发门槛均未通过。 [Stage-85 结果复核](experiments/06_sgla_uav_tracking/STAGE85_RESULTS_REVIEW.md)
 - Stage-86 完成 144 对同输出短续跑。单次中点干预在高预测位移组的 16 帧平均 IoU 低 1.38 点。 [Stage-86 结果复核](experiments/06_sgla_uav_tracking/STAGE86_RESULTS_REVIEW.md)
 - Stage-87 完成 576 个布局与动作交叉条件。高预测位移组的平均 IoU 损失主要出现在 PPO 改选对照。 [Stage-87 结果复核](experiments/06_sgla_uav_tracking/STAGE87_RESULTS_REVIEW.md)
+- Stage-88 完成 144 个固定布局窗口的备选写入诊断。三项信号均未显示稳定收益，实质差异集中于一个源视频。 [Stage-88 结果复核](experiments/06_sgla_uav_tracking/STAGE88_RESULTS_REVIEW.md)
 - [STAGE45_TEMPORAL_SIGNAL_PILOT.md](experiments/05_uav_detection/STAGE45_TEMPORAL_SIGNAL_PILOT.md) — **暂不执行**的 YOLOFT 视频检测支线；保留实现与 CPU 检查记录
 - [无人机检测研究方向调研](research/UAV_DETECTION_RESEARCH_DIRECTIONS_2026-10-29.md) — 检测文献与机制参考，不代表切换当前主任务
 
 ## 交接与维护
 
-- 接续时先读 0.56 的 Stage-87、0.55 的 Stage-86、0.54 的 Stage-85 结果、0.48 的确认集和 0.44 的论文目标。 [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口)
+- 接续时先读 0.57 的 Stage-88、0.56 的 Stage-87、0.55 的 Stage-86 结果、0.48 的确认集和 0.44 的论文目标。 [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口)
 - [历史写作材料说明](archive/README.md)
 - [整理报告](maintenance/CLEANUP_REPORT.md)
 - [逐文件整理清单](maintenance/CLEANUP_MANIFEST.json)

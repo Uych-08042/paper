@@ -2,7 +2,7 @@
 
 更新日期：2026-11-10（Asia/Hong_Kong）
 
-**最终交付是提出并验证一个改进后的 SGLA 无人机单目标跟踪方法，再根据完整实验证据写出论文。** 最终方法须包含可独立验证的 SGLA 跟踪机制改动，例如搜索状态更新、搜索区域构造或输出解码。原生 SGLA 是主基线。先用同预算消融量化模块和选择策略各自的贡献，再做独立源视频确认、结果图表与失败分析。当前入口见 0.57。
+**最终交付是提出并验证一个改进后的 SGLA 无人机单目标跟踪方法，再根据完整实验证据写出论文。** 最终方法须包含可独立验证的 SGLA 跟踪机制改动，例如搜索状态更新、搜索区域构造或输出解码。原生 SGLA 是主基线。先用同预算消融量化模块和选择策略各自的贡献，再做独立源视频确认、结果图表与失败分析。当前入口见 0.58。
 
 当前完整评价为 Stage-76 L20，见 0.45。匹配 8 帧监督较当帧监督 −6.2616 AUC，2 胜 10 负。冻结 PPO 复测 67.2356，稳定保护仍未通过。Stage-74 的原 PPO 训练结果与配方见 0.41。 [Stage-76 结果复核](docs/experiments/06_sgla_uav_tracking/STAGE76_RESULTS_REVIEW.md)
 
@@ -13,7 +13,7 @@ Stage-75 L20 已完成 13 个固定起点和 52 条短分支。0003 两个首败
 
 ## 0. 下一次对话的直接接续入口
 
-本节更新至 2026-11-10。先读 0.57 的 Stage-88 运行入口和 0.56 的 Stage-87 结果，再读 0.55 的 Stage-86、0.48 的确认集与 0.44 的论文目标。 [Stage-87 结果复核](docs/experiments/06_sgla_uav_tracking/STAGE87_RESULTS_REVIEW.md)
+本节更新至 2026-11-10。先读 0.58 的 Stage-89 运行入口和 0.57 的 Stage-88 结果，再读 0.56 的 Stage-87、0.48 的确认集与 0.44 的论文目标。 [Stage-88 结果复核](docs/experiments/06_sgla_uav_tracking/STAGE88_RESULTS_REVIEW.md)
 
 需要回溯历史与配对干预时读 0.33、0.31、0.29、0.27、0.24、0.22、0.20 和 0.18。较早阶段的运行状态按各节日期理解。 [Stage-60](docs/experiments/06_sgla_uav_tracking/STAGE60_RESULTS_REVIEW.md) · [Stage-54](docs/experiments/06_sgla_uav_tracking/STAGE54_RESULTS_REVIEW.md) · [Stage-55](docs/experiments/06_sgla_uav_tracking/STAGE55_RESULTS_REVIEW.md)
 
@@ -1313,7 +1313,13 @@ Stage-76 用同一批 fit 历史、同一四选一模型比较当帧 IoU 标签�
 
 ### 0.57 2026-11-10 Stage-88 单布局写入信号诊断
 
-Stage-87 回传表只有 5 个动作对的后续 15 帧平均 IoU 差达到 0.05，且正负差分别落在不同布局。Stage-88 在原固定布局的 144 个窗口中，按 Hann 峰值选出一个与 PPO 输出不同的备选，复用 Stage-87 的相同写入框续跑，补齐缺失对照。分别评估 Hann 响应、速度一致性与候选共识，统计有益或有害切换以及丢失的 PPO 恢复。冻结 SGLA 与 PPO，无训练，确认集封存。正式结果待服务器，运行 `bash tools/run_stage88_single_layout.sh`，可先用 `--plan-only` 统计补跑数。 [固定协议](docs/experiments/06_sgla_uav_tracking/STAGE88_SINGLE_LAYOUT_WRITE_SUPPORT.md)
+服务器 L20 已完成 Stage-88。144 个固定布局窗口、143 个有不同备选、120 条新增续跑、7,680 次新增搜索。Hann、速度和共识规则的高位移后续平均 IoU 差为 −0.13、+0.17、+0.09 点，区间均跨零。低位移三规则均增加 1.13 点低 IoU 帧。实质差异只有 1 个收益、2 个损失，均在 `0307`。未达到排序 AUC 支持门槛，起点已低 IoU 的组也没有仅一臂恢复的可比较窗口。无训练、无确认集推理。 [结果复核](docs/experiments/06_sgla_uav_tracking/STAGE88_RESULTS_REVIEW.md) · [固定协议](docs/experiments/06_sgla_uav_tracking/STAGE88_SINGLE_LAYOUT_WRITE_SUPPORT.md)
+
+`0226` 的两个低位移窗口中，三项信号都支持备选，但低 IoU 帧增加，后续平均 IoU 损失低于 0.05。若继续，应预先扩大源组与分歧状态的覆盖，保留普通窗口作为对照，单列恢复和低 IoU 尾部。回传表已核对，逐帧缓存留服务器。
+
+### 0.58 2026-11-10 Stage-89 候选冲突抽样
+
+脚本已就绪，正式结果待服务器。开发队列由 Stage-76 的 12 组和按固定名单规则选取的 16 个追加组构成，28 个确认组封存。按预测候选中心距离及 Hann 峰差预先区分冲突和普通窗口，比较原 PPO 首帧写入与原布局 Hann 备选写入，随后同策略续跑 15 帧。分别量化后续 IoU 差、低 IoU 尾部和独有恢复支持，并单列追加队列。无训练。服务器执行 `bash tools/run_stage89_conflict_sampling.sh`。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE89_CONFLICT_SAMPLED_WRITE_SUPPORT.md)
 
 ## 1. 接手后首先要知道的结论
 
