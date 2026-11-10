@@ -2,7 +2,7 @@
 
 更新日期：2026-11-10（Asia/Hong_Kong）
 
-**最终交付是提出并验证一个改进后的 SGLA 无人机单目标跟踪方法，再根据完整实验证据写出论文。** 最终方法须包含可独立验证的 SGLA 跟踪机制改动，例如搜索状态更新、搜索区域构造或输出解码。原生 SGLA 是主基线。先用同预算消融量化模块和选择策略各自的贡献，再做独立源视频确认、结果图表与失败分析。当前入口见 0.60。
+**最终交付是提出并验证一个改进后的 SGLA 无人机单目标跟踪方法，再根据完整实验证据写出论文。** 最终方法须包含可独立验证的 SGLA 跟踪机制改动，例如搜索状态更新、搜索区域构造或输出解码。原生 SGLA 是主基线。先用同预算消融量化模块和选择策略各自的贡献，再做独立源视频确认、结果图表与失败分析。当前入口见 0.61。
 
 当前完整评价为 Stage-76 L20，见 0.45。匹配 8 帧监督较当帧监督 −6.2616 AUC，2 胜 10 负。冻结 PPO 复测 67.2356，稳定保护仍未通过。Stage-74 的原 PPO 训练结果与配方见 0.41。 [Stage-76 结果复核](docs/experiments/06_sgla_uav_tracking/STAGE76_RESULTS_REVIEW.md)
 
@@ -13,7 +13,7 @@ Stage-75 L20 已完成 13 个固定起点和 52 条短分支。0003 两个首败
 
 ## 0. 下一次对话的直接接续入口
 
-本节更新至 2026-11-10。先读 0.60 的 Stage-91 运行入口、0.59 的 Stage-90 与 0.58 的 Stage-89 结果，再读 0.48 的确认集与 0.44 的论文目标。 [Stage-90 结果](docs/experiments/06_sgla_uav_tracking/STAGE90_FROZEN_SIGNAL_AUDIT.md)
+本节更新至 2026-11-10。先读 0.61 的 Stage-92 运行入口、0.60 的 Stage-91 与 0.59 的 Stage-90 结果，再读 0.48 的确认集与 0.44 的论文目标。 [Stage-91 结果](docs/experiments/06_sgla_uav_tracking/STAGE91_RESULTS_REVIEW.md)
 
 需要回溯历史与配对干预时读 0.33、0.31、0.29、0.27、0.24、0.22、0.20 和 0.18。较早阶段的运行状态按各节日期理解。 [Stage-60](docs/experiments/06_sgla_uav_tracking/STAGE60_RESULTS_REVIEW.md) · [Stage-54](docs/experiments/06_sgla_uav_tracking/STAGE54_RESULTS_REVIEW.md) · [Stage-55](docs/experiments/06_sgla_uav_tracking/STAGE55_RESULTS_REVIEW.md)
 
@@ -1329,7 +1329,11 @@ Stage-76 用同一批 fit 历史、同一四选一模型比较当帧 IoU 标签�
 
 ### 0.60 2026-11-10 Stage-91 首帧模板外观一致性
 
-脚本已就绪，正式结果待服务器。沿用 Stage-89 的 158 个原动作对，精确重放每个取样帧的四候选搜索。读取位置编码前的 SGLA patch 特征，比较两候选与首帧目标的余弦相似度，并加入 RGB 直方图对照。复用原 15 帧续跑、评价切换方向和独有恢复保护。632 次诊断搜索，无训练与确认集推理。同步时包括 Stage-89 回传 TXT，服务器运行 `bash tools/run_stage91_template_appearance.sh`。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE91_TEMPLATE_APPEARANCE.md)
+服务器 L20 已完成。158 个动作对，632 次诊断搜索与 4,424 次骨干块调用，取样帧逐项复现，外观分数均有效。冲突组 patch 后续 IoU 差 +1.36 点 [−1.35, +5.40]，RGB −0.38 点 [−0.91, +0.01]，排序 AUC 0.333 与 0.400。两项外观均保住 `0091` 的原 PPO 独有恢复，也都漏掉 `0147` 的备选独有恢复。复用后续续跑，无训练和确认推理。回传表已复算，特征缓存留在服务器。 [结果复核](docs/experiments/06_sgla_uav_tracking/STAGE91_RESULTS_REVIEW.md) · [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE91_TEMPLATE_APPEARANCE.md)
+
+### 0.61 2026-11-10 Stage-92 短时历史外观
+
+脚本已就绪，正式结果待服务器。固定 158 个原动作对和 15 帧续跑，比较 Stage-91 首帧外观、近期历史、按预测可信度筛选的历史，以及首帧与筛选历史各占一半。只重放必要候选槽位，上限 1,264 次诊断搜索，核对固定首帧分数与两例独有恢复。无训练、无新增续跑与确认推理。服务器运行 `bash tools/run_stage92_recent_appearance.sh`，需同步 Stage-89 和 Stage-91 结果包。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE92_RECENT_APPEARANCE.md)
 
 ## 1. 接手后首先要知道的结论
 
