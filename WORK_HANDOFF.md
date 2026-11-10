@@ -2,7 +2,7 @@
 
 更新日期：2026-11-10（Asia/Hong_Kong）
 
-**最终交付是提出并验证一个改进后的 SGLA 无人机单目标跟踪方法，再根据完整实验证据写出论文。** 最终方法须包含可独立验证的 SGLA 跟踪机制改动，例如搜索状态更新、搜索区域构造或输出解码。原生 SGLA 是主基线。先用同预算消融量化模块和选择策略各自的贡献，再做独立源视频确认、结果图表与失败分析。当前入口见 0.55。
+**最终交付是提出并验证一个改进后的 SGLA 无人机单目标跟踪方法，再根据完整实验证据写出论文。** 最终方法须包含可独立验证的 SGLA 跟踪机制改动，例如搜索状态更新、搜索区域构造或输出解码。原生 SGLA 是主基线。先用同预算消融量化模块和选择策略各自的贡献，再做独立源视频确认、结果图表与失败分析。当前入口见 0.56。
 
 当前完整评价为 Stage-76 L20，见 0.45。匹配 8 帧监督较当帧监督 −6.2616 AUC，2 胜 10 负。冻结 PPO 复测 67.2356，稳定保护仍未通过。Stage-74 的原 PPO 训练结果与配方见 0.41。 [Stage-76 结果复核](docs/experiments/06_sgla_uav_tracking/STAGE76_RESULTS_REVIEW.md)
 
@@ -13,7 +13,7 @@ Stage-75 L20 已完成 13 个固定起点和 52 条短分支。0003 两个首败
 
 ## 0. 下一次对话的直接接续入口
 
-本节更新至 2026-11-10。先读 0.55 的 Stage-86 运行入口，再读 0.54 的 Stage-85 闭环结果、0.53 的 Stage-84 固定历史结果、0.48 的确认集与 0.44 的论文目标。 [Stage-85 结果复核](docs/experiments/06_sgla_uav_tracking/STAGE85_RESULTS_REVIEW.md)
+本节更新至 2026-11-10。先读 0.56 的 Stage-87 运行入口和 0.55 的 Stage-86 结果，再读 0.54 的 Stage-85 闭环结果、0.48 的确认集与 0.44 的论文目标。 [Stage-86 结果复核](docs/experiments/06_sgla_uav_tracking/STAGE86_RESULTS_REVIEW.md)
 
 需要回溯历史与配对干预时读 0.33、0.31、0.29、0.27、0.24、0.22、0.20 和 0.18。较早阶段的运行状态按各节日期理解。 [Stage-60](docs/experiments/06_sgla_uav_tracking/STAGE60_RESULTS_REVIEW.md) · [Stage-54](docs/experiments/06_sgla_uav_tracking/STAGE54_RESULTS_REVIEW.md) · [Stage-55](docs/experiments/06_sgla_uav_tracking/STAGE55_RESULTS_REVIEW.md)
 
@@ -1301,9 +1301,13 @@ Stage-76 用同一批 fit 历史、同一四选一模型比较当帧 IoU 标签�
 
 ### 0.55 2026-11-10 Stage-86 同输出搜索中心干预
 
-脚本已就绪，待服务器正式运行。Stage-86 复用 Stage-76 固定四候选 PPO，覆盖 12 个开发视频、两个种子 2171／2172。两臂共用起点已发布框。只在下一帧把干预臂 q0、q1 的搜索中心移到最近两个输出框中心的中点，q2、q3 和全部搜索框尺寸保持一致，其后两臂都按原布局和冻结 PPO 各自续跑。按预测位移选高／低组，共 144 个配对窗口，每支 16 帧，18,432 次搜索。无训练，确认集只核对名单。 [固定协议](docs/experiments/06_sgla_uav_tracking/STAGE86_SEARCH_CENTER_WRITE.md)
+服务器 L20 已完成 Stage-86，固定臂精确复现 Stage-76。12 个开发视频、两个种子、144 对 16 帧窗口、18,432 次搜索，83 个窗口首帧裁剪像素发生变化。两臂共用起点发布框，只在下一帧移动干预臂 q0、q1 的搜索中心。高预测位移组平均 IoU 差 −1.38 点，95% 视频配对区间 [−3.50, +0.04]，低 IoU 帧比例 +1.74 点。低位移组平均 IoU 差 +0.04 点。无训练，确认集推理为零。 [结果复核](docs/experiments/06_sgla_uav_tracking/STAGE86_RESULTS_REVIEW.md) · [固定协议](docs/experiments/06_sgla_uav_tracking/STAGE86_SEARCH_CENTER_WRITE.md)
 
-服务器执行 `bash tools/run_stage86_search_center.sh`。完成后先核对固定臂复现、预算与首帧实际改裁剪的窗口数，再看配对续跑 IoU 和低 IoU，占比变化与新增失效、返回稳定跟踪同时解释。结果 TXT 在 `docs/experiments/06_sgla_uav_tracking/results/`。该阶段只提供机制证据。若发现收益和伤害依状态分化，再决定是否值得设计条件化写入。
+高位移组下降主要来自 `0147` 与 `0307`。`0147` 种子 2172 在起点第 1164 帧已低 IoU，后继帧两臂仍有相同的好候选 q2。中点臂改选 q1，16 帧均为零，固定臂恢复。统一中点写入没有改善依据，继续保留固定 PPO 开发对照。接续诊断可做同起点、同动作续跑，区分搜索几何本身与 PPO 改选对恢复的影响。回传原件和四张表已核对，分支 NPZ 留服务器。 [回传原件](docs/experiments/06_sgla_uav_tracking/results/stage86_results_20261110T014013Z_1027331.txt)
+
+### 0.56 2026-11-10 Stage-87 搜索几何与 PPO 首次动作交叉
+
+协议和脚本已就绪，等待服务器正式运行。沿用 Stage-86 的 144 个共同起点。每个窗口交叉固定／中点布局与两者的实际 PPO 动作，共 576 个条件。复用两条原分支与完全相同的写入框，只补跑新的 15 帧续跑。按视频汇总同动作几何差、同布局改选差和两者交互。冻结 PPO、原始 SGLA、开发队列与确认集隔离沿用。服务器命令为 `bash tools/run_stage87_action_cross.sh`。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE87_SEARCH_GEOMETRY_ACTION_CROSS.md)
 
 ## 1. 接手后首先要知道的结论
 
