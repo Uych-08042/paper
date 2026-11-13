@@ -2,7 +2,7 @@
 
 更新日期：2026-11-13（Asia/Hong_Kong）
 
-**最终交付是提出并验证一个改进后的 SGLA 无人机单目标跟踪方法，再根据完整实验证据写出论文。** 最终方法须包含可独立验证的 SGLA 跟踪机制改动，例如搜索状态更新、搜索区域构造或输出解码。原生 SGLA 是主基线。先用同预算消融量化模块和选择策略各自的贡献，再做独立源视频确认、结果图表与失败分析。当前入口见 0.65。
+**最终交付是提出并验证一个改进后的 SGLA 无人机单目标跟踪方法，再根据完整实验证据写出论文。** 最终方法须包含可独立验证的 SGLA 跟踪机制改动，例如搜索状态更新、搜索区域构造或输出解码。原生 SGLA 是主基线。先用同预算消融量化模块和选择策略各自的贡献，再做独立源视频确认、结果图表与失败分析。当前入口见 0.66。
 
 当前完整评价为 Stage-76 L20，见 0.45。匹配 8 帧监督较当帧监督 −6.2616 AUC，2 胜 10 负。冻结 PPO 复测 67.2356，稳定保护仍未通过。Stage-74 的原 PPO 训练结果与配方见 0.41。 [Stage-76 结果复核](docs/experiments/06_sgla_uav_tracking/STAGE76_RESULTS_REVIEW.md)
 
@@ -13,7 +13,7 @@ Stage-75 L20 已完成 13 个固定起点和 52 条短分支。0003 两个首败
 
 ## 0. 下一次对话的直接接续入口
 
-本节更新至 2026-11-13。先读 0.65 的 Stage-96 和 0.64 的 Stage-95，再读 0.63 的 Stage-94、0.48 的确认集与 0.44 的论文目标。 [Stage-96 协议](docs/experiments/06_sgla_uav_tracking/STAGE96_SEARCH_CENTER_SIZE_CROSS.md) · [Stage-95 结果](docs/experiments/06_sgla_uav_tracking/STAGE95_RESULTS_REVIEW.md)
+本节更新至 2026-11-13。先读 0.66 的 Stage-97 和 0.65 的 Stage-96，再读 0.64 的 Stage-95、0.48 的确认集与 0.44 的论文目标。 [Stage-97 协议](docs/experiments/06_sgla_uav_tracking/STAGE97_OWN_TRUSTED_SCALE_CONTINUATION.md) · [Stage-96 结果](docs/experiments/06_sgla_uav_tracking/STAGE96_RESULTS_REVIEW.md)
 
 需要回溯历史与配对干预时读 0.33、0.31、0.29、0.27、0.24、0.22、0.20 和 0.18。较早阶段的运行状态按各节日期理解。 [Stage-60](docs/experiments/06_sgla_uav_tracking/STAGE60_RESULTS_REVIEW.md) · [Stage-54](docs/experiments/06_sgla_uav_tracking/STAGE54_RESULTS_REVIEW.md) · [Stage-55](docs/experiments/06_sgla_uav_tracking/STAGE55_RESULTS_REVIEW.md)
 
@@ -1357,9 +1357,15 @@ Stage-76 用同一批 fit 历史、同一四选一模型比较当帧 IoU 标签�
 
 ### 0.65 2026-11-13 Stage-96 搜索中心与尺寸交叉
 
-已实现，真实推理待服务器运行。复用 Stage-95 的 137 个时刻，在相同图像、首帧模板和冻结 SGLA 上，逐槽位交叉 PPO／筛选历史提供的中心与尺寸，形成 PP／PG／GP／GG 四组。目标是检验改善候选供给需要换中心、换尺寸还是共同调整。固定读取源 P／G 的选中槽位，主要比较最佳单峰与全格点 IoU、覆盖率和峰供给。混合输入不重新运行 PPO 决策。属于开发关键帧的条件输入诊断。
+服务器同一 L20 已完成 137 个时刻、548 个组合状态，复用 PP／GG，新增 1,096 次搜索、7,672 个块调用。原组合误差 0，供给可用性变化 0。P 为原 PPO 来源，G 为筛选历史来源，首字母取中心、次字母取尺寸。0147:1165 的 PG／GP 最佳单峰 IoU 为 0.672／0.632，均较 GG0.343 变为好框。0307:474 只换尺寸 GP 得 0.664；0226:343 的 GP 全格点达 0.580，但单峰仍 0，PP 单峰 0.859。0307:712 的 PG 覆盖恢复 100% 却最佳单峰仅 0.022，PP 才有 0.554 好框，固定 G 槽位仍仅 0.491。
 
-若与 Stage-95 的型号、UUID 及软件身份相同，复用原组缓存，新增 1,096 次搜索／7,672 个块调用；GPU 身份变化自动四组重放，新增 2,192 次搜索／15,344 个块调用，支持 L20／L40。三项 CPU 测试和 Bash 语法检查通过。测试包含完整合成采集、发布、预算、续跑和篡改拒绝。服务器 SSH 当前认证失败。同步后执行 `bash tools/run_stage96_geometry_cross.sh`，回传脚本打印的结果包。 [Stage-96 协议](docs/experiments/06_sgla_uav_tracking/STAGE96_SEARCH_CENTER_SIZE_CROSS.md)
+未保留事件的 23 个关键状态中，GG／PG／GP／PP 有好单峰为 0／4／6／14。最佳单峰均值差 PG−GG +0.0567、GP−GG +0.0705、PP−GG +0.3609，交互 +0.2337。21 个已保留事件的恢复帧，GP 保留 GG 的全部 16 个有好单峰时刻并新增 1 个，PG 丢 5 增 3。优先研究自身可观测历史下的尺寸更新及中心尺寸配合，P 来源是另一条已运行轨迹，不能直接当免费在线参考。固定 G 槽位分类与原 P 策略类别须区分。训练、确认推理及完整新轨迹为零。本机核对三表哈希、事件、缓存名、预算和因子等式，逐状态／裁剪缓存留服务器。 [Stage-96 结果](docs/experiments/06_sgla_uav_tracking/STAGE96_RESULTS_REVIEW.md) · [固定协议](docs/experiments/06_sgla_uav_tracking/STAGE96_SEARCH_CENTER_SIZE_CROSS.md)
+
+### 0.66 2026-11-13 Stage-97 自身可信历史尺寸后继试验
+
+已实现，真实 GPU 推理待服务器运行。原历史外观与 trusted_scale 两组从相同 G 历史框／外观记忆起步，后续各自推进。新组让 q1／q3 的搜索尺寸取近十二帧内、最多五条可靠写入预测的对数中位数，至少两条，否则回退原最近五框尺寸。可靠性沿用外观写入资格并要求选中描述符有限，当前输出下一帧才可引用。两组共用冻结 SGLA 和 PPO，q0／q2 使用最新尺寸，中心来自自身输出。
+
+覆盖原 25 个恢复事件的 3,162 个窗口帧，两组共 50 条分支。原身份复用 control 时新增 12,648 次搜索／88,536 块，换卡两组重跑为 25,296 次／177,072 块。主要报告原恢复窗口内新增与丢失恢复、候选供给和窗口 IoU。窗口起点可能已有误差，不代表全视频收益。两项 CPU 测试通过，涵盖完整合成滚动、前缀续接、未来标注隔离、两种预算、发布和缓存校验。SSH 当前认证失败，正式执行入口为 `bash tools/run_stage97_trusted_scale.sh`。 [Stage-97 协议](docs/experiments/06_sgla_uav_tracking/STAGE97_OWN_TRUSTED_SCALE_CONTINUATION.md)
 
 ## 1. 接手后首先要知道的结论
 
