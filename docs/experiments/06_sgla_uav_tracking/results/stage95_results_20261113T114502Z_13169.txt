@@ -1,0 +1,490 @@
+
+===== stage95_decision.json =====
+{
+  "schema": "stage95_recovery_dense_response_v1",
+  "status": "COMPLETE_RECOVERY_DENSE_RESPONSE_DIAGNOSTIC",
+  "plan_fingerprint": "05b7aa8fde6d24d6f41cc662d5a7dda6415424b22f0503596f9c6d7e4158091a",
+  "runtime": {
+    "tracker": {
+      "parameter": "deit_distilled",
+      "checkpoint_sha256": "88447c7724704edaf03488f519d3e300385fef05c2f1fac02fe22f7941cf334e",
+      "config": {
+        "MODEL": {
+          "PRETRAIN_FILE": "deit_tiny_distilled_patch16_224.pth",
+          "EXTRA_MERGER": false,
+          "RETURN_INTER": false,
+          "RETURN_STAGES": [],
+          "BACKBONE": {
+            "TYPE": "deit_tiny_distilled_patch16",
+            "STRIDE": 16,
+            "MID_PE": false,
+            "SEP_SEG": false,
+            "CAT_MODE": "direct",
+            "MERGE_LAYER": 0,
+            "ADD_CLS_TOKEN": false,
+            "CLS_TOKEN_USE_MODE": "ignore",
+            "CE_LOC": [],
+            "CE_KEEP_RATIO": [],
+            "CE_TEMPLATE_RANGE": "ALL"
+          },
+          "HEAD": {
+            "TYPE": "CENTER",
+            "NUM_CHANNELS": 256
+          }
+        },
+        "TRAIN": {
+          "LR": 0.0004,
+          "WEIGHT_DECAY": 0.0001,
+          "EPOCH": 300,
+          "LR_DROP_EPOCH": 240,
+          "BATCH_SIZE": 32,
+          "NUM_WORKER": 4,
+          "OPTIMIZER": "ADAMW",
+          "BACKBONE_MULTIPLIER": 0.1,
+          "GIOU_WEIGHT": 2.0,
+          "L1_WEIGHT": 5.0,
+          "FREEZE_LAYERS": [
+            0
+          ],
+          "PRINT_INTERVAL": 50,
+          "VAL_EPOCH_INTERVAL": 999,
+          "GRAD_CLIP_NORM": 0.1,
+          "AMP": false,
+          "CE_START_EPOCH": 20,
+          "CE_WARM_EPOCH": 80,
+          "DROP_PATH_RATE": 0.1,
+          "SCHEDULER": {
+            "TYPE": "step",
+            "DECAY_RATE": 0.1
+          }
+        },
+        "DATA": {
+          "SAMPLER_MODE": "causal",
+          "MEAN": [
+            0.485,
+            0.456,
+            0.406
+          ],
+          "STD": [
+            0.229,
+            0.224,
+            0.225
+          ],
+          "MAX_SAMPLE_INTERVAL": 200,
+          "TRAIN": {
+            "DATASETS_NAME": [
+              "LASOT",
+              "GOT10K_vottrain",
+              "COCO17",
+              "TRACKINGNET"
+            ],
+            "DATASETS_RATIO": [
+              1,
+              1,
+              1,
+              1
+            ],
+            "SAMPLE_PER_EPOCH": 60000
+          },
+          "VAL": {
+            "DATASETS_NAME": [
+              "GOT10K_votval"
+            ],
+            "DATASETS_RATIO": [
+              1
+            ],
+            "SAMPLE_PER_EPOCH": 10000
+          },
+          "SEARCH": {
+            "SIZE": 256,
+            "FACTOR": 4.0,
+            "CENTER_JITTER": 3,
+            "SCALE_JITTER": 0.25,
+            "NUMBER": 1
+          },
+          "TEMPLATE": {
+            "NUMBER": 1,
+            "SIZE": 128,
+            "FACTOR": 2.0,
+            "CENTER_JITTER": 0,
+            "SCALE_JITTER": 0
+          }
+        },
+        "TEST": {
+          "TEMPLATE_FACTOR": 2.0,
+          "TEMPLATE_SIZE": 128,
+          "SEARCH_FACTOR": 4.0,
+          "SEARCH_SIZE": 256,
+          "EPOCH": 297
+        }
+      },
+      "torch": "2.7.1+cu118",
+      "cuda": "11.8",
+      "device": "NVIDIA L20",
+      "lens_z": 64,
+      "lens_x": 256,
+      "embed_dim": 192
+    },
+    "opencv": "5.0.0",
+    "numpy": "1.26.4",
+    "gpu_uuid": "bd2283f0-25e4-2734-53c1-e3a243ca482c",
+    "model_state_sha256": "13af4170053b1e6f4b371c872fce2036cd5c225dffd0831093ddd790eb11e70f"
+  },
+  "source_stage94_fingerprint": "e57c25f2abbb560eb388a080c5d99d749a0bb62614eae1cc27b14efcb7d4b44c",
+  "runtime_differences": [],
+  "states": 274,
+  "search_calls": 1096,
+  "block_calls": 7672,
+  "source_support_changed_states": 0,
+  "maximum_public_box_error_px": 0.0,
+  "source_correspondence_pass": true,
+  "training_updates": 0,
+  "new_full_trajectories": 0,
+  "confirmation_inference_calls": 0,
+  "cache_sha256": {
+    "collection/uav0000076_00241_s__native__s2172__ppo__ppo__f000638.npz": "794e54b39626e04a39b6419e03f9aaf536ecafa4300c5729089a94d72a5da643",
+    "collection/uav0000076_00241_s__native__s2172__ppo__gated__f000638.npz": "43fcc0914af34d455057d7ab73d6552282019c5aa92c679692d1fe9c9a0dd832",
+    "collection/uav0000076_00241_s__native__s2172__ppo__ppo__f000639.npz": "36b4ab5069e890305b38d16c71843b11ca242bcfe945bb55ed1fe2231cdc0732",
+    "collection/uav0000076_00241_s__native__s2172__ppo__gated__f000639.npz": "106645535c4da6bb0e5f01ecc8a1a7f2f09154e1cf2a983d6be022059d8ccc92",
+    "collection/uav0000076_00241_s__native__s2172__ppo__ppo__f001476.npz": "a474a9403103df17c16826dc88737da58d59bd06c5eb0577b1d814425d18a0e1",
+    "collection/uav0000076_00241_s__native__s2172__ppo__gated__f001476.npz": "8e02ae4fc2210f1c01f78a07376692e2b65af85f9f283a312d2e6866651c6787",
+    "collection/uav0000076_00241_s__native__s2172__ppo__ppo__f001477.npz": "0ae47fc74048fcb7ac36fba90c8b68944272038c9170c582ca16da0192a17dfb",
+    "collection/uav0000076_00241_s__native__s2172__ppo__gated__f001477.npz": "25b6b2ec9bd65efae64b7f3bb80cec74d821053307cbffdad5a92944eac1a605",
+    "collection/uav0000076_00241_s__native__s2172__ppo__ppo__f001478.npz": "b0f1ec9d3b9c57ce0ab3daf1104b1ae5ea650e7b764e920861b9534785b1c3e8",
+    "collection/uav0000076_00241_s__native__s2172__ppo__gated__f001478.npz": "2e2b83a024f7ec19e7c13b64241f8c016edd6ae6eab890d7857c1287d8ee3d71",
+    "collection/uav0000080_01680_s__native__s2171__ppo__ppo__f000199.npz": "386dec9fccb46c86271cd78ee4bf01ec73fae010cb132d1f372f6a988becf4b7",
+    "collection/uav0000080_01680_s__native__s2171__ppo__gated__f000199.npz": "7555026e04ddb7cc40ea1095813cc3cede386598915ffef554803d9dd78f07a8",
+    "collection/uav0000080_01680_s__native__s2171__ppo__ppo__f000200.npz": "eba5720682fc3d7d7ad88896b906ebe7cf9248de6fc2e9e906b525c0ad6c0991",
+    "collection/uav0000080_01680_s__native__s2171__ppo__gated__f000200.npz": "85fb8d00286fb559bd786ee92a11b06ce3fc446d820f56b68ec37cc03d172f0f",
+    "collection/uav0000080_01680_s__native__s2171__ppo__ppo__f000205.npz": "c8eaf7e5116b6752d63a608e554339fd35d754d1cfcb68f20a92e993f596df08",
+    "collection/uav0000080_01680_s__native__s2171__ppo__gated__f000205.npz": "d4400df65578efa43cc05f5b9173393907cd8f188402bdc0bbae633dbc9a1616",
+    "collection/uav0000080_01680_s__native__s2171__ppo__ppo__f000206.npz": "28b2f921a50fbd873e3b2e0d08169f25fb487785b6b98a7c89bf6eac1dd377de",
+    "collection/uav0000080_01680_s__native__s2171__ppo__gated__f000206.npz": "0df541a6efab3dbc00fba3a79a7edd2cd98abad312319d950a2d2b7ff4fdc1c8",
+    "collection/uav0000080_01680_s__native__s2171__ppo__ppo__f000207.npz": "7bce4cf1a383ffeb095f9758878f4e777dc3df265e2649191e272ca96b2720c8",
+    "collection/uav0000080_01680_s__native__s2171__ppo__gated__f000207.npz": "f170f462a15a11e1254463369262d3ef1d60ebb0bc2b54257d71468fa04fb08c",
+    "collection/uav0000085_00000_s__native__s2171__ppo__ppo__f000202.npz": "90c3ee2ddbf41b3494f3e29f9852b4f39e01fcad0b9e027f9f4dc1b4af04c8c4",
+    "collection/uav0000085_00000_s__native__s2171__ppo__gated__f000202.npz": "abd906d1da67ebded023304019054af042f6663c3cd8251c6a8545687f3db449",
+    "collection/uav0000085_00000_s__native__s2171__ppo__ppo__f000203.npz": "2d80660cd4eec734479c14f9ba2c408a4c02aef7b21b6c2b1838fef4b1d65b35",
+    "collection/uav0000085_00000_s__native__s2171__ppo__gated__f000203.npz": "d348acf02cd0d6ec514707864c6de51125bc20ee8478307537a80743bdcb3f19",
+    "collection/uav0000085_00000_s__native__s2171__ppo__ppo__f000207.npz": "619a21b2c84ffbd4fba2fc314ce90251d8b5946d4fa008922cd5d6cf5b288316",
+    "collection/uav0000085_00000_s__native__s2171__ppo__gated__f000207.npz": "b9a417a8e571d7710c2efafff2a26928d4299ccc3fdcb3f5d9540ee1e3438564",
+    "collection/uav0000085_00000_s__native__s2171__ppo__ppo__f000208.npz": "6d042b44d1a56f0c26f1de9c0733e9fedbf01d0cb805a98dc71daa82de3633f1",
+    "collection/uav0000085_00000_s__native__s2171__ppo__gated__f000208.npz": "962995b75f92f26190e9b73c0bf9f75c1df90053db3d093392ac642b06a7e0ed",
+    "collection/uav0000085_00000_s__native__s2171__ppo__ppo__f000209.npz": "f6f3591782d9fce8a0026911d741c2523433ea5d182d3d5a583dc8142d7c1c90",
+    "collection/uav0000085_00000_s__native__s2171__ppo__gated__f000209.npz": "5e10ca3cdaadf970760fea453bcec890be5abf7d4c14aa686edccfbd7ae69161",
+    "collection/uav0000085_00000_s__native__s2171__ppo__ppo__f000275.npz": "fe07f6a4f42376aa48ccada91bd2912920d4bcc589ea5c66f5112c533ca5e50a",
+    "collection/uav0000085_00000_s__native__s2171__ppo__gated__f000275.npz": "56ec973e9ee3c7e532d1c7782a9b59633f4039bac363e4dbac6b8cebdc144e07",
+    "collection/uav0000085_00000_s__native__s2171__ppo__ppo__f000299.npz": "158dae5edfb8900862d37d96827bc17409348f6d460306e91da83714a0ab80b1",
+    "collection/uav0000085_00000_s__native__s2171__ppo__gated__f000299.npz": "b16878dac0a5febf77816daa6191ba1668c86175570a44819a25b6d2f7a47917",
+    "collection/uav0000085_00000_s__native__s2171__ppo__ppo__f000300.npz": "c3ca9d00461569342b8e5d4bae9547e0f69a8f37ab08974bd9e1a38d15480df2",
+    "collection/uav0000085_00000_s__native__s2171__ppo__gated__f000300.npz": "f19c12d9363c62e9ecaf150847a4a1e8af9c476a791240201099a70f6b96aee7",
+    "collection/uav0000085_00000_s__native__s2171__ppo__ppo__f000316.npz": "6bf3edcd38d5c498536d954eefce6d843104d0fde42dce4f4ce93ccc81887d83",
+    "collection/uav0000085_00000_s__native__s2171__ppo__gated__f000316.npz": "06a34c04c4fa73fea6fedd4cd054068fb6103e43311adb5cc02a8638a3b5e7f7",
+    "collection/uav0000085_00000_s__native__s2171__ppo__ppo__f000317.npz": "c2e0d72676094d2a54301051e55f1c5822c8496c7ff18dc32a5d11fe89779d6a",
+    "collection/uav0000085_00000_s__native__s2171__ppo__gated__f000317.npz": "6acbd8042ab58e5981b0ddecdfb94387b2d07c87e97f2dda895eb90be058570b",
+    "collection/uav0000085_00000_s__native__s2171__ppo__ppo__f000318.npz": "7c2605c8ebc14bea96e97547e7261a733056842bce47ee834672a75a6622a400",
+    "collection/uav0000085_00000_s__native__s2171__ppo__gated__f000318.npz": "36e377eb626cc51632721763bd57ae7aef7789187dd77f70a299ae5c9c62313a",
+    "collection/uav0000085_00000_s__native__s2171__ppo__ppo__f000669.npz": "c3713285b20b69b28578b93b06429bf1a026d7896e59dcf9c91ff84df33235ef",
+    "collection/uav0000085_00000_s__native__s2171__ppo__gated__f000669.npz": "b4b30808cf1835a44d79021dbddf2a72d15066366bf2c7146235b260bfec6f47",
+    "collection/uav0000085_00000_s__native__s2171__ppo__ppo__f000683.npz": "ace90a260e74001306d68f07ab194a051182e9530c1d7d70e99bcea0a55f8f85",
+    "collection/uav0000085_00000_s__native__s2171__ppo__gated__f000683.npz": "9cac4a56424eff0eb756c1d4e9e9d706e628b5ce101007eeca30060b4c1fa3a2",
+    "collection/uav0000085_00000_s__native__s2171__ppo__ppo__f000684.npz": "e776536f71a226b88df8904030d868949c6fa04833cc1f212b955b36d86b1cbd",
+    "collection/uav0000085_00000_s__native__s2171__ppo__gated__f000684.npz": "ad1db3062ddda5400590723deaec5e9dfbabe187a5da6fdb1b72c5bf3c069349",
+    "collection/uav0000085_00000_s__native__s2171__ppo__ppo__f000691.npz": "06750334a7681fdafc3f89e0dcac44370ed40fad7e3d221eac9039ccea780941",
+    "collection/uav0000085_00000_s__native__s2171__ppo__gated__f000691.npz": "f7832dab2a334961ea633de4f571dc73ba9222b7cf775f11536e554b667ad98f",
+    "collection/uav0000085_00000_s__native__s2171__ppo__ppo__f000692.npz": "5a898b7b0eb7c394837cf4d039256ca41d9b7862f2205cf97c7b66b251d5c637",
+    "collection/uav0000085_00000_s__native__s2171__ppo__gated__f000692.npz": "2281146596f8dcaf90b531483c3f3322e5d92e07da6137936da5588deb1c9176",
+    "collection/uav0000085_00000_s__native__s2171__ppo__ppo__f000693.npz": "51ee8a1f6b974ed4d82070f3ee10b865acbb81f652ca175d1ea2f20b5c506709",
+    "collection/uav0000085_00000_s__native__s2171__ppo__gated__f000693.npz": "1be8ffb3a0bf3c8851c1a6d48ab80eb5953a3f8853fce03d9c08b437926861d6",
+    "collection/uav0000085_00000_s__native__s2171__ppo__ppo__f001075.npz": "8dc709fdbc4799b360d06b92eab4dec84297e2cd0e958ebac3b4137c68b3e4e0",
+    "collection/uav0000085_00000_s__native__s2171__ppo__gated__f001075.npz": "effac2238373c235fc9c80536a2393367a6ceab224b7c953873dca174a16788c",
+    "collection/uav0000085_00000_s__native__s2171__ppo__ppo__f001076.npz": "f8a1a437e04cb71b1cc85969eae389042594751e9eb0a5494e018c646ec8f0eb",
+    "collection/uav0000085_00000_s__native__s2171__ppo__gated__f001076.npz": "6aa5cf0c92e5cee84c00af85e00bea33f8117195d3b51adb67bbcabfbf989875",
+    "collection/uav0000085_00000_s__native__s2171__ppo__ppo__f001083.npz": "4ac18192eb057d9f1b7001a6285c54aac378418bf6cf35cb687e2b5dbcaf58ac",
+    "collection/uav0000085_00000_s__native__s2171__ppo__gated__f001083.npz": "d420d1003f2d186a9a75ab345bd6f6921fe277ad24dd750c0980b19425784658",
+    "collection/uav0000085_00000_s__native__s2171__ppo__ppo__f001084.npz": "6c972b4baaab027ddbf6c5564880f59a32a32aae1ee87239819ea9c401d0c86d",
+    "collection/uav0000085_00000_s__native__s2171__ppo__gated__f001084.npz": "5a2e79d9c7d2c7ed892e7ea6380b795baf1346be4713d190bd5292c8798b947f",
+    "collection/uav0000085_00000_s__native__s2171__ppo__ppo__f001085.npz": "901ae54525b04f2c094dddf80b464d6ceea04c6e5f5abf5067cb028cefd1c105",
+    "collection/uav0000085_00000_s__native__s2171__ppo__gated__f001085.npz": "6bf53096fdd3ad08600c83eb03c01aa693e3bd186db54efc305823c355c1d44d",
+    "collection/uav0000085_00000_s__native__s2171__ppo__ppo__f001112.npz": "5028585ffaec016bd31c2422be61fdaaae7b9f204bc3554b4c61e3d22ffa14be",
+    "collection/uav0000085_00000_s__native__s2171__ppo__gated__f001112.npz": "db880f9b428b0f4fd0748c582aabebe4d03066cbfe5a27a0df5ce2d733763491",
+    "collection/uav0000085_00000_s__native__s2171__ppo__ppo__f001113.npz": "9277df627ed39b2a90d61334a959d93bc3b1497980e73c37d01fab2c3f860ea0",
+    "collection/uav0000085_00000_s__native__s2171__ppo__gated__f001113.npz": "e369a8e29213f9ba6c60c16da8c9b5e86d38752b6fb50519d48e62758a285d55",
+    "collection/uav0000085_00000_s__native__s2171__ppo__ppo__f001118.npz": "a10f60f82c54e3f6a3282a8b9f6561ccb8461fb3463af4880506a567039e0de6",
+    "collection/uav0000085_00000_s__native__s2171__ppo__gated__f001118.npz": "037e745c96e53f8a31bdb293987aa68eaa4451c15821d8436911570e8fd665e0",
+    "collection/uav0000085_00000_s__native__s2171__ppo__ppo__f001119.npz": "65600c9d14eaf7372c6d4cbeef25a894fab689714a6beab8736ed08b71902681",
+    "collection/uav0000085_00000_s__native__s2171__ppo__gated__f001119.npz": "720f741c3d2fe214921a886cab2e09da497c2c13305034a7075084c32db01b0a",
+    "collection/uav0000085_00000_s__native__s2171__ppo__ppo__f001120.npz": "af3566ecd3333d2da8ac902169f956a3c57205958f9e21ea26e6041d06f37499",
+    "collection/uav0000085_00000_s__native__s2171__ppo__gated__f001120.npz": "f76b4e2f881abb067ba4a3622d1066d52ae149c5f35f33dbbb237fb7985809f0",
+    "collection/uav0000089_00920_s__native__s2172__ppo__ppo__f001162.npz": "b118016264e6536b46eb5b0be5140e28d225e154bf6d1a3271bc95d36d306c84",
+    "collection/uav0000089_00920_s__native__s2172__ppo__gated__f001162.npz": "81157ee6b6b2693ecb753932c58b78453487b087a54ebee4cb400285c0ceee7a",
+    "collection/uav0000089_00920_s__native__s2172__ppo__ppo__f001163.npz": "42b574a7c13d70e78a3f7f150bf18146c80bb46f1343f82ca649dc735c950984",
+    "collection/uav0000089_00920_s__native__s2172__ppo__gated__f001163.npz": "1cd9973c67c6d87a4e1e1afb0b9df2b174a66c88e592b96036c46b1f5d3df131",
+    "collection/uav0000089_00920_s__native__s2172__ppo__ppo__f001184.npz": "a07a4bbb117dfc77b74d65b2956d236d9cdeb27fbe3fbe2967b0c5152b6fb6a9",
+    "collection/uav0000089_00920_s__native__s2172__ppo__gated__f001184.npz": "bd78214786d573105d24013afb7ff0900fe04e37e9635010ce9681e9a5b1ec2f",
+    "collection/uav0000089_00920_s__native__s2172__ppo__ppo__f001185.npz": "5ee118301678a799c00a9af373b6c9ccb876b3f7e6ae72eb1d4f240411c0286e",
+    "collection/uav0000089_00920_s__native__s2172__ppo__gated__f001185.npz": "4fbf4cfd5d9eb646823e31d6743d52dd7435409eb03023b0b6c6ba6fb2206be2",
+    "collection/uav0000089_00920_s__native__s2172__ppo__ppo__f001186.npz": "8f9328fc78a814fcd197b09fa9cb018bc2e4088bd738b2afcbd6e55864067c23",
+    "collection/uav0000089_00920_s__native__s2172__ppo__gated__f001186.npz": "e7619d10d7bea484fd7774105407af78b5ad14023ce4f1df8bc6eca377d308b6",
+    "collection/uav0000147_00000_s__native__s2172__ppo__ppo__f001110.npz": "684a9dfa4334bba744e9c328005448e83fcaeb9d624eb556e34d7bdd597ad3b7",
+    "collection/uav0000147_00000_s__native__s2172__ppo__gated__f001110.npz": "7193542473834434b9d432d4b7373b1d585fc1c542eca82d9844f25cfcc28d6c",
+    "collection/uav0000147_00000_s__native__s2172__ppo__ppo__f001111.npz": "3c13f61db746170be077c42b89723137f7521cb43c32299715d1f6032642c2d5",
+    "collection/uav0000147_00000_s__native__s2172__ppo__gated__f001111.npz": "4b22e655b9a8d571611de34f7fd14bede052bbb5056d39e3a2021100a10c3dea",
+    "collection/uav0000147_00000_s__native__s2172__ppo__ppo__f001116.npz": "83eb7cd63e215595945c393711262c43a768ccaa0ef312f80d740f71e1bb5757",
+    "collection/uav0000147_00000_s__native__s2172__ppo__gated__f001116.npz": "24a211a6712a60d8255e3f300ae79f93d2b59941c869dee9c0fa1f4d261ae441",
+    "collection/uav0000147_00000_s__native__s2172__ppo__ppo__f001164.npz": "beddb807a020884017ec802f6b55fbc7ffd7b6eb070eea4309805a86eb54660b",
+    "collection/uav0000147_00000_s__native__s2172__ppo__gated__f001164.npz": "80481e29cf2e8125a9fbaae5a9f5a3fc581f007c62453aeb3e604372b45e57fb",
+    "collection/uav0000147_00000_s__native__s2172__ppo__ppo__f001165.npz": "6e41b68e9e06ca1eceba8990fabd79cf20007a30ddbaf5700c0adc2d42a6d876",
+    "collection/uav0000147_00000_s__native__s2172__ppo__gated__f001165.npz": "58170b38748e256c467939f615bdc4dc40d24016294071efd1c1a7e27acc142f",
+    "collection/uav0000147_00000_s__native__s2172__ppo__ppo__f001166.npz": "919f237752baf0c52b3e6eb9bcaf3128aca05acabc978694823e40ca12d4a91f",
+    "collection/uav0000147_00000_s__native__s2172__ppo__gated__f001166.npz": "b2926ca8a53309915d5d7fafc2a05c82712b4cefbea94a8a50d2c32276dab70b",
+    "collection/uav0000176_00000_s__native__s2171__ppo__ppo__f000380.npz": "60cd31511f2338cfdc61ffd4efc3dc35bc0617a6bc4c54f49ddc8cb6f14aa575",
+    "collection/uav0000176_00000_s__native__s2171__ppo__gated__f000380.npz": "3259902f8de495b321f5489d6322dd6e167d3687c4f0c9fdf4800f308b1bb186",
+    "collection/uav0000176_00000_s__native__s2171__ppo__ppo__f000381.npz": "4145454d2bebc999c3288c1d691b90a9246c81408ed1827adf4596077b948eb0",
+    "collection/uav0000176_00000_s__native__s2171__ppo__gated__f000381.npz": "72e11305b73852fc1a143667176b368da2b497230dd2c2b520fa75ba10452285",
+    "collection/uav0000176_00000_s__native__s2171__ppo__ppo__f000382.npz": "788ec018f7991768fd9668adf9f418ec3675c01971882577a4380a409289858d",
+    "collection/uav0000176_00000_s__native__s2171__ppo__gated__f000382.npz": "634ab9b7c79fd7869fe272ccc24760de26cd6552ee82ace20a769c8315d2193b",
+    "collection/uav0000176_00000_s__native__s2171__ppo__ppo__f000387.npz": "a2fedd98db222fdac886ed9bf5c3b99772a2f03b91ba5b0192dce30a741ad549",
+    "collection/uav0000176_00000_s__native__s2171__ppo__gated__f000387.npz": "49c871e7de7638b48229f8810421f64a6c815358cf4753852bad0b2b1d952796",
+    "collection/uav0000176_00000_s__native__s2171__ppo__ppo__f000388.npz": "19f672e0c73d95a8874fe9f0cec0b8d39a9e994e234b9510a604172b141d84d6",
+    "collection/uav0000176_00000_s__native__s2171__ppo__gated__f000388.npz": "12be06c819ab0e41fece69a771f849a1be6bb22c85c704975bacc6f040ed2e50",
+    "collection/uav0000176_00000_s__native__s2171__ppo__ppo__f000389.npz": "8cdef57aa13f7cb259eccf457ac4ca95bbb22ee470e9ef7d4ac581da16ef1052",
+    "collection/uav0000176_00000_s__native__s2171__ppo__gated__f000389.npz": "41d31d0350023de92019ebbf5bac2e69721ae668a32f182d657cb2b527ab804a",
+    "collection/uav0000176_00000_s__native__s2171__ppo__ppo__f000618.npz": "1a34b5fae9cecf545539815c88c3e1db6565c7e539ea76b2dc28e3109078ff6b",
+    "collection/uav0000176_00000_s__native__s2171__ppo__gated__f000618.npz": "e48d38cfd0df86a82ef8f0566c7bba230ac96142756be16c01ac6d653956f57d",
+    "collection/uav0000176_00000_s__native__s2171__ppo__ppo__f000619.npz": "ef4c8032e3c9368dc2761ab3b89029dd8610ed731d09bc48773c364c9783a9a4",
+    "collection/uav0000176_00000_s__native__s2171__ppo__gated__f000619.npz": "af78c368f1ab568002ceda350295a136a5faa926782f7b8cfd6857e296c46c87",
+    "collection/uav0000176_00000_s__native__s2171__ppo__ppo__f000628.npz": "ea36430cc822d3dabf483e644cd35032baf617b92c80e989f4c37ee0e3cf2928",
+    "collection/uav0000176_00000_s__native__s2171__ppo__gated__f000628.npz": "08b20195ba1c064ea5df8b672cf7bd811ece7cb99156f9d9dfcde70b11dce87b",
+    "collection/uav0000176_00000_s__native__s2171__ppo__ppo__f000629.npz": "ae4aba87dae24925f00ba0a7b7dd3ea26d5b21a21b54ccf63c00d64349ec586c",
+    "collection/uav0000176_00000_s__native__s2171__ppo__gated__f000629.npz": "89e5bfab745ccbcf3e4d45ebe845458cbbe5a52f0ce5e236f885c506fc9e0946",
+    "collection/uav0000176_00000_s__native__s2171__ppo__ppo__f000630.npz": "b422596005128102fc7adc1f40a46c075dee3d96d53b8bd1681213b8de56e13c",
+    "collection/uav0000176_00000_s__native__s2171__ppo__gated__f000630.npz": "634644c853047894c3da90b36ee0c06e225c694b24fba55b23bb7af4f7148e7f",
+    "collection/uav0000176_00000_s__native__s2172__ppo__ppo__f000311.npz": "8049a81ffb15722bcd69cf2138009ef83c75248a641c6070a5ca87bd84c1457b",
+    "collection/uav0000176_00000_s__native__s2172__ppo__gated__f000311.npz": "491747cba519aef8af954a1f7b77afbe9187e80c7dd1a100a32fcb462cf19ca2",
+    "collection/uav0000176_00000_s__native__s2172__ppo__ppo__f000313.npz": "60c90aaee11425b7f6640a3519c184cbfd67c575b7cbecdd19ebf2caed346219",
+    "collection/uav0000176_00000_s__native__s2172__ppo__gated__f000313.npz": "47096428349d0c8d327cfabfa594ba74b02cb6cc7e3001068c7ffed2ccb95fd7",
+    "collection/uav0000176_00000_s__native__s2172__ppo__ppo__f000314.npz": "7327ebb8b08fb4cbcdfc00a14ba0036fcbc3ba812985917e996557a0c867f94e",
+    "collection/uav0000176_00000_s__native__s2172__ppo__gated__f000314.npz": "894b47325100f8c8f09e73cd05c5d889dbf198ab5bc106b027bc1faecb4dbd65",
+    "collection/uav0000176_00000_s__native__s2172__ppo__ppo__f000320.npz": "c932134083a2e2439c7c13c91d161ad69e188f3b5b12eec6ab514a6b43ec7cd9",
+    "collection/uav0000176_00000_s__native__s2172__ppo__gated__f000320.npz": "07dd6c21d51f6a9c4c14b6160b21334e93887122c9f421831c36961ec3250d4e",
+    "collection/uav0000176_00000_s__native__s2172__ppo__ppo__f000321.npz": "314c96fd9115a102a289fb3da62c84ce127e3d235614dfb1c47b5cb1d5bc664e",
+    "collection/uav0000176_00000_s__native__s2172__ppo__gated__f000321.npz": "c60a232950b98a9bcda0c309dc69835d37cb2fc23496df57a1270531ee73e42d",
+    "collection/uav0000176_00000_s__native__s2172__ppo__ppo__f000322.npz": "e910599da3e48b713a5d7f52bffd1f9dcf0f3c2706e65ec6669ee13b75da26fd",
+    "collection/uav0000176_00000_s__native__s2172__ppo__gated__f000322.npz": "9b1de8ae9e418de9fbd2e5e59a379e2e9abeba68b26a17335b9abe3b00036a1e",
+    "collection/uav0000176_00000_s__native__s2172__ppo__ppo__f000380.npz": "a9824873bddf3999991e6ecd29c63b750d46045e136e338e02857c4a38683e5f",
+    "collection/uav0000176_00000_s__native__s2172__ppo__gated__f000380.npz": "90e60f318d48f43c70b3559f12574b942b5287a9135a36eadd8be76d53b2440d",
+    "collection/uav0000176_00000_s__native__s2172__ppo__ppo__f000381.npz": "8ad1b097f48114e4d37453120f019ccab8861adfdd310b72ebd85d21af6e4d86",
+    "collection/uav0000176_00000_s__native__s2172__ppo__gated__f000381.npz": "30c39ae33a731a883d1869b3c5ffaca80783aea2bd6fd8302b12884917d117ce",
+    "collection/uav0000176_00000_s__native__s2172__ppo__ppo__f000385.npz": "f0f1810749d0238d45bf9562e9a896652e58e2acf6924a9a84d2b5732a907696",
+    "collection/uav0000176_00000_s__native__s2172__ppo__gated__f000385.npz": "0a1d785ab2bfc0bc546143fe1d06e912eaceb4566e485ae15b1a52522e491e9e",
+    "collection/uav0000176_00000_s__native__s2172__ppo__ppo__f000387.npz": "2971bffca55bc8dc4f4dde761bfb776171014845d381ea23148bc96c455e3d34",
+    "collection/uav0000176_00000_s__native__s2172__ppo__gated__f000387.npz": "1de6ab1e711758116a54dd82051a84e29b3646526c1b746819f4dc11902ac240",
+    "collection/uav0000176_00000_s__native__s2172__ppo__ppo__f000388.npz": "8ce7de2ab1527be14d9193546275175d733fb79c5ec7e8c38452d101bb10c60f",
+    "collection/uav0000176_00000_s__native__s2172__ppo__gated__f000388.npz": "a4edf5724eac07e4b996172436af2f3fc5b27a619e9babee7e62d4c136811834",
+    "collection/uav0000176_00000_s__native__s2172__ppo__ppo__f000389.npz": "60b9dfd9ae315eadba2f0f5c27b3f681315ba5754f113971c43428ecb7122f1d",
+    "collection/uav0000176_00000_s__native__s2172__ppo__gated__f000389.npz": "636e4e3a4b035d4c62406f06f0ac5cdc0e798aab726dba75e62a426ae42be436",
+    "collection/uav0000176_00000_s__native__s2172__ppo__ppo__f000407.npz": "dffdaa6486d112ee880f5ed12caf18c18ee89e10d6260452e51f55a3a55ef173",
+    "collection/uav0000176_00000_s__native__s2172__ppo__gated__f000407.npz": "62273d971fd47dbb5112293704a26e8217520154517242e94266fe830f6be20e",
+    "collection/uav0000176_00000_s__native__s2172__ppo__ppo__f000408.npz": "aac475f0c6f911ab1d068659afc84979fe05a5115dbbcd31df81faa54a293580",
+    "collection/uav0000176_00000_s__native__s2172__ppo__gated__f000408.npz": "15a04847be056ea6489757623383a0eba0d6b46a42d1f3587320ed2bb87de52f",
+    "collection/uav0000176_00000_s__native__s2172__ppo__ppo__f000414.npz": "7074672d10ab883e8f03c015ac1d54518c092e2bae2f93a2309bba612878bf42",
+    "collection/uav0000176_00000_s__native__s2172__ppo__gated__f000414.npz": "07f3ca064a00e56a1afad6b5ea876df2649a8b36253eb95850275d198d252cf8",
+    "collection/uav0000176_00000_s__native__s2172__ppo__ppo__f000415.npz": "e1ce4cfc3ecaee0b606db2abc5b9588d2ebf65044f1382ffa9d385987e4d63d3",
+    "collection/uav0000176_00000_s__native__s2172__ppo__gated__f000415.npz": "c4dcc1e1fd3f2b45f9463656b8f5090b2388ccd6e1616c0c9a4c536f87becc28",
+    "collection/uav0000176_00000_s__native__s2172__ppo__ppo__f000416.npz": "3d67ea0f094fb71c688dadd8a3a0cd378644941f59673f8ab4273c6b9a26a758",
+    "collection/uav0000176_00000_s__native__s2172__ppo__gated__f000416.npz": "268d493e252a6e193cedec28a5909039455f798eb2cec8e107820be217c284ba",
+    "collection/uav0000176_00000_s__native__s2172__ppo__ppo__f000457.npz": "80bc64db490b4cd137ae297c0db9f6d48ad94b40ebefb90427737d7508397f2d",
+    "collection/uav0000176_00000_s__native__s2172__ppo__gated__f000457.npz": "e0ec418231a2a7acafabfe3173db713fc165430dedbf77b0bbdfb64a6b440ea8",
+    "collection/uav0000176_00000_s__native__s2172__ppo__ppo__f000458.npz": "db65efd3c9b1f5b1d2f6371e4d36f2e16cebec530f6a2b8cfb3d2c61060084c8",
+    "collection/uav0000176_00000_s__native__s2172__ppo__gated__f000458.npz": "8f12921265b99ee124b298306c81f4b20df2dce3e3c0579f8d8423439a94bd05",
+    "collection/uav0000176_00000_s__native__s2172__ppo__ppo__f000467.npz": "16f060925fc667abe8d114f8b9b68f663171c44bf9010c3edc08f2c441be90e8",
+    "collection/uav0000176_00000_s__native__s2172__ppo__gated__f000467.npz": "4f9aafbc50caf0b2ef631a56ac724fe09b4d871f9b2733c72776d425475330d7",
+    "collection/uav0000176_00000_s__native__s2172__ppo__ppo__f000468.npz": "3786f0067def5a6de510c9cf6e6d181c8fb2efc40b3a0cd016980c5100a3f74c",
+    "collection/uav0000176_00000_s__native__s2172__ppo__gated__f000468.npz": "4ddd5f60f6b7251d2f7c737c3a44da0ae65dba9ac5f75c0c9023ac1bffd4f1bf",
+    "collection/uav0000176_00000_s__native__s2172__ppo__ppo__f000469.npz": "57327827bf5a855d9624ef3a654bcea5d84c2e0b72b95bec01c94872d9b83373",
+    "collection/uav0000176_00000_s__native__s2172__ppo__gated__f000469.npz": "2368fe65e5e20b8d15affe897bc5d3bd7e35a2be905d39ba8377e0c5ff3f8838",
+    "collection/uav0000226_05370_s__native__s2171__ppo__ppo__f000118.npz": "b4bad30f6e2af02b8096780e9004b1bdf3ea94c69be4955c28dc72dc821c27fb",
+    "collection/uav0000226_05370_s__native__s2171__ppo__gated__f000118.npz": "c718f9b265cb84c876311467699fdfea2eb79f83c65801fda857d1b1128b70b6",
+    "collection/uav0000226_05370_s__native__s2171__ppo__ppo__f000119.npz": "ccf9861bde27fe1782d9cf618760fd45dcc9d0e1174f5aaa2695dcfe1f4320ea",
+    "collection/uav0000226_05370_s__native__s2171__ppo__gated__f000119.npz": "c34402b5fa076656e1bc7c6efd13f7e24d9aa24e1aa09e880b7bba936aabc92a",
+    "collection/uav0000226_05370_s__native__s2171__ppo__ppo__f000328.npz": "6347c94cd53672efee5f2045418119ff858716928e0e0ded95edfebf55d76a92",
+    "collection/uav0000226_05370_s__native__s2171__ppo__gated__f000328.npz": "a8fb1d95355269c4f9b5c217ad808bbc988d761904b2e79d703ca9e59be87a9a",
+    "collection/uav0000226_05370_s__native__s2171__ppo__ppo__f000342.npz": "cf3c3d69b639560756366b11a9522c03d051a8c0edb4052929112ddf66cfd4ed",
+    "collection/uav0000226_05370_s__native__s2171__ppo__gated__f000342.npz": "35a208d0d91d2dec5117802831a29d1863f6bfbbb9eb9df19e0bd26219818d0f",
+    "collection/uav0000226_05370_s__native__s2171__ppo__ppo__f000343.npz": "1e62f57fab0e300fbc45b262b6e8d521413736e36e4a627ed3a2aed82a256d2d",
+    "collection/uav0000226_05370_s__native__s2171__ppo__gated__f000343.npz": "97853566cfa69991c6f119d2b5fec83edb08eddc88d68c820b306981c59c09a7",
+    "collection/uav0000226_05370_s__native__s2171__ppo__ppo__f000344.npz": "8196b727d3fca81862b1a9b0a89ad8c24c3b5a917fa6c3722a0a3fd5cd5d6102",
+    "collection/uav0000226_05370_s__native__s2171__ppo__gated__f000344.npz": "6baae61072475506757fab01ae411e545e3fb110b368c32979cf2b6b27a35db1",
+    "collection/uav0000226_05370_s__native__s2172__ppo__ppo__f000125.npz": "47f378b2aa95506489d5bd155756e172218cda8621e87ca6f32785717382e26c",
+    "collection/uav0000226_05370_s__native__s2172__ppo__gated__f000125.npz": "a6451c04a859e72e4f7d1805bbc0bbfc944a6f5230f7464799b8cd1ce3e232f1",
+    "collection/uav0000226_05370_s__native__s2172__ppo__ppo__f000126.npz": "1c981a90345e7c9983688d0813d2054bd7e3e2e52015419d4f050a375d3528f1",
+    "collection/uav0000226_05370_s__native__s2172__ppo__gated__f000126.npz": "c9884e3fa1b856b1eaed0984864c2f07a6b65a17d59f84bba43ce9c7442c51d1",
+    "collection/uav0000226_05370_s__native__s2172__ppo__ppo__f000336.npz": "162034e8b1ec79de42dfabb370964a50191c680cc6f57b9deba954cbfb59568e",
+    "collection/uav0000226_05370_s__native__s2172__ppo__gated__f000336.npz": "5792ced400e5a9aa85db1d00d9f30186523e360d10aa2eb5f827b6dd1c475071",
+    "collection/uav0000226_05370_s__native__s2172__ppo__ppo__f000337.npz": "c719e50ec19a0e7cd4ee87b4a764bc1ca7596700304b261b4ebb02cf1c464cc9",
+    "collection/uav0000226_05370_s__native__s2172__ppo__gated__f000337.npz": "c3fb00dcf696080f897aa442e14edf11bd2eb57ccc7e4de295a0245a9909d782",
+    "collection/uav0000226_05370_s__native__s2172__ppo__ppo__f000338.npz": "8d352676b3d905af52efc2f1d182b677a06cb14db61d982c8c3edecd312efa39",
+    "collection/uav0000226_05370_s__native__s2172__ppo__gated__f000338.npz": "55bacb31c93679c7e5eaf6212faad154276d4b98f298b5e983bdd23a46bf0458",
+    "collection/uav0000235_00001_s__native__s2172__ppo__ppo__f000701.npz": "04308af24a31281776d4913a2a679b3f37d36b7f9ba6eec5de58a1e8d943da4c",
+    "collection/uav0000235_00001_s__native__s2172__ppo__gated__f000701.npz": "2dd6a1d6914fe09276a09374174d49f1bccd2b7a86d66e2b5251f8392a5d60de",
+    "collection/uav0000235_00001_s__native__s2172__ppo__ppo__f000702.npz": "62c014835255474bad109c36644289cfb4c8036039975d4d7cc437aef63d88e2",
+    "collection/uav0000235_00001_s__native__s2172__ppo__gated__f000702.npz": "b1d3fc75487893486aa07b68a84b8f5a015aaafa7326de36c80513db18d3c95f",
+    "collection/uav0000235_00001_s__native__s2172__ppo__ppo__f000836.npz": "abb4f3984e4c77c9a84cbc7ee254bade85d91bd60e7269e2a12ff2a8aaa92710",
+    "collection/uav0000235_00001_s__native__s2172__ppo__gated__f000836.npz": "ebe333324e449220b2844f7522fd60cf24aab16d12dbd42b475aaf5bdf50b62a",
+    "collection/uav0000235_00001_s__native__s2172__ppo__ppo__f000837.npz": "384eaaa54e9385580e5effd60dfc01d6b9a4b1e3a7cb5b0f10026d036e550c93",
+    "collection/uav0000235_00001_s__native__s2172__ppo__gated__f000837.npz": "5d5e4eb7cce828c5eaa627fa2d1b0742e947755f2321b7874a6a7024ea504ee4",
+    "collection/uav0000235_00001_s__native__s2172__ppo__ppo__f000838.npz": "3031da8374a69b2b392f5b878b96908091d34eeaf8cf34ca524c44248fa69d11",
+    "collection/uav0000235_00001_s__native__s2172__ppo__gated__f000838.npz": "464ec1ee4e9daebf8f769492ffc78e955b1b6a124f9ad04340c767f0c2a2b2d6",
+    "collection/uav0000237_00001_s__native__s2171__ppo__ppo__f000245.npz": "bb087d06275f0901aad82917286f8453370ca8edac65232dc9f77b4cbc756c16",
+    "collection/uav0000237_00001_s__native__s2171__ppo__gated__f000245.npz": "f72a458cb350a6fea1800ba380893b8641904a98401d4a08cda4f9576c291887",
+    "collection/uav0000237_00001_s__native__s2171__ppo__ppo__f000249.npz": "a908dd76b53ac1f807cbf90e16fee17c280b530f28ce4d80c6c4e8ce62edc98d",
+    "collection/uav0000237_00001_s__native__s2171__ppo__gated__f000249.npz": "39f19071ab4c85923a13bb1cc4b2d08aca856ac042f5896206462b8cf5f99c29",
+    "collection/uav0000237_00001_s__native__s2171__ppo__ppo__f000250.npz": "75fb78bb95ab35a1c7e06fa0c62a680df340e9267f947051e47f16d0ec079f34",
+    "collection/uav0000237_00001_s__native__s2171__ppo__gated__f000250.npz": "d14059445050ffb10eb5fcb12298b487326dab0e151633cc73e5383a7f1bd86c",
+    "collection/uav0000237_00001_s__native__s2171__ppo__ppo__f000293.npz": "874697cf2169f778fd476ba5b726906f2c6eff3f1fd2d7ba5b446f32f2b09576",
+    "collection/uav0000237_00001_s__native__s2171__ppo__gated__f000293.npz": "61251ef4dc2e6810f61eb69f1a9cc2e71cecd80bd6f171609bf3183cc0362ea8",
+    "collection/uav0000237_00001_s__native__s2171__ppo__ppo__f000294.npz": "03ab5efe43c9af1898001e19771d3f0d5c744e2cda8a77cedc83e534a7dedaa2",
+    "collection/uav0000237_00001_s__native__s2171__ppo__gated__f000294.npz": "2426f0d73f79401ee237d7884da716e899d349a5c008f31702805136f081cf7d",
+    "collection/uav0000237_00001_s__native__s2171__ppo__ppo__f000295.npz": "4178b72ac72b0341a08c94208da5e27d293f3057ffff3be9385be380d93c5419",
+    "collection/uav0000237_00001_s__native__s2171__ppo__gated__f000295.npz": "3a3cc67612f3a6198373365a55eb8d9b9eaf24e3571eaeb770fd37bdfc302cda",
+    "collection/uav0000237_00001_s__native__s2172__ppo__ppo__f000239.npz": "d2c20d0550ba7e2fea0c4945c800a876ca5f1313ca09619408a704ba7e5f08bd",
+    "collection/uav0000237_00001_s__native__s2172__ppo__gated__f000239.npz": "4c2bc116b17849dbc01b302d6518d88ebc9d1ed53120e16d1a25371d5773363a",
+    "collection/uav0000237_00001_s__native__s2172__ppo__ppo__f000240.npz": "1c3bbf55cc27297c4d5b692885173b561abb038dc137dba4b3d0e103cdff6c2e",
+    "collection/uav0000237_00001_s__native__s2172__ppo__gated__f000240.npz": "6b48ca4c988b14ee10981f926c56851d3871db2a902f3e2621f2974fa53f8d2e",
+    "collection/uav0000237_00001_s__native__s2172__ppo__ppo__f000289.npz": "3f8091050193d5e243f208c008d43c300459411ce7dab126d14104b58327eda8",
+    "collection/uav0000237_00001_s__native__s2172__ppo__gated__f000289.npz": "22f71c444c7276e94969bbf9b0241d109edf7284ecd84828601cd0b228d8cc8c",
+    "collection/uav0000237_00001_s__native__s2172__ppo__ppo__f000290.npz": "f7966cb34c2e20a2259e22f8719702188d0a188b7e008485a230dc87c6049ae9",
+    "collection/uav0000237_00001_s__native__s2172__ppo__gated__f000290.npz": "57d79f24ea3692a8e298a99bdaf020f0978e27011cce1c2b69835b1eb89a02ce",
+    "collection/uav0000237_00001_s__native__s2172__ppo__ppo__f000291.npz": "f1843ca00025ad9897295f4c69eba8b131c76bba6f7f5e1c518c0ec360c272a0",
+    "collection/uav0000237_00001_s__native__s2172__ppo__gated__f000291.npz": "77bdde63fb210b5a1cfff2ffe02aab0388c3571bd36f1ae77981ef427cbb543e",
+    "collection/uav0000307_04531_s__native__s2171__ppo__ppo__f000402.npz": "6df15232384cd1f4e160fe2327fbd4093a1dcaba6c08144ad5faf20d08b71ca0",
+    "collection/uav0000307_04531_s__native__s2171__ppo__gated__f000402.npz": "da26e3a88400952775174ca853023c8a35de5faacfe6b303e9dbdbbb1e11d287",
+    "collection/uav0000307_04531_s__native__s2171__ppo__ppo__f000403.npz": "52e13eee12536dfcbec233203f20f71373779380f623d4a24cb72d47547cb8f7",
+    "collection/uav0000307_04531_s__native__s2171__ppo__gated__f000403.npz": "e7386f893ecd4133294eb21d2817f3196b770cb1812d3adc18fcd4ac7bf68346",
+    "collection/uav0000307_04531_s__native__s2171__ppo__ppo__f000469.npz": "2bc3aa05f9da3a84521bb1e0ec0ccf416e5254a325f008c6f63e231b3e6e4969",
+    "collection/uav0000307_04531_s__native__s2171__ppo__gated__f000469.npz": "1dab1733720ba8ab18c24ce4716f3157c0c11f87e2fd76f64684ef24c469a5f7",
+    "collection/uav0000307_04531_s__native__s2171__ppo__ppo__f000473.npz": "25be514f572d037923654406f0a47984630170902e63719537b5a260475999fd",
+    "collection/uav0000307_04531_s__native__s2171__ppo__gated__f000473.npz": "f790ec09a5eec124b59a036e96106e994659ed386411c53b6ee023c4c467dfb3",
+    "collection/uav0000307_04531_s__native__s2171__ppo__ppo__f000474.npz": "721fcb903c261cfca753ac6bb6c8bebac896ec5663c8ebc7e224cc7ab6f5096e",
+    "collection/uav0000307_04531_s__native__s2171__ppo__gated__f000474.npz": "d6addc3fb3245d109e2d453275c13af487f5791acf036fb395433de35fa3841a",
+    "collection/uav0000307_04531_s__native__s2171__ppo__ppo__f000475.npz": "b10f0d5a8b9c65510530567dbaf1311b602cc7bce138ee29a1bef18dfd99f2b3",
+    "collection/uav0000307_04531_s__native__s2171__ppo__gated__f000475.npz": "7f8c716388b17ec954b4fabad6384f1407be439175ca5d29251de79e8549d9aa",
+    "collection/uav0000307_04531_s__native__s2171__ppo__ppo__f000683.npz": "45ef564146997c8c76b59406288296cb9f8245176ac5273da30a4af6f0e797b1",
+    "collection/uav0000307_04531_s__native__s2171__ppo__gated__f000683.npz": "961eaf03f4e27c33aaaa3e764ed48c7759c0efc9b37304455e5624d5985bd275",
+    "collection/uav0000307_04531_s__native__s2171__ppo__ppo__f000684.npz": "1b6a61e1214c5f1f3bc3ddbc3d02f05c79f465973b6e7f68cf6f7689722e4a90",
+    "collection/uav0000307_04531_s__native__s2171__ppo__gated__f000684.npz": "8690c683ee274b8830c4403e9e71cc965f4570624eb623824e75e3ebf6e2b3ca",
+    "collection/uav0000307_04531_s__native__s2171__ppo__ppo__f000711.npz": "47e2a95dd89f76bc20aad3c04cc93e8f88b05b8bd0bd9bff65f57ba8b4cbbf5a",
+    "collection/uav0000307_04531_s__native__s2171__ppo__gated__f000711.npz": "5ab3681e7969e379df62d6ca415fa7450c09451dd8e3e22257317daa6e563618",
+    "collection/uav0000307_04531_s__native__s2171__ppo__ppo__f000712.npz": "0aafeeb1c69cb7d59590723f87a8230049d643ff9bb5a07ec97dc6ee1bb897bb",
+    "collection/uav0000307_04531_s__native__s2171__ppo__gated__f000712.npz": "4f3bcc10c6dbaeed97e5d1c527e838457e128a332620f18851ade140fe8c5bfe",
+    "collection/uav0000307_04531_s__native__s2171__ppo__ppo__f000713.npz": "3ed30ee3a74e556ee46aa584ed16b1560b7e6ae680df9e0fec67e7bb55313a5d",
+    "collection/uav0000307_04531_s__native__s2171__ppo__gated__f000713.npz": "3ce41d25390ee659556bc7229fc8af2d0a9dc927c240574a99c0d83d949993f1",
+    "collection/uav0000307_04531_s__native__s2172__ppo__ppo__f000396.npz": "9863d246ab97b0de4a87a837accc81b09fcdb6619f28893204ef1df7c49e225d",
+    "collection/uav0000307_04531_s__native__s2172__ppo__gated__f000396.npz": "05ded4cf2d4461f0d70ee10b788d2752b9c0fc5273ce450a6976661f0ecb0a74",
+    "collection/uav0000307_04531_s__native__s2172__ppo__ppo__f000397.npz": "6c77f94fef6cf795b69f7fb0ee74ed296d9bb604bd778e744a5e0cc364264be5",
+    "collection/uav0000307_04531_s__native__s2172__ppo__gated__f000397.npz": "35469ddb1cd048e2a5b044e63a553a7d4b3abf15a0278bdc088ceda76f1ab60b",
+    "collection/uav0000307_04531_s__native__s2172__ppo__ppo__f000468.npz": "f3fa482baaa02c73ad2216e2f641c514f4ec0fe3d7cc84b74d399aad25988723",
+    "collection/uav0000307_04531_s__native__s2172__ppo__gated__f000468.npz": "fafe3531ad2388853b2ae6ad2ea3ec3ad1943455b12f044d5948d7a495bb15ce",
+    "collection/uav0000307_04531_s__native__s2172__ppo__ppo__f000470.npz": "c755aa7345fc3db9e85c0960482f9e1a7d4191be55d80eeeb2cdf015c17bcbe7",
+    "collection/uav0000307_04531_s__native__s2172__ppo__gated__f000470.npz": "20ebf4cc25bc29a08c2e73d811bca7af642763ea2118ba1b7f11ea79ee711029",
+    "collection/uav0000307_04531_s__native__s2172__ppo__ppo__f000471.npz": "86eee177c9997a3c7bbc08c3b987c349f20e73b27524ffdd5d0fc8033dea5ce2",
+    "collection/uav0000307_04531_s__native__s2172__ppo__gated__f000471.npz": "4e8c8308bf699f4515d278e7b4852ff3f4c04a763dda0044b3bf5710005fa9e3",
+    "collection/uav0000307_04531_s__native__s2172__ppo__ppo__f000472.npz": "12ba9e689ce302fecfa43b125e3ad46ab93db9986e51d96e2e281d7072126846",
+    "collection/uav0000307_04531_s__native__s2172__ppo__gated__f000472.npz": "3d2f8ae28eb3cf928f263c6678fd4bb45705243280582aabd3d53e83a93c4bbe",
+    "collection/uav0000348_02415_s__native__s2171__ppo__ppo__f000336.npz": "ac6d0afcbf12065a4757803237433a2284bf4b3488c266683a8d28a5154864ad",
+    "collection/uav0000348_02415_s__native__s2171__ppo__gated__f000336.npz": "31dffaa08bacf936d8f1a44d0d9ce01e5ed1a2cbfc14eb0c09dd9d011410ed11",
+    "collection/uav0000348_02415_s__native__s2171__ppo__ppo__f000361.npz": "4a6c3b88ea506306b87cdfe7e77e43217a99fa9e9d23938352b07dd99bf46adf",
+    "collection/uav0000348_02415_s__native__s2171__ppo__gated__f000361.npz": "befdc8e1e7b51653b0fa79023fbf87153a25cb9d380fd464902e465ba2cb5c17",
+    "collection/uav0000348_02415_s__native__s2171__ppo__ppo__f000362.npz": "290793eb30fbbb9c44f1024dd81ea1aafb46044e6c2c33c9e82caac4f70331d7",
+    "collection/uav0000348_02415_s__native__s2171__ppo__gated__f000362.npz": "ab6847a2a93beb661f71e03644cc1190742dd63611c86530f2bcc4905e34c971",
+    "collection/uav0000348_02415_s__native__s2171__ppo__ppo__f000381.npz": "1c38cf3383e18cdcf0d842a6582062902fe4bba523a2193f4b44147932e95801",
+    "collection/uav0000348_02415_s__native__s2171__ppo__gated__f000381.npz": "4fe53e4d2d8a48d21b299bdc3495ddd54eefae0b0a871a073f99a0f05e877204",
+    "collection/uav0000348_02415_s__native__s2171__ppo__ppo__f000382.npz": "9b2ea4b676d727ccc6c0474b81e5d65740c3b0c65eed07f77f3724102d8263d0",
+    "collection/uav0000348_02415_s__native__s2171__ppo__gated__f000382.npz": "2ba3a3432fa42149c0baf3dacd47b8aa096fec2814346456e81bc072cab7511c",
+    "collection/uav0000348_02415_s__native__s2171__ppo__ppo__f000383.npz": "05544ac4d5cacdc025f3ef751d1d6e184b20320dfb3d98a5f20e7228b31d4979",
+    "collection/uav0000348_02415_s__native__s2171__ppo__gated__f000383.npz": "79e8d4e0ee818e547e9fc535164473027176916c7a0b699213e244fef1633e31",
+    "collection/uav0000348_02415_s__native__s2171__ppo__ppo__f000539.npz": "ed3c64d26084db8a906c35125e2c0be122825d2ad02333ed3235f09e67601318",
+    "collection/uav0000348_02415_s__native__s2171__ppo__gated__f000539.npz": "297c4881c94b4f430d51f8bd42956085452ec9fca3d656f97b5680a0c43c9a98",
+    "collection/uav0000348_02415_s__native__s2171__ppo__ppo__f000540.npz": "7c872c25707de74694fe56b2203e1e664c7b34d9f638c1461f43578706fddaa6",
+    "collection/uav0000348_02415_s__native__s2171__ppo__gated__f000540.npz": "e62a62a0ee474eb7ce85323814f3ee38e8f9dbb613380ebe9a8500bc95dd33a1",
+    "collection/uav0000348_02415_s__native__s2171__ppo__ppo__f000541.npz": "09832221f8024359eb58720c295ff7fe06c0fd5948f0725d3157451bc60d5776",
+    "collection/uav0000348_02415_s__native__s2171__ppo__gated__f000541.npz": "dce7c4a7e1079b018df191dc58b1c627b85c6b95dda445854a6a7c4ab6b0adac",
+    "collection/uav0000348_02415_s__native__s2171__ppo__ppo__f000582.npz": "f1639aff60e2ed747eae5ee4f067e1da89d1821a4d0cc131c9e76c4ef9b2f27e",
+    "collection/uav0000348_02415_s__native__s2171__ppo__gated__f000582.npz": "6eeab3ee2776cb77afed1a3db092d4e0456cf93ce1f0f60bc38a776b4338cb65",
+    "collection/uav0000348_02415_s__native__s2171__ppo__ppo__f000583.npz": "2861ecc39e8e44347fbc8d0e7a5badd0420e07c74d8348336e193d372c93e6b2",
+    "collection/uav0000348_02415_s__native__s2171__ppo__gated__f000583.npz": "0eca81d5ce0dc6a98ddf857161c949b8c02b32d25c9bfddcada1c1be0e895d3d",
+    "collection/uav0000348_02415_s__native__s2171__ppo__ppo__f000584.npz": "17cd582e6c9c25bc6cc61edde8bcd7108aee59b318cab9b7a92a396450da42a2",
+    "collection/uav0000348_02415_s__native__s2171__ppo__gated__f000584.npz": "4376d59d5b147ef528a458f646b4ca43c83643d729d59cec8d22d95d642e3c20"
+  },
+  "table_sha256": {
+    "stage95_events.csv": "88da40ebb27895fb36e5fa302e9760e6d0d4c9288edfb60751cfa5ac3915b979",
+    "stage95_states.csv": "1fd1587776b87d3a1af2a0ce09d07836832bddb01da8a9d582b238ffe001ac86",
+    "stage95_crops.csv": "417eaa4dd0b1574e7f6c85a9673582e5f29c3d331900097a86d081d7e5c1d32e",
+    "stage95_summary.csv": "0b626c17b2bffec9ddd636b3d7a60b7e7e3ac07afb44da9a51e30246ee5af7a2"
+  },
+  "fingerprint": "62033ca759453fe0b40e7651ee17c418313bc4b4a87ee26f104ca052e14197dc"
+}
+
+===== stage95_events.csv =====
+cohort,sequence,seed,ppo_failure_frame,ppo_recovery_frame,matched_good_frame,outcome,first_audit_frame,last_audit_frame,valid_frames,first_switch_full,first_box_difference_full,first_crop_geometry_difference_full,first_crop_pixel_difference_full,first_harmful_switch_in_window,first_no_good_in_window,harmful_switch_frames,gated_only_no_good_frames,first_template_low_to_good,first_drop_low_to_good,gated_first_good_run_from_onset,gated_iou_at_ppo_recovery,gated_best_at_ppo_recovery,ppo_best_at_ppo_recovery,own_iou_gap,same_state_choice_gap,state_associated_gap,ppo_category,ppo_source_iou,ppo_replay_iou,ppo_replay_best_iou,ppo_best_dense_iou,ppo_weighted_peak_support,ppo_raw_peak_support,ppo_maximum_gt_coverage,ppo_source_support_changed,ppo_max_public_box_error_px,ppo_selected_gt_size_at_pred_center_iou,ppo_selected_pred_size_at_gt_center_iou,gated_category,gated_source_iou,gated_replay_iou,gated_replay_best_iou,gated_best_dense_iou,gated_weighted_peak_support,gated_raw_peak_support,gated_maximum_gt_coverage,gated_source_support_changed,gated_max_public_box_error_px,gated_selected_gt_size_at_pred_center_iou,gated_selected_pred_size_at_gt_center_iou
+historical,uav0000176_00000_s,2171,381,388,390,retained,349,405,57,3,3,4,4,,382,0,1,,,390,0.4683421087562497,0.5010840228308482,0.5271448166010354,-0.012431100375381754,-0.0033427505993895434,-0.009088349775992214,selected_good,0.5103314012654308,0.5103314012654308,0.5271448166010354,0.8028354474827722,True,True,1.0,False,0.0,0.7441061851294517,0.5103314012654308,outer_choice_missed,0.4683421087562497,0.4683421087562497,0.5010840228308482,0.7730631387991682,True,True,1.0,False,0.0,0.7068952496035042,0.4683421087562497
+historical,uav0000176_00000_s,2171,619,629,630,retained,587,646,60,3,3,4,4,,,0,0,,,619,0.4943758573388203,0.6419753086419753,0.5377229080932785,0.06627103132259507,0.002764270866277299,0.06350676045631777,selected_good,0.5316872427983539,0.5316872427983539,0.5377229080932785,0.7687642153146323,True,True,1.0,False,0.0,0.8620689655172413,0.5316872427983539,outer_choice_missed,0.4943758573388203,0.4943758573388203,0.6419753086419753,0.8108776266996292,True,True,1.0,False,0.0,0.8202247191011236,0.4943758573388203
+historical,uav0000147_00000_s,2172,1111,1165,,missed,1079,1182,104,2,2,3,3,,1116,0,24,,,,0.34285714285714286,0.34285714285714286,0.7605633802816901,0.10978941965071701,0.006845920332073119,0.10294349931864391,selected_good,0.7605633802816901,0.7605633802816901,0.7605633802816901,0.819364161849711,True,True,1.0,False,0.0,0.8537313432835821,0.7605633802816901,dense_good_outside_kept_peaks,0.34285714285714286,0.34285714285714286,0.34285714285714286,0.6666666666666666,False,False,1.0,False,0.0,0.20232333010648595,0.504
+historical,uav0000176_00000_s,2172,314,321,321,retained,282,338,57,4,4,5,5,,311,0,2,,,318,0.6543477488362176,0.714828897338403,0.7722823464534363,0.06902008578669486,-0.0017596355521207869,0.07077972133881565,selected_good,0.7722823464534363,0.7722823464534363,0.7722823464534363,0.8184117665427973,True,True,1.0,False,0.0,0.8438605687328005,0.8272627127678476,selected_good,0.6543477488362176,0.6543477488362176,0.714828897338403,0.8882234849773725,True,True,1.0,False,0.0,0.7830508474576271,0.6543477488362176
+historical,uav0000176_00000_s,2172,381,388,389,retained,349,405,57,4,4,5,5,,385,0,2,,,389,0.49767709393389675,0.49767709393389675,0.6756768674486286,0.002038154186551566,0.0120677095614334,-0.010029555374881831,selected_good,0.6756768674486286,0.6756768674486286,0.6756768674486286,0.7731988591741413,True,True,1.0,False,0.0,0.8313750911595494,0.6813857793902924,dense_good_outside_kept_peaks,0.49767709393389675,0.49767709393389675,0.49767709393389675,0.713664245008048,False,False,1.0,False,0.0,0.7584905660377359,0.49767709393389675
+historical,uav0000176_00000_s,2172,408,415,415,retained,376,432,57,4,4,5,5,,385,0,2,,,414,0.5809997238331952,0.8133664733499033,0.6070146368406517,0.010817354875058032,0.0188878374537681,-0.008070482578710063,selected_good,0.6070146368406517,0.6070146368406517,0.6070146368406517,0.8353493510080089,True,True,1.0,False,0.0,0.7366906474820144,0.6070146368406517,selected_good,0.5809997238331952,0.5809997238331952,0.8133664733499033,0.8857774095553714,True,True,1.0,False,0.0,0.8031072602330445,0.5809997238331952
+historical,uav0000176_00000_s,2172,458,468,469,retained,426,485,60,4,4,5,5,,,0,0,,,469,0.494,0.6014697569248163,0.5777209434498437,0.012735786385282102,-0.007173149903316015,0.019908936288598116,selected_good,0.5579047619047619,0.5579047619047619,0.5777209434498437,0.7857142857142857,True,True,1.0,False,0.0,0.7156862745098039,0.5579047619047619,outer_choice_missed,0.494,0.494,0.6014697569248163,0.8294360385144429,True,True,1.0,False,0.0,0.6855285335901757,0.494
+historical,uav0000226_05370_s,2171,119,343,,missed,87,360,274,9,9,10,10,,328,0,23,,,,0.019168913517688024,0.019168913517688024,0.8593971631205674,-0.12132850280958918,-0.003966055988913224,-0.11736244682067597,selected_good,0.624887407674293,0.624887407674293,0.8593971631205674,0.8593971631205674,True,True,1.0,False,0.0,0.6143213988343047,0.6751323242640914,covered_dense_lacks_good,0.019168913517688024,0.019168913517688024,0.019168913517688024,0.05489873547856482,False,False,1.0,False,0.0,0.0,0.026456340488244204
+historical,uav0000237_00001_s,2171,250,294,298,retained,218,311,94,3,3,4,4,294,245,2,7,294,,298,0.0,0.8432432432432433,0.8395833333333333,-0.04809915478690879,-0.016116571277784795,-0.03198258350912399,selected_good,0.8395833333333333,0.8395833333333333,0.8395833333333333,0.8395833333333333,True,True,1.0,False,0.0,0.8071748878923767,0.8395833333333333,outer_choice_missed,0.0,0.0,0.8432432432432433,0.8432432432432433,True,True,1.0,False,0.0,0.0,0.3333333333333333
+historical,uav0000307_04531_s,2171,403,474,,missed,371,491,121,2,2,3,3,,469,0,14,,,,0.1885804085908853,0.1951219512195122,0.6545454545454545,-0.048733092715375036,-0.008400178188810678,-0.04033291452656436,selected_good,0.64,0.64,0.6545454545454545,0.7111111111111111,True,True,1.0,False,0.0,0.6744186046511628,0.64,covered_dense_lacks_good,0.1885804085908853,0.1885804085908853,0.1951219512195122,0.2631578947368421,False,False,1.0,False,0.0,0.11975116640746501,0.1885804085908853
+historical,uav0000307_04531_s,2171,684,712,,missed,652,729,78,2,2,3,3,,712,0,18,,,,0.0,0.0,0.554016620498615,-0.3439165936247122,0.0,-0.3439165936247122,selected_good,0.554016620498615,0.554016620498615,0.554016620498615,0.554016620498615,True,True,1.0,False,0.0,0.8691588785046729,0.554016620498615,crop_support_limited,0.0,0.0,0.0,0.0,False,False,0.0,False,0.0,0.0,0.023767082590612002
+historical,uav0000226_05370_s,2172,126,337,337,retained,94,354,261,5,5,6,6,,,0,0,,,334,0.8898614150255288,0.913788592360021,0.771619812583668,-0.017388521076327094,-0.003298845729323849,-0.014089675347003238,selected_good,0.771619812583668,0.771619812583668,0.771619812583668,0.8289519803715387,True,True,1.0,False,0.0,0.9760027425437093,0.771619812583668,selected_good,0.8898614150255288,0.8898614150255288,0.913788592360021,0.9222784136278946,True,True,1.0,False,0.0,0.8921935526229401,0.8898614150255288
+historical,uav0000237_00001_s,2172,240,290,296,retained,208,307,100,2,2,3,3,293,290,2,4,293,,240,0.0,0.0,0.7526881720430108,-0.020389898991464008,-0.007846179197759031,-0.012543719793704975,selected_good,0.7526881720430108,0.7526881720430108,0.7526881720430108,0.7526881720430108,True,True,1.0,False,0.0,0.9230769230769231,0.7526881720430108,weighted_peaks_have_good,0.0,0.0,0.0,0.68359375,True,True,1.0,False,0.0,0.0,0.320659642693541
+historical,uav0000307_04531_s,2172,397,471,475,retained,365,488,124,3,3,4,4,,468,0,2,,,470,0.5618518518518518,0.7661616161616162,0.6207037643207856,0.054989415297732235,-0.0051074449861438975,0.060096860283876126,selected_good,0.509744623655914,0.509744623655914,0.6207037643207856,0.7303315190499753,True,True,1.0,False,0.0,0.501980198019802,0.509744623655914,selected_good,0.5618518518518518,0.5618518518518518,0.7661616161616162,0.8399778516057586,True,True,1.0,False,0.0,0.6543075245365322,0.5618518518518518
+expanded,uav0000348_02415_s,2171,362,382,386,retained,330,399,70,2,2,4,4,,336,0,5,,,386,0.015950920245398775,0.015950920245398775,0.5405982905982906,-0.03322564732495445,-0.0036005694054994843,-0.029625077919454956,selected_good,0.5160256410256411,0.5160256410256411,0.5405982905982906,0.6410256410256411,True,True,1.0,False,0.0,0.8461538461538461,0.5160256410256411,covered_dense_lacks_good,0.015950920245398775,0.015950920245398775,0.015950920245398775,0.4717741935483871,False,False,1.0,False,0.0,0.0,0.16455696202531644
+expanded,uav0000348_02415_s,2171,540,583,583,retained,508,600,93,2,2,4,4,,541,0,1,,,582,0.7235329703569268,0.7235329703569268,0.6606170598911071,0.0076385717472921,0.0025152166103158875,0.005123355136976211,selected_good,0.6606170598911071,0.6606170598911071,0.6606170598911071,0.884457478005865,True,True,1.0,False,0.0,0.787027027027027,0.6606170598911071,selected_good,0.7235329703569268,0.7235329703569268,0.7235329703569268,0.792845702082221,True,True,1.0,False,0.0,0.9021864211737629,0.7235329703569268
+expanded,uav0000080_01680_s,2171,200,206,206,retained,168,223,56,2,2,3,3,,,0,0,,,203,0.7700650759219089,0.7700650759219089,0.7384615384615385,0.017185602331777978,0.007226092201959912,0.009959510129818066,selected_good,0.5272727272727272,0.5272727272727272,0.7384615384615385,0.8484848484848485,True,True,1.0,False,0.0,0.8286445012787724,0.5272727272727272,selected_good,0.7700650759219089,0.7700650759219089,0.7700650759219089,0.8208955223880597,True,True,1.0,False,0.0,0.8131868131868132,0.7700650759219089
+expanded,uav0000076_00241_s,2172,639,1477,1477,retained,607,1494,888,2,2,3,3,,,0,0,1475,,1476,0.7517026822500631,0.7612397820163488,0.7969436074042187,0.0016962773474806687,0.0002628641409500315,0.001433413206530637,selected_good,0.7660996615107759,0.7660996615107759,0.7969436074042187,0.8965898617511521,True,True,1.0,False,0.0,0.787847579814624,0.8994930875576037,selected_good,0.7517026822500631,0.7517026822500631,0.7612397820163488,0.8502024291497976,True,True,1.0,False,0.0,0.7655913103616614,0.9200921658986175
+expanded,uav0000089_00920_s,2172,1163,1185,1194,retained,1131,1202,72,2,2,3,3,,1162,0,13,,,1194,0.08030592734225621,0.11428571428571428,0.6616766467065869,-0.07619163925706045,0.005804140467396796,-0.08199577972445724,selected_good,0.6616766467065869,0.6616766467065869,0.6616766467065869,0.7307692307692307,True,True,1.0,False,0.0,0.6964285714285714,0.8316831683168316,weighted_peaks_have_good,0.08030592734225621,0.08030592734225621,0.11428571428571428,0.7605633802816901,True,True,1.0,False,0.0,0.10894941634241245,0.8896321070234113
+expanded,uav0000085_00000_s,2171,203,208,222,retained,171,225,55,2,2,3,3,212,203,1,3,,,222,0.0,0.0,0.7796610169491526,-0.054404004908021227,-0.005378070369320765,-0.04902593453870046,selected_good,0.7796610169491526,0.7796610169491526,0.7796610169491526,0.7796610169491526,True,True,1.0,False,0.0,0.7649110568538542,0.8057324840764332,weighted_peaks_have_good,0.0,0.0,0.0,0.7976040353089533,True,True,1.0,False,0.0,0.0,0.8677184466019418
+expanded,uav0000085_00000_s,2171,300,317,317,retained,268,334,67,2,2,3,3,,275,0,7,,,310,0.7933333333333333,0.8991986503584986,0.852425601304525,0.07427690696800689,-0.00858122871852685,0.08285813568653375,selected_good,0.7729591836734694,0.7729591836734694,0.852425601304525,0.8706571787358728,True,True,1.0,False,0.0,0.8109177215189873,0.8885869565217391,selected_good,0.7933333333333333,0.7933333333333333,0.8991986503584986,0.9107219137120889,True,True,1.0,False,0.0,0.8632478632478633,0.8965922444183314
+expanded,uav0000085_00000_s,2171,684,692,693,retained,652,709,58,2,2,3,3,692,669,1,2,,,693,0.0,0.8585365853658536,0.9438775510204082,-0.030324517624030323,-0.011976184151584223,-0.0183483334724461,selected_good,0.8222762100541955,0.8222762100541955,0.9438775510204082,0.9438775510204082,True,True,1.0,False,0.0,0.9183408943616331,0.8360007531538317,outer_choice_missed,0.0,0.0,0.8585365853658536,0.8585365853658536,True,True,1.0,False,0.0,0.0,0.6143751864002386
+expanded,uav0000085_00000_s,2171,1076,1084,1084,retained,1044,1101,58,2,2,3,3,,,0,0,,,1076,0.7492335990190068,0.8011363636363636,0.8393815083622594,0.11024589783602651,0.004145154490244523,0.106100743345782,selected_good,0.8149509803921569,0.8149509803921569,0.8393815083622594,0.8782334384858044,True,True,1.0,False,0.0,0.8709677419354839,0.8693594193751972,selected_good,0.7492335990190068,0.7492335990190068,0.8011363636363636,0.860479797979798,True,True,1.0,False,0.0,0.7987126974839087,0.8562134027325959
+expanded,uav0000085_00000_s,2171,1113,1119,1119,retained,1081,1136,56,2,2,3,3,,,0,0,,,1113,0.6329988484948182,0.6553643724696356,0.6007250945775536,0.11582791969441017,0.017078374043541924,0.09874954565086821,selected_good,0.5219917012448133,0.5219917012448133,0.6007250945775536,0.7261682242990655,True,True,1.0,False,0.0,0.4536950420954163,0.5457227138643068,selected_good,0.6329988484948182,0.6329988484948182,0.6553643724696356,0.7759628957451099,True,True,1.0,False,0.0,0.738255033557047,0.6429990069513406
+expanded,uav0000235_00001_s,2172,702,837,837,retained,670,854,185,3,3,4,4,,,0,0,,,702,0.8391261171797418,0.8391261171797418,0.8666666666666667,0.5642969004312187,0.004690656793181757,0.559606243638037,selected_good,0.8666666666666667,0.8666666666666667,0.8666666666666667,0.8666666666666667,True,True,1.0,False,0.0,0.9066666666666666,0.8666666666666667,selected_good,0.8391261171797418,0.8391261171797418,0.8391261171797418,0.9012605042016807,True,True,1.0,False,0.0,0.8481421647819063,0.8631790744466801
+
+===== stage95_summary.csv =====
+outcome,history,category,states,all_anchor_states
+missed,gated,selected_good,0,23
+missed,gated,outer_choice_missed,0,23
+missed,gated,weighted_peaks_have_good,0,23
+missed,gated,raw_peaks_have_good,0,23
+missed,gated,dense_good_outside_kept_peaks,6,23
+missed,gated,covered_dense_lacks_good,12,23
+missed,gated,crop_support_limited,5,23
+missed,gated,invalid_gt,0,23
+missed,ppo,selected_good,9,23
+missed,ppo,outer_choice_missed,5,23
+missed,ppo,weighted_peaks_have_good,0,23
+missed,ppo,raw_peaks_have_good,0,23
+missed,ppo,dense_good_outside_kept_peaks,2,23
+missed,ppo,covered_dense_lacks_good,7,23
+missed,ppo,crop_support_limited,0,23
+missed,ppo,invalid_gt,0,23
+retained,gated,selected_good,55,114
+retained,gated,outer_choice_missed,15,114
+retained,gated,weighted_peaks_have_good,22,114
+retained,gated,raw_peaks_have_good,1,114
+retained,gated,dense_good_outside_kept_peaks,11,114
+retained,gated,covered_dense_lacks_good,10,114
+retained,gated,crop_support_limited,0,114
+retained,gated,invalid_gt,0,114
+retained,ppo,selected_good,52,114
+retained,ppo,outer_choice_missed,27,114
+retained,ppo,weighted_peaks_have_good,16,114
+retained,ppo,raw_peaks_have_good,0,114
+retained,ppo,dense_good_outside_kept_peaks,15,114
+retained,ppo,covered_dense_lacks_good,4,114
+retained,ppo,crop_support_limited,0,114
+retained,ppo,invalid_gt,0,114
