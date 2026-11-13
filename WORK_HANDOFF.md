@@ -1,8 +1,8 @@
 # 工作交接：SGLATrack 无人机跟踪与模型压缩探索
 
-更新日期：2026-11-10（Asia/Hong_Kong）
+更新日期：2026-11-13（Asia/Hong_Kong）
 
-**最终交付是提出并验证一个改进后的 SGLA 无人机单目标跟踪方法，再根据完整实验证据写出论文。** 最终方法须包含可独立验证的 SGLA 跟踪机制改动，例如搜索状态更新、搜索区域构造或输出解码。原生 SGLA 是主基线。先用同预算消融量化模块和选择策略各自的贡献，再做独立源视频确认、结果图表与失败分析。当前入口见 0.63。
+**最终交付是提出并验证一个改进后的 SGLA 无人机单目标跟踪方法，再根据完整实验证据写出论文。** 最终方法须包含可独立验证的 SGLA 跟踪机制改动，例如搜索状态更新、搜索区域构造或输出解码。原生 SGLA 是主基线。先用同预算消融量化模块和选择策略各自的贡献，再做独立源视频确认、结果图表与失败分析。当前入口见 0.64。
 
 当前完整评价为 Stage-76 L20，见 0.45。匹配 8 帧监督较当帧监督 −6.2616 AUC，2 胜 10 负。冻结 PPO 复测 67.2356，稳定保护仍未通过。Stage-74 的原 PPO 训练结果与配方见 0.41。 [Stage-76 结果复核](docs/experiments/06_sgla_uav_tracking/STAGE76_RESULTS_REVIEW.md)
 
@@ -13,7 +13,7 @@ Stage-75 L20 已完成 13 个固定起点和 52 条短分支。0003 两个首败
 
 ## 0. 下一次对话的直接接续入口
 
-本节更新至 2026-11-10。先读 0.63 的 Stage-94 与 0.62 的 Stage-93，再读 0.61 的 Stage-92、0.60 的 Stage-91、0.48 的确认集与 0.44 的论文目标。 [Stage-94 协议](docs/experiments/06_sgla_uav_tracking/STAGE94_APPEARANCE_RECOVERY_AUDIT.md) · [Stage-93 结果](docs/experiments/06_sgla_uav_tracking/STAGE93_RESULTS_REVIEW.md)
+本节更新至 2026-11-13。先读 0.64 的 Stage-95 和 0.63 的 Stage-94，再读 0.62 的 Stage-93、0.48 的确认集与 0.44 的论文目标。 [Stage-95 协议](docs/experiments/06_sgla_uav_tracking/STAGE95_RECOVERY_DENSE_RESPONSE.md) · [Stage-94 结果](docs/experiments/06_sgla_uav_tracking/STAGE94_RESULTS_REVIEW.md)
 
 需要回溯历史与配对干预时读 0.33、0.31、0.29、0.27、0.24、0.22、0.20 和 0.18。较早阶段的运行状态按各节日期理解。 [Stage-60](docs/experiments/06_sgla_uav_tracking/STAGE60_RESULTS_REVIEW.md) · [Stage-54](docs/experiments/06_sgla_uav_tracking/STAGE54_RESULTS_REVIEW.md) · [Stage-55](docs/experiments/06_sgla_uav_tracking/STAGE55_RESULTS_REVIEW.md)
 
@@ -1345,9 +1345,15 @@ Stage-76 用同一批 fit 历史、同一四选一模型比较当帧 IoU 标签�
 
 ### 0.63 2026-11-10 Stage-94 筛选历史外观的恢复诊断
 
-固定 Stage-93 L20 轨迹，重新核对 25 个 PPO 恢复事件，比较 4 个未匹配事件与 21 个已匹配事件。记录换框和裁剪分叉。在相同的筛选历史候选上回放保留 PPO、仅用首帧和依次屏蔽单个实际引用，区分当帧选错与当帧候选不足。回放仅评估当前帧。2 项 Stage-94 CPU 测试通过。真实缓存留服务器，本机 SSH 已到达认证阶段但未通过，正式结果待跑。
+服务器已完成。25 次原 PPO 恢复中，4 次未匹配。原 PPO 恢复首帧，4 次在筛选历史状态上均无 IoU ≥ 0.5 的候选，最佳 IoU 分别为 0.343、0.019、0.195、0.000。其窗口共 79 帧筛选历史无好框而 PPO 有好框，未见严重同状态换框或屏蔽单条引用即可从低 IoU 选回好框。从各自 PPO 失跟起点至视频结束，筛选历史均无连续三帧 IoU ≥ 0.5。
 
-服务器同步后执行 `bash tools/run_stage94_recovery_audit.sh`。只读 Stage-76／89／93，CPU 运行，无图像读取、模型前向、训练与确认推理。先回传脚本打印的结果包，再按事件查看逐帧明细。 [Stage-94 协议](docs/experiments/06_sgla_uav_tracking/STAGE94_APPEARANCE_RECOVERY_AUDIT.md)
+21 个保留恢复中，5 个在原恢复首帧也缺好框但后来恢复，4 个窗口共出现 6 帧严重同状态换框。下一步优先检查恢复前的搜索状态和候选供给，可交叉几何历史检验目标覆盖与响应图，再做同起点短分支。首次裁剪分叉在第 3 或 10 帧，尚不能定位哪次写入引起后续失跟。本机核对决策、事件表、四个源码哈希与 25 次恢复对齐，逐帧和引用屏蔽明细留在服务器。没有新增搜索、训练或确认集推理。 [Stage-94 结果](docs/experiments/06_sgla_uav_tracking/STAGE94_RESULTS_REVIEW.md) · [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE94_APPEARANCE_RECOVERY_AUDIT.md)
+
+### 0.64 2026-11-13 Stage-95 恢复失败的裁剪与完整响应
+
+已实现，正式推理待服务器运行。25 次 PPO 恢复取起点前一帧／起点／恢复前一帧／恢复帧／后一帧，并追加已记录的首次缺好框时刻，去重 137 个时刻。两种历史各重放原 SGLA 四次搜索，共 274 个状态、1,096 次搜索、7,672 个块调用。检查覆盖、完整解码、原／加权局部峰、尺寸和中心误差，判断候选不足来自输入支持、单峰遗漏还是定位失败。属于开发事件诊断。
+
+五项 CPU 测试通过，包含真实 NumPy 解码、共同入口重放和缓存续跑，测试观测器提供网络输出。本机 SSH 已到达认证阶段，服务器凭据未通过。同步后执行 `bash tools/run_stage95_response_diagnostic.sh`，默认 Stage-76／89／93／94 输入与原 V1 checkpoint，L20／L40 均支持。逐项记录硬件和源框回放差异，确认集推理和训练均为零。 [Stage-95 协议](docs/experiments/06_sgla_uav_tracking/STAGE95_RECOVERY_DENSE_RESPONSE.md)
 
 ## 1. 接手后首先要知道的结论
 

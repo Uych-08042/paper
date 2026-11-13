@@ -159,13 +159,14 @@
 - Stage-91 两项固定模板外观信号保住一个原 PPO 恢复，也漏掉一个备选恢复，未建立稳定的切换依据。 [Stage-91 结果](experiments/06_sgla_uav_tracking/STAGE91_RESULTS_REVIEW.md)
 - Stage-92 筛选后的短时历史在冲突窗口比固定首帧高 4.49 个 IoU 点，完整闭环仍待验证。 [Stage-92 结果](experiments/06_sgla_uav_tracking/STAGE92_RESULTS_REVIEW.md)
 - Stage-93 完成 148 条完整轨迹。筛选历史比原 PPO 高 0.74 AUC 点，区间跨零，4 个 PPO 恢复未在规定窗口内保留。 [Stage-93 结果](experiments/06_sgla_uav_tracking/STAGE93_RESULTS_REVIEW.md)
-- Stage-94 在固定候选上复查全部 25 次 PPO 恢复，脚本已就绪，待服务器读取真实缓存。 [Stage-94 协议](experiments/06_sgla_uav_tracking/STAGE94_APPEARANCE_RECOVERY_AUDIT.md)
+- Stage-94 完成 25 次 PPO 恢复的复查，4 次未匹配事件在原恢复首帧均缺少好框。 [Stage-94 结果](experiments/06_sgla_uav_tracking/STAGE94_RESULTS_REVIEW.md)
+- Stage-95 将重放 137 个恢复关键时刻，检查裁剪覆盖、完整解码与多峰候选，脚本已就绪。 [Stage-95 协议](experiments/06_sgla_uav_tracking/STAGE95_RECOVERY_DENSE_RESPONSE.md)
 - [STAGE45_TEMPORAL_SIGNAL_PILOT.md](experiments/05_uav_detection/STAGE45_TEMPORAL_SIGNAL_PILOT.md) — **暂不执行**的 YOLOFT 视频检测支线；保留实现与 CPU 检查记录
 - [无人机检测研究方向调研](research/UAV_DETECTION_RESEARCH_DIRECTIONS_2026-10-29.md) — 检测文献与机制参考，不代表切换当前主任务
 
 ## 交接与维护
 
-- 接续时先读 0.63 的 Stage-94、0.62 的 Stage-93 结果、0.48 的确认集和 0.44 的论文目标。 [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口)
+- 接续时先读 0.64 的 Stage-95、0.63 的 Stage-94 结果、0.48 的确认集和 0.44 的论文目标。 [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口)
 - [历史写作材料说明](archive/README.md)
 - [整理报告](maintenance/CLEANUP_REPORT.md)
 - [逐文件整理清单](maintenance/CLEANUP_MANIFEST.json)
