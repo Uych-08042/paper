@@ -2,7 +2,7 @@
 
 更新日期：2026-11-13（Asia/Hong_Kong）
 
-**最终交付是提出并验证一个改进后的 SGLA 无人机单目标跟踪方法，再根据完整实验证据写出论文。** 最终方法须包含可独立验证的 SGLA 跟踪机制改动，例如搜索状态更新、搜索区域构造或输出解码。原生 SGLA 是主基线。先用同预算消融量化模块和选择策略各自的贡献，再做独立源视频确认、结果图表与失败分析。当前入口见 0.66。
+**最终交付是提出并验证一个改进后的 SGLA 无人机单目标跟踪方法，再根据完整实验证据写出论文。** 最终方法须包含可独立验证的 SGLA 跟踪机制改动，例如搜索状态更新、搜索区域构造或输出解码。原生 SGLA 是主基线。先用同预算消融量化模块和选择策略各自的贡献，再做独立源视频确认、结果图表与失败分析。当前入口见 0.67。
 
 当前完整评价为 Stage-76 L20，见 0.45。匹配 8 帧监督较当帧监督 −6.2616 AUC，2 胜 10 负。冻结 PPO 复测 67.2356，稳定保护仍未通过。Stage-74 的原 PPO 训练结果与配方见 0.41。 [Stage-76 结果复核](docs/experiments/06_sgla_uav_tracking/STAGE76_RESULTS_REVIEW.md)
 
@@ -13,7 +13,7 @@ Stage-75 L20 已完成 13 个固定起点和 52 条短分支。0003 两个首败
 
 ## 0. 下一次对话的直接接续入口
 
-本节更新至 2026-11-13。先读 0.66 的 Stage-97 和 0.65 的 Stage-96，再读 0.64 的 Stage-95、0.48 的确认集与 0.44 的论文目标。 [Stage-97 协议](docs/experiments/06_sgla_uav_tracking/STAGE97_OWN_TRUSTED_SCALE_CONTINUATION.md) · [Stage-96 结果](docs/experiments/06_sgla_uav_tracking/STAGE96_RESULTS_REVIEW.md)
+本节更新至 2026-11-13。先读 0.67 的 Stage-98 和 0.66 的 Stage-97，再读 0.65 的 Stage-96、0.48 的确认集与 0.44 的论文目标。 [Stage-98 协议](docs/experiments/06_sgla_uav_tracking/STAGE98_SCALE_MEMORY_AUDIT.md) · [Stage-97 结果](docs/experiments/06_sgla_uav_tracking/STAGE97_RESULTS_REVIEW.md)
 
 需要回溯历史与配对干预时读 0.33、0.31、0.29、0.27、0.24、0.22、0.20 和 0.18。较早阶段的运行状态按各节日期理解。 [Stage-60](docs/experiments/06_sgla_uav_tracking/STAGE60_RESULTS_REVIEW.md) · [Stage-54](docs/experiments/06_sgla_uav_tracking/STAGE54_RESULTS_REVIEW.md) · [Stage-55](docs/experiments/06_sgla_uav_tracking/STAGE55_RESULTS_REVIEW.md)
 
@@ -1363,9 +1363,15 @@ Stage-76 用同一批 fit 历史、同一四选一模型比较当帧 IoU 标签�
 
 ### 0.66 2026-11-13 Stage-97 自身可信历史尺寸后继试验
 
-已实现，真实 GPU 推理待服务器运行。原历史外观与 trusted_scale 两组从相同 G 历史框／外观记忆起步，后续各自推进。新组让 q1／q3 的搜索尺寸取近十二帧内、最多五条可靠写入预测的对数中位数，至少两条，否则回退原最近五框尺寸。可靠性沿用外观写入资格并要求选中描述符有限，当前输出下一帧才可引用。两组共用冻结 SGLA 和 PPO，q0／q2 使用最新尺寸，中心来自自身输出。
+服务器同一 L20 已完成 25 窗口／50 分支，新增 12,648 次搜索、88,536 个块调用，control 原框误差 0。trusted_scale 对原 4 个未保留事件新增 0226／2171 的 343 帧恢复，但丢失原已保留的 0307／2172（control 475 恢复）和 0076／2172（control 1477 恢复），两条新分支在窗口末均未恢复。总对齐恢复 21→20。此为固定起点窗口结果，完整轨迹 AUC 尚未检验。
 
-覆盖原 25 个恢复事件的 3,162 个窗口帧，两组共 50 条分支。原身份复用 control 时新增 12,648 次搜索／88,536 块，换卡两组重跑为 25,296 次／177,072 块。主要报告原恢复窗口内新增与丢失恢复、候选供给和窗口 IoU。窗口起点可能已有误差，不代表全视频收益。两项 CPU 测试通过，涵盖完整合成滚动、前缀续接、未来标注隔离、两种预算、发布和缓存校验。SSH 当前认证失败，正式执行入口为 `bash tools/run_stage97_trusted_scale.sh`。 [Stage-97 协议](docs/experiments/06_sgla_uav_tracking/STAGE97_OWN_TRUSTED_SCALE_CONTINUATION.md)
+新规则改 q1／q3 的自身历史尺寸，可靠记录近十二帧最多五条、至少两条，资格沿用外观写入与有限描述符。3,162 个分支帧中，引用 3,156、父框改变 1,378、取整裁剪改变 1,250（39.53%）。0307／2171 的 652～729 窗口平均 IoU0，仍有 77 次尺寸写入，可信资格可接受错误状态。优先核对损失前的首次分叉、引用和错误写入，再决定更新机制。训练、完整新轨迹和确认推理为零。本机核对三表哈希、事件、恢复时刻、预算，并从窗口表重算视频／队列汇总，分支缓存留服务器。 [Stage-97 结果](docs/experiments/06_sgla_uav_tracking/STAGE97_RESULTS_REVIEW.md) · [固定协议](docs/experiments/06_sgla_uav_tracking/STAGE97_OWN_TRUSTED_SCALE_CONTINUATION.md)
+
+### 0.67 2026-11-13 Stage-98 尺寸记忆与首次分叉缓存审计
+
+已实现，正式缓存审计待服务器执行。覆盖 Stage-97 全部 25 事件／50 分支／6,324 分支帧，定位父框、裁剪、输出与选择首次分叉，以及好候选首次增损。重建过去尺寸写入和引用，记录写入／引用 IoU 与尺寸误差、q1 输入目标像素和覆盖率。逐条屏蔽当前尺寸引用，检查固定历史上的父框和取整裁剪变化，替代输入没有重新推理。
+
+两项 CPU 测试及 Bash 语法检查通过，包含真实几何重建、错误写入与前缀引用、屏蔽敏感性、篡改拒绝和重复发布。本机 SSH 仍认证失败。同步后执行 `bash tools/run_stage98_scale_memory_audit.sh`，CPU 运行，图像读取、网络前向、训练、确认推理均新增 0。 [Stage-98 协议](docs/experiments/06_sgla_uav_tracking/STAGE98_SCALE_MEMORY_AUDIT.md)
 
 ## 1. 接手后首先要知道的结论
 
