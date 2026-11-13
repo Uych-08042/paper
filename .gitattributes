@@ -40,6 +40,7 @@ tools/run_stage96_geometry_cross.sh text eol=lf
 tools/run_stage97_trusted_scale.sh text eol=lf
 tools/run_stage98_scale_memory_audit.sh text eol=lf
 tools/run_stage99_scale_pulse.sh text eol=lf
+tools/run_stage100_online_scale.sh text eol=lf
 # Preserve the uploaded experiment bundle byte-for-byte, including mixed CSV/JSON endings.
 docs/experiments/06_sgla_uav_tracking/results/stage61_l40_results_20261102T143543Z_40176.txt -text
 docs/experiments/06_sgla_uav_tracking/results/stage62_results_20261103T004524Z_148362.txt -text
@@ -80,3 +81,4 @@ docs/experiments/06_sgla_uav_tracking/results/stage95_results_20261113T114502Z_1
 docs/experiments/06_sgla_uav_tracking/results/stage96_results_20261113T120857Z_33351.txt -text
 docs/experiments/06_sgla_uav_tracking/results/stage97_results_20261113T133425Z_84833.txt -text
 docs/experiments/06_sgla_uav_tracking/results/stage98_results_20261113T144723Z_166596.txt -text
+docs/experiments/06_sgla_uav_tracking/results/stage99_results_20261113T161124Z_216908.txt -text

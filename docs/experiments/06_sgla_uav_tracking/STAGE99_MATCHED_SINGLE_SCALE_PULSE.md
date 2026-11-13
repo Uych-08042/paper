@@ -82,4 +82,4 @@ bash tools/run_stage99_scale_pulse.sh --pack-only
 
 四项CPU测试通过，覆盖共同状态重建、输出相同但外观记忆不同的拒绝、一次干预后继续使用自身实际输出、后续原规则恢复、未来GT隔离、源尾段重建、两种硬件预算模式、首步一致、缓存续跑和篡改拒绝。合成观测器提供网络输出，裁剪、解码、特征和记忆更新使用实际实现。Bash语法及命令行入口通过检查。
 
-本机没有正式来源NPZ和GPU环境；SSH当前返回`Permission denied (publickey,password)`。真实75分支试验待服务器执行，本轮尚无实验成绩。
+准备时本机没有正式来源NPZ和GPU环境，SSH返回`Permission denied (publickey,password)`。随后用户已在服务器完成75分支并回传结果：control／once／continuous对齐恢复21／23／20，一次调整仍有中途质量下降，详见[Stage-99结果复核](STAGE99_RESULTS_REVIEW.md)。正式结果已于2026-11-14（Asia/Hong_Kong）核对归档，以上协议保留为本轮执行依据。
