@@ -2,9 +2,9 @@
 
 更新日期：2026-11-14（Asia/Hong_Kong）
 
-**最终交付是提出并验证一个改进后的 SGLA 无人机单目标跟踪方法，再根据完整实验证据写出论文。** 最终方法须包含可独立验证的 SGLA 跟踪机制改动，例如搜索状态更新、搜索区域构造或输出解码。原生 SGLA 是主基线。先用同预算消融量化模块和选择策略各自的贡献，再做独立源视频确认、结果图表与失败分析。当前入口见 0.69。
+**最终交付是提出并验证一个改进后的 SGLA 无人机单目标跟踪方法，再根据完整实验证据写出论文。** 最终方法须包含可独立验证的 SGLA 跟踪机制改动，例如搜索状态更新、搜索区域构造或输出解码。原生 SGLA 是主基线。先用同预算消融量化模块和选择策略各自的贡献，再做独立源视频确认、结果图表与失败分析。当前入口见 0.70。
 
-最近完成的全开发集评价为 Stage-93：28源组，原生／PPO／筛选历史外观AUC63.9605／65.0943／65.8348，历史外观对PPO+0.7405但区间跨零，4次PPO恢复未保留。Stage-99的23/25是指定起点窗口结果。Stage-100将检验完整视频中的在线尺寸启停，尚未运行。Stage-76 L20选择策略对照与Stage-74 PPO训练配方分别见0.45和0.41。 [Stage-93 结果](docs/experiments/06_sgla_uav_tracking/STAGE93_RESULTS_REVIEW.md)
+最近完成的全开发集评价为 Stage-93：28源组，原生／PPO／筛选历史外观AUC63.9605／65.0943／65.8348，历史外观对PPO+0.7405但区间跨零，4次PPO恢复未保留。Stage-99的23/25是指定起点窗口结果。Stage-100已启动，在历史q0缓存格式检查处中止，现有兼容入口见0.70，完整评价未完成。Stage-76 L20选择策略对照与Stage-74 PPO训练配方分别见0.45和0.41。 [Stage-93 结果](docs/experiments/06_sgla_uav_tracking/STAGE93_RESULTS_REVIEW.md)
 
 Stage-75 L20 已完成 13 个固定起点和 52 条短分支。0003 两个首败起点有好框却未选中，0304／2172 在首败前就已缺少好框。接续先读 0.43 的结果，再看 0.42 的协议与 0.41 的 Stage-74 完整评价。 [Stage-75 L20 结果复核](docs/experiments/06_sgla_uav_tracking/STAGE75_L20_RESULTS_REVIEW.md)
 
@@ -13,7 +13,7 @@ Stage-75 L20 已完成 13 个固定起点和 52 条短分支。0003 两个首败
 
 ## 0. 下一次对话的直接接续入口
 
-本节更新至 2026-11-14。先读 0.69 的 Stage-100 待运行协议、0.68 的 Stage-99 结果、0.67 的 Stage-98 和 0.66 的 Stage-97，再读 0.65 的 Stage-96、0.48 的确认集与 0.44 的论文目标。 [Stage-100 协议](docs/experiments/06_sgla_uav_tracking/STAGE100_ONLINE_SCALE_EPISODE.md) · [Stage-99 结果](docs/experiments/06_sgla_uav_tracking/STAGE99_RESULTS_REVIEW.md)
+本节更新至 2026-11-14。先读 0.70 的 Stage-100 兼容修复入口、0.69 的固定协议、0.68 的 Stage-99 结果、0.67 的 Stage-98 和 0.66 的 Stage-97，再读 0.65 的 Stage-96、0.48 的确认集与 0.44 的论文目标。 [Stage-100 修复](docs/experiments/06_sgla_uav_tracking/STAGE100_NATIVE_CACHE_COMPAT.md) · [Stage-99 结果](docs/experiments/06_sgla_uav_tracking/STAGE99_RESULTS_REVIEW.md)
 
 需要回溯历史与配对干预时读 0.33、0.31、0.29、0.27、0.24、0.22、0.20 和 0.18。较早阶段的运行状态按各节日期理解。 [Stage-60](docs/experiments/06_sgla_uav_tracking/STAGE60_RESULTS_REVIEW.md) · [Stage-54](docs/experiments/06_sgla_uav_tracking/STAGE54_RESULTS_REVIEW.md) · [Stage-55](docs/experiments/06_sgla_uav_tracking/STAGE55_RESULTS_REVIEW.md)
 
@@ -1394,6 +1394,16 @@ once仅25次启用、25次改父框、22次改取整裁剪；continuous激活2,8
 主要比较pulse−gated和pulse−continuous，两项AUC家族区间；另报对PPO／原生、continuous−gated。种子先视频内平均，按视频等权，并保留historical／expanded。固定门槛含对gated至少+0.5 AUC、两主区间下界正、低IoU／最长失跟不增、可靠帧不降、PPO／gated稳定视频无新增失跟、gated恢复全保留，且按具体事件集合不新增丢失PPO恢复。恢复总数相同也不能交换一个损失抵消另一个。continuous沿用旧规则，有引用即启用；pulse额外要求裁剪分歧的开始，差异是整个在线启停方案，非纯持续时长因果消融。全部通过也仅为开发PROMISING。
 
 五项合成网络CPU测试、Bash语法与命令行检查通过，实际几何、解码、特征、记忆及混合队列／多种子采集发布均运行。SSH再次被服务器拒绝认证，GPU试验未启动。同步新文件并激活环境后`bash tools/run_stage100_online_scale.sh`；默认输出`output/stage100/online_scale_episode_pulse_v1`。需后台运行用协议中的nohup命令，中断后换卡须新目录。回传`stage100_results_*.txt`（decision＋policy_summary／paired／video_summary／seed_video／scope／recovery六表）。不要重复运行Stage-99，不开放28组确认集。 [Stage-100 固定协议](docs/experiments/06_sgla_uav_tracking/STAGE100_ONLINE_SCALE_EPISODE.md)
+
+### 0.70 2026-11-14 Stage-100 历史原生q0缓存兼容修复
+
+服务器报`Call accounting shape changed: block_calls`，发生在原生参照审计。Stage-76的q0轨迹始终选择q0但存储／执行四候选，调用形状为`[N,4,12]`；Stage-100把复用native当作`[N,1,12]`，本地旧测试只覆盖单槽参照，这是接口兼容错误，不是方法成绩。
+
+新增`tools/stage100_native_compat.py`及`tools/run_stage100_native_compat.sh`。先核对全部源候选调用、恒选q0及发布框等于q0，再建立q0单槽副本，并按单搜索自己的历史、裁剪和调用逐帧审计。历史四槽物理调用数保留在`native_source_slots`／`native_source_head_calls`及最终报告逐视频`native_source_views`；native好候选比例只评q0。无新增适配推理，不改变在线尺寸规则、PPO、预算或28组范围。
+
+原`stage100_online_scale.py`、原runner、全部上游代码／来源和旧manifest均保持字节不变，避免代码哈希导致第二次启动拒绝。适配器另存`stage100_native_compat.json`，绑定旧计划、旧代码与新适配代码哈希；decision加入兼容回执绑定。原有缓存先核对原receipt再读，既有字节不改写。七项CPU测试通过，含真实四槽格式复现、未用候选坏调用拒绝、混合一／四槽、两种硬件模式完整发布、manifest不变及零推理缓存续跑；Bash语法和CLI通过。
+
+当前续跑命令改为`bash tools/run_stage100_native_compat.sh`，默认原`STAGE100_ROOT`无需删manifest；若GPU型号或UUID改变仍须指定新目录。后台命令见修复文档，旧脚本不会安装兼容视图。回传`stage100_results_*.txt`现增加兼容回执，保留原decision＋六表。本次仅完成修复，服务器正式评价尚未完成，不新建Stage-101、不改实验设计，不开放确认集。 [Stage-100 修复与续跑](docs/experiments/06_sgla_uav_tracking/STAGE100_NATIVE_CACHE_COMPAT.md)
 
 ## 1. 接手后首先要知道的结论
 
