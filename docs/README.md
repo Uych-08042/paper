@@ -169,13 +169,14 @@
 - Stage-101 完成1,834次同状态触发回放及61起点／122短分支。当帧跳过为339胜1,157平338负；0307局部改善，0304、0169和0076关键损伤未修复，没有新增完整AUC。 [Stage-101 结果](experiments/06_sgla_uav_tracking/STAGE101_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE101_MATCHED_TRIGGER_REPLAY.md)
 - Stage-102 完成85,144个缓存状态审计。0304／0169关键帧有好框却错选，拒绝记忆写入也未阻止错框进入普通搜索历史；0307局部恢复补回，0076仍缺好框。 [Stage-102 结果](experiments/06_sgla_uav_tracking/STAGE102_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE102_CACHED_STATE_CHAIN.md)
 - Stage-103 完成28组／188轨迹。两项四候选核验AUC60.9853／62.7318，均低于pair65.8348；局部0304可修复，但排序、稳定性和恢复损失未解决。 [Stage-103 结果](experiments/06_sgla_uav_tracking/STAGE103_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE103_FOUR_CANDIDATE_VERIFICATION.md)
-- Stage-104 已准备缓存审计：全部28组／120条外观轨迹，逐帧比较实际四候选与同状态pair，核对外观引用及普通搜索几何提交；无新训练、图像或GPU推理，正式结果待回传。 [Stage-104 固定协议](experiments/06_sgla_uav_tracking/STAGE104_CACHED_REPLACEMENT_STATE_AUDIT.md)
+- Stage-104 完成127,716个缓存状态审计。两项新法同状态丢好85／84帧、补好58／70帧；拒绝外观写入仍会提交几何，部分首败已缺好候选，需要检验提交机制的后继效果。无新完整AUC或GPU推理。 [Stage-104 结果](experiments/06_sgla_uav_tracking/STAGE104_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE104_CACHED_REPLACEMENT_STATE_AUDIT.md)
+- Stage-105 已准备共同起点的四组短分支：只在第一步独立切换普通搜索历史与外观写入，后续恢复原规则。覆盖两项四候选来源的全部28组，新增GPU推理、零训练，正式结果待回传。 [Stage-105 固定协议](experiments/06_sgla_uav_tracking/STAGE105_MATCHED_STATE_COMMIT.md)
 - [STAGE45_TEMPORAL_SIGNAL_PILOT.md](experiments/05_uav_detection/STAGE45_TEMPORAL_SIGNAL_PILOT.md) — **暂不执行**的 YOLOFT 视频检测支线；保留实现与 CPU 检查记录
 - [无人机检测研究方向调研](research/UAV_DETECTION_RESEARCH_DIRECTIONS_2026-10-29.md) — 检测文献与机制参考，不代表切换当前主任务
 
 ## 交接与维护
 
-- 接续时先读0.78的Stage-104准备记录、0.77的Stage-103完整结果、0.76固定协议、0.75的Stage-102状态链结果、0.48确认集和0.44论文目标。 [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口)
+- 接续时先读0.80的Stage-105准备记录、0.79的Stage-104结果、0.77的Stage-103完整结果、0.48确认集和0.44论文目标。 [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口)
 - [历史写作材料说明](archive/README.md)
 - [整理报告](maintenance/CLEANUP_REPORT.md)
 - [逐文件整理清单](maintenance/CLEANUP_MANIFEST.json)
