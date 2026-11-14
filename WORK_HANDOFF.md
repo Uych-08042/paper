@@ -2,9 +2,9 @@
 
 更新日期：2026-11-14（Asia/Hong_Kong）
 
-**最终交付是提出并验证一个改进后的 SGLA 无人机单目标跟踪方法，再根据完整实验证据写出论文。** 最终方法须包含可独立验证的 SGLA 跟踪机制改动，例如搜索状态更新、搜索区域构造或输出解码。原生 SGLA 是主基线。先用同预算消融量化模块和选择策略各自的贡献，再做独立源视频确认、结果图表与失败分析。当前入口见 0.76。
+**最终交付是提出并验证一个改进后的 SGLA 无人机单目标跟踪方法，再根据完整实验证据写出论文。** 最终方法须包含可独立验证的 SGLA 跟踪机制改动，例如搜索状态更新、搜索区域构造或输出解码。原生 SGLA 是主基线。先用同预算消融量化模块和选择策略各自的贡献，再做独立源视频确认、结果图表与失败分析。当前入口见 0.78。
 
-最近完成的全开发集评价为 Stage-100：28源组，原生／PPO／筛选历史外观／持续尺寸／在线短暂调整AUC63.9605／65.0943／65.8348／64.0206／65.2127。短暂调整比历史外观低0.6221，补回3次旧PPO恢复同时新增丢失2次，稳定保护未过。Stage-99的23/25是指定起点窗口结果，不能作完整轨迹成绩。Stage-76 L20选择策略对照与Stage-74 PPO训练配方分别见0.45和0.41。 [Stage-100 结果](docs/experiments/06_sgla_uav_tracking/STAGE100_RESULTS_REVIEW.md)
+最近完整开发评价为Stage-103：28源组，原生／PPO／pair／four_matched／four_pairwise AUC63.9605／65.0943／65.8348／60.9853／62.7318。两项四候选核验均未通过稳定性和恢复保护；固定状态局部可修复，但没有转成完整收益。Stage-100的pulse结果见0.71，Stage-99的23/25是指定窗口成绩，不能当整视频结果。 [Stage-103 结果](docs/experiments/06_sgla_uav_tracking/STAGE103_RESULTS_REVIEW.md)
 
 Stage-101已完成全1,834触发的同状态回放及61起点／122短分支。跳过一次调整的当帧IoU为339胜1,157平338负，视频等权均差−0.000755；0307／2172恢复附近窗口改善，但0304、0169和0076关键损伤仍未消除。它是诊断，没有新增整视频AUC。 [Stage-101 结果](docs/experiments/06_sgla_uav_tracking/STAGE101_RESULTS_REVIEW.md)
 
@@ -17,7 +17,7 @@ Stage-75 L20 已完成 13 个固定起点和 52 条短分支。0003 两个首败
 
 ## 0. 下一次对话的直接接续入口
 
-本节更新至 2026-11-14。先读0.76的Stage-103待运行协议、0.75的Stage-102状态链结果、0.73的Stage-101匹配回放结果、0.71的Stage-100完整结果，再读0.48确认集与0.44论文目标。 [Stage-103 协议](docs/experiments/06_sgla_uav_tracking/STAGE103_FOUR_CANDIDATE_VERIFICATION.md) · [Stage-102 结果](docs/experiments/06_sgla_uav_tracking/STAGE102_RESULTS_REVIEW.md)
+本节更新至 2026-11-14。先读0.78的Stage-104准备记录、0.77的Stage-103完整结果、0.76固定协议、0.75的Stage-102状态链结果，再读0.48确认集与0.44论文目标。 [Stage-104 固定协议](docs/experiments/06_sgla_uav_tracking/STAGE104_CACHED_REPLACEMENT_STATE_AUDIT.md) · [Stage-103 结果](docs/experiments/06_sgla_uav_tracking/STAGE103_RESULTS_REVIEW.md)
 
 需要回溯历史与配对干预时读 0.33、0.31、0.29、0.27、0.24、0.22、0.20 和 0.18。较早阶段的运行状态按各节日期理解。 [Stage-60](docs/experiments/06_sgla_uav_tracking/STAGE60_RESULTS_REVIEW.md) · [Stage-54](docs/experiments/06_sgla_uav_tracking/STAGE54_RESULTS_REVIEW.md) · [Stage-55](docs/experiments/06_sgla_uav_tracking/STAGE55_RESULTS_REVIEW.md)
 
@@ -1485,7 +1485,7 @@ skip仅在同一过去状态取消当次尺寸替换，下一帧仍按同一puls
 
 下一步优先比较现有两框核验与覆盖四候选的核验，再独立量化“发布输出”和“下一次搜索几何状态”的提交条件，保留相同搜索预算与完整稳定性／恢复对照。已有旧中心保持与尺度干预失败仍须纳入，不能直接宣布新机制有效。0304／0169检验错选传播，0307检验外观恢复保护，0076作为缺少公开好框的边界；单纯多训PPO、调pulse频率或按GT删坏引用不足以回应全部问题。本次仅归档复核，未新建Stage-103或改冻结代码；确认集继续封存，最新完整AUC仍为Stage-100。 [Stage-102 结果](docs/experiments/06_sgla_uav_tracking/STAGE102_RESULTS_REVIEW.md)
 
-### 0.76 2026-11-14 Stage-103 四候选核验完整轨迹实验（待服务器运行）
+### 0.76 2026-11-14 Stage-103 四候选核验完整轨迹实验（准备记录，结果见0.77）
 
 新增`tools/stage103_candidate_verification.py`及`tools/run_stage103_verification.sh`，绑定Stage-102决策`2385b6d968cb5aa69ae89ad055a87b02a0591472eedcdb8a9e5fada4454fcf4b`。本轮独立改候选核验范围，不同时改几何状态提交，不把已失败pulse接入新完整方法。三种核验均按自身输出更新原普通几何历史及原资格外观记忆，SGLA／四候选生成／PPO／全部旧阈值冻结。
 
@@ -1500,6 +1500,46 @@ skip仅在同一过去状态取消当次尺寸替换，下一帧仍按同一puls
 八表与decision全部回传：policy_summary、paired、video_summary、seed_video、scope、recovery、matched、matched_candidates；完整NPZ和64点四描述子另存。五项CPU测试通过，含隐藏候选、域控制、tie／NaN、过去引用、pair复现、自身反馈／未来GT隔离、混合队列两硬件模式实际调用预算、点查询、续跑／篡改和指标方向；网络与PPO选择在测试中合成／替代，正式成绩未知。Bash语法、CLI、LF及AST通过。旧代码未改，本机缺少服务器NPZ和GPU访问，正式实验未启动。
 
 同步后`bash tools/run_stage103_verification.sh`，默认GPU0、原V1 checkpoint、`output/stage103/four_candidate_verification_v1`；L20／L40首次运行自动识别，续跑换型号或UUID须新`STAGE103_ROOT`，不能覆盖旧manifest。后台命令见协议，回传`stage103_results_*.txt`。 [Stage-103 固定协议](docs/experiments/06_sgla_uav_tracking/STAGE103_FOUR_CANDIDATE_VERIFICATION.md)
+
+### 0.77 2026-11-14 Stage-103 四候选核验结果（已完成）
+
+同一L20／UUID，runtime差异为空，188逻辑完整轨迹、108参照复用、80新增，64固定点；新搜索340,832、块2,385,824，来源误差0，训练／确认推理0。状态`REVIEW_FOUR_CANDIDATE_VERIFICATION_DEVELOPMENT`。原生／PPO／pair／four_matched／four_pairwise宏AUC63.9605／65.0943／65.8348／60.9853／62.7318，低IoU13.20%／11.30%／10.66%／17.53%／14.65%。两新组11检查均只非平凡使用通过，不采用。
+
+four_matched对pair−4.8495，名义95%[−10.1901,−0.3485]，两比较家族[−11.1046,+0.1811]，12胜16负；four_pairwise−3.1030，名义[−8.0678,+1.2988]、家族[−8.7959,+1.9643]，12胜16负。不能把前者名义负区间写成家族也全负。后者对前者+1.7465、区间[−0.1480,+4.1801]，较少退化不等于有效。
+
+主要损伤视频宏pair／matched／pairwise：0304为72.4707／22.4707／33.1498，0169为62.4229／35.3160／35.3845，0091为66.7495／29.8965／29.8965，0307为54.8058／41.6808／41.5992，0176为67.2811／43.8648／62.2058。0349有+16.2785／+16.5804、0226 pairwise+23.5817，局部收益不足抵消损伤。matched新增pair稳定单位0304两seed、0169／2171、0091／2171（4单位3视频）；pairwise再添0003／2172（5单位4视频）。新增PPO稳定损伤两组皆有0091／2171、0304／2171，按具体单位判断，不能总数相抵。
+
+PPO参考25恢复，pair保21、matched15、pairwise19；pair自身17恢复分别保17／12／15。两项都补回0226／2171／343，但matched新丢7：0085／2171／208，0176／2172的321／388／415／468，0226／2172／337，0307／2172／471；pairwise新丢3：0076／2172／1477、0085／2171／208、0307／2172／471。故21+1−7=15、21+1−3=19，恢复保护未过。
+
+64个冻结pulse状态中56个有公开好框；允许好框参与比较的状态pair52→matched54／pairwise55，但最终好输出49→47／47，可访问好框却漏选3→7／8。matched当帧13胜45平6负、视频等权条件IoU差+0.000771，pairwise14胜43平7负、+0.008721；前者补好2丢好4，后者补3丢5。11损伤目标2胜9平／3胜8平，不抵消其他目标损伤，离线角色非随机在线队列。
+
+**0304／2172／555：** 两新法选q3得到0.813839，pair q0为0。好框q1／q3历史相似度0.98983／0.99016，高于坏q0／q2的0.96893／0.96859，覆盖假设局部成立。**0169／2171／653：** pair和matched仅支持q3、用anchor，仍IoU0；pairwise用history并开放q0得到0.65109，涉及资格／参照变化，不能只归因四个数目。**0307／2172／471：** 好q2 IoU0.62223分数0.90486，坏q0 IoU0.44404分数0.91558；新两法选q0，仍没保好框，说明当前分数排序不稳定。**0076／1477：** 四框IoU都0，三法都无法补出好框。
+
+完整三法从首帧普通历史自身推进，无pulse；固定点却来自旧pulse过去，两种历史不同。完整新法与pair在0304两seed第10／4帧、0169第5、0091第4帧已首次输出分叉，不能把局部555／653修复当完整修复，也不能把首次差异直接叫首次错误。自身状态下选原两框之外候选15,528／15,277帧（36.47%／35.89%），是频繁处理。宏有好框但漏选略降1.1538%→1.1154%／1.0952%，但好框供给86.22%→79.40%／81.63%，不能据漏选比例下降称选择更好。
+
+源码既有switch_margin实际为1e-12，属数值级条件，未在本轮标定为身份可信度门槛；描述子为原patch embedding ROI与历史均值。后续可检验表示／参照／评分与状态提交，不能只继续扩范围或事后搜阈值。新NPZ已保存pair_selected、四描述子、分数，可在新增完整轨迹每个同状态下核对新选择相对原pair的直接效果、实际写入和几何提交，不需重复GPU。
+
+本机核对decision及八CSV字节哈希，从188seed记录重算15policy／140video／210paired及区间一致，188scope预算与新增80一致；108参照共同指标与Stage-100一致，64点候选／原pair／资格／IoU／matched相同参照分数一致。具体稳定与恢复集合已核对；原生12四槽＋16单槽、旧head69,622及q0视图29,047区分保留。manifest／NPZ留服务器，未本地重放GPU、全描述子或逐帧后继；服务器标志不冒充本机再验。归档SHA256`239669bd95cf1eac19311541a1c881a5597b7efeb3468aa37176dfab27b37d79`；decision`81222ffbb0e81639ab6db572089694f2382e5a0a77d16c9d45423cf808bd6c97`；plan`1a28ae6b64fb22aae0ca3ee8593326f6abed6665e2be3f87cadeebdfa089e4f7`。
+
+本次只归档复核，未新建Stage-104或改冻结代码。保留pair作当前对照，优先审计新缓存的有害替换，再独立设计候选可靠性及普通搜索状态保护；线上信号不读GT，兼顾真实运动与恢复。没有新增方法通过完整能力保护，确认集继续封存。 [Stage-103 结果](docs/experiments/06_sgla_uav_tracking/STAGE103_RESULTS_REVIEW.md)
+
+### 0.78 2026-11-14 Stage-104 错误替换与普通搜索状态提交审计（已准备，待服务器运行）
+
+新增`tools/stage104_replacement_audit.py`、`tools/run_stage104_replacement_audit.sh`与五项CPU测试。绑定Stage-103决策`81222ffbb0e81639ab6db572089694f2382e5a0a77d16c9d45423cf808bd6c97`；覆盖全部28组／40单位，两项新法80条85,144状态，加pair40条42,572状态，共120条127,716状态。原生／PPO和全部方法188条逻辑轨迹的policy、paired、video、seed、recovery重算，scope的单位／帧数／首次输出分叉及额外选择次数亦核对。
+
+同状态pair使用每条新法的实际过去、四查询及记忆，不能与独立完整pair同帧混为一谈。沿原0.5／0.2阈值描述好框丢失／补回、低IoU引入／消除；槽位替换和真实框变化分开。所有合法帧统计按种子再视频等权；条件均值报告支持数，不把平均当前IoU差当新政策AUC。
+
+逐帧重演实际外观队列，排除非有限查询、拒绝当前／未来引用；对替换帧的每条实际有效参照，删除该条后按原规则重选参照和候选，允许补入较早引用或退回anchor，只报告固定查询的当帧结果，不延展未来。GT只在决定之后标记引用质量，不能用来在线删坏引用。分数差、首帧分数差、逐历史一致性只做描述，不搜阈值。
+
+普通几何历史仍接纳每帧最终输出。固定t−1前历史，分别提交实际框与同状态pair框，计算t+1父框／取整裁剪差；实际下一父框必须与缓存一致。替代路径没有新网络输出或未来IoU，不能据此唯一确定长期失跟原因。记录拒绝外观写入后仍低IoU几何提交的路径。
+
+统一纳入各新轨迹首次替换、首次好框丢失、首次低IoU引入、首败、与完整pair首次分叉，及全部新增pair稳定失败／新增丢失PPO和pair恢复。目标窗口前32后17帧；摘录目标邻帧、最近好输出／有害替换及实际过去引用，避免只看0304／0169。恢复仍用原+15闭区间和三帧好输出，按事件集合保护。
+
+新增训练／图像读取／GPU搜索／块／确认推理均0，不需GPU或checkpoint，当前L20／L40均不触发跨卡重测，因为只有CPU审计。所有源文件、代码和九表SHA绑定；完成状态`COMPLETE_CACHED_REPLACEMENT_STATE_AUDIT`，无方法采用门槛。结果包decision＋summary、unit_summary、cases、recovery、signal_summary、reference_summary、chain_excerpt七表；全量state_frames及reference_drops留服务器。
+
+本机五项CPU测试通过：有害替换／补回、有效低质量参照、拒绝写入后的几何反馈、GT隔离、非有限与未来引用、两级权重、恢复逐事件、失跟start索引、混合队列流水线、六张来源表核对、幂等和篡改拒绝。合成缓存／替代网络和PPO不代替正式来源结论。本机没有正式NPZ，尚未运行服务器审计，确认集继续封存，最近完整AUC仍是Stage-103。
+
+同步后执行`bash tools/run_stage104_replacement_audit.sh`，默认`output/stage104/cached_replacement_state_audit_v1`；来源沿用Stage-76／89／93／103，可用对应`STAGE*_ROOT`覆盖。后台nohup命令见协议；完成回传`stage104_results_*.txt`，`--pack-only`只校验和打包。 [Stage-104 固定协议](docs/experiments/06_sgla_uav_tracking/STAGE104_CACHED_REPLACEMENT_STATE_AUDIT.md)
 
 ## 1. 接手后首先要知道的结论
 

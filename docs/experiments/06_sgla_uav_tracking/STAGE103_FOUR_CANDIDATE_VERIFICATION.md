@@ -1,5 +1,7 @@
 # Stage-103 四候选外观核验完整轨迹实验
 
+2026-11-14已完成服务器运行：两项四候选实现均未通过完整开发检查。以下保留固定设计，实际成绩与核对范围见[Stage-103结果复核](STAGE103_RESULTS_REVIEW.md)。
+
 ## 问题与本轮范围
 
 Stage-102发现0304／2172／555的PPO框q2和外观最终框q0都为IoU=0，而四框最佳IoU=0.8138，好框位于原二选一之外。0169／653也有好框却未被保住；0307恢复附近则有外观把PPO好框换走的情况。 [Stage-102结果](STAGE102_RESULTS_REVIEW.md)
@@ -95,7 +97,7 @@ nohup bash tools/run_stage103_verification.sh > output/stage103/run_stage103.log
 tail -f output/stage103/run_stage103.log
 ```
 
-完成后回传`stage103_results_*.txt`。`bash tools/run_stage103_verification.sh --pack-only`只校验和打包，不重新推理。当前缺少服务器NPZ和GPU访问，正式实验尚未由本机启动。
+完成后回传`stage103_results_*.txt`。`bash tools/run_stage103_verification.sh --pack-only`只校验和打包，不重新推理。用户已在服务器完成并回传decision和八表；本机已归档复核，NPZ和manifest仍留服务器，未再次重演GPU推理。
 
 ## 本地验证
 
