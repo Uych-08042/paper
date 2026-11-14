@@ -44,6 +44,7 @@ tools/run_stage100_online_scale.sh text eol=lf
 tools/run_stage100_native_compat.sh text eol=lf
 tools/run_stage101_trigger_replay.sh text eol=lf
 tools/run_stage102_state_chain.sh text eol=lf
+tools/run_stage103_verification.sh text eol=lf
 # Preserve the uploaded experiment bundle byte-for-byte, including mixed CSV/JSON endings.
 docs/experiments/06_sgla_uav_tracking/results/stage61_l40_results_20261102T143543Z_40176.txt -text
 docs/experiments/06_sgla_uav_tracking/results/stage62_results_20261103T004524Z_148362.txt -text
@@ -87,3 +88,4 @@ docs/experiments/06_sgla_uav_tracking/results/stage98_results_20261113T144723Z_1
 docs/experiments/06_sgla_uav_tracking/results/stage99_results_20261113T161124Z_216908.txt -text
 docs/experiments/06_sgla_uav_tracking/results/stage100_results_20261114T035624Z_411391.txt -text
 docs/experiments/06_sgla_uav_tracking/results/stage101_results_20261114T050540Z_466625.txt -text
+docs/experiments/06_sgla_uav_tracking/results/stage102_results_20261114T064006Z_500063.txt -text
