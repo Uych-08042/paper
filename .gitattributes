@@ -47,6 +47,7 @@ tools/run_stage102_state_chain.sh text eol=lf
 tools/run_stage103_verification.sh text eol=lf
 tools/run_stage104_replacement_audit.sh text eol=lf
 tools/run_stage105_commit_branches.sh text eol=lf
+tools/run_stage106_commit_gate.sh text eol=lf
 # Preserve the uploaded experiment bundle byte-for-byte, including mixed CSV/JSON endings.
 docs/experiments/06_sgla_uav_tracking/results/stage61_l40_results_20261102T143543Z_40176.txt -text
 docs/experiments/06_sgla_uav_tracking/results/stage62_results_20261103T004524Z_148362.txt -text
@@ -93,3 +94,4 @@ docs/experiments/06_sgla_uav_tracking/results/stage101_results_20261114T050540Z_
 docs/experiments/06_sgla_uav_tracking/results/stage102_results_20261114T064006Z_500063.txt -text
 docs/experiments/06_sgla_uav_tracking/results/stage103_results_20261114T102351Z_556305.txt -text
 docs/experiments/06_sgla_uav_tracking/results/stage104_results_20261114T115929Z_615473.txt -text
+docs/experiments/06_sgla_uav_tracking/results/stage105_results_20261114T140833Z_654656.txt -text

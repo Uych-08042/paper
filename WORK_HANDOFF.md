@@ -2,9 +2,11 @@
 
 更新日期：2026-11-14（Asia/Hong_Kong）
 
-**最终交付是提出并验证一个改进后的 SGLA 无人机单目标跟踪方法，再根据完整实验证据写出论文。** 最终方法须包含可独立验证的 SGLA 跟踪机制改动，例如搜索状态更新、搜索区域构造或输出解码。原生 SGLA 是主基线。先用同预算消融量化模块和选择策略各自的贡献，再做独立源视频确认、结果图表与失败分析。当前入口见 0.80。
+**最终交付是提出并验证一个改进后的 SGLA 无人机单目标跟踪方法，再根据完整实验证据写出论文。** 最终方法须包含可独立验证的 SGLA 跟踪机制改动，例如搜索状态更新、搜索区域构造或输出解码。原生 SGLA 是主基线。先用同预算消融量化模块和选择策略各自的贡献，再做独立源视频确认、结果图表与失败分析。当前入口见 0.82。
 
 最近完整开发评价为Stage-103：28源组，原生／PPO／pair／four_matched／four_pairwise AUC63.9605／65.0943／65.8348／60.9853／62.7318。两项四候选核验均未通过稳定性和恢复保护；固定状态局部可修复，但没有转成完整收益。Stage-100的pulse结果见0.71，Stage-99的23/25是指定窗口成绩，不能当整视频结果。 [Stage-103 结果](docs/experiments/06_sgla_uav_tracking/STAGE103_RESULTS_REVIEW.md)
+
+最新GPU短分支诊断Stage-105已完成259起点／1,036分支。共同改变几何与外观提交，后继平均IoU较keep+0.01875／+0.01219；0176与部分0304窗口有明确匹配收益，也有0304另一窗口从0.7984降至0的严重反例。17个参考恢复均未补回。已有条件机制证据，仍缺可靠线上提交条件及完整方法验证，没有新增完整AUC。 [Stage-105 结果](docs/experiments/06_sgla_uav_tracking/STAGE105_RESULTS_REVIEW.md)
 
 最新缓存诊断Stage-104已完成120条／127,716状态。两项四候选同状态丢好85／84帧、补好58／70帧；错误框拒绝外观写入仍提交普通几何，部分严重首败已经没有公开好候选。没有新完整AUC；后续优先用匹配后继干预检验评分、外观写入与搜索状态提交，不能只扩大候选或清理坏记忆。 [Stage-104 结果](docs/experiments/06_sgla_uav_tracking/STAGE104_RESULTS_REVIEW.md)
 
@@ -19,7 +21,7 @@ Stage-75 L20 已完成 13 个固定起点和 52 条短分支。0003 两个首败
 
 ## 0. 下一次对话的直接接续入口
 
-本节更新至 2026-11-14。先读0.80的Stage-105准备记录、0.79的Stage-104结果、0.77的Stage-103完整结果，再读0.48确认集与0.44论文目标。 [Stage-105 固定协议](docs/experiments/06_sgla_uav_tracking/STAGE105_MATCHED_STATE_COMMIT.md) · [Stage-104 结果](docs/experiments/06_sgla_uav_tracking/STAGE104_RESULTS_REVIEW.md)
+本节更新至 2026-11-14。先读0.82的Stage-106准备记录、0.81的Stage-105结果、0.80固定设计、0.79的Stage-104结果、0.77的Stage-103完整结果，再读0.48确认集与0.44论文目标。 [Stage-106 协议](docs/experiments/06_sgla_uav_tracking/STAGE106_CROSS_FITTED_COMMIT_GATE.md) · [Stage-105 结果](docs/experiments/06_sgla_uav_tracking/STAGE105_RESULTS_REVIEW.md)
 
 需要回溯历史与配对干预时读 0.33、0.31、0.29、0.27、0.24、0.22、0.20 和 0.18。较早阶段的运行状态按各节日期理解。 [Stage-60](docs/experiments/06_sgla_uav_tracking/STAGE60_RESULTS_REVIEW.md) · [Stage-54](docs/experiments/06_sgla_uav_tracking/STAGE54_RESULTS_REVIEW.md) · [Stage-55](docs/experiments/06_sgla_uav_tracking/STAGE55_RESULTS_REVIEW.md)
 
@@ -1567,7 +1569,7 @@ pair／matched／pairwise低IoU帧6,053／9,650／7,150，其中写入外观4,95
 
 原件SHA256`34e18fc05478817eb45ba21c5104977faefa81f43661cd62334b7bb2c9ab0e55`；decision`f923f8d0138e1e77458ce8f54f1f1058518f321d1980fb0f66cfa72f0ae6e2da`；plan`98fa60250947a41d3ea9925fc92dcc11262b5b99da75466b44e2571c9f69a7fb`。本次仅归档复核，未新建Stage-105或改冻结代码；下一步优先匹配后继干预，分别检验候选依据／外观写入与普通几何提交，不再只调阈值、增加候选或一律保持旧中心。需要保住真实移动和恢复，确认集继续封存。 [Stage-104 结果](docs/experiments/06_sgla_uav_tracking/STAGE104_RESULTS_REVIEW.md)
 
-### 0.80 2026-11-14 Stage-105 共同起点的几何与外观提交交叉干预（已准备，待服务器运行）
+### 0.80 2026-11-14 Stage-105 共同起点的几何与外观提交交叉干预（准备记录，结果见0.81）
 
 新增`tools/stage105_commit_branches.py`、`tools/run_stage105_commit_branches.sh`与本机测试。绑定Stage-104决策`f923f8d0138e1e77458ce8f54f1f1058518f321d1980fb0f66cfa72f0ae6e2da`及其Stage-103来源。覆盖28开发组／40既定单位，four_matched与four_pairwise各40条来源，共80上下文；SGLA与PPO、候选生成、评分及阈值冻结。
 
@@ -1582,6 +1584,48 @@ pair／matched／pairwise低IoU帧6,053／9,650／7,150，其中写入外观4,95
 状态`COMPLETE_MATCHED_GEOMETRY_MEMORY_COMMIT_DIAGNOSTIC`，无新方法采用门槛，无训练／完整视频重测／确认推理。回传decision＋summary、paired、scope、branches、recovery、focus六表；全量branch_frames留服务器，七表与全部NPZ均SHA绑定。七项CPU测试通过，包括非平凡真实搜索后继分岔、两硬件模式实测调用预算、续跑及篡改拒绝。实测尚待服务器运行，本机替代网络／PPO测试不代替正式结果；最近完整AUC仍是Stage-103，确认集继续封存。
 
 同步后`bash tools/run_stage105_commit_branches.sh`，默认GPU0、原V1 checkpoint、`output/stage105/matched_geometry_memory_commit_v1`，读取Stage-76／89／93／103／104，可用对应`STAGE*_ROOT`覆盖。首次自动识别L20／L40；续跑换型号或UUID须新`STAGE105_ROOT`，软件／权重变化仍拒绝。后台nohup命令见协议，完成回传`stage105_results_*.txt`；`--pack-only`只校验与打包。 [Stage-105 固定协议](docs/experiments/06_sgla_uav_tracking/STAGE105_MATCHED_STATE_COMMIT.md)
+
+### 0.81 2026-11-14 Stage-105 几何与外观提交交叉干预结果（已完成）
+
+同一L20／UUID、runtime差异为空，keep整段复现最大框误差0。28开发视频／40既定单位、两个四候选来源80上下文；matched131起点、pairwise128起点，共259／1,036短分支、32,648逐帧记录、1,295缓存。新搜索127,484、块892,388，逻辑缓存130,592调用因首帧共享与新推理数不同。训练／完整新轨迹／确认推理0。状态`COMPLETE_MATCHED_GEOMETRY_MEMORY_COMMIT_DIAGNOSTIC`，无采用门槛。
+
+四组同过去、同当帧发布输出，只在起点改普通历史／外观写入，之后恢复原规则。总体keep／geometry／memory／both的后继平均IoU：matched0.562567／0.572108／0.563375／0.581319；pairwise0.561443／0.566321／0.562231／0.573629。both对keep+0.018753／+0.012186（约1.88／1.22个IoU百分点，非AUC），19胜9负／17胜11负，中位+0.002080／+0.001501。几何差+0.009541／+0.004878，记忆差仅+0.000808／+0.000788，交互+0.008404／+0.006520。
+
+both低IoU宏比例26.47%→24.36%、26.09%→24.87%；好候选供给67.92%→70.38%、67.67%→69.96%。单改记忆漏选比例反增约0.452／0.398个百分点。普通历史还派生PPO时序特征和资格，且之后两条路径继续耦合，识别的是首步处理的总后继作用，不是纯裁剪中心归因。
+
+队列边界：matched历史／追加的both均差+0.013796／+0.022470；pairwise为+0.001307／+0.020345。pairwise历史组几何−0.003119（5胜7负），低IoU+0.952个百分点；both虽小正但低IoU+0.307个百分点、末帧−0.009441。首次丢好角色几何+0.021964／+0.044796；首次低IoU引入却−0.024909／−0.020242；首次补好pairwise几何−0.036318、both−0.032588。首次分叉两来源相同，几何−0.002211、both−0.000490。不能一律回退pair或遇分叉就阻断。
+
+**0176／2172／matched，251～282：** keep后31帧均值0、好候选1/31、低IoU31/31；几何与both均值0.893676、好候选31/31、低IoU0、末帧0.956522。起点四组发布IoU0相同；当帧两种外观写入都拒绝，记忆因素没有实际改变，memory组保持0。这为拒绝外观写入后仍需处理普通历史提交提供直接后继证据。窗口止282，321等参考恢复在外，不能声称补回原参考事件或完整视频。
+
+**0304／2172／matched，552～583：** keep均值0.054210，几何／both0.787438，低IoU29/31→0，好候选3/31→31/31，末帧0.742433；memory保持原结果。当帧b4与pair IoU同约0.80645，仍有巨大后继分化。**0304／2172／pairwise，1083～1114：** keep0.124987、几何／both0.725163、memory0.107588；几何低IoU20/31→0，好候选1/31→31/31，末帧0.851970。四组当帧仍发布0.358974，未混入当帧换框直接收益。
+
+**0091／2171，87～118：** 两来源keep0.114349、memory0.114573；geometry在matched0.147711／pairwise0.379144；both均0.676507、供给31/31、低IoU0、末帧0.691748，显示两条提交路径有条件互作。**未解：** 0304／2171两来源553起点虽554已有输出／裁剪分叉，四组均值仍0.026253、末帧0；554起点是无效处理。0169两来源651起点改变普通历史却无记录的后继输出／裁剪分叉，均值0.018350；652无效处理、均值0。
+
+**严重反例：0304／2172／pairwise，556～587首次补好控制：** 起点b4 IoU0.669269，pair0；keep后继均值0.798406、供给31/31、低IoU0，几何／both均值0、31帧无好候选且低IoU，memory未实际改变保持原结果。**0176／2172第165帧：** b4 IoU0.162910、pair0.348106（当帧更好），keep后继0.441850，geometry／both在matched0.072675、pairwise0.055610，低IoU27/31、29/31。当前pair更好也不能保证后继更好。both的pairwise视频宏损伤0176−0.052607、0348−0.026772、0304−0.022480。
+
+恢复136行=34起点／来源／参考上下文×4处理，17个事件身份（matched12、pairwise5，PPO与pair参照可对应相邻的同一物理恢复）。每处理23个完整观察、11个右截断上下文，四组均0匹配；17个身份均有至少一个完整窗口也均未补回。right_censored不当失败；本轮只追踪已丢失事件，未完整检验保住已有恢复能力。
+
+scope几何有效111/131、113/128；记忆有效90/131、85/128，均属于几何也可改变的起点。总体与角色按去重起点→单位→视频汇总，两个来源仍是同28视频，窗口重叠不当独立样本。事后描述性both最小留一均差+0.012417／+0.005607，但不构成新置信或采用门槛。
+
+本机核对decision／来源／runtime及六CSV原始字节SHA；259点／80上下文／28视频、预算、同当帧输出、无效因素指标恒等与首次分叉时序一致；由1,036 branches与scope重算288summary（重建CSV哈希完全一致）和432paired（最大差5.55e-17、均在1e-12，未声称字节一致）；2,072首末记录的候选／选择／过去引用／恢复原提交与branch指标一致，240个keep首末记录与Stage-104摘录一致；恢复边界／截断一致。manifest、完整NPZ和全branch_frames留服务器，未本地重放GPU或全帧actor／查询，也未独立重算未回传计划指纹。
+
+原件SHA256`e331209d6811f22b96908d60619a4d9455a379b217f5be700dddfa9d16198dbc`；decision`a01a169a4cb8d0e9211f2252cddfe7ff739e9a1758ed8f53789ecdba91c57363`；plan`ef8de45bd9b328e62d60448c5b944cacbda91c1ea569c705b2d81a0f771d64ef`。已有部分状态下真实后继改善的机制证据；下一步可设计可部署的提交条件，独立于最终框发布并维护几何／PPO时序输入／外观写入一致性，用fit确定后做完整开发同预算对照。不能使用GT角色作线上触发。本次仅归档，未新建Stage-106或改冻结代码；最近完整AUC仍是Stage-103，确认集继续封存，没有新增方案通过完整能力保护。 [Stage-105 结果](docs/experiments/06_sgla_uav_tracking/STAGE105_RESULTS_REVIEW.md)
+
+### 0.82 2026-11-14 Stage-106 源组留出的提交门控可学习性（已准备，未正式运行）
+
+用户要求继续下一轮。已新增`tools/stage106_commit_gate.py`、`tools/run_stage106_commit_gate.sh`与本机测试，协议`STAGE106_CROSS_FITTED_COMMIT_GATE.md`。绑定Stage-105决策`a01a169a4cb8d0e9211f2252cddfe7ff739e9a1758ed8f53789ecdba91c57363`及原Stage-103来源。目标是用线上可见证据辨别一次both_pair提交何时有益，而不是一律回退pair。SGLA与PPO、生成器、核验规则及其资格保持冻结；本轮新增CPU门控拟合，不可写成零训练。
+
+259唯一锚点从既有keep／both_pair分支重算标签。future为后31帧均值IoU差；myopic为当帧pair提交框与原四候选框的IoU差，是提交框质量代理，四组当帧发布框其实相同。两头使用完全相同的有限且有效样本、49维特征、训练权重与正则。特征只取当前两项选择的中心／尺寸／响应／外观、过去自身几何及已接纳描述子、冻结PPO概率与value、全候选离散度和来源模式；GT／角色／种子／序列身份／未来不进入输入。
+
+28源组逐一留出，两个来源模式合并fit，每头最多28模型，56个模型文件。按组→种子→模式→锚点等权，训练组加权均值／标准差归一化，ridge=1.0、权重和1、截距不正则、预测收益>0才提交，无系数或阈值搜索。无实际提交变化、必要证据无效或缺拟合支持时keep。被评估组全部片段／种子／模式的标签与归一化数据排除；旧SGLA／PPO可能与其重叠，整个项目仍是已消耗开发证据，不是外部确认。
+
+对照keep／always_pair／myopic／future／相同提交率均匀随机的解析期望／离线未来oracle；后两项只是诊断，不能当部署策略。报告相对keep的后继效用、提交率、有害提交、遗漏正效用和遗憾。按上下文锚点→模式→种子→源组汇总，再分历史／追加与两来源；重叠窗口不作独立置信样本。它评价首步干预后恢复原规则的收益，不是重复新门控的整视频结果。
+
+另重放80条原来源、85,144个缓存状态，只记录门控合法率、提交率、训练min/max外比例与最大标准化值分布，门控不回写普通历史或外观。曝光NPZ中当前GT仅在预测后附描述性标签；范围外比例不作额外门槛。无新图像／搜索／GPU／完整轨迹／确认推理，最近完整AUC仍是Stage-103。状态固定`COMPLETE_CROSS_FITTED_COMMIT_GATE_DIAGNOSTIC`，没有采用门槛；若有积极信号再预声明完整闭环，不能直接称精度或保护已通过。
+
+模型／样本／曝光缓存有指纹、哈希及回执，续跑复用相同fit输入的封存模型，不要求跨CPU重新求解逐位一致；来源或代码变化拒绝混用。回传decision＋七表（samples／fit_support／matched_summary／paired／sample_decisions／exposure_units／exposure_summary），56模型与样本特征、80曝光NPZ留服务器。本机4项CPU测试已通过，含非平凡特征／正负目标／留组隔离／同率对照、完整缓存流程、GT隔离、续跑与篡改拒绝；正式来源NPZ仍只在服务器，未正式拟合或推理。
+
+同步后`bash tools/run_stage106_commit_gate.sh`，默认`output/stage106/cross_fitted_commit_gate_v1`，不需GPU或checkpoint参数，可用`STAGE76_ROOT`／89／93／103／105／106覆盖来源路径。后台：`mkdir -p output/stage106`后`nohup bash tools/run_stage106_commit_gate.sh > output/stage106/run.log 2>&1 < /dev/null &`；`--pack-only`只验证与打包，不自动提交或推送。接续先看结果中的future对myopic／always／同率控制，以及旧轨迹曝光外推程度，再决定是否值得完整自身闭环。 [固定协议](docs/experiments/06_sgla_uav_tracking/STAGE106_CROSS_FITTED_COMMIT_GATE.md)
 
 ## 1. 接手后首先要知道的结论
 
