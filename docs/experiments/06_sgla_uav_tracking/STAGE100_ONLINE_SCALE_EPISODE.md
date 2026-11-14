@@ -1,6 +1,6 @@
 # Stage-100 完整视频中的在线尺寸短暂调整
 
-2026-11-14执行补充：服务器在历史原生q0四槽缓存检查处中止。已提供保持原代码、manifest及缓存不变的[原生缓存兼容入口](STAGE100_NATIVE_CACHE_COMPAT.md)，当前请使用`bash tools/run_stage100_native_compat.sh`继续运行。下文原设计和原始入口保留为来源。
+2026-11-14执行补充：历史原生q0四槽缓存检查问题已通过[兼容入口](STAGE100_NATIVE_CACHE_COMPAT.md)解决，服务器完成188条逻辑完整轨迹。pulse比gated低0.6221 AUC，开发保护未通过，详见[完整结果复核](STAGE100_RESULTS_REVIEW.md)。下文原设计和执行入口保留为来源，不重复运行。
 
 ## 研究问题
 
@@ -106,4 +106,4 @@ nohup维持远程断连后的进程，节点／作业被平台回收仍会终止
 
 五项CPU测试通过，覆盖连续分歧期间仅一次启用、退出及重新允许、过去引用、中心与q0／q2保持、未来标注隔离、逐帧审计、来源gated重建、混合队列／双种子的完整五组采集发布、两种硬件预算、缓存续跑、篡改拒绝，以及相同丢失总数掩盖新损失事件的拒绝。合成观测器提供网络输出，裁剪、解码、特征、外观和尺寸状态更新采用实际实现。Bash语法和命令行入口已检查。
 
-准备时本机SSH返回`Permission denied (publickey,password)`。随后服务器已启动本轮，在复用原生参照的格式检查处中止，完整评价尚未完成。新增兼容入口的七项测试通过，详见[修复说明与继续运行命令](STAGE100_NATIVE_CACHE_COMPAT.md)。已有Stage-99结果、原Stage-100代码和manifest保持原样，本轮尚无正式成绩。
+准备时本机SSH返回`Permission denied (publickey,password)`；服务器曾在复用原生参照的格式检查处中止。兼容入口七项测试通过后，用户已完成全部完整评价并回传。结果为`REVIEW_ONLINE_SCALE_PULSE_DEVELOPMENT`，核对与限制见[Stage-100结果](STAGE100_RESULTS_REVIEW.md)。Stage-99及Stage-100冻结实验代码保持原样。

@@ -165,13 +165,14 @@
 - Stage-97 完成 50 条后继分支，新增 1 次恢复、丢失 2 次已有恢复，尺寸写入资格仍会接纳错误状态。 [Stage-97 结果](experiments/06_sgla_uav_tracking/STAGE97_RESULTS_REVIEW.md)
 - Stage-98 完成尺寸记忆审计。两次恢复损失的首次分叉早于窗口内低 IoU 写入，后期错误引用也确实影响裁剪。 [Stage-98 结果](experiments/06_sgla_uav_tracking/STAGE98_RESULTS_REVIEW.md)
 - Stage-99 完成25窗口／75分支。原规则／一次调整／持续更新恢复21／23／20；一次调整保留原21恢复并新增2次，仍有0085中途损伤。 [Stage-99 结果](experiments/06_sgla_uav_tracking/STAGE99_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE99_MATCHED_SINGLE_SCALE_PULSE.md)
-- Stage-100 完整视频试验在历史q0四槽缓存检查处中止，已提供保留原代码与manifest的兼容续跑入口；完整评价待继续。 [Stage-100 修复](experiments/06_sgla_uav_tracking/STAGE100_NATIVE_CACHE_COMPAT.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE100_ONLINE_SCALE_EPISODE.md)
+- Stage-100 兼容运行完成28组／188轨迹。pulse AUC65.2127，比gated低0.6221；PPO恢复保留22/25，但新增丢失2次并损伤原稳定轨迹，开发保护未过。 [Stage-100 结果](experiments/06_sgla_uav_tracking/STAGE100_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE100_ONLINE_SCALE_EPISODE.md)
+- Stage-101 已准备全部1,834次实际尺寸触发的同状态回放，以及预先固定分叉点的短后继比较，待服务器运行。 [Stage-101 协议](experiments/06_sgla_uav_tracking/STAGE101_MATCHED_TRIGGER_REPLAY.md)
 - [STAGE45_TEMPORAL_SIGNAL_PILOT.md](experiments/05_uav_detection/STAGE45_TEMPORAL_SIGNAL_PILOT.md) — **暂不执行**的 YOLOFT 视频检测支线；保留实现与 CPU 检查记录
 - [无人机检测研究方向调研](research/UAV_DETECTION_RESEARCH_DIRECTIONS_2026-10-29.md) — 检测文献与机制参考，不代表切换当前主任务
 
 ## 交接与维护
 
-- 接续时先读 0.70 的 Stage-100 兼容修复、0.69 的固定协议、0.68 的 Stage-99、0.67 的 Stage-98、0.66 的 Stage-97 结果、0.48 的确认集和 0.44 的论文目标。 [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口)
+- 接续时先读0.72的Stage-101待运行协议、0.71的Stage-100完整结果、0.70兼容修复、0.68的Stage-99结果、0.48确认集和0.44论文目标。 [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口)
 - [历史写作材料说明](archive/README.md)
 - [整理报告](maintenance/CLEANUP_REPORT.md)
 - [逐文件整理清单](maintenance/CLEANUP_MANIFEST.json)

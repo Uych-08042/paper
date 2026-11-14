@@ -2,9 +2,9 @@
 
 更新日期：2026-11-14（Asia/Hong_Kong）
 
-**最终交付是提出并验证一个改进后的 SGLA 无人机单目标跟踪方法，再根据完整实验证据写出论文。** 最终方法须包含可独立验证的 SGLA 跟踪机制改动，例如搜索状态更新、搜索区域构造或输出解码。原生 SGLA 是主基线。先用同预算消融量化模块和选择策略各自的贡献，再做独立源视频确认、结果图表与失败分析。当前入口见 0.70。
+**最终交付是提出并验证一个改进后的 SGLA 无人机单目标跟踪方法，再根据完整实验证据写出论文。** 最终方法须包含可独立验证的 SGLA 跟踪机制改动，例如搜索状态更新、搜索区域构造或输出解码。原生 SGLA 是主基线。先用同预算消融量化模块和选择策略各自的贡献，再做独立源视频确认、结果图表与失败分析。当前入口见 0.72。
 
-最近完成的全开发集评价为 Stage-93：28源组，原生／PPO／筛选历史外观AUC63.9605／65.0943／65.8348，历史外观对PPO+0.7405但区间跨零，4次PPO恢复未保留。Stage-99的23/25是指定起点窗口结果。Stage-100已启动，在历史q0缓存格式检查处中止，现有兼容入口见0.70，完整评价未完成。Stage-76 L20选择策略对照与Stage-74 PPO训练配方分别见0.45和0.41。 [Stage-93 结果](docs/experiments/06_sgla_uav_tracking/STAGE93_RESULTS_REVIEW.md)
+最近完成的全开发集评价为 Stage-100：28源组，原生／PPO／筛选历史外观／持续尺寸／在线短暂调整AUC63.9605／65.0943／65.8348／64.0206／65.2127。短暂调整比历史外观低0.6221，补回3次旧PPO恢复同时新增丢失2次，稳定保护未过。Stage-99的23/25是指定起点窗口结果，不能作完整轨迹成绩。Stage-76 L20选择策略对照与Stage-74 PPO训练配方分别见0.45和0.41。 [Stage-100 结果](docs/experiments/06_sgla_uav_tracking/STAGE100_RESULTS_REVIEW.md)
 
 Stage-75 L20 已完成 13 个固定起点和 52 条短分支。0003 两个首败起点有好框却未选中，0304／2172 在首败前就已缺少好框。接续先读 0.43 的结果，再看 0.42 的协议与 0.41 的 Stage-74 完整评价。 [Stage-75 L20 结果复核](docs/experiments/06_sgla_uav_tracking/STAGE75_L20_RESULTS_REVIEW.md)
 
@@ -13,7 +13,7 @@ Stage-75 L20 已完成 13 个固定起点和 52 条短分支。0003 两个首败
 
 ## 0. 下一次对话的直接接续入口
 
-本节更新至 2026-11-14。先读 0.70 的 Stage-100 兼容修复入口、0.69 的固定协议、0.68 的 Stage-99 结果、0.67 的 Stage-98 和 0.66 的 Stage-97，再读 0.65 的 Stage-96、0.48 的确认集与 0.44 的论文目标。 [Stage-100 修复](docs/experiments/06_sgla_uav_tracking/STAGE100_NATIVE_CACHE_COMPAT.md) · [Stage-99 结果](docs/experiments/06_sgla_uav_tracking/STAGE99_RESULTS_REVIEW.md)
+本节更新至 2026-11-14。先读0.72的Stage-101待运行协议、0.71的Stage-100完整结果、0.70兼容修复和0.68的Stage-99结果，再读0.48确认集与0.44论文目标。 [Stage-101 协议](docs/experiments/06_sgla_uav_tracking/STAGE101_MATCHED_TRIGGER_REPLAY.md) · [Stage-100 结果](docs/experiments/06_sgla_uav_tracking/STAGE100_RESULTS_REVIEW.md)
 
 需要回溯历史与配对干预时读 0.33、0.31、0.29、0.27、0.24、0.22、0.20 和 0.18。较早阶段的运行状态按各节日期理解。 [Stage-60](docs/experiments/06_sgla_uav_tracking/STAGE60_RESULTS_REVIEW.md) · [Stage-54](docs/experiments/06_sgla_uav_tracking/STAGE54_RESULTS_REVIEW.md) · [Stage-55](docs/experiments/06_sgla_uav_tracking/STAGE55_RESULTS_REVIEW.md)
 
@@ -1385,7 +1385,7 @@ once仅25次启用、25次改父框、22次改取整裁剪；continuous激活2,8
 
 本机核对decision指纹、三表字节哈希、25锚点、75缓存名称、50来源末帧及恢复记录，并从窗口表重算39条视频对比与6条队列汇总，误差0；逐帧NPZ与manifest留服务器，未本地重演。原件已归档，SHA256`cb35fc217885c3d8e4f00a7e61347841268f80844de67bd44e4d4d181b6bf3a3`，decision指纹`ccc86856f8b6fdd7a3c195a373cbb10b32c6890ed54ea184db4d1383e7161310`。无需重复索取四份已回传材料，也不重跑／改写Stage-99代码。 [Stage-99 结果](docs/experiments/06_sgla_uav_tracking/STAGE99_RESULTS_REVIEW.md) · [固定协议](docs/experiments/06_sgla_uav_tracking/STAGE99_MATCHED_SINGLE_SCALE_PULSE.md)
 
-### 0.69 2026-11-14 Stage-100 完整视频在线尺寸启停（待服务器运行）
+### 0.69 2026-11-14 Stage-100 完整视频在线尺寸启停设计（结果见0.71）
 
 已新增`tools/stage100_online_scale.py`、`tools/run_stage100_online_scale.sh`和五项CPU测试。接续目标是把Stage-99一次调整的条件收益转成可在线执行的SGLA搜索尺寸改动。每帧搜索前用自身过去资格尺寸和普通历史尺寸计算两套父框；可信尺寸若改变实际取整裁剪则记分歧。pulse只在分歧从无到有时启用一帧，随后回原规则，分歧消失后再次允许触发；无GT／旧事件锚点／恢复时刻输入，也不按事件重置。资格沿用十二帧最多五条、至少两条及原外观写入检查，SGLA／PPO冻结。
 
@@ -1404,6 +1404,32 @@ once仅25次启用、25次改父框、22次改取整裁剪；continuous激活2,8
 原`stage100_online_scale.py`、原runner、全部上游代码／来源和旧manifest均保持字节不变，避免代码哈希导致第二次启动拒绝。适配器另存`stage100_native_compat.json`，绑定旧计划、旧代码与新适配代码哈希；decision加入兼容回执绑定。原有缓存先核对原receipt再读，既有字节不改写。七项CPU测试通过，含真实四槽格式复现、未用候选坏调用拒绝、混合一／四槽、两种硬件模式完整发布、manifest不变及零推理缓存续跑；Bash语法和CLI通过。
 
 当前续跑命令改为`bash tools/run_stage100_native_compat.sh`，默认原`STAGE100_ROOT`无需删manifest；若GPU型号或UUID改变仍须指定新目录。后台命令见修复文档，旧脚本不会安装兼容视图。回传`stage100_results_*.txt`现增加兼容回执，保留原decision＋六表。本次仅完成修复，服务器正式评价尚未完成，不新建Stage-101、不改实验设计，不开放确认集。 [Stage-100 修复与续跑](docs/experiments/06_sgla_uav_tracking/STAGE100_NATIVE_CACHE_COMPAT.md)
+
+### 0.71 2026-11-14 Stage-100 完整视频在线尺寸启停结果
+
+兼容入口已在同一L20完成28源组、188条逻辑完整轨迹；108参照复用，新增80轨迹／340,576搜索／2,384,032块，逻辑710,199搜索槽位，来源框误差0，runtime差异为空。回传兼容回执、decision和六表齐全，无需重复索取或重跑。训练与确认推理0，状态`REVIEW_ONLINE_SCALE_PULSE_DEVELOPMENT`。
+
+native／PPO／gated／continuous／pulse宏AUC63.9605／65.0943／65.8348／64.0206／65.2127。pulse对gated−0.6221，95%区间[−3.9434,+2.4006]，家族区间[−4.5725,+2.8106]，16胜1平11负；低IoU+0.4768个百分点、最长失跟+0.8048个百分点、可靠帧AUC−0.6650。对continuous+1.1922，区间跨零，12胜1平15负，去掉0091均值−0.2774；对PPO仅+0.1185、14胜14负、区间跨零。历史12组对gated+0.8389、追加16组−1.7178，均非独立确认。
+
+25个PPO恢复中gated保留21、continuous20、pulse22。pulse补回0226／2171／343及0307／2171／474、712，但新增丢失0307／2172／471和0076／2172／1477；0147／2172／1165仍丢失。相对gated自己的17个恢复，pulse保留15、continuous13。21−2+3=22，具体事件保护未过，不能只看净增一次。相对gated原稳定种子轨迹新增失跟按视频去重4个：0304／2172、0003／2172、0169／2171、0080／2171；PPO稳定种子轨迹无新增不抵消这项损伤。
+
+主损伤为0304视频宏AUC72.4707→47.2781（2172种子22.1366、低IoU67.88%）及0169单种子62.4229→35.0163、低IoU0.36%→41.37%。0226宏30.9268→53.8978，0307宏54.8058→65.6534，有局部机制价值但未建立整体稳定收益。pulse启用并改实际裁剪1,834/42,572帧（4.31%）；continuous引用42,448帧，改裁剪6,248帧。减少改动数量仍不足以保护能力。在线从首帧启动且每次分歧重新允许，与Stage-99已知起点一次干预的23/25处理不同。
+
+十项开发检查仅PPO稳定保护和非平凡使用两项通过。暂不采用当前pulse，也不直接搜索冷却或阈值；优先在已生成轨迹中对齐0304／0169有害分叉与0226／0307获益，做匹配状态与后继检查，连接触发、候选选择和下一次搜索反馈。不能由本轮否定全部尺寸方向，28组确认集继续封存。
+
+本机核对两JSON指纹、兼容回执绑定、六表原始字节哈希、31原绑定文件＋2适配文件字节哈希、188记录及预算；从种子表重算15宏汇总／140视频汇总／120配对，误差0。108来源共同指标与Stage-93精确一致，恢复集合核对相符。原生来源12四槽＋16单槽，历史head69,622，q0视图29,047，未抹掉旧额外调用。NPZ和manifest留服务器，未本地重演网络／逐帧审计。paired中failure_events／unrecovered_events方向字段仍被旧helper标positive，解释时按越少越好，主要AUC与门槛不受影响。原件SHA256`10d112e78f7889b476d6d269f63999e90e3bddf2f6213a4b43007d0bdc49f1c7`，decision指纹`9b237b9c93ad05f7e9fbcf38d203c38ad33cfad432ff184c6a3069f353054915`。本次仅归档复核，冻结代码不变。 [Stage-100 结果](docs/experiments/06_sgla_uav_tracking/STAGE100_RESULTS_REVIEW.md)
+
+### 0.72 2026-11-14 Stage-101 全部触发匹配回放与后继诊断（待服务器运行）
+
+已新增`tools/stage101_trigger_replay.py`及`tools/run_stage101_trigger_replay.sh`，绑定Stage-100完整决策`9b237b9c93ad05f7e9fbcf38d203c38ad33cfad432ff184c6a3069f353054915`和兼容回执。首先逐帧重建40单位gated／pulse决策与记忆，再对pulse全部1,834个实际触发做同一过去状态的keep／skip比较：保留尺寸调整或只撤销本次。q0／q2父框、候选、特征、裁剪哈希及调用须相同，原PPO和外观选择在各自候选上重新计算。当前GT仅作输出评价，无新训练／完整轨迹／确认推理。
+
+后继锚点在新推理前根据既有Stage-100确定：每单位首次触发、首次gated好而pulse差以前最近触发、首次pulse好而gated差以前最近触发；另覆盖0307／2172／471、0076／2172／1477两次新丢失恢复前最近触发。同帧合并，上限122个唯一锚点，实际数在manifest冻结。默认16帧，失去恢复角色延长到原恢复+17并按视频截断。GT参与离线角色选择，不能将角色当在线信号。
+
+keep与skip共用各自当帧匹配缓存，后续两支均恢复同一pulse规则，各自更新预测、外观和尺寸记忆及上帧分歧，不复制来源未来，也不永久关闭更新。同卡keep当帧／后继均复用来源切片并审计，只有skip新推理；换L20／L40或UUID则两支都重放，共同过去状态仍来自冻结轨迹。设后继首帧以外总帧数S，新搜索同卡4×(1834+S)、换卡8×(1834+S)，每搜索7块；同卡当帧部分7,336搜索。实际预算先打印，首帧不重复计费。
+
+返回decision＋trigger_summary／trigger_video／anchors／branches／branch_summary五张汇总；逐触发和候选两表及NPZ留服务器。无方法采用门槛，COMPLETE仅表示诊断完成。以全触发当帧比较和固定分支检查正常候选、PPO／外观错选及后继反馈，不能拿短窗口均值替代整视频AUC，不能把已分叉来源的观察获益／损伤提前当因果结论。
+
+四项CPU测试通过，含共用过去状态、q0／q2、首帧复用、未来GT隔离、实际调用预算、两硬件模式及缓存续跑；Bash语法和CLI通过。SSH仍拒绝认证，GPU正式运行未启动。本机没有源NPZ，锚点实际数量需服务器先行重建，禁止假称已有新结果。同步后`bash tools/run_stage101_trigger_replay.sh`，默认输出`output/stage101/matched_scale_trigger_v1`；后台命令见协议。回传`stage101_results_*.txt`，不重跑Stage-100、不改其冻结代码、不开放确认集。 [Stage-101 固定协议](docs/experiments/06_sgla_uav_tracking/STAGE101_MATCHED_TRIGGER_REPLAY.md)
 
 ## 1. 接手后首先要知道的结论
 
