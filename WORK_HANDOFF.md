@@ -1,10 +1,12 @@
 # 工作交接：SGLATrack 无人机跟踪与模型压缩探索
 
-更新日期：2026-11-14（Asia/Hong_Kong）
+更新日期：2026-11-15（Asia/Hong_Kong）
 
-**最终交付是提出并验证一个改进后的 SGLA 无人机单目标跟踪方法，再根据完整实验证据写出论文。** 最终方法须包含可独立验证的 SGLA 跟踪机制改动，例如搜索状态更新、搜索区域构造或输出解码。原生 SGLA 是主基线。先用同预算消融量化模块和选择策略各自的贡献，再做独立源视频确认、结果图表与失败分析。当前入口见 0.82。
+**最终交付是提出并验证一个改进后的 SGLA 无人机单目标跟踪方法，再根据完整实验证据写出论文。** 最终方法须包含可独立验证的 SGLA 跟踪机制改动，例如搜索状态更新、搜索区域构造或输出解码。原生 SGLA 是主基线。先用同预算消融量化模块和选择策略各自的贡献，再做独立源视频确认、结果图表与失败分析。当前入口见 0.84。
 
 最近完整开发评价为Stage-103：28源组，原生／PPO／pair／four_matched／four_pairwise AUC63.9605／65.0943／65.8348／60.9853／62.7318。两项四候选核验均未通过稳定性和恢复保护；固定状态局部可修复，但没有转成完整收益。Stage-100的pulse结果见0.71，Stage-99的23/25是指定窗口成绩，不能当整视频结果。 [Stage-103 结果](docs/experiments/06_sgla_uav_tracking/STAGE103_RESULTS_REVIEW.md)
+
+最新Stage-106已完成56个CPU提交门控、259起点评价及85,144旧状态曝光。future相对keep后继效用+0.012838，但低于always+0.015469、myopic+0.014028及同率+0.013800；0304有害提交放行、有益提交拒绝，线上判别条件尚未建立。无新GPU或完整AUC，接续优先检查训练支持和大错判，不直接采用当前门控。 [Stage-106结果](docs/experiments/06_sgla_uav_tracking/STAGE106_RESULTS_REVIEW.md)
 
 最新GPU短分支诊断Stage-105已完成259起点／1,036分支。共同改变几何与外观提交，后继平均IoU较keep+0.01875／+0.01219；0176与部分0304窗口有明确匹配收益，也有0304另一窗口从0.7984降至0的严重反例。17个参考恢复均未补回。已有条件机制证据，仍缺可靠线上提交条件及完整方法验证，没有新增完整AUC。 [Stage-105 结果](docs/experiments/06_sgla_uav_tracking/STAGE105_RESULTS_REVIEW.md)
 
@@ -21,7 +23,7 @@ Stage-75 L20 已完成 13 个固定起点和 52 条短分支。0003 两个首败
 
 ## 0. 下一次对话的直接接续入口
 
-本节更新至 2026-11-14。先读0.82的Stage-106准备记录、0.81的Stage-105结果、0.80固定设计、0.79的Stage-104结果、0.77的Stage-103完整结果，再读0.48确认集与0.44论文目标。 [Stage-106 协议](docs/experiments/06_sgla_uav_tracking/STAGE106_CROSS_FITTED_COMMIT_GATE.md) · [Stage-105 结果](docs/experiments/06_sgla_uav_tracking/STAGE105_RESULTS_REVIEW.md)
+本节更新至 2026-11-15。先读0.84的Stage-107准备记录、0.83的Stage-106结果、0.82固定设计、0.81的Stage-105机制结果，再按需回溯0.79／0.77及0.48确认集、0.44论文目标。 [Stage-107协议](docs/experiments/06_sgla_uav_tracking/STAGE107_FIXED_GATE_SUPPORT_AUDIT.md) · [Stage-106结果](docs/experiments/06_sgla_uav_tracking/STAGE106_RESULTS_REVIEW.md)
 
 需要回溯历史与配对干预时读 0.33、0.31、0.29、0.27、0.24、0.22、0.20 和 0.18。较早阶段的运行状态按各节日期理解。 [Stage-60](docs/experiments/06_sgla_uav_tracking/STAGE60_RESULTS_REVIEW.md) · [Stage-54](docs/experiments/06_sgla_uav_tracking/STAGE54_RESULTS_REVIEW.md) · [Stage-55](docs/experiments/06_sgla_uav_tracking/STAGE55_RESULTS_REVIEW.md)
 
@@ -1611,7 +1613,7 @@ scope几何有效111/131、113/128；记忆有效90/131、85/128，均属于几�
 
 原件SHA256`e331209d6811f22b96908d60619a4d9455a379b217f5be700dddfa9d16198dbc`；decision`a01a169a4cb8d0e9211f2252cddfe7ff739e9a1758ed8f53789ecdba91c57363`；plan`ef8de45bd9b328e62d60448c5b944cacbda91c1ea569c705b2d81a0f771d64ef`。已有部分状态下真实后继改善的机制证据；下一步可设计可部署的提交条件，独立于最终框发布并维护几何／PPO时序输入／外观写入一致性，用fit确定后做完整开发同预算对照。不能使用GT角色作线上触发。本次仅归档，未新建Stage-106或改冻结代码；最近完整AUC仍是Stage-103，确认集继续封存，没有新增方案通过完整能力保护。 [Stage-105 结果](docs/experiments/06_sgla_uav_tracking/STAGE105_RESULTS_REVIEW.md)
 
-### 0.82 2026-11-14 Stage-106 源组留出的提交门控可学习性（已准备，未正式运行）
+### 0.82 2026-11-14 Stage-106 源组留出的提交门控可学习性（准备记录，结果见0.83）
 
 用户要求继续下一轮。已新增`tools/stage106_commit_gate.py`、`tools/run_stage106_commit_gate.sh`与本机测试，协议`STAGE106_CROSS_FITTED_COMMIT_GATE.md`。绑定Stage-105决策`a01a169a4cb8d0e9211f2252cddfe7ff739e9a1758ed8f53789ecdba91c57363`及原Stage-103来源。目标是用线上可见证据辨别一次both_pair提交何时有益，而不是一律回退pair。SGLA与PPO、生成器、核验规则及其资格保持冻结；本轮新增CPU门控拟合，不可写成零训练。
 
@@ -1626,6 +1628,46 @@ scope几何有效111/131、113/128；记忆有效90/131、85/128，均属于几�
 模型／样本／曝光缓存有指纹、哈希及回执，续跑复用相同fit输入的封存模型，不要求跨CPU重新求解逐位一致；来源或代码变化拒绝混用。回传decision＋七表（samples／fit_support／matched_summary／paired／sample_decisions／exposure_units／exposure_summary），56模型与样本特征、80曝光NPZ留服务器。本机4项CPU测试已通过，含非平凡特征／正负目标／留组隔离／同率对照、完整缓存流程、GT隔离、续跑与篡改拒绝；正式来源NPZ仍只在服务器，未正式拟合或推理。
 
 同步后`bash tools/run_stage106_commit_gate.sh`，默认`output/stage106/cross_fitted_commit_gate_v1`，不需GPU或checkpoint参数，可用`STAGE76_ROOT`／89／93／103／105／106覆盖来源路径。后台：`mkdir -p output/stage106`后`nohup bash tools/run_stage106_commit_gate.sh > output/stage106/run.log 2>&1 < /dev/null &`；`--pack-only`只验证与打包，不自动提交或推送。接续先看结果中的future对myopic／always／同率控制，以及旧轨迹曝光外推程度，再决定是否值得完整自身闭环。 [固定协议](docs/experiments/06_sgla_uav_tracking/STAGE106_CROSS_FITTED_COMMIT_GATE.md)
+
+### 0.83 2026-11-15 Stage-106 提交门控结果（已完成，新增选择价值未建立）
+
+已收到并逐字节归档`stage106_results_20261114T161430Z_716160.txt`，590,164字节。decision＋七CSV齐全；56个有支持CPU模型、259唯一起点、80原来源上下文／85,144缓存状态。224起点有实际提交变化、35无变化；259样本两目标均有效。27组fit／整源组留一，fit201～222条／76～78上下文；SGLA与PPO训练0、新图像／搜索／完整轨迹／确认推理0。状态`COMPLETE_CROSS_FITTED_COMMIT_GATE_DIAGNOSTIC`，不是方法通过。
+
+相对keep的后继均值IoU效用：always+0.015469、myopic+0.014028、future+0.012838、同率期望+0.013800、离线oracle+0.021464。不是AUC。future对keep+0.012838，20胜2平6负，最小留一+0.006283；但对always−0.002631（4／12／12）、对myopic−0.001190（9／9／10）、对同率−0.000962（7／15／6），尚无超越必要控制的新增选择价值，无重叠窗口独立显著性结论。
+
+宏提交率always90.71%、myopic54.96%、future与同率72.48%；按全部锚点的有害提交宏比例31.88%／18.49%／23.65%／24.13%，不是已提交动作中的错误率。实际224合法起点中后继正117／负84／零23；future提交182次，接受96/117正例（82.05%）及69/84负例（82.14%），符号区分很弱；myopic提交146次，正85、负50、零11。
+
+历史12组future效用+0.001494，低于myopic+0.009600和同率+0.005250；追加16组future+0.021346，对myopic+0.003997、对同率+0.001133，但对always仍−0.000062。matched总体future+0.017625，对myopic+0.003374，但低于always且对同率仅+0.000352、最小留一负；pairwise总体future+0.008050，对myopic−0.005754，对always−0.004135，对同率−0.002276。历史pairwise future更为−0.008098。不能事后挑来源或队列采用，追加组仍为已消耗开发证据。
+
+**0304／2172／pairwise556：** 实测both−keep后继−0.798406，future预测+0.042914而放行，myopic预测−0.076667而拒绝。**同来源1083：** 实测+0.600176，future预测−0.018235而拒绝，myopic+0.149325而接纳。**0176／2172／matched251：** 实测最大救援+0.893676，future−0.202572、myopic−0.433130均拒绝；165的有害提交−0.369175／−0.386240两头却都接受。**正例仍有：** 0304／matched552的+0.733228、0091两来源87的+0.562158，两头都接纳。0348／2171／364，matched真实+0.234587被future接纳、myopic拒绝；pairwise真实−0.126191，future仍接纳、myopic拒绝。
+
+0304是future对myopic最差组，组内差−0.070737；后验移除它总体差转+0.001386，但不允许删除后采用。0091贡献future对keep总体均值约+0.006779，四个非oracle处理在该组相同，不能归因future独有选择；移除后future对keep仍+0.006283。
+
+原轨迹曝光仅观察旧自身历史：30,805合法状态，future／myopic记录27,352／20,175次提交；宏合法率36.34%、提交32.30%／24.48%。7,694合法状态至少一维超fit min/max，宏比例22.78%（历史26.91%、追加19.68%）；最大绝对标准化值宏均1.8891、单位p95宏均3.1352。两头fit支持一致，范围统计一致。原始计数与宏比例权重不同；范围外不是必然错误或新增触发阈值。门控没有回写，不能报告新完整AUC／恢复／稳定性通过。
+
+本机核对decision自身指纹、全部七CSV原始字节SHA与行数259／56／54／36／1554／160／18；逐条用Stage-105 branches重算两个标签、focus核对b4／pair索引、scope核对变化。对1,554条决定复算触发／同率期望／效用／遗憾，从其重建54summary及36paired，从160单位重建18exposure_summary并还原整数计数；所有差≤1e-12、最大1.14e-13。56条fit名单排除、支持数、加权目标均值相符。正式manifest、模型与样本／曝光NPZ仍仅在服务器，本机未重拟实际系数／归一化、输入指纹或重放全曝光，勿扩写为已独立验证所有缓存／模型。
+
+原件SHA`89576939edd30387ad9695b9ad6ae82318b63a3c4de012dc30ac8b9e37ab99cb`；decision`644e44f73492caf63b5a8dcecb475b3728f3415b13d01eb9651a482e7d8b06d6`；plan`0265964f07c3e8f088a3aa978d675210f8ecf2f9965d16b55fa026d9c95f8e91`，未本地独立重算plan。
+
+下一步优先审计现有fit支持与大错判，区分训练内也难分和留组后失效，再确定补充按线上条件抽样的状态或改状态表示／目标。尚不能唯一归因线性容量、GT质量或PPO，不直接扩训PPO或搜索旧阈值。本次仅归档复核，未新建Stage-107或改冻结代码，确认集封存；最近完整AUC仍为Stage-103，没有新增方法采用。 [完整复核](docs/experiments/06_sgla_uav_tracking/STAGE106_RESULTS_REVIEW.md)
+
+### 0.84 2026-11-15 Stage-107 固定门控训练支持与大错判审计（已准备，待服务器运行）
+
+用户要求继续下一步，已新增`tools/stage107_gate_support_audit.py`、`tools/run_stage107_gate_support.sh`、`tools/test_stage107_gate_support.py`及`STAGE107_FIXED_GATE_SUPPORT_AUDIT.md`。绑定Stage-106决策`644e44f73492caf63b5a8dcecb475b3728f3415b13d01eb9651a482e7d8b06d6`。只读取既有56模型、259样本及80份／85,144状态曝光，区分训练内不足与留组后失效，不重训门控／SGLA／PPO，不新增图像／GPU／完整轨迹／确认推理。
+
+按原共同合法支持核对56模型的fit输入指纹、源组排除、加权归一化／范围／截距，验证固定beta正规方程（相对残差≤1e-9、浮点核对atol1e-10／rtol1e-9）。不优化或写新系数。分别评价fit_resubstitution与held_out，共112条，每头每阶段28模型宏平均4条；自身目标MSE／MAE／R²与固定训练截距基线，自身目标及真实future正负放行率，真实future效用／always／同率期望／oracle／遗憾。指标以共同有限且有实际提交变化样本为条件，不能直接与Stage-106全锚点均值比较。fit回代及28次重叠训练不是独立泛化。
+
+全259样本双头518条状态支持；逐条复现Stage-106分数与动作。固定13重点例：0304／2172／pairwise556、1083；0176／2172／matched251、165及pairwise165；0304／2172／matched552；0091／2171两来源87；0348／2171两来源364；0003／2171／pairwise138；0176／2171两来源157。无需结果出来后再选择重点例。
+
+逐状态分解49维z*beta与截距，检查和等于未加资格掩码的分数；无变化时实际score为0，不误作贡献全0。训练近邻只按fit尺度下49维RMS距离选，每训练源组至多一个锚点、再取5个不同源组，排名后才附标签；不引入查询GT／角色或留出组作近邻。它是支持描述，不是新策略。另计算固定矩阵A下`h_i=w_i*(1+z_i' A^-1 z)`，按训练源组分解`sum(h_i*y_i)`，允许负影响权重；固定尺度／权重／A，不是删除组重训或因果占比。两类分解都只解释冻结分数。
+
+80曝光只读x／eligible，重算两头分数、动作、范围外与最大标准化值，核对旧NPZ／单位表。按49特征列示合法状态范围外计数与宏比例，分队列／来源441条；不使用离线当前IoU决定检查、不新增范围回退，逐特征计数可重叠。没有新完整AUC或保护结论，最近完整评价仍为Stage-103，确认集封存。
+
+13CSV与decision全部SHA绑定。回传10表：model_scope56、prediction_summary112、prediction_macro4、state_support518、exposure_units160、exposure_features441、focus26、focus_features1274、focus_neighbors130、focus_sources702；完整neighbors2240／feature_attribution25382／source_contribution13986留服务器。不写新模型；完成后重跑只检查已有结果，中断重跑重建固定审计并要求已发表表一致。旧模型／来源／代码变化时拒绝混用。
+
+本机4项CPU测试通过，含正规方程与留组隔离、精确分解和标签无关的不同源近邻、合成训练内不足与留出失效区分、完整缓存流程／曝光GT列隔离／续跑／篡改拒绝。正式模型／NPZ仍仅在服务器，本机没有正式审计结果；测试中的合成来源可拟合，实际Stage-107在阻止新拟合及网络调用的补丁下完成。状态固定`COMPLETE_FIXED_COMMIT_GATE_SUPPORT_AUDIT`，无新方法采用门槛。
+
+同步后`bash tools/run_stage107_gate_support.sh`，默认读`output/stage106/cross_fitted_commit_gate_v1`，写`output/stage107/fixed_gate_support_audit_v1`，可用`STAGE106_ROOT`／`STAGE107_ROOT`覆盖；无需GPU、checkpoint或L20／L40参数。后台：`mkdir -p output/stage107`后`nohup bash tools/run_stage107_gate_support.sh > output/stage107/run.log 2>&1 < /dev/null &`。`--pack-only`只验证与打包，不自动Git提交或推送。结果回传后先比较future训练内／留组后区分，再看13例贡献与近邻及全曝光支持，据此决定补数据或改表示／目标，不能预设原因或搜索旧阈值。 [固定协议](docs/experiments/06_sgla_uav_tracking/STAGE107_FIXED_GATE_SUPPORT_AUDIT.md)
 
 ## 1. 接手后首先要知道的结论
 
