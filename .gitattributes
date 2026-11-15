@@ -55,6 +55,7 @@ tools/run_stage110_proposals.sh text eol=lf
 tools/run_stage111_slot_audit.sh text eol=lf
 tools/run_stage112_shared_scoring.sh text eol=lf
 tools/run_stage113_closed_loop.sh text eol=lf
+tools/run_stage114_failure_chain.sh text eol=lf
 # Preserve the uploaded experiment bundle byte-for-byte, including mixed CSV/JSON endings.
 docs/experiments/06_sgla_uav_tracking/results/stage61_l40_results_20261102T143543Z_40176.txt -text
 docs/experiments/06_sgla_uav_tracking/results/stage62_results_20261103T004524Z_148362.txt -text
@@ -109,3 +110,4 @@ docs/experiments/06_sgla_uav_tracking/results/stage109_results_20261115T023058Z_
 docs/experiments/06_sgla_uav_tracking/results/stage110_results_20261115T044713Z_948813.txt -text
 docs/experiments/06_sgla_uav_tracking/results/stage111_results_20261115T055052Z_976171.txt -text
 docs/experiments/06_sgla_uav_tracking/results/stage112_results_20261115T073439Z_1008077.txt -text
+docs/experiments/06_sgla_uav_tracking/results/stage113_results_20261115T121348Z_1071811.txt -text

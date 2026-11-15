@@ -178,13 +178,14 @@
 - Stage-110 已完成1,920共同状态／28预测包。校准生成集合最佳IoU0.670099，对固定+0.019737、22胜6负，超过四项生成控制；好框可用率+0.781个百分点但集中0349，新增35／丢21。点预测更差，旧PPO影子选框0.632668→0.479921，尚无完整AUC。 [结果复核](experiments/06_sgla_uav_tracking/STAGE110_RESULTS_REVIEW.md) · [固定设计](experiments/06_sgla_uav_tracking/STAGE110_LEARNED_SEARCH_PROPOSALS.md)
 - Stage-111 已完成1,920状态／六集合／69,120次CPU actor。原PPO精确复现；校准臂几何重排和概率汇总IoU降至0.444759／0.436110，均低于原0.479921；GT挑最好排列也仅0.604447，低于q0的0.631912。排列依赖成立，简单换序未修复，需验证匹配新候选的评分训练。无新GPU/训练/完整AUC。 [结果复核](experiments/06_sgla_uav_tracking/STAGE111_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE111_PPO_SLOT_PERMUTATION_AUDIT.md)
 - Stage-112 已完成4生成包/32监督评分器、84,468搜索及1,920状态评价。generated4共享评分IoU0.631974，对Hann+0.005600、对旧PPO+0.085889，但对q0仅+0.000062（11胜17负、两训练种子一正一负），低于fixed4/shared。2/4/6/8候选最佳持续增加，实际选择为0.629812/0.631974/0.630023/0.627226；未证明四最优。适配进展成立，稳定净收益和完整AUC未建立。 [结果复核](experiments/06_sgla_uav_tracking/STAGE112_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE112_NESTED_SHARED_SCORING_BUDGET.md)
-- Stage-113 已准备五臂196条完整自身轨迹：原生单搜索、fixed/generated＋Hann、fixed/generated＋共享评分器两训练种子。冻结Stage-112生成器/评分器，只沿自己的预测历史推进，检查完整AUC、稳定与逐事件恢复保护；七项本机测试通过，服务器待运行。 [固定协议与后台命令](experiments/06_sgla_uav_tracking/STAGE113_FROZEN_SHARED_CLOSED_LOOP.md)
+- Stage-113 已完成五臂196条完整自身轨迹、725,283搜索。native/fixed_hann/generated_hann/fixed_shared/generated_shared AUC63.9605/64.5947/46.2415/64.1309/53.5418；生成共享对固定−10.5890、7胜21负、两训练种子均负，新增5原稳定失败并丢14/26原生参考恢复。固定历史供给进展未转成闭环收益，下一步先统一审计自身历史首个有害替换/供给消失，不扩K或挑seed。 [结果复核](experiments/06_sgla_uav_tracking/STAGE113_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE113_FROZEN_SHARED_CLOSED_LOOP.md)
+- Stage-114 已准备全部196轨迹/203,329帧次的缓存诊断：252前缀、147失败、102参考恢复，区分首次有框错选/供给不足并计算单次q0提交的下一帧几何影子。零新图像/GPU/训练，四项本机测试通过，服务器待运行。 [固定协议与后台命令](experiments/06_sgla_uav_tracking/STAGE114_CACHED_FAILURE_CHAIN.md)
 - [STAGE45_TEMPORAL_SIGNAL_PILOT.md](experiments/05_uav_detection/STAGE45_TEMPORAL_SIGNAL_PILOT.md) — **暂不执行**的 YOLOFT 视频检测支线；保留实现与 CPU 检查记录
 - [无人机检测研究方向调研](research/UAV_DETECTION_RESEARCH_DIRECTIONS_2026-10-29.md) — 检测文献与机制参考，不代表切换当前主任务
 
 ## 交接与维护
 
-- 接续时先读0.96的Stage-113完整自身轨迹准备、0.95的Stage-112结果与0.94固定设计，再看0.91生成结果、0.77完整评价、0.48确认集与0.44论文目标。 [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口)
+- 接续时先读0.98的Stage-114全缓存诊断准备、0.97的Stage-113完整结果、0.96固定设计、0.95的Stage-112结果，再看0.91生成结果、0.48确认集与0.44论文目标。 [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口)
 - [历史写作材料说明](archive/README.md)
 - [整理报告](maintenance/CLEANUP_REPORT.md)
 - [逐文件整理清单](maintenance/CLEANUP_MANIFEST.json)
