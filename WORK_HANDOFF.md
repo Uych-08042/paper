@@ -2,11 +2,13 @@
 
 更新日期：2026-11-15（Asia/Hong_Kong）
 
-**最终交付是提出并验证一个改进后的 SGLA 无人机单目标跟踪方法，再根据完整实验证据写出论文。** 最终方法须包含可独立验证的 SGLA 跟踪机制改动，例如搜索状态更新、搜索区域构造或输出解码。原生 SGLA 是主基线。先用同预算消融量化模块和选择策略各自的贡献，再做独立源视频确认、结果图表与失败分析。当前入口见 0.88，最近结果见0.87。
+**最终交付是提出并验证一个改进后的 SGLA 无人机单目标跟踪方法，再根据完整实验证据写出论文。** 最终方法须包含可独立验证的 SGLA 跟踪机制改动，例如搜索状态更新、搜索区域构造或输出解码。原生 SGLA 是主基线。先用同预算消融量化模块和选择策略各自的贡献，再做独立源视频确认、结果图表与失败分析。当前入口见0.90，最近结果见0.89。
 
 最近完整开发评价为Stage-103：28源组，原生／PPO／pair／four_matched／four_pairwise AUC63.9605／65.0943／65.8348／60.9853／62.7318。两项四候选核验均未通过稳定性和恢复保护；固定状态局部可修复，但没有转成完整收益。Stage-100的pulse结果见0.71，Stage-99的23/25是指定窗口成绩，不能当整视频结果。 [Stage-103 结果](docs/experiments/06_sgla_uav_tracking/STAGE103_RESULTS_REVIEW.md)
 
-Stage-109已准备：固定旧门控，从剩余线上合格状态按上下文均匀抽样，实测keep／共同pair提交的32帧后继，最多960起点。新训练0，需要GPU，首次自动绑定L20或L40；等待服务器运行。 [Stage-109协议与命令](docs/experiments/06_sgla_uav_tracking/STAGE109_GT_FREE_SAMPLED_COMMIT_BRANCHES.md)
+Stage-110已准备：根据用户对固定四布局依据的要求，转向学习中心／尺度与误差范围，再分配同预算搜索区域；六组控制，最多1,920共同状态／36,480物理搜索。新预测模型与校准按源组隔离，SGLA／PPO冻结，等待服务器运行；没有正式新成绩。 [Stage-110协议](docs/experiments/06_sgla_uav_tracking/STAGE110_LEARNED_SEARCH_PROPOSALS.md)
+
+Stage-109已完成960个均匀抽样开发起点／1,920短分支。组合future效用+0.003121，低于原future+0.003240、always+0.003937、同率+0.003495；主要均差−0.000120，6胜11平11负。提交干预有平均空间，旧门控选择价值未建立，无新增完整AUC。抽样表seed字段为随机种子，连接样本需从context恢复PPO种子，详见0.89。 [Stage-109结果](docs/experiments/06_sgla_uav_tracking/STAGE109_RESULTS_REVIEW.md)
 
 最新Stage-108已完成四表示／224门控评价，新增168个CPU模型、0新GPU或完整轨迹。组合future效用+0.013909，较原future+0.001071，但收益集中0304／0176，仍低于always+0.015469；0348／0349等新漏益，留组MSE也恶化。局部提交选择改善成立，整体稳定新增选择价值尚未建立；接续优先考虑代表性开发状态与成对后继支持，避免在259旧起点反复加特征。 [Stage-108结果](docs/experiments/06_sgla_uav_tracking/STAGE108_RESULTS_REVIEW.md)
 
@@ -29,7 +31,7 @@ Stage-75 L20 已完成 13 个固定起点和 52 条短分支。0003 两个首败
 
 ## 0. 下一次对话的直接接续入口
 
-本节更新至 2026-11-15。先读0.88的Stage-109准备、0.87的Stage-108结果、0.86固定设计、0.85的Stage-107结果、0.83的Stage-106结果、0.81的Stage-105机制证据，再按需回溯0.79／0.77及0.48确认集、0.44论文目标。 [Stage-109协议](docs/experiments/06_sgla_uav_tracking/STAGE109_GT_FREE_SAMPLED_COMMIT_BRANCHES.md) · [Stage-108结果](docs/experiments/06_sgla_uav_tracking/STAGE108_RESULTS_REVIEW.md)
+本节更新至 2026-11-15。先读0.90的Stage-110准备、0.89的Stage-109结果，候选生成背景看0.53～0.54的Stage-84／85，再按需回溯0.87／0.85／0.83／0.81及0.48确认集、0.44论文目标。 [Stage-110协议](docs/experiments/06_sgla_uav_tracking/STAGE110_LEARNED_SEARCH_PROPOSALS.md) · [Stage-109结果](docs/experiments/06_sgla_uav_tracking/STAGE109_RESULTS_REVIEW.md)
 
 需要回溯历史与配对干预时读 0.33、0.31、0.29、0.27、0.24、0.22、0.20 和 0.18。较早阶段的运行状态按各节日期理解。 [Stage-60](docs/experiments/06_sgla_uav_tracking/STAGE60_RESULTS_REVIEW.md) · [Stage-54](docs/experiments/06_sgla_uav_tracking/STAGE54_RESULTS_REVIEW.md) · [Stage-55](docs/experiments/06_sgla_uav_tracking/STAGE55_RESULTS_REVIEW.md)
 
@@ -1745,7 +1747,7 @@ F02=0304／pairwise1083，真实+0.600176，future−0.018235；pair anchor与PP
 
 接续优先考虑冻结本轮配方，按预声明线上冲突／写入条件抽取更代表性的开发状态与成对后继标签，保留源组隔离和简单控制，再检验是否有稳定新增选择价值；不在259旧起点继续后验堆特征、选13例或调阈值。之后仍需完整自身轨迹与封存源确认。本次仅归档复核，未新建Stage-109或改冻结代码；确认集封存，最近完整评价仍为Stage-103，尚无新增完整AUC或方法采用。 [完整复核](docs/experiments/06_sgla_uav_tracking/STAGE108_RESULTS_REVIEW.md)
 
-### 0.88 2026-11-15 Stage-109 无GT结果筛选的开发起点抽样（已准备，等待正式GPU运行）
+### 0.88 2026-11-15 Stage-109 无GT结果筛选的开发起点抽样（准备记录，结果见0.89）
 
 用户要求继续实验，新增`tools/stage109_sampled_commit.py`、`tools/run_stage109_sampled_commit.sh`、`tools/test_stage109_sampled_commit.py`和协议`STAGE109_GT_FREE_SAMPLED_COMMIT_BRANCHES.md`。目标是检验旧门控在未按失败／救援／未来收益挑选的新开发起点上的选择价值，同时补充成对后继支持；本轮不再加特征或重训门控。
 
@@ -1760,6 +1762,44 @@ future标签是t+1..t+31有效帧平均IoU差，myopic为当帧pair框−原四�
 本地5项Stage-109合成CPU测试通过，覆盖抽样／标签隔离、空短池、源池准备和只读模型加载、硬件绑定、同率和缺失、完整2起点4分支504搜索／512逻辑调用、决策先于分支、禁止新训练、来源不变、缓存零推理续跑和收据篡改拒绝。另7项Stage-105回归通过，包含有效提交改变实际后继搜索、GT轨迹隔离、一次提交及两卡模式缓存流程；新CLI帮助与Bash只读语法检查通过。正式数据、服务器NPZ／GPU本地不可用，尚未执行正式Stage-109。
 
 同步代码后执行`bash tools/run_stage109_sampled_commit.sh`，默认`output/stage109/gt_free_sampled_commit_branches_v1`，支持Stage76／89／93／103／106／108／109路径、CHECKPOINT及STAGE109_GPU覆盖。后台先`mkdir -p output/stage109`，再`nohup bash tools/run_stage109_sampled_commit.sh > output/stage109/run.log 2>&1 < /dev/null &`；完整后自动生成decision＋8表的TXT，`--pack-only`只验证打包。不自动commit／push。收到结果先比较主要及简单控制、分层与错判，再决定是否用新标签启动另一期训练；不要把本轮抽样称独立确认或完整策略效果。 [固定协议](docs/experiments/06_sgla_uav_tracking/STAGE109_GT_FREE_SAMPLED_COMMIT_BRANCHES.md)
+
+### 0.89 2026-11-15 Stage-109 均匀抽样后继结果（已完成，旧门控未超过简单控制）
+
+已收到并逐字节归档`stage109_results_20261115T023058Z_871630.txt`，4,502,572字节、SHA256`da7610e6d67a045ad6d621e9193ce967175cee08bbd35821bfb72907637e78e3`。decision指纹`1094eac91bf60b49ab1073a2f59779b7956449d15332f260d5b6acbd58702d80`，plan指纹`dded2f9442648004c3a825ce0eac530dcd438c0dbc791ff499acf029c70e3b98`；来源Stage-108与预声明一致。status为`COMPLETE_GT_FREE_SAMPLED_COMMIT_BRANCHES`，不是方法PASS。
+
+L20、runtime差异空。80上下文／28开发组、960起点／1,920条32帧分支、241,920新搜索／245,760逻辑搜索／1,693,440块。112模型复用，新训练／完整轨迹／确认推理0。服务器报告keep来源框最大误差0、首帧共享通过；资格变化0，全部31帧有效后继，几何变化960、外观变化897。不重复采集。85,144旧状态中合格30,805、完整窗口29,819，排除其中219个已有标签身份后池29,600；每池16～926，均抽12，概率1.296%～75%。新身份与全部旧259身份无重合，但窗口可重叠、来源已消耗，不是独立确认。
+
+全组效用：keep0、always+0.003936755、原future+0.003240232、原myopic+0.003356407、组合future+0.003120613、组合myopic+0.003307900、组合同率+0.003494755、oracle+0.006573505。组合−原future主差−0.000119619，中位0，6胜11平11负，最小留一−0.000481213；对旧myopic−0.000235794、自身myopic−0.000187287、always−0.000816141、自身同率−0.000374141；对keep+0.003120613，17胜11负、最小留一+0.001742124。均为一次提交后的最多31帧平均IoU差，不是完整AUC或重复门控效果。
+
+历史12组主差+0.001080811，扩展16组−0.001019941；matched+0.000111209、pairwise−0.000350447。扩展pairwise组合+0.000492183，低于原+0.002358994、always+0.002773920和同率+0.002479142。源组主要改善0304+0.009643422、0226+0.003661079，损伤0091−0.010433598、0016−0.003719355、0076−0.001131996；0176−0.000181801。去0304主差−0.000481213，去0091为+0.000262380，同时去0304／0226为−0.000640532。只能作敏感性描述，不据此选组或改模式。
+
+原future提交854、组合867；57动作变化＝35新增／22取消，效用19改善／29损失／9零。0304／2172／pairwise1077实测+0.470371，原分数−0.000118→组合+0.005189，提交救援被选中；keep后继0.236894→both0.707265，末帧0→0.822185。0226／2171／matched209实测+0.178119被新增接纳，但窗口质量仍低，不称恢复。0091／2171／pairwise78实测+0.345871却从+0.003360→−0.007024被新拒绝，keep后继0.286142→both0.632013；该处myopic−0.055821。0016／pairwise605的+0.089265、0076／pairwise634的+0.027168也被新拒绝。共同漏挡0237／2172／pairwise276：myopic0，future−0.234572，keep末帧0.914286、both0，原／组合future都正分放行；0226／2172／pairwise204的−0.174033也均放行。0176／2172／pairwise243的+0.108408均被拒绝。
+
+标签449正／361负／150零；仅69正与46负超过绝对0.01，其余845为小效应或零。组合对正例400/449＝89.09%接纳、负例328/361＝90.86%接纳；原为401/449＝89.31%、319/361＝88.37%，仍近于多数放行。宏提交率原89.81%／组合90.92%，不要混用原始计数。future宏预测均值原+0.027181／组合+0.029073，而实测宏+0.003937；新标签MSE0.002450／0.002781，组合约高13.5%，训练范围外宏比例22.99%／25.67%。支持标度和迁移存在问题的线索，不能唯一归因特征维数或训练分布。
+
+本机核对decision自指纹、8表SHA／行数、采样身份排除／随机种子派生／范围概率、1,920分支到960标签、3,840预测阈值、8,640决定、81汇总／54配对全部重算一致，7,680个NPZ／收据名称账本完整。原manifest池、实际NPZ和模型本机缺失，未在本机重放完整采样、核验实际缓存或复现GPU；不要假称本机执行完整check-results。
+
+**导出字段问题：sampling_scope.csv的seed被抽样随机种子覆盖，是128位sampler_seed，不是PPO种子。** context里的`__s2171__`／`__s2172__`及其他表的seed正确，主分析未受影响。读取该表连接样本时必须从context恢复actor_seed；下一阶段分开sampler_seed和actor_seed命名。保留Stage-109封存源码／结果／哈希，不为字段问题重跑GPU或改写旧表。
+
+下一步优先利用这960个新标签，冻结表示与门槛，在源组留出和简单控制下验证训练支持改变能否改善选择，而不是继续后验加特征／调阈值。本轮未新建Stage-110或启动新训练；确认集封存，最新完整AUC仍Stage-103。 [完整复核](docs/experiments/06_sgla_uav_tracking/STAGE109_RESULTS_REVIEW.md)
+
+### 0.90 2026-11-15 Stage-110 学习预测与校准驱动的候选生成（已准备，等待GPU运行）
+
+用户再次质疑固定四布局的证据，明确要求按“由算法生成并建立强证据链”推进。新建`tools/stage110_proposal_common.py`、`tools/stage110_search_proposals.py`、`tools/run_stage110_proposals.sh`、`tools/test_stage110_proposals.py`及协议`STAGE110_LEARNED_SEARCH_PROPOSALS.md`。接续主线改为预测依据→误差校准→同预算实际候选供给，不直接继续Stage-109提交门控重训；已有机制与负例保留，冻结旧代码。
+
+绑定Stage-109决策`1094eac91bf60b49ab1073a2f59779b7956449d15332f260d5b6acbd58702d80`和原Stage-103完整历史。28开发组／40单位×两来源＝80上下文，t≥5每上下文最多96个等间隔拟合身份，从剩余帧按seed2310派生PCG64均匀抽最多24评价帧。采样不看GT、失败、分数或eligible；短池保留，不补样，评价缺GT不删。拟合与评价身份分开，最多7,680拟合记录／1,920评价状态；整条源历史只读，不用新结果替换后续状态，不打开确认集。
+
+预测32维只含过去五框的中心／对数尺寸增量16、均值／标准差／转折12、历史比例和过去raw／Hann／memory_write四项。目标是GT相对最新预测框的中心位移／side和宽高log比。每留组包只用其余27组：按排序每三组取一校准，18组拟合／9组校准／1组评价；固定ridge=1均值，拟合组内部三折残差再回归log(error²+1e-4)预测条件尺度，另取固定尺度。两尺度各用校准组的源组平衡90%最大标准误差分位数校准；没有时间相关数据的分布无关覆盖保证。旧PPO仍是已消耗来源，留组隔离只针对新预测包。
+
+六组fixed、旧Stage-84 motion、learned_constant、learned_uncalibrated、learned_calibrated、calibrated_random；四为相同搜索预算，不是四布局最优主张。均保留原q0；新生成组三个额外父框的中心／尺寸可共同改变，来自32个固定反向配对高斯场景及预测均值。按假设中心与尺度的软覆盖增益分配，random共用校准提议池和裁剪去重约束。q0保留、对角高斯、soft coverage仍是预声明假设；生成几何更广不能代替真实SGLA解码质量。
+
+六组每状态24逻辑搜索，共同q0及完全相同浮点父框共享，最多19物理搜索／状态，总上限46,080逻辑／36,480物理／255,360块。只同状态供给，不完整推进，不新增PPO／SGLA更新；拟合28个CPU预测包。先保存在线输入与提议，再实测候选与附GT；同运行fixed框／特征／裁剪／层须精确复现来源，换卡误差单列，六组同卡共同实测。
+
+主要learned_calibrated−fixed最佳解码IoU，必要对motion／constant／uncalibrated／random；报告好候选比例、得到与丢掉好框、输入目标像素、有效覆盖／裁剪数及预测中心尺度误差、90%经验区间覆盖与宽度。另有冻结旧PPO影子选框，不能单独当生成器有效性或新策略闭环证据。按来源→种子→源组宏平均、两队列／模式分层，最多135对比，无帧独立CI、无最终方法采用门槛。若预测和真实供给有积极证据，再做旧／新生成器×旧／匹配训练选择器整视频验证。
+
+6项本地CPU测试通过：过去输入和GT隔离、采样身份分离、拟合／残差／校准源组隔离、校准标签不改变预测系数、条件误差尺度、校准经验覆盖、中心尺度共同生成、q0和随机同池、实际原生解码／去重调用、完整合成流程与来源不变、缓存零GPU续跑／篡改拒绝、L20／L40运行绑定。恢复数值审计rtol=1e-9／atol=1e-12，不改封存系数或指纹。Stage-84几何生成旧测试1项通过，真实Torch／OpenCV回放缺依赖跳过1项，不能算通过；新CLI、Python／Bash语法、LF通过。正式数据与GPU本机不可用，没有正式Stage-110成绩。
+
+同步后`bash tools/run_stage110_proposals.sh`；默认`output/stage110/calibrated_search_proposals_v1`，支持Stage76／89／93／103／109／110路径、CHECKPOINT和STAGE110_GPU。后台先`mkdir -p output/stage110`，再`nohup bash tools/run_stage110_proposals.sh > output/stage110/run.log 2>&1 < /dev/null &`。首次L20或L40自动绑定，续跑换卡需新STAGE110_ROOT；完成打包decision＋8表TXT，`--pack-only`只校验打包，不自动commit／push。 [完整协议](docs/experiments/06_sgla_uav_tracking/STAGE110_LEARNED_SEARCH_PROPOSALS.md)
 
 ## 1. 接手后首先要知道的结论
 
