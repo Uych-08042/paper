@@ -173,13 +173,14 @@
 - Stage-105 完成259起点／1,036短分支。共同提交后继平均IoU提高0.01875／0.01219；部分窗口明确受益，也有严重损伤，17个参考恢复均未补回。已有条件机制证据，仍缺可靠线上提交条件和完整验证。 [Stage-105 结果](experiments/06_sgla_uav_tracking/STAGE105_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE105_MATCHED_STATE_COMMIT.md)
 - Stage-106 完成56个源组留出的CPU门控和259起点评价。future后继效用+0.012838，但低于always+0.015469、myopic+0.014028及同率+0.013800；0304严重错判保留。另检查85,144个旧状态曝光，无新GPU或完整AUC，门控新增价值尚未建立。 [Stage-106结果](experiments/06_sgla_uav_tracking/STAGE106_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE106_CROSS_FITTED_COMMIT_GATE.md)
 - Stage-107 完成56模型审计及85,144旧状态检查。计算重放通过；future训练内自身R²约0.142，留组MSE比固定截距高8.58%；0304损伤与0176救援互为最近训练近邻，0348有模式与状态交互线索，尚无可靠新策略。 [Stage-107结果](experiments/06_sgla_uav_tracking/STAGE107_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE107_FIXED_GATE_SUPPORT_AUDIT.md)
-- Stage-108 已准备原49维／状态关系／模式交互／两者结合的固定四组对照，待服务器运行。复用56旧门控，新增168个CPU门控，保持相同源组留出和简单控制；无新GPU或完整轨迹。 [固定协议](experiments/06_sgla_uav_tracking/STAGE108_RELATIONAL_MODE_COMMIT_GATE.md)
+- Stage-108 完成四表示／224门控评价。组合future效用+0.013909，较原future+0.001071但6胜15平7负、最小留一负，仍低于always+0.015469；0304／0176局部决定改善，0348／0349等漏正收益，无新增完整AUC。 [Stage-108结果](experiments/06_sgla_uav_tracking/STAGE108_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE108_RELATIONAL_MODE_COMMIT_GATE.md)
+- Stage-109 已准备：每个来源模式上下文从剩余线上合格、完整32帧状态均匀抽最多12个起点，冻结112个旧门控，实测keep／共同pair提交后继；最多960起点／241,920搜索。需要GPU，首次自动绑定L20或L40，换卡另开目录；未新训练或产生完整AUC，等待服务器运行。 [固定协议与命令](experiments/06_sgla_uav_tracking/STAGE109_GT_FREE_SAMPLED_COMMIT_BRANCHES.md)
 - [STAGE45_TEMPORAL_SIGNAL_PILOT.md](experiments/05_uav_detection/STAGE45_TEMPORAL_SIGNAL_PILOT.md) — **暂不执行**的 YOLOFT 视频检测支线；保留实现与 CPU 检查记录
 - [无人机检测研究方向调研](research/UAV_DETECTION_RESEARCH_DIRECTIONS_2026-10-29.md) — 检测文献与机制参考，不代表切换当前主任务
 
 ## 交接与维护
 
-- 接续时先读0.86的Stage-108准备记录、0.85的Stage-107结果、0.83的Stage-106结果、0.81的Stage-105机制证据，再看0.77完整评价、0.48确认集与0.44论文目标。 [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口)
+- 接续时先读0.87的Stage-108结果、0.86固定设计、0.85的Stage-107结果、0.83的Stage-106结果与0.81机制证据，再看0.77完整评价、0.48确认集与0.44论文目标。 [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口)
 - [历史写作材料说明](archive/README.md)
 - [整理报告](maintenance/CLEANUP_REPORT.md)
 - [逐文件整理清单](maintenance/CLEANUP_MANIFEST.json)
