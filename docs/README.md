@@ -175,7 +175,8 @@
 - Stage-107 完成56模型审计及85,144旧状态检查。计算重放通过；future训练内自身R²约0.142，留组MSE比固定截距高8.58%；0304损伤与0176救援互为最近训练近邻，0348有模式与状态交互线索，尚无可靠新策略。 [Stage-107结果](experiments/06_sgla_uav_tracking/STAGE107_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE107_FIXED_GATE_SUPPORT_AUDIT.md)
 - Stage-108 完成四表示／224门控评价。组合future效用+0.013909，较原future+0.001071但6胜15平7负、最小留一负，仍低于always+0.015469；0304／0176局部决定改善，0348／0349等漏正收益，无新增完整AUC。 [Stage-108结果](experiments/06_sgla_uav_tracking/STAGE108_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE108_RELATIONAL_MODE_COMMIT_GATE.md)
 - Stage-109 已完成960个均匀抽样开发起点／1,920短分支。组合future效用+0.003121，低于原future+0.003240、always+0.003937和同率+0.003495；主差−0.000120、6胜11平11负。提交干预有空间，冻结门控筛选价值未建立；无新增完整AUC。抽样表seed为随机种子，PPO种子须从context恢复。 [结果复核](experiments/06_sgla_uav_tracking/STAGE109_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE109_GT_FREE_SAMPLED_COMMIT_BRANCHES.md)
-- Stage-110 已准备：学习下一帧中心／尺度及误差范围，以留组预测和独立校准驱动搜索区域分配；六组同预算对照检验真实SGLA候选供给。最多1,920个共同状态、36,480物理搜索，28个新CPU预测包，SGLA／PPO冻结，支持L20／L40。等待服务器正式运行。 [固定设计与命令](experiments/06_sgla_uav_tracking/STAGE110_LEARNED_SEARCH_PROPOSALS.md)
+- Stage-110 已完成1,920共同状态／28预测包。校准生成集合最佳IoU0.670099，对固定+0.019737、22胜6负，超过四项生成控制；好框可用率+0.781个百分点但集中0349，新增35／丢21。点预测更差，旧PPO影子选框0.632668→0.479921，尚无完整AUC。 [结果复核](experiments/06_sgla_uav_tracking/STAGE110_RESULTS_REVIEW.md) · [固定设计](experiments/06_sgla_uav_tracking/STAGE110_LEARNED_SEARCH_PROPOSALS.md)
+- Stage-111 已准备同候选槽位排列诊断：全部1,920状态／六集合，q0固定、其余六排列，比较原PPO、几何对应与概率汇总及简单控制；69,120次CPU actor，无新图像/GPU/训练/完整AUC。5项本机测试通过，正式服务器结果待运行。入口`bash tools/run_stage111_slot_audit.sh`。 [固定协议](experiments/06_sgla_uav_tracking/STAGE111_PPO_SLOT_PERMUTATION_AUDIT.md)
 - [STAGE45_TEMPORAL_SIGNAL_PILOT.md](experiments/05_uav_detection/STAGE45_TEMPORAL_SIGNAL_PILOT.md) — **暂不执行**的 YOLOFT 视频检测支线；保留实现与 CPU 检查记录
 - [无人机检测研究方向调研](research/UAV_DETECTION_RESEARCH_DIRECTIONS_2026-10-29.md) — 检测文献与机制参考，不代表切换当前主任务
 
