@@ -2,9 +2,13 @@
 
 更新日期：2026-11-15（Asia/Hong_Kong）
 
-**最终交付是提出并验证一个改进后的 SGLA 无人机单目标跟踪方法，再根据完整实验证据写出论文。** 最终方法须包含可独立验证的 SGLA 跟踪机制改动，例如搜索状态更新、搜索区域构造或输出解码。原生 SGLA 是主基线。先用同预算消融量化模块和选择策略各自的贡献，再做独立源视频确认、结果图表与失败分析。当前实验入口见0.94，最近结果见0.93。
+**最终交付是提出并验证一个改进后的 SGLA 无人机单目标跟踪方法，再根据完整实验证据写出论文。** 最终方法须包含可独立验证的 SGLA 跟踪机制改动，例如搜索状态更新、搜索区域构造或输出解码。原生 SGLA 是主基线。先用同预算消融量化模块和选择策略各自的贡献，再做独立源视频确认、结果图表与失败分析。最新Stage-113完整自身轨迹实验已准备，见0.96；最近结果见0.95，Stage-112固定设计见0.94。
 
 最近完整开发评价为Stage-103：28源组，原生／PPO／pair／four_matched／four_pairwise AUC63.9605／65.0943／65.8348／60.9853／62.7318。两项四候选核验均未通过稳定性和恢复保护；固定状态局部可修复，但没有转成完整收益。Stage-100的pulse结果见0.71，Stage-99的23/25是指定窗口成绩，不能当整视频结果。 [Stage-103 结果](docs/experiments/06_sgla_uav_tracking/STAGE103_RESULTS_REVIEW.md)
+
+Stage-112已完成4生成包／32监督评分器、84,468搜索及1,920状态评价。generated4共享评分IoU0.631974，对Hann+0.005600、旧PPO+0.085889，但对q0仅+0.000062，11胜17负、两个训练种子一正一负；低于fixed4/shared。2/4/6/8的候选最佳持续提高，实际选择0.629812／0.631974／0.630023／0.627226。适配进展成立，稳定新增价值及完整AUC尚未建立；未证明四最优。 [Stage-112结果](docs/experiments/06_sgla_uav_tracking/STAGE112_RESULTS_REVIEW.md)
+
+Stage-113已实现五臂196条完整自身轨迹：native、fixed_hann、generated_hann、fixed_shared、generated_shared。冻结Stage-112四生成包与两训练种子共享评分器，逐帧只用自己历史，不重新训练或扩K；同时检查AUC、原稳定与逐事件恢复保护。七项本机测试通过，正式服务器实验待运行。 [Stage-113协议](docs/experiments/06_sgla_uav_tracking/STAGE113_FROZEN_SHARED_CLOSED_LOOP.md)
 
 Stage-111已完成1,920状态／六集合／69,120次CPU actor，原PPO精确复现。校准候选的几何重排／概率汇总IoU0.444759／0.436110，均低于原0.479921；固定q0的六排列离线最好也仅0.604447，低于q0的0.631912。简单换序不能完成适配，接续优先匹配新候选的评分训练；无新完整AUC。 [Stage-111结果](docs/experiments/06_sgla_uav_tracking/STAGE111_RESULTS_REVIEW.md)
 
@@ -33,7 +37,7 @@ Stage-75 L20 已完成 13 个固定起点和 52 条短分支。0003 两个首败
 
 ## 0. 下一次对话的直接接续入口
 
-本节更新至 2026-11-15。先读0.94的Stage-112匹配评分训练与候选数量对照，再读0.93的Stage-111结果和0.92固定设计、0.91的Stage-110结果、0.90固定设计、0.89的Stage-109结果；候选生成背景看0.53～0.54，再按需回溯0.48确认集及0.44论文目标。 [Stage-112协议](docs/experiments/06_sgla_uav_tracking/STAGE112_NESTED_SHARED_SCORING_BUDGET.md) · [Stage-111结果](docs/experiments/06_sgla_uav_tracking/STAGE111_RESULTS_REVIEW.md)
+本节更新至 2026-11-15。先读0.96的Stage-113完整自身轨迹准备与0.95的Stage-112结果，再读0.94固定设计、0.93的Stage-111结果、0.91的Stage-110结果及0.90生成器设计；候选生成背景看0.53～0.54，确认边界和论文目标见0.48／0.44。 [Stage-113协议](docs/experiments/06_sgla_uav_tracking/STAGE113_FROZEN_SHARED_CLOSED_LOOP.md) · [Stage-112结果](docs/experiments/06_sgla_uav_tracking/STAGE112_RESULTS_REVIEW.md)
 
 需要回溯历史与配对干预时读 0.33、0.31、0.29、0.27、0.24、0.22、0.20 和 0.18。较早阶段的运行状态按各节日期理解。 [Stage-60](docs/experiments/06_sgla_uav_tracking/STAGE60_RESULTS_REVIEW.md) · [Stage-54](docs/experiments/06_sgla_uav_tracking/STAGE54_RESULTS_REVIEW.md) · [Stage-55](docs/experiments/06_sgla_uav_tracking/STAGE55_RESULTS_REVIEW.md)
 
@@ -1853,7 +1857,7 @@ L20、runtime差异空。28开发组、80上下文，96 fit／24 eval各上下�
 
 接续保留算法生成候选供给主线，但不采用当前换序/概率汇总。优先预先固定共享逐候选、匹配新集合的监督或成对评分控制，超过q0/Hann/旧PPO后再检验PPO后继增益；顺序无关不自动等于正确评分。外层评价源组须同时从生成器拟合／校准和选择器拟合中排除，不能直接用Stage-110其他组的OOF生成缓存导致评价标签间接进入训练。之后仍要完整自身轨迹与封存源确认。本次只归档和复核，未建立Stage-112或新训练；最新完整AUC仍Stage-103。 [完整复核](docs/experiments/06_sgla_uav_tracking/STAGE111_RESULTS_REVIEW.md)
 
-### 0.94 2026-11-15 Stage-112 匹配评分训练与2/4/6/8搜索数量对照（已准备，服务器待运行）
+### 0.94 2026-11-15 Stage-112 匹配评分训练与2/4/6/8搜索数量对照（准备记录，结果见0.95）
 
 用户讨论旧PPO流程、新生成器与选择器适配及“四个仅为预算控制”后要求继续实验。本轮保持生成算法和SGLA权重，新增共同外层源组留出、监督质量训练及数量迁移。新增`tools/stage112_scoring_common.py`、`tools/stage112_shared_scoring.py`、`tools/test_stage112_shared_scoring.py`、`tools/run_stage112_shared_scoring.sh`。来源完整Stage-76/89/93/103/110/111，111完成指纹固定`61d3d1e808b8df3f317489c2b9f0dc4d69fe7f65a5e7f8e04d2aa492c39b13f5`。
 
@@ -1866,6 +1870,44 @@ L20、runtime差异空。28开发组、80上下文，96 fit／24 eval各上下�
 默认根`output/stage112/nested_shared_scoring_budget_v1`。入口`bash tools/run_stage112_shared_scoring.sh`，需要GPU及原checkpoint；首次L20/L40自动绑定，续跑同根运行身份必须一致，换卡新设`STAGE112_ROOT`。后台命令见协议；完成自动生成stage112_results TXT。预计fold_support4、sampling_scope320、training_scope32、collection_scope7,680、state_decisions59,520、policy_summary216、paired486七表。完整缓存续跑零重复搜索/评分器训练，生成器会数值重建核验；未提交CPU模型从固定种子重算。没有SGLA/PPO更新或新完整轨迹；完整自身轨迹/稳定性/恢复保护及随后PPO价值属于接续验证，不把同状态成绩当AUC。
 
 5项本机CPU测试通过、无跳过：实际shared/concat梯度有限差分，所有K特征/评分排列一致性及K4原描述一致，多组共同排除及评价标签扰动不改变生成器，确定性监督拟合，严格预算前缀/真实仓库解码/唯一调用，完整合成采集-训练-评价、预测先保存、零重搜重训续跑、来源不变和预测/模型篡改拒绝。网络为真实NumPy实现，SGLA/图像由合成Observer替代；无正式GPU复现。CLI、Python/Bash语法及LF检查通过，Stage-1～111 Python未改。正式服务器结果待运行。 [固定协议](docs/experiments/06_sgla_uav_tracking/STAGE112_NESTED_SHARED_SCORING_BUDGET.md)
+
+### 0.95 2026-11-15 Stage-112 评分适配与候选数量结果（已完成，接近q0但净收益未建立）
+
+收到并逐字节归档`stage112_results_20261115T073439Z_1008077.txt`，17,427,407字节，SHA256`fc81f5dd269359cdd93b150e70f4eee84e30a2461c9d97d9b8b3ea4351b88599`。decision指纹`4622ef840a90ccfc658ff91b86652ac460a1371a3da9579e37b08425d8f3803f`，plan指纹`375afca111d43d4132810a86a9941040f49544c06f66bf7c09d218c9e95d4590`；Stage-111来源一致。L20／UUID bd2283f0-25e4-2734-53c1-e3a243ca482c，runtime差异空、fixed来源误差0。4新生成包、32评分器，每个1,440样本/240更新，共7,680评分优化；7,680fold状态、84,468唯一搜索、591,276块、92,160逻辑搜索，另7,680模板初始化。零SGLA/PPO更新、完整轨迹与确认推理；不重跑。
+
+generated4的q0/Hann/oldPPO/concat/shared/oracle IoU为0.631911800／0.626374013／0.546084471／0.627471226／0.631973853／0.668758410。预定shared−Hann +0.005599841，16胜12负、中位+0.002110119、最小留一+0.004017027；对oldPPO+0.085889382（25胜3负、最小留一+0.069152769），对concat+0.004502627（15胜13负、最小留一+0.002578188）。两网络都做新监督拟合及共享标准化，不能将全部恢复只归于结构，参数2,113/8,356也不相同。
+
+关键限制：shared对q0仅+0.000062053，11胜17负、中位−0.001935351、最小留一−0.001725864；最大获益0308+0.048335812，去该组转负。训练种子2312/2313在generated4为0.634195786/0.629751920，对q0+0.002283986/−0.002159880，不能后验选2312。历史12组shared−q0−0.001638，扩展16组+0.001337；matched+0.000935，pairwise−0.000811，净新增价值未稳。
+
+固定四布局q0/Hann/oldPPO/concat/shared/oracle为0.631911800／0.632988945／0.632668080／0.633453279／0.632728161／0.650361797。新generated4供给最佳较fixed4+0.018396613，但shared实际较fixed4/shared低0.000754308，13胜15负；仍未转化生成供给进展。新外层生成器14拟合/7校准与Stage-110的18/9不同，旧PPO0.479921→本轮0.546084不是PPO训练进展，不跨候选集归因。
+
+严重替换有明确修复：oldPPO185/1,920状态q0≥0.5却选<0.2；shared仅2/3,840决策（两训练seed），宏比例9.8958%→0.0558%，分母不同不能直接当同口径185→2。shared选择非q0索引1,997/3,840=52.01%，不是索引上永远q0，但没有实际候选坐标不能判定都改变物理输出，也不能把使用率当收益。shared好框选择3,016次，q0同双seed重复计数3,028次；shared漏好92、q0漏80，小定位增益与损伤抵消。
+
+generated2/4/6/8的oracle为0.646771023／0.668758410／0.683774474／0.691895102，shared为0.629812399／0.631973853／0.630023221／0.627226492。6−4均差−0.001950632（9胜19负）、8−4−0.004747361（4胜24负）。对应搜索观测耗时14.35/25.81/37.93/49.48ms，排除图像/模板/提议/评分，非端到端。K2/6/8均用K4训练模型，关系特征随集合变化，因此只说明此模型的数量迁移未获益，不能宣布四最优或更多候选无价值。候选前缀的oracle/调用/计时单调性逐状态成立。
+
+正例0089／来源2172／pairwise696 q0=0.669118，两训练seed均选0.867925；0307／来源2172／pairwise56 q0=0.366692，选0.510993/0.675395。严重负例0176／来源2171／pairwise668 q0=0.761108，两训练seed选0.761108/0；0085／来源2171／pairwise1453 q0=0.535996，选0.535996/0。32模型训练MSE均下降，concat拟合误差更低却选择更差，不能只凭拟合MSE加训练或宣称校准。
+
+本机核对decision自指纹、七表SHA/行数、四外层及14/7/7身份与生成行数、从Stage-110采样表重建320上下文、32模型匹配输入/样本/更新/参数账本、7,680采集及1,920评价身份、59,520决策算术和共同集合，216汇总/486配对全部重算，独立宏平均核对24全组策略；34,597产物名/SHA格式完整。另fixed的q0/旧PPO/oracle共5,760项逐状态与Stage-110归档表相符。实际服务器manifest、模型系数、NPZ/收据未取得，隔离仅为回传支持表与固定设计一致性，未独立复演训练/概率或完整check-results。
+
+接续优先冻结当前生成器与两训练seed共享评分器，在完整自身轨迹中比较q0、fixed4/shared、generated4/shared，检查稳定与恢复保护及小错放大；暂不扩大K或后验挑seed。在同架构下验证PPO后继价值另作匹配目标对照，当前既没证明PPO必需，也不能因当帧接近q0否定长期研究。本次只归档与复核，未建立Stage-113/新训练；最新完整AUC仍Stage-103，确认集封存。 [完整复核](docs/experiments/06_sgla_uav_tracking/STAGE112_RESULTS_REVIEW.md)
+
+### 0.96 2026-11-15 Stage-113 冻结生成器/共享评分器的完整自身轨迹（已准备，服务器待运行）
+
+用户要求继续下一步，现有Stage-112固定状态适配尚未证明完整收益。本轮已实现`tools/stage113_frozen_closed_loop.py`、`tools/run_stage113_closed_loop.sh`与`tools/test_stage113_frozen_closed_loop.py`，不修改Stage-1～112 Python。五臂为native、fixed_hann、generated_hann、fixed_shared、generated_shared；native/Hann每视频1条，shared两训练种子2312/2313各1条。28开发源组去重为28视频，共196完整轨迹，历史12/扩展16分列；28确认组继续封存。
+
+绑定Stage-112 decision `4622ef840a90ccfc658ff91b86652ac460a1371a3da9579e37b08425d8f3803f`，复用四外层生成包与fixed4/generated4共享评分器各8份，共20模型文件，不重新拟合/标准化、无新PPO或SGLA训练。每个评价组使用自己的外层留出fold。旧40个来源视频/种子单元只定位数据和来源，不重复计作40个视频；native所有控制均在当前卡新跑。generated_shared−fixed_shared是“生成＋匹配评分”整体比较，不能称纯生成器效应；两Hann臂补同一选择规则的输入比较。
+
+每条轨迹仅首帧GT初始化，完整推进自己的实际选中框。生成器读取本臂最近最多五框、自己的上一帧4×24特征、选框和可信写入资格，不导入旧轨迹历史。资格位按Stage-103同一公开响应/几何规则重新计算，保留memory_write字段仅为预测输入兼容；没有外观记忆重排/新模板更新。第一跟踪帧统一固定布局，第二帧起预测，短历史沿原online_input零填充；原训练采样起于frame≥5，早期曝光差异必须保留。每视频七条轨迹落盘后才做GT评价；单轨迹未提交则从首帧重跑。
+
+按既有帧表28视频29,047跟踪帧、七遍203,329帧次，逻辑搜索上限726,175。帧内完全相同浮点父框去重，executed掩码审计物理head/block；每搜索7块，模板各轨迹一次。NPZ保留原始响应/几何图、父框/候选/特征/生成状态与选择，196份NPZ及196份receipt全部SHA绑定。报告计数为唯一已提交产物，失败重试实际计算另计。计时排除图像/模板/写盘，原生也有审计特征，不声称部署速度。
+
+统计先视频内平均两训练种子，再28视频等权，bootstrap seed23130/20,000。主比较generated_shared−fixed_shared，并将对native、generated_hann列为必要对照，三AUC Bonferroni家族区间；另报名义区间、历史/扩展与六项逐种子差。PROMISING要求三对照均≥+0.5AUC、家族下界>0、两seed各自正；对native/fixed_shared低IoU及最长失跟不增；原生可靠帧差CI下界≥−1；两个seed均无原生/同seed固定稳定视频损伤或参考恢复丢失；≥4视频有改变裁剪且实际非q0输出。否则REVIEW，不把保护失败藏在均值里。恢复用既有3低/3好及15帧匹配规则，逐事件保留，保护汇总为任一seed受损，丢失恢复计数为两个seed总数。
+
+默认根`output/stage113/frozen_generated_shared_closed_loop_v1`。服务器激活sglatrack-test并同步代码后：`mkdir -p output/stage113`，再`nohup bash tools/run_stage113_closed_loop.sh > output/stage113/run.log 2>&1 < /dev/null &`。可用STAGE113_ROOT/STAGE113_GPU及来源根/CHECKPOINT覆盖。首次支持L20/L40并绑定UUID及软件，同根续跑必须同运行身份，换卡新root；同身份native框须与Stage-103误差0，首次换卡仅容许GPU/UUID差异并报告漂移。入口自动核验与打包，`--pack-only`仅核验打包完整结果；不自动commit/push。
+
+预计八表：model_scope20、policy_summary15、paired最多270、video_summary140、seed_video196、scope196、recovery逐事件、seed_effects6，另decision。收回自动生成的stage113_results TXT即可进行复核，完整manifest/模型来源/NPZ收据仍保留服务器。先核对来源与两seed、整体/队列、供给与漏选、稳定/恢复事件，再决定是否分析首次分叉；不扩K、不选seed、不默认重训PPO。
+
+本机七项CPU测试8.113秒全部通过，无跳过：五臂自身历史/冷启动/预算及GT隔离、过去响应和资格位输入、改变选择影响后续裁剪、恢复匹配、硬件首次绑定/续跑拒绝、冻结模型加载/泄漏拒绝、两队列14轨迹完整流程/先落盘后标签/禁止新训练/零重复推理续跑/篡改拒绝。生成/评分/解码/统计为实际仓库实现，SGLA与图像为合成Observer，不能称GPU精度复现。Python语法/CLI、Bash语法及LF通过；正式服务器尚未执行，最新完整AUC仍Stage-103。 [固定协议](docs/experiments/06_sgla_uav_tracking/STAGE113_FROZEN_SHARED_CLOSED_LOOP.md)
 
 ## 1. 接手后首先要知道的结论
 
