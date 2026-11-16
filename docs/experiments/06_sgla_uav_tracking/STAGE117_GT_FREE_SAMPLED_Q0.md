@@ -1,6 +1,6 @@
 # Stage-117：无GT值选点的匹配q0后继实验
 
-固定日期：2026-11-16（Asia/Hong_Kong）。状态：实现及五项本机测试完成，正式服务器GPU分支待运行。
+固定日期：2026-11-16（Asia/Hong_Kong）。正式服务器测量已完成，状态`COMPLETE_GT_FREE_SAMPLED_Q0_CONTINUATION`；固定设计保留，实际744起点/1488分支与结果边界见[结果复核](STAGE117_RESULTS_REVIEW.md)。COMPLETE不是新方法采用结论。
 
 Stage-116在34个GT条件起点上发现连续性和预测兼容性线索，但同率对照缺少可辨支持，也仍有救援误伤。本轮扩大到**剩余普通替换状态的无GT值抽样**，实际比较一次q0动作与原选择的未来，而不继续围绕原34个失败/救援例子调阈值。
 
@@ -104,7 +104,7 @@ nohup bash tools/run_stage117_sampled_q0.sh > output/stage117/run_l40.log 2>&1 <
 bash tools/run_stage117_sampled_q0.sh --pack-only
 ```
 
-nohup可脱离SSH，但不延长平台作业时限。本机没有正式服务器缓存/图像/GPU，本轮尚无正式结果，不预估实际N、救援支持数或运行时长。
+nohup可脱离SSH，但不延长平台作业时限。以上为固定执行入口；正式结果随后已回传，见[结果复核](STAGE117_RESULTS_REVIEW.md)。本机仍没有完整服务器缓存/图像/GPU，复核范围另行明确，不按结果改变抽样或规则。
 
 ## 8. 本机验证
 
