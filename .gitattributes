@@ -61,6 +61,7 @@ tools/run_stage116_online_evidence.sh text eol=lf
 tools/run_stage117_sampled_q0.sh text eol=lf
 tools/run_stage118_nested_commit.sh text eol=lf
 tools/run_stage119_commit_support.sh text eol=lf
+tools/run_stage120_commit_factorial.sh text eol=lf
 # Preserve the uploaded experiment bundle byte-for-byte, including mixed CSV/JSON endings.
 docs/experiments/06_sgla_uav_tracking/results/stage61_l40_results_20261102T143543Z_40176.txt -text
 docs/experiments/06_sgla_uav_tracking/results/stage62_results_20261103T004524Z_148362.txt -text
@@ -121,3 +122,4 @@ docs/experiments/06_sgla_uav_tracking/results/stage115_results_20261115T154035Z_
 docs/experiments/06_sgla_uav_tracking/results/stage116_results_20261116T055314Z_1421093.txt -text
 docs/experiments/06_sgla_uav_tracking/results/stage117_results_20261116T071645Z_1437692.txt -text
 docs/experiments/06_sgla_uav_tracking/results/stage118_results_20261116T081210Z_1492336.txt -text
+docs/experiments/06_sgla_uav_tracking/results/stage119_results_20261116T091459Z_1515349.txt -text

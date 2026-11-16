@@ -1,6 +1,6 @@
 # Stage-119：固定提交模型的训练支持与错判诊断
 
-固定日期：2026-11-16（Asia/Hong_Kong）。**实现与本机验证完成，正式服务器诊断待运行。** 状态 `COMPLETE_FIXED_COMMIT_SUPPORT_DIAGNOSTIC` 仅表示审计完成，不是新方法通过。
+固定日期：2026-11-16（Asia/Hong_Kong）。**正式服务器诊断已完成；均匀8个严重错判均未超距离参照，旧8个严格救援全部超参照，见[结果复核](STAGE119_RESULTS_REVIEW.md)。** 下文保留固定设计。状态 `COMPLETE_FIXED_COMMIT_SUPPORT_DIAGNOSTIC` 仅表示审计完成，不是新方法通过。
 
 Stage-118的future头在均匀样本上低于myopic和原policy，同时保留严重错放和较大漏益；训练内相对常数的区分改善很小，留组预测MSE增加。接下来先定位：**关键错误附近有没有同类训练支持、相近公开特征下收益是否冲突、固定分数由哪些训练组和特征推成了错误符号。**
 

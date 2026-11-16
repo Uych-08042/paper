@@ -2,7 +2,7 @@
 
 更新日期：2026-11-16（Asia/Hong_Kong）
 
-**最终交付是提出并验证一个改进后的 SGLA 无人机单目标跟踪方法，再根据完整实验证据写出论文。** 最终方法须包含可独立验证的 SGLA 跟踪机制改动，例如搜索状态更新、搜索区域构造或输出解码。原生 SGLA 是主基线。先用同预算消融量化模块和选择策略各自的贡献，再做独立源视频确认、结果图表与失败分析。最新Stage-119固定提交支持诊断已准备，正式待运行，见0.108；最新完成Stage-118结果见0.107，固定设计见0.106；Stage-117结果见0.105；Stage-116结果见0.103；Stage-115结果见0.101；Stage-114结果见0.99；Stage-113完整结果见0.97；Stage-112固定状态结果见0.95。
+**最终交付是提出并验证一个改进后的 SGLA 无人机单目标跟踪方法，再根据完整实验证据写出论文。** 最终方法须包含可独立验证的 SGLA 跟踪机制改动，例如搜索状态更新、搜索区域构造或输出解码。原生 SGLA 是主基线。先用同预算消融量化模块和选择策略各自的贡献，再做独立源视频确认、结果图表与失败分析。最新Stage-120支持×外观提交消融已准备，待服务器运行，见0.110；最新完成Stage-119结果见0.109，固定设计见0.108；Stage-118结果见0.107；Stage-117结果见0.105；Stage-116结果见0.103；Stage-115结果见0.101；Stage-114结果见0.99；Stage-113完整结果见0.97；Stage-112固定状态结果见0.95。
 
 最新完整开发评价为Stage-113：28源组、196条自身轨迹，native／fixed_hann／generated_hann／fixed_shared／generated_shared AUC63.9605／64.5947／46.2415／64.1309／53.5418。生成共享对固定−10.5890、7胜21负、两训练种子均负，新增5原稳定视频失败，丢14/26原生参考恢复，所有效果/保护条件未过；算法生成的固定历史供给进展未转化为闭环收益。 [Stage-113结果](docs/experiments/06_sgla_uav_tracking/STAGE113_RESULTS_REVIEW.md)
 
@@ -22,7 +22,9 @@ Stage-117已完成744起点/1488实际短分支，均匀448点、分层309点、
 
 Stage-118已完成112个CPU小模型／778点预测。均匀主比较future−myopic为−0.003097、CI[−0.006399,−0.000331]、8胜1平19负，未建立后继监督优势；对原policy−0.003530。旧救援后继0.634385→0.508706，损伤虽减轻仍未保护。每头同提供者6组／96例拟合，压力只评；留组future MSE比常数高14.03%。无新GPU／图像／完整AUC，不采用当前门控。 [Stage-118结果](docs/experiments/06_sgla_uav_tracking/STAGE118_RESULTS_REVIEW.md)
 
-Stage-119已实现并通过六项本机测试，正式诊断待服务器运行。复用Stage-118冻结模型检查778点的同训练源组近邻、训练内排除整视频的距离参照、精确分数来源与全部材料性错放／漏益／旧救援。无新训练、GPU或完整AUC；诊断只提供表示／支持／拟合线索，不证明唯一原因或新方法通过。 [Stage-119固定协议与命令](docs/experiments/06_sgla_uav_tracking/STAGE119_FIXED_COMMIT_SUPPORT_DIAGNOSTIC.md)
+Stage-119已完成778点固定模型诊断。均匀5个严重错放／3个严重漏益均未超训练距离参照，旧8救援全部超参照；每头96例只有0～3大正／0～4大负，严格救援全0。697点近邻无材料性大效应，虽常见微小正负混合，不能证明大效果不可分。无新训练/GPU/AUC；接续优先有对照的关键支持扩展或表示增量，单纯分布外拒绝不足。 [Stage-119结果](docs/experiments/06_sgla_uav_tracking/STAGE119_RESULTS_REVIEW.md)
+
+Stage-120已实现，正式结果待运行。2×2检验原／扩展训练支持及原13维／新增24维RGB外观，另设两个同容量外观打乱控制；每个待评视频全部普通／压力／种子标签仍排除，仅同提供者另外6组可拟合。新增168个CPU小模型、需要原图但不需GPU／checkpoint，旧基线精确保留，无新完整AUC。 [Stage-120协议与命令](docs/experiments/06_sgla_uav_tracking/STAGE120_SUPPORT_APPEARANCE_COMMIT_FACTORIAL.md)
 
 Stage-111已完成1,920状态／六集合／69,120次CPU actor，原PPO精确复现。校准候选的几何重排／概率汇总IoU0.444759／0.436110，均低于原0.479921；固定q0的六排列离线最好也仅0.604447，低于q0的0.631912。简单换序不能完成适配，接续优先匹配新候选的评分训练；无新完整AUC。 [Stage-111结果](docs/experiments/06_sgla_uav_tracking/STAGE111_RESULTS_REVIEW.md)
 
@@ -51,7 +53,7 @@ Stage-75 L20 已完成 13 个固定起点和 52 条短分支。0003 两个首败
 
 ## 0. 下一次对话的直接接续入口
 
-本节更新至 2026-11-16。先读0.108的Stage-119准备与CPU运行入口，再读0.107的Stage-118结果与学习局限、0.106固定设计、0.105的Stage-117结果及救援覆盖限制、0.103的Stage-116结果、0.101的Stage-115实际后继结果、0.99的Stage-114诊断结果、0.97的Stage-113完整结果与0.95的Stage-112结果；候选生成背景看0.90～0.95、0.53～0.54，确认边界和论文目标见0.48／0.44。 [Stage-119协议](docs/experiments/06_sgla_uav_tracking/STAGE119_FIXED_COMMIT_SUPPORT_DIAGNOSTIC.md) · [Stage-118结果](docs/experiments/06_sgla_uav_tracking/STAGE118_RESULTS_REVIEW.md)
+本节更新至 2026-11-16。先读0.110的Stage-120支持×外观消融准备入口，再读0.109的Stage-119诊断结果与距离／近邻解释限制、0.108固定设计、0.107的Stage-118结果与学习局限、0.106固定设计、0.105的Stage-117结果、0.103的Stage-116结果、0.101的Stage-115实际后继、0.97的Stage-113完整结果与0.95的Stage-112结果；候选生成背景看0.90～0.95、0.53～0.54，确认边界和论文目标见0.48／0.44。 [Stage-120协议](docs/experiments/06_sgla_uav_tracking/STAGE120_SUPPORT_APPEARANCE_COMMIT_FACTORIAL.md) · [Stage-119结果](docs/experiments/06_sgla_uav_tracking/STAGE119_RESULTS_REVIEW.md)
 
 需要回溯历史与配对干预时读 0.33、0.31、0.29、0.27、0.24、0.22、0.20 和 0.18。较早阶段的运行状态按各节日期理解。 [Stage-60](docs/experiments/06_sgla_uav_tracking/STAGE60_RESULTS_REVIEW.md) · [Stage-54](docs/experiments/06_sgla_uav_tracking/STAGE54_RESULTS_REVIEW.md) · [Stage-55](docs/experiments/06_sgla_uav_tracking/STAGE55_RESULTS_REVIEW.md)
 
@@ -2157,7 +2159,7 @@ uniform预测−原−.001468、CI[−.006536,+.003179]；对同率−.001061、
 
 下一步先检验现有公开证据/训练支持为何分不开大错放与大漏益，审计固定模型覆盖、错误近邻、特征冲突和留组误差，再决定目标身份/短时外观或新隔离成对训练支持；新增信号需单独消融/同率控制。不要直接部署future、加训PPO，或在这批压力反例上调阈值自证。本次只归档复核，Stage-1～118 Python冻结，未启动Stage-119。最新完整成绩仍Stage-113，无新AUC、稳定/恢复保护通过或独立确认。 [完整复核](docs/experiments/06_sgla_uav_tracking/STAGE118_RESULTS_REVIEW.md)
 
-### 0.108 2026-11-16 Stage-119 固定提交模型支持诊断（已准备，正式待服务器运行）
+### 0.108 2026-11-16 Stage-119 固定提交模型支持诊断（准备记录，结果见0.109）
 
 用户要求继续下一步。沿Stage-118均匀future负结果和留组误差增加，先检验大错放／漏益的训练覆盖、近邻标签冲突和固定分数来源，再决定新增身份／短时外观信号或隔离的匹配训练支持。实现`tools/stage119_commit_support.py`、`tools/run_stage119_commit_support.sh`、六项测试与固定协议；保留前次Stage-118归档／复核改动，Stage-1～118 Python冻结，不自动commit/push。
 
@@ -2177,7 +2179,55 @@ focus自动并集：future接受且真实差<−.1、future拒绝且真实差>+.
 
 六项本机测试通过：近邻身份与标签／分数无关、每源组唯一／同视频跨种子整组排除／UID平局；fit-only参照独立计算与未截断距离；冻结正规方程／核权重和／训练组及特征分解精确、错系数拒绝；独立研究权重、空支持和压力分离；大幅超范围／非有限几何；六组合成模型包审计全流程、禁止新拟合／图像／SGLA／上游训练、源文件不变、确定性续跑／篡改拒绝。Python AST/CLI、Bash -n、LF/无BOM检查通过。合成测试不当正式统计结果。
 
-服务器同步后：`mkdir -p output/stage119`，再`nohup bash tools/run_stage119_commit_support.sh > output/stage119/run.log 2>&1 < /dev/null &`。默认来源`output/stage118/provider_isolated_commit_learning_v1`，结果根`output/stage119/fixed_commit_support_diagnostic_v1`，可覆盖STAGE118_ROOT/STAGE119_ROOT，CPU线程缺省1；结束自动TXT，`--pack-only`核验打包。正式结果待回传，最新完整成绩仍Stage-113。 [完整协议与运行命令](docs/experiments/06_sgla_uav_tracking/STAGE119_FIXED_COMMIT_SUPPORT_DIAGNOSTIC.md)
+服务器同步后：`mkdir -p output/stage119`，再`nohup bash tools/run_stage119_commit_support.sh > output/stage119/run.log 2>&1 < /dev/null &`。默认来源`output/stage118/provider_isolated_commit_learning_v1`，结果根`output/stage119/fixed_commit_support_diagnostic_v1`，可覆盖STAGE118_ROOT/STAGE119_ROOT，CPU线程缺省1；结束自动TXT，`--pack-only`核验打包。以上为准备记录，正式结果已回传，见0.109；最新完整成绩仍Stage-113。 [完整协议与运行命令](docs/experiments/06_sgla_uav_tracking/STAGE119_FIXED_COMMIT_SUPPORT_DIAGNOSTIC.md)
+
+### 0.109 2026-11-16 Stage-119 固定提交支持诊断结果（已完成，普通严重错判并非都分布外）
+
+收到`stage119_results_20261116T091459Z_1515349.txt`，1164623字节，SHA256 `a65b12ec6caf6612440da395af9c6df6ff04d4e5a9bddf859cea8665f8281f03`，逐字节归档results并设-text。decision `81cc50e2b8a74be60274f9a1f02b793176125e3fcaae21e1dd8a30e9bbbaf5ad`，plan `935392f9f2881fbcf28dc4850a7f63792ca7ad5aa5b44228557973dc4d66e7e5`，来源Stage-118指纹相符。COMPLETE_FIXED_COMMIT_SUPPORT_DIAGNOSTIC只表示固定审计完成。
+
+28冻结包／各96例作用域不变，778去重点（普通448/309交13＋旧压力34），3466行旧CPU分数复算。28组保存预测重放差全0，正规方程残差最大≤6.94e−18，组／特征分解最大差1.39e−16。新训练／模型／图像／GPU搜索／完整轨迹／确认推理均0。确认28源组仍封存，最新完整AUC仍Stage-113。
+
+训练每头96例只有0～3个后继收益>+.1、0～4个<−.1，涉及0～2／0～3源组；全部头严格当帧救援0、训练clip0。当前13维未clip训练标准化RMS，取最近3不同源组，与训练内排除整视频后经验p95比较：均匀31/448超参照、宏6.92%；分层51/309（原始16.50%），宏10.26%；压力26/34（原始76.47%），宏73.61%；旧8救援全超参照。参照库5训练组／测试库6组且非IID，不称95%覆盖或线上拒绝保证。
+
+均匀5错放＋3漏益全部未超参照、未clip；均匀全部13个材料性大效应（4正9负）也全未超参照。分层4严重错判2个超，压力7严重错判6个超。故单靠“超参照才拒绝”不能挡住这8个均匀严重错判；本轮并未实际部署拒绝策略，也不否定其他拒绝机制。
+
+近邻正负混合的宏比例均匀63.39%、分层63.94%、压力50.00%，但778点没有任何近邻集合同时存在>+.1和<−.1；697/778点的三近邻无任一材料性大效应，均匀8严重错误／分层4严重错误全部如此。更多是相近公开表示下邻居只有微小效应、待评点却有大差异的经验线索，不能把微小符号冲突夸成已证明大效果不可分或目标身份不可识别。
+
+0204/2313/661真实后继差−.701468、future+.002905，距离.2177对参照1.7553，近邻收益+.012984/+.012340/−.025380；0070/2313/69真实−.549410、预测+.000245，距离.3664/2.0602，近邻−.002253/−.002201/+.010739。0147/2312/1354真实+.490282、预测−.002274，距离.2995/.8177，近邻−.008150/+.003612/−.011291。旧救援0091/2312/91真实−.702193、预测+.000561，距离1.7303/.9291，近邻0/+.009432/+.003362。这些例子尚不能独立区分身份信息不足、动态支持缺失、线性容量／正则或后继不稳定。
+
+固定分数分解：0204的score_advantage项+.003904、Hann−.001219，训练组0307+.002536／0070−.001959；0070特征绝对贡献和.012565，抵消后+.000245。0147的共享分数优势项−.001121；0308/409、411截距均−.007748，仍漏+.246765/+.298039收益。是固定A/归一化的代数恒等式，不是删组重训或因果环境归因，不按最大项删训练视频／改阈值自证。
+
+距离长尾须说明：均匀原始中位.3626、p95=1.9761、最大51696.83，分层中位.4382／p95=7.0515；摘要平均577.96／675.86被极端值拉高。最高几个点来自0089的radius_max归一化幅度约186378.30，11个距离>100点来自0089或0226；该未clip诊断尺度敏感，不能据均值说普通点普遍很远，也不在看结果后删特征。压力距离中位2.9833、p95=35.2452。门控实际clip输入与诊断未clip距离区分。
+
+Stage-118学习结果复算一致：均匀myopic/future留组MSE比各自常数高12.03%/14.03%，训练相对常数平均误差减少6.14%/5.00%；28头平均非零标签符号准确率59.65%/49.66%，非平衡类别不把后者直接称随机。focus26 UID＝错放9＋漏益10＋旧救援8−交集1，15超参照／11未超；无新增方法／能力保护通过。
+
+十表28/56/28/778/4668/4668/10892/18/54/26行，按计划回传七CSV，其余近邻／训练组贡献／特征项留服务器。核对自指纹、来源、七CSV原行尾SHA／行数／零调用、28原fit6/96例作用域与模型指纹、778原公开输入标签分数权重逐字段零差。根据固定96例重建旧岭计算与矩阵，以独立按组最近点／整视频排除p95核对全部近邻身份、56训练／28支持／26focus及18泛化／54支持摘要，并独立权重宏聚合。大尺度几何最大绝对差2.92e−11、参照差4.45e−16，其余主项约1e−16，以容差验证。不调参、不发布替代模型。
+
+未取得manifest／模型JSON／预测NPZ或收据及三完整贡献表，未核验这些实际内容SHA或完整check_results；没有读图，不能认定遮挡、相似干扰、光照或相机运动的现实原因。接续优先有对照地扩关键后继训练支持或检验身份／短时外观信息增量，保持提供者／源组隔离和普通／救援分开评价，不将旧压力加入训练再用同点验证。不要只做分布外拒绝、调零阈值或直接扩大PPO。本次只归档复核，Stage-1～119 Python冻结，未启动Stage-120。 [完整复核](docs/experiments/06_sgla_uav_tracking/STAGE119_RESULTS_REVIEW.md)
+
+### 0.110 2026-11-16 Stage-120 支持×外观提交消融（已准备，服务器未运行）
+
+用户要求继续下一步。根据Stage-119覆盖稀缺与普通严重错判不全分布外的诊断，本轮直接检验训练支持扩展及外观信息增量，而不继续只作距离审计。实现`tools/stage120_appearance.py`、`tools/stage120_commit_factorial.py`、`tools/run_stage120_commit_factorial.sh`及七项测试和固定协议。保留前次Stage-119归档／复核改动，Stage-1～119 Python冻结，不自动commit/push。
+
+绑定Stage-119 decision `81cc50e2b8a74be60274f9a1f02b793176125e3fcaae21e1dd8a30e9bbbaf5ad`以及原118/117/115/113/112固定指纹、模型、公共点／轨迹／预测收据和递归来源／代码SHA。旧76/89/93仅读图像根与条目，不初始化CUDA。需要服务器原RGB与完整缓存，不需GPU／checkpoint；CPU有新拟合和图像解码，不能称无训练／无读图。本机没有正式旧模型／图像来源，正式实验待用户服务器运行。
+
+仍评价778去重点＝普通744（uniform448/stratified309交13）＋旧压力34，791membership原权重，三研究及队列分开，28确认组封存。每个待评组g仅使用同上游provider-held7其余6组；g的所有帧／种子／普通与压力标签排除，其他提供者组不混入。
+
+支持因子：uniform原96例，视频→种子→例等权；expanded加入同一允许6组的全部旧压力点（含有利／有害／平局），不加分层独有点。有压力的训练上下文将uniform／pressure各分一半质量，各池内等权；无压力仍uniform全质量，视频和种子总质量不变。此处理是补样＋固定重加权整体，不能单归因样本数或当真实频率。压力训练仅用其他视频，待评g压力仍整组留出；因旧压力曾看过且按GT选，不称新确认。model_scope报补点数、质量和三类角色支持。
+
+外观因子：原13维＋24维RGB线索。两参考为首帧GT目标ROI及此前30帧内最近一个通过旧memory_write条件的预测ROI，后者可能错误；严格不使用当前／未来作参考，不用后续GT修正。q0／原policy框在同一原RGB图取ROI。每参考×描述（RGB每通道8-bin开方归一化直方图、16×16双线性灰度去均值L2归一化NCC）给q0/policy相似度、差与两有效位，共20维；加两覆盖率、recent存在位／年龄共24。可见率<.5、平坦灰度／无近期参考明确mask置零，不丢样本。NumPy纯计算无Pillow依赖，checked_image仍核验原SHA／尺寸。这是轻量颜色纹理线索，不称已验证语义身份特征或重识别能力。
+
+四主组uniform_relative／uniform_appearance／expanded_relative／expanded_appearance；另uniform_shuffled／expanded_shuffled同容量控制。打乱只在允许训练视频内联合置换24维，跨其种子／池，按UID和PCG64固定seed23201，不读标签／待评组；真实／打乱用相同例／权重／真实训练X归一化，外观头38参数相同，评价均当前真实外观，报实际值改变率。保留视频边际，不当唯一因果随机化。原13维头14参数，外观37维输入38参数。全部新头同后31帧差目标、ridge1、截距不罚、clip10和零收益阈值，不调参／加训PPO。
+
+uniform_relative及uniform_constant精确复用Stage-118原future／常数和模型绑定，其他5岭头＋1扩展常数每组新拟合，共140岭头＋28常数＝168新CPU模型，28新包；另复用28旧岭头／28旧常数。原模型不改，新预测只收公开base/appearance和冻结头，不收评价标签，全部保存后才汇总。
+
+预定主比较uniform/all/all expanded_appearance−expanded_relative后31帧IoU；另固定支持在两表示下的作用、原支持外观增量、2×2交互、各自真实对打乱、最终头对policy/q0_all/连续性/旧myopic/扩展常数/同率。19策略＝原4控制＋6头＋2常数＋6同率＋两动作GT上界。各研究原权重→种子→视频，pressure三角色，保留损伤／漏益／遗憾／大损伤数及最坏点、视频胜平负／留一／10k条件bootstrap(seed23200)，未经多重校正／重训bootstrap，非新确认。只改一次动作的旧匹配后继，不代替连续门控完整自身轨迹与恢复保护，不能报新AUC或采用通过。
+
+56外观NPZ＋receipt＝112，28包＋28预测NPZ／receipt＝84，总196产物。56上下文按使用帧去重，图像解码上限56＋2×778＝1612，实际任务manifest固定；跨种子同文件可重复，image_reads是已提交缓存账本，失败重试额外未计。续跑不重训／解码已缓存图，但来源字节SHA仍核验。十表appearance_scope/evidence/model_scope/fit_metrics/sample_predictions前五行数56/778/224/224/778，policy_decisions15029；其余policy_summary/paired/support/video_effects。TXT含decision及除逐策略／逐视频外的八CSV，两完整表留服务器。
+
+七项本机测试通过：颜色纹理同目标优势、平坦／部分ROI mask与当前／未来参考拒绝；未来GT／写入／框不影响过去参考；扩展只同提供者、测试整组及其他提供者标签／外观替换不改拟合；视频内打乱／同容量／同归一化；2×2交互和独立研究权重／同率；原公共点／轨迹收据匹配与图像绑定；六组合成像素＋拟合全流程、旧基线保持、预测先标签、零SGLA／上游训练、源文件不变、零重训／读图续跑及篡改拒绝。Python 3.10语法、CLI、Bash -n与LF/无BOM检查；不把合成结果当正式科学结果。
+
+服务器同步后：`mkdir -p output/stage120`，再`nohup bash tools/run_stage120_commit_factorial.sh > output/stage120/run.log 2>&1 < /dev/null &`。默认根`output/stage120/support_appearance_commit_factorial_v1`，支持STAGE76/89/93/112/113/115/117/118/119_ROOT和STAGE120_ROOT覆盖。结束自动TXT，`--pack-only`核验打包。正式成绩待回传，最新完整评价仍Stage-113。 [完整协议与运行命令](docs/experiments/06_sgla_uav_tracking/STAGE120_SUPPORT_APPEARANCE_COMMIT_FACTORIAL.md)
 
 ## 1. 接手后首先要知道的结论
 
