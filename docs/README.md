@@ -181,13 +181,14 @@
 - Stage-113 已完成五臂196条完整自身轨迹、725,283搜索。native/fixed_hann/generated_hann/fixed_shared/generated_shared AUC63.9605/64.5947/46.2415/64.1309/53.5418；生成共享对固定−10.5890、7胜21负、两训练种子均负，新增5原稳定失败并丢14/26原生参考恢复。固定历史供给进展未转成闭环收益，下一步先统一审计自身历史首个有害替换/供给消失，不扩K或挑seed。 [结果复核](experiments/06_sgla_uav_tracking/STAGE113_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE113_FROZEN_SHARED_CLOSED_LOOP.md)
 - Stage-114 已完成196轨迹/203,329帧次缓存诊断。生成共享45失败中20起点仍有好框、17好q0被换低；0089/305、0304/114等随后持续供给不足。也有0080中等q0被换低和原已无好框事件；几何影子改变后继裁剪，但替代未来IoU未观测。零新GPU/训练，接续优先一次q0提交的匹配后继与救援对照。 [结果复核](experiments/06_sgla_uav_tracking/STAGE114_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE114_CACHED_FAILURE_CHAIN.md)
 - Stage-115 已完成34起点/68条匹配短分支、8568新搜索。好q0被换低组后31帧IoU0.097310→0.315195、中等组+0.161010；原救援组0.634385→0.304051，6支持视频全负。L20同身份policy控制零漂移，无训练/新完整AUC；局部后继作用成立，统一保q0不足，需可靠公开的提交判别条件。 [结果复核](experiments/06_sgla_uav_tracking/STAGE115_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE115_MATCHED_Q0_CONTINUATION.md)
-- Stage-116 已准备，服务器缓存审计待运行：在56条自身轨迹/58,094状态提取响应、几何及预测证据，对34个实际匹配后继检验固定Hann、连续性、联合佐证与同率控制。零新图像/GPU/训练，分开报告当前影子与一次动作后继；不预设规则成功，不产生完整AUC。 [固定协议与命令](experiments/06_sgla_uav_tracking/STAGE116_CACHED_ONLINE_EVIDENCE.md)
+- Stage-116 已完成56条/58,094状态缓存审计及34匹配起点评价。连续性后继IoU0.299838对原0.180024有局部收益，但仍误伤救援；Hann近统一q0。同率可辨支持前两规则均0，联合仅3上下文/6点且对同率−0.018791；预测兼容AUROC0.830290是待验证线索，尚无可靠提交规则。零新GPU/训练/完整AUC。 [结果复核](experiments/06_sgla_uav_tracking/STAGE116_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE116_CACHED_ONLINE_EVIDENCE.md)
+- Stage-117 已准备，正式GPU待运行：每条来源均匀8点，另按Hann/连续性/预测兼容性八符号层补样，无GT值选点、交集去重且两套权重分开。最多896起点/1792短分支，主比较uniform下forecast_pair−continuity_pair，保留同率/统一q0控制。不训练，首次支持L20/L40，本机五项测试通过。 [固定协议与运行命令](experiments/06_sgla_uav_tracking/STAGE117_GT_FREE_SAMPLED_Q0.md)
 - [STAGE45_TEMPORAL_SIGNAL_PILOT.md](experiments/05_uav_detection/STAGE45_TEMPORAL_SIGNAL_PILOT.md) — **暂不执行**的 YOLOFT 视频检测支线；保留实现与 CPU 检查记录
 - [无人机检测研究方向调研](research/UAV_DETECTION_RESEARCH_DIRECTIONS_2026-10-29.md) — 检测文献与机制参考，不代表切换当前主任务
 
 ## 交接与维护
 
-- 接续时先读0.102的Stage-116准备/运行入口、0.101的Stage-115实际后继结果、0.99的Stage-114诊断结果、0.97的Stage-113完整结果、0.95的Stage-112结果，再看0.91生成结果、0.48确认集与0.44论文目标。 [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口)
+- 接续时先读0.104的Stage-117准备/运行入口、0.103的Stage-116结果、0.101的Stage-115实际后继结果、0.99的Stage-114诊断结果、0.97的Stage-113完整结果、0.95的Stage-112结果，再看0.91生成结果、0.48确认集与0.44论文目标。 [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口)
 - [历史写作材料说明](archive/README.md)
 - [整理报告](maintenance/CLEANUP_REPORT.md)
 - [逐文件整理清单](maintenance/CLEANUP_MANIFEST.json)
