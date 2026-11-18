@@ -1,8 +1,10 @@
 # 工作交接：SGLATrack 无人机跟踪与模型压缩探索
 
-更新日期：2026-11-16（Asia/Hong_Kong）
+更新日期：2026-11-18（Asia/Hong_Kong）
 
-**最终交付是提出并验证一个改进后的 SGLA 无人机单目标跟踪方法，再根据完整实验证据写出论文。** 最终方法须包含可独立验证的 SGLA 跟踪机制改动，例如搜索状态更新、搜索区域构造或输出解码。原生 SGLA 是主基线。先用同预算消融量化模块和选择策略各自的贡献，再做独立源视频确认、结果图表与失败分析。最新Stage-120支持×外观提交消融已准备，待服务器运行，见0.110；最新完成Stage-119结果见0.109，固定设计见0.108；Stage-118结果见0.107；Stage-117结果见0.105；Stage-116结果见0.103；Stage-115结果见0.101；Stage-114结果见0.99；Stage-113完整结果见0.97；Stage-112固定状态结果见0.95。
+**Stage-121 已实现，待服务器运行。** 在当前帧评分接近且中心明显分歧时，将未选标准框 q0 保留为下一帧第 4 个搜索槽位的备用位置，发布框和主历史仍照常更新。与 Stage-113 生成共享做主对照，并检查固定共享及原生能力保护。28 个开发视频，GPU 身份一致时新跑 56 条，否则四臂同卡重测 196 条。 [Stage-121 协议与入口](docs/experiments/06_sgla_uav_tracking/STAGE121_ALTERNATE_SEARCH_STATE.md)
+
+**最终交付是提出并验证一个改进后的 SGLA 无人机单目标跟踪方法，再根据完整实验证据写出论文。** 最终方法须包含可独立验证的 SGLA 跟踪机制改动，例如搜索状态更新、搜索区域构造或输出解码。原生 SGLA 是主基线。先用同预算消融量化模块和选择策略各自的贡献，再做独立源视频确认、结果图表与失败分析。最新Stage-120支持×外观提交消融结果见0.111，固定设计见0.110；Stage-119结果见0.109；Stage-118结果见0.107；Stage-117结果见0.105；Stage-116结果见0.103；Stage-115结果见0.101；Stage-114结果见0.99；Stage-113完整结果见0.97；Stage-112固定状态结果见0.95。
 
 最新完整开发评价为Stage-113：28源组、196条自身轨迹，native／fixed_hann／generated_hann／fixed_shared／generated_shared AUC63.9605／64.5947／46.2415／64.1309／53.5418。生成共享对固定−10.5890、7胜21负、两训练种子均负，新增5原稳定视频失败，丢14/26原生参考恢复，所有效果/保护条件未过；算法生成的固定历史供给进展未转化为闭环收益。 [Stage-113结果](docs/experiments/06_sgla_uav_tracking/STAGE113_RESULTS_REVIEW.md)
 
@@ -24,7 +26,11 @@ Stage-118已完成112个CPU小模型／778点预测。均匀主比较future−my
 
 Stage-119已完成778点固定模型诊断。均匀5个严重错放／3个严重漏益均未超训练距离参照，旧8救援全部超参照；每头96例只有0～3大正／0～4大负，严格救援全0。697点近邻无材料性大效应，虽常见微小正负混合，不能证明大效果不可分。无新训练/GPU/AUC；接续优先有对照的关键支持扩展或表示增量，单纯分布外拒绝不足。 [Stage-119结果](docs/experiments/06_sgla_uav_tracking/STAGE119_RESULTS_REVIEW.md)
 
-Stage-120已实现，正式结果待运行。2×2检验原／扩展训练支持及原13维／新增24维RGB外观，另设两个同容量外观打乱控制；每个待评视频全部普通／压力／种子标签仍排除，仅同提供者另外6组可拟合。新增168个CPU小模型、需要原图但不需GPU／checkpoint，旧基线精确保留，无新完整AUC。 [Stage-120协议与命令](docs/experiments/06_sgla_uav_tracking/STAGE120_SUPPORT_APPEARANCE_COMMIT_FACTORIAL.md)
+Stage-120已完成168个新CPU模型／778点预测、1484次RGB解码。均匀主比较扩展外观对扩展13维+0.001960、CI[−0.001724,+0.006073]，尚未建立收益；原支持外观对原13维+0.004521、对打乱+0.004214，名义次要区间均正，但分层不支持。扩展组合旧8救援全部接管q0，后继0.634385→0.304051、6视频全负；未形成可靠规则。零新SGLA/GPU／完整AUC，见0.111。 [Stage-120结果](docs/experiments/06_sgla_uav_tracking/STAGE120_RESULTS_REVIEW.md) · [固定协议](docs/experiments/06_sgla_uav_tracking/STAGE120_SUPPORT_APPEARANCE_COMMIT_FACTORIAL.md)
+
+2026-11-16新增[当前中英文框架图v4及图注](docs/figures/sgla_search_state_v4/README.md)，参考用户所附两图的分区／配色和时间轴重新绘制，未复用原照片。实线为Stage-113历史预测→32场景／34备选→四搜索区域→冻结SGLA→64→32→1共享质量评分→自身历史；独立虚线区为Stage-120的13＋24维后继提交检验，尚未持续门控完整验证。场景／响应／层突出均示意，不展示PPO、扩散或在线模板更新。新增4320×2400 PNG、可编辑SVG及标准库／Windows原生导出器；不改实验、旧图或冻结模型，未启动Stage-121。
+
+同日按用户进一步要求新增[真实图像简洁框架v5](docs/figures/sgla_search_state_v5/README.md)：去除v4的c／d分区，仅保留a／b与必要历史反馈，删减图内说明。采用公开VisDrone示例实景照片，原图、14裁剪及坐标／SHA／来源记录随图归档；同一图片复用及手工框均为架构示意，不是连续帧或实验预测，不接入SOT实验／确认集。输出中英文3840×1300 PNG与内嵌JPEG的可编辑SVG，图注保留图片来源与示意说明；v4继续保留作完整研究说明。
 
 Stage-111已完成1,920状态／六集合／69,120次CPU actor，原PPO精确复现。校准候选的几何重排／概率汇总IoU0.444759／0.436110，均低于原0.479921；固定q0的六排列离线最好也仅0.604447，低于q0的0.631912。简单换序不能完成适配，接续优先匹配新候选的评分训练；无新完整AUC。 [Stage-111结果](docs/experiments/06_sgla_uav_tracking/STAGE111_RESULTS_REVIEW.md)
 
@@ -53,7 +59,7 @@ Stage-75 L20 已完成 13 个固定起点和 52 条短分支。0003 两个首败
 
 ## 0. 下一次对话的直接接续入口
 
-本节更新至 2026-11-16。先读0.110的Stage-120支持×外观消融准备入口，再读0.109的Stage-119诊断结果与距离／近邻解释限制、0.108固定设计、0.107的Stage-118结果与学习局限、0.106固定设计、0.105的Stage-117结果、0.103的Stage-116结果、0.101的Stage-115实际后继、0.97的Stage-113完整结果与0.95的Stage-112结果；候选生成背景看0.90～0.95、0.53～0.54，确认边界和论文目标见0.48／0.44。 [Stage-120协议](docs/experiments/06_sgla_uav_tracking/STAGE120_SUPPORT_APPEARANCE_COMMIT_FACTORIAL.md) · [Stage-119结果](docs/experiments/06_sgla_uav_tracking/STAGE119_RESULTS_REVIEW.md)
+本节更新至 2026-11-16。先读0.111的Stage-120结果与外观信号／救援保护限制，再读0.110固定设计、0.109的Stage-119诊断、0.107的Stage-118学习结果、0.105的Stage-117结果、0.103的Stage-116结果、0.101的Stage-115实际后继、0.97的Stage-113完整结果与0.95的Stage-112结果；候选生成背景看0.90～0.95、0.53～0.54，确认边界和论文目标见0.48／0.44。 [Stage-120结果](docs/experiments/06_sgla_uav_tracking/STAGE120_RESULTS_REVIEW.md) · [固定协议](docs/experiments/06_sgla_uav_tracking/STAGE120_SUPPORT_APPEARANCE_COMMIT_FACTORIAL.md)
 
 需要回溯历史与配对干预时读 0.33、0.31、0.29、0.27、0.24、0.22、0.20 和 0.18。较早阶段的运行状态按各节日期理解。 [Stage-60](docs/experiments/06_sgla_uav_tracking/STAGE60_RESULTS_REVIEW.md) · [Stage-54](docs/experiments/06_sgla_uav_tracking/STAGE54_RESULTS_REVIEW.md) · [Stage-55](docs/experiments/06_sgla_uav_tracking/STAGE55_RESULTS_REVIEW.md)
 
@@ -2205,7 +2211,7 @@ Stage-118学习结果复算一致：均匀myopic/future留组MSE比各自常数�
 
 未取得manifest／模型JSON／预测NPZ或收据及三完整贡献表，未核验这些实际内容SHA或完整check_results；没有读图，不能认定遮挡、相似干扰、光照或相机运动的现实原因。接续优先有对照地扩关键后继训练支持或检验身份／短时外观信息增量，保持提供者／源组隔离和普通／救援分开评价，不将旧压力加入训练再用同点验证。不要只做分布外拒绝、调零阈值或直接扩大PPO。本次只归档复核，Stage-1～119 Python冻结，未启动Stage-120。 [完整复核](docs/experiments/06_sgla_uav_tracking/STAGE119_RESULTS_REVIEW.md)
 
-### 0.110 2026-11-16 Stage-120 支持×外观提交消融（已准备，服务器未运行）
+### 0.110 2026-11-16 Stage-120 支持×外观提交消融（准备记录，结果见0.111）
 
 用户要求继续下一步。根据Stage-119覆盖稀缺与普通严重错判不全分布外的诊断，本轮直接检验训练支持扩展及外观信息增量，而不继续只作距离审计。实现`tools/stage120_appearance.py`、`tools/stage120_commit_factorial.py`、`tools/run_stage120_commit_factorial.sh`及七项测试和固定协议。保留前次Stage-119归档／复核改动，Stage-1～119 Python冻结，不自动commit/push。
 
@@ -2227,7 +2233,29 @@ uniform_relative及uniform_constant精确复用Stage-118原future／常数和模
 
 七项本机测试通过：颜色纹理同目标优势、平坦／部分ROI mask与当前／未来参考拒绝；未来GT／写入／框不影响过去参考；扩展只同提供者、测试整组及其他提供者标签／外观替换不改拟合；视频内打乱／同容量／同归一化；2×2交互和独立研究权重／同率；原公共点／轨迹收据匹配与图像绑定；六组合成像素＋拟合全流程、旧基线保持、预测先标签、零SGLA／上游训练、源文件不变、零重训／读图续跑及篡改拒绝。Python 3.10语法、CLI、Bash -n与LF/无BOM检查；不把合成结果当正式科学结果。
 
-服务器同步后：`mkdir -p output/stage120`，再`nohup bash tools/run_stage120_commit_factorial.sh > output/stage120/run.log 2>&1 < /dev/null &`。默认根`output/stage120/support_appearance_commit_factorial_v1`，支持STAGE76/89/93/112/113/115/117/118/119_ROOT和STAGE120_ROOT覆盖。结束自动TXT，`--pack-only`核验打包。正式成绩待回传，最新完整评价仍Stage-113。 [完整协议与运行命令](docs/experiments/06_sgla_uav_tracking/STAGE120_SUPPORT_APPEARANCE_COMMIT_FACTORIAL.md)
+服务器同步后：`mkdir -p output/stage120`，再`nohup bash tools/run_stage120_commit_factorial.sh > output/stage120/run.log 2>&1 < /dev/null &`。默认根`output/stage120/support_appearance_commit_factorial_v1`，支持STAGE76/89/93/112/113/115/117/118/119_ROOT和STAGE120_ROOT覆盖。结束自动TXT，`--pack-only`核验打包。以上为准备记录，正式结果现已回传，见0.111，不重复运行；最新完整评价仍Stage-113。 [完整协议与运行命令](docs/experiments/06_sgla_uav_tracking/STAGE120_SUPPORT_APPEARANCE_COMMIT_FACTORIAL.md)
+
+### 0.111 2026-11-16 Stage-120 支持×外观提交结果（已完成，外观次要信号与救援损伤并存）
+
+回传`stage120_results_20261116T105024Z_1547979.txt`已逐字节归档并设-text，1,179,310字节，SHA256 `7bb4ecae8f5386a7bc96313a50c72f2f61158ef3736312ec2e2e7e4d8d997db2`。状态`COMPLETE_SUPPORT_APPEARANCE_COMMIT_FACTORIAL`，decision `3c559807c1d88ab1a961dd586777f07b4adc9d91a4e3c06e2dc73376b1c96bc5`、plan `fd9a1cfb164b2e7cf16d7912f8b0f5a6142c8cba7ad7d5f21e19face7812b581`；来源Stage-119指纹相符。原件＋八CSV齐全，不重复索取或重跑。
+
+范围：28开发源组、56种子上下文、778去重点、791 membership，普通均匀448／分层309交集13、旧压力34。168个新CPU模型=140岭头＋28常数，另28旧岭／28旧常数复用；196文件产物，实际提交账本1484次RGB解码。SGLA更新／GPU搜索／新完整轨迹／确认推理均0。它是一次q0提交后恢复冻结生成／共享评分策略的后31帧条件IoU，不能称完整AUC、持续门控轨迹或新确认；最新完整仍Stage-113。
+
+每个待评源组仍只从同provider-held7其余6组拟合，测试整视频／压力／两种子标签排除。原支持96例；扩展100～107例，压力4～11例、权重1/6～1/3、严格救援0～4。扩展同时改变支持与普通／压力池权重，不能仅归因补样或真实线上事件分布。新增24维=颜色／NCC匹配＋覆盖／有效位／参考年龄，共37维；722/778有近期参考，56缺失，不删点。当前处理没有区分图像内容与有效位增量，不当可靠身份识别。
+
+均匀主比较EA−ER（扩展外观−扩展13维）+0.001960、CI[−0.001724,+0.006073]，16胜3平9负，中位+0.000160、最差−0.026846、最小留一+0.000709。主比较未建立收益。原支持UA−UR（外观−13维）+0.004521、CI[+0.001010,+0.008959]、16/5/7，UA−US（真实−打乱）+0.004214、CI[+0.000812,+0.008698]、13/5/10，是预定次要正向线索；多比较未校正，不能升级为主要成功。分层UA−UR为−0.000352、UA−US−0.001119，区间均跨零，没有同方向支持。
+
+EA−UA均匀−0.001443、ER−UR+0.001118、交互−0.002561，区间均跨零，扩展处理没有建立互补价值。均匀原policy／连续性／UR／UA／US／ER／EA／ES后继IoU为0.570277／0.570739／0.566747／0.571269／0.567055／0.567865／0.569825／0.568787。EA对policy−0.000452、对自身同率+0.000569，均跨零。事后另算UA对policy+0.000992、对连续性+0.000530、对自身同率+0.001512，均跨零；这三个是探索性补充，不是原paired预定对比。尚未建立优于实际策略的可靠选择价值。
+
+普通均匀UR／UA／ER／EA接管率41.29%／40.40%／65.18%／54.24%，严重有害起点5／2／7／6；UA有害成本0.001793低于UR0.005067，EA0.004705。0070/2313/69与0204/2313/661真实后继差−0.549410／−0.701468：UA将旧正分改负，挡住损伤；但EA在0204又转为+0.001073并接管。0147/2312/1354真实+0.490282，UA和EA补到；0308/2313/409真实+0.246765，仍漏。不能据这些例子调阈值或筛训练视频。
+
+**旧8个严格救援点，EA全部接管q0**，后继与统一q0相同0.304051，原policy0.634385；差−0.330334、CI[−0.591862,−0.080428]，6视频全负。UA旧救援0.479839，也未保护；事后对policy−0.154547、区间全负。角色按当帧条件定义，不等于每点后继差必负。EA旧压力总体0.229294高于policy0.180024，但低于ER0.238861和连续性0.299838；不能用损伤组改善掩盖必要救援失败。
+
+核验：八CSV原行尾SHA／行数、decision自封印、旧778点公共字段／标签／分数／权重与Stage-118精确一致。独立重建视频→种子→池权重、SHA-PCG64打乱和训练归一化，以增广最小二乘重建140新岭头／常数与旧基线，全部八分数最大差2.22e−15、训练损失差2.78e−17、旧预测误差0；重算342摘要／252区间／45支持，独立聚合最大差2.22e−16，确认15029逐策略／3724逐视频行数。56上下文参考时间／相似度差值与掩码算术、1484帧集合账本相符。
+
+未取得manifest、原图、完整可信历史或196文件实际字节和两完整表，不能称重提外观、核验全部产物内容SHA或运行完整check_results。数据表只支持行为与统计判断，不能认定某例遮挡／干扰物等现实成因。
+
+后续保留“原支持＋外观”作为表示增量线索，优先隔离图像内容与覆盖／有效位／年龄，并同时检验普通状态、必要救援及同率价值；扩展压力＋重加权不可当已验证组件直接继承。不要直接采用EA／UA、挑seed、调阈值或加训PPO。当前仍无可靠新提交规则、完整方法收益或能力保护通过；28确认组继续封存。本次仅归档复核，Stage-1～120 Python冻结，Stage-121未实施；未自动commit/push。 [完整复核与原件](docs/experiments/06_sgla_uav_tracking/STAGE120_RESULTS_REVIEW.md)
 
 ## 1. 接手后首先要知道的结论
 

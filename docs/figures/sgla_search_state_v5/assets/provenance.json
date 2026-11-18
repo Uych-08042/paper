@@ -1,0 +1,159 @@
+{
+    "source_url":  "https://source.roboflow.com/WD8jyT4rYRekug52HV2T/01QmL7sdP4j5CPoNxUiB/original.jpg",
+    "source_page":  "https://universe.roboflow.com/lab-lpaya/visdrone-ocpsh",
+    "attribution":  "visdrone Dataset, lab, Roboflow Universe (2022); source page lists CC BY 4.0.",
+    "source_sha256":  "cb3e28faeb6dd05b4e65af096874bd4233ffc85920c0e780707bd4d1ffe2dcbb",
+    "source_size":  [
+                        1916,
+                        1078
+                    ],
+    "target_box_original":  [
+                                1124,
+                                337,
+                                58,
+                                49
+                            ],
+    "note":  "All patches are illustrative crops of one real image. Boxes are manually placed for the architecture diagram, not GT, tracker outputs, consecutive frames, or experimental results.",
+    "assets":  {
+                   "history0":  {
+                                    "file":  "history0.jpg",
+                                    "crop":  [
+                                                 1020,
+                                                 280,
+                                                 280,
+                                                 210
+                                             ],
+                                    "sha256":  "6ae7d9f0e81c496250ea564c226fea77e6ffb9bcaa892817e9457edda5503cb3"
+                                },
+                   "history1":  {
+                                    "file":  "history1.jpg",
+                                    "crop":  [
+                                                 1000,
+                                                 270,
+                                                 320,
+                                                 240
+                                             ],
+                                    "sha256":  "401438474ffac4fa86d265d43b1baa29ba966adf7f4f68aace907346eaf406ae"
+                                },
+                   "history2":  {
+                                    "file":  "history2.jpg",
+                                    "crop":  [
+                                                 970,
+                                                 250,
+                                                 360,
+                                                 270
+                                             ],
+                                    "sha256":  "57c3cf6c83b1cb920119a8b44f4bc94e19bfcc1810733457836877e9f72b4b63"
+                                },
+                   "current":  {
+                                   "file":  "current.jpg",
+                                   "crop":  [
+                                                940,
+                                                210,
+                                                480,
+                                                360
+                                            ],
+                                   "sha256":  "29a1c13f40d6b554444a00f251a5d317b4475ac87c444b79923b40c5796e1155"
+                               },
+                   "template":  {
+                                    "file":  "template.jpg",
+                                    "crop":  [
+                                                 1100,
+                                                 310,
+                                                 105,
+                                                 105
+                                             ],
+                                    "sha256":  "5bb3b9d4e5f170e020f339bc4c8d549ab21abcba5460c01ff59f20a6a7c64299"
+                                },
+                   "search0":  {
+                                   "file":  "search0.jpg",
+                                   "crop":  [
+                                                990,
+                                                200,
+                                                320,
+                                                320
+                                            ],
+                                   "sha256":  "f6eba5a49bfcbfbd53b9f2e25c20dbdbdc2d642c8913bd60a3b7fc022daaf754"
+                               },
+                   "search1":  {
+                                   "file":  "search1.jpg",
+                                   "crop":  [
+                                                1020,
+                                                230,
+                                                260,
+                                                260
+                                            ],
+                                   "sha256":  "f06d61ca611e7c14774f67e29a96cfded9f8c4007969a7b42abcb5e9e6d014bb"
+                               },
+                   "search2":  {
+                                   "file":  "search2.jpg",
+                                   "crop":  [
+                                                965,
+                                                210,
+                                                320,
+                                                320
+                                            ],
+                                   "sha256":  "f8df0a6bfda36963858696193f27fa02d73922325f77516151cfe4d3e8523e54"
+                               },
+                   "search3":  {
+                                   "file":  "search3.jpg",
+                                   "crop":  [
+                                                1020,
+                                                210,
+                                                300,
+                                                300
+                                            ],
+                                   "sha256":  "b956aca8c7c0316de26886fc3b1b4e5a00b07b03b9b199d56f40e51b885fab72"
+                               },
+                   "candidate0":  {
+                                      "file":  "candidate0.jpg",
+                                      "crop":  [
+                                                   1050,
+                                                   280,
+                                                   210,
+                                                   210
+                                               ],
+                                      "sha256":  "4ae09c7f6a9f0abf1c1a28e244635aa9e1c8c99e9df18554ac690d061f343ec1"
+                                  },
+                   "candidate1":  {
+                                      "file":  "candidate1.jpg",
+                                      "crop":  [
+                                                   1080,
+                                                   300,
+                                                   170,
+                                                   170
+                                               ],
+                                      "sha256":  "7a03ba6fc72beaaf3183f1f0a7cd33f9b1fa6864c86f6a61ea7e7dc4bbc3d24b"
+                                  },
+                   "candidate2":  {
+                                      "file":  "candidate2.jpg",
+                                      "crop":  [
+                                                   1020,
+                                                   260,
+                                                   240,
+                                                   240
+                                               ],
+                                      "sha256":  "28911e6cf1a7f8a5c587d76a6ba44c195adf586d602945be7b326ec70d8f364b"
+                                  },
+                   "candidate3":  {
+                                      "file":  "candidate3.jpg",
+                                      "crop":  [
+                                                   1060,
+                                                   270,
+                                                   210,
+                                                   210
+                                               ],
+                                      "sha256":  "2a2f907eb11b2dd4b7890875b046490820aaa37b10f28533f7b151bad5275755"
+                                  },
+                   "output":  {
+                                  "file":  "output.jpg",
+                                  "crop":  [
+                                               1030,
+                                               280,
+                                               240,
+                                               180
+                                           ],
+                                  "sha256":  "efc7f1ea3bb735da3712dc9683b9a062dd0278d5ad26ed134dda2b66617957c4"
+                              }
+               }
+}

@@ -2,9 +2,11 @@
 
 当前研究结论与接手说明见[工作交接文档](../WORK_HANDOFF.md)。以下保留原阶段协议，文档内容未改写；目录分组只是导航，不代表方法已通过。
 
+[Stage-121 单帧备用搜索状态](experiments/06_sgla_uav_tracking/STAGE121_ALTERNATE_SEARCH_STATE.md)已实现，待服务器完成同预算整段轨迹对照。
+
 历史入口脚本如已归档，先按[代码恢复说明](../archive/README.md)恢复；代码块在仓库根目录执行。
 
-论文图示见 [SGLA 四候选 PPO 框架图 v3](figures/sgla_search_state_v3/README.md)。新版参考 IEEE TPAMI 的 TCTrack++，按 Stage-74／76 展示四候选搜索、在线决策和训练，图注记录截至 Stage-83 的证据。早期的 [v2](figures/sgla_search_state_v2/README.md) 和 [v1](figures/sgla_search_state_v1/README.md) 描述 Stage-54～60 的方案。
+最新论文式图示见 [真实图像简洁框架v5](figures/sgla_search_state_v5/README.md)，仅保留(a)历史条件搜索与(b)SGLA共享质量选择，提供中英文3840×1300 PNG及内嵌真实图片的可编辑SVG；图片来源及示意框说明写入图注。[完整说明版v4](figures/sgla_search_state_v4/README.md)另外展示Stage-120尚未持续部署验证的提交检验。历史 [PPO图v3](figures/sgla_search_state_v3/README.md) 对应Stage-74／76，不能代表当前主干；[v2](figures/sgla_search_state_v2/README.md) 和 [v1](figures/sgla_search_state_v1/README.md) 描述Stage-54～60的方案。
 
 ## Stage-1～15：基线、候选层与动态计算
 
@@ -185,13 +187,13 @@
 - Stage-117 已完成744去重起点/1488匹配分支、187488搜索。uniform448点主比较预测−连续性−0.001930，区间跨零、13胜1平14负；分层309点也未建立优势。控制同卡零漂移，无训练/新AUC。严格救援支持0：排除旧8救援及末尾约束后母体最多1个，不能据此验证救援保护；需区分普通状态误干预与救援压力目标。 [结果复核](experiments/06_sgla_uav_tracking/STAGE117_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE117_GT_FREE_SAMPLED_Q0.md)
 - Stage-118 已完成112个CPU小模型/778点预测。均匀future−myopic−0.003097，CI[−0.006399,−0.000331]，8胜1平19负；旧救援0.634385→0.508706，虽减轻部分损伤仍未保护。future留组MSE比自身常数高14.03%，无新GPU/完整AUC，不采用当前头；后续先查公开证据与训练支持。 [结果复核](experiments/06_sgla_uav_tracking/STAGE118_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE118_PROVIDER_ISOLATED_COMMIT_LEARNING.md)
 - Stage-119 已完成778点固定头诊断。均匀5严重错放/3漏益全部未超训练距离参照，旧8救援全部超参照；每头96例只有0～3大正/0～4大负、救援全0。697点近邻无材料性大效应，微小正负冲突不证明关键效果不可分。零新训练/GPU/AUC，优先有对照的关键支持扩展或表示增量。 [结果复核](experiments/06_sgla_uav_tracking/STAGE119_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE119_FIXED_COMMIT_SUPPORT_DIAGNOSTIC.md)
-- Stage-120 已准备，正式待运行。2×2检验原／扩展训练支持、原13维／RGB外观24维增量，并设两同容量打乱控制；待评整视频全部标签仍排除，只同provider其他6组拟合。168个新CPU模型，需原图／旧缓存，不需GPU或checkpoint；七测试通过，仍无新完整AUC。 [固定协议与服务器命令](experiments/06_sgla_uav_tracking/STAGE120_SUPPORT_APPEARANCE_COMMIT_FACTORIAL.md)
+- Stage-120 已完成168个新CPU模型／778点评价、1484次RGB解码。均匀主比较扩展外观对扩展13维+0.001960、CI跨零；原支持外观对旧13维／打乱有次要正向信号，但分层不支持。扩展组合旧8救援全部接管q0、后继0.634385→0.304051，保护失败；无新GPU／完整AUC。 [结果复核](experiments/06_sgla_uav_tracking/STAGE120_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE120_SUPPORT_APPEARANCE_COMMIT_FACTORIAL.md)
 - [STAGE45_TEMPORAL_SIGNAL_PILOT.md](experiments/05_uav_detection/STAGE45_TEMPORAL_SIGNAL_PILOT.md) — **暂不执行**的 YOLOFT 视频检测支线；保留实现与 CPU 检查记录
 - [无人机检测研究方向调研](research/UAV_DETECTION_RESEARCH_DIRECTIONS_2026-10-29.md) — 检测文献与机制参考，不代表切换当前主任务
 
 ## 交接与维护
 
-- 接续时先读0.110的Stage-120支持×外观消融准备入口，再读0.109的Stage-119诊断结果与距离/近邻解释限制、0.108固定设计、0.107的Stage-118结果、0.106固定设计、0.105的Stage-117结果、0.103的Stage-116结果、0.101的Stage-115实际后继、0.97的Stage-113完整结果、0.95的Stage-112结果，确认集与论文目标见0.48／0.44。 [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口)
+- 接续时先读0.111的Stage-120结果与外观信号／救援限制，再读0.110固定设计、0.109的Stage-119诊断、0.107的Stage-118结果、0.105的Stage-117结果、0.103的Stage-116结果、0.101的Stage-115实际后继、0.97的Stage-113完整结果、0.95的Stage-112结果，确认集与论文目标见0.48／0.44。 [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口)
 - [历史写作材料说明](archive/README.md)
 - [整理报告](maintenance/CLEANUP_REPORT.md)
 - [逐文件整理清单](maintenance/CLEANUP_MANIFEST.json)
