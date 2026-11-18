@@ -6,7 +6,9 @@
 
 Stage-122 缓存诊断已完成。358 次替换中 80 次前史和前三框观测匹配，补出 9 个好框却仅选中 1 个；两次前三框重排直接改变输出，分别是 0174 和 0089 的首次分叉。 [结果复核](experiments/06_sgla_uav_tracking/STAGE122_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE122_ALTERNATE_RERANKING_DIAGNOSTIC.md)
 
-Stage-123 已实现同一候选集合下的固定分数诊断，待服务器完成全部 80 个匹配点。 [协议与入口](experiments/06_sgla_uav_tracking/STAGE123_FROZEN_RETAINED_SCORES.md)
+Stage-123 固定分数诊断已完成。80 个匹配点中改选 5 个，新增好框采用由 1/9 升至 3/9，收益集中在 0176 和 0237。视频配对差 +0.0419，区间下界 0；没有新增闭环评价。 [结果复核](experiments/06_sgla_uav_tracking/STAGE123_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE123_FROZEN_RETAINED_SCORES.md)
+
+Stage-124 已实现同候选条件下的关系评分与独立评分对照，待服务器 CPU 训练和留出评价。 [协议与入口](experiments/06_sgla_uav_tracking/STAGE124_CANDIDATE_INDEPENDENCE.md)
 
 历史入口脚本如已归档，先按[代码恢复说明](../archive/README.md)恢复；代码块在仓库根目录执行。
 
@@ -197,7 +199,7 @@ Stage-123 已实现同一候选集合下的固定分数诊断，待服务器完�
 
 ## 交接与维护
 
-- 接续时先读 0.113 的 Stage-122 机制诊断与 0.112 的 Stage-121 完整结果。确认集与论文目标见 0.48／0.44。 [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口)
+- 接续时先读 0.114 的 Stage-123 固定分数结果、0.113 的 Stage-122 机制诊断与 0.112 的 Stage-121 完整结果。确认集与论文目标见 0.48／0.44。 [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口)
 - [历史写作材料说明](archive/README.md)
 - [整理报告](maintenance/CLEANUP_REPORT.md)
 - [逐文件整理清单](maintenance/CLEANUP_MANIFEST.json)
