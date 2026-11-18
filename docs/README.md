@@ -2,7 +2,9 @@
 
 当前研究结论与接手说明见[工作交接文档](../WORK_HANDOFF.md)。以下保留原阶段协议，文档内容未改写；目录分组只是导航，不代表方法已通过。
 
-[Stage-121 单帧备用搜索状态](experiments/06_sgla_uav_tracking/STAGE121_ALTERNATE_SEARCH_STATE.md)已实现，待服务器完成同预算整段轨迹对照。
+最新完整开发评价 Stage-121 已完成。单帧备用搜索相对同卡生成共享 AUC +0.6399 点，区间跨零，双种子方向相反，恢复保护未通过。 [结果复核](experiments/06_sgla_uav_tracking/STAGE121_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE121_ALTERNATE_SEARCH_STATE.md)
+
+Stage-122 缓存诊断已实现，待服务器用 Stage-121 逐帧轨迹确认备用框直接供给与关系评分重排各自何时发生。 [协议与入口](experiments/06_sgla_uav_tracking/STAGE122_ALTERNATE_RERANKING_DIAGNOSTIC.md)
 
 历史入口脚本如已归档，先按[代码恢复说明](../archive/README.md)恢复；代码块在仓库根目录执行。
 
@@ -193,7 +195,7 @@
 
 ## 交接与维护
 
-- 接续时先读0.111的Stage-120结果与外观信号／救援限制，再读0.110固定设计、0.109的Stage-119诊断、0.107的Stage-118结果、0.105的Stage-117结果、0.103的Stage-116结果、0.101的Stage-115实际后继、0.97的Stage-113完整结果、0.95的Stage-112结果，确认集与论文目标见0.48／0.44。 [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口)
+- 接续时先读0.112的Stage-121完整结果，再读0.111的Stage-120外观信号／救援限制、0.101的Stage-115实际后继、0.97的Stage-113完整对照。确认集与论文目标见0.48／0.44。 [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口)
 - [历史写作材料说明](archive/README.md)
 - [整理报告](maintenance/CLEANUP_REPORT.md)
 - [逐文件整理清单](maintenance/CLEANUP_MANIFEST.json)
