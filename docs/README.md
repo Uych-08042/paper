@@ -4,7 +4,9 @@
 
 最新完整开发评价 Stage-131 已完成。单槽放大对缩边 AUC +0.1497 点，区间跨零，丢失两次匹配恢复。Stage-121 备用搜索与原生 SGLA 是同卡对照。 [Stage-131 结果](experiments/06_sgla_uav_tracking/STAGE131_RESULTS_REVIEW.md) · [Stage-121 结果](experiments/06_sgla_uav_tracking/STAGE121_RESULTS_REVIEW.md)
 
-Stage-132 首次分叉审计已实现，待服务器运行。复用两轮缓存，定位首次裁剪改变、输出框分叉、备用请求分叉，以及两个丢失恢复的前史。 [实验协议](experiments/06_sgla_uav_tracking/STAGE132_FIRST_DIVERGENCE.md)
+Stage-132 首次分叉审计已完成。112 对缓存轨迹中，两组在状态匹配时均未让已有好候选全部消失。放大组丢失的两次恢复都发生在 q2 替换改变此前输出之后。 [结果复核](experiments/06_sgla_uav_tracking/STAGE132_RESULTS_REVIEW.md) · [实验协议](experiments/06_sgla_uav_tracking/STAGE132_FIRST_DIVERGENCE.md)
+
+Stage-133 原生单搜索失跟诊断已实现，待服务器运行。对 19 个原生失跟起点检查覆盖、响应峰排序与全网格候选，使用全部 29,047 个缓存跟踪帧检查潜在副作用。 [实验协议](experiments/06_sgla_uav_tracking/STAGE133_NATIVE_FAILURE_AUDIT.md)
 
 Stage-122 缓存诊断已完成。358 次替换中 80 次前史和前三框观测匹配，补出 9 个好框却仅选中 1 个；两次前三框重排直接改变输出，分别是 0174 和 0089 的首次分叉。 [结果复核](experiments/06_sgla_uav_tracking/STAGE122_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE122_ALTERNATE_RERANKING_DIAGNOSTIC.md)
 
@@ -215,7 +217,7 @@ Stage-131 在 28 段开发视频评估了 196 条轨迹。原生／备用搜索�
 
 ## 交接与维护
 
-- 接续时先读 0.122 的 Stage-131 全视频结果和 0.121 的 Stage-130 同帧结果。确认集与论文目标见 0.48／0.44。 [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口)
+- 接续时先读 0.123 的 Stage-132 首次分叉审计和 0.122 的 Stage-131 全视频结果。确认集与论文目标见 0.48／0.44。 [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口)
 - [历史写作材料说明](archive/README.md)
 - [整理报告](maintenance/CLEANUP_REPORT.md)
 - [逐文件整理清单](maintenance/CLEANUP_MANIFEST.json)
