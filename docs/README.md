@@ -2,7 +2,9 @@
 
 当前研究结论与接手说明见[工作交接文档](../WORK_HANDOFF.md)。以下保留原阶段协议，文档内容未改写；目录分组只是导航，不代表方法已通过。
 
-最新完整开发评价 Stage-121 已完成。单帧备用搜索相对同卡生成共享 AUC +0.6399 点，区间跨零，双种子方向相反，恢复保护未通过。 [结果复核](experiments/06_sgla_uav_tracking/STAGE121_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE121_ALTERNATE_SEARCH_STATE.md)
+最新完整开发评价 Stage-131 已完成。单槽放大对缩边 AUC +0.1497 点，区间跨零，丢失两次匹配恢复。Stage-121 备用搜索与原生 SGLA 是同卡对照。 [Stage-131 结果](experiments/06_sgla_uav_tracking/STAGE131_RESULTS_REVIEW.md) · [Stage-121 结果](experiments/06_sgla_uav_tracking/STAGE121_RESULTS_REVIEW.md)
+
+Stage-132 首次分叉审计已实现，待服务器运行。复用两轮缓存，定位首次裁剪改变、输出框分叉、备用请求分叉，以及两个丢失恢复的前史。 [实验协议](experiments/06_sgla_uav_tracking/STAGE132_FIRST_DIVERGENCE.md)
 
 Stage-122 缓存诊断已完成。358 次替换中 80 次前史和前三框观测匹配，补出 9 个好框却仅选中 1 个；两次前三框重排直接改变输出，分别是 0174 和 0089 的首次分叉。 [结果复核](experiments/06_sgla_uav_tracking/STAGE122_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE122_ALTERNATE_RERANKING_DIAGNOSTIC.md)
 
@@ -22,7 +24,7 @@ Stage-129 四槽粗搜与局部放大已完成。346 点好候选新增 8、丢�
 
 Stage-130 缓存重评分已完成。三个保留 q3 的单槽方案均保住原 13 个好候选起点并新增 5 个，第一位置保住原 3 个好选框并新增 2 个，位置投票仍漏选一次好 q3。 [结果复核](experiments/06_sgla_uav_tracking/STAGE130_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE130_PRESERVE_Q3.md)
 
-Stage-131 已实现 28 段开发视频整段评价，主比较是保留 q3 的第一位置放大对仅缩边。 [固定协议](experiments/06_sgla_uav_tracking/STAGE131_ZOOM_CLOSED_LOOP.md)
+Stage-131 在 28 段开发视频评估了 196 条轨迹。原生／备用搜索／缩边／单槽放大的整段 AUC 为 63.9605／54.0502／51.4511／51.6007。 [结果复核](experiments/06_sgla_uav_tracking/STAGE131_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE131_ZOOM_CLOSED_LOOP.md)
 
 历史入口脚本如已归档，先按[代码恢复说明](../archive/README.md)恢复；代码块在仓库根目录执行。
 
@@ -213,7 +215,7 @@ Stage-131 已实现 28 段开发视频整段评价，主比较是保留 q3 的�
 
 ## 交接与维护
 
-- 接续时先读 0.116 的 Stage-125 短程闭环、0.115 的 Stage-124 独立评分和 0.112 的 Stage-121 完整结果。确认集与论文目标见 0.48／0.44。 [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口)
+- 接续时先读 0.122 的 Stage-131 全视频结果和 0.121 的 Stage-130 同帧结果。确认集与论文目标见 0.48／0.44。 [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口)
 - [历史写作材料说明](archive/README.md)
 - [整理报告](maintenance/CLEANUP_REPORT.md)
 - [逐文件整理清单](maintenance/CLEANUP_MANIFEST.json)
