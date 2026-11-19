@@ -1,7 +1,9 @@
-"""Check feature invariance and matching from training to the sealed reports."""
+"""Check feature invariance, cache loading and matched training reports."""
+from collections import defaultdict
 from pathlib import Path
 import tempfile
 import unittest
+from unittest.mock import patch
 
 import numpy as np
 
@@ -9,6 +11,36 @@ import stage124_candidate_independence as stage
 
 
 class CandidateIndependence(unittest.TestCase):
+    def test_cache_pool_counts_can_be_sealed_with_numpy_ious(self):
+        boxes = np.array([[0, 0, 5, 5], [10, 0, 5, 5], [20, 0, 5, 5], [30, 0, 5, 5]], float)
+        trace = dict(frame_id=np.array([1, 2]), boxes=boxes[:2],
+                     history_latest=np.repeat(boxes[:1], 2, axis=0),
+                     candidate_boxes=np.repeat(boxes[None], 2, axis=0),
+                     features=np.zeros((2, 4, 24)), selected=np.array([0, 1]),
+                     alternate_used=np.zeros(2, dtype=bool))
+        sequences = [f"uav{i:07d}_00000_s" for i in range(28)]
+        jobs = [dict(spec=dict(unit=dict(sequence=seq), cohort="expanded"), seed=seed,
+                     arm=arm, frames=2, outer_fold=i // 7)
+                for i, seq in enumerate(sequences)
+                for seed in stage.common.DESIGN["seeds"] for arm in stage.SOURCES]
+        scopes = {(job["spec"]["unit"]["sequence"], job["seed"], job["arm"]):
+                  {"alternate_used_frames": "0"} for job in jobs}
+
+        def entry_for(spec):
+            return dict(sequence=spec["unit"]["sequence"], initial_box=boxes[0],
+                        ground_truth=boxes[[0, 0, 1]])
+
+        with (patch.object(stage.prior, "source_rows", return_value=scopes),
+              patch.object(stage.prior, "load_trace", return_value=trace),
+              patch.object(stage.previous, "read_table", return_value=[]),
+              patch.object(stage, "recovery_frames", return_value=defaultdict(set))):
+            rows = stage.load_rows(Path("."), Path("."), {"jobs": jobs}, entry_for, length=2)
+        counts = {p: sum(row[p] for group in rows.values() for row in group) for p in stage.POOLS}
+        sealed = stage.io.seal(dict(population_counts=counts))
+        self.assertEqual(sealed["population_counts"]["uniform_q0_good"], len(jobs))
+        self.assertEqual(sealed["population_counts"]["uniform_reference_rescue"], len(jobs))
+        self.assertTrue(all(type(value) is int for value in counts.values()))
+
     def test_companion_changes_leave_retained_independent_scores_fixed(self):
         boxes = np.array([[0, 0, 5, 5], [5, 0, 4, 4], [10, 0, 8, 6], [18, 0, 4, 4]], float)
         altered = boxes.copy()

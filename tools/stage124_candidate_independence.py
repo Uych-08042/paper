@@ -108,8 +108,9 @@ def load_rows(r121, r122, plan, entry_for, length):
             pools = dict(uniform=frame in uniform, alternate_activation=frame in alt,
                          matched_activation=event is not None, native_recovery=frame in recover,
                          new_good_added=event is not None and event["net_good_bank_added"] == "True",
-                         uniform_q0_good=frame in uniform and y[0]>=DESIGN["good"],
-                         uniform_reference_rescue=frame in uniform and y[0]<DESIGN["low"] and y[selected]>=DESIGN["good"])
+                         uniform_q0_good=frame in uniform and bool(y[0] >= DESIGN["good"]),
+                         uniform_reference_rescue=frame in uniform
+                         and bool(y[0] < DESIGN["low"] and y[selected] >= DESIGN["good"]))
             rows[group].append(dict(group=group, sequence=seq, cohort=job["spec"]["cohort"], seed=seed,
                                     source_arm=source, frame=frame, fold=job["outer_fold"], x=x, y=y, boxes=boxes,
                                     recorded_iou=float(y[selected]), recorded_action=selected,

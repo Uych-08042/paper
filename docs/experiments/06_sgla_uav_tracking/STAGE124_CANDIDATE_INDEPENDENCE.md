@@ -30,3 +30,5 @@ bash tools/run_stage124_candidate_independence.sh
 ```
 
 脚本使用 CPU，完成后会打印 `output/stage124/candidate_independence_v1/stage124_results_*.txt`。回传包包含决策、模型训练范围、策略与配对统计、逐视频和逐点输出。可用 `--pack-only` 重新核对及打包。
+
+首次服务器启动在计算实验清单指纹时遇到 `TypeError: Object of type int64 is not JSON serializable`。两类普通帧子集的标记由 NumPy 比较生成，汇总后成为 NumPy 整数。现已在生成标记时转换为 Python 布尔值，并添加真实 IoU 计算路径的回归检查。该报错发生在清单写入和训练之前，同步修复后可直接用原输出目录重启。
