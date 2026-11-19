@@ -2,7 +2,9 @@
 
 更新日期：2026-11-19（Asia/Hong_Kong）
 
-**Stage-141 外圈背景干预，见 0.132。** 固定大小裁剪和中心，用两种填充替换外圈背景，检查候选供给。服务器结果待跑。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE141_CROP_CONTEXT_PROBE.md)
+**Stage-142 等候选预算的全网格提取对照，见 0.133。** 固定裁剪和响应，用原生 28 视频缓存比较局部峰与全网格候选召回。服务器 CPU 结果待跑。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE142_DENSE_CANDIDATE_RECALL.md)
+
+**Stage-141 外圈背景干预已完成，见 0.132。** 0237／243 大裁剪两种填充均小幅提高全网格最佳 IoU，均未补出好框。后七帧改善不一致，0237 全部 64 个标准输出均为 0。 [结果复核](docs/experiments/06_sgla_uav_tracking/STAGE141_RESULTS_REVIEW.md)
 
 **Stage-140 搜索中心与尺寸交叉已完成，见 0.131。** 0237／243 只恢复原生尺寸比只恢复中心改善更多稠密供给，两个分量都恢复才有好格点框，四组实际输出均 0。后续七帧四组均无好框。 [结果复核](docs/experiments/06_sgla_uav_tracking/STAGE140_RESULTS_REVIEW.md)
 
@@ -2421,9 +2423,13 @@ Stage-133／134 固定起点 8 无好网格／11 有好网格失跟／28 稳定�
 
 同 L40 完成 11 帧四组 44 搜索，Stage-139 原始组最大框差 0。0237／243 完整覆盖，稠密最佳原中心原尺寸／跨中心原尺寸／原中心跨尺寸／跨中心跨尺寸为 0.5087／0.4679／0.3739／0.3205，恢复原尺寸与中心的增量分别为 0.1474／0.0534，交互 −0.0126。四组实际输出均 0。244–250 四组稠密均未达 0.50，实际输出全 0。0089／1165–1166 八个交叉都有稠密好框却没选中。0349／409 单换跨块中心时覆盖 88.52%、标准输出 0、稠密最佳 0.7976。局部尺寸效应不足以作为在线规则，后续须把可见上下文、输入尺度与候选排序分开检验。 [结果及原件](docs/experiments/06_sgla_uav_tracking/STAGE140_RESULTS_REVIEW.md) · [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE140_CROP_CENTER_SIZE_CROSS.md)
 
-### 0.132 Stage-141 固定裁剪尺寸的外圈背景干预（待服务器运行）
+### 0.132 Stage-141 固定裁剪尺寸的外圈背景干预（已完成）
 
-沿用 Stage-140 的 11 帧及原生／跨块两个中心，确认 22 对裁剪严格包含。四组为原小裁剪、原大裁剪、保留小裁剪区域的均值填充大裁剪及边缘复制大裁剪，共 88 次搜索。三组大裁剪几何及输入目标尺度相同，报告目标完整保留子集与标准／峰池／稠密 IoU。服务器执行 `bash tools/run_stage141_crop_context_probe.sh` 并回传结果包。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE141_CROP_CONTEXT_PROBE.md)
+同 L40 完成 11 帧／22 对中心／88 次搜索，两种填充均改变 22 对像素哈希，原始框与 Stage-140 最大差为 0。0237／243 目标完整保留，大裁剪全网格最佳相对小裁剪 −0.1411，均值／边缘填充对大裁剪回升 0.0239／0.0384，未达好框。244–250 两种填充对大裁剪平均 −0.0106／+0.0060，四组均无好框。0237 全 64 标准输出 0。0089 全 16 次仍有好格点框，标准输出均低于 0.50。后续可分开验证采样与网格位置，并把峰值排序保留为独立对照。 [结果及原件](docs/experiments/06_sgla_uav_tracking/STAGE141_RESULTS_REVIEW.md) · [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE141_CROP_CONTEXT_PROBE.md)
+
+### 0.133 Stage-142 等候选预算的全网格提取（待服务器运行）
+
+28 视频 29,047 原生缓存帧，19 个审计失跟起点及另列的 240 个分支帧。固定原生框，用相同原始／Hann 排名合并和框去重比较局部峰候选与全网格候选。每帧两组取相同候选数、最多 8 个。主看原生低 IoU 而网格有好框的帧，报告新增与丢失覆盖、按视频配对和 0089／1165–1166 数据。纯 CPU。服务器执行 `bash tools/run_stage142_dense_candidate_recall.sh` 并回传结果包。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE142_DENSE_CANDIDATE_RECALL.md)
 
 ## 1. 接手后首先要知道的结论
 
