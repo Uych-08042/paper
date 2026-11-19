@@ -8,7 +8,9 @@ Stage-132 首次分叉审计已完成。112 对缓存轨迹中，两组在状态
 
 Stage-133 原生单搜索失跟诊断已完成。19 个起点都保有目标中心，11 个仍有好格点框，8 个充分覆盖却无好框。直接改用原始最高峰在起点救回 0 次，固定状态 AUC −0.4218 点。 [结果复核](experiments/06_sgla_uav_tracking/STAGE133_RESULTS_REVIEW.md) · [实验协议](experiments/06_sgla_uav_tracking/STAGE133_NATIVE_FAILURE_AUDIT.md)
 
-Stage-134 检查在同一裁剪上换一次输出框后，原生 SGLA 能否持续跟住目标。另设稳定窗口衡量改选代价。服务器结果待跑。 [实验协议](experiments/06_sgla_uav_tracking/STAGE134_NATIVE_PEAK_CONTINUATION.md)
+Stage-134 同起点短程续跑已完成。Hann 第二峰在 19 个失跟起点新增 3 次并丢失 1 次恢复，在 28 个稳定窗口中引入 4 个低 IoU 窗口。 [结果复核](experiments/06_sgla_uav_tracking/STAGE134_RESULTS_REVIEW.md) · [实验协议](experiments/06_sgla_uav_tracking/STAGE134_NATIVE_PEAK_CONTINUATION.md)
+
+Stage-135 在相同候选和搜索预算下比较固定改选规则。本地完成事后恢复上限复核，三条在线规则待服务器 CPU 评估。 [实验协议](experiments/06_sgla_uav_tracking/STAGE135_CACHED_PEAK_GATE.md)
 
 Stage-122 缓存诊断已完成。358 次替换中 80 次前史和前三框观测匹配，补出 9 个好框却仅选中 1 个；两次前三框重排直接改变输出，分别是 0174 和 0089 的首次分叉。 [结果复核](experiments/06_sgla_uav_tracking/STAGE122_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE122_ALTERNATE_RERANKING_DIAGNOSTIC.md)
 
@@ -219,7 +221,7 @@ Stage-131 在 28 段开发视频评估了 196 条轨迹。原生／备用搜索�
 
 ## 交接与维护
 
-- 接续时先读 0.125 的 Stage-134 同起点续跑、0.124 的 Stage-133 原生失跟审计和 0.123 的 Stage-132 首次分叉审计。确认集与论文目标见 0.48／0.44。 [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口)
+- 接续时先读 0.126 的 Stage-135 改选条件、0.125 的 Stage-134 同起点续跑和 0.124 的 Stage-133 原生失跟审计。确认集与论文目标见 0.48／0.44。 [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口)
 - [历史写作材料说明](archive/README.md)
 - [整理报告](maintenance/CLEANUP_REPORT.md)
 - [逐文件整理清单](maintenance/CLEANUP_MANIFEST.json)

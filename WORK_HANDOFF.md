@@ -2,7 +2,9 @@
 
 更新日期：2026-11-19（Asia/Hong_Kong）
 
-**Stage-134 同起点改选与短程续跑，见 0.125。** 用原生 SGLA 在同一次搜索中取得的候选替换一次输出框，再逐帧接回原生 SGLA。检查收益能否持续，以及稳定窗口是否受损。服务器结果待跑。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE134_NATIVE_PEAK_CONTINUATION.md)
+**Stage-135 同裁剪第二峰改选条件，见 0.126。** 三条固定规则从 Stage-134 的缓存分支选择输出，服务器 CPU 结果待跑。本地已从回传表复算事后恢复上限。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE135_CACHED_PEAK_GATE.md)
+
+**Stage-134 同起点改选与短程续跑已完成，见 0.125。** 19 个失跟起点上，Hann 第二峰新增 3 次并丢失 1 次恢复。28 个稳定窗口中强制换第二峰引入 4 个低 IoU 窗口，其中 2 个后续全程低 IoU。 [结果复核](docs/experiments/06_sgla_uav_tracking/STAGE134_RESULTS_REVIEW.md)
 
 **Stage-133 原生 SGLA 单搜索失跟诊断已完成，见 0.124。** 19 个失跟起点的目标中心全在裁剪内，11 个仍有好格点框，8 个充分覆盖却无好框。原始最高峰在起点救回 0 次，全帧由低转好 47、由好转低 271，固定状态 AUC −0.4218 点。 [结果复核](docs/experiments/06_sgla_uav_tracking/STAGE133_RESULTS_REVIEW.md)
 
@@ -2369,11 +2371,19 @@ L40 同身份，346 个起点／17 视频／824 个已选动作／1,648 个逻�
 
 原始最高峰救回 0 个失跟起点。所有帧由低转好 47，反向 271。固定状态 AUC 为 63.5387，相对 63.9605 差 −0.4218［−0.7501，−0.1245］，7 胜4 平17 负。全部低 IoU 帧中有 2,501 个裁剪无交集且无好框，这个情况在起点未出现。接续优先做同一原生状态、同裁剪的候选一次改选和等预算短程续跑，检查首次错框是否会被后续轨迹放大。 [结果及原件](docs/experiments/06_sgla_uav_tracking/STAGE133_RESULTS_REVIEW.md) · [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE133_NATIVE_FAILURE_AUDIT.md)
 
-### 0.125 Stage-134 原生候选改选与短程续跑（待服务器运行）
+### 0.125 Stage-134 原生候选改选与短程续跑（已完成）
 
 固定 Stage-133 的 19 个失跟起点，每条开发视频最多另取一个满足连续 33 帧 IoU ≥ 0.50 的原生稳定窗口。起点共用一次前向，分为原生输出、去重后的 Hann 第二峰、原始和 Hann 各前五峰并集内的真值上限、稠密格点真值上限。换框只发生在起点，随后各自接回原生单搜索 32 帧。优先看新增或丢失的连续三帧好框、后继平均 IoU 和稳定窗口退化。真值上限用于定位问题，完整视频效果仍需后续评估。
 
-服务器运行 `bash tools/run_stage134_native_peak_continuation.sh`，回传 `stage134_results_*.txt`。当前分配的 GPU 上重跑所有分支，包括原生对照。若与归档 GPU 不同，查看逐窗口原生轨迹偏差和 `onset_live_low` 子集。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE134_NATIVE_PEAK_CONTINUATION.md)
+同 L40 完成 19 个失跟窗口、28 个稳定窗口、6,063 次物理搜索。原生轨迹与缓存最大坐标差为 0。失跟窗口内，原生／Hann 第二峰／峰池真值／稠密真值分别有 6／8／8／9 个出现连续三帧好框，后 3 组增减分别为 +3／−1、+3／−1、+5／−2。后续 32 帧视频等权平均 IoU 相对原生分别变化 +7.44、+7.51、+15.26 个百分点。后两个真值组只优化起点 IoU。
+
+第二峰在稳定窗口带来 4 次新增低 IoU，0169／556 和 0174／1088 后续 32 帧全部低 IoU。0204／664 能靠第二峰恢复，0091／92 和 0176／162 只由稠密组新增恢复。0089／1159 即使当帧稠密框更准，仍丢失原生恢复。建议先在固定候选、固定预算下验证可在线计算的改选条件，比较新增恢复和稳定损害。 [结果及原件](docs/experiments/06_sgla_uav_tracking/STAGE134_RESULTS_REVIEW.md) · [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE134_NATIVE_PEAK_CONTINUATION.md)
+
+### 0.126 Stage-135 同裁剪第二峰改选条件（待服务器 CPU 运行）
+
+复用 Stage-134 的 19 个失跟窗口和 28 个稳定窗口。原生与强制第二峰为对照。三条固定规则依次要求 Hann 相对分差 ≤0.20、两框 IoU ≤0.20、第二峰与历史外推框的 IoU 优势 ≥0.10。外推用前两框的中心位移并限幅，保留上一框尺寸。只按当帧证据选择起点，后续 32 帧从已算的对应分支评分。无新增搜索和训练。
+
+本地用 Stage-134 回传表核对最理想的事后行动，可新增 3 次恢复且保住原生 6 次恢复。该结果使用后续真值，仅用于确定单次换框的恢复空间。完整门控需服务器缓存，运行 `bash tools/run_stage135_peak_gate.sh` 并回传 `stage135_results_*.txt`。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE135_CACHED_PEAK_GATE.md)
 
 ## 1. 接手后首先要知道的结论
 

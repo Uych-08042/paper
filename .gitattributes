@@ -75,6 +75,7 @@ tools/run_stage131_zoom_closed_loop.sh text eol=lf
 tools/run_stage132_first_divergence.sh text eol=lf
 tools/run_stage133_native_failure_audit.sh text eol=lf
 tools/run_stage134_native_peak_continuation.sh text eol=lf
+tools/run_stage135_peak_gate.sh text eol=lf
 # Preserve the uploaded experiment bundle byte-for-byte, including mixed CSV/JSON endings.
 docs/experiments/06_sgla_uav_tracking/results/stage61_l40_results_20261102T143543Z_40176.txt -text
 docs/experiments/06_sgla_uav_tracking/results/stage62_results_20261103T004524Z_148362.txt -text
@@ -150,3 +151,4 @@ docs/experiments/06_sgla_uav_tracking/results/stage130_results_20261119T042916Z_
 docs/experiments/06_sgla_uav_tracking/results/stage131_results_20261119T061830Z_304982.txt -text
 docs/experiments/06_sgla_uav_tracking/results/stage132_results_20261119T063906Z_340573.txt -text
 docs/experiments/06_sgla_uav_tracking/results/stage133_results_20261119T091759Z_379705.txt -text
+docs/experiments/06_sgla_uav_tracking/results/stage134_results_20261119T100654Z_391381.txt -text
