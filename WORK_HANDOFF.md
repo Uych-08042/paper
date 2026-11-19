@@ -2,7 +2,9 @@
 
 更新日期：2026-11-19（Asia/Hong_Kong）
 
-**Stage-133 原生 SGLA 单搜索失跟诊断已实现，待服务器运行，见 0.124。** 复用 28 视频、29,047 帧及 19 个原生失跟事件的缓存，核对裁剪覆盖、原始响应最高峰与 Hann 最高峰以及全网格候选上限。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE133_NATIVE_FAILURE_AUDIT.md)
+**Stage-134 同起点改选与短程续跑，见 0.125。** 用原生 SGLA 在同一次搜索中取得的候选替换一次输出框，再逐帧接回原生 SGLA。检查收益能否持续，以及稳定窗口是否受损。服务器结果待跑。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE134_NATIVE_PEAK_CONTINUATION.md)
+
+**Stage-133 原生 SGLA 单搜索失跟诊断已完成，见 0.124。** 19 个失跟起点的目标中心全在裁剪内，11 个仍有好格点框，8 个充分覆盖却无好框。原始最高峰在起点救回 0 次，全帧由低转好 47、由好转低 271，固定状态 AUC −0.4218 点。 [结果复核](docs/experiments/06_sgla_uav_tracking/STAGE133_RESULTS_REVIEW.md)
 
 **Stage-132 首次分叉审计已完成，见 0.123。** 112 对缓存轨迹。匹配状态下缩边与单槽放大均未让已有好候选全部消失。缩边有 1 次仍有好框却漏选、3 次同框但备用请求改变。放大丢失的 0076／1485、0085／1478 两次恢复，都在替换 q2 导致先前选框分叉之后。 [结果复核](docs/experiments/06_sgla_uav_tracking/STAGE132_RESULTS_REVIEW.md)
 
@@ -2361,9 +2363,17 @@ L40 同身份，346 个起点／17 视频／824 个已选动作／1,648 个逻�
 
 放大对照中，0076／2312 第 956 帧原 q2 被替换后降分，输出改选 q0，第 1485 帧仍有好 q1（0.9194）却漏选。0085／2313 第 1454 帧只替换 q2，保留槽位首名 q3→q0，最终也从原 q2 改选 q0，第 1478 帧放大组最佳 IoU 0.0487。两个首次换框点两侧所选 IoU 均为 0。接续可固定首次分叉前的历史，用同起点短程续跑检查候选替换、选框写回与备用请求各自的作用。 [结果及原件](docs/experiments/06_sgla_uav_tracking/STAGE132_RESULTS_REVIEW.md) · [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE132_FIRST_DIVERGENCE.md)
 
-### 0.124 Stage-133 原生单搜索失跟诊断（待服务器运行）
+### 0.124 Stage-133 原生单搜索失跟诊断（已完成）
 
-同协议的原版 LETrack 为 62.0056，原生 SGLA 为 63.9605，配对差 −1.9549 点［−7.53，+3.57］。当前继续以 SGLA 为研究对象，LETrack 用于外部对照。Stage-133 读取 Stage-131 复用的 Stage-121 原生单搜索轨迹，定位 19 个失跟起点的目标覆盖、原始响应最高峰及全网格替代框支持，并同时统计健康帧上取消 Hann 的潜在损失。固定状态分数用于选单项干预，闭环收益留待后续验证。服务器入口 `bash tools/run_stage133_native_failure_audit.sh`，纯 CPU。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE133_NATIVE_FAILURE_AUDIT.md)
+同协议的原版 LETrack 为 62.0056，原生 SGLA 为 63.9605，配对差 −1.9549 点［−7.53，+3.57］。当前继续以 SGLA 为研究对象，LETrack 用于外部对照。Stage-133 复用 28 视频的原生轨迹、29,047 跟踪帧、19 个失跟事件和 121 个去重邻近帧。全部起点的目标中心在有效裁剪内，17 个完整覆盖，另两个覆盖约 87.72% 与 90.16%。11 个仍有好格点框，Hann 与原始响应两套前五峰合并保留 6 个。其他 8 个充分覆盖却无好框，输入真值短边 23.33–32.00 像素。
+
+原始最高峰救回 0 个失跟起点。所有帧由低转好 47，反向 271。固定状态 AUC 为 63.5387，相对 63.9605 差 −0.4218［−0.7501，−0.1245］，7 胜4 平17 负。全部低 IoU 帧中有 2,501 个裁剪无交集且无好框，这个情况在起点未出现。接续优先做同一原生状态、同裁剪的候选一次改选和等预算短程续跑，检查首次错框是否会被后续轨迹放大。 [结果及原件](docs/experiments/06_sgla_uav_tracking/STAGE133_RESULTS_REVIEW.md) · [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE133_NATIVE_FAILURE_AUDIT.md)
+
+### 0.125 Stage-134 原生候选改选与短程续跑（待服务器运行）
+
+固定 Stage-133 的 19 个失跟起点，每条开发视频最多另取一个满足连续 33 帧 IoU ≥ 0.50 的原生稳定窗口。起点共用一次前向，分为原生输出、去重后的 Hann 第二峰、原始和 Hann 各前五峰并集内的真值上限、稠密格点真值上限。换框只发生在起点，随后各自接回原生单搜索 32 帧。优先看新增或丢失的连续三帧好框、后继平均 IoU 和稳定窗口退化。真值上限用于定位问题，完整视频效果仍需后续评估。
+
+服务器运行 `bash tools/run_stage134_native_peak_continuation.sh`，回传 `stage134_results_*.txt`。当前分配的 GPU 上重跑所有分支，包括原生对照。若与归档 GPU 不同，查看逐窗口原生轨迹偏差和 `onset_live_low` 子集。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE134_NATIVE_PEAK_CONTINUATION.md)
 
 ## 1. 接手后首先要知道的结论
 
