@@ -20,7 +20,9 @@ Stage-128 已完成 346 个同帧对照。输入过小的 226 点短边中位数
 
 Stage-129 四槽粗搜与局部放大已完成。346 点好候选新增 8、丢失 6，丢失框全来自被替换的 q3。真值居中 54 点成功，其中 38 点实际局部搜索覆盖不足。 [结果复核](experiments/06_sgla_uav_tracking/STAGE129_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE129_COARSE_TO_FINE.md)
 
-Stage-130 保留 q3 并只设一个局部放大槽位，已从回传复算候选变化，原 13 个好候选起点全保留，固定使用第一或第二位置各新增 5 个。位置投票和重评分待服务器缓存验证。 [固定协议](experiments/06_sgla_uav_tracking/STAGE130_PRESERVE_Q3.md)
+Stage-130 缓存重评分已完成。三个保留 q3 的单槽方案均保住原 13 个好候选起点并新增 5 个，第一位置保住原 3 个好选框并新增 2 个，位置投票仍漏选一次好 q3。 [结果复核](experiments/06_sgla_uav_tracking/STAGE130_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE130_PRESERVE_Q3.md)
+
+Stage-131 已实现 28 段开发视频整段评价，主比较是保留 q3 的第一位置放大对仅缩边。 [固定协议](experiments/06_sgla_uav_tracking/STAGE131_ZOOM_CLOSED_LOOP.md)
 
 历史入口脚本如已归档，先按[代码恢复说明](../archive/README.md)恢复；代码块在仓库根目录执行。
 
