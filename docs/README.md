@@ -12,7 +12,9 @@ Stage-124 已完成同框评分对照。独立评分普通帧对关系重训 +0.
 
 Stage-125 已完成 346 个备用搜索触发点的短程闭环。独立对原评分后续 31 帧平均 IoU +0.005629，区间跨零，新增持续好窗都来自同一种子。 [结果复核](experiments/06_sgla_uav_tracking/STAGE125_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE125_TRIGGER_CONTINUATION.md)
 
-Stage-126 交叉检验当帧提交框和下一帧备用搜索，代码已实现，待服务器运行。 [固定协议](experiments/06_sgla_uav_tracking/STAGE126_FACTORIAL_CONTINUATION.md)
+Stage-126 已完成当帧提交与下一帧备用搜索交叉对照。独立评分换框在两路均禁止备用时后续 IoU +0.030208，自然请求下为 +0.005629。备用搜索同时出现补框恢复和好框漏选。 [结果复核](experiments/06_sgla_uav_tracking/STAGE126_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE126_FACTORIAL_CONTINUATION.md)
+
+Stage-127 核查 346 个触发点的实际搜索裁剪与目标覆盖。代码已实现，待服务器缓存运行。 [固定协议](experiments/06_sgla_uav_tracking/STAGE127_TRIGGER_CROP_COVERAGE.md)
 
 历史入口脚本如已归档，先按[代码恢复说明](../archive/README.md)恢复；代码块在仓库根目录执行。
 
