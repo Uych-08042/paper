@@ -24,7 +24,9 @@ Stage-140 已完成。0237／243 恢复原生尺寸比恢复中心改善更多�
 
 Stage-141 已完成。0237／243 的两种填充均小幅改善网格最佳 IoU，后七帧改善不一致，0237 标准输出 IoU 全为 0。 [结果复核](experiments/06_sgla_uav_tracking/STAGE141_RESULTS_REVIEW.md) · [实验协议](experiments/06_sgla_uav_tracking/STAGE141_CROP_CONTEXT_PROBE.md)
 
-Stage-142 在冻结响应上比较等数量局部峰和全网格候选。服务器 CPU 结果待跑。 [实验协议](experiments/06_sgla_uav_tracking/STAGE142_DENSE_CANDIDATE_RECALL.md)
+Stage-142 已完成。281 个原生低 IoU 且网格有好框的帧中，等预算候选召回从 162 帧增至 179 帧。19 个失跟起点由 5 增至 8，0089 跨块分支第 1165 帧仍未补出好框。 [结果复核](experiments/06_sgla_uav_tracking/STAGE142_RESULTS_REVIEW.md) · [实验协议](experiments/06_sgla_uav_tracking/STAGE142_DENSE_CANDIDATE_RECALL.md)
+
+Stage-143 固定 Stage-142 两种候选池，比较逐源留出的 IoU 评分、原生 Hann 与池内原始响应。服务器 CPU 结果待跑。 [实验协议](experiments/06_sgla_uav_tracking/STAGE143_FIXED_POOL_QUALITY.md)
 
 Stage-122 缓存诊断已完成。358 次替换中 80 次前史和前三框观测匹配，补出 9 个好框却仅选中 1 个；两次前三框重排直接改变输出，分别是 0174 和 0089 的首次分叉。 [结果复核](experiments/06_sgla_uav_tracking/STAGE122_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE122_ALTERNATE_RERANKING_DIAGNOSTIC.md)
 
@@ -235,7 +237,7 @@ Stage-131 在 28 段开发视频评估了 196 条轨迹。原生／备用搜索�
 
 ## 交接与维护
 
-- 接续时先读 0.133 的 Stage-142 候选召回、0.132 的 Stage-141 外圈背景干预和 0.131 的 Stage-140 几何交叉。确认集与论文目标见 0.48／0.44。 [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口)
+- 接续时先读 0.134 的 Stage-143 候选评分、0.133 的 Stage-142 候选召回和 0.132 的 Stage-141 外圈背景干预。确认集与论文目标见 0.48／0.44。 [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口)
 - [历史写作材料说明](archive/README.md)
 - [整理报告](maintenance/CLEANUP_REPORT.md)
 - [逐文件整理清单](maintenance/CLEANUP_MANIFEST.json)
