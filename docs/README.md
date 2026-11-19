@@ -18,7 +18,9 @@ Stage-127 已完成搜索裁剪诊断。333 个无好输出起点中，54 个四
 
 Stage-128 已完成 346 个同帧对照。输入过小的 226 点短边中位数从 1.49 升到 4.43 像素，仍无新增好候选或好选框。 [结果复核](experiments/06_sgla_uav_tracking/STAGE128_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE128_PADDING_TRIM.md)
 
-Stage-129 保留广域搜索并用两个响应引导的局部搜索放大候选，已实现四槽同预算对照，待服务器运行。 [固定协议](experiments/06_sgla_uav_tracking/STAGE129_COARSE_TO_FINE.md)
+Stage-129 四槽粗搜与局部放大已完成。346 点好候选新增 8、丢失 6，丢失框全来自被替换的 q3。真值居中 54 点成功，其中 38 点实际局部搜索覆盖不足。 [结果复核](experiments/06_sgla_uav_tracking/STAGE129_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE129_COARSE_TO_FINE.md)
+
+Stage-130 保留 q3 并只设一个局部放大槽位，已从回传复算候选变化，原 13 个好候选起点全保留，固定使用第一或第二位置各新增 5 个。位置投票和重评分待服务器缓存验证。 [固定协议](experiments/06_sgla_uav_tracking/STAGE130_PRESERVE_Q3.md)
 
 历史入口脚本如已归档，先按[代码恢复说明](../archive/README.md)恢复；代码块在仓库根目录执行。
 
