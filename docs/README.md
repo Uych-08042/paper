@@ -16,7 +16,9 @@ Stage-126 已完成当帧提交与下一帧备用搜索交叉对照。独立评�
 
 Stage-127 已完成搜索裁剪诊断。333 个无好输出起点中，54 个四裁剪均与目标无交集，276 个覆盖充分，其中 226 个在 256×256 输入中的目标短边仍不到 4 像素。 [结果复核](experiments/06_sgla_uav_tracking/STAGE127_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE127_TRIGGER_CROP_COVERAGE.md)
 
-Stage-128 已实现保留图像覆盖的裁剪缩放修正，待服务器运行 346 个同帧对照。 [固定协议](experiments/06_sgla_uav_tracking/STAGE128_PADDING_TRIM.md)
+Stage-128 已完成 346 个同帧对照。输入过小的 226 点短边中位数从 1.49 升到 4.43 像素，仍无新增好候选或好选框。 [结果复核](experiments/06_sgla_uav_tracking/STAGE128_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE128_PADDING_TRIM.md)
+
+Stage-129 保留广域搜索并用两个响应引导的局部搜索放大候选，已实现四槽同预算对照，待服务器运行。 [固定协议](experiments/06_sgla_uav_tracking/STAGE129_COARSE_TO_FINE.md)
 
 历史入口脚本如已归档，先按[代码恢复说明](../archive/README.md)恢复；代码块在仓库根目录执行。
 
