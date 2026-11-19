@@ -2,7 +2,9 @@
 
 更新日期：2026-11-19（Asia/Hong_Kong）
 
-**Stage-140 搜索中心与尺寸交叉，见 0.131。** 在 0237／243 起检查父框中心和尺寸的影响，固定 11 帧，四组最多 44 次搜索。服务器结果待跑。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE140_CROP_CENTER_SIZE_CROSS.md)
+**Stage-141 外圈背景干预，见 0.132。** 固定大小裁剪和中心，用两种填充替换外圈背景，检查候选供给。服务器结果待跑。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE141_CROP_CONTEXT_PROBE.md)
+
+**Stage-140 搜索中心与尺寸交叉已完成，见 0.131。** 0237／243 只恢复原生尺寸比只恢复中心改善更多稠密供给，两个分量都恢复才有好格点框，四组实际输出均 0。后续七帧四组均无好框。 [结果复核](docs/experiments/06_sgla_uav_tracking/STAGE140_RESULTS_REVIEW.md)
 
 **Stage-139 写回后的裁剪和响应诊断已完成，见 0.130。** 960 个分支帧均完整覆盖目标。0237 写回后的跨块分支全网格无好框，0089 复发时全网格有好框却漏选。 [结果复核](docs/experiments/06_sgla_uav_tracking/STAGE139_RESULTS_REVIEW.md)
 
@@ -2415,9 +2417,13 @@ Stage-133／134 固定起点 8 无好网格／11 有好网格失跟／28 稳定�
 
 同 L40 重放 240 个分支帧／200 次物理搜索，原输出框误差 0。960 个后继分支帧覆盖均为 100%，304 个低 IoU 帧均在覆盖内。0237／243 原生与跨块输出均 0，原生网格最佳 0.5087、跨块 0.3205。0089 跨块从 1165 复发，输出 0.0920、稠密 0.7478、有限池 0.4816，1166 有限池恢复好框但仍漏选。优先对 0237 同帧交叉原生与跨块父框的中心和尺寸，定位影响供给的裁剪因素。 [结果及原件](docs/experiments/06_sgla_uav_tracking/STAGE139_RESULTS_REVIEW.md) · [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE139_POST_WRITE_DIAGNOSTIC.md)
 
-### 0.131 Stage-140 搜索父框中心与尺寸交叉（待服务器运行）
+### 0.131 Stage-140 搜索父框中心与尺寸交叉（已完成）
 
-0237／243 为主比较，244–250 查重复性，0089／1165–1166 排序对照，0349／409 稳定对照。从 Stage-139 缓存读取原生与跨块父框，交换中心和宽高形成四组，权重、原模板、当前帧与搜索倍数相同。比较全网格／有限峰池／标准输出 IoU，分别计算恢复原生中心或尺寸的收益和交互项。11 帧最多 44 次搜索，无回写。服务器执行 `bash tools/run_stage140_crop_center_size_cross.sh` 并回传结果包。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE140_CROP_CENTER_SIZE_CROSS.md)
+同 L40 完成 11 帧四组 44 搜索，Stage-139 原始组最大框差 0。0237／243 完整覆盖，稠密最佳原中心原尺寸／跨中心原尺寸／原中心跨尺寸／跨中心跨尺寸为 0.5087／0.4679／0.3739／0.3205，恢复原尺寸与中心的增量分别为 0.1474／0.0534，交互 −0.0126。四组实际输出均 0。244–250 四组稠密均未达 0.50，实际输出全 0。0089／1165–1166 八个交叉都有稠密好框却没选中。0349／409 单换跨块中心时覆盖 88.52%、标准输出 0、稠密最佳 0.7976。局部尺寸效应不足以作为在线规则，后续须把可见上下文、输入尺度与候选排序分开检验。 [结果及原件](docs/experiments/06_sgla_uav_tracking/STAGE140_RESULTS_REVIEW.md) · [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE140_CROP_CENTER_SIZE_CROSS.md)
+
+### 0.132 Stage-141 固定裁剪尺寸的外圈背景干预（待服务器运行）
+
+沿用 Stage-140 的 11 帧及原生／跨块两个中心，确认 22 对裁剪严格包含。四组为原小裁剪、原大裁剪、保留小裁剪区域的均值填充大裁剪及边缘复制大裁剪，共 88 次搜索。三组大裁剪几何及输入目标尺度相同，报告目标完整保留子集与标准／峰池／稠密 IoU。服务器执行 `bash tools/run_stage141_crop_context_probe.sh` 并回传结果包。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE141_CROP_CONTEXT_PROBE.md)
 
 ## 1. 接手后首先要知道的结论
 

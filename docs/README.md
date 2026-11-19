@@ -20,7 +20,9 @@ Stage-138 已完成。跨块最优在 3 个失跟起点都有好框，后续新�
 
 Stage-139 已完成。960 个后继分支帧完整覆盖目标，0237 跨块写回后网格没有好框，0089 复发时网格有好框却漏选。 [结果复核](experiments/06_sgla_uav_tracking/STAGE139_RESULTS_REVIEW.md) · [实验协议](experiments/06_sgla_uav_tracking/STAGE139_POST_WRITE_DIAGNOSTIC.md)
 
-Stage-140 在同一帧交叉原生与跨块父框的中心和尺寸，检验候选供给变化。服务器结果待跑。 [实验协议](experiments/06_sgla_uav_tracking/STAGE140_CROP_CENTER_SIZE_CROSS.md)
+Stage-140 已完成。0237／243 恢复原生尺寸比恢复中心改善更多稠密供给，两个分量都恢复才有好格点框，四组标准输出均为 0。 [结果复核](experiments/06_sgla_uav_tracking/STAGE140_RESULTS_REVIEW.md) · [实验协议](experiments/06_sgla_uav_tracking/STAGE140_CROP_CENTER_SIZE_CROSS.md)
+
+Stage-141 固定大裁剪几何，以两种填充检验外圈背景对候选供给的影响。服务器结果待跑。 [实验协议](experiments/06_sgla_uav_tracking/STAGE141_CROP_CONTEXT_PROBE.md)
 
 Stage-122 缓存诊断已完成。358 次替换中 80 次前史和前三框观测匹配，补出 9 个好框却仅选中 1 个；两次前三框重排直接改变输出，分别是 0174 和 0089 的首次分叉。 [结果复核](experiments/06_sgla_uav_tracking/STAGE122_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE122_ALTERNATE_RERANKING_DIAGNOSTIC.md)
 
@@ -231,7 +233,7 @@ Stage-131 在 28 段开发视频评估了 196 条轨迹。原生／备用搜索�
 
 ## 交接与维护
 
-- 接续时先读 0.131 的 Stage-140 几何交叉、0.130 的 Stage-139 写回后诊断和 0.129 的 Stage-138 跨块写回。确认集与论文目标见 0.48／0.44。 [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口)
+- 接续时先读 0.132 的 Stage-141 外圈背景干预、0.131 的 Stage-140 几何交叉和 0.130 的 Stage-139 写回后诊断。确认集与论文目标见 0.48／0.44。 [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口)
 - [历史写作材料说明](archive/README.md)
 - [整理报告](maintenance/CLEANUP_REPORT.md)
 - [逐文件整理清单](maintenance/CLEANUP_MANIFEST.json)
