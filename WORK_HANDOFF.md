@@ -2,7 +2,9 @@
 
 更新日期：2026-11-19（Asia/Hong_Kong）
 
-**Stage-138 跨块候选写回与续跑，见 0.129。** 针对 3 个跨块新增好框起点及 3 个稳定受损点，五组从缓存起点各写回一次并续跑原生 32 帧。服务器结果待跑。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE138_CROSS_LAYER_CONTINUATION.md)
+**Stage-139 写回后的裁剪和响应诊断，见 0.130。** 对 Stage-138 六个起点的五条分支复核全部 32 帧的裁剪几何，重放前 8 帧及 0089 复发附近，逐帧定位裁剪不足、响应缺框或峰值漏选。服务器结果待跑。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE139_POST_WRITE_DIAGNOSTIC.md)
+
+**Stage-138 跨块候选写回与续跑已完成，见 0.129。** 跨块真值最优在 3 个失跟起点均给出好框，后续新增恢复 0，32 帧平均 IoU 比原生低 1.82 个百分点。稳定对照中 3 个跨块最高峰起点误选均未新增后续低 IoU。 [结果复核](docs/experiments/06_sgla_uav_tracking/STAGE138_RESULTS_REVIEW.md)
 
 **Stage-137 同裁剪补算候选块诊断已完成，见 0.128。** 原选块无好框的 8 个起点中，其他块标准输出补出 0 个。原选块网格已有好框的 11 个失跟起点中，其他块标准输出找回 8 个，包含原块有限峰池漏掉的 3 个。 [结果复核](docs/experiments/06_sgla_uav_tracking/STAGE137_RESULTS_REVIEW.md)
 
@@ -2403,9 +2405,13 @@ Stage-133／134 固定起点 8 无好网格／11 有好网格失跟／28 稳定�
 
 首次权重摘要调用在首个窗口前中断，修复后在 `output/stage137/shared_crop_layers_v2` 同 L40 完成 47 起点，原选框与 Stage-134 最大差为 0。主分析 0／8 有标准好框，0016／605 只有 L11 网格 IoU 0.5221，标准输出 0.4541。原网格已有好框的失跟组 8／11 从其他块获得标准好框，相对原块有限峰池额外 3 个，即 0085／1541、0089／1159、0237／242。原选择器 47 次全选 L9；取跨块最大峰找回 4 个起点，但破坏 3 个稳定起点的好框。若继续补块，先比较跨块框与同图框的同起点短续跑，衡量额外候选带来的恢复和风险。 [结果及原件](docs/experiments/06_sgla_uav_tracking/STAGE137_RESULTS_REVIEW.md)
 
-### 0.129 Stage-138 跨块候选写回与短程续跑（待服务器运行）
+### 0.129 Stage-138 跨块候选写回与短程续跑（已完成）
 
-固定 0085／1541、0089／1159、0237／242 三个跨块新增好框，以及 0080／645、0147／1113、0349／408 三个最大 Hann 跨块改选受损的稳定点。原生、原块有限峰池最优、原块稠密最优、跨块标准输出最优和跨块最高 Hann 峰五组，起点均直接用缓存框，后续各自运行原生 SGLA 32 帧。共 30 条短分支和 960 次搜索。主要看跨块候选相对原块有限峰池的持续恢复与误换框代价。服务器执行 `bash tools/run_stage138_cross_layer_continuation.sh` 并回传 `stage138_results_*.txt`。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE138_CROSS_LAYER_CONTINUATION.md)
+固定 0085／1541、0089／1159、0237／242 三个跨块新增好框及 0080／645、0147／1113、0349／408 三个最高峰受损稳定点。同 L40 完成五组 30 条短分支、960 次后续搜索，与 Stage-134 的原块控制最大坐标误差为 0。跨块最优组在 3 个失跟起点全有当帧好框，恢复总数 2，与原生及原块有限峰池相同。后续平均 IoU 比原生／有限峰池变化 −1.82／−1.02 个百分点。0089 早恢复但复发，0237 起点 IoU 0.511，接下来 32 帧均 0。三个稳定误选点续跑无新增低 IoU。当前优先查失跟后裁剪覆盖／响应供给，直接做动态补块触发的依据不足。 [结果及原件](docs/experiments/06_sgla_uav_tracking/STAGE138_RESULTS_REVIEW.md) · [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE138_CROSS_LAYER_CONTINUATION.md)
+
+### 0.130 Stage-139 写回后的裁剪与响应诊断（待服务器运行）
+
+固定 Stage-138 六点五臂的自身历史。用缓存复核全部 960 个分支帧的裁剪几何，逐臂重放前 8 帧和 0089 跨块组首次复发的邻近帧。同帧同父框共享推理，最多 255 次物理搜索。逐帧区分覆盖不足无好框、覆盖充分无好框、好框未被第一峰选中和输出好框。首看 0237／243 及 0089 复发转移。服务器执行 `bash tools/run_stage139_post_write_diagnostic.sh` 并回传结果包。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE139_POST_WRITE_DIAGNOSTIC.md)
 
 ## 1. 接手后首先要知道的结论
 

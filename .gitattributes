@@ -79,6 +79,7 @@ tools/run_stage135_peak_gate.sh text eol=lf
 tools/run_stage136_peak_closed_loop.sh text eol=lf
 tools/run_stage137_shared_crop_layers.sh text eol=lf
 tools/run_stage138_cross_layer_continuation.sh text eol=lf
+tools/run_stage139_post_write_diagnostic.sh text eol=lf
 # Preserve the uploaded experiment bundle byte-for-byte, including mixed CSV/JSON endings.
 docs/experiments/06_sgla_uav_tracking/results/stage61_l40_results_20261102T143543Z_40176.txt -text
 docs/experiments/06_sgla_uav_tracking/results/stage62_results_20261103T004524Z_148362.txt -text
@@ -158,3 +159,4 @@ docs/experiments/06_sgla_uav_tracking/results/stage134_results_20261119T100654Z_
 docs/experiments/06_sgla_uav_tracking/results/stage135_results_20261119T102721Z_397226.txt -text
 docs/experiments/06_sgla_uav_tracking/results/stage136_results_20261119T113522Z_407655.txt -text
 docs/experiments/06_sgla_uav_tracking/results/stage137_results_20261119T123230Z_433433.txt -text
+docs/experiments/06_sgla_uav_tracking/results/stage138_results_20261119T130316Z_440794.txt -text
