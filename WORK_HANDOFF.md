@@ -2,7 +2,9 @@
 
 更新日期：2026-11-19（Asia/Hong_Kong）
 
-**Stage-135 同裁剪第二峰改选条件，见 0.126。** 三条固定规则从 Stage-134 的缓存分支选择输出，服务器 CPU 结果待跑。本地已从回传表复算事后恢复上限。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE135_CACHED_PEAK_GATE.md)
+**Stage-136 同裁剪第二峰整段闭环，见 0.127。** 原生、仅分差、完整规则在相同搜索预算下独立续跑 28 个完整开发视频。服务器结果待跑。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE136_PEAK_GATE_CLOSED_LOOP.md)
+
+**Stage-135 同裁剪第二峰改选条件已完成，见 0.126。** 三条规则均新增 3 次恢复且保住原生 6 次，28 个稳定窗口均未触发。仅限分差已获得同样恢复数，完整规则把失跟窗口改选从 10 次降到 6 次。 [结果复核](docs/experiments/06_sgla_uav_tracking/STAGE135_RESULTS_REVIEW.md)
 
 **Stage-134 同起点改选与短程续跑已完成，见 0.125。** 19 个失跟起点上，Hann 第二峰新增 3 次并丢失 1 次恢复。28 个稳定窗口中强制换第二峰引入 4 个低 IoU 窗口，其中 2 个后续全程低 IoU。 [结果复核](docs/experiments/06_sgla_uav_tracking/STAGE134_RESULTS_REVIEW.md)
 
@@ -2379,11 +2381,15 @@ L40 同身份，346 个起点／17 视频／824 个已选动作／1,648 个逻�
 
 第二峰在稳定窗口带来 4 次新增低 IoU，0169／556 和 0174／1088 后续 32 帧全部低 IoU。0204／664 能靠第二峰恢复，0091／92 和 0176／162 只由稠密组新增恢复。0089／1159 即使当帧稠密框更准，仍丢失原生恢复。建议先在固定候选、固定预算下验证可在线计算的改选条件，比较新增恢复和稳定损害。 [结果及原件](docs/experiments/06_sgla_uav_tracking/STAGE134_RESULTS_REVIEW.md) · [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE134_NATIVE_PEAK_CONTINUATION.md)
 
-### 0.126 Stage-135 同裁剪第二峰改选条件（待服务器 CPU 运行）
+### 0.126 Stage-135 同裁剪第二峰改选条件（已完成）
 
 复用 Stage-134 的 19 个失跟窗口和 28 个稳定窗口。原生与强制第二峰为对照。三条固定规则依次要求 Hann 相对分差 ≤0.20、两框 IoU ≤0.20、第二峰与历史外推框的 IoU 优势 ≥0.10。外推用前两框的中心位移并限幅，保留上一框尺寸。只按当帧证据选择起点，后续 32 帧从已算的对应分支评分。无新增搜索和训练。
 
-本地用 Stage-134 回传表核对最理想的事后行动，可新增 3 次恢复且保住原生 6 次恢复。该结果使用后续真值，仅用于确定单次换框的恢复空间。完整门控需服务器缓存，运行 `bash tools/run_stage135_peak_gate.sh` 并回传 `stage135_results_*.txt`。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE135_CACHED_PEAK_GATE.md)
+三条规则在 19 个失跟窗口分别改选 10／9／6 次，均新增 0016／605、0204／664、0348／538 的恢复，并保住原生 6 次。后续视频等权平均 IoU 差分别为 +8.13／+8.17／+7.81 个百分点，28 个稳定窗口都未触发。稳定窗口中不同第二峰的最小相对分差为 40.54%，单独限制 20% 分差即可挡住强制第二峰带来的 4 个低 IoU 窗口。历史条件减少改选，仍未证明有独立收益。下一步冻结分差单条件与完整条件，做整段视频同预算闭环对照，衡量重复触发和长时失跟风险。 [结果及原件](docs/experiments/06_sgla_uav_tracking/STAGE135_RESULTS_REVIEW.md) · [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE135_CACHED_PEAK_GATE.md)
+
+### 0.127 Stage-136 同裁剪第二峰整段闭环（待服务器运行）
+
+冻结 Stage-135 规则。比较原生、仅分差 ≤0.20、再要求两峰框 IoU ≤0.20 且第二峰的历史 IoU 优势 ≥0.10。使用同卡实测原生对照，三个分支各自维护历史并每帧只做一次 SGLA 搜索。28 个开发视频、84 条完整轨迹、87,141 次搜索。优先复核视频等权 AUC、长失跟、原生稳定视频新失跟、首次和连续改选。服务器仓库运行 `bash tools/run_stage136_peak_closed_loop.sh` 并回传 `stage136_results_*.txt`。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE136_PEAK_GATE_CLOSED_LOOP.md)
 
 ## 1. 接手后首先要知道的结论
 
