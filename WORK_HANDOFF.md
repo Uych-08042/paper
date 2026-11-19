@@ -2,7 +2,9 @@
 
 更新日期：2026-11-19（Asia/Hong_Kong）
 
-**Stage-127 覆盖诊断已实现，待服务器缓存运行。** 用户要求先定位搜索区域是否盖住目标。对 Stage-125 的 346 个起点，用 Stage-121 的实际裁剪和标注计算覆盖，重点汇总 333 个无好输出的起点。纯 CPU，无需读图或重跑模型。 [协议与入口](docs/experiments/06_sgla_uav_tracking/STAGE127_TRIGGER_CROP_COVERAGE.md)
+**Stage-128 搜索裁剪修正已实现，待服务器验证。** Stage-127 的 226 个目标输入过小且无好框起点中，185 个只有 q1 充分覆盖。修正对超出画面长边的裁剪去除冗余补边，保全原有真实图像覆盖；中心仅在保持覆盖需要时平移。346 个同帧对照、冻结 SGLA 和评分，统计新增好框、丢失好框、最终选择及输入尺寸。同卡最多补 1,384 次搜索。 [协议与入口](docs/experiments/06_sgla_uav_tracking/STAGE128_PADDING_TRIM.md)
+
+**Stage-127 覆盖与尺度诊断已完成，见 0.118。** 333 个无好输出起点中，54 个四裁剪均与目标无交集，3 个仅部分覆盖，276 个至少 90% 覆盖。后者有 226 个即使选最小的充分覆盖裁剪，缩放后目标短边也不足 4 像素。该组原帧短边中位 41 像素、裁剪边长中位 5,712 像素、补边 93.8%、输入短边 1.97 像素。改小裁剪能否恢复输出仍待验证。 [结果复核](docs/experiments/06_sgla_uav_tracking/STAGE127_RESULTS_REVIEW.md)
 
 **Stage-126 交叉对照已完成，见 0.117。** L40 同身份，346 个起点／17 视频，新增 295 条续程和 36,580 次搜索。两路均禁止备用时，独立评分换框后续 IoU +0.030208，主要由 0089、0237、0348 驱动；自然请求下为 +0.005629、区间跨零。0237 第 414 帧留有好候选却漏选，第 525 帧备用裁剪补出好框并跟稳。最新完整视频评价仍为 Stage-121。 [结果复核](docs/experiments/06_sgla_uav_tracking/STAGE126_RESULTS_REVIEW.md)
 
@@ -71,7 +73,7 @@ Stage-75 L20 已完成 13 个固定起点和 52 条短分支。0003 两个首败
 
 ## 0. 下一次对话的直接接续入口
 
-本节更新至 2026-11-19。接续先读 0.117 的 Stage-126 交叉对照结果、0.116 的 Stage-125 短程闭环和 0.112 的 Stage-121 完整评价。候选生成背景见 0.90～0.95 和 0.53～0.54，确认边界和论文目标见 0.48／0.44。 [Stage-126 结果](docs/experiments/06_sgla_uav_tracking/STAGE126_RESULTS_REVIEW.md) · [Stage-125 结果](docs/experiments/06_sgla_uav_tracking/STAGE125_RESULTS_REVIEW.md) · [Stage-121 完整评价](docs/experiments/06_sgla_uav_tracking/STAGE121_RESULTS_REVIEW.md)
+本节更新至 2026-11-19。接续先读 0.118 的 Stage-127 裁剪覆盖与尺度、0.117 的 Stage-126 交叉对照及 0.112 的 Stage-121 完整评价。候选生成背景见 0.90～0.95 和 0.53～0.54，确认边界和论文目标见 0.48／0.44。 [Stage-127 结果](docs/experiments/06_sgla_uav_tracking/STAGE127_RESULTS_REVIEW.md) · [Stage-126 结果](docs/experiments/06_sgla_uav_tracking/STAGE126_RESULTS_REVIEW.md) · [Stage-121 完整评价](docs/experiments/06_sgla_uav_tracking/STAGE121_RESULTS_REVIEW.md)
 
 需要回溯历史与配对干预时读 0.33、0.31、0.29、0.27、0.24、0.22、0.20 和 0.18。较早阶段的运行状态按各节日期理解。 [Stage-60](docs/experiments/06_sgla_uav_tracking/STAGE60_RESULTS_REVIEW.md) · [Stage-54](docs/experiments/06_sgla_uav_tracking/STAGE54_RESULTS_REVIEW.md) · [Stage-55](docs/experiments/06_sgla_uav_tracking/STAGE55_RESULTS_REVIEW.md)
 
@@ -2314,6 +2316,10 @@ Stage-122 全部 80 匹配点（18 视频），相同四框和备用框分数。
 L40 同身份，346 个起点／17 视频／824 个已选动作／1,648 个逻辑格。实际续程 1,220 条，复用 925 条、新增 295 条和 36,580 次搜索。四表哈希、Stage-125 自然结果、全部效应与配对统计已复核。零新训练、完整轨迹或确认集推理。 [固定协议](docs/experiments/06_sgla_uav_tracking/STAGE126_FACTORIAL_CONTINUATION.md)
 
 两路均禁止下一帧备用时，独立评分所选框的后 31 帧视频等权差 +0.030208［+0.000489，+0.082522］；自然总差 +0.005629，区间跨零，净请求贡献 −0.024580。交互 −0.027621，去掉 0089、0237、0348 后约 −0.001176，禁用下的提交差也只剩 +0.000298。396 次实际备用更换中，33 个起点动作后继均值改善、43 个下降、320 个持平；持续好窗新增与丢失各 2 个。0237／414 开启备用后仍有同样好的候选，却从选中 IoU 0.813 变成选到 0；0237／525 从候选全差变为找到并选中 IoU 0.883 的好框。后续若检验评分与搜索的结合，须区分实际补框和保留候选上的选择变化。 [结果及原件](docs/experiments/06_sgla_uav_tracking/STAGE126_RESULTS_REVIEW.md)
+
+### 0.118 Stage-127 搜索覆盖与输入尺度（已完成）
+
+346 点，1,384 槽，零新图像／搜索／训练。333 个无好输出点中 54（16.2%）四裁剪无交集，3（0.9%）部分覆盖，276（82.9%）覆盖≥90%；275/276 完全覆盖。覆盖充分的无好输出点中，226 的最佳短边小于 4 像素、243 小于 8 像素。充分覆盖最小裁剪的组内中位数为原帧目标短边 41、裁剪边长 5,712、补边 93.8%、缩放短边 1.97。13 个好输出点对应 28／156／0%／52.55。0226 占 276 中 115 个，均属消耗过的触发状态。三表、四槽 IoU、采样身份与汇总复核一致。现有证据首先定位搜索尺度和补边，具体膨胀来源及缩小后能否恢复需同帧对照。 [结果及原件](docs/experiments/06_sgla_uav_tracking/STAGE127_RESULTS_REVIEW.md)
 
 ## 1. 接手后首先要知道的结论
 

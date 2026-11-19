@@ -14,7 +14,9 @@ Stage-125 已完成 346 个备用搜索触发点的短程闭环。独立对原�
 
 Stage-126 已完成当帧提交与下一帧备用搜索交叉对照。独立评分换框在两路均禁止备用时后续 IoU +0.030208，自然请求下为 +0.005629。备用搜索同时出现补框恢复和好框漏选。 [结果复核](experiments/06_sgla_uav_tracking/STAGE126_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE126_FACTORIAL_CONTINUATION.md)
 
-Stage-127 核查 346 个触发点的实际搜索裁剪与目标覆盖。代码已实现，待服务器缓存运行。 [固定协议](experiments/06_sgla_uav_tracking/STAGE127_TRIGGER_CROP_COVERAGE.md)
+Stage-127 已完成搜索裁剪诊断。333 个无好输出起点中，54 个四裁剪均与目标无交集，276 个覆盖充分，其中 226 个在 256×256 输入中的目标短边仍不到 4 像素。 [结果复核](experiments/06_sgla_uav_tracking/STAGE127_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE127_TRIGGER_CROP_COVERAGE.md)
+
+Stage-128 已实现保留图像覆盖的裁剪缩放修正，待服务器运行 346 个同帧对照。 [固定协议](experiments/06_sgla_uav_tracking/STAGE128_PADDING_TRIM.md)
 
 历史入口脚本如已归档，先按[代码恢复说明](../archive/README.md)恢复；代码块在仓库根目录执行。
 
