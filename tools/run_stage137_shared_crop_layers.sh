@@ -4,7 +4,7 @@ repo="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$repo"
 export OMP_NUM_THREADS="${OMP_NUM_THREADS:-1}"
 export OPENBLAS_NUM_THREADS="${OPENBLAS_NUM_THREADS:-1}"
-run="${STAGE137_ROOT:-$repo/output/stage137/shared_crop_layers_v1}"
+run="${STAGE137_ROOT:-$repo/output/stage137/shared_crop_layers_v2}"
 python -B tools/stage137_shared_crop_layers.py \
   --stage76 "${STAGE76_ROOT:-$repo/output/stage76/matched_four_candidate_horizon_v1}" \
   --stage89 "${STAGE89_ROOT:-$repo/output/stage89/conflict_sampled_write_support_v1}" \

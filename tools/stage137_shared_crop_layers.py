@@ -14,6 +14,7 @@ import stage135_peak_gate as gate
 import stage136_peak_closed_loop as full
 from stage27_uav_common import checked_image, scene_geometry, tracking_iou
 from stage28_response_common import cpu_array, dense_boxes
+from stage48_stability_runtime import digest
 
 
 base, c, io = prior.base, prior.c, prior.io
@@ -190,7 +191,7 @@ def run(root, r134, plan, p134, ap, load_entry, native):
     out = root / "observations"
     out.mkdir(exist_ok=True)
     native.assert_frozen()
-    if base.e63.source_experiment.digest(rt.net.box_head) != p134["native_head_sha256"]:
+    if digest(rt.net.box_head) != p134["native_head_sha256"]:
         raise ValueError("Frozen native head differs")
     for case in plan["cases"]:
         cid, seq, frame = (case[k] for k in ("case_id", "sequence", "frame"))

@@ -1,10 +1,13 @@
 """Check shared-prefix accounting and the distinction between output and grid supply."""
 import csv
+import hashlib
 import io
 from contextlib import nullcontext
 from pathlib import Path
+from tempfile import TemporaryDirectory
 from types import SimpleNamespace
 import unittest
+from unittest.mock import Mock, patch
 
 import numpy as np
 
@@ -101,6 +104,35 @@ class SharedCropLayers(unittest.TestCase):
         data["counts"][7] = 2
         with self.assertRaises(AssertionError):
             stage.score_case(data, self.case, cached, self.truth, self.ap, True)
+
+    def test_run_checks_the_frozen_head_and_resumes(self):
+        data, reference = self.fixture(True)
+        reference["frame_id"] = np.array([47])
+        p134 = dict(fingerprint="archived", native_head_sha256=hashlib.sha256(b"").hexdigest())
+        plan = stage.io.seal(dict(schema=stage.SCHEMA, cases=[self.case], source_stage136=stage.SOURCE136,
+                                  runtime={}, runtime_differences=[]))
+        entry = dict(sequence="example", frames=list(range(48)), ground_truth=np.tile(self.truth, (48, 1)),
+                     initial_box=self.parent)
+        head = SimpleNamespace(state_dict=lambda: {})
+        rt = SimpleNamespace(net=SimpleNamespace(box_head=head), initialize=Mock())
+        native = SimpleNamespace(rt=rt, assert_frozen=Mock())
+        with TemporaryDirectory() as directory:
+            r134 = Path(directory) / "stage134"
+            (r134 / "branches").mkdir(parents=True)
+            stage.c.save(r134 / "branches/example.npz", reference,
+                         dict(plan_fingerprint=p134["fingerprint"], case_id="example"))
+            root = Path(directory) / "stage137"
+            root.mkdir()
+            stage.c.publish_identical(root / "manifest.json", plan)
+            with (patch.object(stage, "checked_image", return_value=self.image),
+                  patch.object(stage, "collect", return_value=data) as collect):
+                with self.assertRaisesRegex(ValueError, "Frozen native head differs"):
+                    stage.run(root, r134, plan, dict(p134, native_head_sha256="wrong"), dict(self.ap, root=None),
+                              lambda _: entry, native)
+                for _ in range(2):
+                    stage.run(root, r134, plan, p134, dict(self.ap, root=None), lambda _: entry, native)
+                collect.assert_called_once()
+            stage.check_results(root)
 
     def test_freeze_real_archived_groups(self):
         results = Path(__file__).resolve().parents[1] / "docs/experiments/06_sgla_uav_tracking/results"

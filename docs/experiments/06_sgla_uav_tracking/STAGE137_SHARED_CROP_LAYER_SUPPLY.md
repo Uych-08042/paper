@@ -20,4 +20,4 @@ Stage-136 的同图改选在完整视频中引入新失跟。Stage-137 回到原
 bash tools/run_stage137_shared_crop_layers.sh
 ```
 
-默认输出 `output/stage137/shared_crop_layers_v1`。可用 `STAGE137_GPU` 指定逻辑 GPU，默认 0。实验按起点提交缓存。脚本校验结果并生成 `stage137_results_*.txt`，包含分组汇总、逐起点和逐层结果。
+默认输出 `output/stage137/shared_crop_layers_v2`。首次服务器运行通过模型身份核对后，权重摘要调用在首个窗口前报错。修复后使用新目录以保留旧清单，实验口径沿用本协议。可用 `STAGE137_GPU` 指定逻辑 GPU，默认 0。实验按起点提交缓存。脚本校验结果并生成 `stage137_results_*.txt`，包含分组汇总、逐起点和逐层结果。
