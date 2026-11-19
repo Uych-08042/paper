@@ -140,7 +140,7 @@ def decide(row, predicted):
     return fields
 
 
-def summarize(decisions):
+def summarize(decisions, *, arms=ARMS, comparisons=None, design=DESIGN):
     good, low = DESIGN["good"], DESIGN["low"]
     valid = [r for r in decisions if r["native_iou"] >= 0.]
     native = [r for r in valid if r["state"] == "native"]
@@ -166,7 +166,7 @@ def summarize(decisions):
                 groups = defaultdict(list)
                 for j, row in enumerate(rows):
                     groups[row["source"]].append(j)
-                for arm in ARMS:
+                for arm in arms:
                     iou = np.array([r[f"{pool}_{arm}_iou"] for r in rows])
                     iou = np.maximum(iou, 0.)  # an invalid chosen box is a miss on valid GT
                     by_group = [iou[idx] for idx in groups.values()]
@@ -180,15 +180,18 @@ def summarize(decisions):
                                        good_to_low=int(((native_iou >= good) & (iou < low)).sum())))
                 if name.endswith("replays"):
                     continue
-                comparisons = [(pool, "hann"), (pool, "raw")]
-                if pool == "dense" and subset != "pool_rescuable":
-                    comparisons.append(("peak", "quality"))
-                for ref_pool, ref_arm in comparisons:
-                    a = np.maximum(0., [r[f"{pool}_quality_iou"] for r in rows])
+                if comparisons is None:
+                    pairs = [("quality", pool, "hann"), ("quality", pool, "raw")]
+                    if pool == "dense" and subset != "pool_rescuable":
+                        pairs.append(("quality", "peak", "quality"))
+                else:
+                    pairs = [(arm, pool, ref) for arm, ref in comparisons]
+                for arm, ref_pool, ref_arm in pairs:
+                    a = np.maximum(0., [r[f"{pool}_{arm}_iou"] for r in rows])
                     b = np.maximum(0., [r[f"{ref_pool}_{ref_arm}_iou"] for r in rows])
                     for metric, delta in (("iou", a-b), ("good_rate", (a >= good).astype(float)-(b >= good))):
                         deltas = [float(delta[idx].mean()) for _, idx in sorted(groups.items())]
-                        contrast = prior.base.s103.contrast(deltas, f"{pool}_quality_minus_{ref_pool}_{ref_arm}", metric, DESIGN)
+                        contrast = prior.base.s103.contrast(deltas, f"{pool}_{arm}_minus_{ref_pool}_{ref_arm}", metric, design)
                         paired.append(dict(population=subset, frames=len(rows), **contrast))
     return policy, paired
 
@@ -202,7 +205,7 @@ def mark_stable(rows):
                 row["stable_window"] = start + 1
 
 
-def stable_report(rows):
+def stable_report(rows, arms=("raw", "quality")):
     windows = defaultdict(list)
     for row in rows:
         if row["stable_window"]:
@@ -211,7 +214,7 @@ def stable_report(rows):
     for (seq, start), local in sorted(windows.items()):
         fields = dict(sequence=seq, start=start, end=local[-1]["frame"], source=local[0]["source"])
         for pool in POOLS:
-            for arm in ("raw", "quality"):
+            for arm in arms:
                 key = f"{pool}_{arm}"
                 bad = np.array([r[key+"_iou"] < DESIGN["low"] for r in local])
                 low_run = np.lib.stride_tricks.sliding_window_view(bad, DESIGN["stable_low_run"]).all(axis=1)
@@ -320,7 +323,7 @@ def run(root, by_source, replays):
     check_results(root)
 
 
-def load(root, r76, r89, r93, r121, r133, r139, r142):
+def load_inputs(r76, r89, r93, r121, r133, r139, r142):
     read = prior.replay_audit.prior.read_table
     prior.check_results(r142)
     d142 = c.c66.sealed(r142 / "stage142_decision.json", prior.SCHEMA)
@@ -358,7 +361,7 @@ def load(root, r76, r89, r93, r121, r133, r139, r142):
     onsets = {(r["sequence"], int(r["frame"])):r for r in read(r142 / "stage142_onsets.csv")}
     branch = {(r["case_id"], r["arm"], int(r["frame"])):r for r in read(r142 / "stage142_branch_replays.csv")}
     native = native_rows(r121, p121, jobs, entry_for, ap, references, onsets)
-    run(root, native, replay_rows(r139, p139, entry_for, ap, branch))
+    return native, replay_rows(r139, p139, entry_for, ap, branch)
 
 
 def main():
@@ -385,7 +388,7 @@ def main():
         if (root / "stage143_decision.json").exists():
             check_results(root)
         else:
-            load(root, *sources)
+            run(root, *load_inputs(*sources))
     print(f"Stage-143: {STATUS}", flush=True)
 
 
