@@ -2,7 +2,9 @@
 
 更新日期：2026-11-19（Asia/Hong_Kong）
 
-**Stage-137 同裁剪补算候选块诊断，见 0.128。** 共用 L6 特征，独立执行 L7–L12，主看原选块网格无好框的 8 个起点是否得到新的标准解码好框。服务器结果待跑。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE137_SHARED_CROP_LAYER_SUPPLY.md)
+**Stage-138 跨块候选写回与续跑，见 0.129。** 针对 3 个跨块新增好框起点及 3 个稳定受损点，五组从缓存起点各写回一次并续跑原生 32 帧。服务器结果待跑。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE138_CROSS_LAYER_CONTINUATION.md)
+
+**Stage-137 同裁剪补算候选块诊断已完成，见 0.128。** 原选块无好框的 8 个起点中，其他块标准输出补出 0 个。原选块网格已有好框的 11 个失跟起点中，其他块标准输出找回 8 个，包含原块有限峰池漏掉的 3 个。 [结果复核](docs/experiments/06_sgla_uav_tracking/STAGE137_RESULTS_REVIEW.md)
 
 **Stage-136 同裁剪第二峰整段闭环已完成，见 0.127。** 原生／仅分差／完整规则 AUC 63.9605／61.0823／63.6637。两规则分别引入 2／1 个原生稳定视频的新失跟。Stage-137 以原生为起点单独验证补算候选块。 [结果复核](docs/experiments/06_sgla_uav_tracking/STAGE136_RESULTS_REVIEW.md)
 
@@ -2395,11 +2397,15 @@ L40 同身份，346 个起点／17 视频／824 个已选动作／1,648 个逻�
 
 接续 Stage-137 保持原生历史、同裁剪和同一 L6 特征，从 L7–L12 各自执行一个独立块。优先看 Stage-133 原选块满网格都无好框的八个起点，其他失跟点和稳定帧作对照。先判断跨块是否补出了好框，再决定是否做难帧补算的同预算闭环。Stage-136 两条改选规则保留为对照，暂不作为补算分支的默认写回。 [结果及原件](docs/experiments/06_sgla_uav_tracking/STAGE136_RESULTS_REVIEW.md) · [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE136_PEAK_GATE_CLOSED_LOOP.md)
 
-### 0.128 Stage-137 同裁剪独立候选块供给诊断（待服务器运行）
+### 0.128 Stage-137 同裁剪独立候选块供给诊断（已完成）
 
 Stage-133／134 固定起点 8 无好网格／11 有好网格失跟／28 稳定。47 个原生父框同裁剪，L1–L6 算一次，L7–L12 分别直接接同一 L6 特征和原 CENTER/Hann 标准解码。主比较其他块能否直接给出 IoU ≥0.50 框，另记仅其他块稠密网格含好框、选择器第二名和最大 Hann 峰选择。实际 47 预处理裁剪、282 候选块／头、282 前缀块、47 选择器。无写回、训练和新整段轨迹。服务器执行 `bash tools/run_stage137_shared_crop_layers.sh` 并回传 `stage137_results_*.txt`。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE137_SHARED_CROP_LAYER_SUPPLY.md)
 
-首次服务器运行通过模型身份核对，权重摘要函数的错误引用在首个窗口前中断。已改为直接调用原权重摘要实现。启动脚本默认改用 `output/stage137/shared_crop_layers_v2`，保留旧目录的清单。新结果待跑。
+首次权重摘要调用在首个窗口前中断，修复后在 `output/stage137/shared_crop_layers_v2` 同 L40 完成 47 起点，原选框与 Stage-134 最大差为 0。主分析 0／8 有标准好框，0016／605 只有 L11 网格 IoU 0.5221，标准输出 0.4541。原网格已有好框的失跟组 8／11 从其他块获得标准好框，相对原块有限峰池额外 3 个，即 0085／1541、0089／1159、0237／242。原选择器 47 次全选 L9；取跨块最大峰找回 4 个起点，但破坏 3 个稳定起点的好框。若继续补块，先比较跨块框与同图框的同起点短续跑，衡量额外候选带来的恢复和风险。 [结果及原件](docs/experiments/06_sgla_uav_tracking/STAGE137_RESULTS_REVIEW.md)
+
+### 0.129 Stage-138 跨块候选写回与短程续跑（待服务器运行）
+
+固定 0085／1541、0089／1159、0237／242 三个跨块新增好框，以及 0080／645、0147／1113、0349／408 三个最大 Hann 跨块改选受损的稳定点。原生、原块有限峰池最优、原块稠密最优、跨块标准输出最优和跨块最高 Hann 峰五组，起点均直接用缓存框，后续各自运行原生 SGLA 32 帧。共 30 条短分支和 960 次搜索。主要看跨块候选相对原块有限峰池的持续恢复与误换框代价。服务器执行 `bash tools/run_stage138_cross_layer_continuation.sh` 并回传 `stage138_results_*.txt`。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE138_CROSS_LAYER_CONTINUATION.md)
 
 ## 1. 接手后首先要知道的结论
 
