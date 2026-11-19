@@ -66,6 +66,7 @@ tools/run_stage122_alternate_diagnostic.sh text eol=lf
 tools/run_stage123_frozen_retained_scores.sh text eol=lf
 tools/run_stage124_candidate_independence.sh text eol=lf
 tools/run_stage125_trigger_continuation.sh text eol=lf
+tools/run_stage126_factorial_continuation.sh text eol=lf
 # Preserve the uploaded experiment bundle byte-for-byte, including mixed CSV/JSON endings.
 docs/experiments/06_sgla_uav_tracking/results/stage61_l40_results_20261102T143543Z_40176.txt -text
 docs/experiments/06_sgla_uav_tracking/results/stage62_results_20261103T004524Z_148362.txt -text
@@ -132,3 +133,4 @@ docs/experiments/06_sgla_uav_tracking/results/stage121_results_20261118T152542Z_
 docs/experiments/06_sgla_uav_tracking/results/stage122_results_20261118T160525Z_152324.txt -text
 docs/experiments/06_sgla_uav_tracking/results/stage123_results_20261118T162132Z_165177.txt -text
 docs/experiments/06_sgla_uav_tracking/results/stage124_results_20261119T003231Z_238188.txt -text
+docs/experiments/06_sgla_uav_tracking/results/stage125_results_20261119T011912Z_243398.txt -text

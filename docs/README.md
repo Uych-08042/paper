@@ -10,7 +10,9 @@ Stage-123 固定分数诊断已完成。80 个匹配点中改选 5 个，新增�
 
 Stage-124 已完成同框评分对照。独立评分普通帧对关系重训 +0.001098、区间跨零，对原记录 −0.002650；两种重训头各只保住原记录的 2/6 次普通帧救援。备用触发有局部信号，暂不支持全局替换。 [结果复核](experiments/06_sgla_uav_tracking/STAGE124_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE124_CANDIDATE_INDEPENDENCE.md)
 
-Stage-125 已实现，待服务器检验仅在备用搜索触发帧改变评分器后的 31 帧跟踪。 [协议与后台入口](experiments/06_sgla_uav_tracking/STAGE125_TRIGGER_CONTINUATION.md)
+Stage-125 已完成 346 个备用搜索触发点的短程闭环。独立对原评分后续 31 帧平均 IoU +0.005629，区间跨零，新增持续好窗都来自同一种子。 [结果复核](experiments/06_sgla_uav_tracking/STAGE125_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE125_TRIGGER_CONTINUATION.md)
+
+Stage-126 交叉检验当帧提交框和下一帧备用搜索，代码已实现，待服务器运行。 [固定协议](experiments/06_sgla_uav_tracking/STAGE126_FACTORIAL_CONTINUATION.md)
 
 历史入口脚本如已归档，先按[代码恢复说明](../archive/README.md)恢复；代码块在仓库根目录执行。
 
@@ -201,7 +203,7 @@ Stage-125 已实现，待服务器检验仅在备用搜索触发帧改变评分�
 
 ## 交接与维护
 
-- 接续时先读 0.115 的 Stage-124 独立评分结果、0.114 的 Stage-123 固定分数结果和 0.112 的 Stage-121 完整结果。确认集与论文目标见 0.48／0.44。 [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口)
+- 接续时先读 0.116 的 Stage-125 短程闭环、0.115 的 Stage-124 独立评分和 0.112 的 Stage-121 完整结果。确认集与论文目标见 0.48／0.44。 [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口)
 - [历史写作材料说明](archive/README.md)
 - [整理报告](maintenance/CLEANUP_REPORT.md)
 - [逐文件整理清单](maintenance/CLEANUP_MANIFEST.json)
