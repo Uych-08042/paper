@@ -2,7 +2,9 @@
 
 更新日期：2026-11-19（Asia/Hong_Kong）
 
-**Stage-136 同裁剪第二峰整段闭环，见 0.127。** 原生、仅分差、完整规则在相同搜索预算下独立续跑 28 个完整开发视频。服务器结果待跑。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE136_PEAK_GATE_CLOSED_LOOP.md)
+**Stage-137 同裁剪补算候选块诊断，见 0.128。** 共用 L6 特征，独立执行 L7–L12，主看原选块网格无好框的 8 个起点是否得到新的标准解码好框。服务器结果待跑。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE137_SHARED_CROP_LAYER_SUPPLY.md)
+
+**Stage-136 同裁剪第二峰整段闭环已完成，见 0.127。** 原生／仅分差／完整规则 AUC 63.9605／61.0823／63.6637。两规则分别引入 2／1 个原生稳定视频的新失跟。Stage-137 以原生为起点单独验证补算候选块。 [结果复核](docs/experiments/06_sgla_uav_tracking/STAGE136_RESULTS_REVIEW.md)
 
 **Stage-135 同裁剪第二峰改选条件已完成，见 0.126。** 三条规则均新增 3 次恢复且保住原生 6 次，28 个稳定窗口均未触发。仅限分差已获得同样恢复数，完整规则把失跟窗口改选从 10 次降到 6 次。 [结果复核](docs/experiments/06_sgla_uav_tracking/STAGE135_RESULTS_REVIEW.md)
 
@@ -2387,9 +2389,15 @@ L40 同身份，346 个起点／17 视频／824 个已选动作／1,648 个逻�
 
 三条规则在 19 个失跟窗口分别改选 10／9／6 次，均新增 0016／605、0204／664、0348／538 的恢复，并保住原生 6 次。后续视频等权平均 IoU 差分别为 +8.13／+8.17／+7.81 个百分点，28 个稳定窗口都未触发。稳定窗口中不同第二峰的最小相对分差为 40.54%，单独限制 20% 分差即可挡住强制第二峰带来的 4 个低 IoU 窗口。历史条件减少改选，仍未证明有独立收益。下一步冻结分差单条件与完整条件，做整段视频同预算闭环对照，衡量重复触发和长时失跟风险。 [结果及原件](docs/experiments/06_sgla_uav_tracking/STAGE135_RESULTS_REVIEW.md) · [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE135_CACHED_PEAK_GATE.md)
 
-### 0.127 Stage-136 同裁剪第二峰整段闭环（待服务器运行）
+### 0.127 Stage-136 同裁剪第二峰整段闭环（已完成）
 
-冻结 Stage-135 规则。比较原生、仅分差 ≤0.20、再要求两峰框 IoU ≤0.20 且第二峰的历史 IoU 优势 ≥0.10。使用同卡实测原生对照，三个分支各自维护历史并每帧只做一次 SGLA 搜索。28 个开发视频、84 条完整轨迹、87,141 次搜索。优先复核视频等权 AUC、长失跟、原生稳定视频新失跟、首次和连续改选。服务器仓库运行 `bash tools/run_stage136_peak_closed_loop.sh` 并回传 `stage136_results_*.txt`。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE136_PEAK_GATE_CLOSED_LOOP.md)
+同 L40、28 个开发视频、84 条完整轨迹、87,141 次搜索。原生／仅分差／完整规则 AUC 63.9605／61.0823／63.6637，低 IoU 13.20%／17.45%／13.53%，未恢复事件 6／9／6。两规则相对原生 AUC 差 −2.8782／−0.2968，95% 视频配对区间均跨零。原生稳定的 12 个视频中，分别 2／1 个新增失跟。0204 两条规则都在 664 一次改选救回，整段 +18.63 点。0304 原生无失跟，两条规则新增 1,176／640 帧持续失跟，整段 −50.34／−28.43 点。
+
+接续 Stage-137 保持原生历史、同裁剪和同一 L6 特征，从 L7–L12 各自执行一个独立块。优先看 Stage-133 原选块满网格都无好框的八个起点，其他失跟点和稳定帧作对照。先判断跨块是否补出了好框，再决定是否做难帧补算的同预算闭环。Stage-136 两条改选规则保留为对照，暂不作为补算分支的默认写回。 [结果及原件](docs/experiments/06_sgla_uav_tracking/STAGE136_RESULTS_REVIEW.md) · [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE136_PEAK_GATE_CLOSED_LOOP.md)
+
+### 0.128 Stage-137 同裁剪独立候选块供给诊断（待服务器运行）
+
+Stage-133／134 固定起点 8 无好网格／11 有好网格失跟／28 稳定。47 个原生父框同裁剪，L1–L6 算一次，L7–L12 分别直接接同一 L6 特征和原 CENTER/Hann 标准解码。主比较其他块能否直接给出 IoU ≥0.50 框，另记仅其他块稠密网格含好框、选择器第二名和最大 Hann 峰选择。实际 47 预处理裁剪、282 候选块／头、282 前缀块、47 选择器。无写回、训练和新整段轨迹。服务器执行 `bash tools/run_stage137_shared_crop_layers.sh` 并回传 `stage137_results_*.txt`。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE137_SHARED_CROP_LAYER_SUPPLY.md)
 
 ## 1. 接手后首先要知道的结论
 
