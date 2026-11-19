@@ -2,7 +2,9 @@
 
 更新日期：2026-11-19（Asia/Hong_Kong）
 
-**Stage-139 写回后的裁剪和响应诊断，见 0.130。** 对 Stage-138 六个起点的五条分支复核全部 32 帧的裁剪几何，重放前 8 帧及 0089 复发附近，逐帧定位裁剪不足、响应缺框或峰值漏选。服务器结果待跑。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE139_POST_WRITE_DIAGNOSTIC.md)
+**Stage-140 搜索中心与尺寸交叉，见 0.131。** 在 0237／243 起检查父框中心和尺寸的影响，固定 11 帧，四组最多 44 次搜索。服务器结果待跑。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE140_CROP_CENTER_SIZE_CROSS.md)
+
+**Stage-139 写回后的裁剪和响应诊断已完成，见 0.130。** 960 个分支帧均完整覆盖目标。0237 写回后的跨块分支全网格无好框，0089 复发时全网格有好框却漏选。 [结果复核](docs/experiments/06_sgla_uav_tracking/STAGE139_RESULTS_REVIEW.md)
 
 **Stage-138 跨块候选写回与续跑已完成，见 0.129。** 跨块真值最优在 3 个失跟起点均给出好框，后续新增恢复 0，32 帧平均 IoU 比原生低 1.82 个百分点。稳定对照中 3 个跨块最高峰起点误选均未新增后续低 IoU。 [结果复核](docs/experiments/06_sgla_uav_tracking/STAGE138_RESULTS_REVIEW.md)
 
@@ -2409,9 +2411,13 @@ Stage-133／134 固定起点 8 无好网格／11 有好网格失跟／28 稳定�
 
 固定 0085／1541、0089／1159、0237／242 三个跨块新增好框及 0080／645、0147／1113、0349／408 三个最高峰受损稳定点。同 L40 完成五组 30 条短分支、960 次后续搜索，与 Stage-134 的原块控制最大坐标误差为 0。跨块最优组在 3 个失跟起点全有当帧好框，恢复总数 2，与原生及原块有限峰池相同。后续平均 IoU 比原生／有限峰池变化 −1.82／−1.02 个百分点。0089 早恢复但复发，0237 起点 IoU 0.511，接下来 32 帧均 0。三个稳定误选点续跑无新增低 IoU。当前优先查失跟后裁剪覆盖／响应供给，直接做动态补块触发的依据不足。 [结果及原件](docs/experiments/06_sgla_uav_tracking/STAGE138_RESULTS_REVIEW.md) · [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE138_CROSS_LAYER_CONTINUATION.md)
 
-### 0.130 Stage-139 写回后的裁剪与响应诊断（待服务器运行）
+### 0.130 Stage-139 写回后的裁剪与响应诊断（已完成）
 
-固定 Stage-138 六点五臂的自身历史。用缓存复核全部 960 个分支帧的裁剪几何，逐臂重放前 8 帧和 0089 跨块组首次复发的邻近帧。同帧同父框共享推理，最多 255 次物理搜索。逐帧区分覆盖不足无好框、覆盖充分无好框、好框未被第一峰选中和输出好框。首看 0237／243 及 0089 复发转移。服务器执行 `bash tools/run_stage139_post_write_diagnostic.sh` 并回传结果包。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE139_POST_WRITE_DIAGNOSTIC.md)
+同 L40 重放 240 个分支帧／200 次物理搜索，原输出框误差 0。960 个后继分支帧覆盖均为 100%，304 个低 IoU 帧均在覆盖内。0237／243 原生与跨块输出均 0，原生网格最佳 0.5087、跨块 0.3205。0089 跨块从 1165 复发，输出 0.0920、稠密 0.7478、有限池 0.4816，1166 有限池恢复好框但仍漏选。优先对 0237 同帧交叉原生与跨块父框的中心和尺寸，定位影响供给的裁剪因素。 [结果及原件](docs/experiments/06_sgla_uav_tracking/STAGE139_RESULTS_REVIEW.md) · [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE139_POST_WRITE_DIAGNOSTIC.md)
+
+### 0.131 Stage-140 搜索父框中心与尺寸交叉（待服务器运行）
+
+0237／243 为主比较，244–250 查重复性，0089／1165–1166 排序对照，0349／409 稳定对照。从 Stage-139 缓存读取原生与跨块父框，交换中心和宽高形成四组，权重、原模板、当前帧与搜索倍数相同。比较全网格／有限峰池／标准输出 IoU，分别计算恢复原生中心或尺寸的收益和交互项。11 帧最多 44 次搜索，无回写。服务器执行 `bash tools/run_stage140_crop_center_size_cross.sh` 并回传结果包。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE140_CROP_CENTER_SIZE_CROSS.md)
 
 ## 1. 接手后首先要知道的结论
 
