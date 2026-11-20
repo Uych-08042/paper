@@ -19,13 +19,14 @@ SIGNALS = ("selector_margin", "native_hann_peak", "native_peak_centrality")
 GAIN = "predicted_32_frame_gain"
 
 
-def bundle(path, stage):
+def bundle(path, stage, expected_fingerprint=None):
     parts = re.split(rb"\n===== ([\w.]+) =====\r?\n", path.read_bytes())
     sections = {name.decode(): content for name, content in zip(parts[1::2], parts[2::2], strict=True)}
     decision = json.loads(sections[f"stage{stage}_decision.json"])
     fingerprint = decision.pop("fingerprint")
     digest = sha256(json.dumps(decision, sort_keys=True, allow_nan=False).encode()).hexdigest()
-    if fingerprint != digest or fingerprint != FINGERPRINTS[stage]:
+    expected = FINGERPRINTS[stage] if expected_fingerprint is None else expected_fingerprint
+    if fingerprint != digest or fingerprint != expected:
         raise ValueError(f"Unexpected Stage-{stage} decision")
     tables = {}
     for name, digest in decision["table_sha256"].items():

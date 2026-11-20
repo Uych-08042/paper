@@ -1,0 +1,14 @@
+{
+  "schema": "stage160_native_layer_veto_v1",
+  "status": "COMPLETE_STAGE160_CACHED_BOUND",
+  "source_stage159": "d82414dfb4ca044e71bb8e24c0fdab3c364b5e04dca29e2951ae885dd6825a50",
+  "cases": 328,
+  "work": 1,
+  "table_sha256": {
+    "stage160_summary.csv": "f2aea80f1fdaac8be482fdc134c201cb947cbdf13b04828ad6736cd14a2735fb",
+    "stage160_choices.csv": "a48bfd2149a6ae3364934575e06e5cb9adc2c8fa54a5888fdb4bb38aaf83b943"
+  },
+  "gpu_searches": 0,
+  "new_full_trajectories": 0,
+  "fingerprint": "af7db7e667fe2d99ddab35613cd4fff99d40de0ba5f03956d7625d82f273e4d9"
+}

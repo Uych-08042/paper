@@ -58,7 +58,9 @@ Stage-157 已完成。峰值增益和加重叠门槛均丢失 0348 原生恢复�
 
 Stage-158 已完成。保护性事后选层使后 32 帧 IoU 比原生高 3.14 点，新增 3 次连续恢复。 [实验协议](experiments/06_sgla_uav_tracking/STAGE158_LAYER_ROUTING.md)
 
-Stage-159 已准备。两折比较当帧监督和后续监督的六选一选择器，运行过程使用总体进度条。 [实验和运行说明](experiments/06_sgla_uav_tracking/STAGE159_LAYER_SELECTOR.md)
+Stage-159 已完成。后续监督相对原生 +0.192 个 IoU 点，相对当帧监督 +0.267 点，新增连续恢复和连续低 IoU 各两次。 [实验协议](experiments/06_sgla_uav_tracking/STAGE159_LAYER_SELECTOR.md)
+
+Stage-160 已准备。原生层保留的事后参考比 Stage-159 高 0.357 个 IoU 点。实际门槛按源组内层留出校准，复用 Stage-159 特征及模型，运行不需要 GPU。 [实验和运行说明](experiments/06_sgla_uav_tracking/STAGE160_LAYER_VETO.md)
 
 Stage-122 缓存诊断已完成。358 次替换中 80 次前史和前三框观测匹配，补出 9 个好框却仅选中 1 个；两次前三框重排直接改变输出，分别是 0174 和 0089 的首次分叉。 [结果复核](experiments/06_sgla_uav_tracking/STAGE122_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE122_ALTERNATE_RERANKING_DIAGNOSTIC.md)
 
