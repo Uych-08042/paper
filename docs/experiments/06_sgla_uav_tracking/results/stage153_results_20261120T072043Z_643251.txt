@@ -1,0 +1,717 @@
+
+===== stage153_decision.json =====
+{
+  "schema": "stage153_serial_one_block_v1",
+  "status": "COMPLETE_ADAPTIVE_SERIAL_DEPTH_DEVELOPMENT",
+  "role": "consumed_development_adaptive_depth_comparison",
+  "plan_fingerprint": "66c9326dfa4d7f1046512053a94134dd01428ec43f5591068f575e12a3f73101",
+  "source_stage121": "a83daf985bd2d0fd2ff00dd91793c12bb4960936db881400186b6abf8ac0d142",
+  "runtime": {
+    "tracker": {
+      "parameter": "deit_distilled",
+      "checkpoint_sha256": "88447c7724704edaf03488f519d3e300385fef05c2f1fac02fe22f7941cf334e",
+      "config": {
+        "MODEL": {
+          "PRETRAIN_FILE": "deit_tiny_distilled_patch16_224.pth",
+          "EXTRA_MERGER": false,
+          "RETURN_INTER": false,
+          "RETURN_STAGES": [],
+          "BACKBONE": {
+            "TYPE": "deit_tiny_distilled_patch16",
+            "STRIDE": 16,
+            "MID_PE": false,
+            "SEP_SEG": false,
+            "CAT_MODE": "direct",
+            "MERGE_LAYER": 0,
+            "ADD_CLS_TOKEN": false,
+            "CLS_TOKEN_USE_MODE": "ignore",
+            "CE_LOC": [],
+            "CE_KEEP_RATIO": [],
+            "CE_TEMPLATE_RANGE": "ALL"
+          },
+          "HEAD": {
+            "TYPE": "CENTER",
+            "NUM_CHANNELS": 256
+          }
+        },
+        "TRAIN": {
+          "LR": 0.0004,
+          "WEIGHT_DECAY": 0.0001,
+          "EPOCH": 300,
+          "LR_DROP_EPOCH": 240,
+          "BATCH_SIZE": 32,
+          "NUM_WORKER": 4,
+          "OPTIMIZER": "ADAMW",
+          "BACKBONE_MULTIPLIER": 0.1,
+          "GIOU_WEIGHT": 2.0,
+          "L1_WEIGHT": 5.0,
+          "FREEZE_LAYERS": [
+            0
+          ],
+          "PRINT_INTERVAL": 50,
+          "VAL_EPOCH_INTERVAL": 999,
+          "GRAD_CLIP_NORM": 0.1,
+          "AMP": false,
+          "CE_START_EPOCH": 20,
+          "CE_WARM_EPOCH": 80,
+          "DROP_PATH_RATE": 0.1,
+          "SCHEDULER": {
+            "TYPE": "step",
+            "DECAY_RATE": 0.1
+          }
+        },
+        "DATA": {
+          "SAMPLER_MODE": "causal",
+          "MEAN": [
+            0.485,
+            0.456,
+            0.406
+          ],
+          "STD": [
+            0.229,
+            0.224,
+            0.225
+          ],
+          "MAX_SAMPLE_INTERVAL": 200,
+          "TRAIN": {
+            "DATASETS_NAME": [
+              "LASOT",
+              "GOT10K_vottrain",
+              "COCO17",
+              "TRACKINGNET"
+            ],
+            "DATASETS_RATIO": [
+              1,
+              1,
+              1,
+              1
+            ],
+            "SAMPLE_PER_EPOCH": 60000
+          },
+          "VAL": {
+            "DATASETS_NAME": [
+              "GOT10K_votval"
+            ],
+            "DATASETS_RATIO": [
+              1
+            ],
+            "SAMPLE_PER_EPOCH": 10000
+          },
+          "SEARCH": {
+            "SIZE": 256,
+            "FACTOR": 4.0,
+            "CENTER_JITTER": 3,
+            "SCALE_JITTER": 0.25,
+            "NUMBER": 1
+          },
+          "TEMPLATE": {
+            "NUMBER": 1,
+            "SIZE": 128,
+            "FACTOR": 2.0,
+            "CENTER_JITTER": 0,
+            "SCALE_JITTER": 0
+          }
+        },
+        "TEST": {
+          "TEMPLATE_FACTOR": 2.0,
+          "TEMPLATE_SIZE": 128,
+          "SEARCH_FACTOR": 4.0,
+          "SEARCH_SIZE": 256,
+          "EPOCH": 297
+        }
+      },
+      "torch": "2.7.1+cu118",
+      "cuda": "11.8",
+      "device": "NVIDIA L40",
+      "lens_z": 64,
+      "lens_x": 256,
+      "embed_dim": 192
+    },
+    "opencv": "5.0.0",
+    "numpy": "1.26.4",
+    "gpu_uuid": "968f15bb-daae-6145-593b-b11824694da8",
+    "model_state_sha256": "13af4170053b1e6f4b371c872fce2036cd5c225dffd0831093ddd790eb11e70f"
+  },
+  "runtime_differences": [],
+  "videos": 28,
+  "new_full_trajectories": 56,
+  "new_search_calls": 58094,
+  "new_block_calls": 406658,
+  "extra_blocks": 0,
+  "table_sha256": {
+    "stage153_policy_summary.csv": "f5a7e0c173f47b07da4a40ecc6558fa53178a27412b27783f39a9a939020f720",
+    "stage153_paired.csv": "775ef81c011f0458931424e97427477babcf8a86f6ee1637d78e41bf676478e1",
+    "stage153_video_summary.csv": "ec3a012ebc7d5877e8eec6a40e3ca34466931268ffbbe5a8e6bbc0512475fd6b",
+    "stage153_failures.csv": "b685ad694af7bfd31fce6dbba59770a66435028d1fcd69f33393cb8ecf226e36",
+    "stage153_routing.csv": "64052240930c75e7aac66d15a56568e7951afbd3ecec0981acb5957c3eb9a552"
+  },
+  "artifact_sha256": {
+    "evaluation/uav0000003_00000_s__native.npz": "5f1f55155894ac3cb20425048166e1546a14754c143f9c2228c54def6184a9fb",
+    "evaluation/uav0000003_00000_s__native.receipt.json": "064d462ba1682b4fdd1fcb169e2778c9bb275c7502b27466b154a42c67fe93eb",
+    "evaluation/uav0000003_00000_s__adaptive_depth.npz": "5be581002bc11ed8640efdd1c33c267ef924e40d22aebff41f5a77ff456505ab",
+    "evaluation/uav0000003_00000_s__adaptive_depth.receipt.json": "00bb9e23987976b833a88377b9a7318ff289613f7d0a0498303e8ff8b353ca30",
+    "evaluation/uav0000016_00000_s__native.npz": "41ec27672c62d9368480182e43de626b6e77dac5d24e0b0cd81ed76f7a8d15ba",
+    "evaluation/uav0000016_00000_s__native.receipt.json": "fe63846f66166fcc04513eeedd23b9e56db818ee3853b7659b2924a20e83f0ff",
+    "evaluation/uav0000016_00000_s__adaptive_depth.npz": "27b660b671f3cc64083b1741e4a85db7554a112a475137a0cb7d8071388e2a21",
+    "evaluation/uav0000016_00000_s__adaptive_depth.receipt.json": "d5dba164c6c534e7b4431366e0d9350842c8fc82090ee12e3286e1a613d4995b",
+    "evaluation/uav0000070_01344_s__native.npz": "1868c2fd3537d81f1164e1b404ff2eb438715bc596f57db07494fe5feea37a3a",
+    "evaluation/uav0000070_01344_s__native.receipt.json": "9cf3671ddfb4a410768d7ea48c941d46a9c9d2a38b6ca160484d886bcd94ca2b",
+    "evaluation/uav0000070_01344_s__adaptive_depth.npz": "09df1706f3fa48ac97d23874ffab06505ad021d27bcf87c1bcceddd1bc4c0bb1",
+    "evaluation/uav0000070_01344_s__adaptive_depth.receipt.json": "9c26b245d17fed382d5136f9c76be20c7437dbab5639e54298fa8fee67e173fc",
+    "evaluation/uav0000076_00241_s__native.npz": "d4e3a5392582185939842490936207ca880565643a3512359eae24688b0bc097",
+    "evaluation/uav0000076_00241_s__native.receipt.json": "f6ff659a6559d792406f8b73a64253e4202a2c338c77686e42493e07a5cff69d",
+    "evaluation/uav0000076_00241_s__adaptive_depth.npz": "cf188fc2b870441fd7e05dd41c6d85bb5b68f679dddac1e6e1dabdf4a37edc63",
+    "evaluation/uav0000076_00241_s__adaptive_depth.receipt.json": "de91e9f72459114f7310bb21def95fdaac62083d31ceeecb620fa78f90b98044",
+    "evaluation/uav0000080_01680_s__native.npz": "83a21e0b28d3868d535e039d6b66ebf55fa3624a9c760b99573a564f8e2bdd10",
+    "evaluation/uav0000080_01680_s__native.receipt.json": "fc0567b51cb4eb3564c03e4068947efa3fcf30bc377e709770f14ea259a53abb",
+    "evaluation/uav0000080_01680_s__adaptive_depth.npz": "9a7f16bf42df30f2611fd075f57d6bf29ec2ee61b74ddd95691c9fb32c480f04",
+    "evaluation/uav0000080_01680_s__adaptive_depth.receipt.json": "d3a75e6174c960375e42c2324d3d8ccd4f7f1d9c7fbac04f2ba0ad4dd204e249",
+    "evaluation/uav0000085_00000_s__native.npz": "e7c39d2938999561979a9540e95dcf123be6a10cef0119f27f3a1c3f26727efd",
+    "evaluation/uav0000085_00000_s__native.receipt.json": "0d49c2892c5a8754d6c3a8a42fdf4f3eb8c4b2007cc3aef5f9b6083602b4b510",
+    "evaluation/uav0000085_00000_s__adaptive_depth.npz": "220d6c58310754b6ce92c9b9a97b7192da784f1c7740e2448483f63a86e25a6e",
+    "evaluation/uav0000085_00000_s__adaptive_depth.receipt.json": "adf398bc9ab0fbeecf06120ed7388b5e6f32a70d495a5516f3104a1db26b663b",
+    "evaluation/uav0000089_00920_s__native.npz": "cf1fdfa3b47366f335773d3160a6ad920277de076b34bf6948414d2ace60bf19",
+    "evaluation/uav0000089_00920_s__native.receipt.json": "bccc593aea901aadc29bb4a563aa1fb5cd06838034267adfd82daf2d58eefde4",
+    "evaluation/uav0000089_00920_s__adaptive_depth.npz": "2c19f9d999f8ba7f4d05f0cd7c095ddb7d2cdf88e17d53ac1a9f383ecdd01d83",
+    "evaluation/uav0000089_00920_s__adaptive_depth.receipt.json": "79f235097a1e6332ef2761d8f72a28d39c35491b1f46a010167640e22a31c51c",
+    "evaluation/uav0000091_00460_s__native.npz": "e3e3cac489ba1e4277872595550a297d037f3d4249acb5b198a97c7bff65a721",
+    "evaluation/uav0000091_00460_s__native.receipt.json": "f0999e1bf95b98ab29ec8443812e558cc9c9284f6b16a700e06f51241cb62587",
+    "evaluation/uav0000091_00460_s__adaptive_depth.npz": "7c2944d7df0cab53b69eaa89b637fe993cc16ee71afcb44679614fb36797a22e",
+    "evaluation/uav0000091_00460_s__adaptive_depth.receipt.json": "2daf0e0302b63439cc19d6446bc71e275e2e0d703ccf3320ebcd057517f06ac8",
+    "evaluation/uav0000126_07915_s__native.npz": "d447e937466b64621f07562fad4f4696a7826d8229ff48f37ad01daccb48f0ba",
+    "evaluation/uav0000126_07915_s__native.receipt.json": "54f5a7e28864d2f3de9c3f04ee938ce2158e6e9a235cdda31e854836a09c680f",
+    "evaluation/uav0000126_07915_s__adaptive_depth.npz": "dd867d8f79f577923974b54e41017f21d0526b4899edc08f347bd51e47c5dcc7",
+    "evaluation/uav0000126_07915_s__adaptive_depth.receipt.json": "70b063f12951407f953f9871741ae2ea10fdd1a57127c3914b0a0042a670b870",
+    "evaluation/uav0000147_00000_s__native.npz": "d653914a64e68c97d63ed4e2ebacf3248b922d1c2f2a9a79e42bbc5927c84eeb",
+    "evaluation/uav0000147_00000_s__native.receipt.json": "74f9f7237c1a81c57fac32655cad71c945a01aea89a32c2f276c8dad85b09f3b",
+    "evaluation/uav0000147_00000_s__adaptive_depth.npz": "81491c02208bd53e4cd207dc803cd267cb2759ca5dc535ee46b40be99254da85",
+    "evaluation/uav0000147_00000_s__adaptive_depth.receipt.json": "0c1cf3ada857e438085e06d3a362501d173cc636ae1f7e74a363c6d16f82f457",
+    "evaluation/uav0000169_00000_s__native.npz": "7eef37129d4a6daace4ea5c4ac2ec4d7c03b6516dc26d6246a0d3603d747bb24",
+    "evaluation/uav0000169_00000_s__native.receipt.json": "6b5344c388eb511b9fe609a6947405fd69e13e4f6f54e1c23f8317ec7e06ace7",
+    "evaluation/uav0000169_00000_s__adaptive_depth.npz": "f7a65cac3c310f15ed13e313ddc1d6b932c3565dd9676bf25ecd829653d8e447",
+    "evaluation/uav0000169_00000_s__adaptive_depth.receipt.json": "2a44841f0429c21738a51bad6586975f28241a03a375dc2ea4cca7db4a0afa99",
+    "evaluation/uav0000170_00000_s__native.npz": "76de72852d62926ca98ac8e88f708f49d8eb86ae90c5bcdd9abc1f50db286c93",
+    "evaluation/uav0000170_00000_s__native.receipt.json": "bf8e11d6407524823393a4285fb1f6e7d9181c11fed68509b2e658573f2d5249",
+    "evaluation/uav0000170_00000_s__adaptive_depth.npz": "a0b84b0885f0d00607db7c8eb6f3a85431715aaeecc8c562419e7d5958bbee6b",
+    "evaluation/uav0000170_00000_s__adaptive_depth.receipt.json": "66ca7a72380e19c54436cc995cf7d8e7189bc1f5fd78f918cb3275bfd2d8bb5b",
+    "evaluation/uav0000174_00000_s__native.npz": "680fdf5b01dc194d59c8aa1e365467f352bfd036aa22bd39e0819ac23291dc29",
+    "evaluation/uav0000174_00000_s__native.receipt.json": "55cfc0df8a9bfb8ab269f3b2720852b3e285e11cd022c2924609866da0a04e14",
+    "evaluation/uav0000174_00000_s__adaptive_depth.npz": "8f9940f54e7d52fed2aed6940616009a975baf51cd34f51ab7da3a4513959c68",
+    "evaluation/uav0000174_00000_s__adaptive_depth.receipt.json": "00a3933dec9e459100dab5a8ffd1962c3f3d0fe1df32bdd2bbf5eedc9eff8957",
+    "evaluation/uav0000176_00000_s__native.npz": "3f3189561718514d700dce35e54817a190adb9fcb16d1c28aa9b618da59f8568",
+    "evaluation/uav0000176_00000_s__native.receipt.json": "c950ad2258c494d2cc18efa3cb8bcc91c0a9d7eb5e9896958799ce6af5f174e6",
+    "evaluation/uav0000176_00000_s__adaptive_depth.npz": "84065b97f745c8a3209db42ea55dfd9885cf0bbbf21d08ce0eb4b95349b2efcd",
+    "evaluation/uav0000176_00000_s__adaptive_depth.receipt.json": "6f33b90d8162e38598b4a92d0ef232d3b0adb88754b3b25162cb904e0da8ac63",
+    "evaluation/uav0000200_00000_s__native.npz": "5fc6195e82ced67e7ff8c5244254229da7cb25958d44c810ae0a4528add546e5",
+    "evaluation/uav0000200_00000_s__native.receipt.json": "1caa941cbae32fa3b0e0b24813b17dfc0e66e825d19d6dc08d284c7d7ed084e7",
+    "evaluation/uav0000200_00000_s__adaptive_depth.npz": "36e53e7c96816b6446b822ef47946a94be2eabb78de3cf71ab370f16c9835d76",
+    "evaluation/uav0000200_00000_s__adaptive_depth.receipt.json": "e6db5510db6e82e65f328ec449819f2bfe7319804b430eab5db67ac0937bba99",
+    "evaluation/uav0000204_00000_s__native.npz": "87a85cda1405c36cbe4e58690926164dede1acac361905497ab070ef1867d15f",
+    "evaluation/uav0000204_00000_s__native.receipt.json": "ba7f46c091212d486454106f721cc8bc326209d7cce528c532f00ac268919036",
+    "evaluation/uav0000204_00000_s__adaptive_depth.npz": "6a6117886af2c7ba5c2c49feffbbbf359dd1d331b131b2ff3711c7f0cb9f3fcc",
+    "evaluation/uav0000204_00000_s__adaptive_depth.receipt.json": "6870b1a658a0ff8ac7c00dc4508f571da3d09750e7f1b5167733fd5bcef355a8",
+    "evaluation/uav0000226_05370_s__native.npz": "542e223b23635f499e1c73f11c508c1a24c6427bf69e11251e6229a414c8ad9f",
+    "evaluation/uav0000226_05370_s__native.receipt.json": "454622f881e85a8bf277da34588d828003c9fb08721b555ad777563706ce52d3",
+    "evaluation/uav0000226_05370_s__adaptive_depth.npz": "0122e51fdfb0b510a613b5d142fbd107d65ac753e76ad95a8f56ab8dc2cfe4a1",
+    "evaluation/uav0000226_05370_s__adaptive_depth.receipt.json": "1ef202475aced0ea7ed5856793d32a96782613c72dbc1de2c75930ce0d000827",
+    "evaluation/uav0000235_00001_s__native.npz": "9524963851ba556e8396082f2ecd5a2d3be92a0d0b75edba4bc86aeec876dc36",
+    "evaluation/uav0000235_00001_s__native.receipt.json": "c6f6b7b13a403deed03c473112a0e8129787a304ce10aa91d949e7d514f5b015",
+    "evaluation/uav0000235_00001_s__adaptive_depth.npz": "a864afdafe7d8ba4e5cc4be48e74b28e3b973374950d0af860a49889bb645603",
+    "evaluation/uav0000235_00001_s__adaptive_depth.receipt.json": "99e622b4e3a6d9ff31aa11e21a9a1f7c545f62262602db4537eca09e6810b06d",
+    "evaluation/uav0000237_00001_s__native.npz": "6438f56b54cc8bae6e325f7f5db5f8a75510cb39e5395cc2db6b584c7fbacdaf",
+    "evaluation/uav0000237_00001_s__native.receipt.json": "8a2bdd41e9958ed1a2d6630b653c599511011756f5351fc8060303f99ea8486f",
+    "evaluation/uav0000237_00001_s__adaptive_depth.npz": "a7a73cedcea2dfeb0cebacd8cf8a5d5bf28b7f73fc65232d62aa87af77a7fb3e",
+    "evaluation/uav0000237_00001_s__adaptive_depth.receipt.json": "efffe436e14111c4d6ba6dca56635ea7ffeb1c0455551287b7342f9568c81b15",
+    "evaluation/uav0000238_00001_s__native.npz": "1d051dcfb2a16a95e7ca067f7e3b2c0b4fe0d934949881e7513ae93f9272dd53",
+    "evaluation/uav0000238_00001_s__native.receipt.json": "47c613892e11bf75067eba9d5bac84cee4651884a7ba5baa51a2df0b364f6e85",
+    "evaluation/uav0000238_00001_s__adaptive_depth.npz": "69241637e38a4476dab78dc09e14dd7c583271eefb7f3dd79f84642bba23af57",
+    "evaluation/uav0000238_00001_s__adaptive_depth.receipt.json": "d85c8e74814654a56ac8998e57eead32181ae4b1411dcfb2c5393f3087ff375c",
+    "evaluation/uav0000239_11136_s__native.npz": "82b4ebd975cab6c72b71c413f1092efb497b0019deb8028b748460afec0dd169",
+    "evaluation/uav0000239_11136_s__native.receipt.json": "0ea34ed06cf11d84fe69353fab840bb55228365b436c181ff0263f8f9cb216c6",
+    "evaluation/uav0000239_11136_s__adaptive_depth.npz": "654dc81ed10c9cf7dfc97c06cc8f5ef3d19a8cb5d6893d73c7b603dc3eac0820",
+    "evaluation/uav0000239_11136_s__adaptive_depth.receipt.json": "9ae1f1acd87673f6b0c4060d7eaee6e0a3e44fba2e80543ac2e9daf9eec9e517",
+    "evaluation/uav0000304_00253_s__native.npz": "d77834d7907f0e9f2c2602a567f839f5b82a87954ab238eaf757430d052f10d8",
+    "evaluation/uav0000304_00253_s__native.receipt.json": "a1a8c9e796f70abb714450d5b7d364fcb981f8138a4e18ed1ef4da1b68c244fb",
+    "evaluation/uav0000304_00253_s__adaptive_depth.npz": "54a2d754dea0e8d0c35909d81c50c80abff6b8a4d1aeb679684f1a466395a4d1",
+    "evaluation/uav0000304_00253_s__adaptive_depth.receipt.json": "bbf9142b7d705509e566355d79d233da7be80edd2ac84b9a6b3d8297c610c82b",
+    "evaluation/uav0000307_04531_s__native.npz": "a27524b816ce6ccb726c85305bef574b14d70bd88d528097225017087e6db46a",
+    "evaluation/uav0000307_04531_s__native.receipt.json": "f9c49b30cee691434a4cebd37f2b5e8563488e443a08955ac1cb86917837368c",
+    "evaluation/uav0000307_04531_s__adaptive_depth.npz": "2e03b6f543faf76ab98e71f1e49e26644d9406af1083d6fe3b49d111f76d5e34",
+    "evaluation/uav0000307_04531_s__adaptive_depth.receipt.json": "edbcde90bd08a53041586d302fb9ac74ea7525c0bbd4e30a24ea1baa565c0820",
+    "evaluation/uav0000308_04600_s__native.npz": "1064a666dd1d0ab6efe8d17ceb3ae3f09c4f54f7f11497cc502d36f2da558824",
+    "evaluation/uav0000308_04600_s__native.receipt.json": "1fb2ec833bf26ad915ce4080e31c158290997a17304b903f6003b01ec01870ba",
+    "evaluation/uav0000308_04600_s__adaptive_depth.npz": "afa7ad7043d2dfcc36235ef87f0c580810cb67f8005c34671c6eeccc409250cf",
+    "evaluation/uav0000308_04600_s__adaptive_depth.receipt.json": "3b32901510298e0fe14cc79d0c3b7a74b56a76e39478ae991fadbb3b6ef7df85",
+    "evaluation/uav0000329_00276_s__native.npz": "dbc0c31e3a130418e585e1def0e403a84f931c596394dffbc91274213b261e35",
+    "evaluation/uav0000329_00276_s__native.receipt.json": "dcd344d3aab338e40e3929def4b323fb54df1b62fd19e8e35ea8021a354007c4",
+    "evaluation/uav0000329_00276_s__adaptive_depth.npz": "3c75307f6c4fb53fa4cdcd01ffb70c6eecf8837c45a1a763f430067d2032067f",
+    "evaluation/uav0000329_00276_s__adaptive_depth.receipt.json": "2c6c763fa9ae0eaf52eafdfe959ca502937b9a908e805f5f9b01126822398b69",
+    "evaluation/uav0000342_01518_s__native.npz": "9deb4131009e44128ee2d237a8afe06f8424c35e00e2d6bfce7d18768abc3b79",
+    "evaluation/uav0000342_01518_s__native.receipt.json": "8574da7b342660ae789f38d8c3750757d393ad8361dab74231857a5caf4bc2f6",
+    "evaluation/uav0000342_01518_s__adaptive_depth.npz": "14b00ce65c4c902ef7bc7a7abde65bc3f48d6a4b50fe076eea21a71914589c2c",
+    "evaluation/uav0000342_01518_s__adaptive_depth.receipt.json": "112640e9abe2ab6f806b121dcd1d4a3d4d1ef988f7a99e0db69463ff93949b64",
+    "evaluation/uav0000348_02415_s__native.npz": "b62abcc70c13b9409d0d07e1c15ff36cc4a152d118b3410bac96d36a34ac4686",
+    "evaluation/uav0000348_02415_s__native.receipt.json": "29f69e287698adfa0492f7d36a3e010176fe8d4953695abca619bc6495bee773",
+    "evaluation/uav0000348_02415_s__adaptive_depth.npz": "dce4a130cd2d855d72b67b715ea012a4144b48cef813d05f29b9a1ecdf765816",
+    "evaluation/uav0000348_02415_s__adaptive_depth.receipt.json": "0bcab0e7aa5701caf0bde7838688fe975967d9fca896be8cc746e2f40b0accdf",
+    "evaluation/uav0000349_02668_s__native.npz": "6a5fa71aa00423655b25e026c1b4f6e9afd9eb39843c07400e86f37ee48a4543",
+    "evaluation/uav0000349_02668_s__native.receipt.json": "343e937b818a62ed20c843bbf1271c6db1a21a75bb62ecf7cb8240dff1c5b26b",
+    "evaluation/uav0000349_02668_s__adaptive_depth.npz": "d6872cd478dcc739f2004b444dea6dae4de34be91b216b2e93c704dc06b7755e",
+    "evaluation/uav0000349_02668_s__adaptive_depth.receipt.json": "fecd3979eb8494ea77270e2dba42bc77c261505ddca582e8520d2781e0a54983"
+  },
+  "training_updates": 0,
+  "confirmation_inference_calls": 0,
+  "fingerprint": "590f82624060d405a2a837eb1ea7354b92b571aa51e9b1b7d98f27283baff8e6"
+}
+
+===== stage153_policy_summary.csv =====
+arm,videos,head_calls,block_calls,extended_frames,difficult_frames,difficult_at_l12,new_failure_on_native_stable,blocks_per_frame,auc,low_iou_fraction,longest_failure_fraction,unrecovered_events,failure_events,median_tracker_ms,p95_tracker_ms
+native,28,29047,203329,0,0,0,0,7.0,63.96051939931325,0.13197766549884973,0.13691148768411643,0.21428571428571427,0.6785714285714286,6.055853994829314,6.681021010237079
+adaptive_depth,28,29047,203329,0,0,0,0,7.0,63.96051939931325,0.13197766549884973,0.13691148768411643,0.21428571428571427,0.6785714285714286,4.9810620091323345,5.607842883494284
+
+===== stage153_paired.csv =====
+contrast,metric,videos,mean_delta,median_delta,ci_low,ci_high,family_ci_low,family_ci_high,wins,ties,losses,favorable_direction,worst_video_delta,worst_leave_one_video_out_delta
+adaptive_depth_minus_native,auc,28,0.0,0.0,0.0,0.0,,,0,28,0,positive,0.0,0.0
+adaptive_depth_minus_native,low_iou_fraction,28,0.0,0.0,0.0,0.0,,,0,28,0,negative,0.0,0.0
+adaptive_depth_minus_native,longest_failure_fraction,28,0.0,0.0,0.0,0.0,,,0,28,0,negative,0.0,0.0
+adaptive_depth_minus_native,unrecovered_events,28,0.0,0.0,0.0,0.0,,,0,28,0,negative,0.0,0.0
+adaptive_depth_minus_native,failure_events,28,0.0,0.0,0.0,0.0,,,0,28,0,negative,0.0,0.0
+
+===== stage153_video_summary.csv =====
+sequence,arm,tracked_frames,labeled_frames,auc,low_iou_fraction,failure_events,unrecovered_events,longest_failure_fraction,native_stable,new_failure_on_native_stable,extended_frames,difficult_frames,difficult_at_l12,block_calls,head_calls,median_tracker_ms,p95_tracker_ms
+uav0000003_00000_s,native,144,144,79.2989417989418,0.0,0,0,0.0,True,False,0,0,0,1008,144,6.28083199262619,6.45298482850194
+uav0000003_00000_s,adaptive_depth,144,144,79.2989417989418,0.0,0,0,0.0,True,False,0,0,0,1008,144,4.850279539823532,4.901316668838263
+uav0000016_00000_s,native,638,638,80.35527690700106,0.05329153605015674,1,1,0.05329153605015674,False,False,0,0,0,4466,638,5.896200425922871,6.53663519769907
+uav0000016_00000_s,adaptive_depth,638,638,80.35527690700106,0.05329153605015674,1,1,0.05329153605015674,False,False,0,0,0,4466,638,4.922468215227127,5.012733116745949
+uav0000070_01344_s,native,192,192,68.10515873015873,0.0,0,0,0.0,True,False,0,0,0,1344,192,6.102326326072216,6.753995455801487
+uav0000070_01344_s,adaptive_depth,192,192,68.10515873015873,0.0,0,0,0.0,True,False,0,0,0,1344,192,5.0621964037418365,5.213222932070494
+uav0000076_00241_s,native,1559,1559,39.98289501817404,0.531109685695959,1,0,0.5349583066067992,False,False,0,0,0,10913,1559,6.695147603750229,8.52835699915886
+uav0000076_00241_s,adaptive_depth,1559,1559,39.98289501817404,0.531109685695959,1,0,0.5349583066067992,False,False,0,0,0,10913,1559,5.694977939128876,7.554649561643598
+uav0000080_01680_s,native,1200,1200,66.65476190476191,0.0008333333333333334,0,0,0.0,True,False,0,0,0,8400,1200,6.2008993700146675,6.5199838019907475
+uav0000080_01680_s,adaptive_depth,1200,1200,66.65476190476191,0.0008333333333333334,0,0,0.0,True,False,0,0,0,8400,1200,4.910937510430813,4.9877057783305645
+uav0000085_00000_s,native,1644,1644,69.68196037539103,0.016423357664233577,3,0,0.011557177615571776,False,False,0,0,0,11508,1644,6.4949290826916695,6.882680114358664
+uav0000085_00000_s,adaptive_depth,1644,1644,69.68196037539103,0.016423357664233577,3,0,0.011557177615571776,False,False,0,0,0,11508,1644,4.96937520802021,5.88708100840449
+uav0000089_00920_s,native,1380,1380,63.14699792960663,0.016666666666666666,1,0,0.016666666666666666,False,False,0,0,0,9660,1380,4.886152222752571,5.925460625439882
+uav0000089_00920_s,adaptive_depth,1380,1380,63.14699792960663,0.016666666666666666,1,0,0.016666666666666666,False,False,0,0,0,9660,1380,4.828876815736294,4.892904963344336
+uav0000091_00460_s,native,230,230,29.77225672877847,0.6043478260869565,1,1,0.6043478260869565,False,False,0,0,0,1610,230,4.941591992974281,6.3250986859202385
+uav0000091_00460_s,adaptive_depth,230,230,29.77225672877847,0.6043478260869565,1,1,0.6043478260869565,False,False,0,0,0,1610,230,4.812999628484249,4.8634544014930725
+uav0000126_07915_s,native,629,629,88.00060564766447,0.0,0,0,0.0,True,False,0,0,0,4403,629,5.671001970767975,6.862248480319977
+uav0000126_07915_s,adaptive_depth,629,629,88.00060564766447,0.0,0,0,0.0,True,False,0,0,0,4403,629,5.507929250597954,6.5601006150245675
+uav0000147_00000_s,native,2220,2220,37.674817674817675,0.4292792792792793,1,1,0.42882882882882883,False,False,0,0,0,15540,2220,5.327096208930016,7.998663466423693
+uav0000147_00000_s,adaptive_depth,2220,2220,37.674817674817675,0.4292792792792793,1,1,0.42882882882882883,False,False,0,0,0,15540,2220,5.162766203284264,7.869109977036705
+uav0000169_00000_s,native,1112,1112,62.06320657759507,0.0044964028776978415,1,0,0.014388489208633094,False,False,0,0,0,7784,1112,6.311184726655483,6.474362500011921
+uav0000169_00000_s,adaptive_depth,1112,1112,62.06320657759507,0.0044964028776978415,1,0,0.014388489208633094,False,False,0,0,0,7784,1112,4.810086451470852,4.917552322149277
+uav0000170_00000_s,native,1410,1410,75.05572441742655,0.0,0,0,0.0,True,False,0,0,0,9870,1410,6.340027786791325,6.435884349048138
+uav0000170_00000_s,adaptive_depth,1410,1410,75.05572441742655,0.0,0,0,0.0,True,False,0,0,0,9870,1410,4.870914854109287,5.053263343870639
+uav0000174_00000_s,native,2175,2175,71.13081554460865,0.0,0,0,0.0,True,False,0,0,0,15225,2175,6.34399801492691,6.476989388465881
+uav0000174_00000_s,adaptive_depth,2175,2175,71.13081554460865,0.0,0,0,0.0,True,False,0,0,0,15225,2175,4.888627678155899,6.354008615016937
+uav0000176_00000_s,native,775,775,16.098310291858677,0.7935483870967742,1,1,0.792258064516129,False,False,0,0,0,5425,775,5.46371191740036,6.530296429991721
+uav0000176_00000_s,adaptive_depth,775,775,16.098310291858677,0.7935483870967742,1,1,0.792258064516129,False,False,0,0,0,5425,775,5.389399826526642,6.3882894814014435
+uav0000200_00000_s,native,570,570,83.83458646616542,0.0,0,0,0.0,True,False,0,0,0,3990,570,6.52148574590683,6.8108536303043365
+uav0000200_00000_s,adaptive_depth,570,570,83.83458646616542,0.0,0,0,0.0,True,False,0,0,0,3990,570,4.984166473150253,5.216362792998552
+uav0000204_00000_s,native,921,921,53.92172069696499,0.248642779587405,1,0,0.249728555917481,False,False,0,0,0,6447,921,6.3424427062273026,7.458767853677273
+uav0000204_00000_s,adaptive_depth,921,921,53.92172069696499,0.248642779587405,1,0,0.249728555917481,False,False,0,0,0,6447,921,4.8529598861932755,6.170451641082764
+uav0000226_05370_s,native,1860,1860,55.06144393241167,0.0532258064516129,1,0,0.12258064516129032,False,False,0,0,0,13020,1860,5.0935037434101105,6.201078090816736
+uav0000226_05370_s,adaptive_depth,1860,1860,55.06144393241167,0.0532258064516129,1,0,0.12258064516129032,False,False,0,0,0,13020,1860,4.987076856195927,6.049005035310984
+uav0000235_00001_s,native,1007,1007,66.99768288646143,0.11221449851042702,1,1,0.11221449851042702,False,False,0,0,0,7049,1007,6.4568109810352325,6.58290833234787
+uav0000235_00001_s,adaptive_depth,1007,1007,66.99768288646143,0.11221449851042702,1,1,0.11221449851042702,False,False,0,0,0,7049,1007,4.982000216841698,5.03365583717823
+uav0000237_00001_s,native,598,598,72.8380315336837,0.08695652173913043,1,0,0.08695652173913043,False,False,0,0,0,4186,598,6.332363933324814,6.518822070211172
+uav0000237_00001_s,adaptive_depth,598,598,72.8380315336837,0.08695652173913043,1,0,0.08695652173913043,False,False,0,0,0,4186,598,4.879690706729889,4.976502992212772
+uav0000238_00001_s,native,1199,1199,81.3773382580722,0.0,0,0,0.0,True,False,0,0,0,8393,1199,6.394524127244949,6.621026247739792
+uav0000238_00001_s,adaptive_depth,1199,1199,81.3773382580722,0.0,0,0,0.0,True,False,0,0,0,8393,1199,4.912292584776878,5.047756806015968
+uav0000239_11136_s,native,960,960,83.11507936507937,0.0,0,0,0.0,True,False,0,0,0,6720,960,6.3973693177104,6.679799314588308
+uav0000239_11136_s,adaptive_depth,960,960,83.11507936507937,0.0,0,0,0.0,True,False,0,0,0,6720,960,5.004005506634712,6.450760643929243
+uav0000304_00253_s,native,1725,1725,72.28709454796412,0.0,0,0,0.0,True,False,0,0,0,12075,1725,6.163612008094788,6.439277157187462
+uav0000304_00253_s,adaptive_depth,1725,1725,72.28709454796412,0.0,0,0,0.0,True,False,0,0,0,12075,1725,4.89424355328083,6.353255361318588
+uav0000307_04531_s,native,759,759,66.50981868373172,0.052700922266139656,1,0,0.10013175230566534,False,False,0,0,0,5313,759,6.20771199464798,6.66610486805439
+uav0000307_04531_s,adaptive_depth,759,759,66.50981868373172,0.052700922266139656,1,0,0.10013175230566534,False,False,0,0,0,5313,759,4.884134978055954,5.131789669394493
+uav0000308_04600_s,native,460,460,74.78260869565217,0.0,0,0,0.0,True,False,0,0,0,3220,460,6.18232786655426,6.544943246990442
+uav0000308_04600_s,adaptive_depth,460,460,74.78260869565217,0.0,0,0,0.0,True,False,0,0,0,3220,460,4.958955571055412,5.006660148501396
+uav0000329_00276_s,native,598,598,73.34766682592769,0.0,0,0,0.0,True,False,0,0,0,4186,598,6.075969897210598,6.394611112773418
+uav0000329_00276_s,adaptive_depth,598,598,73.34766682592769,0.0,0,0,0.0,True,False,0,0,0,4186,598,4.8040952533483505,4.9095080234110355
+uav0000342_01518_s,native,1886,1886,71.32000201989598,0.07051961823966066,1,1,0.07051961823966066,False,False,0,0,0,13202,1886,6.2138475477695465,6.577926687896252
+uav0000342_01518_s,adaptive_depth,1886,1886,71.32000201989598,0.07051961823966066,1,1,0.07051961823966066,False,False,0,0,0,13202,1886,4.94193471968174,6.371811963617802
+uav0000348_02415_s,native,644,644,58.71783496007098,0.055900621118012424,2,0,0.06987577639751552,False,False,0,0,0,4508,644,6.108191795647144,6.42656022682786
+uav0000348_02415_s,adaptive_depth,644,644,58.71783496007098,0.055900621118012424,2,0,0.06987577639751552,False,False,0,0,0,4508,644,4.882017150521278,4.931657388806343
+uav0000349_02668_s,native,552,552,29.761904761904763,0.5652173913043478,1,0,0.5652173913043478,False,False,0,0,0,3864,552,6.118650548160076,6.4422691240906715
+uav0000349_02668_s,adaptive_depth,552,552,29.761904761904763,0.5652173913043478,1,0,0.5652173913043478,False,False,0,0,0,3864,552,4.820327274501324,4.915029648691416
+
+===== stage153_failures.csv =====
+sequence,arm,onset,end,recovery,duration,censor
+uav0000016_00000_s,native,605,638,,34,video_end
+uav0000016_00000_s,adaptive_depth,605,638,,34,video_end
+uav0000076_00241_s,native,639,1472,1473,834,none
+uav0000076_00241_s,adaptive_depth,639,1472,1473,834,none
+uav0000085_00000_s,native,204,222,223,19,none
+uav0000085_00000_s,native,684,691,692,8,none
+uav0000085_00000_s,native,1541,1545,1546,5,none
+uav0000085_00000_s,adaptive_depth,204,222,223,19,none
+uav0000085_00000_s,adaptive_depth,684,691,692,8,none
+uav0000085_00000_s,adaptive_depth,1541,1545,1546,5,none
+uav0000089_00920_s,native,1159,1181,1182,23,none
+uav0000089_00920_s,adaptive_depth,1159,1181,1182,23,none
+uav0000091_00460_s,native,92,230,,139,video_end
+uav0000091_00460_s,adaptive_depth,92,230,,139,video_end
+uav0000147_00000_s,native,1269,2220,,952,video_end
+uav0000147_00000_s,adaptive_depth,1269,2220,,952,video_end
+uav0000169_00000_s,native,881,896,897,16,none
+uav0000169_00000_s,adaptive_depth,881,896,897,16,none
+uav0000176_00000_s,native,162,775,,614,video_end
+uav0000176_00000_s,adaptive_depth,162,775,,614,video_end
+uav0000204_00000_s,native,664,893,894,230,none
+uav0000204_00000_s,adaptive_depth,664,893,894,230,none
+uav0000226_05370_s,native,110,337,338,228,none
+uav0000226_05370_s,adaptive_depth,110,337,338,228,none
+uav0000235_00001_s,native,895,1007,,113,video_end
+uav0000235_00001_s,adaptive_depth,895,1007,,113,video_end
+uav0000237_00001_s,native,242,293,294,52,none
+uav0000237_00001_s,adaptive_depth,242,293,294,52,none
+uav0000307_04531_s,native,398,473,474,76,none
+uav0000307_04531_s,adaptive_depth,398,473,474,76,none
+uav0000342_01518_s,native,1754,1886,,133,video_end
+uav0000342_01518_s,adaptive_depth,1754,1886,,133,video_end
+uav0000348_02415_s,native,367,382,383,16,none
+uav0000348_02415_s,native,538,582,583,45,none
+uav0000348_02415_s,adaptive_depth,367,382,383,16,none
+uav0000348_02415_s,adaptive_depth,538,582,583,45,none
+uav0000349_02668_s,native,96,407,408,312,none
+uav0000349_02668_s,adaptive_depth,96,407,408,312,none
+
+===== stage153_routing.csv =====
+sequence,arm,selected_layer,frames,difficult,extended
+uav0000003_00000_s,native,7,0,0,0
+uav0000003_00000_s,native,8,0,0,0
+uav0000003_00000_s,native,9,144,0,0
+uav0000003_00000_s,native,10,0,0,0
+uav0000003_00000_s,native,11,0,0,0
+uav0000003_00000_s,native,12,0,0,0
+uav0000003_00000_s,adaptive_depth,7,0,0,0
+uav0000003_00000_s,adaptive_depth,8,0,0,0
+uav0000003_00000_s,adaptive_depth,9,144,0,0
+uav0000003_00000_s,adaptive_depth,10,0,0,0
+uav0000003_00000_s,adaptive_depth,11,0,0,0
+uav0000003_00000_s,adaptive_depth,12,0,0,0
+uav0000016_00000_s,native,7,0,0,0
+uav0000016_00000_s,native,8,0,0,0
+uav0000016_00000_s,native,9,638,0,0
+uav0000016_00000_s,native,10,0,0,0
+uav0000016_00000_s,native,11,0,0,0
+uav0000016_00000_s,native,12,0,0,0
+uav0000016_00000_s,adaptive_depth,7,0,0,0
+uav0000016_00000_s,adaptive_depth,8,0,0,0
+uav0000016_00000_s,adaptive_depth,9,638,0,0
+uav0000016_00000_s,adaptive_depth,10,0,0,0
+uav0000016_00000_s,adaptive_depth,11,0,0,0
+uav0000016_00000_s,adaptive_depth,12,0,0,0
+uav0000070_01344_s,native,7,0,0,0
+uav0000070_01344_s,native,8,0,0,0
+uav0000070_01344_s,native,9,192,0,0
+uav0000070_01344_s,native,10,0,0,0
+uav0000070_01344_s,native,11,0,0,0
+uav0000070_01344_s,native,12,0,0,0
+uav0000070_01344_s,adaptive_depth,7,0,0,0
+uav0000070_01344_s,adaptive_depth,8,0,0,0
+uav0000070_01344_s,adaptive_depth,9,192,0,0
+uav0000070_01344_s,adaptive_depth,10,0,0,0
+uav0000070_01344_s,adaptive_depth,11,0,0,0
+uav0000070_01344_s,adaptive_depth,12,0,0,0
+uav0000076_00241_s,native,7,0,0,0
+uav0000076_00241_s,native,8,0,0,0
+uav0000076_00241_s,native,9,1559,0,0
+uav0000076_00241_s,native,10,0,0,0
+uav0000076_00241_s,native,11,0,0,0
+uav0000076_00241_s,native,12,0,0,0
+uav0000076_00241_s,adaptive_depth,7,0,0,0
+uav0000076_00241_s,adaptive_depth,8,0,0,0
+uav0000076_00241_s,adaptive_depth,9,1559,0,0
+uav0000076_00241_s,adaptive_depth,10,0,0,0
+uav0000076_00241_s,adaptive_depth,11,0,0,0
+uav0000076_00241_s,adaptive_depth,12,0,0,0
+uav0000080_01680_s,native,7,0,0,0
+uav0000080_01680_s,native,8,0,0,0
+uav0000080_01680_s,native,9,1200,0,0
+uav0000080_01680_s,native,10,0,0,0
+uav0000080_01680_s,native,11,0,0,0
+uav0000080_01680_s,native,12,0,0,0
+uav0000080_01680_s,adaptive_depth,7,0,0,0
+uav0000080_01680_s,adaptive_depth,8,0,0,0
+uav0000080_01680_s,adaptive_depth,9,1200,0,0
+uav0000080_01680_s,adaptive_depth,10,0,0,0
+uav0000080_01680_s,adaptive_depth,11,0,0,0
+uav0000080_01680_s,adaptive_depth,12,0,0,0
+uav0000085_00000_s,native,7,0,0,0
+uav0000085_00000_s,native,8,0,0,0
+uav0000085_00000_s,native,9,1644,0,0
+uav0000085_00000_s,native,10,0,0,0
+uav0000085_00000_s,native,11,0,0,0
+uav0000085_00000_s,native,12,0,0,0
+uav0000085_00000_s,adaptive_depth,7,0,0,0
+uav0000085_00000_s,adaptive_depth,8,0,0,0
+uav0000085_00000_s,adaptive_depth,9,1644,0,0
+uav0000085_00000_s,adaptive_depth,10,0,0,0
+uav0000085_00000_s,adaptive_depth,11,0,0,0
+uav0000085_00000_s,adaptive_depth,12,0,0,0
+uav0000089_00920_s,native,7,0,0,0
+uav0000089_00920_s,native,8,0,0,0
+uav0000089_00920_s,native,9,1380,0,0
+uav0000089_00920_s,native,10,0,0,0
+uav0000089_00920_s,native,11,0,0,0
+uav0000089_00920_s,native,12,0,0,0
+uav0000089_00920_s,adaptive_depth,7,0,0,0
+uav0000089_00920_s,adaptive_depth,8,0,0,0
+uav0000089_00920_s,adaptive_depth,9,1380,0,0
+uav0000089_00920_s,adaptive_depth,10,0,0,0
+uav0000089_00920_s,adaptive_depth,11,0,0,0
+uav0000089_00920_s,adaptive_depth,12,0,0,0
+uav0000091_00460_s,native,7,0,0,0
+uav0000091_00460_s,native,8,0,0,0
+uav0000091_00460_s,native,9,230,0,0
+uav0000091_00460_s,native,10,0,0,0
+uav0000091_00460_s,native,11,0,0,0
+uav0000091_00460_s,native,12,0,0,0
+uav0000091_00460_s,adaptive_depth,7,0,0,0
+uav0000091_00460_s,adaptive_depth,8,0,0,0
+uav0000091_00460_s,adaptive_depth,9,230,0,0
+uav0000091_00460_s,adaptive_depth,10,0,0,0
+uav0000091_00460_s,adaptive_depth,11,0,0,0
+uav0000091_00460_s,adaptive_depth,12,0,0,0
+uav0000126_07915_s,native,7,0,0,0
+uav0000126_07915_s,native,8,0,0,0
+uav0000126_07915_s,native,9,629,0,0
+uav0000126_07915_s,native,10,0,0,0
+uav0000126_07915_s,native,11,0,0,0
+uav0000126_07915_s,native,12,0,0,0
+uav0000126_07915_s,adaptive_depth,7,0,0,0
+uav0000126_07915_s,adaptive_depth,8,0,0,0
+uav0000126_07915_s,adaptive_depth,9,629,0,0
+uav0000126_07915_s,adaptive_depth,10,0,0,0
+uav0000126_07915_s,adaptive_depth,11,0,0,0
+uav0000126_07915_s,adaptive_depth,12,0,0,0
+uav0000147_00000_s,native,7,0,0,0
+uav0000147_00000_s,native,8,0,0,0
+uav0000147_00000_s,native,9,2220,0,0
+uav0000147_00000_s,native,10,0,0,0
+uav0000147_00000_s,native,11,0,0,0
+uav0000147_00000_s,native,12,0,0,0
+uav0000147_00000_s,adaptive_depth,7,0,0,0
+uav0000147_00000_s,adaptive_depth,8,0,0,0
+uav0000147_00000_s,adaptive_depth,9,2220,0,0
+uav0000147_00000_s,adaptive_depth,10,0,0,0
+uav0000147_00000_s,adaptive_depth,11,0,0,0
+uav0000147_00000_s,adaptive_depth,12,0,0,0
+uav0000169_00000_s,native,7,0,0,0
+uav0000169_00000_s,native,8,0,0,0
+uav0000169_00000_s,native,9,1112,0,0
+uav0000169_00000_s,native,10,0,0,0
+uav0000169_00000_s,native,11,0,0,0
+uav0000169_00000_s,native,12,0,0,0
+uav0000169_00000_s,adaptive_depth,7,0,0,0
+uav0000169_00000_s,adaptive_depth,8,0,0,0
+uav0000169_00000_s,adaptive_depth,9,1112,0,0
+uav0000169_00000_s,adaptive_depth,10,0,0,0
+uav0000169_00000_s,adaptive_depth,11,0,0,0
+uav0000169_00000_s,adaptive_depth,12,0,0,0
+uav0000170_00000_s,native,7,0,0,0
+uav0000170_00000_s,native,8,0,0,0
+uav0000170_00000_s,native,9,1410,0,0
+uav0000170_00000_s,native,10,0,0,0
+uav0000170_00000_s,native,11,0,0,0
+uav0000170_00000_s,native,12,0,0,0
+uav0000170_00000_s,adaptive_depth,7,0,0,0
+uav0000170_00000_s,adaptive_depth,8,0,0,0
+uav0000170_00000_s,adaptive_depth,9,1410,0,0
+uav0000170_00000_s,adaptive_depth,10,0,0,0
+uav0000170_00000_s,adaptive_depth,11,0,0,0
+uav0000170_00000_s,adaptive_depth,12,0,0,0
+uav0000174_00000_s,native,7,0,0,0
+uav0000174_00000_s,native,8,0,0,0
+uav0000174_00000_s,native,9,2175,0,0
+uav0000174_00000_s,native,10,0,0,0
+uav0000174_00000_s,native,11,0,0,0
+uav0000174_00000_s,native,12,0,0,0
+uav0000174_00000_s,adaptive_depth,7,0,0,0
+uav0000174_00000_s,adaptive_depth,8,0,0,0
+uav0000174_00000_s,adaptive_depth,9,2175,0,0
+uav0000174_00000_s,adaptive_depth,10,0,0,0
+uav0000174_00000_s,adaptive_depth,11,0,0,0
+uav0000174_00000_s,adaptive_depth,12,0,0,0
+uav0000176_00000_s,native,7,0,0,0
+uav0000176_00000_s,native,8,0,0,0
+uav0000176_00000_s,native,9,775,0,0
+uav0000176_00000_s,native,10,0,0,0
+uav0000176_00000_s,native,11,0,0,0
+uav0000176_00000_s,native,12,0,0,0
+uav0000176_00000_s,adaptive_depth,7,0,0,0
+uav0000176_00000_s,adaptive_depth,8,0,0,0
+uav0000176_00000_s,adaptive_depth,9,775,0,0
+uav0000176_00000_s,adaptive_depth,10,0,0,0
+uav0000176_00000_s,adaptive_depth,11,0,0,0
+uav0000176_00000_s,adaptive_depth,12,0,0,0
+uav0000200_00000_s,native,7,0,0,0
+uav0000200_00000_s,native,8,0,0,0
+uav0000200_00000_s,native,9,570,0,0
+uav0000200_00000_s,native,10,0,0,0
+uav0000200_00000_s,native,11,0,0,0
+uav0000200_00000_s,native,12,0,0,0
+uav0000200_00000_s,adaptive_depth,7,0,0,0
+uav0000200_00000_s,adaptive_depth,8,0,0,0
+uav0000200_00000_s,adaptive_depth,9,570,0,0
+uav0000200_00000_s,adaptive_depth,10,0,0,0
+uav0000200_00000_s,adaptive_depth,11,0,0,0
+uav0000200_00000_s,adaptive_depth,12,0,0,0
+uav0000204_00000_s,native,7,0,0,0
+uav0000204_00000_s,native,8,0,0,0
+uav0000204_00000_s,native,9,921,0,0
+uav0000204_00000_s,native,10,0,0,0
+uav0000204_00000_s,native,11,0,0,0
+uav0000204_00000_s,native,12,0,0,0
+uav0000204_00000_s,adaptive_depth,7,0,0,0
+uav0000204_00000_s,adaptive_depth,8,0,0,0
+uav0000204_00000_s,adaptive_depth,9,921,0,0
+uav0000204_00000_s,adaptive_depth,10,0,0,0
+uav0000204_00000_s,adaptive_depth,11,0,0,0
+uav0000204_00000_s,adaptive_depth,12,0,0,0
+uav0000226_05370_s,native,7,0,0,0
+uav0000226_05370_s,native,8,0,0,0
+uav0000226_05370_s,native,9,1860,0,0
+uav0000226_05370_s,native,10,0,0,0
+uav0000226_05370_s,native,11,0,0,0
+uav0000226_05370_s,native,12,0,0,0
+uav0000226_05370_s,adaptive_depth,7,0,0,0
+uav0000226_05370_s,adaptive_depth,8,0,0,0
+uav0000226_05370_s,adaptive_depth,9,1860,0,0
+uav0000226_05370_s,adaptive_depth,10,0,0,0
+uav0000226_05370_s,adaptive_depth,11,0,0,0
+uav0000226_05370_s,adaptive_depth,12,0,0,0
+uav0000235_00001_s,native,7,0,0,0
+uav0000235_00001_s,native,8,0,0,0
+uav0000235_00001_s,native,9,1007,0,0
+uav0000235_00001_s,native,10,0,0,0
+uav0000235_00001_s,native,11,0,0,0
+uav0000235_00001_s,native,12,0,0,0
+uav0000235_00001_s,adaptive_depth,7,0,0,0
+uav0000235_00001_s,adaptive_depth,8,0,0,0
+uav0000235_00001_s,adaptive_depth,9,1007,0,0
+uav0000235_00001_s,adaptive_depth,10,0,0,0
+uav0000235_00001_s,adaptive_depth,11,0,0,0
+uav0000235_00001_s,adaptive_depth,12,0,0,0
+uav0000237_00001_s,native,7,0,0,0
+uav0000237_00001_s,native,8,0,0,0
+uav0000237_00001_s,native,9,598,0,0
+uav0000237_00001_s,native,10,0,0,0
+uav0000237_00001_s,native,11,0,0,0
+uav0000237_00001_s,native,12,0,0,0
+uav0000237_00001_s,adaptive_depth,7,0,0,0
+uav0000237_00001_s,adaptive_depth,8,0,0,0
+uav0000237_00001_s,adaptive_depth,9,598,0,0
+uav0000237_00001_s,adaptive_depth,10,0,0,0
+uav0000237_00001_s,adaptive_depth,11,0,0,0
+uav0000237_00001_s,adaptive_depth,12,0,0,0
+uav0000238_00001_s,native,7,0,0,0
+uav0000238_00001_s,native,8,0,0,0
+uav0000238_00001_s,native,9,1199,0,0
+uav0000238_00001_s,native,10,0,0,0
+uav0000238_00001_s,native,11,0,0,0
+uav0000238_00001_s,native,12,0,0,0
+uav0000238_00001_s,adaptive_depth,7,0,0,0
+uav0000238_00001_s,adaptive_depth,8,0,0,0
+uav0000238_00001_s,adaptive_depth,9,1199,0,0
+uav0000238_00001_s,adaptive_depth,10,0,0,0
+uav0000238_00001_s,adaptive_depth,11,0,0,0
+uav0000238_00001_s,adaptive_depth,12,0,0,0
+uav0000239_11136_s,native,7,0,0,0
+uav0000239_11136_s,native,8,0,0,0
+uav0000239_11136_s,native,9,960,0,0
+uav0000239_11136_s,native,10,0,0,0
+uav0000239_11136_s,native,11,0,0,0
+uav0000239_11136_s,native,12,0,0,0
+uav0000239_11136_s,adaptive_depth,7,0,0,0
+uav0000239_11136_s,adaptive_depth,8,0,0,0
+uav0000239_11136_s,adaptive_depth,9,960,0,0
+uav0000239_11136_s,adaptive_depth,10,0,0,0
+uav0000239_11136_s,adaptive_depth,11,0,0,0
+uav0000239_11136_s,adaptive_depth,12,0,0,0
+uav0000304_00253_s,native,7,0,0,0
+uav0000304_00253_s,native,8,0,0,0
+uav0000304_00253_s,native,9,1725,0,0
+uav0000304_00253_s,native,10,0,0,0
+uav0000304_00253_s,native,11,0,0,0
+uav0000304_00253_s,native,12,0,0,0
+uav0000304_00253_s,adaptive_depth,7,0,0,0
+uav0000304_00253_s,adaptive_depth,8,0,0,0
+uav0000304_00253_s,adaptive_depth,9,1725,0,0
+uav0000304_00253_s,adaptive_depth,10,0,0,0
+uav0000304_00253_s,adaptive_depth,11,0,0,0
+uav0000304_00253_s,adaptive_depth,12,0,0,0
+uav0000307_04531_s,native,7,0,0,0
+uav0000307_04531_s,native,8,0,0,0
+uav0000307_04531_s,native,9,759,0,0
+uav0000307_04531_s,native,10,0,0,0
+uav0000307_04531_s,native,11,0,0,0
+uav0000307_04531_s,native,12,0,0,0
+uav0000307_04531_s,adaptive_depth,7,0,0,0
+uav0000307_04531_s,adaptive_depth,8,0,0,0
+uav0000307_04531_s,adaptive_depth,9,759,0,0
+uav0000307_04531_s,adaptive_depth,10,0,0,0
+uav0000307_04531_s,adaptive_depth,11,0,0,0
+uav0000307_04531_s,adaptive_depth,12,0,0,0
+uav0000308_04600_s,native,7,0,0,0
+uav0000308_04600_s,native,8,0,0,0
+uav0000308_04600_s,native,9,460,0,0
+uav0000308_04600_s,native,10,0,0,0
+uav0000308_04600_s,native,11,0,0,0
+uav0000308_04600_s,native,12,0,0,0
+uav0000308_04600_s,adaptive_depth,7,0,0,0
+uav0000308_04600_s,adaptive_depth,8,0,0,0
+uav0000308_04600_s,adaptive_depth,9,460,0,0
+uav0000308_04600_s,adaptive_depth,10,0,0,0
+uav0000308_04600_s,adaptive_depth,11,0,0,0
+uav0000308_04600_s,adaptive_depth,12,0,0,0
+uav0000329_00276_s,native,7,0,0,0
+uav0000329_00276_s,native,8,0,0,0
+uav0000329_00276_s,native,9,598,0,0
+uav0000329_00276_s,native,10,0,0,0
+uav0000329_00276_s,native,11,0,0,0
+uav0000329_00276_s,native,12,0,0,0
+uav0000329_00276_s,adaptive_depth,7,0,0,0
+uav0000329_00276_s,adaptive_depth,8,0,0,0
+uav0000329_00276_s,adaptive_depth,9,598,0,0
+uav0000329_00276_s,adaptive_depth,10,0,0,0
+uav0000329_00276_s,adaptive_depth,11,0,0,0
+uav0000329_00276_s,adaptive_depth,12,0,0,0
+uav0000342_01518_s,native,7,0,0,0
+uav0000342_01518_s,native,8,0,0,0
+uav0000342_01518_s,native,9,1886,0,0
+uav0000342_01518_s,native,10,0,0,0
+uav0000342_01518_s,native,11,0,0,0
+uav0000342_01518_s,native,12,0,0,0
+uav0000342_01518_s,adaptive_depth,7,0,0,0
+uav0000342_01518_s,adaptive_depth,8,0,0,0
+uav0000342_01518_s,adaptive_depth,9,1886,0,0
+uav0000342_01518_s,adaptive_depth,10,0,0,0
+uav0000342_01518_s,adaptive_depth,11,0,0,0
+uav0000342_01518_s,adaptive_depth,12,0,0,0
+uav0000348_02415_s,native,7,0,0,0
+uav0000348_02415_s,native,8,0,0,0
+uav0000348_02415_s,native,9,644,0,0
+uav0000348_02415_s,native,10,0,0,0
+uav0000348_02415_s,native,11,0,0,0
+uav0000348_02415_s,native,12,0,0,0
+uav0000348_02415_s,adaptive_depth,7,0,0,0
+uav0000348_02415_s,adaptive_depth,8,0,0,0
+uav0000348_02415_s,adaptive_depth,9,644,0,0
+uav0000348_02415_s,adaptive_depth,10,0,0,0
+uav0000348_02415_s,adaptive_depth,11,0,0,0
+uav0000348_02415_s,adaptive_depth,12,0,0,0
+uav0000349_02668_s,native,7,0,0,0
+uav0000349_02668_s,native,8,0,0,0
+uav0000349_02668_s,native,9,552,0,0
+uav0000349_02668_s,native,10,0,0,0
+uav0000349_02668_s,native,11,0,0,0
+uav0000349_02668_s,native,12,0,0,0
+uav0000349_02668_s,adaptive_depth,7,0,0,0
+uav0000349_02668_s,adaptive_depth,8,0,0,0
+uav0000349_02668_s,adaptive_depth,9,552,0,0
+uav0000349_02668_s,adaptive_depth,10,0,0,0
+uav0000349_02668_s,adaptive_depth,11,0,0,0
+uav0000349_02668_s,adaptive_depth,12,0,0,0

@@ -2,7 +2,9 @@
 
 更新日期：2026-11-20（Asia/Hong_Kong）
 
-**Stage-153 难帧串行加算一个 Transformer 块已准备，见 0.144。** 同卡比较原生 SGLA 与自适应深度，仅改后段块路由，整段服务器结果待回传。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE153_ADAPTIVE_DEPTH.md)
+**Stage-154 强制加算一块的同裁剪对照已准备，见 0.145。** 用 Stage-134／137 的 47 个起点比较当帧输出和原生路径续跑 8／32 帧。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE154_FORCED_DEPTH_CONTINUATION.md)
+
+**Stage-153 难帧串行加算的运行已完成，见 0.144。** 28 个视频的 29,047 帧均选 L9，0 帧触发加算，两组 AUC 均为 63.9605。串行加算的效果仍待测量。 [结果复核](docs/experiments/06_sgla_uav_tracking/STAGE153_RESULTS_REVIEW.md)
 
 **Stage-152 只换搜索中心的整段闭环已完成，见 0.143。** 只换中心 AUC 55.4456，相对完整灰度／回归／原生低 1.2245／5.1994／8.5149 点。0089 局部收益在整段保留，0085 的短程关键改选未触发。 [结果复核](docs/experiments/06_sgla_uav_tracking/STAGE152_RESULTS_REVIEW.md)
 
@@ -123,7 +125,7 @@ Stage-75 L20 已完成 13 个固定起点和 52 条短分支。0003 两个首败
 
 ## 0. 下一次对话的直接接续入口
 
-本节更新至 2026-11-20。接续先读 0.144 的 Stage-153 自适应深度协议和 0.143 的 Stage-152 整段闭环结果。以往全视频结果见 0.122 和 0.112，候选生成背景见 0.90～0.95 和 0.53～0.54，确认边界和论文目标见 0.48／0.44。 [Stage-153 协议](docs/experiments/06_sgla_uav_tracking/STAGE153_ADAPTIVE_DEPTH.md) · [Stage-152 结果](docs/experiments/06_sgla_uav_tracking/STAGE152_RESULTS_REVIEW.md)
+本节更新至 2026-11-20。接续先读 0.145 的 Stage-154 强制加算协议和 0.144 的 Stage-153 自适应深度结果。以往全视频结果见 0.143、0.122 和 0.112，候选生成背景见 0.90～0.95 和 0.53～0.54，确认边界和论文目标见 0.48／0.44。 [Stage-154 协议](docs/experiments/06_sgla_uav_tracking/STAGE154_FORCED_DEPTH_CONTINUATION.md) · [Stage-153 结果](docs/experiments/06_sgla_uav_tracking/STAGE153_RESULTS_REVIEW.md)
 
 需要回溯历史与配对干预时读 0.33、0.31、0.29、0.27、0.24、0.22、0.20 和 0.18。较早阶段的运行状态按各节日期理解。 [Stage-60](docs/experiments/06_sgla_uav_tracking/STAGE60_RESULTS_REVIEW.md) · [Stage-54](docs/experiments/06_sgla_uav_tracking/STAGE54_RESULTS_REVIEW.md) · [Stage-55](docs/experiments/06_sgla_uav_tracking/STAGE55_RESULTS_REVIEW.md)
 
@@ -2515,9 +2517,15 @@ L40 同卡完成 28 个开发视频、112 条轨迹、116,188 次搜索。原生
 
 0089 在两条灰度轨迹均于 1159 帧首次改选，整段只换中心相对完整灰度 +10.3451 AUC。0085 两路在 216 帧已触发，690 帧均未触发，不能用冻结起点的恢复替代其整段结果。0080／0304 相对原生的失跟在回归组已存在，0016／0169 是只换中心相对回归新增的失跟。当前未支持采用整段灰度写回规则。 [服务器原始回传](docs/experiments/06_sgla_uav_tracking/results/stage152_results_20261120T064318Z_611857.txt)
 
-### 0.144 Stage-153 难帧串行加算一个 Transformer 块（待服务器执行）
+### 0.144 Stage-153 难帧串行加算一个 Transformer 块（结果已复核）
 
-用户要求单独比较难度触发加深与原生 SGLA。仅在 L7–L11 的原选块后串行追加相邻下一块，接回原归一化和预测头。分差信号为选择器前两名之差，32 帧预热后，低于之前最多 64 帧分差的第 25 百分位才加算。L12 不追加。冻结模板、裁剪、权重、一次头部调用、Hann 解码与状态写回。开发同卡两组 28 视频／56 轨迹，比较 AUC、稳定保护、额外块数和跟踪耗时。同步后运行 `bash tools/run_stage153_adaptive_depth.sh`，回传 `stage153_results_*.txt`。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE153_ADAPTIVE_DEPTH.md)
+同 L40 完成 28 视频、56 条轨迹、58,094 次搜索。两组各 29,047 帧均选 L9，0 个难帧、0 次加算，两组 AUC 均为 63.9605、低 IoU 13.20%、失跟 19 次且 6 次未恢复。两组逐帧预测框一致。原生与自适应的每视频中位耗时均值为 6.056／4.981 毫秒，在相同调用数下无法归因于深度变化。 [结果复核](docs/experiments/06_sgla_uav_tracking/STAGE153_RESULTS_REVIEW.md) · [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE153_ADAPTIVE_DEPTH.md)
+
+门槛规则以过去分差的第 25 百分位为比较基准，当前分差须严格更低。Stage-137 的 47 个点均记录前两名分差 1.0，支持检查选择器 Sigmoid 分数的饱和现象。Stage-153 逐帧分差与门槛留在服务器轨迹缓存中。整段运行未触及加算路径，实际串联收益待验证。
+
+### 0.145 Stage-154 强制加算一块的同裁剪对照（待服务器执行）
+
+沿用 Stage-134／137 的 19 个失跟起点与 28 个稳定起点。两组在相同裁剪按原选择器先走同一后段块，加算组只在起点追加下一块，通常为 L9 → L10。两组每帧一次头部调用，写回各自的起点框后按原生路径续跑 32 帧。报告起点好框新增／损失、后继 8／32 帧 IoU 与持续恢复、持续低 IoU。共计划 3,102 次搜索，统计实际追加块数。服务器执行 `bash tools/run_stage154_forced_depth.sh`，完成后回传 `stage154_results_*.txt`。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE154_FORCED_DEPTH_CONTINUATION.md)
 
 ## 1. 接手后首先要知道的结论
 

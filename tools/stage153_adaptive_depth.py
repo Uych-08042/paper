@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 from collections import deque
 from contextlib import ExitStack
 from pathlib import Path
@@ -71,17 +72,18 @@ class DepthObserver:
                     raise ValueError("Native SGLA executed an unexpected second late block")
                 return None
             self.selected = layer
-            if self.arm == "adaptive_depth" and self.difficult and layer < 12:
+            if layer < 12 and (self.force_extra or (self.arm == "adaptive_depth" and self.difficult)):
                 self.added = layer+1
                 return self.blocks[layer](tokens)
             return None
         return after_block
 
-    def step(self, image, parent, frame):
+    def step(self, image, parent, frame, *, force_extra=False, capture_crop=False):
         native, tracker = self.native, self.rt.tracker
         native.blocks[:] = 0
         native.heads = native.selectors = 0
         self.selected = self.added = 0
+        self.force_extra = force_extra
         self.margin = self.threshold = None
         self.difficult = False
         tracker.state = np.asarray(parent, float).tolist()
@@ -89,11 +91,15 @@ class DepthObserver:
         namespace = tracker.track.__func__.__globals__
         sample = namespace["sample_target"]
         crops = 0
+        crop_sha256 = None
 
         def sample_once(*args, **kwargs):
-            nonlocal crops
+            nonlocal crops, crop_sha256
             crops += 1
-            return sample(*args, **kwargs)
+            result = sample(*args, **kwargs)
+            if capture_crop:
+                crop_sha256 = hashlib.sha256(np.ascontiguousarray(result[0]).tobytes()).hexdigest()
+            return result
 
         native.synchronize()
         with patch.dict(namespace, sample_target=sample_once), self.rt.torch.no_grad():
@@ -104,10 +110,13 @@ class DepthObserver:
         if tracker.frame_id != frame or self.margin is None or not self.selected:
             raise ValueError("Incomplete native tracker call")
         np.testing.assert_array_equal(tracker.state, output)
-        return dict(boxes=np.array(output, float), parent=np.array(parent, float),
-                    frame_id=frame, margin=self.margin, threshold=self.threshold, difficult=self.difficult,
-                    selected=self.selected, added=self.added, crop_calls=crops, head_calls=native.heads,
-                    selector_calls=native.selectors, block_calls=native.blocks.copy(), tracker_ms=elapsed)
+        row = dict(boxes=np.array(output, float), parent=np.array(parent, float),
+                   frame_id=frame, margin=self.margin, threshold=self.threshold, difficult=self.difficult,
+                   selected=self.selected, added=self.added, crop_calls=crops, head_calls=native.heads,
+                   selector_calls=native.selectors, block_calls=native.blocks.copy(), tracker_ms=elapsed)
+        if capture_crop:
+            row["crop_sha256"] = crop_sha256
+        return row
 
 
 def collect(observer, entry, dataset_root, arm, reader=checked_image):
