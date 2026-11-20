@@ -41,7 +41,7 @@ def observables(raw, hann, boxes, parent, cells):
                             np.log1p(np.abs(displacement)), np.abs(scale)))
 
 
-def extract(raw, size, offset, parent, factor, hw, box, truth, ap):
+def extract(raw, size, offset, parent, factor, hw, box, truth, ap, *, include_regions=False):
     raw = np.asarray(raw, dtype=np.float32)
     hann = raw * np.asarray(ap["window"], dtype=np.float32)
     native = int(hann.argmax())
@@ -56,8 +56,12 @@ def extract(raw, size, offset, parent, factor, hw, box, truth, ap):
     cells = np.unique(np.concatenate(list(pools.values())))
     indices = {k: np.searchsorted(cells, v) for k, v in pools.items()}
     iou = tracking_iou(grid, truth)
-    return dict(cells=cells, pools=indices, x=observables(raw, hann, grid[cells], parent, cells),
-                y=iou[cells], native_iou=float(iou[native]), grid_iou=float(iou.max()), budget=budget)
+    row = dict(cells=cells, pools=indices, x=observables(raw, hann, grid[cells], parent, cells),
+               y=iou[cells], native_iou=float(iou[native]), grid_iou=float(iou.max()), budget=budget)
+    if include_regions:
+        _, usable, _ = crop_geometry(parent, hw, ap["search_factor"], ap["search_size"])
+        row.update(boxes=grid[cells].copy(), usable=usable, parent=np.asarray(parent).copy())
+    return row
 
 
 def check_frame(row, reference):
@@ -224,7 +228,7 @@ def stable_report(rows, arms=("raw", "quality")):
     return report
 
 
-def native_rows(r121, p121, jobs, entry_for, ap, references, onsets):
+def native_rows(r121, p121, jobs, entry_for, ap, references, onsets, *, include_regions=False):
     by_source = defaultdict(list)
     for job in jobs:
         seq = job["spec"]["unit"]["sequence"]
@@ -242,7 +246,8 @@ def native_rows(r121, p121, jobs, entry_for, ap, references, onsets):
             crop, _, factor = crop_geometry(parent, hw, ap["search_factor"], ap["search_size"])
             np.testing.assert_array_equal(crop, trace["crop"][i, 0])
             maps = (trace[k][i, 0] for k in ("raw", "size", "offset"))
-            row = extract(*maps, parent, factor, hw, trace["boxes"][i], entry["ground_truth"][frame], ap)
+            row = extract(*maps, parent, factor, hw, trace["boxes"][i], entry["ground_truth"][frame], ap,
+                          include_regions=include_regions)
             ref = onsets.get((seq, frame))
             if ref is not None:
                 check_frame(row, ref)
@@ -255,7 +260,7 @@ def native_rows(r121, p121, jobs, entry_for, ap, references, onsets):
     return by_source
 
 
-def replay_rows(root, plan, entry_for, ap, reference):
+def replay_rows(root, plan, entry_for, ap, reference, *, include_regions=False):
     rows = []
     for case in plan["cases"]:
         cid, seq = case["case_id"], case["sequence"]
@@ -268,7 +273,7 @@ def replay_rows(root, plan, entry_for, ap, reference):
             frame = case["frame"] + offset
             for k, branch in enumerate(prior.replay_audit.ARMS):
                 obs = [data[name][i, k] for name in ("raw", "size", "offset", "parent", "factor", "image_hw", "boxes")]
-                row = extract(*obs, entry["ground_truth"][frame], ap)
+                row = extract(*obs, entry["ground_truth"][frame], ap, include_regions=include_regions)
                 ref = reference[cid, branch, frame]
                 check_frame(row, ref)
                 rows.append(dict(row, source=source_group(seq), sequence=seq, frame=frame, state="replay", case=cid,
@@ -323,7 +328,7 @@ def run(root, by_source, replays):
     check_results(root)
 
 
-def load_inputs(r76, r89, r93, r121, r133, r139, r142):
+def load_context(r76, r89, r93, r121, r133, r139, r142):
     read = prior.replay_audit.prior.read_table
     prior.check_results(r142)
     d142 = c.c66.sealed(r142 / "stage142_decision.json", prior.SCHEMA)
@@ -360,8 +365,12 @@ def load_inputs(r76, r89, r93, r121, r133, r139, r142):
         references[row["sequence"]][row["group"]] = row
     onsets = {(r["sequence"], int(r["frame"])):r for r in read(r142 / "stage142_onsets.csv")}
     branch = {(r["case_id"], r["arm"], int(r["frame"])):r for r in read(r142 / "stage142_branch_replays.csv")}
-    native = native_rows(r121, p121, jobs, entry_for, ap, references, onsets)
-    return native, replay_rows(r139, p139, entry_for, ap, branch)
+    return (r121, p121, jobs, entry_for, ap, references, onsets), (r139, p139, entry_for, ap, branch)
+
+
+def load_inputs(*roots):
+    native, replay = load_context(*roots)
+    return native_rows(*native), replay_rows(*replay)
 
 
 def main():
