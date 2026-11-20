@@ -41,7 +41,8 @@ def observables(raw, hann, boxes, parent, cells):
                             np.log1p(np.abs(displacement)), np.abs(scale)))
 
 
-def extract(raw, size, offset, parent, factor, hw, box, truth, ap, *, include_regions=False):
+def candidate_inputs(raw, size, offset, parent, factor, hw, box, ap):
+    """Decode the matched pools and causal inputs without reading annotations."""
     raw = np.asarray(raw, dtype=np.float32)
     hann = raw * np.asarray(ap["window"], dtype=np.float32)
     native = int(hann.argmax())
@@ -55,9 +56,15 @@ def extract(raw, size, offset, parent, factor, hw, box, truth, ap, *, include_re
     pools = dict(peak=np.array(peak[:budget]), dense=np.array(dense[:budget]))
     cells = np.unique(np.concatenate(list(pools.values())))
     indices = {k: np.searchsorted(cells, v) for k, v in pools.items()}
+    return dict(cells=cells, pools=indices, x=observables(raw, hann, grid[cells], parent, cells),
+                budget=budget), grid, native
+
+
+def extract(raw, size, offset, parent, factor, hw, box, truth, ap, *, include_regions=False):
+    row, grid, native = candidate_inputs(raw, size, offset, parent, factor, hw, box, ap)
+    cells = row["cells"]
     iou = tracking_iou(grid, truth)
-    row = dict(cells=cells, pools=indices, x=observables(raw, hann, grid[cells], parent, cells),
-               y=iou[cells], native_iou=float(iou[native]), grid_iou=float(iou.max()), budget=budget)
+    row.update(y=iou[cells], native_iou=float(iou[native]), grid_iou=float(iou.max()))
     if include_regions:
         _, usable, _ = crop_geometry(parent, hw, ap["search_factor"], ap["search_size"])
         row.update(boxes=grid[cells].copy(), usable=usable, parent=np.asarray(parent).copy())

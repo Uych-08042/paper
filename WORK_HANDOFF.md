@@ -2,7 +2,9 @@
 
 更新日期：2026-11-20（Asia/Hong_Kong）
 
-**Stage-149 准入后的接受分数消融已备好，见 0.140。** 固定 Stage-148 候选，分别去掉回归分差、原始响应差和两者，比较外观的独立接受证据。服务器 CPU 实跑待完成。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE149_SCORE_ABLATION.md)
+**Stage-150 校准灰度改选的同起点续跑已准备，见 0.141。** 对全部 14 个实际改选点比较回归框和灰度框的单次写回。两路后继都用原冻结回归评分器。服务器结果待回传。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE150_GRAY_WRITE_CONTINUATION.md)
+
+**Stage-149 准入后的接受分数消融已完成，见 0.140。** 仅用首帧灰度并留出校准，0089／1159 新选中好框，110 个采样稳定窗口无改选。零门槛选中两个目标起点的好框，同时让 36 个稳定帧跌破好框阈值。 [结果复核](docs/experiments/06_sgla_uav_tracking/STAGE149_RESULTS_REVIEW.md)
 
 **Stage-148 放宽框间重叠后的外观辅助对照已完成，见 0.139。** 两个新增失跟起点好框在三种评分中都排在备选首位，但相对默认框的分差均为负，两套接受门槛都未采纳。重新校准后，两种外观没有增选纯响应与几何漏掉的好框。 [结果复核](docs/experiments/06_sgla_uav_tracking/STAGE148_RESULTS_REVIEW.md)
 
@@ -115,7 +117,7 @@ Stage-75 L20 已完成 13 个固定起点和 52 条短分支。0003 两个首败
 
 ## 0. 下一次对话的直接接续入口
 
-本节更新至 2026-11-19。接续先读 0.122 的 Stage-131 全视频结果、0.121 的 Stage-130 单槽放大、0.118 的 Stage-127 裁剪诊断和 0.112 的 Stage-121 备用搜索完整评价。候选生成背景见 0.90～0.95 和 0.53～0.54，确认边界和论文目标见 0.48／0.44。 [Stage-131 结果](docs/experiments/06_sgla_uav_tracking/STAGE131_RESULTS_REVIEW.md) · [Stage-130 结果](docs/experiments/06_sgla_uav_tracking/STAGE130_RESULTS_REVIEW.md) · [Stage-121 结果](docs/experiments/06_sgla_uav_tracking/STAGE121_RESULTS_REVIEW.md)
+本节更新至 2026-11-20。接续先读 0.141 的 Stage-150 单次写回续跑协议和 0.140 的 Stage-149 接受分数消融。全视频结果见 0.122 和 0.112，候选生成背景见 0.90～0.95 和 0.53～0.54，确认边界和论文目标见 0.48／0.44。 [Stage-150 协议](docs/experiments/06_sgla_uav_tracking/STAGE150_GRAY_WRITE_CONTINUATION.md) · [Stage-149 结果](docs/experiments/06_sgla_uav_tracking/STAGE149_RESULTS_REVIEW.md)
 
 需要回溯历史与配对干预时读 0.33、0.31、0.29、0.27、0.24、0.22、0.20 和 0.18。较早阶段的运行状态按各节日期理解。 [Stage-60](docs/experiments/06_sgla_uav_tracking/STAGE60_RESULTS_REVIEW.md) · [Stage-54](docs/experiments/06_sgla_uav_tracking/STAGE54_RESULTS_REVIEW.md) · [Stage-55](docs/experiments/06_sgla_uav_tracking/STAGE55_RESULTS_REVIEW.md)
 
@@ -2483,11 +2485,17 @@ Stage-133／134 固定起点 8 无好网格／11 有好网格失跟／28 稳定�
 
 接续可固定当前候选集合，分离“允许备选进入比较”和“是否接受备选”对回归分差与原始响应差的使用。现有两个起点好框的回归和响应分差均劣于默认框，外观差幅度不足以抵消。检查同集合上的成分消融和独立接受证据，并报告稳定帧误改选。整段跟踪收益仍待闭环评价。
 
-### 0.140 Stage-149 准入后的接受分数消融（待服务器运行）
+### 0.140 Stage-149 准入后的接受分数消融（结果已复核）
 
-保持 Stage-148 的 4,754 个状态、同一个默认框与同一准入集合，逐帧核对旧三臂。对两种外观分别去掉回归分差、原始响应差或两者，按源组留出校准并另报零门槛。重点检查 0085／1541、0089／1159 的采纳和 110 个原稳定窗口的误改选。同步本轮脚本及 Stage-146／148 共用代码后执行 `bash tools/run_stage149_score_ablation.sh`。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE149_SCORE_ABLATION.md)
+保持 Stage-148 的 4,754 个状态、默认框和准入集合。仅用首帧灰度的 28 个留出折均选 0.025。在 4,514 个原生状态中改选 14 帧，4 帧从低于 0.50 改为好框，已有好框无损失。19 个失跟起点由 3 个好框变为 4 个，新增 0089／1159（0.4698→0.5108），0085／1541 因分差 0.0214 未采纳，0169／881 从 0.2893 降到 0.0696。110 个采样稳定窗口无实际改选。全原生诊断样本平均 IoU 差 +0.000507［−0.000029，+0.001321］，起点平均差 −0.011166［−0.041184，+0.007685］。 [结果复核](docs/experiments/06_sgla_uav_tracking/STAGE149_RESULTS_REVIEW.md) · [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE149_SCORE_ABLATION.md)
 
-已用归档的单备选状态复算 0085／1541、0089／1159。仅用首帧灰度时分差为 +0.0214 和 +0.0277，仅去掉回归分差或原始响应分差时，两处好框的合成分差仍为负。两处的校准采纳及全样本稳定性待服务器结果。
+首帧灰度零门槛选中 0085／1541 和 0089／1159，同时丢失 0204／664 原起点好框，并让 36 个稳定帧跌破 0.50。接续可冻结已校准的首帧灰度单项规则，对实际改选状态做同起点短程续跑，检查 0089 的小幅当帧改善能否持续及 0169 等误改选是否扩大。整段收益仍待闭环评价。
+
+### 0.141 Stage-150 校准灰度改选的同起点续跑（待服务器执行）
+
+从 14 个 Stage-149 校准后真实发生改选的原生状态开始，冻结灰度接受门槛 0.025 和原始父框、裁剪、响应图。两路分别写入 Stage-143 回归框和灰度备选框。后继帧每路按自己的输出裁剪一次，使用同一个冻结 SGLA 和同一个留出源组回归评分器。报告完整 8／32 帧配对均值与连续低 IoU，保留视频结尾处的不完整窗口。重点看 0089／1159 的改善能否延续，0169／881 的下降会否扩散。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE150_GRAY_WRITE_CONTINUATION.md)
+
+服务器在原环境执行 `bash tools/run_stage150_gray_write.sh`，默认输出 `output/stage150/gray_write_continuation_v1`，完成后回传该目录中的 `stage150_results_*.txt`。
 
 ## 1. 接手后首先要知道的结论
 

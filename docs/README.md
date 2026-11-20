@@ -38,7 +38,9 @@ Stage-147 已完成。原生严重低 IoU 补救机会主要受回归分差限�
 
 Stage-148 已完成。两处新增起点好框都排在备选首位，但相对默认框的合成分差为负，三臂均未采纳。重新校准后，两种外观都未补回纯响应与几何漏掉的好框。 [结果复核](experiments/06_sgla_uav_tracking/STAGE148_RESULTS_REVIEW.md) · [实验协议](experiments/06_sgla_uav_tracking/STAGE148_OVERLAP_APPEARANCE.md)
 
-Stage-149 已备好。固定候选准入，分别消融接受分数中的回归差和原始响应差。服务器结果待跑。 [实验协议](experiments/06_sgla_uav_tracking/STAGE149_SCORE_ABLATION.md)
+Stage-149 已完成。仅用首帧灰度并留出校准，补回 0089／1159 的好框，110 个采样稳定窗口无改选。零门槛补回两个起点，但有 36 个稳定帧跌破好框阈值。 [结果复核](experiments/06_sgla_uav_tracking/STAGE149_RESULTS_REVIEW.md) · [实验协议](experiments/06_sgla_uav_tracking/STAGE149_SCORE_ABLATION.md)
+
+Stage-150 已准备。从 14 个实际改选的原生状态比较默认回归框和灰度备选框写回后的 8／32 帧跟踪。 [实验协议](experiments/06_sgla_uav_tracking/STAGE150_GRAY_WRITE_CONTINUATION.md)
 
 Stage-122 缓存诊断已完成。358 次替换中 80 次前史和前三框观测匹配，补出 9 个好框却仅选中 1 个；两次前三框重排直接改变输出，分别是 0174 和 0089 的首次分叉。 [结果复核](experiments/06_sgla_uav_tracking/STAGE122_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE122_ALTERNATE_RERANKING_DIAGNOSTIC.md)
 
