@@ -56,7 +56,9 @@ Stage-156 已完成。47 个配对起点中，低峰值和峰偏离中心的触�
 
 Stage-157 已完成。峰值增益和加重叠门槛均丢失 0348 原生恢复，后 32 帧比分别原生低 0.491 和 0.579 个 IoU 点。 [实验协议](experiments/06_sgla_uav_tracking/STAGE157_DEPTH_WRITEBACK.md)
 
-Stage-158 已准备。47 个起点的六块当帧对照已复算，9,024 次后继搜索待服务器运行，新增实时进度与 ETA。 [实验和运行说明](experiments/06_sgla_uav_tracking/STAGE158_LAYER_ROUTING.md)
+Stage-158 已完成。保护性事后选层使后 32 帧 IoU 比原生高 3.14 点，新增 3 次连续恢复。 [实验协议](experiments/06_sgla_uav_tracking/STAGE158_LAYER_ROUTING.md)
+
+Stage-159 已准备。两折比较当帧监督和后续监督的六选一选择器，运行过程使用总体进度条。 [实验和运行说明](experiments/06_sgla_uav_tracking/STAGE159_LAYER_SELECTOR.md)
 
 Stage-122 缓存诊断已完成。358 次替换中 80 次前史和前三框观测匹配，补出 9 个好框却仅选中 1 个；两次前三框重排直接改变输出，分别是 0174 和 0089 的首次分叉。 [结果复核](experiments/06_sgla_uav_tracking/STAGE122_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE122_ALTERNATE_RERANKING_DIAGNOSTIC.md)
 

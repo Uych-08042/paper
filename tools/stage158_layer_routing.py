@@ -68,8 +68,10 @@ def comparison(points, key):
     return choices, scope
 
 
-def reports(points, key):
+def reports(points, key, extra_choices=None, kinds=("all", "onset", "healthy")):
     choices, scope = comparison(points, key)
+    if extra_choices is not None:
+        choices = [a|b for a,b in zip(choices,extra_choices,strict=True)]
     rows = []
     tracked = key == "tail32"
     for p, arms in zip(points, choices, strict=True):
@@ -90,8 +92,10 @@ def reports(points, key):
             rows.append(row)
     summary = []
     for arm in choices[0]:
-        for kind in ("all", "onset", "healthy"):
+        for kind in kinds:
             group = [r for r in rows if r["arm"] == arm and (kind == "all" or r["kind"] == kind)]
+            if not group:
+                continue
             fields = ["anchor_iou", "anchor_delta"]
             if tracked:
                 fields += ["tail8", "tail32", "tail8_delta", "tail32_delta", "tail32_delta_vs_fixed"]
@@ -107,7 +111,7 @@ def reports(points, key):
                               lost_good_runs=sum(r["lost_good_run"] for r in group),
                               new_low_runs=sum(r["new_low_run"] for r in group),
                               videos_beating_fixed=int((delta > 1e-8).sum()),
-                              worst_leave_one_video_out_vs_fixed=float((delta.sum()-delta.max())/(len(delta)-1)))
+                              worst_leave_one_video_out_vs_fixed=float((delta.sum()-delta.max())/(len(delta)-1)) if len(delta)>1 else None)
             summary.append(result)
     return summary, rows, scope
 
@@ -168,10 +172,10 @@ def measure(case, data, anchors, ground_truth, native):
                 good32=(windows >= .5).all(-1).any(-1),low32=(windows < .2).all(-1).any(-1))
 
 
-def publish(root, tables):
+def publish(root, tables, stage="stage158"):
     hashes = {}
     for name, rows in tables.items():
-        path = root/f"stage158_{name}.csv"
+        path = root/f"{stage}_{name}.csv"
         prior.publish_table(path, rows)
         hashes[path.name] = c.file_hash(path)
     return hashes

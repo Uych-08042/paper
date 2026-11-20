@@ -2,7 +2,9 @@
 
 更新日期：2026-11-21（Asia/Hong_Kong）
 
-**Stage-158 等预算六选一已准备，见 0.149。** 47 个起点的当帧归档对照已复算，9,024 次后继搜索待服务器执行。新增可复用日志进度与 ETA。 [实验和运行说明](docs/experiments/06_sgla_uav_tracking/STAGE158_LAYER_ROUTING.md)
+**Stage-159 六选一训练对照已准备，见 0.150。** 同输入比较当帧 IoU 与后续 32 帧 IoU 监督。后台日志改为总体进度条。 [实验和运行说明](docs/experiments/06_sgla_uav_tracking/STAGE159_LAYER_SELECTOR.md)
+
+**Stage-158 等预算六选一已完成，见 0.149。** 保护性事后选层后 32 帧相对原生 +3.14 个 IoU 点、相对留出固定 +3.59 点，新增／丢失连续恢复 3／0。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE158_LAYER_ROUTING.md)
 
 **Stage-157 固定加算预算下的写回对照已完成，见 0.148。** 峰值增益／再加重叠门槛的后 32 帧分别比原生低 0.491／0.579 个 IoU 点，均丢掉 0348 的原生恢复。 [实验与结果](docs/experiments/06_sgla_uav_tracking/STAGE157_DEPTH_WRITEBACK.md)
 
@@ -133,7 +135,7 @@ Stage-75 L20 已完成 13 个固定起点和 52 条短分支。0003 两个首败
 
 ## 0. 下一次对话的直接接续入口
 
-本节更新至 2026-11-21。接续先读 0.149 的 Stage-158 六选一续跑和 0.148 的 Stage-157 写回对照。以往全视频结果见 0.143、0.122 和 0.112，候选生成背景见 0.90～0.95 和 0.53～0.54，确认边界和论文目标见 0.48／0.44。用户要求后续实验运行时显示进度，耗时阶段复用 `tools/experiment_progress.py` 并在后台脚本日志中实时刷新。 [Stage-158 实验](docs/experiments/06_sgla_uav_tracking/STAGE158_LAYER_ROUTING.md)
+本节更新至 2026-11-21。接续先读 0.150 的 Stage-159 六选一训练和 0.149 的 Stage-158 六路续跑。以往全视频结果见 0.143、0.122 和 0.112，候选生成背景见 0.90～0.95 和 0.53～0.54，确认边界和论文目标见 0.48／0.44。用户要求后续使用总体进度条，复用 `tools/experiment_progress.py` 中的 `OverallProgress`，在后台日志定时刷新。 [Stage-159 实验](docs/experiments/06_sgla_uav_tracking/STAGE159_LAYER_SELECTOR.md)
 
 需要回溯历史与配对干预时读 0.33、0.31、0.29、0.27、0.24、0.22、0.20 和 0.18。较早阶段的运行状态按各节日期理解。 [Stage-60](docs/experiments/06_sgla_uav_tracking/STAGE60_RESULTS_REVIEW.md) · [Stage-54](docs/experiments/06_sgla_uav_tracking/STAGE54_RESULTS_REVIEW.md) · [Stage-55](docs/experiments/06_sgla_uav_tracking/STAGE55_RESULTS_REVIEW.md)
 
@@ -2549,9 +2551,13 @@ L40 同卡完成 28 个开发视频、112 条轨迹、116,188 次搜索。原生
 
 同 L40 在 16 个触发点采集双头，后继 1,024 次。直接写回、峰值增益、峰值加框间 IoU ≥ 0.30 的后 32 帧相对原生为 −0.004147／−0.004907／−0.005794。两条实际规则均接受 0348／367 的坏写回并拒绝 0085／1541 的正向写回，连续好框新增／丢失 0／1。真值保护参考后 32 帧相对原生 +0.002035。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE157_DEPTH_WRITEBACK.md)
 
-### 0.149 Stage-158 等预算六选一与短程续跑（当帧复算完成）
+### 0.149 Stage-158 等预算六选一与短程续跑（已完成）
 
-复用 47 个 Stage-137 起点，分别写回六个独立后段块的框，再走原生 32 帧，共 9,024 次后继搜索。比较原生、各固定块、异源组选出的最佳固定块和两种真值事后选层，另有保护原生恢复的未来真值参照。当前本地从 Stage-137 复算当帧，固定 L7、真值选层相对原生 IoU +0.072382／+0.142864；L7 丢两个稳定起点好框。服务器运行 `bash tools/run_stage158_layer_routing.sh`。后台日志显示当前起点、当前分支、完成比例、已复用搜索及 ETA，回传 `stage158_results_*.txt`。 [实验及命令](docs/experiments/06_sgla_uav_tracking/STAGE158_LAYER_ROUTING.md)
+同 L40 复用 47 个起点，9,024 次后继搜索。原生／留出固定／当帧事后／保护性后续事后的 32 帧视频均值 IoU 为 0.582533／0.578013／0.598246／0.613905，连续恢复新增／丢失 0／0、0／0、3／1、3／0。保护性事后对固定 +0.035893，24 胜4 平，最差留一 +0.023121。0016、0204、0348 的新增恢复分别由 L11、L8、L11 提供。尚未训练在线可用选择器。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE158_LAYER_ROUTING.md)
+
+### 0.150 Stage-159 六选一选层监督对照（待服务器运行）
+
+从 Stage-121 原生开发轨迹每视频采样最多 8 个均匀起点和 4 个历史低响应起点。为六层采集同起点后 32 帧。对相同 24 维输入做异源组两折岭回归，比较当帧与后续收益监督，匹配原生和留出最佳固定块。新增可续跑总体进度条，优先回传 `stage159_results_*.txt`，核对 `stage159_paired.csv` 的留出优势、稳定低 IoU 和原生恢复。 [实验及运行命令](docs/experiments/06_sgla_uav_tracking/STAGE159_LAYER_SELECTOR.md)
 
 ## 1. 接手后首先要知道的结论
 
