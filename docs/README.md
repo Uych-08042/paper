@@ -40,7 +40,9 @@ Stage-148 已完成。两处新增起点好框都排在备选首位，但相对�
 
 Stage-149 已完成。仅用首帧灰度并留出校准，补回 0089／1159 的好框，110 个采样稳定窗口无改选。零门槛补回两个起点，但有 36 个稳定帧跌破好框阈值。 [结果复核](experiments/06_sgla_uav_tracking/STAGE149_RESULTS_REVIEW.md) · [实验协议](experiments/06_sgla_uav_tracking/STAGE149_SCORE_ABLATION.md)
 
-Stage-150 已准备。从 14 个实际改选的原生状态比较默认回归框和灰度备选框写回后的 8／32 帧跟踪。 [实验协议](experiments/06_sgla_uav_tracking/STAGE150_GRAY_WRITE_CONTINUATION.md)
+Stage-150 已完成。灰度写回起始帧新增 4 个好框，后继 8／32 帧平均 IoU 分别低 0.0130／0.0457。0085／690 恢复，0089／1159 当帧改善后失跟。 [结果复核](experiments/06_sgla_uav_tracking/STAGE150_RESULTS_REVIEW.md) · [实验协议](experiments/06_sgla_uav_tracking/STAGE150_GRAY_WRITE_CONTINUATION.md)
+
+Stage-151 已准备。交叉交换回归框和灰度框的中心、宽高，追踪下一帧哪里失去好框及后继 8／32 帧效果。 [实验协议](experiments/06_sgla_uav_tracking/STAGE151_WRITE_GEOMETRY_CROSS.md)
 
 Stage-122 缓存诊断已完成。358 次替换中 80 次前史和前三框观测匹配，补出 9 个好框却仅选中 1 个；两次前三框重排直接改变输出，分别是 0174 和 0089 的首次分叉。 [结果复核](experiments/06_sgla_uav_tracking/STAGE122_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE122_ALTERNATE_RERANKING_DIAGNOSTIC.md)
 
@@ -251,7 +253,7 @@ Stage-131 在 28 段开发视频评估了 196 条轨迹。原生／备用搜索�
 
 ## 交接与维护
 
-- 接续时先读 0.140 的 Stage-149 接受分数消融、0.139 的 Stage-148 重叠上限对照和 0.138 的 Stage-147 触发条件覆盖。确认集与论文目标见 0.48／0.44。 [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口)
+- 接续时先读 0.142 的 Stage-151 写回几何交叉对照、0.141 的 Stage-150 单次写回续跑和 0.140 的 Stage-149 接受分数消融。确认集与论文目标见 0.48／0.44。 [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口)
 - [历史写作材料说明](archive/README.md)
 - [整理报告](maintenance/CLEANUP_REPORT.md)
 - [逐文件整理清单](maintenance/CLEANUP_MANIFEST.json)

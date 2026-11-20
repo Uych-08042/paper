@@ -2,7 +2,9 @@
 
 更新日期：2026-11-20（Asia/Hong_Kong）
 
-**Stage-150 校准灰度改选的同起点续跑已准备，见 0.141。** 对全部 14 个实际改选点比较回归框和灰度框的单次写回。两路后继都用原冻结回归评分器。服务器结果待回传。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE150_GRAY_WRITE_CONTINUATION.md)
+**Stage-151 写回框几何交叉对照已准备，见 0.142。** Stage-150 的 14 个起点按回归／灰度中心和宽高交叉，报告下一帧的覆盖、好框供给、漏选和后续续跑。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE151_WRITE_GEOMETRY_CROSS.md)
+
+**Stage-150 校准灰度改选的同起点续跑已完成，见 0.141。** 灰度写回相对回归写回的后续 8／32 帧平均 IoU 差为 −0.0130／−0.0457。0089／1159 当帧改善后失跟，0085／690 当帧 IoU 仅 0.2896，续跑后恢复。 [结果复核](docs/experiments/06_sgla_uav_tracking/STAGE150_RESULTS_REVIEW.md)
 
 **Stage-149 准入后的接受分数消融已完成，见 0.140。** 仅用首帧灰度并留出校准，0089／1159 新选中好框，110 个采样稳定窗口无改选。零门槛选中两个目标起点的好框，同时让 36 个稳定帧跌破好框阈值。 [结果复核](docs/experiments/06_sgla_uav_tracking/STAGE149_RESULTS_REVIEW.md)
 
@@ -117,7 +119,7 @@ Stage-75 L20 已完成 13 个固定起点和 52 条短分支。0003 两个首败
 
 ## 0. 下一次对话的直接接续入口
 
-本节更新至 2026-11-20。接续先读 0.141 的 Stage-150 单次写回续跑协议和 0.140 的 Stage-149 接受分数消融。全视频结果见 0.122 和 0.112，候选生成背景见 0.90～0.95 和 0.53～0.54，确认边界和论文目标见 0.48／0.44。 [Stage-150 协议](docs/experiments/06_sgla_uav_tracking/STAGE150_GRAY_WRITE_CONTINUATION.md) · [Stage-149 结果](docs/experiments/06_sgla_uav_tracking/STAGE149_RESULTS_REVIEW.md)
+本节更新至 2026-11-20。接续先读 0.142 的 Stage-151 写回几何交叉对照和 0.141 的 Stage-150 单次写回续跑结果。全视频结果见 0.122 和 0.112，候选生成背景见 0.90～0.95 和 0.53～0.54，确认边界和论文目标见 0.48／0.44。 [Stage-151 协议](docs/experiments/06_sgla_uav_tracking/STAGE151_WRITE_GEOMETRY_CROSS.md) · [Stage-150 结果](docs/experiments/06_sgla_uav_tracking/STAGE150_RESULTS_REVIEW.md)
 
 需要回溯历史与配对干预时读 0.33、0.31、0.29、0.27、0.24、0.22、0.20 和 0.18。较早阶段的运行状态按各节日期理解。 [Stage-60](docs/experiments/06_sgla_uav_tracking/STAGE60_RESULTS_REVIEW.md) · [Stage-54](docs/experiments/06_sgla_uav_tracking/STAGE54_RESULTS_REVIEW.md) · [Stage-55](docs/experiments/06_sgla_uav_tracking/STAGE55_RESULTS_REVIEW.md)
 
@@ -2491,11 +2493,15 @@ Stage-133／134 固定起点 8 无好网格／11 有好网格失跟／28 稳定�
 
 首帧灰度零门槛选中 0085／1541 和 0089／1159，同时丢失 0204／664 原起点好框，并让 36 个稳定帧跌破 0.50。接续可冻结已校准的首帧灰度单项规则，对实际改选状态做同起点短程续跑，检查 0089 的小幅当帧改善能否持续及 0169 等误改选是否扩大。整段收益仍待闭环评价。
 
-### 0.141 Stage-150 校准灰度改选的同起点续跑（待服务器执行）
+### 0.141 Stage-150 校准灰度改选的同起点续跑（结果已复核）
 
-从 14 个 Stage-149 校准后真实发生改选的原生状态开始，冻结灰度接受门槛 0.025 和原始父框、裁剪、响应图。两路分别写入 Stage-143 回归框和灰度备选框。后继帧每路按自己的输出裁剪一次，使用同一个冻结 SGLA 和同一个留出源组回归评分器。报告完整 8／32 帧配对均值与连续低 IoU，保留视频结尾处的不完整窗口。重点看 0089／1159 的改善能否延续，0169／881 的下降会否扩散。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE150_GRAY_WRITE_CONTINUATION.md)
+从 Stage-149 的全部 14 个校准改选状态开始，两路分别写入 Stage-143 回归框和灰度备选框，之后各自承接预测，用同一个冻结 SGLA 和回归评分器。L40 同卡运行 714 次后继搜索。起始帧新增 4 个好框，逐起点平均差 +0.149051。后继完整 8 帧（12 起点／7 源组）和 32 帧（7 起点／6 源组）平均差 −0.012955／−0.045662，32 帧连续好框新增 1、丢失 2。 [结果复核](docs/experiments/06_sgla_uav_tracking/STAGE150_RESULTS_REVIEW.md) · [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE150_GRAY_WRITE_CONTINUATION.md)
 
-服务器在原环境执行 `bash tools/run_stage150_gray_write.sh`，默认输出 `output/stage150/gray_write_continuation_v1`，完成后回传该目录中的 `stage150_results_*.txt`。
+0089／1159 当帧 0.4698→0.5108，后 32 帧 0.5880→0.0620。0085／690 当帧 0→0.2896，后 32 帧 0→0.7516，同视频 687 帧写回没有恢复。0169／881 两组都出现连续严重低 IoU，灰度组早 1 帧。0348／362 当帧小幅改善，灰度组随后丢失回归组的连续好框。短程均值对个别源组敏感，此结果用于已触发状态下的单次写回诊断。 [服务器原始回传](docs/experiments/06_sgla_uav_tracking/results/stage150_results_20261120T045650Z_603337.txt)
+
+### 0.142 Stage-151 写回框中心与宽高交叉对照（待服务器执行）
+
+Stage-150 校准规则的 14 个实际改选点全部纳入。沿用回归、灰度完整框，再分别只换中心、只换宽高，之后四路各自用相同冻结回归评分器和原生 SGLA 续跑。下一帧比较裁剪覆盖、网格好框、池内好框和实际输出，后继 8／32 帧比较续跑、持续好框和严重低 IoU。原两组同卡重测，四路合计预定 1,428 次后继搜索。配对解释限于触发样本。同步后用 `bash tools/run_stage151_write_geometry.sh`，回传输出目录中的 `stage151_results_*.txt`。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE151_WRITE_GEOMETRY_CROSS.md)
 
 ## 1. 接手后首先要知道的结论
 

@@ -64,6 +64,13 @@ def choose(row, model):
     return int(row["cells"][dense[values.argmax()]])
 
 
+def decode_search(obs, model, ap):
+    maps = (obs[k] for k in ("raw", "size", "offset"))
+    inputs, grid, native = fixed.candidate_inputs(
+        *maps, obs["parent"], obs["factor"], obs["image_hw"], obs["boxes"], ap)
+    return inputs, grid, native, choose(inputs, model)
+
+
 def freeze_case(case, trace, entry, model, ap):
     frame = case["frame"]
     frames = entry["frames"]
@@ -99,10 +106,7 @@ def collect(observer, case, frames, initial_box, model, ap, *,
             image = read_image(ap["root"], frames[frame])
             for j, parent in enumerate(parents):
                 obs = observe(observer, image, parent.copy(), int(frame), ap)
-                maps = (obs[k] for k in ("raw", "size", "offset"))
-                inputs, grid, _ = fixed.candidate_inputs(
-                    *maps, obs["parent"], obs["factor"], obs["image_hw"], obs["boxes"], ap)
-                cell = choose(inputs, model)
+                _, grid, _, cell = decode_search(obs, model, ap)
                 rows[j].append(dict(obs, cell=cell, boxes=grid[cell].copy()))
                 parents[j] = grid[cell]
     data = {field: np.asarray([[row[field] for row in branch] for branch in rows]) for field in FIELDS}
@@ -112,7 +116,7 @@ def collect(observer, case, frames, initial_box, model, ap, *,
 def audit_branch(data, case):
     n = case["successors"]
     np.testing.assert_array_equal(data["frame_id"], np.arange(case["frame"] + 1, case["frame"] + n + 1))
-    shape = (len(ARMS), n)
+    shape = (len(case["anchor_boxes"]), n)
     if not n:
         if any(data[k].shape != shape for k in FIELDS):
             raise ValueError("A terminal anchor cannot have successors")
