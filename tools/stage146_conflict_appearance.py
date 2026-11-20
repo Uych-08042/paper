@@ -113,9 +113,7 @@ def calibrate(rows, arm, *, design=DESIGN):
     return best, results
 
 
-def evaluate(case, model, thresholds, *, design=DESIGN):
-    _, baseline, _ = case
-    values = proposals(case, evidence(case, model, design=design))
+def apply_thresholds(baseline, values, thresholds):
     if values["anchor_cell"] != baseline["dense_quality_cell"]:
         raise ValueError("Stage-145 default selection changed")
     decision = dict(baseline, **{k:v for k,v in values.items() if k not in baseline})
@@ -128,7 +126,13 @@ def evaluate(case, model, thresholds, *, design=DESIGN):
     return decision
 
 
-def sample_actions(decisions):
+def evaluate(case, model, thresholds, *, design=DESIGN):
+    _, baseline, _ = case
+    values = proposals(case, evidence(case, model, design=design))
+    return apply_thresholds(baseline, values, thresholds)
+
+
+def sample_actions(decisions, *, methods=METHODS):
     good, low = DESIGN["good"], DESIGN["low"]
     native = [r for r in decisions if r["state"] == "native"]
     samples = dict(native_sample=native, native_conflicts=[r for r in native if r["matched_candidates"]],
@@ -138,7 +142,7 @@ def sample_actions(decisions):
                    branch_replays=[r for r in decisions if r["state"] == "replay"])
     result = []
     for name, part in samples.items():
-        for arm in METHODS:
+        for arm in methods:
             result.append(dict(population=name, arm=arm, states=len(part),
                                geometry_conflicts=sum(r["geometry_candidates"] > 0 for r in part),
                                matched_conflicts=sum(r["matched_candidates"] > 0 for r in part),
@@ -162,7 +166,7 @@ def collect_observations(native, replays, entry_for, image_root, r144, baselines
     return observations, scope
 
 
-def calibrate_sources(by_source, native, baselines, *, design=DESIGN):
+def calibrate_sources(by_source, native, baselines, *, design=DESIGN, methods=METHODS, build_evidence=evidence):
     moments = {group:fixed.moments(rows) for group, rows in native.items()}
     for held in sorted(by_source):
         # Both the evaluation source and each calibration source are excluded
@@ -173,10 +177,10 @@ def calibrate_sources(by_source, native, baselines, *, design=DESIGN):
         train = []
         for peer in sorted(outer):
             model = fixed.fit_peer_sources(outer, peer)
-            train.extend(proposals(case, evidence(case, model, design=design))
+            train.extend(proposals(case, build_evidence(case, model, design=design))
                          for case in by_source[peer] if case[0]["state"] == "native")
         thresholds, calibration = {}, []
-        for arm in METHODS:
+        for arm in methods:
             chosen, grid = calibrate(train, arm, design=design)
             thresholds[arm] = chosen["threshold"]
             calibration.extend(dict(held_source=held, arm=arm, calibration_sources="|".join(sorted(outer)),

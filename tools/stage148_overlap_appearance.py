@@ -87,7 +87,7 @@ def evaluate(case, model, thresholds, reference, expected):
                  **{f"{a}_threshold":limits[a] for a in METHODS}) for mode, limits in thresholds.items()]
 
 
-def funnel(decisions):
+def funnel(decisions, *, methods=METHODS):
     good, low = DESIGN["good"], DESIGN["low"]
     populations = defaultdict(list)
     for row in decisions:
@@ -104,7 +104,7 @@ def funnel(decisions):
             populations[name].append(row)
     output = []
     for name, rows in sorted(populations.items()):
-        for arm in METHODS:
+        for arm in methods:
             available = [r for r in rows if r["anchor_iou"] < good <= r["dense_trigger_oracle_iou"]]
             ranked = [r for r in available if r[f"{arm}_best_iou"] >= good]
             positive = [r for r in ranked if r[f"{arm}_margin"] > 0.]
