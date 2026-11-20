@@ -25,26 +25,26 @@ TABLES = ("policy", "paired", "actions", "calibration", "stable", "scope", "focu
 WORK = dict(new_search_calls=0, state_updates=0, sgla_weight_updates=0)
 
 
-def candidate_menu(row, scores, anchor_scores):
+def candidate_menu(row, scores, anchor_scores, *, design=DESIGN):
     """Return one common menu and three fixed score deltas. No labels enter this step."""
     pool = row["pools"]["dense"]
     anchor = int(pool[anchor_scores[pool].argmax()])
     gap = anchor_scores[anchor] - anchor_scores[pool]
     overlap = continuous_iou(row["boxes"][anchor], row["boxes"][pool])
-    geometry = pool[(pool != anchor) & (gap <= DESIGN["max_quality_gap"]) & (overlap <= DESIGN["max_box_overlap"])]
+    geometry = pool[(pool != anchor) & (gap <= design["max_quality_gap"]) & (overlap <= design["max_box_overlap"])]
     valid = np.logical_and.reduce([np.isfinite(scores[k]) for k in CUES])
     eligible = geometry[valid[geometry]] if valid[anchor] else geometry[:0]
     normalized_raw = row["x"][:, fixed.FEATURES.index("raw_over_peak")]
-    base = anchor_scores[eligible] - anchor_scores[anchor] + DESIGN["raw_weight"] * (
+    base = anchor_scores[eligible] - anchor_scores[anchor] + design["raw_weight"] * (
         normalized_raw[eligible] - normalized_raw[anchor])
     gains = [base]
-    gains.extend(base + DESIGN["appearance_weight"] * (scores[k][eligible] - scores[k][anchor]) for k in CUES)
+    gains.extend(base + design["appearance_weight"] * (scores[k][eligible] - scores[k][anchor]) for k in CUES)
     return anchor, geometry, eligible, dict(zip(METHODS, gains))
 
 
-def evidence(case, model):
+def evidence(case, model, *, design=DESIGN):
     row, _, scores = case
-    anchor, geometry, eligible, margins = candidate_menu(row, scores, fixed.score(model, row["x"]))
+    anchor, geometry, eligible, margins = candidate_menu(row, scores, fixed.score(model, row["x"]), design=design)
     return dict(anchor=anchor, geometry=geometry, eligible=eligible, margins=margins)
 
 
@@ -75,7 +75,7 @@ def proposals(case, menu):
     return values
 
 
-def calibrate(rows, arm):
+def calibrate(rows, arm, *, design=DESIGN):
     """Select only from training-source shadow outcomes, keeping on tied utility."""
     groups = defaultdict(list)
     for row in rows:
@@ -88,11 +88,11 @@ def calibrate(rows, arm):
         incumbent = np.array([r["anchor_iou"] for r in local])
         proposal = np.maximum(0., [r[arm+"_best_iou"] for r in local])
         margin = np.array([r[arm+"_margin"] if r[arm+"_margin"] is not None else -np.inf for r in local])
-        stable = np.array([bool(r["stable_window"]) for r in local]) & (incumbent >= DESIGN["good"])
-        rescued = np.array([r["onset"] for r in local], bool) & (incumbent >= DESIGN["good"])
+        stable = np.array([bool(r["stable_window"]) for r in local]) & (incumbent >= design["good"])
+        rescued = np.array([r["onset"] for r in local], bool) & (incumbent >= design["good"])
         segments.append((incumbent, proposal, margin, stable, rescued))
     results = []
-    for threshold in DESIGN["acceptance_grid"]:
+    for threshold in design["acceptance_grid"]:
         limit = np.inf if threshold is None else threshold
         improvements, switches, harms, losses = [], 0, 0, 0
         for incumbent, proposal, margin, stable, rescued in segments:
@@ -100,8 +100,8 @@ def calibrate(rows, arm):
             iou = np.where(accepted, proposal, incumbent)
             improvements.append(float((iou-incumbent).mean()))
             switches += int(accepted.sum())
-            harms += int((stable & (iou < DESIGN["low"])).sum())
-            losses += int((rescued & (iou < DESIGN["good"])).sum())
+            harms += int((stable & (iou < design["low"])).sum())
+            losses += int((rescued & (iou < design["good"])).sum())
         results.append(dict(threshold=threshold, calibration_mean_iou_delta=float(np.mean(improvements)),
                             calibration_switches=switches, calibration_stable_severe_harms=harms,
                             calibration_onset_losses=losses))
@@ -113,9 +113,9 @@ def calibrate(rows, arm):
     return best, results
 
 
-def evaluate(case, model, thresholds):
+def evaluate(case, model, thresholds, *, design=DESIGN):
     _, baseline, _ = case
-    values = proposals(case, evidence(case, model))
+    values = proposals(case, evidence(case, model, design=design))
     if values["anchor_cell"] != baseline["dense_quality_cell"]:
         raise ValueError("Stage-145 default selection changed")
     decision = dict(baseline, **{k:v for k,v in values.items() if k not in baseline})
@@ -151,8 +151,7 @@ def sample_actions(decisions):
     return result
 
 
-def run(root, native, replays, entry_for, image_root, roots, baselines, rankers, reader=appearance.checked_image):
-    r144, r145 = roots
+def collect_observations(native, replays, entry_for, image_root, r144, baselines, rankers, reader=appearance.checked_image):
     observations = []
 
     def observe(row, decision, scores):
@@ -160,6 +159,34 @@ def run(root, native, replays, entry_for, image_root, roots, baselines, rankers,
 
     _, _, scope = appearance.collect_study(native, replays, entry_for, image_root, r144, baselines, rankers,
                                            reader, observe=observe)
+    return observations, scope
+
+
+def calibrate_sources(by_source, native, baselines, *, design=DESIGN):
+    moments = {group:fixed.moments(rows) for group, rows in native.items()}
+    for held in sorted(by_source):
+        # Both the evaluation source and each calibration source are excluded
+        # from the provider used to generate that calibration source's actions.
+        outer = {g:m for g,m in moments.items() if g != held}
+        if baselines[held]["fit_sources"] != sorted(outer):
+            raise ValueError("Unexpected Stage-143 outer split")
+        train = []
+        for peer in sorted(outer):
+            model = fixed.fit_peer_sources(outer, peer)
+            train.extend(proposals(case, evidence(case, model, design=design))
+                         for case in by_source[peer] if case[0]["state"] == "native")
+        thresholds, calibration = {}, []
+        for arm in METHODS:
+            chosen, grid = calibrate(train, arm, design=design)
+            thresholds[arm] = chosen["threshold"]
+            calibration.extend(dict(held_source=held, arm=arm, calibration_sources="|".join(sorted(outer)),
+                                    calibration_states=len(train), chosen=trial is chosen, **trial) for trial in grid)
+        yield held, thresholds, calibration
+
+
+def run(root, native, replays, entry_for, image_root, roots, baselines, rankers, reader=appearance.checked_image):
+    r144, r145 = roots
+    observations, scope = collect_observations(native, replays, entry_for, image_root, r144, baselines, rankers, reader)
     keys = {(appearance.context_key(r), r["frame"]) for r, _, _ in observations}
     reference = appearance.reference_rows(r145 / "stage145_frames.csv", keys)
     if len(keys) != len(observations):
@@ -171,24 +198,9 @@ def run(root, native, replays, entry_for, image_root, roots, baselines, rankers,
         by_source[row["source"]].append((row, found, cues))
     if set(by_source) != set(native) or len(observations) != 4754:
         raise ValueError("Stage-145 study roster changed")
-    moments = {group:fixed.moments(rows) for group, rows in native.items()}
     decisions, calibration = [], []
-    for held in sorted(by_source):
-        # Both the evaluation source and each calibration source are excluded
-        # from the provider used to generate that calibration source's actions.
-        outer = {g:m for g,m in moments.items() if g != held}
-        if baselines[held]["fit_sources"] != sorted(outer):
-            raise ValueError("Unexpected Stage-143 outer split")
-        train = []
-        for peer in sorted(outer):
-            model = fixed.fit_peer_sources(outer, peer)
-            train.extend(proposals(case, evidence(case, model)) for case in by_source[peer] if case[0]["state"] == "native")
-        thresholds = {}
-        for arm in METHODS:
-            chosen, grid = calibrate(train, arm)
-            thresholds[arm] = chosen["threshold"]
-            calibration.extend(dict(held_source=held, arm=arm, calibration_sources="|".join(sorted(outer)),
-                                    calibration_states=len(train), chosen=trial is chosen, **trial) for trial in grid)
+    for held, thresholds, results in calibrate_sources(by_source, native, baselines):
+        calibration.extend(results)
         decisions.extend(evaluate(case, baselines[held], thresholds) for case in by_source[held])
         print(f"[Stage-146] {held}: {len(by_source[held])} held states", flush=True)
     decisions.sort(key=lambda r:(appearance.context_key(r), r["frame"]))

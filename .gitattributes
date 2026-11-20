@@ -88,6 +88,7 @@ tools/run_stage144_pairwise_candidate_ranking.sh text eol=lf
 tools/run_stage145_fixed_pool_appearance.sh text eol=lf
 tools/run_stage146_conflict_appearance.sh text eol=lf
 tools/run_stage147_trigger_coverage.sh text eol=lf
+tools/run_stage148_overlap_appearance.sh text eol=lf
 # Preserve the uploaded experiment bundle byte-for-byte, including mixed CSV/JSON endings.
 docs/experiments/06_sgla_uav_tracking/results/stage61_l40_results_20261102T143543Z_40176.txt -text
 docs/experiments/06_sgla_uav_tracking/results/stage62_results_20261103T004524Z_148362.txt -text
@@ -176,3 +177,4 @@ docs/experiments/06_sgla_uav_tracking/results/stage143_results_20261119T154643Z_
 docs/experiments/06_sgla_uav_tracking/results/stage144_results_20261119T160413Z_484843.txt -text
 docs/experiments/06_sgla_uav_tracking/results/stage145_results_20261120T021816Z_558906.txt -text
 docs/experiments/06_sgla_uav_tracking/results/stage146_results_20261120T024149Z_565653.txt -text
+docs/experiments/06_sgla_uav_tracking/results/stage147_results_20261120T030505Z_572416.txt -text
