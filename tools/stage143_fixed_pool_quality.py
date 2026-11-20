@@ -144,7 +144,7 @@ def decide(row, predicted):
     return fields
 
 
-def summarize(decisions, *, arms=ARMS, comparisons=None, design=DESIGN):
+def summarize(decisions, *, arms=ARMS, comparisons=None, design=DESIGN, pools=POOLS):
     good, low = DESIGN["good"], DESIGN["low"]
     valid = [r for r in decisions if r["native_iou"] >= 0.]
     native = [r for r in valid if r["state"] == "native"]
@@ -159,7 +159,7 @@ def summarize(decisions, *, arms=ARMS, comparisons=None, design=DESIGN):
                        relapse_replays=[r for r in valid if r["relapse"]])
     policy, paired = [], []
     for name, common in populations.items():
-        for pool in POOLS:
+        for pool in pools:
             subsets = [(name, common)]
             if name == "native_low":
                 subsets.append(("pool_rescuable", [r for r in common if r[f"{pool}_oracle_iou"] >= good]))
@@ -209,7 +209,7 @@ def mark_stable(rows):
                 row["stable_window"] = start + 1
 
 
-def stable_report(rows, arms=("raw", "quality")):
+def stable_report(rows, arms=("raw", "quality"), *, pools=POOLS):
     windows = defaultdict(list)
     for row in rows:
         if row["stable_window"]:
@@ -217,7 +217,7 @@ def stable_report(rows, arms=("raw", "quality")):
     report = []
     for (seq, start), local in sorted(windows.items()):
         fields = dict(sequence=seq, start=start, end=local[-1]["frame"], source=local[0]["source"])
-        for pool in POOLS:
+        for pool in pools:
             for arm in arms:
                 key = f"{pool}_{arm}"
                 bad = np.array([r[key+"_iou"] < DESIGN["low"] for r in local])

@@ -157,7 +157,7 @@ def pair_summary(pairs):
     return summary
 
 
-def read_sequence(entry, image_root, rows, histories, references, regression, rankers, reader=checked_image):
+def read_sequence(entry, image_root, rows, histories, references, regression, rankers, reader=checked_image, *, observe=None):
     reads = 0
 
     @lru_cache(maxsize=16)
@@ -201,6 +201,8 @@ def read_sequence(entry, image_root, rows, histories, references, regression, ra
                 decision[f"{pool}_{cue}_iou"] = float(row["y"][int(np.searchsorted(row["cells"], cell))])
                 decision[f"{pool}_{cue}_available"] = available
         pairs.extend(compare_pairs(row, decision, scores, fixed.score(regression, row["x"])))
+        if observe is not None:
+            observe(row, decision, scores)
         decisions.append(decision)
     return decisions, pairs, reads
 
@@ -219,7 +221,7 @@ def reference_rows(path, selected):
     return refs
 
 
-def run(root, native, replays, entry_for, image_root, r144, baselines, rankers, reader=checked_image):
+def collect_study(native, replays, entry_for, image_root, r144, baselines, rankers, reader=checked_image, *, observe=None):
     by_sequence = defaultdict(list)
     histories = defaultdict(dict)
     for rows in native.values():
@@ -242,7 +244,7 @@ def run(root, native, replays, entry_for, image_root, r144, baselines, rankers, 
         if entry["sequence"] != seq:
             raise ValueError("Appearance image source differs from cached state")
         local, examples, reads = read_sequence(entry, image_root, rows, histories, refs,
-                                               baselines[group], rankers[group], reader)
+                                               baselines[group], rankers[group], reader, observe=observe)
         decisions.extend(local)
         pairs.extend(examples)
         scope.append(dict(sequence=seq, source=group, states=len(local), pairs=len(examples), image_reads=reads,
@@ -252,6 +254,11 @@ def run(root, native, replays, entry_for, image_root, r144, baselines, rankers, 
         print(f"[Stage-145] {seq}: {len(local)} states, {len(examples)} pairs, {reads} image reads", flush=True)
     if len(decisions) != len(keys):
         raise ValueError("Duplicate study decisions")
+    return decisions, pairs, scope
+
+
+def run(root, native, replays, entry_for, image_root, r144, baselines, rankers, reader=checked_image):
+    decisions, pairs, scope = collect_study(native, replays, entry_for, image_root, r144, baselines, rankers, reader)
     policy, paired = fixed.summarize(decisions, arms=(*fixed.ARMS, *prior.METHODS, *CUES),
                                      comparisons=tuple((cue, "quality") for cue in CUES), design=DESIGN)
     for row in policy + paired:

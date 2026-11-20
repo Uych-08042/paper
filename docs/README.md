@@ -30,7 +30,9 @@ Stage-143 已完成。质量评分在 645 个原生稳定窗口内均未引入�
 
 Stage-144 已完成。普通排序选中 1／18 个全网格独有好框，19 个失跟起点的选择与逐框回归完全相同。难例加权在局部峰／全网格的 68／4 个原稳定窗口引入连续低 IoU。 [结果复核](experiments/06_sgla_uav_tracking/STAGE144_RESULTS_REVIEW.md) · [实验协议](experiments/06_sgla_uav_tracking/STAGE144_PAIRWISE_CANDIDATE_RANKING.md)
 
-Stage-145 已备好。固定 Stage-144 候选池，检查首帧和近期外观能否将好框排到错框前。服务器结果待跑。 [实验协议](experiments/06_sgla_uav_tracking/STAGE145_FIXED_POOL_APPEARANCE.md)
+Stage-145 已完成。全网格近期颜色选中 6／19 个失跟起点，保留了回归选中的 3 个。首帧灰度相似度选中 3／18 个全网格独有好框，但直接用它选框在 31／110 个原稳定窗口引入连续低 IoU。 [结果复核](experiments/06_sgla_uav_tracking/STAGE145_RESULTS_REVIEW.md) · [实验协议](experiments/06_sgla_uav_tracking/STAGE145_FIXED_POOL_APPEARANCE.md)
+
+Stage-146 已备好。在同一批全网格冲突候选上比较纯响应／几何、加入近期颜色、加入首帧灰度。服务器结果待跑。 [实验协议](experiments/06_sgla_uav_tracking/STAGE146_CONFLICT_APPEARANCE.md)
 
 Stage-122 缓存诊断已完成。358 次替换中 80 次前史和前三框观测匹配，补出 9 个好框却仅选中 1 个；两次前三框重排直接改变输出，分别是 0174 和 0089 的首次分叉。 [结果复核](experiments/06_sgla_uav_tracking/STAGE122_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE122_ALTERNATE_RERANKING_DIAGNOSTIC.md)
 
@@ -241,7 +243,7 @@ Stage-131 在 28 段开发视频评估了 196 条轨迹。原生／备用搜索�
 
 ## 交接与维护
 
-- 接续时先读 0.136 的 Stage-145 同池外观、0.135 的 Stage-144 成对排序和 0.134 的 Stage-143 候选评分。确认集与论文目标见 0.48／0.44。 [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口)
+- 接续时先读 0.137 的 Stage-146 冲突外观辅助、0.136 的 Stage-145 同池外观和 0.135 的 Stage-144 成对排序。确认集与论文目标见 0.48／0.44。 [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口)
 - [历史写作材料说明](archive/README.md)
 - [整理报告](maintenance/CLEANUP_REPORT.md)
 - [逐文件整理清单](maintenance/CLEANUP_MANIFEST.json)
