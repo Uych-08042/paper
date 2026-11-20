@@ -1,8 +1,12 @@
 # 工作交接：SGLATrack 无人机跟踪与模型压缩探索
 
-更新日期：2026-11-20（Asia/Hong_Kong）
+更新日期：2026-11-21（Asia/Hong_Kong）
 
-**Stage-155 只训练串行路径的 L10 已准备，见 0.146。** 按源视频两折拟合 L10 副本，在 47 个配对起点比较原生、冻结 L10 加算与适配 L10 加算。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE155_ADAPT_SERIAL_L10.md)
+**Stage-157 固定加算预算下的写回对照，见 0.148。** 16 个触发点上，事后保护参考相对直接写回改善 +0.618 个 IoU 点，保住 0348 的原生恢复。实际峰值／重叠规则待服务器运行。 [实验与结果](docs/experiments/06_sgla_uav_tracking/STAGE157_DEPTH_WRITEBACK.md)
+
+**Stage-156 动态加算触发离线验证已完成，见 0.147。** 低峰值和峰偏离中心能触发加算，但后 32 帧低于原生及同次数随机。预测未来收益仅触发 5 个稳定点。 [结果](docs/experiments/06_sgla_uav_tracking/STAGE156_DEPTH_ROUTING_AUDIT.md)
+
+**Stage-155 只训练串行路径的 L10 已完成，见 0.146。** 适配相对冻结加算的后 8／32 帧平均 IoU 差为 +0.014948／+0.000080，未新增连续好框恢复。 [原始结果](docs/experiments/06_sgla_uav_tracking/results/stage155_results_20261120T134722Z_730065.txt)
 
 **Stage-154 强制加算一块的同裁剪对照已完成，见 0.145。** 47 个起点均执行 L9 → L10。19 个失跟起点新增 1 个当帧好框，后 32 帧新增和丢失的连续好框各 1 次，平均 IoU 差 −0.0098。 [结果复核](docs/experiments/06_sgla_uav_tracking/STAGE154_RESULTS_REVIEW.md)
 
@@ -127,7 +131,7 @@ Stage-75 L20 已完成 13 个固定起点和 52 条短分支。0003 两个首败
 
 ## 0. 下一次对话的直接接续入口
 
-本节更新至 2026-11-20。接续先读 0.146 的 Stage-155 L10 训练协议和 0.145 的 Stage-154 强制加算结果。以往全视频结果见 0.143、0.122 和 0.112，候选生成背景见 0.90～0.95 和 0.53～0.54，确认边界和论文目标见 0.48／0.44。 [Stage-155 协议](docs/experiments/06_sgla_uav_tracking/STAGE155_ADAPT_SERIAL_L10.md) · [Stage-154 结果](docs/experiments/06_sgla_uav_tracking/STAGE154_RESULTS_REVIEW.md)
+本节更新至 2026-11-21。接续先读 0.148 的 Stage-157 写回对照与 0.147 的 Stage-156 触发验证。以往全视频结果见 0.143、0.122 和 0.112，候选生成背景见 0.90～0.95 和 0.53～0.54，确认边界和论文目标见 0.48／0.44。 [Stage-157 实验](docs/experiments/06_sgla_uav_tracking/STAGE157_DEPTH_WRITEBACK.md) · [Stage-156 结果](docs/experiments/06_sgla_uav_tracking/STAGE156_DEPTH_ROUTING_AUDIT.md)
 
 需要回溯历史与配对干预时读 0.33、0.31、0.29、0.27、0.24、0.22、0.20 和 0.18。较早阶段的运行状态按各节日期理解。 [Stage-60](docs/experiments/06_sgla_uav_tracking/STAGE60_RESULTS_REVIEW.md) · [Stage-54](docs/experiments/06_sgla_uav_tracking/STAGE54_RESULTS_REVIEW.md) · [Stage-55](docs/experiments/06_sgla_uav_tracking/STAGE55_RESULTS_REVIEW.md)
 
@@ -2531,9 +2535,17 @@ L40 同卡完成 28 个开发视频、112 条轨迹、116,188 次搜索。原生
 
 0085／204 当帧 0→0.5147，连续好框 223→205。0348／367 原生从 383 帧开始连续跟准，加算组后继 32 帧 IoU 全为 0。0348／538 新增连续好框，32 帧均值与原生接近。结果为使用冻结权重的一次串行加算干预，反映已使用开发起点上的局部效果。 [服务器原始回传](docs/experiments/06_sgla_uav_tracking/results/stage154_results_20261120T121217Z_707147.txt)
 
-### 0.146 Stage-155 只训练串行路径的 L10（待服务器执行）
+### 0.146 Stage-155 只训练串行路径的 L10（结果已复核）
 
-复用 Stage-121 原生父框提取 L9 特征，28 个开发源组做 14／14 两折。每源组最多 32 个均匀视图和 16 个额外低 IoU 视图，保留有效裁剪内的目标中心。每折只训练冻结模型之外的 L10 副本 192 步。47 个起点分别比较原生、原 L10 加算、适配 L10 加算，写回各自框后全部按原生路径继续 32 帧。需同步新脚本及 Stage-153 插桩、Stage-48 模块复制工具的改动。服务器执行 `bash tools/run_stage155_adapt_l10.sh`，回传 `stage155_results_*.txt`。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE155_ADAPT_SERIAL_L10.md)
+同 L40，28 个源组两折，1,192 个视图，每折适配 L10 副本 192 步。47 个起点共 4,653 次评估搜索及 94 次追加块。19 个失跟点上，适配相对原 L10 加算新增 1 个当帧好框，后 8／32 帧视频均值差 +0.014948／+0.000080，连续好框恢复无新增或丢失。相对原生新增 2 个当帧好框，后 32 帧均值 −0.009751，连续恢复新增和丢失各 1 次。28 个稳定点相对原生的后 32 帧均值 −0.011581，无新连续低 IoU。0237／242 适配当帧 IoU 0.576，后 32 帧均为 0。0348／367 的原生恢复在两种加算中均丢失。 [原始结果](docs/experiments/06_sgla_uav_tracking/results/stage155_results_20261120T134722Z_730065.txt) · [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE155_ADAPT_SERIAL_L10.md)
+
+### 0.147 Stage-156 动态加算触发离线验证（已完成）
+
+将 Stage-137 原生 L9 峰与 Stage-155 续跑按 47 点匹配，门槛和两变量收益模型按源组留出。以适配 L10 为例，按低峰值／峰偏离中心加算 16／12 次，后 32 帧相对原生 −0.004147／−0.003142，均低于同预算随机期望。收益模型只在 5 个稳定点触发，后 32 帧差 +0.000041，19 个失跟点未改。16 次预算内按后续真值保护性选择，适配／冻结的事后参考为 +0.002628／+0.003090。优先检验何时保留原生框以及写回对下一帧的影响。基于当前原生响应触发需要在部署成本中计入追加 head。 [结果及复现](docs/experiments/06_sgla_uav_tracking/STAGE156_DEPTH_ROUTING_AUDIT.md)
+
+### 0.148 Stage-157 固定加算预算下的写回对照（缓存参考完成，GPU 待运行）
+
+固定 Stage-156 低 Hann 峰值的 16 个触发点（14 个失跟、2 个稳定）。直接写回适配 L10 的后 32 帧平均 IoU 相对原生 −0.004147，连续好框新增／丢失 1／1、新增低 IoU 1。真值保护参考写回 9 处，后 32 帧相对原生 +0.002035、相对直接写回 +0.006181，连续好框新增／丢失 1／0、新增低 IoU 0。0085／1541 写回 L10，0348／367 保留 L9。同步后后台执行 `bash tools/run_stage157_depth_writeback.sh`，测试峰值上升和峰值上升加框间 IoU ≥0.30 的两条规则。双方只各消耗一次额外 L10 和 CENTER。 [实验及命令](docs/experiments/06_sgla_uav_tracking/STAGE157_DEPTH_WRITEBACK.md)
 
 ## 1. 接手后首先要知道的结论
 

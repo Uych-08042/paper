@@ -50,7 +50,11 @@ Stage-153 已完成运行。28 个开发视频上追加块调用为 0，两组 A
 
 Stage-154 已完成。47 个起点均实际追加 L10，19 个失跟起点新增 1 个当帧好框。后 32 帧新增和丢失的连续好框各 1 次，平均 IoU 低 0.0098。 [结果复核](experiments/06_sgla_uav_tracking/STAGE154_RESULTS_REVIEW.md) · [实验协议](experiments/06_sgla_uav_tracking/STAGE154_FORCED_DEPTH_CONTINUATION.md)
 
-Stage-155 已准备。按源组留出，只训练追加路径的 L10 副本，在相同裁剪比较三路起点与后续跟踪。 [实验协议](experiments/06_sgla_uav_tracking/STAGE155_ADAPT_SERIAL_L10.md)
+Stage-155 已完成。适配 L10 相比冻结加算的后 8／32 帧平均 IoU 差为 +0.014948／+0.000080，连续恢复未增加。 [原始结果](experiments/06_sgla_uav_tracking/results/stage155_results_20261120T134722Z_730065.txt) · [实验协议](experiments/06_sgla_uav_tracking/STAGE155_ADAPT_SERIAL_L10.md)
+
+Stage-156 已完成。47 个配对起点中，低峰值和峰偏离中心的触发规则均低于同次数随机对照。预测后续收益只触发 5 个稳定起点。 [结果及复现](experiments/06_sgla_uav_tracking/STAGE156_DEPTH_ROUTING_AUDIT.md)
+
+Stage-157 已完成固定 16 次加算的缓存参考。事后保护写回相对直接写回提高后 32 帧 IoU 0.618 点，实际峰值和框间重叠规则待服务器验证。 [结果及运行命令](experiments/06_sgla_uav_tracking/STAGE157_DEPTH_WRITEBACK.md)
 
 Stage-122 缓存诊断已完成。358 次替换中 80 次前史和前三框观测匹配，补出 9 个好框却仅选中 1 个；两次前三框重排直接改变输出，分别是 0174 和 0089 的首次分叉。 [结果复核](experiments/06_sgla_uav_tracking/STAGE122_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE122_ALTERNATE_RERANKING_DIAGNOSTIC.md)
 
@@ -261,7 +265,7 @@ Stage-131 在 28 段开发视频评估了 196 条轨迹。原生／备用搜索�
 
 ## 交接与维护
 
-- 接续时先读 0.146 的 Stage-155 L10 训练、0.145 的 Stage-154 强制加算和 0.144 的 Stage-153 自适应深度。确认集与论文目标见 0.48／0.44。 [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口)
+- 接续时先读 0.147 的 Stage-156 触发验证、0.146 的 Stage-155 L10 适配和 0.145 的 Stage-154 强制加算。确认集与论文目标见 0.48／0.44。 [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口)
 - [历史写作材料说明](archive/README.md)
 - [整理报告](maintenance/CLEANUP_REPORT.md)
 - [逐文件整理清单](maintenance/CLEANUP_MANIFEST.json)

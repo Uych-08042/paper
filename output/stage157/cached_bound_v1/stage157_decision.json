@@ -1,0 +1,20 @@
+{
+  "schema": "stage157_depth_writeback_v1",
+  "status": "COMPLETE_STAGE157_CACHED_BOUND",
+  "trigger": "native_hann_peak",
+  "cases": 47,
+  "triggered": 16,
+  "source155": "1ba5ee6090a88adc6adbb908f2b2a7ee2d88a8e88f73164954479371ce5ebd4d",
+  "table_sha256": {
+    "stage157_summary.csv": "be7c35b3e1751d66c7fbed5ea270ee7747cc88482262019c846f9e962b5acce6",
+    "stage157_cases.csv": "f8c27963d9d9cd5ad87105f1dc9bb3bc06f3ec0bdbfa0224d78a1940d5fca9c9"
+  },
+  "new_full_trajectories": 0,
+  "training_updates": 0,
+  "evaluated_anchors": 0,
+  "successor_searches": 0,
+  "paired_anchor_head_calls": 0,
+  "paired_anchor_block_calls": 0,
+  "artifact_sha256": {},
+  "fingerprint": "20c15590f49362babf293d91ef84a8e7c4432c5152e2ba56371b2cf261327554"
+}
