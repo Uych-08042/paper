@@ -1,0 +1,941 @@
+
+===== stage152_decision.json =====
+{
+  "schema": "stage152_center_closed_loop_v1",
+  "status": "COMPLETE_CENTER_ONLY_FULL_VIDEO_DEVELOPMENT",
+  "role": "consumed_development_full_video_comparison",
+  "plan_fingerprint": "66f954a9e1b952a4537dd20deee375f8137f3e94aa8cd5246094318a475b1717",
+  "source_stage151": "05343065c46229bc2f3133e9f56896951b2d2ecb5afb9718e1bedda24a639f86",
+  "source_stage149": "5dcfaca88b2511cf550c431ddf745a98b2d4b17063aa7200cc8950c5b1394549",
+  "runtime": {
+    "tracker": {
+      "parameter": "deit_distilled",
+      "checkpoint_sha256": "88447c7724704edaf03488f519d3e300385fef05c2f1fac02fe22f7941cf334e",
+      "config": {
+        "MODEL": {
+          "PRETRAIN_FILE": "deit_tiny_distilled_patch16_224.pth",
+          "EXTRA_MERGER": false,
+          "RETURN_INTER": false,
+          "RETURN_STAGES": [],
+          "BACKBONE": {
+            "TYPE": "deit_tiny_distilled_patch16",
+            "STRIDE": 16,
+            "MID_PE": false,
+            "SEP_SEG": false,
+            "CAT_MODE": "direct",
+            "MERGE_LAYER": 0,
+            "ADD_CLS_TOKEN": false,
+            "CLS_TOKEN_USE_MODE": "ignore",
+            "CE_LOC": [],
+            "CE_KEEP_RATIO": [],
+            "CE_TEMPLATE_RANGE": "ALL"
+          },
+          "HEAD": {
+            "TYPE": "CENTER",
+            "NUM_CHANNELS": 256
+          }
+        },
+        "TRAIN": {
+          "LR": 0.0004,
+          "WEIGHT_DECAY": 0.0001,
+          "EPOCH": 300,
+          "LR_DROP_EPOCH": 240,
+          "BATCH_SIZE": 32,
+          "NUM_WORKER": 4,
+          "OPTIMIZER": "ADAMW",
+          "BACKBONE_MULTIPLIER": 0.1,
+          "GIOU_WEIGHT": 2.0,
+          "L1_WEIGHT": 5.0,
+          "FREEZE_LAYERS": [
+            0
+          ],
+          "PRINT_INTERVAL": 50,
+          "VAL_EPOCH_INTERVAL": 999,
+          "GRAD_CLIP_NORM": 0.1,
+          "AMP": false,
+          "CE_START_EPOCH": 20,
+          "CE_WARM_EPOCH": 80,
+          "DROP_PATH_RATE": 0.1,
+          "SCHEDULER": {
+            "TYPE": "step",
+            "DECAY_RATE": 0.1
+          }
+        },
+        "DATA": {
+          "SAMPLER_MODE": "causal",
+          "MEAN": [
+            0.485,
+            0.456,
+            0.406
+          ],
+          "STD": [
+            0.229,
+            0.224,
+            0.225
+          ],
+          "MAX_SAMPLE_INTERVAL": 200,
+          "TRAIN": {
+            "DATASETS_NAME": [
+              "LASOT",
+              "GOT10K_vottrain",
+              "COCO17",
+              "TRACKINGNET"
+            ],
+            "DATASETS_RATIO": [
+              1,
+              1,
+              1,
+              1
+            ],
+            "SAMPLE_PER_EPOCH": 60000
+          },
+          "VAL": {
+            "DATASETS_NAME": [
+              "GOT10K_votval"
+            ],
+            "DATASETS_RATIO": [
+              1
+            ],
+            "SAMPLE_PER_EPOCH": 10000
+          },
+          "SEARCH": {
+            "SIZE": 256,
+            "FACTOR": 4.0,
+            "CENTER_JITTER": 3,
+            "SCALE_JITTER": 0.25,
+            "NUMBER": 1
+          },
+          "TEMPLATE": {
+            "NUMBER": 1,
+            "SIZE": 128,
+            "FACTOR": 2.0,
+            "CENTER_JITTER": 0,
+            "SCALE_JITTER": 0
+          }
+        },
+        "TEST": {
+          "TEMPLATE_FACTOR": 2.0,
+          "TEMPLATE_SIZE": 128,
+          "SEARCH_FACTOR": 4.0,
+          "SEARCH_SIZE": 256,
+          "EPOCH": 297
+        }
+      },
+      "torch": "2.7.1+cu118",
+      "cuda": "11.8",
+      "device": "NVIDIA L40",
+      "lens_z": 64,
+      "lens_x": 256,
+      "embed_dim": 192
+    },
+    "opencv": "5.0.0",
+    "numpy": "1.26.4",
+    "gpu_uuid": "968f15bb-daae-6145-593b-b11824694da8",
+    "model_state_sha256": "13af4170053b1e6f4b371c872fce2036cd5c225dffd0831093ddd790eb11e70f"
+  },
+  "stage121_runtime_differences": [],
+  "videos": 28,
+  "new_full_trajectories": 112,
+  "new_search_calls": 116188,
+  "table_sha256": {
+    "stage152_policy_summary.csv": "3196e2c2f395d30ba80c90a97d941a1ea554cf3f34b711c602b7c9c6363d3d88",
+    "stage152_paired.csv": "2814d84ac9a99ce2274f059c9a9b1e24573b0524e3352d8e0bc2628672b23901",
+    "stage152_video_summary.csv": "fd529cb28a3343c0f519c51e125a0c0ce86e1b2c9d2d4329cc183715b373e678",
+    "stage152_failures.csv": "07c56009d31e88f1b3e07405bb26be145e0a7ca83660476b32d4c8f4d79daf74",
+    "stage152_switches.csv": "abe7c737771e981bbf715f413c8e7c5b9222a06b9ad2fc3d705891ac13224c5d",
+    "stage152_native_shadow.csv": "922c00126066dc0af9d1809d1f25f7f8f8f1bd0891b1a5bbe2793f778c8724ef"
+  },
+  "artifact_sha256": {
+    "evaluation/uav0000003_00000_s__native.npz": "1bf65da9f75e2f542af7487fae7c64b1464f3a25ad03434377c059223b00bf8d",
+    "evaluation/uav0000003_00000_s__native.receipt.json": "016ed8677020913d63eb92f964fb6413564f4874c96ed66c3fa8e26f0098be53",
+    "evaluation/uav0000003_00000_s__regression.npz": "f66676c46e0e8c45235e72ab9d5fc537838c9def1a389344a249f5458921e6c6",
+    "evaluation/uav0000003_00000_s__regression.receipt.json": "fc6a10bdcf82d83ac67d3b4b165b47101ccc4283d3eeb5992111622fac2ad4c3",
+    "evaluation/uav0000003_00000_s__gray_full.npz": "81422e24979a63103a0ef1d8ecf3199b59a3f86ee8bbf565109bd65271ef09ce",
+    "evaluation/uav0000003_00000_s__gray_full.receipt.json": "832a98086ea93f2f7852f966e7ac1627e8759701aa9af65bbe9de2c41d1442e5",
+    "evaluation/uav0000003_00000_s__gray_center.npz": "23d0b165c625b1d79c0f5cb2cafe0db76dfaa0c022cfb7cbc85704a4b971cb99",
+    "evaluation/uav0000003_00000_s__gray_center.receipt.json": "c3e8c4f7582e3c92edbe4522e2ac3dd0dd368f9bf9a01ac95ef6db862d25a250",
+    "evaluation/uav0000016_00000_s__native.npz": "c92077875287096bd827a6e3424c69251b533c5de40113dd1b85ad1f820e416c",
+    "evaluation/uav0000016_00000_s__native.receipt.json": "3863de20d6e9c40d400ea081c6af3304bb578225234ba4c623eb07d9961fad46",
+    "evaluation/uav0000016_00000_s__regression.npz": "c4855479bb4e2154b010a84901e9d0f0fcfb46c88f5b64d0f8b94d05a615a1e1",
+    "evaluation/uav0000016_00000_s__regression.receipt.json": "87f26088c1f8b4408068c6717d94f4e6c18ea32ba57499a1113d085a80263d8e",
+    "evaluation/uav0000016_00000_s__gray_full.npz": "9b6e08b6313aa423d865db8d803e5c508c9fe9ba84e8e0978a75d8e007194deb",
+    "evaluation/uav0000016_00000_s__gray_full.receipt.json": "aeafd8707d5121d8ac18e5e111b5790cba04912cc8577c6751aa97cbb03e3872",
+    "evaluation/uav0000016_00000_s__gray_center.npz": "84f688a37040f6a6f3ff2c71dbced112bb34f31af1dd0aa72c4b40e73bbdf8e3",
+    "evaluation/uav0000016_00000_s__gray_center.receipt.json": "8930d22c8875f9945a1cd1472b4d0bba0c595e9a1f9a20dde9cd37d7e60d57f8",
+    "evaluation/uav0000070_01344_s__native.npz": "be4b0e5929d32613de58826350dc42a8398ea15cf56b442c1592ef8c9bf3889c",
+    "evaluation/uav0000070_01344_s__native.receipt.json": "e3444494b2dd147fe290ff8587cb5f6621c7a48790ca8dfbdb159249dd3567a9",
+    "evaluation/uav0000070_01344_s__regression.npz": "be186a514746ce3c10e0358504a7c4311a3cf3f0bab8146c67c88781785686f1",
+    "evaluation/uav0000070_01344_s__regression.receipt.json": "6602b00b8722574958658f00650de146a5be4c7cc0f4de4edeaf95ff90a53d99",
+    "evaluation/uav0000070_01344_s__gray_full.npz": "2bd372edb4b06026747438d143726e00e6a91cfd56d4aa04144ef514d4ac6b5d",
+    "evaluation/uav0000070_01344_s__gray_full.receipt.json": "18b6b035adb4cb7359a0ba326ad8b3ad2ca65db221357bc780e03f2b3c2ed467",
+    "evaluation/uav0000070_01344_s__gray_center.npz": "2ad8aeaf13464a38d828e82ac11a19f97da458948d86c133060236d393938b4d",
+    "evaluation/uav0000070_01344_s__gray_center.receipt.json": "fc4d805817168d9e0521d61f9941a3eead7a9618fdf3e275b4103fdea2ee19c5",
+    "evaluation/uav0000076_00241_s__native.npz": "b56ab6bb41cdc2f76f313c3d2563e7c278f684860c462a9b019d0d345aa7ca12",
+    "evaluation/uav0000076_00241_s__native.receipt.json": "7436c1398d3f631dab4d6056db16335a3d6e1d2765eabb913940d1c232c6a369",
+    "evaluation/uav0000076_00241_s__regression.npz": "b49f24dda60a46a7984757dac745ed53b6e7ec4924247231ba118e22592426ed",
+    "evaluation/uav0000076_00241_s__regression.receipt.json": "f3f6174d28337f87f88f1f1070899eafe9c61f7c67f67bbabafe25b74aef7443",
+    "evaluation/uav0000076_00241_s__gray_full.npz": "edd9f24434437e7b7a002c5db647e66f937d19259043e1d00a3cc6e2892e58bb",
+    "evaluation/uav0000076_00241_s__gray_full.receipt.json": "a330ec68ebeb6a3d13d538f0cad0b881526e72ab218b3ff807ad9bdea93a64a6",
+    "evaluation/uav0000076_00241_s__gray_center.npz": "62b4f689191898317027f5a3b72c88a3a95f0105e949e5e72cbe53928e93c55e",
+    "evaluation/uav0000076_00241_s__gray_center.receipt.json": "38b9b43e41d48f9b4b8dd605c597b76c6f3e32e17061cae87aa592d3ed7f5b1b",
+    "evaluation/uav0000080_01680_s__native.npz": "6ba9a741e43417b943a17ee93114effa7f091bbdc48e9eefd2f7c25e2467e2ed",
+    "evaluation/uav0000080_01680_s__native.receipt.json": "56b4840d607dd32ed6df43122c18956f09ba431ff1167a1688f5c13f5a0fe2c2",
+    "evaluation/uav0000080_01680_s__regression.npz": "32d7c1a677830606ead06bb5269e1503f143c33dcda942f04224e74716b04b4b",
+    "evaluation/uav0000080_01680_s__regression.receipt.json": "b5ef7c66943747a06f564e663088e3f1ca6540a8bba03764d75f6fa30dec7417",
+    "evaluation/uav0000080_01680_s__gray_full.npz": "bc2f58103e446954112f5cc98debe9500823d4ffc460f6242335d878a99bd728",
+    "evaluation/uav0000080_01680_s__gray_full.receipt.json": "e0bc3ccc5f3ced65c216041af6d7178ab24320b5e8aa82f3257403f08cf8775c",
+    "evaluation/uav0000080_01680_s__gray_center.npz": "6c350e873c87907376e72fb8a899ee5c007f2d8018170df529a792ccb457b3b1",
+    "evaluation/uav0000080_01680_s__gray_center.receipt.json": "0a08213d1e407a35b450b6fb424c2dba72f2bd2a189db1b9c58f96680ecfbfb3",
+    "evaluation/uav0000085_00000_s__native.npz": "a604c59108603b98fb71bec54aee172988d1bd5a7679d2045ea94c77206d0e29",
+    "evaluation/uav0000085_00000_s__native.receipt.json": "e720c18c36beb09e66f54a7e2d220784f220e1586f7653522d4c9f471204b3ab",
+    "evaluation/uav0000085_00000_s__regression.npz": "11d9b51e1d4288e45a8c60183a3e5e280fbdcd0e124c38e1a919c92c6297f0c0",
+    "evaluation/uav0000085_00000_s__regression.receipt.json": "c841fd460f3efabbab649ac8ad6dbe0c6625a9c93728c4c35e5c3171a08d30dc",
+    "evaluation/uav0000085_00000_s__gray_full.npz": "1ea0fc0fcab1cc7a9b0d85e0c1890cc884ae523ba2211f4968025b7ba0c791b5",
+    "evaluation/uav0000085_00000_s__gray_full.receipt.json": "b304ac49ce173fd4c4375783bc3ba25926dce16f0069343a0ba1d62afa9fd5f7",
+    "evaluation/uav0000085_00000_s__gray_center.npz": "0469c6b063957719e70339f1946126c1a9ec81d3d02e18074243ee1f69d9faca",
+    "evaluation/uav0000085_00000_s__gray_center.receipt.json": "80e4aaf794d3a9e49913a50dd1e082fc269b4e94ea8141ab9153fd3b9d05411f",
+    "evaluation/uav0000089_00920_s__native.npz": "87c21b6b4a69c445d9f37c15da00553aede03293d5956502ba50dfb69d008f98",
+    "evaluation/uav0000089_00920_s__native.receipt.json": "91e02eee4e616c3ae26548470c2138f61a3c0ae72a411cc27d82280830a8a2d3",
+    "evaluation/uav0000089_00920_s__regression.npz": "a54e5dc28d5006b69419fe102cfcb933bd4d551255a77d56b6b781a228d7b84a",
+    "evaluation/uav0000089_00920_s__regression.receipt.json": "18b7e6cdb195cead5096123bedde9626000737053abd57b5db43f5cb8841535f",
+    "evaluation/uav0000089_00920_s__gray_full.npz": "d08dc9f13b28f50b1d500793bde538650bf9af4b9ea08c88b658a084cd6d51a7",
+    "evaluation/uav0000089_00920_s__gray_full.receipt.json": "87ece8758558e5a06e623ac6ff62f3d0949e8f55fa9538a1364c8a146b36a0f2",
+    "evaluation/uav0000089_00920_s__gray_center.npz": "14020e6a8b69f51e52ee55acec5e51a61dc064cef9aa494be3a8043b9395ae65",
+    "evaluation/uav0000089_00920_s__gray_center.receipt.json": "c43c33d4167f8576bc13de7eb3d38e713bb9f763a2fabca715bf43fe21f2533d",
+    "evaluation/uav0000091_00460_s__native.npz": "63f5c4dd83ac7df3c7490707062f9cac4343479e837fc45a3bc2f7e587552e60",
+    "evaluation/uav0000091_00460_s__native.receipt.json": "c413e2138b3ae040d3ae1891ccb9f2abeaa3e7c26234414b60674922c35fcd39",
+    "evaluation/uav0000091_00460_s__regression.npz": "01b9af076e5dffb79bf15ab51926a936d8b7c577fcbd243c5224e720d453d9a3",
+    "evaluation/uav0000091_00460_s__regression.receipt.json": "a5f5556a7ee9509c770e4efb6b74b33bec74a0d7513a205ed2de94922861e7bb",
+    "evaluation/uav0000091_00460_s__gray_full.npz": "e4575934159c0281cfced8756be8c3ba750f50e564ac8d49a3d2f3308824d74d",
+    "evaluation/uav0000091_00460_s__gray_full.receipt.json": "969cbe4911cb2a5281e3251d7d110421d99dc411ab15e5f79b82c1e8283c98a6",
+    "evaluation/uav0000091_00460_s__gray_center.npz": "7739b6f5c15de57cc2f86156b51cecd7c30a3b8a7c352327340a2fa9c20ab58c",
+    "evaluation/uav0000091_00460_s__gray_center.receipt.json": "1a7fb4348692d2dae47b18e8957f2e6a9eae2d904c3d365d944407194eee66bd",
+    "evaluation/uav0000126_07915_s__native.npz": "f21e73c7d906e1ae16e46a5291452545d52d42b04efbbbd458311b194766f7c1",
+    "evaluation/uav0000126_07915_s__native.receipt.json": "d2a50ab38e10204b7f73f26e4fadcde892c9eae3d03041227c51f7cf75a0e7c5",
+    "evaluation/uav0000126_07915_s__regression.npz": "a603358e459394e36d5f0d1a81f6b7eff41efa266ab4ca0cbc50548f35bfd873",
+    "evaluation/uav0000126_07915_s__regression.receipt.json": "c93aa4866003341dc160123fffb8c749ec5c04191550bd005d898e6f738ca65c",
+    "evaluation/uav0000126_07915_s__gray_full.npz": "0a0ca86172e1263963d4be4c0c7334ebc11d50130acf3d9bfd020b0e35da210c",
+    "evaluation/uav0000126_07915_s__gray_full.receipt.json": "8a03c2788e0e7ded5980941ae5b7a49632723583fd1c03a03c54310815536e11",
+    "evaluation/uav0000126_07915_s__gray_center.npz": "4ebde612795a2f190afec02f5f7d0f229c022813f3e6db87225da1a3d650fa25",
+    "evaluation/uav0000126_07915_s__gray_center.receipt.json": "fc58542c95d1a3687b0f6c34a790ba060546dc83cfc2b470cbe2df7ce6a3428b",
+    "evaluation/uav0000147_00000_s__native.npz": "96569a830434d8432a738d8d178afe5d8d6159cfe76a061b462f93d2526e54f8",
+    "evaluation/uav0000147_00000_s__native.receipt.json": "f7e68e6c6d4d9d9af376aa3f306c25a4a51e19200a9fa53ec00a5edf3c20f02c",
+    "evaluation/uav0000147_00000_s__regression.npz": "40f33c497890891739fc18ceee779511d1e2c9a93ac63940cc4e46bd98266634",
+    "evaluation/uav0000147_00000_s__regression.receipt.json": "2336e819f09f9188afb66a9178fac19e01a5f542d5ccc3146f2f498ece2ce87c",
+    "evaluation/uav0000147_00000_s__gray_full.npz": "ebf269bfec290a8af8418cd3c57edc812774cdee2e0fb8c27ec39d3b46ff0e08",
+    "evaluation/uav0000147_00000_s__gray_full.receipt.json": "d767008ee2adc74b9e671b265bfa3e1a132a7172697970ea67d3a60a25085810",
+    "evaluation/uav0000147_00000_s__gray_center.npz": "e7b6e47f01c13b8be9d8edd175c08dbf15024ea0afe2941af392960896f7f2df",
+    "evaluation/uav0000147_00000_s__gray_center.receipt.json": "077853251aa09d8283568e3fb23aef7b46353232202e967f6135a518153269b2",
+    "evaluation/uav0000169_00000_s__native.npz": "3b3c2a9894911b08870e5af6bd6398bdd6fdce6eb75fd8ecf2e3a916e78ed2a0",
+    "evaluation/uav0000169_00000_s__native.receipt.json": "3e766661220661cceb5d4a9142fb3a246fefa6de4c07b4c8156bc2974fe06ef2",
+    "evaluation/uav0000169_00000_s__regression.npz": "d53245081e63ccf1b7b7c433f37bb2cb9b4da173d0bddbf6cb65a288e5f328eb",
+    "evaluation/uav0000169_00000_s__regression.receipt.json": "d1de7189f07dcd00887f8d90bf2d38d2f36cd7e3f9b51c0634b787c33cdad0b8",
+    "evaluation/uav0000169_00000_s__gray_full.npz": "1c9057f69e1c6ae63917a98e98d8042fcc0ceaa2c797dde778e11785ee2cc32f",
+    "evaluation/uav0000169_00000_s__gray_full.receipt.json": "be38acc848c4fb301e9b3374e8c309368d05f1ecec263ae5589083fa6efb5439",
+    "evaluation/uav0000169_00000_s__gray_center.npz": "6216323cbc7c0a2fd345ab1b9173967f7b04bbc88bbfc9f4d3ae7ece3ed914a1",
+    "evaluation/uav0000169_00000_s__gray_center.receipt.json": "cce2f19a77fc09686b6777e10f2cc0ce871bf85ff6e331af5ea1237a3d8d4d64",
+    "evaluation/uav0000170_00000_s__native.npz": "7bac970e846a66830394692ff23a70f4478554f50d917566a9e088853dff5f86",
+    "evaluation/uav0000170_00000_s__native.receipt.json": "9fde85eb1e119a0b2aa814376c40e7196dfc156beb5b13e3cef99a47acdd648c",
+    "evaluation/uav0000170_00000_s__regression.npz": "2cd5b5b46b94c304200feeb802db5c074775bbc4c557aff296c82e3e1b5c74d3",
+    "evaluation/uav0000170_00000_s__regression.receipt.json": "67b1d1802f7bad195b321f5994bbc6bd865d3e1ad8a4c51247966bae6bd90818",
+    "evaluation/uav0000170_00000_s__gray_full.npz": "183661bee48c76d04f1475eea9dd4b65b2a5fa9deb3a31c8a8b6280a7f21f966",
+    "evaluation/uav0000170_00000_s__gray_full.receipt.json": "d5fb868759e920b2c907a0fe6dda5757f53eb10761e645a744fcae61d7f11db9",
+    "evaluation/uav0000170_00000_s__gray_center.npz": "011bddaf031a17143c8102b54c9a5e68de734f8ecce98282ff02da06f6a1f016",
+    "evaluation/uav0000170_00000_s__gray_center.receipt.json": "970020383cbb728e38f354dc285a3cb6bdfcf0caa9f62d3a62d67047e0c40af5",
+    "evaluation/uav0000174_00000_s__native.npz": "311cdbc96dcd3cfafe757a708d1a7292238a0346dca2af5c5d70ab709ee32f66",
+    "evaluation/uav0000174_00000_s__native.receipt.json": "4f22c2c6eabcd27019331b7ea279298d4f4bde824be93e99a9d262ac3d7c969b",
+    "evaluation/uav0000174_00000_s__regression.npz": "095916d6d539f924cc68f2115e444103f7f72075e918fb3f65818c7a47ab2dc2",
+    "evaluation/uav0000174_00000_s__regression.receipt.json": "65d8dd4ac76b0cc7839ca5eb2c2f1f2a40ce2636317d8ff77fa6bf2bc3c64cbe",
+    "evaluation/uav0000174_00000_s__gray_full.npz": "a470ce85fb7b18a413e58b9ad7c639bacdc090b7d259bbe1418837da0ad6156f",
+    "evaluation/uav0000174_00000_s__gray_full.receipt.json": "cb03c2db8068d42a0207fae9e8545ddf93ef61a326f5a1dd57017e4b5d2daf98",
+    "evaluation/uav0000174_00000_s__gray_center.npz": "d468f4a85c3fa76a8f48bf32b92458c6b7281ad5d6800556f3c76db3139eca55",
+    "evaluation/uav0000174_00000_s__gray_center.receipt.json": "6db39a2a7ec6c123c6315bc60fffbe741f53772322c8651dc3213c0a73be8246",
+    "evaluation/uav0000176_00000_s__native.npz": "d9ce10f1468b23fca6c480e6246d513d258e9bb27c3c75b8412dc279033418ce",
+    "evaluation/uav0000176_00000_s__native.receipt.json": "48d0d33863e3f1ec34a8eca4e2727f49c83cb10aa901e8e18b2ff328e3cf3c63",
+    "evaluation/uav0000176_00000_s__regression.npz": "da44ba3e961ce5be85501ede2b174ee56bd1a04bf01be6c2a3a6bb1ea0dae4b9",
+    "evaluation/uav0000176_00000_s__regression.receipt.json": "d04c8d78f20def1c5389c4d8113ca6c456de1f08d446286170b87039d2bbeab0",
+    "evaluation/uav0000176_00000_s__gray_full.npz": "3fcd20105931f7f6591228e6fbae3ef18b4c7853c822b3abf91a2c18d73f8b3f",
+    "evaluation/uav0000176_00000_s__gray_full.receipt.json": "1478789afbb73eba5a93b319e04045b54cab526036f80af839e7c07fbc144fa5",
+    "evaluation/uav0000176_00000_s__gray_center.npz": "5ec94213885fc0a1910f38b300a36696b8d2f1466537dd37bc59ccbdcc7e9efb",
+    "evaluation/uav0000176_00000_s__gray_center.receipt.json": "6c6dcb81c6fead2ebcef1278ceda50101f0af79ed391e5643989671fd36e0bf4",
+    "evaluation/uav0000200_00000_s__native.npz": "c500a6159bf3c3d32d76e85c80e41d109875f5cf048c1f2880d3bc112d4afa03",
+    "evaluation/uav0000200_00000_s__native.receipt.json": "8adca3551c0a9de050d107b76284259c4518bd133448beb935ae34e4ab7ed798",
+    "evaluation/uav0000200_00000_s__regression.npz": "65fbae32dc2103b6f5dbe7cfa5e997845d9ceaf56011275c898dbc248f497f91",
+    "evaluation/uav0000200_00000_s__regression.receipt.json": "6a88c87e612cf00e35a00fd82eaa1314728c12c46738dcd2dbee091c6ee41d8e",
+    "evaluation/uav0000200_00000_s__gray_full.npz": "79e799c18d40a2072d7e47c09959bfc1dfc247626e4c1f93e83238097cef0532",
+    "evaluation/uav0000200_00000_s__gray_full.receipt.json": "0c997675c2db97258a08da75af107d147ffe89e939ef9a97c051622c473303fd",
+    "evaluation/uav0000200_00000_s__gray_center.npz": "a949b82926e8704325cfa6e5c51ba241462a2b18601fba02aa6a14adab642a80",
+    "evaluation/uav0000200_00000_s__gray_center.receipt.json": "125a31dbaa9dacc50226a689d5ef3aa8834a244fe0e4ba1975a27bff63c9937f",
+    "evaluation/uav0000204_00000_s__native.npz": "236f4ffdbe5fb5fd155bf95cdd04b12fc8460f92947232144502a711a043dac3",
+    "evaluation/uav0000204_00000_s__native.receipt.json": "b4d9c2614034aa9c2a82bb3a63074ea037bae129baf9adfe06c18dff001fa179",
+    "evaluation/uav0000204_00000_s__regression.npz": "c8ae6e3a1ec786b70869ffbf0cd0c920756700286818b61db4896aa2a5c5c1ba",
+    "evaluation/uav0000204_00000_s__regression.receipt.json": "5c395595f824d8ef713b591d226d86d7340c31150ae3d42e792a44ac1a79b370",
+    "evaluation/uav0000204_00000_s__gray_full.npz": "b66a0cb8fc73487f15103ad9d992c06809928417c5fee141195592f53537a6c2",
+    "evaluation/uav0000204_00000_s__gray_full.receipt.json": "6ed4282415a19688d8da21417d9464987a4a031e3af975b736c09b0a30c217e2",
+    "evaluation/uav0000204_00000_s__gray_center.npz": "12969eaba2da998d5bf005fee4925f7b0f75b5309527f9eed61444fd6a244b6a",
+    "evaluation/uav0000204_00000_s__gray_center.receipt.json": "0718eb9c8d5a2dd1b10513c9d71bfcf13a240be33df9d792fa6d6f28ebd32043",
+    "evaluation/uav0000226_05370_s__native.npz": "51185a981ca89b6c4bc515b2011973a97a9435f329447bd262aa12c954b3a684",
+    "evaluation/uav0000226_05370_s__native.receipt.json": "0386933808b89fe5c2a4726337ffd468c6de3b08a0f2b8bce084d9042a680d25",
+    "evaluation/uav0000226_05370_s__regression.npz": "be77eaedb9b4309026196fddccecd3d0f086f10b3b77665a91fdf3f8abfafb04",
+    "evaluation/uav0000226_05370_s__regression.receipt.json": "dbc468b3aa0e2890cc03f49090880e6fc05ff0f6571628459a89f78e32f97616",
+    "evaluation/uav0000226_05370_s__gray_full.npz": "ca5c59b8e5e0c641c5f48322566b6515be5f362fd5aefa167f62a4a32b2d95ae",
+    "evaluation/uav0000226_05370_s__gray_full.receipt.json": "0ad8ddea3f33247469bd914f90f9a0a5a82c75d1e88cb90b2c99de8f859307d3",
+    "evaluation/uav0000226_05370_s__gray_center.npz": "60fe528181e0d49c92520c0c003a7583071c37e79ff372d8a0216826feec62eb",
+    "evaluation/uav0000226_05370_s__gray_center.receipt.json": "c99db6c1946f39a0ab6e2b8c1c1e394e6a7812971d61476dadc1cfc33acd3edf",
+    "evaluation/uav0000235_00001_s__native.npz": "5eca7f424c98173e2c5f26fdca8320a334c26917f45e98815805043ed53bb314",
+    "evaluation/uav0000235_00001_s__native.receipt.json": "3f1c54c641246445d71ad954a34bd595d908d2cd754fd8d89f9f2e19406bbf24",
+    "evaluation/uav0000235_00001_s__regression.npz": "872f5cb74838218ce8d779f7a8d8552a46e462f9d8f7fb929ad8be5195b39e26",
+    "evaluation/uav0000235_00001_s__regression.receipt.json": "0e94f03907907d05ea6b5e750e385a688cdf7fb0abb351957995b6d412184ea6",
+    "evaluation/uav0000235_00001_s__gray_full.npz": "4ce82c51771e9fce56e4107c7cee7d86423c859181f271b3d001e69990f22c5c",
+    "evaluation/uav0000235_00001_s__gray_full.receipt.json": "4935c182b0b446bba2d842d4609e66f65178086ae3262215e13e5ef757b798ab",
+    "evaluation/uav0000235_00001_s__gray_center.npz": "c47203f609919c9a11c7fc63ae98f008516dea936a370afd094f424b6c347bec",
+    "evaluation/uav0000235_00001_s__gray_center.receipt.json": "d4f26bd8e0c7e2005f9e1d46fdf4db58725f75b2b87490df9cdf80999527fc2c",
+    "evaluation/uav0000237_00001_s__native.npz": "affaddc3603e9b207c6dc7ed5b5778001b184cf9a83c5bb228c2cf1111400642",
+    "evaluation/uav0000237_00001_s__native.receipt.json": "7279a9e529ad21d57c6c12f7012ef385619bbb281781eda1e55c8aac378fb62e",
+    "evaluation/uav0000237_00001_s__regression.npz": "9ecfde05ca02b6392a33e224cc80ccbed312c54e945b40731657769659564b76",
+    "evaluation/uav0000237_00001_s__regression.receipt.json": "bdf656039f7c6c85d67e1d7ea5e9920ea50d2028fc22e42851aff3184f2e5af0",
+    "evaluation/uav0000237_00001_s__gray_full.npz": "0c9ff18fd1b54c334cddb197ad75fb04d9c8fe3464424f34f290aafff94d20ac",
+    "evaluation/uav0000237_00001_s__gray_full.receipt.json": "ced4775dab8cb885fc7b63f3fc74805b27245d951702d64e9c225041ce4e128a",
+    "evaluation/uav0000237_00001_s__gray_center.npz": "ac93be637e3eeb6f8dc699fb5763c3d6d246f7ff90ae184254598d878b8d6fa4",
+    "evaluation/uav0000237_00001_s__gray_center.receipt.json": "52be9fb90ccf42fdf7340b50b71cf34fb390f0937dd04f8198cae0ef7b8a0ee8",
+    "evaluation/uav0000238_00001_s__native.npz": "23b7a1b5cb26c40379b2ea618f9f8b15db38bca41d5726ff375c0af501d0c893",
+    "evaluation/uav0000238_00001_s__native.receipt.json": "0012451641657d52cfbccfd50ace42563c60f26ffed4da89546c64a101f09af6",
+    "evaluation/uav0000238_00001_s__regression.npz": "1522098f62c205e1c7fa08d94937b8bcd864dbab337a09d6c65a9dc1ff2e0504",
+    "evaluation/uav0000238_00001_s__regression.receipt.json": "3a06b59c0eae2c8e4e4708b859c903c16af11dcc480ca6427ba5ac62bdadf107",
+    "evaluation/uav0000238_00001_s__gray_full.npz": "6013e98b4ce3a9fe09464472fdac901174391b95c58dba98c28a8fb781eeae63",
+    "evaluation/uav0000238_00001_s__gray_full.receipt.json": "795ae7dff433c8a3a57b2ff8bca3a1a14d27cea3f3e212237125199e3e648713",
+    "evaluation/uav0000238_00001_s__gray_center.npz": "d8e5a5074439c7952db6d531248c6ac68e42f94f1f95d633b9d6722bfcdde9c8",
+    "evaluation/uav0000238_00001_s__gray_center.receipt.json": "607c32f02ce4ee67df8194ef03c0cfa0fbcdfd713ff9d0c2eb54cc8cbb13cea0",
+    "evaluation/uav0000239_11136_s__native.npz": "5a3c7235be74dc6b6927aaf89cbe4813eb2406d1075c5d5a1f3fcf1446fe9049",
+    "evaluation/uav0000239_11136_s__native.receipt.json": "26c3746c43e7f47bc6153c714e268e395d9d1297d6434ab284e3d3907ae2497c",
+    "evaluation/uav0000239_11136_s__regression.npz": "65e5e58589e40dec9e36eb9c3c8b4267c632c5818c4c099518f3b66c5020e53a",
+    "evaluation/uav0000239_11136_s__regression.receipt.json": "90cb30c2358105972ed5181d434e9522a4e241cb248756de6a51bad1bb04cd90",
+    "evaluation/uav0000239_11136_s__gray_full.npz": "c73fb523f1185d6d8c363297f81bd43d618d3e7dbd96c687697dfe9f74e58d3b",
+    "evaluation/uav0000239_11136_s__gray_full.receipt.json": "eff5783fae3ea489ee9a9c1204a8f9e89aaddb2fb55a7fd6398dbe2bfa984e7d",
+    "evaluation/uav0000239_11136_s__gray_center.npz": "5575cc2fca7511f5b83818a7be7cfcc422a2cedf8e6cafb1689625d3925280ce",
+    "evaluation/uav0000239_11136_s__gray_center.receipt.json": "e377134ef3d4a68fbf1b1dc8580f2f35d18b47d9cb9e49e6e011ce7bdf0e4e3b",
+    "evaluation/uav0000304_00253_s__native.npz": "0d74b8b3c03251f48d6b3d61f4480d203ed22848bf71709607c67b35103d48b2",
+    "evaluation/uav0000304_00253_s__native.receipt.json": "e076c8e1f4f560891daec06752f632b7bff7e5538d8134531f386d0e537becff",
+    "evaluation/uav0000304_00253_s__regression.npz": "554fa2b95253a1d67a245a6ed62d40e771620dd9ee2e8793178546518dbbabfd",
+    "evaluation/uav0000304_00253_s__regression.receipt.json": "009d4ca66bd9a480a23c323a13b6f0c258ae79316efa5a818da9d8d3feff7f04",
+    "evaluation/uav0000304_00253_s__gray_full.npz": "68ca21bcabe1cc99bda439b6cd2cc03c1790a3fa302b01781623a493db069f4e",
+    "evaluation/uav0000304_00253_s__gray_full.receipt.json": "d2470ed5e9fd016a9bde183f67bf0c9783c5ded75b97c9ac91396578f6de59fb",
+    "evaluation/uav0000304_00253_s__gray_center.npz": "acc3aac2d4d087d6d1ad8364da169356ed646892cfa52ccbfc2f76b6ab0cd772",
+    "evaluation/uav0000304_00253_s__gray_center.receipt.json": "c17ae8342a88688562e87b5c46f13f56bf5c0f3d4839d5898df8f227ff904295",
+    "evaluation/uav0000307_04531_s__native.npz": "7b854369f9f21f792c8a356ee13fb86a7cfa50bc48e3aff761a40a30c808273d",
+    "evaluation/uav0000307_04531_s__native.receipt.json": "0c9a2ca19d3c601e4f265e862a8c823be5f9d54783f5b35eac981fc0bda332c8",
+    "evaluation/uav0000307_04531_s__regression.npz": "afff26f3d6c3e09c43bb12524b088de994d88056f83acab89c5d170f844361b8",
+    "evaluation/uav0000307_04531_s__regression.receipt.json": "646fb25ab87d08b07762e0adc56f719d4499a431d1cbcf2257c3c746c43fa264",
+    "evaluation/uav0000307_04531_s__gray_full.npz": "56110c17ae7f3fd7b98d1c51ac2b22276f570b6b7273e4b5dd7d2a7248ad9227",
+    "evaluation/uav0000307_04531_s__gray_full.receipt.json": "718a0283d1097dd48423d7edea1945b8e613e3804e0d5fc896562811b1c519c2",
+    "evaluation/uav0000307_04531_s__gray_center.npz": "45054804578d5392f4e88c83b44e5d790a5b88ecf9ad2cf69413ceb088823ad3",
+    "evaluation/uav0000307_04531_s__gray_center.receipt.json": "f5a5ed2234bec2609d6ec791e30c3090ac2ebbff36127e0bd7cfbbd323c86cc1",
+    "evaluation/uav0000308_04600_s__native.npz": "2d01ab5331440cd1b16a2e3f251d4ff92a4cb856f43af2164f0d5b9b15ff6ee5",
+    "evaluation/uav0000308_04600_s__native.receipt.json": "9da97b61716af69f508ad95e2d4ddc5e9664fbb4fcf5ad178679bd78092d7566",
+    "evaluation/uav0000308_04600_s__regression.npz": "68a2780e010dfd43392a01b2f168be35a1c5cfa33a6e12a1cf69bf9ed1f97a6d",
+    "evaluation/uav0000308_04600_s__regression.receipt.json": "6d121f45a3d85a068059c71b73c91b8d2388ad71756870db130e93a3cc20d17b",
+    "evaluation/uav0000308_04600_s__gray_full.npz": "29ff90369caea510860497c6eebe9dcb5fa0b2c0a12ac39a3d86afbe9bbe3ab0",
+    "evaluation/uav0000308_04600_s__gray_full.receipt.json": "46e93c01c755be6a45961bc298b1f803ef18ace7705e817d9ec159089d85ef51",
+    "evaluation/uav0000308_04600_s__gray_center.npz": "cdcf1a08bc633d469fa2b5863a85d6eb7307adaabd066e42788dae13057b8526",
+    "evaluation/uav0000308_04600_s__gray_center.receipt.json": "132d3d81a20caa29e550776747bc3106a70f56e51790736e40657b28efa1ad17",
+    "evaluation/uav0000329_00276_s__native.npz": "5274c79e90579318c5cb321b37621577d4188aad876aaaaf86d70f708bc9e54b",
+    "evaluation/uav0000329_00276_s__native.receipt.json": "58f6603d47be5f769b7ecc76bf338a87476d8f04efb128452dbc251c4f4785fc",
+    "evaluation/uav0000329_00276_s__regression.npz": "2113e4fb2b3d712887269fd0bbc467b59fa3da0f41a23fa0b6a1d78440847532",
+    "evaluation/uav0000329_00276_s__regression.receipt.json": "39052eaa96009e35ee23eb165bd929a331aad4bb9e3531ba6dea0b2bbf430031",
+    "evaluation/uav0000329_00276_s__gray_full.npz": "1f542a417f9c711e0c6680199d8baebb5a1072a13ba841806b13bb3cf3e39fbc",
+    "evaluation/uav0000329_00276_s__gray_full.receipt.json": "54d2f259bc3f8816c87d2b1800e9199081cea766fab0469fbf1d3878905d0693",
+    "evaluation/uav0000329_00276_s__gray_center.npz": "9e7b08a5b8c1a739d4f19926dc5e108d819616cadd599d2fbf07f871af9fb518",
+    "evaluation/uav0000329_00276_s__gray_center.receipt.json": "5571c8c23a769d54ebaaa18db869c480671bfa3aad52c1bb06854f913e68e831",
+    "evaluation/uav0000342_01518_s__native.npz": "2493478b49dcffd0dd624dc52f7649fa6adad8f9e3d0f8da8a3965eff12cefa9",
+    "evaluation/uav0000342_01518_s__native.receipt.json": "d5d9a3cd4df07bd8d3334694a8742602e4335bf2379ef59dbc9546394a66cfbe",
+    "evaluation/uav0000342_01518_s__regression.npz": "db5e8a77e29f6b86dd192722379a8502180fe526b6055833535b5482b9276806",
+    "evaluation/uav0000342_01518_s__regression.receipt.json": "f7fb30599baba3c2df74b36e882c99ec95bad3c4242be39d17aeb41e8221c587",
+    "evaluation/uav0000342_01518_s__gray_full.npz": "ad024220c1b3b13e4a0c8d5ac4dda8f60787a579fec847b9511c796cfee0bd35",
+    "evaluation/uav0000342_01518_s__gray_full.receipt.json": "36aa95770d9d8f4fc6495117f95eb3a7680371d3d6eb81e777dcc593e5fd24dd",
+    "evaluation/uav0000342_01518_s__gray_center.npz": "3121b525a4898ef915ed59eca9a2ec30f9b9cf41ae00b04f84c8e9006305e0e0",
+    "evaluation/uav0000342_01518_s__gray_center.receipt.json": "4a7cb79a28e5e9fefb7ef31a8fbbfabd51f2fcfcbefccdb809cc4a93ed225cd9",
+    "evaluation/uav0000348_02415_s__native.npz": "d001e4d7dbe98ff8006fcefbdf6be8208dcf8b22b61f18d83798d5a7fab05c62",
+    "evaluation/uav0000348_02415_s__native.receipt.json": "220b84c4646c91f9df6205e7c0d10c7e55170f443f0ff20cfd20bd3efe25259f",
+    "evaluation/uav0000348_02415_s__regression.npz": "5a732b28b97ed20f3f5f38887efffc79af8c06acc7fbed4914d9c6b195f7511d",
+    "evaluation/uav0000348_02415_s__regression.receipt.json": "02179e26fb2a47015fdfd28c9c9c1e7b8069df8435ffb45d996470ac0e06ef6b",
+    "evaluation/uav0000348_02415_s__gray_full.npz": "18a117d7fa327931c41d6fb7cf959151fd204f4efa978e0d3cd8fe288f6785e5",
+    "evaluation/uav0000348_02415_s__gray_full.receipt.json": "27982b1e6b422b061f872d72a8a643c321c1fd8c57aa14ceb1bccfb20bbc2194",
+    "evaluation/uav0000348_02415_s__gray_center.npz": "670ee87fc31f90c154f985ac079433a84d1552ddcf419e5443f75d5ccbe9d328",
+    "evaluation/uav0000348_02415_s__gray_center.receipt.json": "0759e51d7634433ed68c198ece0eeec9f8f006010a3b59e139936b416d1083ca",
+    "evaluation/uav0000349_02668_s__native.npz": "380fe28aec512d87ea6cca6c94d0e9b7cd8006db66b9e3c1f874482604b63758",
+    "evaluation/uav0000349_02668_s__native.receipt.json": "339313ce35554b74a6f61148c0023413e398c0b8f07ca2ce76fc1f3a0add5cc8",
+    "evaluation/uav0000349_02668_s__regression.npz": "dfa870f17b7667290a95f8f2eac5f85c52d2c8ed52e2145539f0776b64641631",
+    "evaluation/uav0000349_02668_s__regression.receipt.json": "b551836c299a49a87bf5c7040084b813aac01d525626140c50bcbf1e3b497ec5",
+    "evaluation/uav0000349_02668_s__gray_full.npz": "9abbfbe051315050920d7ee55f528c56f0880b066d8fe4982d6b2cd3a4be26f9",
+    "evaluation/uav0000349_02668_s__gray_full.receipt.json": "a93d167abacc8db68ec592a3af0f4f90e77999aed70e940b189d565c726a8a34",
+    "evaluation/uav0000349_02668_s__gray_center.npz": "eb0b8049e35ea089eee952900549b1edaf0eb1e123df32e59475008c72f6daa2",
+    "evaluation/uav0000349_02668_s__gray_center.receipt.json": "e9a55d5db146169fa4a199ecf3cc7ab9e4c3d4f2d6072f09560068d1642af854"
+  },
+  "training_updates": 0,
+  "confirmation_inference_calls": 0,
+  "fingerprint": "e884077b8a771ae645f2d90926e0347f8d4cc5bb66c85d87e85d49a5691e782d"
+}
+
+===== stage152_policy_summary.csv =====
+arm,videos,new_search_calls,switched,long_events,introduced_native_failure,introduced_regression_failure,auc,low_iou_fraction,longest_failure_fraction,failure_events,unrecovered_events
+native,28,29047,0,13,0,5,63.96051939931325,0.13197766549884973,0.13691148768411643,0.6785714285714286,0.21428571428571427
+regression,28,29047,0,14,3,0,60.64500103339269,0.18529550982562465,0.1837909402369324,0.7142857142857143,0.4642857142857143
+gray_full,28,29047,156,17,2,3,56.670147517541,0.23846614457366008,0.2309663567526488,0.7142857142857143,0.5357142857142857
+gray_center,28,29047,142,14,2,2,55.44562691402395,0.2568074657725462,0.25776934987575534,0.5357142857142857,0.5
+
+===== stage152_paired.csv =====
+contrast,metric,videos,mean_delta,median_delta,ci_low,ci_high,family_ci_low,family_ci_high,wins,ties,losses,favorable_direction,worst_video_delta,worst_leave_one_video_out_delta
+regression_minus_native,auc,28,-3.3155183659205645,0.0,-11.198278883760581,4.468426833214089,,,8,9,11,positive,-49.447004608294925,-4.994212253171761
+regression_minus_native,low_iou_fraction,28,0.05331784432677492,0.0,-0.06098006350941087,0.1717009254641807,,,8,9,11,negative,0.8870967741935484,0.0786139652038717
+regression_minus_native,longest_failure_fraction,28,0.04687945255281597,0.0,-0.06551268836499603,0.16140383006903392,,,8,9,11,negative,0.8182795698924732,0.07279732952908514
+regression_minus_native,failure_events,28,0.03571428571428571,0.0,-0.2857142857142857,0.42857142857142855,,,6,18,4,negative,4.0,0.07407407407407407
+regression_minus_native,unrecovered_events,28,0.25,0.0,0.03571428571428571,0.4642857142857143,,,2,17,9,negative,1.0,0.2962962962962963
+gray_full_minus_native,auc,28,-7.290371881772261,-0.29854834003826625,-13.504609842594778,-1.1039601776418502,,,4,9,15,positive,-50.26625704045058,-9.077140505259418
+gray_full_minus_native,low_iou_fraction,28,0.10648847907481036,0.0009102726370881914,0.014713431671752472,0.20087917730211904,,,3,10,15,negative,0.864516129032258,0.13281574963635728
+gray_full_minus_native,longest_failure_fraction,28,0.09405486906853235,0.0015554339274107959,0.006892436181890463,0.18312433519923832,,,3,10,15,negative,0.8182795698924732,0.11992163555577268
+gray_full_minus_native,failure_events,28,0.03571428571428571,0.0,-0.10714285714285714,0.17857142857142858,,,2,23,3,negative,1.0,0.07407407407407407
+gray_full_minus_native,unrecovered_events,28,0.32142857142857145,0.0,0.10714285714285714,0.5357142857142857,,,2,15,11,negative,1.0,0.37037037037037035
+gray_full_minus_regression,auc,28,-3.9748535158516987,0.0,-8.825425212604955,0.06078322766818386,,,8,10,10,positive,-41.953917050691246,-4.639668656420396
+gray_full_minus_regression,low_iou_fraction,28,0.05317063474803543,0.0,-0.004380032236626757,0.1211954226857228,,,4,15,9,negative,0.6309677419354838,0.06393908935913128
+gray_full_minus_regression,longest_failure_fraction,28,0.04717541651571639,0.0,-0.015088136142989024,0.11942561646639904,,,3,17,8,negative,0.655483870967742,0.0591020882569242
+gray_full_minus_regression,failure_events,28,0.0,0.0,-0.35714285714285715,0.2857142857142857,,,2,21,5,negative,1.0,0.14814814814814814
+gray_full_minus_regression,unrecovered_events,28,0.07142857142857142,0.0,-0.10714285714285714,0.25,,,2,22,4,negative,1.0,0.1111111111111111
+gray_center_minus_native,auc,28,-8.514892485289296,-0.1488095238095184,-16.081122557051142,-1.2945941084576371,,,5,9,14,positive,-58.75333101610474,-10.34701372372153
+gray_center_minus_native,low_iou_fraction,28,0.12482980027369643,0.0,0.017333813093582243,0.23783883603145758,,,5,10,13,negative,0.8870967741935484,0.1518363790277947
+gray_center_minus_native,longest_failure_fraction,28,0.12085786219163888,0.0,0.015614793196149362,0.2305701577927414,,,5,10,13,negative,0.8576642335766423,0.14771733212788316
+gray_center_minus_native,failure_events,28,-0.14285714285714285,0.0,-0.35714285714285715,0.07142857142857142,,,5,21,2,negative,1.0,-0.07407407407407407
+gray_center_minus_native,unrecovered_events,28,0.2857142857142857,0.0,0.07142857142857142,0.5,,,2,16,10,negative,1.0,0.3333333333333333
+gray_center_minus_regression,auc,28,-5.199374119368732,-0.012422360248447006,-10.016918136590606,-1.2001580852162848,,,4,10,14,positive,-42.40860215053763,-5.53524159116193
+gray_center_minus_regression,low_iou_fraction,28,0.07151195594692152,0.0,0.014737981362215186,0.13967786589384754,,,2,17,9,negative,0.6309677419354838,0.07647536172273342
+gray_center_minus_regression,longest_failure_fraction,28,0.07397840963882292,0.0,0.015469866700979981,0.14467625059539108,,,2,17,9,negative,0.655483870967742,0.07903316555137191
+gray_center_minus_regression,failure_events,28,-0.17857142857142858,0.0,-0.5357142857142857,0.07142857142857142,,,4,22,2,negative,1.0,-0.037037037037037035
+gray_center_minus_regression,unrecovered_events,28,0.03571428571428571,0.0,-0.07142857142857142,0.14285714285714285,,,1,25,2,negative,1.0,0.07407407407407407
+gray_center_minus_gray_full,auc,28,-1.2245206035170344,0.0,-4.795535368029258,1.930228662114805,,,7,10,11,positive,-32.34561464488472,-2.086790647757389
+gray_center_minus_gray_full,low_iou_fraction,28,0.01834132119888608,0.0,-0.026926037100292132,0.06940879991941992,,,4,19,5,negative,0.45072992700729925,0.030079462382952275
+gray_center_minus_gray_full,longest_failure_fraction,28,0.02680299312310653,0.0,-0.02520509760920616,0.09054249501292107,,,4,20,4,negative,0.6520681265206812,0.03885452956362533
+gray_center_minus_gray_full,failure_events,28,-0.17857142857142858,0.0,-0.42857142857142855,0.03571428571428571,,,4,23,1,negative,1.0,-0.1111111111111111
+gray_center_minus_gray_full,unrecovered_events,28,-0.03571428571428571,0.0,-0.14285714285714285,0.07142857142857142,,,2,25,1,negative,1.0,0.0
+
+===== stage152_video_summary.csv =====
+sequence,arm,tracked_frames,labeled_frames,new_search_calls,auc,low_iou_fraction,longest_failure_fraction,failure_events,unrecovered_events,long_events,native_stable,regression_stable,introduced_native_failure,introduced_regression_failure,switched,first_switch
+uav0000003_00000_s,native,144,144,144,79.2989417989418,0.0,0.0,0,0,0,True,False,False,False,0,
+uav0000003_00000_s,regression,144,144,144,75.13227513227513,0.0625,0.0625,1,1,0,True,False,True,False,0,
+uav0000003_00000_s,gray_full,144,144,144,79.13359788359789,0.0,0.0,0,0,0,True,False,False,False,9,136
+uav0000003_00000_s,gray_center,144,144,144,79.00132275132276,0.0,0.0,0,0,0,True,False,False,False,3,136
+uav0000016_00000_s,native,638,638,638,80.35527690700106,0.05329153605015674,0.05329153605015674,1,1,1,False,True,False,True,0,
+uav0000016_00000_s,regression,638,638,638,83.33333333333334,0.0,0.0,0,0,0,False,True,False,False,0,
+uav0000016_00000_s,gray_full,638,638,638,82.95267950440363,0.003134796238244514,0.0,0,0,0,False,True,False,False,1,625
+uav0000016_00000_s,gray_center,638,638,638,82.83325869532766,0.004702194357366771,0.01567398119122257,1,0,0,False,True,False,True,1,625
+uav0000070_01344_s,native,192,192,192,68.10515873015873,0.0,0.0,0,0,0,True,True,False,False,0,
+uav0000070_01344_s,regression,192,192,192,68.10515873015873,0.0,0.0,0,0,0,True,True,False,False,0,
+uav0000070_01344_s,gray_full,192,192,192,68.10515873015873,0.0,0.0,0,0,0,True,True,False,False,0,
+uav0000070_01344_s,gray_center,192,192,192,68.10515873015873,0.0,0.0,0,0,0,True,True,False,False,0,
+uav0000076_00241_s,native,1559,1559,1559,39.98289501817404,0.531109685695959,0.5349583066067992,1,0,1,False,False,False,False,0,
+uav0000076_00241_s,regression,1559,1559,1559,75.05727114450656,0.08338678640153944,0.08659397049390635,1,0,1,False,False,False,False,0,
+uav0000076_00241_s,gray_full,1559,1559,1559,35.25153486667277,0.5888389993585632,0.5907633098139833,1,1,1,False,False,False,False,2,672
+uav0000076_00241_s,gray_center,1559,1559,1559,35.29124286019732,0.5888389993585632,0.5907633098139833,1,1,1,False,False,False,False,6,672
+uav0000080_01680_s,native,1200,1200,1200,66.65476190476191,0.0008333333333333334,0.0,0,0,0,True,False,False,False,0,
+uav0000080_01680_s,regression,1200,1200,1200,60.051587301587304,0.10333333333333333,0.10083333333333333,1,1,1,True,False,True,False,0,
+uav0000080_01680_s,gray_full,1200,1200,1200,60.26587301587302,0.10333333333333333,0.10083333333333333,1,1,1,True,False,True,False,4,173
+uav0000080_01680_s,gray_center,1200,1200,1200,37.7936507936508,0.4216666666666667,0.42083333333333334,1,1,1,True,False,True,False,4,173
+uav0000085_00000_s,native,1644,1644,1644,69.68196037539103,0.016423357664233577,0.011557177615571776,3,0,0,False,False,False,False,0,
+uav0000085_00000_s,regression,1644,1644,1644,36.46738500753099,0.4659367396593674,0.44525547445255476,2,1,2,False,False,False,False,0,
+uav0000085_00000_s,gray_full,1644,1644,1644,43.27424400417102,0.3984184914841849,0.21715328467153286,3,0,2,False,False,False,False,11,216
+uav0000085_00000_s,gray_center,1644,1644,1644,10.928629359286294,0.8491484184914841,0.8692214111922141,1,1,1,False,False,False,False,16,216
+uav0000089_00920_s,native,1380,1380,1380,63.14699792960663,0.016666666666666666,0.016666666666666666,1,0,0,False,True,False,True,0,
+uav0000089_00920_s,regression,1380,1380,1380,63.8095238095238,0.0,0.0,0,0,0,False,True,False,False,0,
+uav0000089_00920_s,gray_full,1380,1380,1380,53.492063492063494,0.15869565217391304,0.15869565217391304,1,1,1,False,True,False,True,3,1159
+uav0000089_00920_s,gray_center,1380,1380,1380,63.83712905452036,0.0,0.0,0,0,0,False,True,False,False,3,1159
+uav0000091_00460_s,native,230,230,230,29.77225672877847,0.6043478260869565,0.6043478260869565,1,1,1,False,True,False,True,0,
+uav0000091_00460_s,regression,230,230,230,70.72463768115942,0.0,0.0,0,0,0,False,True,False,False,0,
+uav0000091_00460_s,gray_full,230,230,230,70.72463768115942,0.0,0.0,0,0,0,False,True,False,False,0,
+uav0000091_00460_s,gray_center,230,230,230,70.72463768115942,0.0,0.0,0,0,0,False,True,False,False,0,
+uav0000126_07915_s,native,629,629,629,88.00060564766447,0.0,0.0,0,0,0,True,True,False,False,0,
+uav0000126_07915_s,regression,629,629,629,88.00060564766447,0.0,0.0,0,0,0,True,True,False,False,0,
+uav0000126_07915_s,gray_full,629,629,629,88.00060564766447,0.0,0.0,0,0,0,True,True,False,False,0,
+uav0000126_07915_s,gray_center,629,629,629,88.00060564766447,0.0,0.0,0,0,0,True,True,False,False,0,
+uav0000147_00000_s,native,2220,2220,2220,37.674817674817675,0.4292792792792793,0.42882882882882883,1,1,1,False,False,False,False,0,
+uav0000147_00000_s,regression,2220,2220,2220,33.66151866151866,0.5085585585585586,0.5085585585585586,1,1,1,False,False,False,False,0,
+uav0000147_00000_s,gray_full,2220,2220,2220,34.1977691977692,0.5085585585585586,0.5085585585585586,1,1,1,False,False,False,False,7,1105
+uav0000147_00000_s,gray_center,2220,2220,2220,33.457743457743454,0.5085585585585586,0.5085585585585586,1,1,1,False,False,False,False,8,1105
+uav0000169_00000_s,native,1112,1112,1112,62.06320657759507,0.0044964028776978415,0.014388489208633094,1,0,0,False,True,False,True,0,
+uav0000169_00000_s,regression,1112,1112,1112,61.947584789311406,0.0017985611510791368,0.0,0,0,0,False,True,False,False,0,
+uav0000169_00000_s,gray_full,1112,1112,1112,45.65347721822542,0.2329136690647482,0.2329136690647482,1,1,1,False,True,False,True,3,851
+uav0000169_00000_s,gray_center,1112,1112,1112,46.69407331277835,0.20863309352517986,0.20863309352517986,1,1,1,False,True,False,True,3,851
+uav0000170_00000_s,native,1410,1410,1410,75.05572441742655,0.0,0.0,0,0,0,True,True,False,False,0,
+uav0000170_00000_s,regression,1410,1410,1410,75.05572441742655,0.0,0.0,0,0,0,True,True,False,False,0,
+uav0000170_00000_s,gray_full,1410,1410,1410,75.05572441742655,0.0,0.0,0,0,0,True,True,False,False,0,
+uav0000170_00000_s,gray_center,1410,1410,1410,75.05572441742655,0.0,0.0,0,0,0,True,True,False,False,0,
+uav0000174_00000_s,native,2175,2175,2175,71.13081554460865,0.0,0.0,0,0,0,True,True,False,False,0,
+uav0000174_00000_s,regression,2175,2175,2175,71.13081554460865,0.0,0.0,0,0,0,True,True,False,False,0,
+uav0000174_00000_s,gray_full,2175,2175,2175,71.13081554460865,0.0,0.0,0,0,0,True,True,False,False,0,
+uav0000174_00000_s,gray_center,2175,2175,2175,71.13081554460865,0.0,0.0,0,0,0,True,True,False,False,0,
+uav0000176_00000_s,native,775,775,775,16.098310291858677,0.7935483870967742,0.792258064516129,1,1,1,False,False,False,False,0,
+uav0000176_00000_s,regression,775,775,775,58.10752688172043,0.1638709677419355,0.1393548387096774,5,1,1,False,False,False,False,0,
+uav0000176_00000_s,gray_full,775,775,775,16.153609831029186,0.7948387096774193,0.7948387096774193,1,1,1,False,False,False,False,11,160
+uav0000176_00000_s,gray_center,775,775,775,15.698924731182796,0.7948387096774193,0.7948387096774193,1,1,1,False,False,False,False,10,160
+uav0000200_00000_s,native,570,570,570,83.83458646616542,0.0,0.0,0,0,0,True,True,False,False,0,
+uav0000200_00000_s,regression,570,570,570,83.83458646616542,0.0,0.0,0,0,0,True,True,False,False,0,
+uav0000200_00000_s,gray_full,570,570,570,83.83458646616542,0.0,0.0,0,0,0,True,True,False,False,0,
+uav0000200_00000_s,gray_center,570,570,570,83.83458646616542,0.0,0.0,0,0,0,True,True,False,False,0,
+uav0000204_00000_s,native,921,921,921,53.92172069696499,0.248642779587405,0.249728555917481,1,0,1,False,True,False,True,0,
+uav0000204_00000_s,regression,921,921,921,72.55054030298331,0.0,0.0,0,0,0,False,True,False,False,0,
+uav0000204_00000_s,gray_full,921,921,921,50.37485135205005,0.2985884907709012,0.2985884907709012,1,1,1,False,True,False,True,5,646
+uav0000204_00000_s,gray_center,921,921,921,72.43162194302259,0.0,0.0,0,0,0,False,True,False,False,1,646
+uav0000226_05370_s,native,1860,1860,1860,55.06144393241167,0.0532258064516129,0.12258064516129032,1,0,1,False,False,False,False,0,
+uav0000226_05370_s,regression,1860,1860,1860,5.614439324116743,0.9403225806451613,0.9408602150537635,1,1,1,False,False,False,False,0,
+uav0000226_05370_s,gray_full,1860,1860,1860,4.795186891961086,0.917741935483871,0.9408602150537635,1,1,1,False,False,False,False,24,171
+uav0000226_05370_s,gray_center,1860,1860,1860,4.1269841269841265,0.9403225806451613,0.9408602150537635,1,1,1,False,False,False,False,27,171
+uav0000235_00001_s,native,1007,1007,1007,66.99768288646143,0.11221449851042702,0.11221449851042702,1,1,1,False,False,False,False,0,
+uav0000235_00001_s,regression,1007,1007,1007,68.53927271007709,0.07944389275074479,0.07944389275074479,1,1,1,False,False,False,False,0,
+uav0000235_00001_s,gray_full,1007,1007,1007,68.41159502529909,0.07944389275074479,0.07944389275074479,1,1,1,False,False,False,False,2,929
+uav0000235_00001_s,gray_center,1007,1007,1007,68.46361185983828,0.07944389275074479,0.07944389275074479,1,1,1,False,False,False,False,3,929
+uav0000237_00001_s,native,598,598,598,72.8380315336837,0.08695652173913043,0.08695652173913043,1,0,1,False,False,False,False,0,
+uav0000237_00001_s,regression,598,598,598,30.251632425545473,0.6003344481605352,0.6003344481605352,1,1,1,False,False,False,False,0,
+uav0000237_00001_s,gray_full,598,598,598,31.103678929765888,0.6020066889632107,0.6020066889632107,1,1,1,False,False,False,False,5,239
+uav0000237_00001_s,gray_center,598,598,598,31.024048415352762,0.6020066889632107,0.6020066889632107,1,1,1,False,False,False,False,3,239
+uav0000238_00001_s,native,1199,1199,1199,81.3773382580722,0.0,0.0,0,0,0,True,True,False,False,0,
+uav0000238_00001_s,regression,1199,1199,1199,81.3773382580722,0.0,0.0,0,0,0,True,True,False,False,0,
+uav0000238_00001_s,gray_full,1199,1199,1199,81.3773382580722,0.0,0.0,0,0,0,True,True,False,False,0,
+uav0000238_00001_s,gray_center,1199,1199,1199,81.3773382580722,0.0,0.0,0,0,0,True,True,False,False,0,
+uav0000239_11136_s,native,960,960,960,83.11507936507937,0.0,0.0,0,0,0,True,True,False,False,0,
+uav0000239_11136_s,regression,960,960,960,83.11507936507937,0.0,0.0,0,0,0,True,True,False,False,0,
+uav0000239_11136_s,gray_full,960,960,960,83.11507936507937,0.0,0.0,0,0,0,True,True,False,False,0,
+uav0000239_11136_s,gray_center,960,960,960,83.11507936507937,0.0,0.0,0,0,0,True,True,False,False,0,
+uav0000304_00253_s,native,1725,1725,1725,72.28709454796412,0.0,0.0,0,0,0,True,False,False,False,0,
+uav0000304_00253_s,regression,1725,1725,1725,44.118702553485164,0.36985507246376814,0.36985507246376814,1,1,1,True,False,True,False,0,
+uav0000304_00253_s,gray_full,1725,1725,1725,44.1407867494824,0.37043478260869567,0.37043478260869567,1,1,1,True,False,True,False,14,1087
+uav0000304_00253_s,gray_center,1725,1725,1725,44.09385783298827,0.37043478260869567,0.37043478260869567,1,1,1,True,False,True,False,18,1087
+uav0000307_04531_s,native,759,759,759,66.50981868373172,0.052700922266139656,0.10013175230566534,1,0,1,False,False,False,False,0,
+uav0000307_04531_s,regression,759,759,759,40.52951879038836,0.466403162055336,0.48089591567852435,1,1,1,False,False,False,False,0,
+uav0000307_04531_s,gray_full,759,759,759,35.096304661522055,0.5151515151515151,0.5151515151515151,1,1,1,False,False,False,False,9,56
+uav0000307_04531_s,gray_center,759,759,759,38.164251207729464,0.4888010540184453,0.48616600790513836,1,1,1,False,False,False,False,16,56
+uav0000308_04600_s,native,460,460,460,74.78260869565217,0.0,0.0,0,0,0,True,True,False,False,0,
+uav0000308_04600_s,regression,460,460,460,74.78260869565217,0.0,0.0,0,0,0,True,True,False,False,0,
+uav0000308_04600_s,gray_full,460,460,460,74.78260869565217,0.0,0.0,0,0,0,True,True,False,False,0,
+uav0000308_04600_s,gray_center,460,460,460,74.78260869565217,0.0,0.0,0,0,0,True,True,False,False,0,
+uav0000329_00276_s,native,598,598,598,73.34766682592769,0.0,0.0,0,0,0,True,True,False,False,0,
+uav0000329_00276_s,regression,598,598,598,73.34766682592769,0.0,0.0,0,0,0,True,True,False,False,0,
+uav0000329_00276_s,gray_full,598,598,598,73.34766682592769,0.0,0.0,0,0,0,True,True,False,False,0,
+uav0000329_00276_s,gray_center,598,598,598,73.34766682592769,0.0,0.0,0,0,0,True,True,False,False,0,
+uav0000342_01518_s,native,1886,1886,1886,71.32000201989598,0.07051961823966066,0.07051961823966066,1,1,1,False,False,False,False,0,
+uav0000342_01518_s,regression,1886,1886,1886,71.32757662980357,0.07104984093319194,0.07104984093319194,1,1,1,False,False,False,False,0,
+uav0000342_01518_s,gray_full,1886,1886,1886,70.88824925516336,0.07104984093319194,0.07104984093319194,1,1,1,False,False,False,False,4,1753
+uav0000342_01518_s,gray_center,1886,1886,1886,70.89077412513257,0.07104984093319194,0.07104984093319194,1,1,1,False,False,False,False,1,1753
+uav0000348_02415_s,native,644,644,644,58.71783496007098,0.055900621118012424,0.06987577639751552,2,0,1,False,False,False,False,0,
+uav0000348_02415_s,regression,644,644,644,35.499852114758944,0.4472049689440994,0.4363354037267081,2,1,1,False,False,False,False,0,
+uav0000348_02415_s,gray_full,644,644,644,49.47500739426206,0.2096273291925466,0.16149068322981366,3,1,1,False,False,False,False,31,74
+uav0000348_02415_s,gray_center,644,644,644,35.8843537414966,0.43788819875776397,0.43478260869565216,1,1,1,False,False,False,False,16,74
+uav0000349_02668_s,native,552,552,552,29.761904761904763,0.5652173913043478,0.5652173913043478,1,0,1,False,False,False,False,0,
+uav0000349_02668_s,regression,552,552,552,12.586266390614217,0.8242753623188406,0.8242753623188406,1,1,1,False,False,False,False,0,
+uav0000349_02668_s,gray_full,552,552,552,12.629399585921325,0.8242753623188406,0.8242753623188406,1,1,1,False,False,False,False,11,109
+uav0000349_02668_s,gray_center,552,552,552,12.387853692201519,0.8242753623188406,0.8242753623188406,1,1,1,False,False,False,False,3,109
+
+===== stage152_failures.csv =====
+sequence,arm,onset,confirmation,end,recovery,duration,censor
+uav0000003_00000_s,regression,136,138,144,,9,video_end
+uav0000016_00000_s,native,605,607,638,,34,video_end
+uav0000016_00000_s,gray_center,625,627,634,635,10,none
+uav0000076_00241_s,native,639,641,1472,1473,834,none
+uav0000076_00241_s,regression,639,641,773,774,135,none
+uav0000076_00241_s,gray_full,639,641,1559,,921,video_end
+uav0000076_00241_s,gray_center,639,641,1559,,921,video_end
+uav0000080_01680_s,regression,1080,1082,1200,,121,video_end
+uav0000080_01680_s,gray_full,1080,1082,1200,,121,video_end
+uav0000080_01680_s,gray_center,696,698,1200,,505,video_end
+uav0000085_00000_s,native,204,206,222,223,19,none
+uav0000085_00000_s,native,684,686,691,692,8,none
+uav0000085_00000_s,native,1541,1543,1545,1546,5,none
+uav0000085_00000_s,regression,335,337,1066,1067,732,none
+uav0000085_00000_s,regression,1547,1549,1644,,98,video_end
+uav0000085_00000_s,gray_full,216,218,572,573,357,none
+uav0000085_00000_s,gray_full,684,686,976,977,293,none
+uav0000085_00000_s,gray_full,1546,1548,1555,1556,10,none
+uav0000085_00000_s,gray_center,216,218,1644,,1429,video_end
+uav0000089_00920_s,native,1159,1161,1181,1182,23,none
+uav0000089_00920_s,gray_full,1162,1164,1380,,219,video_end
+uav0000091_00460_s,native,92,94,230,,139,video_end
+uav0000147_00000_s,native,1269,1271,2220,,952,video_end
+uav0000147_00000_s,regression,1092,1094,2220,,1129,video_end
+uav0000147_00000_s,gray_full,1092,1094,2220,,1129,video_end
+uav0000147_00000_s,gray_center,1092,1094,2220,,1129,video_end
+uav0000169_00000_s,native,881,883,896,897,16,none
+uav0000169_00000_s,gray_full,854,856,1112,,259,video_end
+uav0000169_00000_s,gray_center,881,883,1112,,232,video_end
+uav0000176_00000_s,native,162,164,775,,614,video_end
+uav0000176_00000_s,regression,381,383,385,386,5,none
+uav0000176_00000_s,regression,407,409,411,412,5,none
+uav0000176_00000_s,regression,432,434,436,437,5,none
+uav0000176_00000_s,regression,619,621,625,626,7,none
+uav0000176_00000_s,regression,668,670,775,,108,video_end
+uav0000176_00000_s,gray_full,160,162,775,,616,video_end
+uav0000176_00000_s,gray_center,160,162,775,,616,video_end
+uav0000204_00000_s,native,664,666,893,894,230,none
+uav0000204_00000_s,gray_full,647,649,921,,275,video_end
+uav0000226_05370_s,native,110,112,337,338,228,none
+uav0000226_05370_s,regression,111,113,1860,,1750,video_end
+uav0000226_05370_s,gray_full,111,113,1860,,1750,video_end
+uav0000226_05370_s,gray_center,111,113,1860,,1750,video_end
+uav0000235_00001_s,native,895,897,1007,,113,video_end
+uav0000235_00001_s,regression,928,930,1007,,80,video_end
+uav0000235_00001_s,gray_full,928,930,1007,,80,video_end
+uav0000235_00001_s,gray_center,928,930,1007,,80,video_end
+uav0000237_00001_s,native,242,244,293,294,52,none
+uav0000237_00001_s,regression,240,242,598,,359,video_end
+uav0000237_00001_s,gray_full,239,241,598,,360,video_end
+uav0000237_00001_s,gray_center,239,241,598,,360,video_end
+uav0000304_00253_s,regression,1088,1090,1725,,638,video_end
+uav0000304_00253_s,gray_full,1087,1089,1725,,639,video_end
+uav0000304_00253_s,gray_center,1087,1089,1725,,639,video_end
+uav0000307_04531_s,native,398,400,473,474,76,none
+uav0000307_04531_s,regression,395,397,759,,365,video_end
+uav0000307_04531_s,gray_full,369,371,759,,391,video_end
+uav0000307_04531_s,gray_center,391,393,759,,369,video_end
+uav0000342_01518_s,native,1754,1756,1886,,133,video_end
+uav0000342_01518_s,regression,1753,1755,1886,,134,video_end
+uav0000342_01518_s,gray_full,1753,1755,1886,,134,video_end
+uav0000342_01518_s,gray_center,1753,1755,1886,,134,video_end
+uav0000348_02415_s,native,367,369,382,383,16,none
+uav0000348_02415_s,native,538,540,582,583,45,none
+uav0000348_02415_s,regression,83,85,94,95,12,none
+uav0000348_02415_s,regression,364,366,644,,281,video_end
+uav0000348_02415_s,gray_full,365,367,385,386,21,none
+uav0000348_02415_s,gray_full,507,509,521,522,15,none
+uav0000348_02415_s,gray_full,541,543,644,,104,video_end
+uav0000348_02415_s,gray_center,365,367,644,,280,video_end
+uav0000349_02668_s,native,96,98,407,408,312,none
+uav0000349_02668_s,regression,98,100,552,,455,video_end
+uav0000349_02668_s,gray_full,98,100,552,,455,video_end
+uav0000349_02668_s,gray_center,98,100,552,,455,video_end
+
+===== stage152_switches.csv =====
+sequence,arm,frame,margin,regression_iou,reported_iou,search_state_iou
+uav0000003_00000_s,gray_full,136,0.045424688092859405,0.11377708978328173,0.6305732484076433,0.6305732484076433
+uav0000003_00000_s,gray_full,137,0.05248974395482784,0.29819277108433734,0.7755856966707768,0.7755856966707768
+uav0000003_00000_s,gray_full,138,0.05454463604792936,0.23275862068965517,0.7408716136631331,0.7408716136631331
+uav0000003_00000_s,gray_full,139,0.05683590013323882,0.17432646592709986,0.7960687960687961,0.7960687960687961
+uav0000003_00000_s,gray_full,140,0.05155896375954183,0.17625899280575538,0.7229885057471265,0.7229885057471265
+uav0000003_00000_s,gray_full,141,0.03964025916964328,0.20280811232449297,0.7016509433962265,0.7016509433962265
+uav0000003_00000_s,gray_full,142,0.052613942573481946,0.16153846153846155,0.6927312775330396,0.6927312775330396
+uav0000003_00000_s,gray_full,143,0.05936351146838993,0.13768115942028986,0.7246543778801844,0.7246543778801844
+uav0000003_00000_s,gray_full,144,0.05002051013076723,0.1640625,0.8032036613272311,0.8032036613272311
+uav0000003_00000_s,gray_center,136,0.045424688092859405,0.11377708978328173,0.6305732484076433,0.1512
+uav0000003_00000_s,gray_center,140,0.053423457357370085,0.21727019498607242,0.7070707070707071,0.365625
+uav0000003_00000_s,gray_center,143,0.05395094264526214,0.164461923489453,0.7637614678899083,0.3256003256003256
+uav0000016_00000_s,gray_full,625,0.027999963169522732,0.34549408069582027,0.15997845408025854,0.15997845408025854
+uav0000016_00000_s,gray_center,625,0.027999963169522732,0.34549408069582027,0.15997845408025854,0.1672605323831482
+uav0000076_00241_s,gray_full,672,0.025266807013265526,0.0,0.0,0.0
+uav0000076_00241_s,gray_full,674,0.03163087586808352,0.0,0.0,0.0
+uav0000076_00241_s,gray_center,672,0.025266807013265526,0.0,0.0,0.0
+uav0000076_00241_s,gray_center,1175,0.03426481578673337,0.0,0.0,0.0
+uav0000076_00241_s,gray_center,1181,0.035129151986985664,0.0,0.0,0.0
+uav0000076_00241_s,gray_center,1184,0.035615842516696326,0.0,0.0,0.0
+uav0000076_00241_s,gray_center,1201,0.02647849757833965,0.0,0.0,0.0
+uav0000076_00241_s,gray_center,1204,0.02697235480275159,0.0,0.0,0.0
+uav0000080_01680_s,gray_full,173,0.03242422739041856,0.3640979689366786,0.6660505237215034,0.6660505237215034
+uav0000080_01680_s,gray_full,693,0.03306951082864037,0.6859410430839002,0.14857142857142858,0.14857142857142858
+uav0000080_01680_s,gray_full,1163,0.030109743893766996,0.0,0.0,0.0
+uav0000080_01680_s,gray_full,1167,0.03463502233160481,0.0,0.0,0.0
+uav0000080_01680_s,gray_center,173,0.03242422739041856,0.3640979689366786,0.6660505237215034,0.3640979689366786
+uav0000080_01680_s,gray_center,694,0.031217324489496424,0.6459824980111376,0.14646464646464646,0.2022080185938408
+uav0000080_01680_s,gray_center,696,0.04284765824957283,0.626317374284854,0.0,0.0
+uav0000080_01680_s,gray_center,1110,0.041724100426757955,0.0,0.0,0.0
+uav0000085_00000_s,gray_full,216,0.0252458541979532,0.32538797907913913,0.03280399612316409,0.03280399612316409
+uav0000085_00000_s,gray_full,281,0.04507237594808788,0.0,0.0,0.0
+uav0000085_00000_s,gray_full,573,0.028770756825462297,0.16326374550737938,0.897185301016419,0.897185301016419
+uav0000085_00000_s,gray_full,683,0.02808060217706433,0.38704215310578377,0.2784673502428494,0.2784673502428494
+uav0000085_00000_s,gray_full,684,0.025920312412680915,0.32169117647058826,0.0,0.0
+uav0000085_00000_s,gray_full,711,0.03135223871301543,0.0,0.0,0.0
+uav0000085_00000_s,gray_full,764,0.029412789032160658,0.0,0.0,0.0
+uav0000085_00000_s,gray_full,874,0.02705934901989653,0.0,0.0,0.0
+uav0000085_00000_s,gray_full,977,0.03134130925727818,0.27741935483870966,0.7095,0.7095
+uav0000085_00000_s,gray_full,1340,0.034852154144332195,0.48379446640316204,0.37844533911427686,0.37844533911427686
+uav0000085_00000_s,gray_full,1352,0.02778237341315919,0.5426412750983234,0.28433268858800775,0.28433268858800775
+uav0000085_00000_s,gray_center,216,0.0252458541979532,0.32538797907913913,0.03280399612316409,0.09336539821756967
+uav0000085_00000_s,gray_center,263,0.027082910187234122,0.0,0.0,0.0
+uav0000085_00000_s,gray_center,267,0.028555157980849257,0.0,0.0,0.0
+uav0000085_00000_s,gray_center,442,0.0339082129849737,0.0,0.0,0.0
+uav0000085_00000_s,gray_center,641,0.02705091297520451,0.0,0.0,0.0
+uav0000085_00000_s,gray_center,713,0.026613797140572482,0.0,0.0,0.0
+uav0000085_00000_s,gray_center,799,0.025829950980632645,0.0,0.0053886322095026955,0.019089982392734687
+uav0000085_00000_s,gray_center,818,0.031321371329087834,0.01436591234003975,0.008245176971722851,0.009231018303030653
+uav0000085_00000_s,gray_center,858,0.028972165679197772,0.0,0.0,0.0
+uav0000085_00000_s,gray_center,1095,0.025323819711345775,0.0,0.0,0.0
+uav0000085_00000_s,gray_center,1147,0.03046764974925144,0.0,0.0,0.0
+uav0000085_00000_s,gray_center,1216,0.02665787588386506,0.0,0.0,0.0
+uav0000085_00000_s,gray_center,1334,0.02577834539899312,0.0,0.0,0.0
+uav0000085_00000_s,gray_center,1531,0.03060426513383894,0.0,0.0,0.0
+uav0000085_00000_s,gray_center,1544,0.029701536225726938,0.198884239888424,0.052770448548812667,0.09454383395938117
+uav0000085_00000_s,gray_center,1597,0.027794452346222805,0.006992767284818154,0.060276948140103176,0.0474950971652701
+uav0000089_00920_s,gray_full,1159,0.02766496617171991,0.46984924623115576,0.5108359133126935,0.5108359133126935
+uav0000089_00920_s,gray_full,1176,0.03274767108361578,0.06967363403006967,0.0,0.0
+uav0000089_00920_s,gray_full,1183,0.03269584440396689,0.0,0.0,0.0
+uav0000089_00920_s,gray_center,1159,0.02766496617171991,0.46984924623115576,0.5108359133126935,0.6071428571428571
+uav0000089_00920_s,gray_center,1161,0.03638526055854107,0.5565476190476191,0.57,0.5800604229607251
+uav0000089_00920_s,gray_center,1164,0.03807257125599898,0.5072046109510087,0.59375,0.5800604229607251
+uav0000147_00000_s,gray_full,1105,0.03960288709157078,0.0,0.0,0.0
+uav0000147_00000_s,gray_full,1108,0.02954188808974073,0.0,0.0,0.0
+uav0000147_00000_s,gray_full,1570,0.02970572313867403,0.0,0.0,0.0
+uav0000147_00000_s,gray_full,1686,0.026857090886885877,0.0,0.0,0.0
+uav0000147_00000_s,gray_full,1856,0.025897328180252022,0.0,0.0,0.0
+uav0000147_00000_s,gray_full,1872,0.03418389493804463,0.0,0.0,0.0
+uav0000147_00000_s,gray_full,1896,0.02589724441768376,0.0,0.0,0.0
+uav0000147_00000_s,gray_center,1105,0.03960288709157078,0.0,0.0,0.0
+uav0000147_00000_s,gray_center,1216,0.03116696990457639,0.0,0.0,0.0
+uav0000147_00000_s,gray_center,1308,0.033327368809161116,0.0,0.0,0.0
+uav0000147_00000_s,gray_center,1709,0.0377790938354744,0.0,0.0,0.0
+uav0000147_00000_s,gray_center,1746,0.02644066035930028,0.0,0.0,0.0
+uav0000147_00000_s,gray_center,1779,0.030624807279576866,0.0,0.0,0.0
+uav0000147_00000_s,gray_center,1840,0.026244195459674092,0.0,0.0,0.0
+uav0000147_00000_s,gray_center,1861,0.026591359798691924,0.0,0.0,0.0
+uav0000169_00000_s,gray_full,851,0.0522178365396755,0.44680851063829785,0.7295597484276729,0.7295597484276729
+uav0000169_00000_s,gray_full,852,0.03413902297229287,0.5482406356413166,0.45549738219895286,0.45549738219895286
+uav0000169_00000_s,gray_full,929,0.034887205700794593,0.0,0.0,0.0
+uav0000169_00000_s,gray_center,851,0.0522178365396755,0.44680851063829785,0.7295597484276729,0.5632183908045977
+uav0000169_00000_s,gray_center,932,0.02838812544125188,0.0,0.0,0.0
+uav0000169_00000_s,gray_center,957,0.025106268606089267,0.0,0.0,0.0
+uav0000176_00000_s,gray_full,160,0.02580736314722819,0.2195763880185487,0.05764690073522354,0.05764690073522354
+uav0000176_00000_s,gray_full,161,0.03240047969311693,0.1508643087262272,0.0,0.0
+uav0000176_00000_s,gray_full,457,0.03172413454638361,0.0,0.0,0.0
+uav0000176_00000_s,gray_full,459,0.030711332715601114,0.0,0.0,0.0
+uav0000176_00000_s,gray_full,462,0.025763205796656592,0.0,0.0,0.0
+uav0000176_00000_s,gray_full,522,0.02810550935766002,0.0,0.0,0.0
+uav0000176_00000_s,gray_full,548,0.03365870404420228,0.0,0.0,0.0
+uav0000176_00000_s,gray_full,601,0.03528695648008425,0.0,0.0,0.0
+uav0000176_00000_s,gray_full,735,0.040904260004824534,0.0,0.0,0.0
+uav0000176_00000_s,gray_full,771,0.03343150468348663,0.08215257411398891,0.023313412481950905,0.023313412481950905
+uav0000176_00000_s,gray_full,775,0.05091763861316351,0.002896618742680587,0.0014926599649979263,0.0014926599649979263
+uav0000176_00000_s,gray_center,160,0.02580736314722819,0.2195763880185487,0.05764690073522354,0.009806465002853733
+uav0000176_00000_s,gray_center,161,0.03437032615015192,0.03879934369269376,0.0,0.0
+uav0000176_00000_s,gray_center,457,0.026191117931561494,0.0,0.0,0.0
+uav0000176_00000_s,gray_center,462,0.03416748500467226,0.0,0.0,0.0
+uav0000176_00000_s,gray_center,562,0.026366341519679527,0.0,0.0,0.0
+uav0000176_00000_s,gray_center,564,0.03391874594649803,0.0,0.0,0.0
+uav0000176_00000_s,gray_center,568,0.05150630410027034,0.0,0.0,0.0
+uav0000176_00000_s,gray_center,618,0.028924000343471947,0.0,0.0,0.0
+uav0000176_00000_s,gray_center,623,0.030565974731887654,0.0,0.0,0.0
+uav0000176_00000_s,gray_center,651,0.030970998009826237,0.0,0.0,0.0
+uav0000204_00000_s,gray_full,646,0.039132368846850465,0.7155824508320726,0.3015398758905999,0.3015398758905999
+uav0000204_00000_s,gray_full,647,0.02687098520144171,0.6390906220397853,0.08386721025043681,0.08386721025043681
+uav0000204_00000_s,gray_full,788,0.026487829881159244,0.0,0.006254762993446121,0.006254762993446121
+uav0000204_00000_s,gray_full,876,0.02612616654694888,0.0,0.0,0.0
+uav0000204_00000_s,gray_full,879,0.029327403237012474,0.0,0.0,0.0
+uav0000204_00000_s,gray_center,646,0.039132368846850465,0.7155824508320726,0.3015398758905999,0.27918781725888325
+uav0000226_05370_s,gray_full,171,0.02849279996212095,0.0463205125128968,0.0003617690506577162,0.0003617690506577162
+uav0000226_05370_s,gray_full,177,0.029942606140152057,0.014806112057409974,0.039030263153289675,0.039030263153289675
+uav0000226_05370_s,gray_full,236,0.02630946594725414,0.13796610169491524,0.01611558766323979,0.01611558766323979
+uav0000226_05370_s,gray_full,532,0.02501915148262306,0.0,0.0145294503347778,0.0145294503347778
+uav0000226_05370_s,gray_full,661,0.0255199936004549,0.020143058670332056,0.0,0.0
+uav0000226_05370_s,gray_full,915,0.026061202388558014,0.0,0.0,0.0
+uav0000226_05370_s,gray_full,1005,0.02522000572238863,0.001226283638527965,0.0022917039422675495,0.0022917039422675495
+uav0000226_05370_s,gray_full,1048,0.033432335668715604,0.0,0.0,0.0
+uav0000226_05370_s,gray_full,1066,0.030105163542407977,0.0010548890624922252,0.0,0.0
+uav0000226_05370_s,gray_full,1108,0.02621974351336211,0.0,0.0,0.0
+uav0000226_05370_s,gray_full,1152,0.036280387529774916,0.0014435739274661168,0.0,0.0
+uav0000226_05370_s,gray_full,1296,0.0274697099281022,0.0010202283053877606,0.0016387715210798319,0.0016387715210798319
+uav0000226_05370_s,gray_full,1325,0.03595622786642838,0.0009814997734197332,0.0008730136617350682,0.0008730136617350682
+uav0000226_05370_s,gray_full,1329,0.029825573582391796,0.0010280918440380299,0.000939250853519233,0.000939250853519233
+uav0000226_05370_s,gray_full,1354,0.03642902608874238,0.0009235377878079579,0.0,0.0
+uav0000226_05370_s,gray_full,1393,0.026266247015529872,0.0,0.0010464523887111653,0.0010464523887111653
+uav0000226_05370_s,gray_full,1466,0.02841775439538771,0.0,0.0,0.0
+uav0000226_05370_s,gray_full,1470,0.026454407253098042,0.0,0.0,0.0
+uav0000226_05370_s,gray_full,1484,0.04272759477469831,0.0,0.0,0.0
+uav0000226_05370_s,gray_full,1509,0.031226868402813857,0.0,0.0010817238974077505,0.0010817238974077505
+uav0000226_05370_s,gray_full,1610,0.02687761723388006,0.0,0.0,0.0
+uav0000226_05370_s,gray_full,1651,0.0285490707220043,0.0,0.0,0.0
+uav0000226_05370_s,gray_full,1668,0.03163320208453412,0.0,0.0,0.0
+uav0000226_05370_s,gray_full,1811,0.03464827384198454,0.0,0.00041302212880783455,0.00041302212880783455
+uav0000226_05370_s,gray_center,171,0.02849279996212095,0.0463205125128968,0.0003617690506577162,0.0
+uav0000226_05370_s,gray_center,198,0.0287274114602704,0.009710014273908798,0.017226906293913172,0.009710014273908798
+uav0000226_05370_s,gray_center,240,0.03216770149480619,0.0069678562145614525,0.01272419627749577,0.01403349581011544
+uav0000226_05370_s,gray_center,393,0.030754005611248553,0.07807360969664591,0.03288770484985643,0.0
+uav0000226_05370_s,gray_center,395,0.02590093511812368,0.024353539719487192,0.02043302678669661,0.006399018232819074
+uav0000226_05370_s,gray_center,489,0.027596712601049546,0.0,0.0,0.0
+uav0000226_05370_s,gray_center,642,0.0257962183885465,0.0,0.0,0.0
+uav0000226_05370_s,gray_center,650,0.026168842174664083,0.004740740740740741,0.011241818333344018,0.012742658038825285
+uav0000226_05370_s,gray_center,651,0.025438392017495245,0.012606576469065866,0.0,0.01151072833776293
+uav0000226_05370_s,gray_center,915,0.03292161277118775,0.0023651321269994394,0.0031139251768264654,0.002160800859194994
+uav0000226_05370_s,gray_center,972,0.02562836624973296,0.0,0.0,0.0
+uav0000226_05370_s,gray_center,1225,0.025847949649889613,0.0009456507456803101,0.0009949667384736279,0.0009456507456803101
+uav0000226_05370_s,gray_center,1226,0.029385539685049613,0.0009453459797474094,0.0,0.0009453459797474094
+uav0000226_05370_s,gray_center,1249,0.02792771630230307,0.0008485511256658897,0.0014038231780167264,0.0008485511256658897
+uav0000226_05370_s,gray_center,1290,0.031437700137477965,0.0009163358109493941,0.001639344262295082,0.0009163358109493941
+uav0000226_05370_s,gray_center,1298,0.025185430904249118,0.0009979785625711325,0.0009668935643564356,0.0009979785625711325
+uav0000226_05370_s,gray_center,1329,0.02777763948848433,0.0011729848120928246,0.0009192211888698351,0.0011729848120928246
+uav0000226_05370_s,gray_center,1340,0.0252156286745571,0.0009853108073368034,0.00093041116561065,0.0009853108073368034
+uav0000226_05370_s,gray_center,1344,0.02667916279969781,0.0008334192007661396,0.0,0.0008334192007661396
+uav0000226_05370_s,gray_center,1377,0.02582591303099604,0.0,0.0,0.0
+uav0000226_05370_s,gray_center,1399,0.027695087024227318,0.0,0.0,0.0
+uav0000226_05370_s,gray_center,1414,0.025368279599313783,0.0,0.0,0.0
+uav0000226_05370_s,gray_center,1415,0.027997064441321454,0.0,0.0,0.0010442303258427568
+uav0000226_05370_s,gray_center,1421,0.03286722216140036,0.0006360614162613714,0.0,0.0006360614162613714
+uav0000226_05370_s,gray_center,1525,0.02591411955106439,0.0,0.0,0.0
+uav0000226_05370_s,gray_center,1705,0.029763187675124505,0.0005431889201805486,0.0,0.0
+uav0000226_05370_s,gray_center,1735,0.03182916850103697,0.0,0.0,0.0
+uav0000235_00001_s,gray_full,929,0.039018036301891074,0.13836130629110285,0.07269756994078007,0.07269756994078007
+uav0000235_00001_s,gray_full,936,0.02811199113512776,0.02589859192679168,0.0,0.0
+uav0000235_00001_s,gray_center,929,0.039018036301891074,0.13836130629110285,0.07269756994078007,0.049514380009429516
+uav0000235_00001_s,gray_center,941,0.026291602612705595,0.0,0.03355340591437399,0.017343132342297198
+uav0000235_00001_s,gray_center,947,0.025087662597007565,0.011924252346649204,0.010662797353602853,0.04777645928688478
+uav0000237_00001_s,gray_full,239,0.03248390929120797,0.2916666666666667,0.1155433287482806,0.1155433287482806
+uav0000237_00001_s,gray_full,287,0.02649033601630098,0.0,0.0,0.0
+uav0000237_00001_s,gray_full,330,0.031049672897603933,0.0,0.0,0.0
+uav0000237_00001_s,gray_full,349,0.03367869255671382,0.0028429282160625444,0.0042265246440540485,0.0042265246440540485
+uav0000237_00001_s,gray_full,351,0.030210475594489573,0.00293748978145948,0.003954125299554947,0.003954125299554947
+uav0000237_00001_s,gray_center,239,0.03248390929120797,0.2916666666666667,0.1155433287482806,0.08848314606741572
+uav0000237_00001_s,gray_center,348,0.03619066776698899,0.004057670724337391,0.0029668088262562583,0.004057670724337391
+uav0000237_00001_s,gray_center,356,0.025499789181315815,0.008733792097357787,0.0,0.0
+uav0000304_00253_s,gray_full,1087,0.04941986598075579,0.21145909201262442,0.10426540284360189,0.10426540284360189
+uav0000304_00253_s,gray_full,1268,0.033418723556676924,0.0,0.0,0.0
+uav0000304_00253_s,gray_full,1272,0.02706851104905276,0.0,0.002578973823609017,0.002578973823609017
+uav0000304_00253_s,gray_full,1280,0.0287745368378339,0.0,0.0,0.0
+uav0000304_00253_s,gray_full,1292,0.0394175984509587,0.0,0.0,0.0
+uav0000304_00253_s,gray_full,1297,0.02604239665565518,0.0,0.0,0.0
+uav0000304_00253_s,gray_full,1328,0.0410646603972115,0.0,0.0,0.0
+uav0000304_00253_s,gray_full,1344,0.030847881901750557,0.0,0.0,0.0
+uav0000304_00253_s,gray_full,1345,0.02528796697124565,0.0,0.0,0.0
+uav0000304_00253_s,gray_full,1377,0.030824644536588165,0.0,0.0,0.0
+uav0000304_00253_s,gray_full,1603,0.032277558245108855,0.0,0.0,0.0
+uav0000304_00253_s,gray_full,1611,0.03292591823502551,0.0,0.0,0.0
+uav0000304_00253_s,gray_full,1616,0.02548407538523318,0.0,0.0,0.0
+uav0000304_00253_s,gray_full,1627,0.029373526888865686,0.0,0.0,0.0
+uav0000304_00253_s,gray_center,1087,0.04941986598075579,0.21145909201262442,0.10426540284360189,0.11309391032790542
+uav0000304_00253_s,gray_center,1095,0.03401707757286367,0.04157529239766082,0.0,0.0
+uav0000304_00253_s,gray_center,1120,0.02508380388184729,0.01058244406666257,0.0,0.0
+uav0000304_00253_s,gray_center,1258,0.02899018703965678,0.0,0.0,0.0
+uav0000304_00253_s,gray_center,1263,0.02977165649054908,0.0,0.0,0.0
+uav0000304_00253_s,gray_center,1290,0.0344164842050261,0.0,0.0,0.0
+uav0000304_00253_s,gray_center,1292,0.04112223050231856,0.0,0.0,0.0
+uav0000304_00253_s,gray_center,1404,0.03734901159286491,0.0027718168812589416,0.0,0.0
+uav0000304_00253_s,gray_center,1417,0.035179885993164094,0.0,0.0,0.0
+uav0000304_00253_s,gray_center,1451,0.03468125993737319,0.0,0.0,0.0
+uav0000304_00253_s,gray_center,1454,0.027152980626678563,0.0,0.0,0.0
+uav0000304_00253_s,gray_center,1461,0.04890062022488866,0.0,0.0,0.0
+uav0000304_00253_s,gray_center,1464,0.037261250015031305,0.0,0.0,0.0
+uav0000304_00253_s,gray_center,1472,0.036261802727629626,0.0,0.0,0.0
+uav0000304_00253_s,gray_center,1474,0.0383635023394368,0.0,0.0,0.0
+uav0000304_00253_s,gray_center,1490,0.031882046129097966,0.0,0.0,0.0
+uav0000304_00253_s,gray_center,1503,0.03314237172947594,0.0,0.0,0.0
+uav0000304_00253_s,gray_center,1606,0.030732209059075866,0.0,0.0,0.0
+uav0000307_04531_s,gray_full,56,0.026094027541289345,0.34512183559305964,0.6584494462307967,0.6584494462307967
+uav0000307_04531_s,gray_full,333,0.026734615135874995,0.852762598664238,0.4169184290030212,0.4169184290030212
+uav0000307_04531_s,gray_full,368,0.031232926127673824,0.41820094687006837,0.20703125,0.20703125
+uav0000307_04531_s,gray_full,413,0.02824494353347204,0.014349844023434527,0.0,0.0
+uav0000307_04531_s,gray_full,430,0.030153038703940566,0.025281395485886028,0.007951807228915662,0.007951807228915662
+uav0000307_04531_s,gray_full,438,0.029313870421914245,0.003530377668308703,0.0014762349933714672,0.0014762349933714672
+uav0000307_04531_s,gray_full,441,0.02779026810100555,0.0,0.0015158047730224713,0.0015158047730224713
+uav0000307_04531_s,gray_full,456,0.028710719154975185,0.008689541317151526,0.003509673001198425,0.003509673001198425
+uav0000307_04531_s,gray_full,462,0.028894829122687295,0.002870778989758302,0.0,0.0
+uav0000307_04531_s,gray_center,56,0.026094027541289345,0.34512183559305964,0.6584494462307967,0.4510586069346425
+uav0000307_04531_s,gray_center,61,0.031328212678813507,0.2530149349093523,0.5909622633334778,0.49149158665272363
+uav0000307_04531_s,gray_center,62,0.03307369424394479,0.37022449783379285,0.5648871219650717,0.4639175257731959
+uav0000307_04531_s,gray_center,75,0.025770246923935303,0.4360705596107056,0.6437090879884342,0.4360705596107056
+uav0000307_04531_s,gray_center,340,0.03269782436268372,0.6660567246111619,0.28374760994263865,0.32629278951201746
+uav0000307_04531_s,gray_center,391,0.02875970479726951,0.29707566145752745,0.05767631019502727,0.005758848230353929
+uav0000307_04531_s,gray_center,420,0.025313814784925906,0.26417525773195877,0.10692552883222255,0.12629161882893225
+uav0000307_04531_s,gray_center,423,0.025018842364904228,0.15182186234817813,0.07867820613690008,0.020170327207530255
+uav0000307_04531_s,gray_center,435,0.027503291374030677,0.21636615811373092,0.09088983050847457,0.0378698224852071
+uav0000307_04531_s,gray_center,501,0.02615896165988262,0.020085836909871244,0.012021783059903415,0.020085836909871244
+uav0000307_04531_s,gray_center,513,0.03312271012036123,0.003069067126006628,0.003505145373657484,0.003069067126006628
+uav0000307_04531_s,gray_center,515,0.029069446485865482,0.0036914739122321655,0.0029344993937517735,0.0036914739122321655
+uav0000307_04531_s,gray_center,568,0.03256929191288419,0.012414844941535334,0.006879648411088573,0.011273499151948488
+uav0000307_04531_s,gray_center,630,0.027839960662249266,0.00566656384595172,0.0,0.0
+uav0000307_04531_s,gray_center,676,0.02895778295302004,0.0015894966064247452,0.0025240733495715388,0.0015894966064247452
+uav0000307_04531_s,gray_center,697,0.039101335979549304,0.001113379105585452,0.0,0.0
+uav0000342_01518_s,gray_full,1753,0.037374957323090534,0.17880152802326243,0.04978312688054394,0.04978312688054394
+uav0000342_01518_s,gray_full,1757,0.041127837392891664,0.0,0.0,0.0
+uav0000342_01518_s,gray_full,1773,0.03421828464570225,0.03442140269863797,0.0,0.0
+uav0000342_01518_s,gray_full,1859,0.0414970645530107,0.0,0.0,0.0
+uav0000342_01518_s,gray_center,1753,0.037374957323090534,0.17880152802326243,0.04978312688054394,0.0
+uav0000348_02415_s,gray_full,74,0.027384915379415377,0.36176470588235293,0.023715415019762844,0.023715415019762844
+uav0000348_02415_s,gray_full,77,0.04587523148484776,0.33195020746887965,0.49411764705882355,0.49411764705882355
+uav0000348_02415_s,gray_full,80,0.04102229382254437,0.2986111111111111,0.6176470588235294,0.6176470588235294
+uav0000348_02415_s,gray_full,82,0.025799714324144508,0.3548795944233207,0.6163398692810458,0.6163398692810458
+uav0000348_02415_s,gray_full,83,0.030562440225859373,0.3373754872239065,0.621414913957935,0.621414913957935
+uav0000348_02415_s,gray_full,84,0.03478991399818306,0.34545454545454546,0.6679389312977099,0.6679389312977099
+uav0000348_02415_s,gray_full,85,0.04116921912595457,0.39622641509433965,0.6745098039215687,0.6745098039215687
+uav0000348_02415_s,gray_full,88,0.04033407518396558,0.4265103697024346,0.6313725490196078,0.6313725490196078
+uav0000348_02415_s,gray_full,90,0.03399623065982554,0.2023013112122023,0.6957621758380772,0.6957621758380772
+uav0000348_02415_s,gray_full,91,0.03721265525142617,0.4199575371549894,0.6072106261859582,0.6072106261859582
+uav0000348_02415_s,gray_full,92,0.03709578917249245,0.3914780292942743,0.5287792536369387,0.5287792536369387
+uav0000348_02415_s,gray_full,99,0.041829899929098496,0.42330786026200873,0.752,0.752
+uav0000348_02415_s,gray_full,361,0.02641689199546654,0.47264123040520556,0.4878464818763326,0.4878464818763326
+uav0000348_02415_s,gray_full,368,0.027404823504397453,0.08021672059598164,0.0,0.0
+uav0000348_02415_s,gray_full,522,0.04336585882935564,0.18732782369146006,0.6336123631680618,0.6336123631680618
+uav0000348_02415_s,gray_full,533,0.028030031783176607,0.38586515028432167,0.5694444444444444,0.5694444444444444
+uav0000348_02415_s,gray_full,534,0.02806782122034327,0.445859872611465,0.5714285714285714,0.5714285714285714
+uav0000348_02415_s,gray_full,547,0.036814304448309916,0.2074891714405477,0.04981253347616497,0.04981253347616497
+uav0000348_02415_s,gray_full,555,0.033805606688901056,0.0734825846274433,0.021933672574135813,0.021933672574135813
+uav0000348_02415_s,gray_full,556,0.03234861893697443,0.01893413445760016,0.0,0.0
+uav0000348_02415_s,gray_full,564,0.02671294241049614,0.005926757751575269,0.0,0.0
+uav0000348_02415_s,gray_full,565,0.030708510952376807,0.0,0.0,0.0
+uav0000348_02415_s,gray_full,567,0.02756381046863057,0.0,0.0,0.0
+uav0000348_02415_s,gray_full,569,0.03399679197530434,0.0,0.0,0.0
+uav0000348_02415_s,gray_full,571,0.027825750995738918,0.0,0.0,0.0
+uav0000348_02415_s,gray_full,572,0.03439968630757936,0.0,0.0,0.0
+uav0000348_02415_s,gray_full,596,0.029266297772554652,0.0,0.0,0.0
+uav0000348_02415_s,gray_full,598,0.04433747974035323,0.0,0.0,0.0
+uav0000348_02415_s,gray_full,603,0.03709658940383679,0.0,0.0,0.0
+uav0000348_02415_s,gray_full,623,0.040035169710391255,0.0,0.0,0.0
+uav0000348_02415_s,gray_full,634,0.02551781907554278,0.0,0.0,0.0
+uav0000348_02415_s,gray_center,74,0.027384915379415377,0.36176470588235293,0.023715415019762844,0.0
+uav0000348_02415_s,gray_center,76,0.03410345677082933,0.1631321370309951,0.5980629539951574,0.21258503401360543
+uav0000348_02415_s,gray_center,78,0.02511808702238716,0.17659279778393353,0.5149051490514905,0.17659279778393353
+uav0000348_02415_s,gray_center,83,0.02839561305642785,0.3357994245787094,0.6369426751592356,0.6581632653061225
+uav0000348_02415_s,gray_center,88,0.031165124353036505,0.23158187378370865,0.7058823529411765,0.5119453924914675
+uav0000348_02415_s,gray_center,101,0.04200639421166848,0.3437654016757023,0.7280750137892995,0.4980769230769231
+uav0000348_02415_s,gray_center,361,0.027103591699064913,0.48760083657006276,0.4878464818763326,0.7488584474885844
+uav0000348_02415_s,gray_center,368,0.03932099166987148,0.08618319993532218,0.0,0.0005958144038132122
+uav0000348_02415_s,gray_center,378,0.03601699456464497,0.0,0.0,0.0
+uav0000348_02415_s,gray_center,392,0.032295606909604625,0.0,0.0,0.0
+uav0000348_02415_s,gray_center,398,0.035115318877098546,0.0,0.0,0.0
+uav0000348_02415_s,gray_center,403,0.030931328318285822,0.0,0.0,0.0
+uav0000348_02415_s,gray_center,410,0.031146649002850302,0.02133229904004654,0.0,0.005089220395050733
+uav0000348_02415_s,gray_center,421,0.049582373528909096,0.12971448713429679,0.0,0.005174847106790026
+uav0000348_02415_s,gray_center,611,0.038030871447834194,0.0,0.0,0.0
+uav0000348_02415_s,gray_center,644,0.028535356989304813,0.0,0.0,0.0
+uav0000349_02668_s,gray_full,109,0.04206933239391486,0.01101534418119275,0.013422741065017488,0.013422741065017488
+uav0000349_02668_s,gray_full,112,0.03671571103828128,0.01028604522334693,0.0099093707250342,0.0099093707250342
+uav0000349_02668_s,gray_full,126,0.041265600563325976,0.015213966920451563,0.011458910068812781,0.011458910068812781
+uav0000349_02668_s,gray_full,142,0.03140940101683085,0.014393581878244455,0.0,0.0
+uav0000349_02668_s,gray_full,158,0.029219384446829717,0.0,0.0,0.0
+uav0000349_02668_s,gray_full,164,0.028019639193767973,0.0,0.0,0.0
+uav0000349_02668_s,gray_full,195,0.027465470481674727,0.0,0.0,0.0
+uav0000349_02668_s,gray_full,294,0.02797978145982402,0.0,0.0,0.0
+uav0000349_02668_s,gray_full,301,0.030257544112669912,0.0,0.0,0.0
+uav0000349_02668_s,gray_full,309,0.03153531662324021,0.0,0.0,0.0
+uav0000349_02668_s,gray_full,337,0.03594167337547062,0.0,0.0,0.0
+uav0000349_02668_s,gray_center,109,0.04206933239391486,0.01101534418119275,0.013422741065017488,0.014990622776951432
+uav0000349_02668_s,gray_center,328,0.025455858058174397,0.0,0.0,0.0
+uav0000349_02668_s,gray_center,348,0.03125249138180374,0.0,0.0,0.0
+
+===== stage152_native_shadow.csv =====
+sequence,sampled,archived_switches,reconstructed_switches,switch_disagreements,cell_disagreements
+uav0000003_00000_s,132,2,2,0,0
+uav0000016_00000_s,165,5,5,0,0
+uav0000070_01344_s,139,0,0,0,0
+uav0000076_00241_s,239,0,0,0,0
+uav0000080_01680_s,157,0,0,0,0
+uav0000085_00000_s,184,2,2,0,0
+uav0000089_00920_s,180,1,1,0,0
+uav0000091_00460_s,112,0,0,0,0
+uav0000126_07915_s,152,0,0,0,0
+uav0000147_00000_s,160,0,0,0,0
+uav0000169_00000_s,161,1,1,0,0
+uav0000170_00000_s,157,0,0,0,0
+uav0000174_00000_s,159,0,0,0,0
+uav0000176_00000_s,155,1,1,0,0
+uav0000200_00000_s,152,0,0,0,0
+uav0000204_00000_s,181,0,0,0,0
+uav0000226_05370_s,166,0,0,0,0
+uav0000235_00001_s,161,0,0,0,0
+uav0000237_00001_s,171,0,0,0,0
+uav0000238_00001_s,156,0,0,0,0
+uav0000239_11136_s,154,0,0,0,0
+uav0000304_00253_s,156,0,0,0,0
+uav0000307_04531_s,154,1,1,0,0
+uav0000308_04600_s,151,0,0,0,0
+uav0000329_00276_s,155,0,0,0,0
+uav0000342_01518_s,158,0,0,0,0
+uav0000348_02415_s,179,1,1,0,0
+uav0000349_02668_s,168,0,0,0,0

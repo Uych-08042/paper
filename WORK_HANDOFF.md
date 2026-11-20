@@ -2,7 +2,9 @@
 
 更新日期：2026-11-20（Asia/Hong_Kong）
 
-**Stage-152 只换搜索中心的整段闭环已准备，见 0.143。** 在 28 个开发视频上同卡比较原生、回归、完整灰度和只换中心，检查整段 AUC 与稳定视频新增失跟。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE152_CENTER_CLOSED_LOOP.md)
+**Stage-153 难帧串行加算一个 Transformer 块已准备，见 0.144。** 同卡比较原生 SGLA 与自适应深度，仅改后段块路由，整段服务器结果待回传。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE153_ADAPTIVE_DEPTH.md)
+
+**Stage-152 只换搜索中心的整段闭环已完成，见 0.143。** 只换中心 AUC 55.4456，相对完整灰度／回归／原生低 1.2245／5.1994／8.5149 点。0089 局部收益在整段保留，0085 的短程关键改选未触发。 [结果复核](docs/experiments/06_sgla_uav_tracking/STAGE152_RESULTS_REVIEW.md)
 
 **Stage-151 写回框几何交叉对照已完成，见 0.142。** 只换中心的后继 8／32 帧平均 IoU 差为 +0.0687／+0.0451，只换宽高为 −0.0664／−0.0885。0089 的宽高交换使次帧全网格失去好框，0085／690 只换中心即可恢复。32 帧结果对个别源组敏感。 [结果复核](docs/experiments/06_sgla_uav_tracking/STAGE151_RESULTS_REVIEW.md)
 
@@ -121,7 +123,7 @@ Stage-75 L20 已完成 13 个固定起点和 52 条短分支。0003 两个首败
 
 ## 0. 下一次对话的直接接续入口
 
-本节更新至 2026-11-20。接续先读 0.143 的 Stage-152 整段闭环协议和 0.142 的 Stage-151 写回几何结果。以往全视频结果见 0.122 和 0.112，候选生成背景见 0.90～0.95 和 0.53～0.54，确认边界和论文目标见 0.48／0.44。 [Stage-152 协议](docs/experiments/06_sgla_uav_tracking/STAGE152_CENTER_CLOSED_LOOP.md) · [Stage-151 结果](docs/experiments/06_sgla_uav_tracking/STAGE151_RESULTS_REVIEW.md)
+本节更新至 2026-11-20。接续先读 0.144 的 Stage-153 自适应深度协议和 0.143 的 Stage-152 整段闭环结果。以往全视频结果见 0.122 和 0.112，候选生成背景见 0.90～0.95 和 0.53～0.54，确认边界和论文目标见 0.48／0.44。 [Stage-153 协议](docs/experiments/06_sgla_uav_tracking/STAGE153_ADAPTIVE_DEPTH.md) · [Stage-152 结果](docs/experiments/06_sgla_uav_tracking/STAGE152_RESULTS_REVIEW.md)
 
 需要回溯历史与配对干预时读 0.33、0.31、0.29、0.27、0.24、0.22、0.20 和 0.18。较早阶段的运行状态按各节日期理解。 [Stage-60](docs/experiments/06_sgla_uav_tracking/STAGE60_RESULTS_REVIEW.md) · [Stage-54](docs/experiments/06_sgla_uav_tracking/STAGE54_RESULTS_REVIEW.md) · [Stage-55](docs/experiments/06_sgla_uav_tracking/STAGE55_RESULTS_REVIEW.md)
 
@@ -2507,9 +2509,15 @@ Stage-150 的 14 个改选点四路交叉，同 L40 共 1,428 次后继搜索，
 
 0089／1159 替换宽高使次帧裁剪边长 66→104，目标仍完全覆盖，全网格最佳 IoU 0.7275→0.4044，后 32 帧均值 0.5880→0.0288。0085／690 只换中心即恢复，次帧 0→0.7084，后 32 帧 0→0.7539。0169／881 是宽高有益的反例，单换宽高后 32 帧 0.0310→0.4227。范围限于校准规则已触发的开发起点。 [服务器原始回传](docs/experiments/06_sgla_uav_tracking/results/stage151_results_20261120T051054Z_606941.txt)
 
-### 0.143 Stage-152 只换搜索中心的整段闭环（待服务器执行）
+### 0.143 Stage-152 只换搜索中心的整段闭环（结果已复核）
 
-同卡重测 28 个 VisDrone-SOT 开发视频，原生 SGLA、Stage-143 回归、完整灰度写回、只换搜索中心。冻住 Stage-149 门槛 0.025 和准入条件。两个灰度组都报告接受的备选框，只换中心组下一帧用该框中心配回归框宽高。各组每帧一次原生搜索，预计 112 条完整轨迹、116,188 次搜索。优先对比完整灰度，再与回归和原生比较 AUC、低 IoU、最长失跟和稳定视频新失跟。服务器入口为 `bash tools/run_stage152_center_closed_loop.sh`，完成后回传 `stage152_results_*.txt`。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE152_CENTER_CLOSED_LOOP.md)
+L40 同卡完成 28 个开发视频、112 条轨迹、116,188 次搜索。原生／回归／完整灰度／只换中心 AUC 为 63.9605／60.6450／56.6701／55.4456，低 IoU 为 13.20%／18.53%／23.85%／25.68%。只换中心相对完整灰度 −1.2245［−4.7955，+1.9302］，相对回归 −5.1994［−10.0169，−1.2002］，相对原生 −8.5149［−16.0811，−1.2946］。只换中心在 2 个回归稳定视频产生新失跟，15 次失跟中有 14 次未恢复。4,514 个原生采样选择及 14 次影子改选复现。 [结果复核](docs/experiments/06_sgla_uav_tracking/STAGE152_RESULTS_REVIEW.md) · [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE152_CENTER_CLOSED_LOOP.md)
+
+0089 在两条灰度轨迹均于 1159 帧首次改选，整段只换中心相对完整灰度 +10.3451 AUC。0085 两路在 216 帧已触发，690 帧均未触发，不能用冻结起点的恢复替代其整段结果。0080／0304 相对原生的失跟在回归组已存在，0016／0169 是只换中心相对回归新增的失跟。当前未支持采用整段灰度写回规则。 [服务器原始回传](docs/experiments/06_sgla_uav_tracking/results/stage152_results_20261120T064318Z_611857.txt)
+
+### 0.144 Stage-153 难帧串行加算一个 Transformer 块（待服务器执行）
+
+用户要求单独比较难度触发加深与原生 SGLA。仅在 L7–L11 的原选块后串行追加相邻下一块，接回原归一化和预测头。分差信号为选择器前两名之差，32 帧预热后，低于之前最多 64 帧分差的第 25 百分位才加算。L12 不追加。冻结模板、裁剪、权重、一次头部调用、Hann 解码与状态写回。开发同卡两组 28 视频／56 轨迹，比较 AUC、稳定保护、额外块数和跟踪耗时。同步后运行 `bash tools/run_stage153_adaptive_depth.sh`，回传 `stage153_results_*.txt`。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE153_ADAPTIVE_DEPTH.md)
 
 ## 1. 接手后首先要知道的结论
 

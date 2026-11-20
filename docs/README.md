@@ -44,7 +44,9 @@ Stage-150 已完成。灰度写回起始帧新增 4 个好框，后继 8／32 �
 
 Stage-151 已完成。只换中心的后继 8／32 帧平均 IoU 差为 +0.0687／+0.0451，只换宽高为 −0.0664／−0.0885。0089 的退化与宽高交换相关，0085／690 只换中心即可恢复。 [结果复核](experiments/06_sgla_uav_tracking/STAGE151_RESULTS_REVIEW.md) · [实验协议](experiments/06_sgla_uav_tracking/STAGE151_WRITE_GEOMETRY_CROSS.md)
 
-Stage-152 已准备。在 28 个开发视频上配对测试只更换下一帧搜索中心，同时保留回归宽高。 [实验协议](experiments/06_sgla_uav_tracking/STAGE152_CENTER_CLOSED_LOOP.md)
+Stage-152 已完成。只换中心的整段 AUC 为 55.4456，低于完整灰度 1.2245 点、回归 5.1994 点、原生 SGLA 8.5149 点。 [结果复核](experiments/06_sgla_uav_tracking/STAGE152_RESULTS_REVIEW.md) · [实验协议](experiments/06_sgla_uav_tracking/STAGE152_CENTER_CLOSED_LOOP.md)
+
+Stage-153 已准备。在 28 个开发视频上比较只修改后段块路由的难帧串行加算与原生 SGLA。 [实验协议](experiments/06_sgla_uav_tracking/STAGE153_ADAPTIVE_DEPTH.md)
 
 Stage-122 缓存诊断已完成。358 次替换中 80 次前史和前三框观测匹配，补出 9 个好框却仅选中 1 个；两次前三框重排直接改变输出，分别是 0174 和 0089 的首次分叉。 [结果复核](experiments/06_sgla_uav_tracking/STAGE122_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE122_ALTERNATE_RERANKING_DIAGNOSTIC.md)
 
@@ -255,7 +257,7 @@ Stage-131 在 28 段开发视频评估了 196 条轨迹。原生／备用搜索�
 
 ## 交接与维护
 
-- 接续时先读 0.143 的 Stage-152 整段闭环、0.142 的 Stage-151 写回几何交叉对照和 0.141 的 Stage-150 单次写回续跑。确认集与论文目标见 0.48／0.44。 [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口)
+- 接续时先读 0.144 的 Stage-153 自适应深度协议、0.143 的 Stage-152 整段闭环和 0.142 的 Stage-151 写回几何交叉对照。确认集与论文目标见 0.48／0.44。 [工作交接与下次会话入口](../WORK_HANDOFF.md#0-下一次对话的直接接续入口)
 - [历史写作材料说明](archive/README.md)
 - [整理报告](maintenance/CLEANUP_REPORT.md)
 - [逐文件整理清单](maintenance/CLEANUP_MANIFEST.json)
