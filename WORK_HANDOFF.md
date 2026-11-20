@@ -2,7 +2,9 @@
 
 更新日期：2026-11-20（Asia/Hong_Kong）
 
-**Stage-154 强制加算一块的同裁剪对照已准备，见 0.145。** 用 Stage-134／137 的 47 个起点比较当帧输出和原生路径续跑 8／32 帧。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE154_FORCED_DEPTH_CONTINUATION.md)
+**Stage-155 只训练串行路径的 L10 已准备，见 0.146。** 按源视频两折拟合 L10 副本，在 47 个配对起点比较原生、冻结 L10 加算与适配 L10 加算。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE155_ADAPT_SERIAL_L10.md)
+
+**Stage-154 强制加算一块的同裁剪对照已完成，见 0.145。** 47 个起点均执行 L9 → L10。19 个失跟起点新增 1 个当帧好框，后 32 帧新增和丢失的连续好框各 1 次，平均 IoU 差 −0.0098。 [结果复核](docs/experiments/06_sgla_uav_tracking/STAGE154_RESULTS_REVIEW.md)
 
 **Stage-153 难帧串行加算的运行已完成，见 0.144。** 28 个视频的 29,047 帧均选 L9，0 帧触发加算，两组 AUC 均为 63.9605。串行加算的效果仍待测量。 [结果复核](docs/experiments/06_sgla_uav_tracking/STAGE153_RESULTS_REVIEW.md)
 
@@ -125,7 +127,7 @@ Stage-75 L20 已完成 13 个固定起点和 52 条短分支。0003 两个首败
 
 ## 0. 下一次对话的直接接续入口
 
-本节更新至 2026-11-20。接续先读 0.145 的 Stage-154 强制加算协议和 0.144 的 Stage-153 自适应深度结果。以往全视频结果见 0.143、0.122 和 0.112，候选生成背景见 0.90～0.95 和 0.53～0.54，确认边界和论文目标见 0.48／0.44。 [Stage-154 协议](docs/experiments/06_sgla_uav_tracking/STAGE154_FORCED_DEPTH_CONTINUATION.md) · [Stage-153 结果](docs/experiments/06_sgla_uav_tracking/STAGE153_RESULTS_REVIEW.md)
+本节更新至 2026-11-20。接续先读 0.146 的 Stage-155 L10 训练协议和 0.145 的 Stage-154 强制加算结果。以往全视频结果见 0.143、0.122 和 0.112，候选生成背景见 0.90～0.95 和 0.53～0.54，确认边界和论文目标见 0.48／0.44。 [Stage-155 协议](docs/experiments/06_sgla_uav_tracking/STAGE155_ADAPT_SERIAL_L10.md) · [Stage-154 结果](docs/experiments/06_sgla_uav_tracking/STAGE154_RESULTS_REVIEW.md)
 
 需要回溯历史与配对干预时读 0.33、0.31、0.29、0.27、0.24、0.22、0.20 和 0.18。较早阶段的运行状态按各节日期理解。 [Stage-60](docs/experiments/06_sgla_uav_tracking/STAGE60_RESULTS_REVIEW.md) · [Stage-54](docs/experiments/06_sgla_uav_tracking/STAGE54_RESULTS_REVIEW.md) · [Stage-55](docs/experiments/06_sgla_uav_tracking/STAGE55_RESULTS_REVIEW.md)
 
@@ -2523,9 +2525,15 @@ L40 同卡完成 28 个开发视频、112 条轨迹、116,188 次搜索。原生
 
 门槛规则以过去分差的第 25 百分位为比较基准，当前分差须严格更低。Stage-137 的 47 个点均记录前两名分差 1.0，支持检查选择器 Sigmoid 分数的饱和现象。Stage-153 逐帧分差与门槛留在服务器轨迹缓存中。整段运行未触及加算路径，实际串联收益待验证。
 
-### 0.145 Stage-154 强制加算一块的同裁剪对照（待服务器执行）
+### 0.145 Stage-154 强制加算一块的同裁剪对照（结果已复核）
 
-沿用 Stage-134／137 的 19 个失跟起点与 28 个稳定起点。两组在相同裁剪按原选择器先走同一后段块，加算组只在起点追加下一块，通常为 L9 → L10。两组每帧一次头部调用，写回各自的起点框后按原生路径续跑 32 帧。报告起点好框新增／损失、后继 8／32 帧 IoU 与持续恢复、持续低 IoU。共计划 3,102 次搜索，统计实际追加块数。服务器执行 `bash tools/run_stage154_forced_depth.sh`，完成后回传 `stage154_results_*.txt`。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE154_FORCED_DEPTH_CONTINUATION.md)
+同 L40 完成 19 个失跟起点和 28 个稳定起点，3,102 次搜索，47 个起点均实际执行 L9 → L10。原生分支对 Stage-134 框坐标最大差为 0。19 个失跟起点当帧新增好框 1 个，后继 8／32 帧平均 IoU 差 +0.006420／−0.009831，32 帧连续好框新增／丢失为 1／1，新增连续严重低 IoU 1 次。原网格有好框的 11 点后 32 帧平均差 +0.001616，无好框的 8 点 −0.041814。28 个原生稳定起点均保留当帧好框，没有新连续严重低 IoU，后 32 帧平均差 −0.010346。 [结果复核](docs/experiments/06_sgla_uav_tracking/STAGE154_RESULTS_REVIEW.md) · [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE154_FORCED_DEPTH_CONTINUATION.md)
+
+0085／204 当帧 0→0.5147，连续好框 223→205。0348／367 原生从 383 帧开始连续跟准，加算组后继 32 帧 IoU 全为 0。0348／538 新增连续好框，32 帧均值与原生接近。结果为使用冻结权重的一次串行加算干预，反映已使用开发起点上的局部效果。 [服务器原始回传](docs/experiments/06_sgla_uav_tracking/results/stage154_results_20261120T121217Z_707147.txt)
+
+### 0.146 Stage-155 只训练串行路径的 L10（待服务器执行）
+
+复用 Stage-121 原生父框提取 L9 特征，28 个开发源组做 14／14 两折。每源组最多 32 个均匀视图和 16 个额外低 IoU 视图，保留有效裁剪内的目标中心。每折只训练冻结模型之外的 L10 副本 192 步。47 个起点分别比较原生、原 L10 加算、适配 L10 加算，写回各自框后全部按原生路径继续 32 帧。需同步新脚本及 Stage-153 插桩、Stage-48 模块复制工具的改动。服务器执行 `bash tools/run_stage155_adapt_l10.sh`，回传 `stage155_results_*.txt`。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE155_ADAPT_SERIAL_L10.md)
 
 ## 1. 接手后首先要知道的结论
 

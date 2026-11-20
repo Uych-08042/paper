@@ -74,16 +74,21 @@ class DepthObserver:
             self.selected = layer
             if layer < 12 and (self.force_extra or (self.arm == "adaptive_depth" and self.difficult)):
                 self.added = layer+1
+                if self.extra_l10 is not None:
+                    if self.added != 10:
+                        raise ValueError("The adapted L10 requires native L9")
+                    return self.extra_l10(tokens)
                 return self.blocks[layer](tokens)
             return None
         return after_block
 
-    def step(self, image, parent, frame, *, force_extra=False, capture_crop=False):
+    def step(self, image, parent, frame, *, force_extra=False, capture_crop=False, extra_l10=None):
         native, tracker = self.native, self.rt.tracker
         native.blocks[:] = 0
         native.heads = native.selectors = 0
         self.selected = self.added = 0
         self.force_extra = force_extra
+        self.extra_l10 = extra_l10
         self.margin = self.threshold = None
         self.difficult = False
         tracker.state = np.asarray(parent, float).tolist()

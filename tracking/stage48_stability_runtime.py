@@ -78,17 +78,19 @@ def collect_features(observer, plan, entry, reference, image_reader=checked_imag
     return data
 
 
-def make_head(rt):
-    original=rt.net.box_head
-    # NativeObserver's bound hooks retain the entire runtime (including torch).
-    # Clone weights/modules without copying instrumentation or its owner graph.
+def clone_without_hooks(original):
+    """Clone a module without carrying over runtime instrumentation."""
     memo={}
     for module in original.modules():
         for name in ("_forward_hooks","_forward_pre_hooks","_backward_hooks","_backward_pre_hooks",
                      "_forward_hooks_with_kwargs","_forward_pre_hooks_with_kwargs","_forward_hooks_always_called"):
             hooks=getattr(module,name,None)
             if hooks is not None: memo[id(hooks)]=type(hooks)()
-    head = copy.deepcopy(original,memo).eval().requires_grad_(True)
+    return copy.deepcopy(original,memo)
+
+
+def make_head(rt):
+    head = clone_without_hooks(rt.net.box_head).eval().requires_grad_(True)
     if digest(head) != digest(rt.net.box_head):
         raise ValueError("Head initialization changed")
     return head
