@@ -2,7 +2,9 @@
 
 更新日期：2026-11-21（Asia/Hong_Kong）
 
-**Stage-157 固定加算预算下的写回对照，见 0.148。** 16 个触发点上，事后保护参考相对直接写回改善 +0.618 个 IoU 点，保住 0348 的原生恢复。实际峰值／重叠规则待服务器运行。 [实验与结果](docs/experiments/06_sgla_uav_tracking/STAGE157_DEPTH_WRITEBACK.md)
+**Stage-158 等预算六选一已准备，见 0.149。** 47 个起点的当帧归档对照已复算，9,024 次后继搜索待服务器执行。新增可复用日志进度与 ETA。 [实验和运行说明](docs/experiments/06_sgla_uav_tracking/STAGE158_LAYER_ROUTING.md)
+
+**Stage-157 固定加算预算下的写回对照已完成，见 0.148。** 峰值增益／再加重叠门槛的后 32 帧分别比原生低 0.491／0.579 个 IoU 点，均丢掉 0348 的原生恢复。 [实验与结果](docs/experiments/06_sgla_uav_tracking/STAGE157_DEPTH_WRITEBACK.md)
 
 **Stage-156 动态加算触发离线验证已完成，见 0.147。** 低峰值和峰偏离中心能触发加算，但后 32 帧低于原生及同次数随机。预测未来收益仅触发 5 个稳定点。 [结果](docs/experiments/06_sgla_uav_tracking/STAGE156_DEPTH_ROUTING_AUDIT.md)
 
@@ -131,7 +133,7 @@ Stage-75 L20 已完成 13 个固定起点和 52 条短分支。0003 两个首败
 
 ## 0. 下一次对话的直接接续入口
 
-本节更新至 2026-11-21。接续先读 0.148 的 Stage-157 写回对照与 0.147 的 Stage-156 触发验证。以往全视频结果见 0.143、0.122 和 0.112，候选生成背景见 0.90～0.95 和 0.53～0.54，确认边界和论文目标见 0.48／0.44。 [Stage-157 实验](docs/experiments/06_sgla_uav_tracking/STAGE157_DEPTH_WRITEBACK.md) · [Stage-156 结果](docs/experiments/06_sgla_uav_tracking/STAGE156_DEPTH_ROUTING_AUDIT.md)
+本节更新至 2026-11-21。接续先读 0.149 的 Stage-158 六选一续跑和 0.148 的 Stage-157 写回对照。以往全视频结果见 0.143、0.122 和 0.112，候选生成背景见 0.90～0.95 和 0.53～0.54，确认边界和论文目标见 0.48／0.44。用户要求后续实验运行时显示进度，耗时阶段复用 `tools/experiment_progress.py` 并在后台脚本日志中实时刷新。 [Stage-158 实验](docs/experiments/06_sgla_uav_tracking/STAGE158_LAYER_ROUTING.md)
 
 需要回溯历史与配对干预时读 0.33、0.31、0.29、0.27、0.24、0.22、0.20 和 0.18。较早阶段的运行状态按各节日期理解。 [Stage-60](docs/experiments/06_sgla_uav_tracking/STAGE60_RESULTS_REVIEW.md) · [Stage-54](docs/experiments/06_sgla_uav_tracking/STAGE54_RESULTS_REVIEW.md) · [Stage-55](docs/experiments/06_sgla_uav_tracking/STAGE55_RESULTS_REVIEW.md)
 
@@ -2543,9 +2545,13 @@ L40 同卡完成 28 个开发视频、112 条轨迹、116,188 次搜索。原生
 
 将 Stage-137 原生 L9 峰与 Stage-155 续跑按 47 点匹配，门槛和两变量收益模型按源组留出。以适配 L10 为例，按低峰值／峰偏离中心加算 16／12 次，后 32 帧相对原生 −0.004147／−0.003142，均低于同预算随机期望。收益模型只在 5 个稳定点触发，后 32 帧差 +0.000041，19 个失跟点未改。16 次预算内按后续真值保护性选择，适配／冻结的事后参考为 +0.002628／+0.003090。优先检验何时保留原生框以及写回对下一帧的影响。基于当前原生响应触发需要在部署成本中计入追加 head。 [结果及复现](docs/experiments/06_sgla_uav_tracking/STAGE156_DEPTH_ROUTING_AUDIT.md)
 
-### 0.148 Stage-157 固定加算预算下的写回对照（缓存参考完成，GPU 待运行）
+### 0.148 Stage-157 固定加算预算下的写回对照（GPU 已完成）
 
-固定 Stage-156 低 Hann 峰值的 16 个触发点（14 个失跟、2 个稳定）。直接写回适配 L10 的后 32 帧平均 IoU 相对原生 −0.004147，连续好框新增／丢失 1／1、新增低 IoU 1。真值保护参考写回 9 处，后 32 帧相对原生 +0.002035、相对直接写回 +0.006181，连续好框新增／丢失 1／0、新增低 IoU 0。0085／1541 写回 L10，0348／367 保留 L9。同步后后台执行 `bash tools/run_stage157_depth_writeback.sh`，测试峰值上升和峰值上升加框间 IoU ≥0.30 的两条规则。双方只各消耗一次额外 L10 和 CENTER。 [实验及命令](docs/experiments/06_sgla_uav_tracking/STAGE157_DEPTH_WRITEBACK.md)
+同 L40 在 16 个触发点采集双头，后继 1,024 次。直接写回、峰值增益、峰值加框间 IoU ≥ 0.30 的后 32 帧相对原生为 −0.004147／−0.004907／−0.005794。两条实际规则均接受 0348／367 的坏写回并拒绝 0085／1541 的正向写回，连续好框新增／丢失 0／1。真值保护参考后 32 帧相对原生 +0.002035。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE157_DEPTH_WRITEBACK.md)
+
+### 0.149 Stage-158 等预算六选一与短程续跑（当帧复算完成）
+
+复用 47 个 Stage-137 起点，分别写回六个独立后段块的框，再走原生 32 帧，共 9,024 次后继搜索。比较原生、各固定块、异源组选出的最佳固定块和两种真值事后选层，另有保护原生恢复的未来真值参照。当前本地从 Stage-137 复算当帧，固定 L7、真值选层相对原生 IoU +0.072382／+0.142864；L7 丢两个稳定起点好框。服务器运行 `bash tools/run_stage158_layer_routing.sh`。后台日志显示当前起点、当前分支、完成比例、已复用搜索及 ETA，回传 `stage158_results_*.txt`。 [实验及命令](docs/experiments/06_sgla_uav_tracking/STAGE158_LAYER_ROUTING.md)
 
 ## 1. 接手后首先要知道的结论
 
