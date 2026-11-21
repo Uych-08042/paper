@@ -1,0 +1,18 @@
+{
+  "schema": "stage162_history_ablation_v1",
+  "status": "COMPLETE_STAGE162_CACHED_DIAGNOSTIC",
+  "source_stage159": "d82414dfb4ca044e71bb8e24c0fdab3c364b5e04dca29e2951ae885dd6825a50",
+  "source_stage161": "f7ec6f0c5f66211e8503b564ffaaf01f2f9f20e653ed02f23d6917a711054faa",
+  "cases": 328,
+  "work": 1,
+  "table_sha256": {
+    "stage162_summary.csv": "40cb459ae7d0e60224c5fd031da0577a9b75b8b08af1b1723541f411362c4254",
+    "stage162_paired.csv": "0634d6154b708378368c11169760e68ce9605adf234d127b3be565fc144264d5",
+    "stage162_choices.csv": "7563fc342ee46e277f5a0360cb6c7b4d7f2df181443cdef9922601bd03b5278a",
+    "stage162_focus.csv": "9af605201f50f6573f053014427e5146945f056ee27d70e59a607af78c852b00",
+    "stage162_swaps.csv": "792a8e9da38600f8fcac77587de586135fa4d669d0532f4d6d46f35a461f7b35"
+  },
+  "gpu_searches": 0,
+  "new_full_trajectories": 0,
+  "fingerprint": "794947eb825a832559fcb0b33c6b88fa2d88a157f57b995f870d3f2820903fc6"
+}
