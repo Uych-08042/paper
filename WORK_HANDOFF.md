@@ -2,7 +2,9 @@
 
 更新日期：2026-11-21（Asia/Hong_Kong）
 
-**Stage-160 保留原生层的六选一已准备，见 0.151。** 328 点的事后保护参考相对 Stage-159 +0.357 个 IoU 点，保留两次新增恢复，避开两次新增低 IoU。后台使用总体进度条。 [实验和运行说明](docs/experiments/06_sgla_uav_tracking/STAGE160_LAYER_VETO.md)
+**Stage-161 同预算的退化预测已准备，见 0.152。** 两折分别固定 64／4 次换层，事后上界相对 Stage-160 +0.551 点，实际退化分数待服务器特征。 [实验和运行说明](docs/experiments/06_sgla_uav_tracking/STAGE161_LAYER_DOWNSIDE.md)
+
+**Stage-160 保留原生层的六选一已完成，见 0.151。** 校准后换层 68 次、后 32 帧相对原生 −0.067 点，两个新增低 IoU 和两次有效恢复均被挡住。下一轮建议分开估计收益与下行风险。 [实验和运行说明](docs/experiments/06_sgla_uav_tracking/STAGE160_LAYER_VETO.md)
 
 **Stage-159 六选一训练对照已完成，见 0.150。** 后续监督相对原生 +0.192 点，相对当帧监督 +0.267 点，新增连续恢复和连续低 IoU 各两次。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE159_LAYER_SELECTOR.md)
 
@@ -137,7 +139,7 @@ Stage-75 L20 已完成 13 个固定起点和 52 条短分支。0003 两个首败
 
 ## 0. 下一次对话的直接接续入口
 
-本节更新至 2026-11-21。接续先读 0.150 的 Stage-159 六选一训练和 0.149 的 Stage-158 六路续跑。以往全视频结果见 0.143、0.122 和 0.112，候选生成背景见 0.90～0.95 和 0.53～0.54，确认边界和论文目标见 0.48／0.44。用户要求后续使用总体进度条，复用 `tools/experiment_progress.py` 中的 `OverallProgress`，在后台日志定时刷新。 [Stage-159 实验](docs/experiments/06_sgla_uav_tracking/STAGE159_LAYER_SELECTOR.md)
+本节更新至 2026-11-21。接续先读 0.151 的 Stage-160 门槛结果和 0.150 的 Stage-159 六选一训练。每次分析实验结果后，附上下一步实验建议及其验证标准。后续运行使用总体进度条，复用 `tools/experiment_progress.py` 中的 `OverallProgress`，在后台日志定时刷新。以往全视频结果见 0.143、0.122 和 0.112，候选生成背景见 0.90～0.95 和 0.53～0.54，确认边界和论文目标见 0.48／0.44。 [Stage-160 实验](docs/experiments/06_sgla_uav_tracking/STAGE160_LAYER_VETO.md)
 
 需要回溯历史与配对干预时读 0.33、0.31、0.29、0.27、0.24、0.22、0.20 和 0.18。较早阶段的运行状态按各节日期理解。 [Stage-60](docs/experiments/06_sgla_uav_tracking/STAGE60_RESULTS_REVIEW.md) · [Stage-54](docs/experiments/06_sgla_uav_tracking/STAGE54_RESULTS_REVIEW.md) · [Stage-55](docs/experiments/06_sgla_uav_tracking/STAGE55_RESULTS_REVIEW.md)
 
@@ -2561,9 +2563,13 @@ L40 同卡完成 28 个开发视频、112 条轨迹、116,188 次搜索。原生
 
 同 L40 完成 328 点、62,976 次续跑和四个模型。原生、当帧监督、后续监督、事后保护上界的后 32 帧视频平均 IoU 0.603926／0.603175／0.605847／0.615646。后续监督换层 247 次，新增恢复 2 次、丢失 0 次、新增连续低 IoU 2 次，0176／163 获益、0226／174 恶化。后续相对原生 13 胜15 负，最差留一仅 +0.000170。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE159_LAYER_SELECTOR.md)
 
-### 0.151 Stage-160 原生层保留门槛（缓存上界完成）
+### 0.151 Stage-160 原生层保留门槛（已完成）
 
-真值事后在 Stage-159 已选层和原生 L9 间选择，保留 110 次换层，后 32 帧相对原生 +0.005491、相对 Stage-159 +0.003570，新增／丢失恢复 2／0、新增低 IoU 0。服务器须复用 Stage-159 特征和模型，用每个外层拟合折内的按源留一预测校准门槛，然后在外层留出组评估。执行 `bash tools/run_stage160_layer_veto.sh`。本轮无需 GPU，继续使用总体进度条。 [实验及运行命令](docs/experiments/06_sgla_uav_tracking/STAGE160_LAYER_VETO.md)
+328 点复用 Stage-159，零 GPU。校准后换层从 247 降至 68，后 32 帧相对原生 −0.000673、相对 Stage-159 −0.002594，新增连续恢复和新增连续低 IoU 均从 2 降至 0。0176／163 的好换层与 0226／174 的坏换层均被拒绝。事后参考保留 110 次，后 32 帧相对原生 +0.005491、新增恢复 2 次。下一轮建议沿用六路缓存，比较仅用预测平均收益和同时预测连续退化幅度的否决，按源组留出校准，对比匹配换层次数下的恢复保留与新增低 IoU。六路缓存共有 33 个严重有害候选，集中于 14 个起点／10 个视频，连续退化幅度适合作为第一轮监督。 [实验及运行命令](docs/experiments/06_sgla_uav_tracking/STAGE160_LAYER_VETO.md)
+
+### 0.152 Stage-161 同预算的退化预测（事后参考完成）
+
+固定 Stage-159 提议的非原生候选与原生 L9。对每个外层拟合折用相同特征拟合六层连续退化幅度，留出侧按预测收益减预测退化幅度排序，逐折匹配 Stage-160 的 64／4 次换层。事后参考在预算上限内换层 63 次，后 32 帧相对 Stage-160 +0.005508、相对原生 +0.004835，新增／丢失恢复 1／0，新增低 IoU 0。服务端执行 `bash tools/run_stage161_layer_downside.sh`，无需 GPU，共用总体进度条。 [实验说明及命令](docs/experiments/06_sgla_uav_tracking/STAGE161_LAYER_DOWNSIDE.md)
 
 ## 1. 接手后首先要知道的结论
 

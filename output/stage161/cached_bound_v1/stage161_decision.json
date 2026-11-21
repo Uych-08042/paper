@@ -1,0 +1,19 @@
+{
+  "schema": "stage161_layer_downside_v1",
+  "status": "COMPLETE_STAGE161_CACHED_BOUND",
+  "source_stage159": "d82414dfb4ca044e71bb8e24c0fdab3c364b5e04dca29e2951ae885dd6825a50",
+  "source_stage160": "0e9eaccc4fcf3ee5ff392d1c3cda6d6f9694b00f250a3776968e1bb964eca299",
+  "cases": 328,
+  "work": 3,
+  "table_sha256": {
+    "stage161_summary.csv": "51b3e7fe38e34beb3e808b2579bbb87ccfe2cb0ca21ec6eb024d0aa7ecbf5abd",
+    "stage161_paired.csv": "ed7a50aba02f380d8b6058381ce0a94bd41358b34c31baaa56ce585f638d871c",
+    "stage161_folds.csv": "8eab0e9cf0767d10bf48c87329a4c6fbf85ddde46c1ed7082d35b2af82724993",
+    "stage161_choices.csv": "39cbf0bcd0d061a5f6888d4f28e99fa3f64b3c491e4d96669b25a127f7ffc2be"
+  },
+  "switch_budget": 68,
+  "downside_penalty": 1.0,
+  "gpu_searches": 0,
+  "new_full_trajectories": 0,
+  "fingerprint": "4fe03fca2370393cbe31265eda8873d20d5fe628fd3eb5b47f7caf9a000d9893"
+}
