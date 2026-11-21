@@ -2,7 +2,9 @@
 
 更新日期：2026-11-21（Asia/Hong_Kong）
 
-**Stage-168 的同状态续跑已实现，见 0.159。** 已核对六个事件窗口，正式分支从 Stage-167 的缓存恢复裁剪和历史状态，比较单次换层与持续门控。 [实验和运行说明](docs/experiments/06_sgla_uav_tracking/STAGE168_MATCHED_LAYER_ROLLOUTS.md)
+**Stage-169 的定点阻断已实现，见 0.160。** 0304 只阻断第 530 帧换层，0089 保留起点并暂停随后 16 帧。已核对源结果和模拟流程，正式续跑待服务器。 [实验和运行说明](docs/experiments/06_sgla_uav_tracking/STAGE169_TARGETED_LAYER_VETO.md)
+
+**Stage-168 的同状态续跑已完成，见 0.159。** 17 个起点、85 条分支原样复现缓存对照。0304 的单次换层可引入失跟，0089 的持续换层可阻断恢复。 [实验和运行说明](docs/experiments/06_sgla_uav_tracking/STAGE168_MATCHED_LAYER_ROLLOUTS.md)
 
 **Stage-167 的在线完整视频对照已完成，见 0.158。** 成对排序完整轨迹 AUC 为 62.598，原生为 63.961。成对排序较原提议高 0.215 点，剔除 0304 后低 0.569 点，开发验证未通过。 [实验和运行说明](docs/experiments/06_sgla_uav_tracking/STAGE167_ONLINE_LAYER_RANKING.md)
 
@@ -153,7 +155,7 @@ Stage-75 L20 已完成 13 个固定起点和 52 条短分支。0003 两个首败
 
 ## 0. 下一次对话的直接接续入口
 
-本节更新至 2026-11-21。接续先读 0.159 的 Stage-168 同状态续跑和 0.158 的 Stage-167 完整视频结果。每次分析实验结果后，附上下一步实验建议及其验证标准。后续运行使用总体进度条，复用 `tools/experiment_progress.py` 中的 `OverallProgress`，在后台日志定时刷新。以往全视频结果见 0.143、0.122 和 0.112，候选生成背景见 0.90～0.95 和 0.53～0.54，确认边界和论文目标见 0.48／0.44。 [Stage-168 实验](docs/experiments/06_sgla_uav_tracking/STAGE168_MATCHED_LAYER_ROLLOUTS.md)
+本节更新至 2026-11-21。接续先读 0.160 的 Stage-169 定点阻断和 0.159 的 Stage-168 同状态续跑结果。每次分析实验结果后，附上下一步实验建议及其验证标准。后续运行使用总体进度条，复用 `tools/experiment_progress.py` 中的 `OverallProgress`，在后台日志定时刷新。以往全视频结果见 0.143、0.122 和 0.112，候选生成背景见 0.90～0.95 和 0.53～0.54，确认边界和论文目标见 0.48／0.44。 [Stage-169 实验](docs/experiments/06_sgla_uav_tracking/STAGE169_TARGETED_LAYER_VETO.md)
 
 需要回溯历史与配对干预时读 0.33、0.31、0.29、0.27、0.24、0.22、0.20 和 0.18。较早阶段的运行状态按各节日期理解。 [Stage-60](docs/experiments/06_sgla_uav_tracking/STAGE60_RESULTS_REVIEW.md) · [Stage-54](docs/experiments/06_sgla_uav_tracking/STAGE54_RESULTS_REVIEW.md) · [Stage-55](docs/experiments/06_sgla_uav_tracking/STAGE55_RESULTS_REVIEW.md)
 
@@ -2609,9 +2611,13 @@ L40 同卡完成 28 个开发视频、112 条轨迹、116,188 次搜索。原生
 
 28 个开发视频、84 条轨迹的 AUC 为原生 63.961、原提议 62.383、成对排序 62.598。成对排序较原生低 1.363 点，剔除 0176 后低 1.406 点，较原提议高 0.215 点，剔除 0304 后低 0.569 点。两组换层策略在 0304 和 0080 引入失跟，成对排序在 0089、0176 丢失原提议组的恢复。原提议和成对排序分别换层 2784、2813 次。开发门槛未通过。报告指纹为 `ce4232a7f7a3774866fd526c89ebf267d42c5b0078fcc3188e931d4f2a464cbb`。 [实验及运行命令](docs/experiments/06_sgla_uav_tracking/STAGE167_ONLINE_LAYER_RANKING.md)
 
-### 0.159 Stage-168 同状态续跑（实现和窗口核对已完成）
+### 0.159 Stage-168 同状态续跑（已完成）
 
-冻结 0304 的 554／1091、0080 的 200、0089 的 1182、0176 的 158／744。对两条在线历史分别取参考事件前 32 帧范围内最早和最晚发生换层的起点，每个视频再取全程最早换层。匹配首帧模板、父框、16 帧历史后，比较原生、原提议单次、成对单次、原提议持续、成对持续五个分支。每个分支跟踪起点及最多 64 个后续帧。相同运行身份下校验持续组复现自己的源轨迹，换卡记录复现偏差。服务器用 `bash tools/run_stage168_matched_layer_rollouts.sh`，支持 L20／L40、总体进度、缓存续跑和报告打包。 [实验及运行命令](docs/experiments/06_sgla_uav_tracking/STAGE168_MATCHED_LAYER_ROLLOUTS.md)
+冻结 6 个窗口，完成 17 个起点、85 条分支，持续组按自身历史复现原轨迹，最大框偏差为零。0304 的原提议历史在第 530 帧单换 L11 后第 554 帧失跟，原生 L9 和单换成对 L7 的分支未失跟。第 523 帧单换 L11 则未失跟。0089 的成对历史在第 1182 帧单次干预并恢复原生后第 1194 帧恢复，两条持续组在对应窗口内均未恢复。0080 失跟和 0176 后段恢复窗口前 32 帧均无换层。报告指纹为 `2bb16b118a44a9bb6790c98a37bb9c67e1b2ed3601991e1a09dd461ff94f7153`。 [实验及运行命令](docs/experiments/06_sgla_uav_tracking/STAGE168_MATCHED_LAYER_ROLLOUTS.md)
+
+### 0.160 Stage-169 定点阻断（实现和协议核对已完成）
+
+0304 从第 523 帧的原提议历史起跑，只否决第 530 帧并在 531 恢复门控。0089 从第 1182 帧的成对历史起跑，分别对两个持续策略保留起点动作，暂停第 1183 至 1198 帧换层并在 1199 恢复。三组配对共六条续跑，每条跟踪起点及 128 个后续帧。同运行身份时校验对照首 65 帧复现 Stage-168，报告逐帧实际否决、失跟、恢复和再失跟。服务器执行 `bash tools/run_stage169_targeted_layer_veto.sh`，支持 L20／L40、总体进度、缓存续跑和报告打包。 [实验及运行命令](docs/experiments/06_sgla_uav_tracking/STAGE169_TARGETED_LAYER_VETO.md)
 
 ## 1. 接手后首先要知道的结论
 
