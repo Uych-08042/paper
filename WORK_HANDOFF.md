@@ -2,7 +2,9 @@
 
 更新日期：2026-11-21（Asia/Hong_Kong）
 
-**Stage-162 历史特征消融已准备，见 0.153。** 匹配 Stage-161 的候选和 64／4 次配额，四组分离窗口长度和趋势统计。事后诊断显示同配额可保住两次恢复。 [实验和运行说明](docs/experiments/06_sgla_uav_tracking/STAGE162_HISTORY_ABLATION.md)
+**Stage-163 收益预测历史消融已实现，见 0.154。** 固定提议层、Stage-162 的退化量和 64／4 次换层配额，比较四帧基础收益输入与最多 16 帧趋势输入。本地复现了对照决策，正式拟合依赖服务器缓存。 [实验和运行说明](docs/experiments/06_sgla_uav_tracking/STAGE163_HISTORY_GAIN.md)
+
+**Stage-162 历史特征消融已完成，见 0.153。** 16 帧趋势组后 32 帧平均 IoU 比四帧基础组高 0.168 个点，保住 0176 的一次恢复。剔除 0176 后差值为 −0.011 个点。 [实验和运行说明](docs/experiments/06_sgla_uav_tracking/STAGE162_HISTORY_ABLATION.md)
 
 **Stage-161 同预算的退化预测已完成，见 0.152。** 相对 Stage-160 +0.051 个 IoU 点，去掉贡献最大的视频后略负，新增连续恢复和连续低 IoU 均为零。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE161_LAYER_DOWNSIDE.md)
 
@@ -141,7 +143,7 @@ Stage-75 L20 已完成 13 个固定起点和 52 条短分支。0003 两个首败
 
 ## 0. 下一次对话的直接接续入口
 
-本节更新至 2026-11-21。接续先读 0.151 的 Stage-160 门槛结果和 0.150 的 Stage-159 六选一训练。每次分析实验结果后，附上下一步实验建议及其验证标准。后续运行使用总体进度条，复用 `tools/experiment_progress.py` 中的 `OverallProgress`，在后台日志定时刷新。以往全视频结果见 0.143、0.122 和 0.112，候选生成背景见 0.90～0.95 和 0.53～0.54，确认边界和论文目标见 0.48／0.44。 [Stage-160 实验](docs/experiments/06_sgla_uav_tracking/STAGE160_LAYER_VETO.md)
+本节更新至 2026-11-21。接续先读 0.154 的 Stage-163 收益预测实验和 0.153 的 Stage-162 历史特征结果。每次分析实验结果后，附上下一步实验建议及其验证标准。后续运行使用总体进度条，复用 `tools/experiment_progress.py` 中的 `OverallProgress`，在后台日志定时刷新。以往全视频结果见 0.143、0.122 和 0.112，候选生成背景见 0.90～0.95 和 0.53～0.54，确认边界和论文目标见 0.48／0.44。 [Stage-163 实验](docs/experiments/06_sgla_uav_tracking/STAGE163_HISTORY_GAIN.md)
 
 需要回溯历史与配对干预时读 0.33、0.31、0.29、0.27、0.24、0.22、0.20 和 0.18。较早阶段的运行状态按各节日期理解。 [Stage-60](docs/experiments/06_sgla_uav_tracking/STAGE60_RESULTS_REVIEW.md) · [Stage-54](docs/experiments/06_sgla_uav_tracking/STAGE54_RESULTS_REVIEW.md) · [Stage-55](docs/experiments/06_sgla_uav_tracking/STAGE55_RESULTS_REVIEW.md)
 
@@ -2573,9 +2575,13 @@ L40 同卡完成 28 个开发视频、112 条轨迹、116,188 次搜索。原生
 
 328 点复用缓存，两折共换层 68 次。加退化预测相对 Stage-160 后 32 帧 +0.000515，相对原生 −0.000158，最差留一相对 Stage-160 −0.000029，新增／丢失恢复和新增低 IoU 均为零。10 个起点改决策，4 改善、5 变差、1 持平。0176／163 在该折 135 个候选中从第 68 降到第 113，0226／174 从第 91 降到第 135。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE161_LAYER_DOWNSIDE.md)
 
-### 0.153 Stage-162 历史特征消融（事后诊断完成）
+### 0.153 Stage-162 历史特征消融（已完成）
 
-四组比较 4 帧和最多 16 帧统计、趋势特征有无。只重拟合退化头，固定 Stage-161 的 64／4 次换层及候选层。用后续真值事后各换入一个恢复，仍耗 68 次换层，比 Stage-161 高 +0.001921、比原生高 +0.001762，恢复 2 次，无新增低 IoU。后台执行 `bash tools/run_stage162_history_ablation.sh`，使用总体进度条。若长历史仍无法提升 0176／163 排名，检查 L6 特征的保真度和对换层收益的区分度。 [实验及运行命令](docs/experiments/06_sgla_uav_tracking/STAGE162_HISTORY_ABLATION.md)
+四组比较 4 帧和最多 16 帧统计、趋势特征有无。只重拟合退化头，固定 Stage-161 的 64／4 次换层及候选层。正式消融的 16 帧趋势组后 32 帧平均 IoU 为 0.605447，四帧基础组为 0.603767，原生为 0.603926。16 帧趋势组新增一次持续恢复（0176／163，L7），新增持续低 IoU 和丢失恢复均为零。0176 的提议从第 113 升到第 62，第二折的 0348／540 仍排第 90。剔除贡献最大的 0176 后，16 帧趋势组相对四帧基础组为 −0.000112。 [实验及运行命令](docs/experiments/06_sgla_uav_tracking/STAGE162_HISTORY_ABLATION.md)
+
+### 0.154 Stage-163 收益预测的历史特征消融（脚本与对照排序核对已完成）
+
+固定 Stage-159 提议层和 Stage-162 的 16 帧趋势退化量，保持每折 64、4 次换层。对照沿用四帧基础收益输入，实验组用最多 16 帧历史加趋势特征重新预测同一提议层的收益。复用两折和训练目标，风险预测与候选层保持归档值。本地核对复现了全部 328 个对照决策。0176／163 高于旧截点 0.000569，0348／540 低于旧截点 0.034019。服务器用 `bash tools/run_stage163_history_gain.sh` 拟合两折收益模型并打包报告。通过标准包括保留 0176 与对照其他恢复、无新增持续低 IoU 和丢失恢复、全组及剔除 0176 后均有正增益。 [实验及运行命令](docs/experiments/06_sgla_uav_tracking/STAGE163_HISTORY_GAIN.md)
 
 ## 1. 接手后首先要知道的结论
 
