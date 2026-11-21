@@ -2,7 +2,9 @@
 
 更新日期：2026-11-21（Asia/Hong_Kong）
 
-**Stage-164 的 L6 局部匹配对照已实现，见 0.155。** 固定四帧历史、候选层、退化量和 64／4 次换层，只替换 16 维视觉特征。服务器需为原生裁剪提取 L6 token。 [实验和运行说明](docs/experiments/06_sgla_uav_tracking/STAGE164_L6_LOCAL_MATCH_GAIN.md)
+**Stage-165 的候选层重提议已实现，见 0.156。** 缓存诊断验证，剔除 0176 后，在原可换层起点内允许六层重选的事后上限为 +0.677 个 IoU 点，固定提议层为 +0.316 个点。学习策略的留出比较等待服务器缓存。 [实验和运行说明](docs/experiments/06_sgla_uav_tracking/STAGE165_LAYER_REPROPOSAL.md)
+
+**Stage-164 的 L6 局部匹配对照已完成，见 0.155。** 两组投影对照一致。局部匹配比投影对照低 0.186 个 IoU 点，丢掉 0176 的恢复，在线验证门槛未通过。 [实验和运行说明](docs/experiments/06_sgla_uav_tracking/STAGE164_L6_LOCAL_MATCH_GAIN.md)
 
 **Stage-163 收益预测历史消融已完成，见 0.154。** 长历史收益组比四帧收益组低 0.027 个 IoU 点，剔除 0176 后低 0.028 个点。0176 的恢复保留，在线验证门槛未通过。 [实验和运行说明](docs/experiments/06_sgla_uav_tracking/STAGE163_HISTORY_GAIN.md)
 
@@ -145,7 +147,7 @@ Stage-75 L20 已完成 13 个固定起点和 52 条短分支。0003 两个首败
 
 ## 0. 下一次对话的直接接续入口
 
-本节更新至 2026-11-21。接续先读 0.155 的 Stage-164 局部匹配实验和 0.154 的 Stage-163 收益预测结果。每次分析实验结果后，附上下一步实验建议及其验证标准。后续运行使用总体进度条，复用 `tools/experiment_progress.py` 中的 `OverallProgress`，在后台日志定时刷新。以往全视频结果见 0.143、0.122 和 0.112，候选生成背景见 0.90～0.95 和 0.53～0.54，确认边界和论文目标见 0.48／0.44。 [Stage-164 实验](docs/experiments/06_sgla_uav_tracking/STAGE164_L6_LOCAL_MATCH_GAIN.md)
+本节更新至 2026-11-21。接续先读 0.156 的 Stage-165 候选层重提议和 0.155 的 Stage-164 局部匹配结果。每次分析实验结果后，附上下一步实验建议及其验证标准。后续运行使用总体进度条，复用 `tools/experiment_progress.py` 中的 `OverallProgress`，在后台日志定时刷新。以往全视频结果见 0.143、0.122 和 0.112，候选生成背景见 0.90～0.95 和 0.53～0.54，确认边界和论文目标见 0.48／0.44。 [Stage-165 实验](docs/experiments/06_sgla_uav_tracking/STAGE165_LAYER_REPROPOSAL.md)
 
 需要回溯历史与配对干预时读 0.33、0.31、0.29、0.27、0.24、0.22、0.20 和 0.18。较早阶段的运行状态按各节日期理解。 [Stage-60](docs/experiments/06_sgla_uav_tracking/STAGE60_RESULTS_REVIEW.md) · [Stage-54](docs/experiments/06_sgla_uav_tracking/STAGE54_RESULTS_REVIEW.md) · [Stage-55](docs/experiments/06_sgla_uav_tracking/STAGE55_RESULTS_REVIEW.md)
 
@@ -2585,9 +2587,13 @@ L40 同卡完成 28 个开发视频、112 条轨迹、116,188 次搜索。原生
 
 固定 Stage-159 提议层、Stage-162 的 16 帧趋势退化量及各折 64、4 次换层。正式报告指纹为 `6a8f4361ef426d140e946d52a47dd5872cfc6250b8f169d5282328962fb33974`。四帧收益对照后 32 帧平均 IoU 为 0.605447，长历史趋势收益组为 0.605180，相对差 −0.000267，剔除 0176 后 −0.000277。0176／163 的 L7 排名从第 62 升到第 21，两组均恢复。两折分别替换 7、2 个名额，两组均无新增持续低 IoU 和丢失恢复。未达到在线验证门槛。 [实验及运行命令](docs/experiments/06_sgla_uav_tracking/STAGE163_HISTORY_GAIN.md)
 
-### 0.155 Stage-164 L6 局部匹配收益特征（实现完成）
+### 0.155 Stage-164 L6 局部匹配收益特征（已完成）
 
-在和 Stage-163 相同的 328 个起点，复用原生图像裁剪及第一帧模板，重新执行到 L6。固定四帧收益历史、冻结退化量和两折各 64、4 次换层。局部组用 16 个空间区域的模板匹配分数替换原 16 维投影，另用同次采集的 L6 token 重算旧投影作为设备匹配的对照。在服务器运行 `bash tools/run_stage164_local_match_gain.sh`，后台有总体进度条，报告包含逐点排序和投影误差。只有保留恢复、无新增持续低 IoU 或丢失恢复且总体与剔除 0176 后均优于两组投影对照，才进入在线完整轨迹验证。 [实验及运行命令](docs/experiments/06_sgla_uav_tracking/STAGE164_L6_LOCAL_MATCH_GAIN.md)
+328 个起点均完成 L6 采集，L40 运行和原归档投影逐点一致。两组投影对照后 32 帧平均 IoU 均为 0.605447，局部匹配为 0.603588，差 −0.001860，剔除 0176 后差 −0.000098。0176／163 的 L7 从第 62 降至第 126，局部组失去对照恢复，无新增持续低 IoU 或丢失原生恢复。正式报告指纹为 `4574f92e613bf14106b3193306d2c375bf58b8fe2e12e2ed58e79454e0d97234`。 [实验及运行命令](docs/experiments/06_sgla_uav_tracking/STAGE164_L6_LOCAL_MATCH_GAIN.md)
+
+### 0.156 Stage-165 候选层重提议（实现和缓存诊断完成）
+
+恢复四帧收益对照的 L6 特征与拟合系数，沿用 Stage-162 的长历史退化模型，逐层计算收益减退化后再提议。保留原可换层起点和两折 64／4 配额，比较同一组起点重提议、重提议并重排起点。缓存的事后诊断剔除 0176 后，固定提议、同可换层起点内六层重选、所有起点六层重选的上限分别为 +0.316、+0.677、+0.727 个 IoU 点。服务器正式运行 `bash tools/run_stage165_layer_reproposal.sh`，使用 Stage-121、159、164 原始缓存，CPU 运行并自动打包。通过标准是保留恢复、无新增持续低 IoU 或丢失原生恢复、全组与剔除 0176 后均优于四帧对照。 [实验及运行命令](docs/experiments/06_sgla_uav_tracking/STAGE165_LAYER_REPROPOSAL.md)
 
 ## 1. 接手后首先要知道的结论
 

@@ -38,16 +38,22 @@ def gain(indexed, points):
     return np.array([points[j]["margin"] for j in indexed])
 
 
-def risk_prediction(points, features, fit, held):
+def downside_matrix(points, features, fit, held):
     groups = [veto.source_group(p["sequence"]) for p in points]
     counts = Counter(g for g,use in zip(groups,fit,strict=True) if use)
     weights = np.array([1./counts[g] for g,use in zip(groups,fit,strict=True) if use])
-    targets = np.stack([np.maximum(0.,p["tail32"][LAYERS.index(p["native_layer"])]-p["tail32"]) for p in points])
-    mu,scale,bias,coef = veto.trained.ridge(features[fit],targets[fit],weights)
+    targets = np.stack([np.maximum(0.,p["tail32"][LAYERS.index(p["native_layer"])]-p["tail32"])
+                        for p,use in zip(points,fit,strict=True) if use])
+    mu,scale,bias,coef = veto.trained.ridge(features[fit],targets,weights)
     score = np.maximum(0.,((features[held]-mu)/scale)@coef+bias)
     if not np.isfinite(score).all():
         raise ValueError("Invalid downside predictions")
-    return [float(row[LAYERS.index(points[j]["future"])]) for row,j in zip(score,np.flatnonzero(held),strict=True)], targets[fit]
+    return score, targets
+
+
+def risk_prediction(points, features, fit, held):
+    score, targets = downside_matrix(points,features,fit,held)
+    return [float(row[LAYERS.index(points[j]["future"])]) for row,j in zip(score,np.flatnonzero(held),strict=True)], targets
 
 
 def top(points, indices, scores, limit):
