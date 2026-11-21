@@ -37,7 +37,7 @@ def attach_control(points, rows):
         p.update(margin=gain, fixed_downside=downside, control_score=score, control_layer=layer)
 
 
-def gain_prediction(points, indices, fit, held, groups, features, model):
+def gain_prediction(points, indices, fit, held, groups, features, model, feature_name="history16_trend"):
     short = features[history.BASELINE][held]
     reference = {k: np.asarray(v, float) for k, v in model.items()}
     archived = ((short - reference["mean"]) / reference["scale"]) @ reference["coef"] + reference["bias"]
@@ -46,26 +46,27 @@ def gain_prediction(points, indices, fit, held, groups, features, model):
     np.testing.assert_array_equal(proposed, [p["future"] for p in held_points])
     np.testing.assert_allclose(margin, [p["margin"] for p in held_points], atol=1e-12, rtol=0)
 
-    long = features["history16_trend"]
+    treatment = features[feature_name]
     fit_points = [p for p, use in zip(points, fit, strict=True) if use]
     targets = np.stack([p["tail32"] - p["tail32"][layers.index(p["native_layer"])] for p in fit_points])
     counts = Counter(groups[fit])
     weights = np.array([1. / counts[g] for g in groups[fit]])
-    mean, scale, bias, coef = trained.ridge(long[fit], targets, weights)
-    pred = ((long[held] - mean) / scale) @ coef + bias
+    mean, scale, bias, coef = trained.ridge(treatment[fit], targets, weights)
+    pred = ((treatment[held] - mean) / scale) @ coef + bias
     if not np.isfinite(pred).all():
         raise ValueError("Invalid held-out gain")
     return [float(row[layers.index(p["future"])] - row[layers.index(p["native_layer"])])
             for p, row in zip(held_points, pred, strict=True)]
 
 
-def evaluate(points, folds, progress, features=None, models=None):
+def evaluate(points, folds, progress, features=None, models=None, *, treatment=LONG,
+             feature_name="history16_trend", column="long"):
     groups = np.array([veto.source_group(p["sequence"]) for p in points])
     native = [p["native_layer"] for p in points]
     control = [p["control_layer"] for p in points]
     actions = {"native": native, SHORT: control}
     if features is not None:
-        actions[LONG] = native.copy()
+        actions[treatment] = native.copy()
     if sorted(f["fold"] for f in folds) != sorted(BUDGETS):
         raise ValueError("Unexpected outer folds")
     coverage = np.zeros(len(points), int)
@@ -90,14 +91,14 @@ def evaluate(points, folds, progress, features=None, models=None):
         gains, new_scores, new_rank, new = {}, {}, {}, set()
         if features is not None:
             held_gain = gain_prediction(points, indices, fit, held, groups, features,
-                                        models[f"fold{fold_id}_future_supervised"])
+                                        models[f"fold{fold_id}_future_supervised"], feature_name)
             gains = dict(zip(indices, held_gain, strict=True))
             new_scores = {i: gains[i] - risk.PENALTY * points[i]["fixed_downside"] for i in indices}
             new = risk.top(points, available, [new_scores[i] for i in available], budget)
             new_order = sorted(available, key=lambda i: (-new_scores[i], -points[i]["margin"], points[i]["case_id"]))
             new_rank = {i: rank for rank, i in enumerate(new_order, 1)}
             for i in new:
-                actions[LONG][i] = points[i]["future"]
+                actions[treatment][i] = points[i]["future"]
 
         for i in indices:
             p = points[i]
@@ -108,31 +109,38 @@ def evaluate(points, folds, progress, features=None, models=None):
                 short_gain=p["margin"], short_score=old_scores[i], short_rank=old_rank.get(i), short_layer=control[i],
                 short_cutoff_score=old_cutoff, gain_at_short_cutoff=cutoff_gain,
                 short_gain_minus_cutoff=None if cutoff_gain is None else p["margin"] - cutoff_gain,
-                long_gain=gains.get(i), long_score=new_scores.get(i), long_rank=new_rank.get(i),
-                long_layer=actions[LONG][i] if LONG in actions else None,
+                **{f"{column}_gain": gains.get(i), f"{column}_score": new_scores.get(i),
+                   f"{column}_rank": new_rank.get(i),
+                   f"{column}_layer": actions[treatment][i] if treatment in actions else None},
                 **{f"proposed_{k}": v for k, v in veto.effects(p, p["future"]).items()})
         scope.append(dict(fold=fold_id, fit_cases=int(fit.sum()), held_cases=int(held.sum()), eligible=len(available),
                           switch_budget=budget, control_switches=len(old),
-                          long_switches=len(new) if LONG in actions else None,
-                          replaced_switches=len(new - old) if LONG in actions else None))
+                          **{f"{column}_switches": len(new) if treatment in actions else None},
+                          replaced_switches=len(new - old) if treatment in actions else None))
         progress.advance()
     np.testing.assert_array_equal(coverage, np.ones(len(points), int))
     return actions, scores_by_case, scope
 
 
-def report(root, points, actions, choices, scope):
+def paired_results(points, actions, control):
     cohort = [i for i, p in enumerate(points) if veto.source_group(p["sequence"]) != "uav0000176"]
-    subset = history.paired([points[i] for i in cohort], {arm: [a[i] for i in cohort] for arm, a in actions.items()}, SHORT)
-    paired = history.paired(points, actions, SHORT)
+    subset = history.paired([points[i] for i in cohort], {arm: [a[i] for i in cohort] for arm, a in actions.items()}, control)
+    paired = history.paired(points, actions, control)
     paired.extend(dict(r, group="without_0176") for r in subset if r["group"] == "all")
+    return paired
+
+
+def report(root, points, actions, choices, scope, *, stage="stage163", treatment=LONG, replay_control=None,
+           feature_audit=None):
+    paired = paired_results(points, actions, SHORT)
     focus = [r for r in choices if (veto.source_group(r["sequence"]), r["frame"]) in history.FOCUS]
     tables = dict(summary=veto.summarize(points, actions), paired=paired, choices=choices, folds=scope, focus=focus)
     checks = {}
-    if LONG in actions:
+    if treatment in actions:
         before = [veto.effects(p, a) for p, a in zip(points, actions[SHORT], strict=True)]
-        after = [veto.effects(p, a) for p, a in zip(points, actions[LONG], strict=True)]
+        after = [veto.effects(p, a) for p, a in zip(points, actions[treatment], strict=True)]
         control_recoveries = [i for i, d in enumerate(before) if d["new_good"]]
-        long_pair = {r["group"]: r for r in paired if r["arm"] == LONG}
+        long_pair = {r["group"]: r for r in paired if r["arm"] == treatment}
         checks = dict(
             retained_control_recoveries=all(after[i]["new_good"] for i in control_recoveries),
             recovered_0176=any(after[i]["new_good"] for i, p in enumerate(points)
@@ -141,7 +149,15 @@ def report(root, points, actions, choices, scope):
             positive_overall_vs_control=long_pair["all"]["mean_tail32_delta"] > veto.EPSILON,
             positive_without_0176_vs_control=long_pair["without_0176"]["mean_tail32_delta"] > veto.EPSILON,
         )
-    hashes = prior.publish(root, {name: rows for name, rows in tables.items() if rows}, stage="stage163")
+    if replay_control is not None:
+        replay = paired_results(points, {treatment: actions[treatment], replay_control: actions[replay_control]}, replay_control)
+        paired.extend(replay)
+        by_group = {r["group"]: r for r in replay}
+        checks.update(positive_overall_vs_replayed_projection=by_group["all"]["mean_tail32_delta"] > veto.EPSILON,
+                      positive_without_0176_vs_replayed_projection=by_group["without_0176"]["mean_tail32_delta"] > veto.EPSILON)
+    if feature_audit is not None:
+        tables["feature_audit"] = feature_audit
+    hashes = prior.publish(root, {name: rows for name, rows in tables.items() if rows}, stage=stage)
     return hashes, checks
 
 
