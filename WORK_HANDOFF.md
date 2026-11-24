@@ -2,7 +2,9 @@
 
 更新日期：2026-11-24（Asia/Hong_Kong）
 
-**Stage-181 同裁剪双层 CENTER 对照已实现，待服务器推理，见 0.172。** 原生层与既定排序层共用 L6 特征，利用 58 个完整归档窗口评估响应变化与后效的关系。 [实验和运行说明](docs/experiments/06_sgla_uav_tracking/STAGE181_PAIRED_CENTER_AUDIT.md)
+**Stage-182 疑难与稳定窗口六层续跑已实现，待服务器运行，见 0.173。** 从未参加 Stage-176 六层扫描的源组抽取新窗口，分别测可挽救的备选层和既有排序的挽救覆盖率。 [实验和运行说明](docs/experiments/06_sgla_uav_tracking/STAGE182_LAYER_OPPORTUNITY.md)
+
+**Stage-181 同裁剪双层 CENTER 对照已完成，见 0.172。** 35 个留出窗口缺少达标挽救和伤害，响应联合分的连续收益排序一致率为 44.4%。下一步补充独立源组的换层后效，优先区分备选供给和选层能力。 [实验和结果](docs/experiments/06_sgla_uav_tracking/STAGE181_PAIRED_CENTER_AUDIT.md)
 
 **Stage-180 当前帧 CENTER 匹配证据审计已完成，见 0.171。** 主次峰竞争可提示部分状态存在有益备选。当前原生响应信号尚无法可靠决定是否接受排序层。 [实验和运行说明](docs/experiments/06_sgla_uav_tracking/STAGE180_CENTER_MATCH_AUDIT.md)
 
@@ -179,7 +181,7 @@ Stage-75 L20 已完成 13 个固定起点和 52 条短分支。0003 两个首败
 
 ## 0. 下一次对话的直接接续入口
 
-本节更新至 2026-11-24。接续先读 0.172 的 Stage-181 双层 CENTER 对照，再看 0.171 的 Stage-180 当前帧匹配证据、0.170 的 Stage-179 残差审计与 0.169 的 Stage-178 原始分数审计。每次分析实验结果后，附上下一步实验建议及其验证标准。后续 GPU 运行使用总体进度条，复用 `tools/experiment_progress.py` 中的 `OverallProgress`，在后台日志定时刷新。以往全视频结果见 0.143、0.122 和 0.112，候选生成背景见 0.90～0.95 和 0.53～0.54，确认边界和论文目标见 0.48／0.44。 [Stage-181 实验](docs/experiments/06_sgla_uav_tracking/STAGE181_PAIRED_CENTER_AUDIT.md)
+本节更新至 2026-11-24。接续先读 0.173 的 Stage-182 六层续跑，再看 0.172 的 Stage-181 双层 CENTER 对照和 0.171 的 Stage-180 当前帧匹配证据。每次分析实验结果后，附上下一步实验建议及其验证标准。后续 GPU 运行使用总体进度条，复用 `tools/experiment_progress.py` 中的 `OverallProgress`，在后台日志定时刷新。以往全视频结果见 0.143、0.122 和 0.112，候选生成背景见 0.90～0.95 和 0.53～0.54，确认边界和论文目标见 0.48／0.44。 [Stage-182 实验](docs/experiments/06_sgla_uav_tracking/STAGE182_LAYER_OPPORTUNITY.md)
 
 需要回溯历史与配对干预时读 0.33、0.31、0.29、0.27、0.24、0.22、0.20 和 0.18。较早阶段的运行状态按各节日期理解。 [Stage-60](docs/experiments/06_sgla_uav_tracking/STAGE60_RESULTS_REVIEW.md) · [Stage-54](docs/experiments/06_sgla_uav_tracking/STAGE54_RESULTS_REVIEW.md) · [Stage-55](docs/experiments/06_sgla_uav_tracking/STAGE55_RESULTS_REVIEW.md)
 
@@ -2725,11 +2727,19 @@ Stage-177 的 35 个留出窗口没有达标有益或有害标签。连续 128 �
 
 下一轮建议在有归档后效的窗口里固定同一裁剪与 L6 积累状态，只计算原生层和既定备选层的当前 CENTER 图。直接比较备选是否减少峰竞争、回归分歧并支持一致的目标位置，先按源组留出对比原生端信号与候选相对信号。0089 第 1177 帧作为有疑难但原备选有害的核对点，0204 第 663 帧作为可挽救核对点，均与留出统计分开读。若候选相对证据在保护标签上有支持，再进入等额额外块调用的验证。
 
-### 0.172 Stage-181 同裁剪双层 CENTER 对照（待服务器推理）
+### 0.172 Stage-181 同裁剪双层 CENTER 对照（已完成）
 
-脚本 `tools/run_stage181_paired_center_audit.sh` 使用 Stage-180 回传确认的 61 个排序起点。原生 SGLA 完成一次常规搜索并保存 L6 特征，备选层共用该特征、原父框与 Hann 窗，每点增加一个 Transformer 块和一次 CENTER 头。原生与排序预测分别核对 Stage-180 和 Stage-176／177 归档。统计关联复用 58 个完整 128 帧窗口，分报 Stage-176 全部、排除已知定点、Stage-177 留出。0089 第 1177 帧和 0204 第 663 帧单列核对。Windows 已核验 Stage-180 回传包及起点和窗口数量。服务器运行结果待回传。
+同 L20 完成 61 个同裁剪、同 L6 的双层对照，每点增加一个块与一次 CENTER 头。原生响应图和预测框、备选预测框与 Hann 峰的最大归档误差均为零。58 个窗口有完整 128 帧后效。核验回传包决策与五张表的哈希，使用 Stage-180 已封存标签复算 61 条后效与 165 行关联。结果指纹 `a9863249c809b407f0dfd4281a14d8c86248f0a14d72d5397e5cfc96d6bd641a`。
 
-指标重点为候选相对原生的联合歧义下降、Hann 峰变化、与父框的一致性以及双层框重叠，并与原生歧义和均匀分对照。先看留出组的连续收益和保护证据，以及非定点源组的有效对数。有益或有害标签缺乏时，优先补充独立源组的反事实续跑。输出包位于 `output/stage181/paired_center_audit_v1/stage181_results_*.txt`。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE181_PAIRED_CENTER_AUDIT.md)
+Stage-177 的 35 个留出窗口缺少达标挽救／伤害，128 帧平均 IoU 差值在 −0.00427 至 +0.00529 之间。9 个源组／51 对中，原生峰竞争、相对联合分、Hann 峰增益、父框 IoU 增益的一致率为 43.5%、44.4%、38.9%、55.6%，均匀基准为 50.0%。Stage-176 排除既有定点源组后，14 个窗口只有 1 个挽救和 2 个伤害。0089:1177 换 L7 后 Hann 峰升高、主次峰竞争减弱，128 帧平均 IoU 却下降 0.6354。0204:663 换 L11 后 Hann 峰降低、峰竞争增强，128 帧平均 IoU 提高 0.7713。现有结果不足以开启在线换层。 [实验和结果](docs/experiments/06_sgla_uav_tracking/STAGE181_PAIRED_CENTER_AUDIT.md)
+
+下一轮建议预先固定独立源组与取样规则，用因果可见的历史峰值下降、框位移或尺度突变富集疑难窗口，并从同源视频抽取稳定对照。以同一原生历史和裁剪为起点，分别执行原生层和 L7–L12 中各个非原生层的一帧干预，随后恢复原生路由并记录 128 帧后效。先按源组报告安全挽救是否存在、伤害发生率和当前排序覆盖了多少可挽救起点。若独立源组中有重复出现的安全挽救，再验证可用信号能否选中它们。真值用于续跑评价，原确认集继续封存。
+
+### 0.173 Stage-182 疑难与稳定窗口六层续跑（待服务器运行）
+
+用 Stage-170 原生轨迹抽样。限定 Stage-176 未做六层扫描的 12 个开发源组，排除 Stage-173～177 已续跑起点和 Stage-177 的 35 个重叠窗口。回传核验表明，9 个源组有足够的候选帧进入历史配对，实际入选数以服务器配对为准。按历史 Hann 峰降幅、归一化中心位移和宽高对数突变的组内平均百分位，在同一视频中匹配疑难与低波动窗口。每个完整配对包括两窗、六层和每分支起点加 128 帧，计 1548 次跟踪调用。首次只强制指定层一次，后续恢复原生路由。
+
+单独记录原生历史 IoU、受保护挽救供给、均匀和既有排序捕获率、新增伤害及各层支持。若至少三个疑难源组有受保护挽救，进入独立留出信号验证。使用 `tools/run_stage182_layer_opportunity.sh` 启动与续跑，结果包位于 `output/stage182/layer_opportunity_v1/stage182_results_*.txt`。Windows 已核验回传和取样边界，实际 GPU 续跑待回传。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE182_LAYER_OPPORTUNITY.md)
 
 ## 1. 接手后首先要知道的结论
 
