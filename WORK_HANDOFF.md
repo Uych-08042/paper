@@ -2,7 +2,9 @@
 
 更新日期：2026-11-24（Asia/Hong_Kong）
 
-**Stage-184 固定尺寸和层的搜索中心分解已实现，待服务器推理，见 0.175。** 交叉当前与较早中心的 CENTER 图及坐标映射，并用同层写回续跑和稳定窗口比较后效。 [实验和运行说明](docs/experiments/06_sgla_uav_tracking/STAGE184_CENTER_MAPPING.md)
+**Stage-185 写回框中心与尺寸对照已实现，待服务器推理，见 0.176。** 固定 L9 的已封存写回框，交叉交换中心和宽高，测下一帧裁剪及首次响应和输出分歧。 [实验和运行说明](docs/experiments/06_sgla_uav_tracking/STAGE185_WRITEBACK_COMPONENTS.md)
+
+**Stage-184 固定尺寸和层的搜索中心分解已完成，见 0.175。** L9 只改映射的当帧收益最大，完整中心修正在 128 帧后效和挽救上表现更好。下一步检查起点框中心和宽高怎样改变后续搜索。 [实验结果](docs/experiments/06_sgla_uav_tracking/STAGE184_CENTER_MAPPING.md)
 
 **Stage-183 搜索反馈与六层换层机制对照已完成，见 0.174。** 19 个关键点的全网格均有好框。恢复较早父框使 12 个点恢复常规好框，受保护挽救源组从 2 个增至 4 个。 [实验结果](docs/experiments/06_sgla_uav_tracking/STAGE183_SEARCH_FEEDBACK.md)
 
@@ -185,7 +187,7 @@ Stage-75 L20 已完成 13 个固定起点和 52 条短分支。0003 两个首败
 
 ## 0. 下一次对话的直接接续入口
 
-本节更新至 2026-11-24。接续先读 0.175 的 Stage-184 搜索中心分解，再看 0.174 的 Stage-183 搜索反馈机制对照和 0.173 的 Stage-182 六层续跑。每次分析实验结果后，附上下一步实验建议及其验证标准。后续 GPU 运行使用总体进度条，复用 `tools/experiment_progress.py` 中的 `OverallProgress`，在后台日志定时刷新。以往全视频结果见 0.143、0.122 和 0.112，候选生成背景见 0.90～0.95 和 0.53～0.54，确认边界和论文目标见 0.48／0.44。 [Stage-184 实验](docs/experiments/06_sgla_uav_tracking/STAGE184_CENTER_MAPPING.md)
+本节更新至 2026-11-24。接续先读 0.176 的 Stage-185 写回框中心与尺寸对照，再看 0.175 的 Stage-184 搜索中心分解和 0.174 的 Stage-183 搜索反馈机制对照。每次分析实验结果后，附上下一步实验建议及其验证标准。后续 GPU 运行使用总体进度条，复用 `tools/experiment_progress.py` 中的 `OverallProgress`，在后台日志定时刷新。以往全视频结果见 0.143、0.122 和 0.112，候选生成背景见 0.90～0.95 和 0.53～0.54，确认边界和论文目标见 0.48／0.44。 [Stage-185 实验](docs/experiments/06_sgla_uav_tracking/STAGE185_WRITEBACK_COMPONENTS.md)
 
 需要回溯历史与配对干预时读 0.33、0.31、0.29、0.27、0.24、0.22、0.20 和 0.18。较早阶段的运行状态按各节日期理解。 [Stage-60](docs/experiments/06_sgla_uav_tracking/STAGE60_RESULTS_REVIEW.md) · [Stage-54](docs/experiments/06_sgla_uav_tracking/STAGE54_RESULTS_REVIEW.md) · [Stage-55](docs/experiments/06_sgla_uav_tracking/STAGE55_RESULTS_REVIEW.md)
 
@@ -2757,11 +2759,21 @@ Stage-177 的 35 个留出窗口缺少达标挽救／伤害，128 帧平均 IoU 
 
 下一步固定裁剪尺寸和层，交叉重组原中心和恢复中心的 CENTER 图及坐标映射，量化仅改映射、仅改网络图与完整中心修正的影响。继续做相同的写回续跑和稳定性对照，机制结论按独立源组复验。
 
-### 0.175 Stage-184 固定尺寸和层的搜索中心分解（待服务器推理）
+### 0.175 Stage-184 固定尺寸和层的搜索中心分解（已完成）
 
 绑定 Stage-183 的 19 个常规好框供给变化后状态，另从 Stage-182 的 9 个低波动窗口筛选稳定对照。稳定候选要求原生起点 IoU 至少 0.5、128 帧标注有效且无失跟。固定搜索尺寸、层和 Hann 窗，交叉当前与较早中心生成的 CENTER 响应、宽高、偏移图，以及解码中心。记录四组当帧结果与边际效应及交互，失跟状态续跑六层、稳定对照续跑 L9。后效均比较同一层下的当前父框分支。
 
-同运行环境下复用 Stage-183 的两种裁剪图和与已归档起始框完全一致的续跑。更换支持的 GPU 时同卡重新计算。Windows 合成测试覆盖固定尺寸、四组解码、稳定重合对照、同层后效以及缓存恢复。启动 `tools/run_stage184_center_mapping.sh` 后查看总体进度，结果包位于 `output/stage184/center_mapping_v1/stage184_results_*.txt`。 [实验和运行说明](docs/experiments/06_sgla_uav_tracking/STAGE184_CENTER_MAPPING.md)
+同 L20 完成 19 点、8 个稳定窗口和 43,986 次额外后继调用。回传哈希、Stage-183 实际裁剪组合的 IoU 与格点、因子效应和汇总均已核验。决策指纹 `5391afd90afa6a9199066b71330294f2257311df747b450210152e33ee3ce2e9`。
+
+L9 只改映射／只换图／完整修正的当帧平均 IoU 差为 +0.2172／+0.0040／+0.2050。15 个完整窗口中，按 14 个源组等权的后效为 +0.0247／−0.0743／+0.1446，交互 +0.1942，完整修正有 3 个安全挽救源组且无事件伤害。剔除贡献最大组后完整修正 +0.0961。8 个稳定窗口均无事件伤害。唯一此前未覆盖的 0016 只有 33 帧后效。0204:665 只改映射便可挽救。0091:93 只改映射与完整修正的起点 IoU 为 0.5268／0.5247，后效为 +0.0002／+0.6927，两组起点框高为 14.90／17.43 像素。 [实验结果](docs/experiments/06_sgla_uav_tracking/STAGE184_CENTER_MAPPING.md)
+
+下一步以 Stage-184 同层续跑为参照，交换只改映射与完整修正的起点框中心和宽高，用交叉续跑核对第一处裁剪、响应与选框分岔。按事件和源组统计能否复现完整修正的挽救，并检查稳定对照。独立长窗复验仍待补充。
+
+### 0.176 Stage-185 写回框中心与尺寸对照（待服务器推理）
+
+绑定 Stage-184 L9 的 19 个变化点、8 个稳定控制。基于只改映射和完整中心修正的实际写回框，交换中心或宽高并沿原生路径续跑。保留原生当前裁剪的 L9 分支，用其衡量受保护挽救和事件伤害。同运行环境核对三个归档分支并复用完全相同起点的续跑。逐帧定位首个取整裁剪、中心、尺寸与输出分歧，对所有组的第一后续帧及候选首个响应变化重测原生 CENTER 图，核对网格好框、Hann 格点及输出。
+
+已核对 27 个来源窗口，用源框验证 0091:93 的位置、尺寸交叉组下一帧搜索边长分别为 67 和 73 像素，实际恢复仍待服务器推理。合成测试覆盖缓存复用、响应观察与原生续跑钩子分离、首个分歧和结果导出。运行 `tools/run_stage185_writeback_components.sh`，总体进度和结果包见 `output/stage185/writeback_components_v1/`，运行日志见 `output/stage185/stage185.log`。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE185_WRITEBACK_COMPONENTS.md)
 
 ## 1. 接手后首先要知道的结论
 
