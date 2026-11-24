@@ -1,0 +1,25 @@
+{
+  "schema": "stage179_selector_residual_audit_v1",
+  "source_stage178": "941317bf0105565e62e01ee709be16c10ea595cfc6d7ac56403b3d7e9cb72630",
+  "source_table_sha256": {
+    "stage178_cases.csv": "ae4a3740437d69d8fd889fbfd7ae0c2da1a630bb97ba2ddfbf7b146032260960",
+    "stage178_signals.csv": "cd1738d16084e5ec8b5d94aaf7fcfaeca0d23650f9c33337ea028c458d1e2830",
+    "stage178_dispersion.csv": "b014c20c105b00cb04d679ad889daa1a5ceedc3fe6c32ce445ce7f9c47fdee86",
+    "stage178_ranked_outcomes.csv": "2c806be59305c6bac59d3d0ac71074b8ef5f15cbc715638443c9f3fc2da9de1f",
+    "stage178_alternative_outcomes.csv": "fd1d908945cca15ab457ac85c3e1e2ca3cedb3302461e53e01e1f18ed5fdd887",
+    "stage178_association.csv": "b6582d92590fb7ec9609bdc60bdcbcc06cdbedd39287aabe7154e50de7d65d7c",
+    "stage178_sentinels.csv": "87af3ba53a6f5d183f11e59102e9c6948df2aa828ef91fb77fa300c083245b15"
+  },
+  "split": "leave_one_source_group_out",
+  "fit_group_weight": "equal",
+  "removed_components": 1,
+  "policies": [
+    "uniform",
+    "raw",
+    "centered",
+    "residual"
+  ],
+  "code_sha256": "8843cb3662c87ee0ff7ce23a8ba9865692111bddb8abf83c457890ff8f85c6c9",
+  "numpy": "2.5.2",
+  "fingerprint": "010544d8f164362d9e2e108e0b852905d39ddea9463127343140159f08d0f597"
+}

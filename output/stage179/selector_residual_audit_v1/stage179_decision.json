@@ -1,0 +1,20 @@
+{
+  "schema": "stage179_selector_residual_audit_v1",
+  "status": "COMPLETE_STAGE179_SELECTOR_RESIDUAL_AUDIT",
+  "plan_fingerprint": "010544d8f164362d9e2e108e0b852905d39ddea9463127343140159f08d0f597",
+  "source_stage178": "941317bf0105565e62e01ee709be16c10ea595cfc6d7ac56403b3d7e9cb72630",
+  "states": 265,
+  "source_groups": 26,
+  "new_searches": 0,
+  "label_fitting": false,
+  "table_sha256": {
+    "stage179_fits.csv": "30c3093bac96e93f9ba4c1ad28f3392047f0375be186f2cd90e27f8b3f0ed734",
+    "stage179_ranked_scores.csv": "72e18630ffe9885b773918cd60c7992796fa7af7195e14a64775ff87f9b960c2",
+    "stage179_alternative_scores.csv": "5e17ec4b4d5c74c28b08f5c4f545b172a42c1069394d56621f50ebad53f2f627",
+    "stage179_association.csv": "4da63b54501938b9d1749822f377c541af844a10b5a15f0f42889b9a9dc0a18c",
+    "stage179_paired.csv": "72a61051c53372a546db4f3b9fce4778527c403d6d4ac841fc862c86ab350bcc",
+    "stage179_forced_choices.csv": "c490261000593448db1225ad4fa61814b045506a6dad6cc156d2ad2c35e0dfbf",
+    "stage179_forced_choice_summary.csv": "6daad969984400a22dd45be937d46523303440b465931f0eb3c109c1a0fde1b0"
+  },
+  "fingerprint": "3f126d466ad37e39cb8c09102bc756148ce69153468f18137950a3645a0cc4fa"
+}
