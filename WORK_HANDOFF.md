@@ -1,8 +1,10 @@
 # 工作交接：SGLATrack 无人机跟踪与模型压缩探索
 
-更新日期：2026-11-21（Asia/Hong_Kong）
+更新日期：2026-11-24（Asia/Hong_Kong）
 
-**Stage-170 的固定冷却完整视频对照已实现，见 0.161。** 每次实际换层后暂停 16 帧，和原生及两种无冷却策略配对。正式 GPU 轨迹待服务器。 [实验和运行说明](docs/experiments/06_sgla_uav_tracking/STAGE170_FULL_VIDEO_COOLDOWN.md)
+**Stage-171 的同起点交叉续跑已实现，见 0.162。** 用 0304、0176、0089 的 Stage-170 历史，交叉控制当帧是否换层与后续是否冷却。已核对回传表和本地逻辑，GPU 续跑待服务器。 [实验和运行说明](docs/experiments/06_sgla_uav_tracking/STAGE171_MATCHED_COOLDOWN.md)
+
+**Stage-170 的固定冷却完整视频对照已完成，见 0.161。** 成对排序加冷却 AUC 63.779，低于原生 63.961。冷却保护未通过，0176 恢复，0304 失跟提前。 [实验和运行说明](docs/experiments/06_sgla_uav_tracking/STAGE170_FULL_VIDEO_COOLDOWN.md)
 
 **Stage-169 的定点阻断已完成，见 0.160。** 0304 跳过第 530 帧后避免第 554 帧失跟。0089 暂停 16 帧后第 1194 帧恢复。 [实验和运行说明](docs/experiments/06_sgla_uav_tracking/STAGE169_TARGETED_LAYER_VETO.md)
 
@@ -157,7 +159,7 @@ Stage-75 L20 已完成 13 个固定起点和 52 条短分支。0003 两个首败
 
 ## 0. 下一次对话的直接接续入口
 
-本节更新至 2026-11-21。接续先读 0.161 的 Stage-170 固定冷却和 0.160 的 Stage-169 定点阻断结果。每次分析实验结果后，附上下一步实验建议及其验证标准。后续运行使用总体进度条，复用 `tools/experiment_progress.py` 中的 `OverallProgress`，在后台日志定时刷新。以往全视频结果见 0.143、0.122 和 0.112，候选生成背景见 0.90～0.95 和 0.53～0.54，确认边界和论文目标见 0.48／0.44。 [Stage-170 实验](docs/experiments/06_sgla_uav_tracking/STAGE170_FULL_VIDEO_COOLDOWN.md)
+本节更新至 2026-11-24。接续先读 0.162 的 Stage-171 同起点交叉续跑，再对照 0.161 的 Stage-170 整段结果。每次分析实验结果后，附上下一步实验建议及其验证标准。后续运行使用总体进度条，复用 `tools/experiment_progress.py` 中的 `OverallProgress`，在后台日志定时刷新。以往全视频结果见 0.143、0.122 和 0.112，候选生成背景见 0.90～0.95 和 0.53～0.54，确认边界和论文目标见 0.48／0.44。 [Stage-171 实验](docs/experiments/06_sgla_uav_tracking/STAGE171_MATCHED_COOLDOWN.md)
 
 需要回溯历史与配对干预时读 0.33、0.31、0.29、0.27、0.24、0.22、0.20 和 0.18。较早阶段的运行状态按各节日期理解。 [Stage-60](docs/experiments/06_sgla_uav_tracking/STAGE60_RESULTS_REVIEW.md) · [Stage-54](docs/experiments/06_sgla_uav_tracking/STAGE54_RESULTS_REVIEW.md) · [Stage-55](docs/experiments/06_sgla_uav_tracking/STAGE55_RESULTS_REVIEW.md)
 
@@ -2621,9 +2623,15 @@ L40 同卡完成 28 个开发视频、112 条轨迹、116,188 次搜索。原生
 
 三组配对、六条续跑完成，对照精确复现。0304 只否决第 530 帧，原第 554 帧失跟消失，第 554 帧 IoU 为 0.7588，到第 651 帧仍未失跟，开回门控后触发 19 次。0089 保留第 1182 帧动作，暂停第 1183 至 1198 帧换层，两个策略各拦下 5 次并在第 1194 帧恢复，到第 1310 帧无再次失跟。第 1199 帧恢复门控后没有实际换层。报告指纹为 `024b4c0990a0a7a66f3607d0fb518c9605260c0578ffc5f4a7b83cca2681009e`。 [实验及运行命令](docs/experiments/06_sgla_uav_tracking/STAGE169_TARGETED_LAYER_VETO.md)
 
-### 0.161 Stage-170 固定冷却完整视频对照（实现完成）
+### 0.161 Stage-170 固定冷却完整视频对照（已完成）
 
 28 个开发视频、五组。原生、原提议和成对排序为对照，后两组各加入固定 16 帧冷却。规则只由过去是否实际换层触发，被拦提议不重置计时。每组复用 Stage-167 的门槛及权重，核对首个有效否决前的精确复现和每帧原调用预算。同设备复用旧 84 条轨迹，仅新跑 56 条；运行身份不同则五组同卡重跑。报告 AUC、低 IoU、原稳定视频新增失跟、丢失恢复、实际换层和否决，含剔除 0176 或 0304 的对照。服务器执行 `bash tools/run_stage170_layer_cooldown.sh`，支持 L20／L40 和总体进度条。 [实验及运行命令](docs/experiments/06_sgla_uav_tracking/STAGE170_FULL_VIDEO_COOLDOWN.md)
+
+实际在 L20 新跑 140 条完整轨迹，五组各 29,047 次搜索。原生、原提议、成对排序、原提议加冷却、成对排序加冷却 AUC 分别为 63.961、62.383、62.598、63.051、63.779。成对排序加冷却比自身对照 +1.181 点（配对区间 −1.862 至 +5.194），剔除 0176 后 −0.476 点。0304 的失跟由 1091 帧提前到 554 帧，0080 仍有新增失跟。两组冷却均未通过开发门槛。已核对回传的决定指纹、七张表的哈希、140 条汇总记录与调用预算。原始 GPU 轨迹留服务器。
+
+### 0.162 Stage-171 同起点换层与冷却交叉续跑（实现完成）
+
+固定 0304、0176、0089 的首次有效否决和关键事件附近的历史。从同一父框和历史里，交叉控制当帧沿用原生或实际换层、后续开放门控或采用冷却。比对自然分支和 Stage-170 同源轨迹，报告起点后的 8／16／32／64 帧及窗口均值、首次失跟、连续好框和交互。已通过回传文件校验与四组 CPU 逻辑测试，GPU 续跑待服务器。 [实验及运行命令](docs/experiments/06_sgla_uav_tracking/STAGE171_MATCHED_COOLDOWN.md)
 
 ## 1. 接手后首先要知道的结论
 
