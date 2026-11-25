@@ -1,6 +1,8 @@
 # 实验说明索引
 
-Stage-199已实现，待服务器使用真实Stage-194缓存训练。三组同6720参数／同先验／同抽样预算，比较均值锚定Sigmoid、加性绝对回归和层间交互残差；12模型、21888预测，无新图像或骨干调用。 [理论、验证边界及后台运行](experiments/06_sgla_uav_tracking/STAGE199_FIT_CENTERED_INTERACTION.md)
+Stage-200已实现，待服务器真实缓存训练。同视频差分与同状态对点监督匹配，8模型、6720参数／模型、14592评价输出，CPU运行，无新图像或骨干调用。 [理论、预算与后台运行](experiments/06_sgla_uav_tracking/STAGE200_WITHIN_VIDEO_DIFFERENCE.md)
+
+Stage-199已完成。残差fit排序77.75%但held54.91%，IoU .661389低于固定先验.666608，未建立状态对应收益；训练误差下降约74.8%来自视频均值分量。 [结果与Stage-200建议](experiments/06_sgla_uav_tracking/STAGE199_RESULTS_REVIEW.md) · [原协议](experiments/06_sgla_uav_tracking/STAGE199_FIT_CENTERED_INTERACTION.md)
 
 Stage-198已用真实Stage-197回传在本机完成，无需服务器补跑。fit均值校准后三组held IoU均.666608，但全部held动作与固定L7相同，无状态对应增量；不采用、不称新AUC。 [结果与Stage-199建议](experiments/06_sgla_uav_tracking/STAGE198_RESULTS_REVIEW.md) · [原协议与复现](experiments/06_sgla_uav_tracking/STAGE198_FIT_MEAN_STATE_CORRESPONDENCE.md)
 

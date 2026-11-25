@@ -1,0 +1,260 @@
+{
+  "schema": "stage199_returned_bundle_review_v1",
+  "source_bundle": "stage199_results_20261125T113420Z_1204543.txt",
+  "source_bundle_sha256": "12fe41d3e3643e937bbabe922f0253f53788185fb89a82095e9182ecf0ade8df",
+  "decision_fingerprint": "6e98e01801e9f63f34d1a6d97ffb769a34d45566e698e608817805dfa41f10a5",
+  "plan_fingerprint": "0b73e5c12d53685cae7228f94baea461231cf915503f9f3416fda1d5afbd1e06",
+  "decision_and_plan_verified": true,
+  "all_ten_table_hashes_verified": true,
+  "code_and_preregistered_protocol_hashes_verified": true,
+  "table_rows": {
+    "model_scope": 12,
+    "fit_summary": 2,
+    "source_bridge": 38,
+    "error_summary": 18,
+    "error_video": 1368,
+    "policy_summary": 30,
+    "policy_video": 2280,
+    "paired": 66,
+    "frame_predictions": 21888,
+    "training_history": 3072
+  },
+  "recomputed_maximum_errors": {
+    "error_video": 0.0,
+    "policy_video": 4.440892098500626e-16,
+    "frame_predictions": 0.0,
+    "policy_summary": 1.734723475976807e-17,
+    "error_summary": 0.0,
+    "paired": 2.7755575615628914e-17
+  },
+  "cyclic_shift_expectation_max_error": 5.551115123125783e-16,
+  "matched_initialization_parameters_draws_verified": true,
+  "training_histories_verified": true,
+  "source_artifact_references_checked": 163,
+  "new_model_and_npz_references": 940,
+  "raw_model_feature_npz_files_verified_locally": false,
+  "posthoc_anova_summary": [
+    {
+      "arm": "absolute_sigmoid",
+      "pool": "fit",
+      "between_mse": 0.0002473521132520591,
+      "within_mse": 0.0012034057531864408,
+      "between_energy": 0.0002674070142613306,
+      "within_energy": 0.0012076036180025723,
+      "between_skill": 0.07499766251334128,
+      "within_skill": 0.0034761943021295316
+    },
+    {
+      "arm": "absolute_sigmoid",
+      "pool": "held",
+      "between_mse": 0.00036101930917535076,
+      "within_mse": 0.0012068495587603397,
+      "between_energy": 0.0003615563939935694,
+      "within_energy": 0.0012076036180025723,
+      "between_skill": 0.001485480072102363,
+      "within_skill": 0.0006244261204515489
+    },
+    {
+      "arm": "absolute_additive",
+      "pool": "fit",
+      "between_mse": 0.0001687926832767592,
+      "within_mse": 0.0011866648764764474,
+      "between_energy": 0.0002674070142613306,
+      "within_energy": 0.0012076036180025723,
+      "between_skill": 0.36877989628274277,
+      "within_skill": 0.01733908479071833
+    },
+    {
+      "arm": "absolute_additive",
+      "pool": "held",
+      "between_mse": 0.00036075142251324333,
+      "within_mse": 0.0012066198996936324,
+      "between_energy": 0.0003615563939935694,
+      "within_energy": 0.0012076036180025723,
+      "between_skill": 0.0022264064298096464,
+      "within_skill": 0.0008146036449998562
+    },
+    {
+      "arm": "interaction_residual",
+      "pool": "fit",
+      "between_mse": 5.3438063141063943e-05,
+      "within_mse": 0.0011354972402032725,
+      "between_energy": 0.0002674070142613306,
+      "within_energy": 0.0012076036180025723,
+      "between_skill": 0.8001620739505353,
+      "within_skill": 0.05971030288776946
+    },
+    {
+      "arm": "interaction_residual",
+      "pool": "held",
+      "between_mse": 0.00038322732790196343,
+      "within_mse": 0.0012188223251668432,
+      "between_energy": 0.0003615563939935694,
+      "within_energy": 0.0012076036180025723,
+      "between_skill": -0.05993790807853738,
+      "within_skill": -0.009290057595908063
+    }
+  ],
+  "residual_fit_error_reduction_between_video_fraction": 0.7479461858118732,
+  "actual_draw_objective_review": [
+    {
+      "arm": "absolute_sigmoid",
+      "fold": 0,
+      "seed": 2132,
+      "draw_weighted_prior_loss": 0.09706470955138545,
+      "draw_weighted_final_loss": 0.09194173283316284,
+      "relative_reduction": 0.05277898364812539,
+      "clipped_steps": 1
+    },
+    {
+      "arm": "absolute_additive",
+      "fold": 0,
+      "seed": 2132,
+      "draw_weighted_prior_loss": 0.09706470955138545,
+      "draw_weighted_final_loss": 0.0791191832242966,
+      "relative_reduction": 0.18488208958775687,
+      "clipped_steps": 186
+    },
+    {
+      "arm": "interaction_residual",
+      "fold": 0,
+      "seed": 2132,
+      "draw_weighted_prior_loss": 0.0013932311858848865,
+      "draw_weighted_final_loss": 0.0010748796879529498,
+      "relative_reduction": 0.22849868791139738,
+      "clipped_steps": 1
+    },
+    {
+      "arm": "absolute_sigmoid",
+      "fold": 0,
+      "seed": 2133,
+      "draw_weighted_prior_loss": 0.09031741814921034,
+      "draw_weighted_final_loss": 0.08557012334470382,
+      "relative_reduction": 0.05256233959947432,
+      "clipped_steps": 1
+    },
+    {
+      "arm": "absolute_additive",
+      "fold": 0,
+      "seed": 2133,
+      "draw_weighted_prior_loss": 0.09031741814921034,
+      "draw_weighted_final_loss": 0.07380765751297363,
+      "relative_reduction": 0.18279708360309288,
+      "clipped_steps": 178
+    },
+    {
+      "arm": "interaction_residual",
+      "fold": 0,
+      "seed": 2133,
+      "draw_weighted_prior_loss": 0.0012090946096795822,
+      "draw_weighted_final_loss": 0.0008602150478276879,
+      "relative_reduction": 0.2885461229079085,
+      "clipped_steps": 0
+    },
+    {
+      "arm": "absolute_sigmoid",
+      "fold": 1,
+      "seed": 2132,
+      "draw_weighted_prior_loss": 0.06197391256996784,
+      "draw_weighted_final_loss": 0.05772741853935687,
+      "relative_reduction": 0.06852067030327857,
+      "clipped_steps": 0
+    },
+    {
+      "arm": "absolute_additive",
+      "fold": 1,
+      "seed": 2132,
+      "draw_weighted_prior_loss": 0.06197391256996784,
+      "draw_weighted_final_loss": 0.04775483776338293,
+      "relative_reduction": 0.22943645506537513,
+      "clipped_steps": 107
+    },
+    {
+      "arm": "interaction_residual",
+      "fold": 1,
+      "seed": 2132,
+      "draw_weighted_prior_loss": 0.0017176329703079882,
+      "draw_weighted_final_loss": 0.0013427157654834886,
+      "relative_reduction": 0.21827550548082064,
+      "clipped_steps": 2
+    },
+    {
+      "arm": "absolute_sigmoid",
+      "fold": 1,
+      "seed": 2133,
+      "draw_weighted_prior_loss": 0.06485045823786206,
+      "draw_weighted_final_loss": 0.05976447745676214,
+      "relative_reduction": 0.07842628902397708,
+      "clipped_steps": 0
+    },
+    {
+      "arm": "absolute_additive",
+      "fold": 1,
+      "seed": 2133,
+      "draw_weighted_prior_loss": 0.06485045823786206,
+      "draw_weighted_final_loss": 0.048292621441714575,
+      "relative_reduction": 0.255323358478297,
+      "clipped_steps": 113
+    },
+    {
+      "arm": "interaction_residual",
+      "fold": 1,
+      "seed": 2133,
+      "draw_weighted_prior_loss": 0.0022116024464404597,
+      "draw_weighted_final_loss": 0.001805378228719522,
+      "relative_reduction": 0.18367867985258812,
+      "clipped_steps": 5
+    }
+  ],
+  "primary_contrasts": [
+    {
+      "arm": "interaction_residual",
+      "pool": "held",
+      "kind": "within",
+      "contrast": "trained_minus_prior_only",
+      "metric": "mean_iou",
+      "favorable_direction": "positive",
+      "videos": 38,
+      "mean_delta": -0.005219397039385018,
+      "median_delta": -0.0015504869099730867,
+      "ci_low": -0.012805673092758381,
+      "ci_high": 0.001617163406236901,
+      "positive": 12,
+      "negative": 24,
+      "worst_leave_one_video_out": -0.006925081761467192
+    },
+    {
+      "arm": "interaction_residual",
+      "pool": "held",
+      "kind": "alignment",
+      "contrast": "trained_minus_independent_expectation",
+      "metric": "mean_iou",
+      "favorable_direction": "positive",
+      "videos": 38,
+      "mean_delta": 0.00024621688457373783,
+      "median_delta": 0.000350743682318605,
+      "ci_low": -0.0005705570061147688,
+      "ci_high": 0.0009582762965662961,
+      "positive": 23,
+      "negative": 13,
+      "worst_leave_one_video_out": 0.00011496488574151997
+    },
+    {
+      "arm": "interaction_residual",
+      "pool": "held",
+      "kind": "between",
+      "contrast": "interaction_residual_minus_absolute_additive",
+      "metric": "mean_iou",
+      "favorable_direction": "positive",
+      "videos": 38,
+      "mean_delta": -2.0167219999553692e-05,
+      "median_delta": -0.00011592491186013243,
+      "ci_low": -0.004274657357037583,
+      "ci_high": 0.004109905938361052,
+      "positive": 17,
+      "negative": 19,
+      "worst_leave_one_video_out": -0.0013185372483537911
+    }
+  ],
+  "interpretation": "Training interaction fits improve, held decisions fail fixed-prior/control and alignment requirements; no full-video adoption"
+}

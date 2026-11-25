@@ -113,6 +113,7 @@ tools/run_stage170_layer_cooldown.sh text eol=lf
 tools/run_stage197_spatial_router.sh text eol=lf
 tools/run_stage198_routing_calibration.sh text eol=lf
 tools/run_stage199_residual_routing.sh text eol=lf
+tools/run_stage200_within_video.sh text eol=lf
 # Preserve the uploaded experiment bundle byte-for-byte, including mixed CSV/JSON endings.
 docs/experiments/06_sgla_uav_tracking/results/stage61_l40_results_20261102T143543Z_40176.txt -text
 docs/experiments/06_sgla_uav_tracking/results/stage62_results_20261103T004524Z_148362.txt -text
@@ -212,3 +213,4 @@ docs/experiments/06_sgla_uav_tracking/results/stage154_results_20261120T121217Z_
 docs/experiments/06_sgla_uav_tracking/results/stage155_results_20261120T134722Z_730065.txt -text
 docs/experiments/06_sgla_uav_tracking/results/stage197_results_20261125T102154Z_1143642.txt -text
 docs/experiments/06_sgla_uav_tracking/results/stage198_results_447f9394ced9.txt -text
+docs/experiments/06_sgla_uav_tracking/results/stage199_results_20261125T113420Z_1204543.txt -text
