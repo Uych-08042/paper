@@ -7,10 +7,10 @@ from pathlib import Path
 import numpy as np
 
 from experiment_progress import OverallProgress
+import stage189_continuation_audit as prior
 from stage27_uav_collect import writer_lock
 from stage27_uav_common import inside, read_boxes, scene_geometry
 from stage28_response_common import dense_boxes
-import stage189_continuation_audit as prior
 
 
 old, c, io, online = prior.prior, prior.c, prior.io, prior.online
