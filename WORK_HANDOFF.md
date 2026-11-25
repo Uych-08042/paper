@@ -1,8 +1,10 @@
 # 工作交接：SGLATrack 无人机跟踪与模型压缩探索
 
-更新日期：2026-11-24（Asia/Hong_Kong）
+更新日期：2026-11-25（Asia/Hong_Kong）
 
-**Stage-189 当帧选框后的轨迹持续性审计已实现，待服务器缓存复核，见 0.180。** 重读 Stage-188 原生和候选逐帧轨迹，定位 `0173` 好框写回后的低 IoU、失跟与恢复，以 `0107` 作对照。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE189_CONTINUATION_AUDIT.md)
+**Stage-190 裁剪与 CENTER 读出对照已实现，待服务器运行，见 0.181。** 在 `0173:503` 匹配重放第 502 帧的四种写回框，检查目标覆盖、全网格候选与 Hann 读出。`0107:161` 作缺框对照。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE190_SUCCESSOR_READOUT.md)
+
+**Stage-189 轨迹持续性审计已完成，见 0.180。** `0173:502` 的三个高 IoU 分支都只维持一帧，503 帧 IoU 降至 0.091～0.094，主要表现为中心跳偏。 [实验结果](docs/experiments/06_sgla_uav_tracking/STAGE189_CONTINUATION_AUDIT.md)
 
 **Stage-188 补充开发源组与历史位置对照已完成，见 0.179。** 10 个源组提供 2 个完整失跟窗、9 个稳定窗。两个失跟窗均无安全挽救候选，历史位置相对最高 Hann 的后 128 帧平均 IoU 为 −0.00317。 [实验结果](docs/experiments/06_sgla_uav_tracking/STAGE188_TEMPORAL_SUPPORT.md)
 
@@ -195,7 +197,7 @@ Stage-75 L20 已完成 13 个固定起点和 52 条短分支。0003 两个首败
 
 ## 0. 下一次对话的直接接续入口
 
-本节更新至 2026-11-24。接续先读 0.180 的 Stage-189 轨迹持续性审计，再看 0.179 的 Stage-188 补充开发源组与历史位置对照和 0.178 的 Stage-187 裁剪一致性。每次分析实验结果后，附上下一步实验建议及其验证标准。后续 GPU 运行使用总体进度条，复用 `tools/experiment_progress.py` 中的 `OverallProgress`，在后台日志定时刷新。以往全视频结果见 0.143、0.122 和 0.112，候选生成背景见 0.90～0.95 和 0.53～0.54，确认边界和论文目标见 0.48／0.44。 [Stage-189 实验](docs/experiments/06_sgla_uav_tracking/STAGE189_CONTINUATION_AUDIT.md)
+本节更新至 2026-11-25。接续先读 0.181 的 Stage-190 裁剪与 CENTER 读出对照，再看 0.180 的 Stage-189 轨迹持续性审计及 0.179 的 Stage-188 补充源组对照。每次分析实验结果后，附上下一步实验建议及其验证标准。后续 GPU 运行使用总体进度条，复用 `tools/experiment_progress.py` 中的 `OverallProgress`，在后台日志定时刷新。以往全视频结果见 0.143、0.122 和 0.112，候选生成背景见 0.90～0.95 和 0.53～0.54，确认边界和论文目标见 0.48／0.44。 [Stage-190 实验](docs/experiments/06_sgla_uav_tracking/STAGE190_SUCCESSOR_READOUT.md)
 
 需要回溯历史与配对干预时读 0.33、0.31、0.29、0.27、0.24、0.22、0.20 和 0.18。较早阶段的运行状态按各节日期理解。 [Stage-60](docs/experiments/06_sgla_uav_tracking/STAGE60_RESULTS_REVIEW.md) · [Stage-54](docs/experiments/06_sgla_uav_tracking/STAGE54_RESULTS_REVIEW.md) · [Stage-55](docs/experiments/06_sgla_uav_tracking/STAGE55_RESULTS_REVIEW.md)
 
@@ -2817,9 +2819,17 @@ L20 实际运行了 10 个源组、11,470 帧。`0001`／`0002` 未入选。3 �
 
 下一步从 Stage-188 服务器缓存检查 `0173:502` 当帧纠正后的再次低 IoU、恢复及持续时间，用 `0107:161` 作当帧候选不足对照。先查明 `0331` 未进入完整事件窗的资格原因，再决定是否报告截短轨迹。根据结果选择排查写回后的搜索状态或候选供给。
 
-### 0.180 Stage-189 当帧选框后的轨迹持续性审计（待服务器运行）
+### 0.180 Stage-189 当帧选框后的轨迹持续性审计（已完成）
 
-从 Stage-188 决策 `1c030e7fcec60b73aeefe900ed8310e10ebdabd86b5c68e574131c4eb022e8d8` 读取原生轨迹、候选续跑与同版标注。复算原生失跟名册与候选后效表，报告 `0107:161`、`0173:502` 各分支的连续好框时长、确认失跟、恢复与复发，并从原生轨迹核对 `0331` 的窗口资格。沿用前版失跟和恢复判定，报告逐帧 IoU、中心偏差和尺寸比例。无需 GPU 或图像读取。执行 `bash tools/run_stage189_continuation_audit.sh`，脚本输出总体进度及结果文本路径。本地缺少 Stage-188 原始 NPZ，实际时序结果待回传。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE189_CONTINUATION_AUDIT.md)
+复用 Stage-188 原生轨迹、候选续跑与同版标注。已核对回传决策、代码和四张表哈希，并复算两窗 10 分支的 1,290 条逐帧记录。决策指纹 `6fd02d8652fd71a15952e2a5eee677bf081966a810286bd5b2652db4271d25a0`。
+
+`0173:502` 的最高 Hann、历史位置、反向像素分支当帧 IoU 分别 0.860、0.837、0.855，均只维持一帧。503 帧 IoU 降至 0.091～0.094，中心误差升至 0.96～0.97 个真值尺度，宽为真值的 0.96～0.97 倍，高为 1.14～1.15 倍。505 帧确认失跟，到 630 帧窗末无恢复。相较原生失跟推迟一帧。`0107:161` 当帧最好 IoU 0.198，确有尺寸压缩和中心偏差，整窗无 IoU ≥ 0.5。`0331` 在 338 帧失跟，391 帧结束，只剩 53 个后续帧，未达 128 帧要求。 [实验结果](docs/experiments/06_sgla_uav_tracking/STAGE189_CONTINUATION_AUDIT.md)
+
+下一步在 `0173:503` 复测原生与三个高 IoU 写回状态的搜索裁剪、真值覆盖、CENTER 网格最佳 IoU 和 Hann 实际读出。用 `0107:161` 作对照。需要这些中间观测才能把中心跳偏归到搜索覆盖、网格供给或读出，确认集仍封存。
+
+### 0.181 Stage-190 失跟首帧的裁剪与 CENTER 读出对照（待服务器运行）
+
+绑定 Stage-188 原始缓存与 Stage-189 决策 `6fd02d8652fd71a15952e2a5eee677bf081966a810286bd5b2652db4271d25a0`。`0173:503` 读取四种 502 帧写回状态，先复现各分支的原生路由，再统一使用原生轨迹在 503 帧选中的层。`0107:161` 重放两种裁剪的原有 L9 输出。报告可见目标覆盖、缩放目标短边、全网格好框数量和最佳 IoU、原始响应首选、Hann 首选以及首个好框的 Hann 排名。全轮 6～10 次单帧 GPU 搜索，支持 L20／L40。合成测试已覆盖读出错误、目标未覆盖、共同选层复测及总体进度。当前工作区缺少原始缓存且无法连接 `n1`，真实样本待跑。执行 `bash tools/run_stage190_successor_readout.sh`。 [实验协议](docs/experiments/06_sgla_uav_tracking/STAGE190_SUCCESSOR_READOUT.md)
 
 ## 1. 接手后首先要知道的结论
 
