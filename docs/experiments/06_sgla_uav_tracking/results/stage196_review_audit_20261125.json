@@ -1,0 +1,59 @@
+{
+  "schema": "stage196_returned_bundle_review_v1",
+  "source_bundle": "stage196_results_20261125T094605Z_1113564.txt",
+  "source_bundle_sha256": "088948bcf075f61efc7cad32f705f870e8388e1c809148f339635ca0ef2f4d85",
+  "decision_fingerprint": "b2769871bf752da66efd6d5a6bb1f2f211affd3e18b0105113e27429eff9bc91",
+  "decision_verified": true,
+  "table_sha256_verified": {
+    "stage196_model_scope.csv": true,
+    "stage196_error_summary.csv": true,
+    "stage196_error_video.csv": true,
+    "stage196_policy_summary.csv": true,
+    "stage196_policy_video.csv": true,
+    "stage196_paired.csv": true,
+    "stage196_frame_predictions.csv": true,
+    "stage196_training_history.csv": true,
+    "stage196_source_bridge.csv": true
+  },
+  "table_rows": {
+    "stage196_model_scope.csv": 8,
+    "stage196_error_summary.csv": 200,
+    "stage196_error_video.csv": 1520,
+    "stage196_policy_summary.csv": 28,
+    "stage196_policy_video.csv": 2128,
+    "stage196_paired.csv": 40,
+    "stage196_frame_predictions.csv": 14592,
+    "stage196_training_history.csv": 2048,
+    "stage196_source_bridge.csv": 152
+  },
+  "recomputed_maximum_errors": {
+    "error_summary": 2.220446049250313e-16,
+    "error_video": 0.0,
+    "policy_video": 2.220446049250313e-16,
+    "policy_summary": 0.0,
+    "paired": 0.0
+  },
+  "matched_initialization_draws_and_budget": true,
+  "draw_counts_reconstructed": true,
+  "source194_declared_artifact_conflicts": [],
+  "raw_model_and_npz_files_verified_locally": false,
+  "source_artifacts_cross_checked": 163,
+  "model_artifact_references": 624,
+  "original_routing_function_maximum_error": 0.0,
+  "primary_contrast": {
+    "comparison": "policy",
+    "pool": "held",
+    "contrast": "relative_minus_absolute",
+    "metric": "mean_iou",
+    "favorable_direction": "positive",
+    "videos": 38,
+    "mean_delta": -0.0014885969646214411,
+    "median_delta": 0.0,
+    "ci_low": -0.0031198151642908745,
+    "ci_high": -0.0002015835851238427,
+    "positive": 7,
+    "negative": 8,
+    "worst_leave_one_video_out": -0.0015580995117312375
+  },
+  "interpretation": "Training relative error improves; held relative error, weighted ordering and selected IoU worsen under the matched budget"
+}

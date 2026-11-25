@@ -2,9 +2,11 @@
 
 更新日期：2026-11-25（Asia/Hong_Kong）
 
-**Stage-196 同预算路由损失对照已实现，等待服务器缓存训练。** 仅R，同一Sigmoid线性网络、初始化、原draw和256×4更新，比较absolute MSE与对预测和标签同时中心化的relative MSE，不另改网络或加权。两折双seed共8个CPU模型、2048更新、14592缓存预测，A/Q关闭，0新图像／骨干／完整轨迹／确认组。输入绑定完整Stage-194与195目录，CUDA对独立进程隐藏；source_bridge区分新CPU绝对组与旧GPU训练来源差异。主比较held平均IoU及对固定均值增量，不能以更小相对损失认定有效。5项本地测试含38组合成端到端通过。入口 `bash tools/run_stage196_relative_loss.sh`，总体进度条、模型／预测复用及合并回传文件已加入，暂无真实结果。 [协议与后台命令](docs/experiments/06_sgla_uav_tracking/STAGE196_MATCHED_RELATIVE_LOSS.md)
+**Stage-197 空间顺序对照已实现，待服务器运行，见0.188。** ordered／unordered在同样768维全局统计之外读取320个共享投影token值，区别为保留原排列或逐样本分流排序；两组6727参数、同初始化同draw同256步，另设4614参数global_stats新CPU控制。共12模型、3072步、21888缓存预测，单一总体进度条，零新图像／骨干／完整轨迹，确认集封存。启动 `bash tools/run_stage197_spatial_router.sh`。当前只有合成测试，不能声称实际收益。 [协议与后台命令](docs/experiments/06_sgla_uav_tracking/STAGE197_SPATIAL_ROUTING_INTERFACE.md)
 
-**Stage-195冻结路由审计已完成，见0.186。** 4个R-only模型、7296状态、76条既有路径，决策和9表哈希相符，复算误差≤2.22e-16，CPU／GPU动作差异0。四模型实际抽样MSE均优于初始化和抽样均值控制，但下降的99.15%～99.97%来自共同质量项。held逐帧R对预测均值常数仅+0.0001376 IoU，区间跨零；训练抽样均值与预测均值均偏好fold0 L7／fold1 L10。69/76路径固定，38条L7路径（19源组×2种子）与已有固定L7控制逐帧相同。下一步建议Stage-196同网络同预算比较绝对MSE与仅中心化层间MSE，先检验差异学习，不能宣称共同项已经被证明造成退化。Stage-196尚未实现，确认集封存。 [结果复核](docs/experiments/06_sgla_uav_tracking/STAGE195_RESULTS_REVIEW.md) · [原协议](docs/experiments/06_sgla_uav_tracking/STAGE195_ROUTER_OBJECTIVE_AUDIT.md)
+**Stage-196同预算损失对照已完成，见0.187，未建立relative收益。** 决策与9表哈希相符，8模型／2048步／14592状态，复算差≤2.22e-16。held mean IoU absolute .655827、relative .654338，差−.00148860，名义CI[−.00311982,−.00020158]。relative实际训练相对误差四模型均改善，但held相对误差变差31/38、差值加权排序下降5.7059个百分点。对自身固定预测均值−.00117592，未过增量要求，0新完整视频／图像／骨干／确认组。下一步建议Stage-197同参数检验保留空间顺序与逐样本无序读取，需区别Stage-164旧局部匹配路线；不能预设空间缺失是主因。Stage-197现已实现，见0.188，待服务器运行。 [结果复核](docs/experiments/06_sgla_uav_tracking/STAGE196_RESULTS_REVIEW.md) · [原协议](docs/experiments/06_sgla_uav_tracking/STAGE196_MATCHED_RELATIVE_LOSS.md)
+
+**Stage-195冻结路由审计已完成，见0.186。** 4个R-only模型、7296状态、76条既有路径，决策和9表哈希相符，复算误差≤2.22e-16，CPU／GPU动作差异0。四模型实际抽样MSE均优于初始化和抽样均值控制，但下降的99.15%～99.97%来自共同质量项。held逐帧R对预测均值常数仅+0.0001376 IoU，区间跨零；训练抽样均值与预测均值均偏好fold0 L7／fold1 L10。69/76路径固定，38条L7路径（19源组×2种子）与已有固定L7控制逐帧相同。下一步建议Stage-196同网络同预算比较绝对MSE与仅中心化层间MSE，先检验差异学习，不能宣称共同项已经被证明造成退化。该同预算对照现已完成，结果见0.187；确认集继续封存。 [结果复核](docs/experiments/06_sgla_uav_tracking/STAGE195_RESULTS_REVIEW.md) · [原协议](docs/experiments/06_sgla_uav_tracking/STAGE195_ROUTER_OBJECTIVE_AUDIT.md)
 
 **Stage-194 同预算模块消融已完成，仍为REVIEW，见0.185。** 38源组、36次训练、798条完整OOF、40517跟踪帧／策略种子，决策和11表哈希均相符，汇总复算最大误差0。原生／仅Q／仅A／仅R／三模块AUC为64.4185／64.7794／63.1884／58.2466／56.1599。R在四个因素背景中均下降6.17～7.86点；20个含R模型15个完全固定选层，全部未选L9。仅Q剔除0176后−0.9668且新增0080、0304失败。目标条件对同参数current主比较+0.4397，区间跨零。原生状态L7即时IoU高于L9，完整固定L7反而−5.9821。下一步优先审计现有R的全池拟合、共同难度分量与相对排序，区分未学会和即时标签／闭环错配；该审计已由Stage-195完成，见0.186。确认集封存。 [结果复核](docs/experiments/06_sgla_uav_tracking/STAGE194_RESULTS_REVIEW.md) · [原协议](docs/experiments/06_sgla_uav_tracking/STAGE194_MATCHED_MODULE_ABLATION.md)
 
@@ -213,7 +215,9 @@ Stage-75 L20 已完成 13 个固定起点和 52 条短分支。0003 两个首败
 
 ## 0. 下一次对话的直接接续入口
 
-本节更新至 2026-11-25。接续先读顶部Stage-196损失对照待运行协议、0.186的Stage-195路由目标审计、0.185的 Stage-194 完整模块消融结果及全阶段方法依据。每次分析实验结果后，附上下一步实验建议及其验证标准。运行使用总体进度条，复用 `tools/experiment_progress.py` 中的 `OverallProgress`，在后台日志定时刷新。以往全视频结果见 0.143、0.122 和 0.112，候选生成背景见 0.90～0.95 和 0.53～0.54，确认边界和论文目标见 0.48／0.44。 [Stage-196协议](docs/experiments/06_sgla_uav_tracking/STAGE196_MATCHED_RELATIVE_LOSS.md)
+最新入口为0.188的Stage-197实现及服务器命令，再回看0.187的负结果。原Stage-1～196实验Python与产物保持冻结。
+
+本节更新至 2026-11-25。接续先读0.187的Stage-196损失对照结果、0.186的Stage-195路由目标审计、0.185的 Stage-194 完整模块消融结果及全阶段方法依据。每次分析实验结果后，附上下一步实验建议及其验证标准。运行使用总体进度条，复用 `tools/experiment_progress.py` 中的 `OverallProgress`，在后台日志定时刷新。以往全视频结果见 0.143、0.122 和 0.112，候选生成背景见 0.90～0.95 和 0.53～0.54，确认边界和论文目标见 0.48／0.44。 [Stage-196结果](docs/experiments/06_sgla_uav_tracking/STAGE196_RESULTS_REVIEW.md)
 
 需要回溯历史与配对干预时读 0.33、0.31、0.29、0.27、0.24、0.22、0.20 和 0.18。较早阶段的运行状态按各节日期理解。 [Stage-60](docs/experiments/06_sgla_uav_tracking/STAGE60_RESULTS_REVIEW.md) · [Stage-54](docs/experiments/06_sgla_uav_tracking/STAGE54_RESULTS_REVIEW.md) · [Stage-55](docs/experiments/06_sgla_uav_tracking/STAGE55_RESULTS_REVIEW.md)
 
@@ -2894,6 +2898,28 @@ R四背景因素效应均负，平均−6.73555。含current的20个R模型15个
 held平均IoU：R .655652，L9 .657246，fit全池均值选层 .666608，fit预测均值和实际抽样均值均 .655514，oracle .697494。R对预测均值仅+.000137613，CI[−.000017353,+.000421516]，2胜1负35平；对全池均值−.0109563，名义CI负。全fit池偏L7，而训练抽样和预测均值都偏fold0 L7／fold1 L10，支持主要学到抽样平均分支偏好。76条原有R轨迹69条固定（38 L7、31 L10），有控制的38条L7（19源组双seed）逐帧相同；L10无独立固定控制。完整AUC仍引用Stage-194，不能把缓存IoU当新AUC。
 
 下一步建议Stage-196同架构同输入同draws同预算，对比绝对MSE与 ||P(p−y)||²/6（P=I−11ᵀ/6），两组同设备重训且保留原Sigmoid和参数，先检验held差异误差／排序／对常数增量，再决定完整闭环。已有158～170差值路线需区分，本次针对共同项机制的因果对照，不预设有效或新颖；尚未实现。 [完整复核](docs/experiments/06_sgla_uav_tracking/STAGE195_RESULTS_REVIEW.md)
+
+### 0.187 Stage-196 同预算absolute／relative路由损失（已完成）
+
+原回传 `stage196_results_20261125T094605Z_1113564.txt` 已归档，SHA256 `088948bcf075f61efc7cad32f705f870e8388e1c809148f339635ca0ef2f4d85`，决策 `b2769871bf752da66efd6d5a6bb1f2f211affd3e18b0105113e27429eff9bc91`，plan `6453511ab517f010f0bc79bee7222adc8f3e8e2be881bcb799956e6e37626121`。9表哈希相符，8模型、200误差汇总、1520视频误差、28策略汇总、2128视频策略、40配对、14592预测、2048history、152bridge。复算误差汇总／视频策略≤2.22e-16，其余0；初始、draw、256更新、1024例、4614参数均匹配，A/Q关闭。163来源哈希与Stage-194一致，624模型／预测引用无本机原始字节复核。
+
+held IoU absolute .6558270836，relative .6543384867，主差−.00148859696，名义CI[−.00311981516,−.000201583585]，7胜8负23平，两seed均负。native L9 .6572458709、fit全池均值 .6666083461、预测均值 .6555144089、oracle .6974937197，均为缓存IoU不是AUC。relative对自身预测均值−.00117592228，CI跨零，无逐帧增量。
+
+训练相对MSE由.00147850161降至.00143986795，held反而.00155395258→.00158268857（31组变差），差值加权排序held54.5243%→48.8184%，下降5.7059个百分点，30组变差。动作更动态但held421/3648次改变后整体更差，fold0两relative仍全L7。不能把去共同项作为已成立修复；也不能认定所有相对学习无效。absolute262/1024步裁剪，relative0，损失干预同时改变梯度尺度／裁剪行为。新CPU absolute对旧来源20/7296动作不同，max分数差5.07e-5，主比较仍两个新CPU组，原路由／预聚合误差0。
+
+下一步建议Stage-197检验新增路由接口的空间布局可辨识性，同参数同预算比较保留token顺序与逐样本无序／排序读取，加现有全局统计及固定均值控制。全局矩统计对顺序不敏感，但token含位置编码，不能声称全部位置丢失；固定全局置换可逆，不能当丢失布局对照。需区别Stage-164旧4×4匹配16维失败路线。该方案现已由Stage-197实现，见0.188；不进入本relative组的全视频采用验证。 [完整复核](docs/experiments/06_sgla_uav_tracking/STAGE196_RESULTS_REVIEW.md)
+
+### 0.188 Stage-197 显式token顺序的同参数读取（已实现，待运行）
+
+用户授权继续后，新增`stage197_spatial_router.py`、`stage197_spatial_router_model.py`、`test_stage197_spatial_router.py`和`run_stage197_spatial_router.sh`。理论变量为全局矩统计的排列不变性，不预设它已经造成失效；token仍有位置编码与上下文，原SGLA的`x[:,:,0]`保留顺序，当前全局统计是项目新增接口。须区别Stage-164旧4×4局部匹配失败路线。
+
+保留g=[模板均值／std、搜索均值／std]768维，增加每token共享192→1线性投影，w初始化首通道单位向量、b=0。ordered保留320个值的原排列，unordered每样本模板64／搜索256分别排序，两组均1088→6＋Sigmoid，6727参数、初始参数哈希相同；两组独立学习。global_stats只有768→6、4614参数，为同次重训的原接口控制，容量不同只作次要参照。固定全局置换可逆，不能用作无序控制。
+
+复用Stage-194原生父框L6特征与六分支真实IoU、38开发源组19／19两折、2132／2133两seed，三组12模型，每模型256×4同draw、AdamW／lr1e-5／wd1e-4／clip1／absolute MSE，3072步、21888输出。0新图像／骨干／完整轨迹／确认组。绑定194／195／196已复核清单与原代码，source196指纹b2769871bf752da66efd6d5a6bb1f2f211affd3e18b0105113e27429eff9bc91。global_stats另与196 absolute作复现桥接，原阶段不修改。
+
+10表：model_scope、input_audit、error_summary、error_video、policy_summary、policy_video、paired、frame_predictions、training_history、source_bridge。主比较held ordered−unordered mean_iou；另看排序、相对误差及超过fit标签／预测固定均值的增量。先源组内平均种子再bootstrap，名义探索区间，不能称新AUC／外部验证。若两组同优于global_stats，不能独立归因空间；未过同参数与常数控制，不直接上完整采用验证。保存模型／预测receipt、完整哈希、独立manifest，支持复用，单一总体进度条及100%终点。
+
+真实缓存只在服务器，本机7项CPU测试通过，包含38组合成数据的12模型／3072步端到端、排序不变性、投影梯度、全局控制与196 absolute训练一致、模型及缓存复用／篡改拒绝、CUDA禁止初始化。Bash `-n`、Python语法、文档链接及`git diff --check`通过，不能预报真实结论。服务器在`sglatrack-test`和`~/workspace/paper`运行`bash tools/run_stage197_spatial_router.sh`；默认root=`output/stage197/spatial_routing_interface_v1`，源root可分别设置STAGE194_ROOT／STAGE195_ROOT／STAGE196_ROOT。后台命令、检验与结果包见[固定协议](docs/experiments/06_sgla_uav_tracking/STAGE197_SPATIAL_ROUTING_INTERFACE.md)。完成回传`stage197_results_<UTC>_<PID>.txt`即可；不代commit／push。
 
 ## 1. 接手后首先要知道的结论
 

@@ -1,6 +1,8 @@
 # 实验说明索引
 
-Stage-196同预算路由损失对照已实现，等待真实缓存训练。同网络同draw比较absolute与relative误差，8个CPU模型，先评价留出差异学习和相对固定均值的增量。 [协议与后台命令](experiments/06_sgla_uav_tracking/STAGE196_MATCHED_RELATIVE_LOSS.md)
+Stage-197空间顺序对照已实现，待服务器运行。主比较保留token原排列与逐样本无序排序，两组同6727参数及训练预算；另有原全局统计重训控制。12模型、21888缓存输出，无新图像／骨干／完整AUC。 [协议、理论边界及后台运行](experiments/06_sgla_uav_tracking/STAGE197_SPATIAL_ROUTING_INTERFACE.md)
+
+Stage-196同预算损失对照已完成。relative改善训练误差，但held平均IoU较absolute−.0014886、层间误差与排序变差，未建立收益。 [结果复核](experiments/06_sgla_uav_tracking/STAGE196_RESULTS_REVIEW.md) · [原协议](experiments/06_sgla_uav_tracking/STAGE196_MATCHED_RELATIVE_LOSS.md)
 
 Stage-195冻结路由审计已完成。实际抽样MSE有改善但99%以上下降来自共同质量项，held逐帧选择对固定预测均值仅+.0001376 IoU且区间跨零；当前有效动态选层仍未建立。 [结果复核](experiments/06_sgla_uav_tracking/STAGE195_RESULTS_REVIEW.md) · [原协议](experiments/06_sgla_uav_tracking/STAGE195_ROUTER_OBJECTIVE_AUDIT.md)
 
