@@ -1,8 +1,12 @@
 # 实验说明索引
 
+Stage-194 同预算的内部模块消融已实现，等待GPU训练与完整视频评价。协议覆盖目标条件骨干适配、任务质量选层、CENTER质量读出及同参数当前帧对照。 [实验协议与运行命令](experiments/06_sgla_uav_tracking/STAGE194_MATCHED_MODULE_ABLATION.md)
+
 当前研究结论与接手说明见[工作交接文档](../WORK_HANDOFF.md)。以下保留原阶段协议，文档内容未改写；目录分组只是导航，不代表方法已通过。
 
-最新完整开发评价 Stage-131 已完成。单槽放大对缩边 AUC +0.1497 点，区间跨零，丢失两次匹配恢复。Stage-121 备用搜索与原生 SGLA 是同卡对照。 [Stage-131 结果](experiments/06_sgla_uav_tracking/STAGE131_RESULTS_REVIEW.md) · [Stage-121 结果](experiments/06_sgla_uav_tracking/STAGE121_RESULTS_REVIEW.md)
+Stage-1～193 的研究问题、正负结果、理论依据及待证主张见[全阶段综述与方法修改依据](research/SGLA_EXPERIMENT_SYNTHESIS_AND_METHOD_BASIS_2026-11-25.md)。报告区分固定状态诊断、完整闭环和封存确认，后续骨干、路由与预测头方案均需匹配训练与完整轨迹消融。
+
+Stage-131 单槽放大的完整开发评价已完成。对缩边 AUC +0.1497 点，区间跨零，丢失两次匹配恢复。Stage-121 备用搜索与原生 SGLA 是同卡对照。 [Stage-131 结果](experiments/06_sgla_uav_tracking/STAGE131_RESULTS_REVIEW.md) · [Stage-121 结果](experiments/06_sgla_uav_tracking/STAGE121_RESULTS_REVIEW.md)
 
 Stage-132 首次分叉审计已完成。112 对缓存轨迹中，两组在状态匹配时均未让已有好候选全部消失。放大组丢失的两次恢复都发生在 q2 替换改变此前输出之后。 [结果复核](experiments/06_sgla_uav_tracking/STAGE132_RESULTS_REVIEW.md) · [实验协议](experiments/06_sgla_uav_tracking/STAGE132_FIRST_DIVERGENCE.md)
 
