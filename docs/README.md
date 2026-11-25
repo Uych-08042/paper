@@ -1,6 +1,8 @@
 # 实验说明索引
 
-Stage-194 同预算的内部模块消融已实现，等待GPU训练与完整视频评价。协议覆盖目标条件骨干适配、任务质量选层、CENTER质量读出及同参数当前帧对照。 [实验协议与运行命令](experiments/06_sgla_uav_tracking/STAGE194_MATCHED_MODULE_ABLATION.md)
+Stage-195冻结路由审计已实现，等待读取服务器Stage-194缓存。仅R四模型，零新图像／骨干／训练，检验全池拟合、层间差异和固定路径偏好，并重建实际训练抽样。 [协议与后台命令](experiments/06_sgla_uav_tracking/STAGE195_ROUTER_OBJECTIVE_AUDIT.md)
+
+Stage-194 同预算内部模块消融已完成。原生64.4185、仅Q64.7794、仅A63.1884、仅R58.2466、三模块56.1599。路由退化为固定或近固定路径，目标条件增量未建立，仅Q收益依赖少数源组且保护未过。 [结果复核](experiments/06_sgla_uav_tracking/STAGE194_RESULTS_REVIEW.md) · [实验协议](experiments/06_sgla_uav_tracking/STAGE194_MATCHED_MODULE_ABLATION.md)
 
 当前研究结论与接手说明见[工作交接文档](../WORK_HANDOFF.md)。以下保留原阶段协议，文档内容未改写；目录分组只是导航，不代表方法已通过。
 

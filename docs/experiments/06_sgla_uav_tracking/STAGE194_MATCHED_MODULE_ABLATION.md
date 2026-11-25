@@ -1,6 +1,6 @@
 # Stage-194 同预算的 SGLA 内部模块消融
 
-日期为 2026-11-25。当前状态为 **实现及本地验证，等待服务器 GPU 运行**。本文不包含新实验结果。
+日期为 2026-11-25。本文保留运行前的固定协议。服务器完整运行及回传复核已完成，状态仍为REVIEW，结果见[Stage-194复核](STAGE194_RESULTS_REVIEW.md)。
 
 ## 研究问题与依据
 
@@ -136,4 +136,4 @@ python -B -m unittest discover -s tools -p test_stage194_module_ablation.py -v
 python -B tools/stage194_module_ablation.py --output-dir "$STAGE194_ROOT" --check-results
 ```
 
-本机无服务器数据集和 CUDA，未执行这36次训练或798条完整轨迹。不得把代码测试通过写成跟踪收益。
+本机无服务器数据集和 CUDA；36次训练及798条完整轨迹由服务器执行，回传材料已归档复核。代码测试通过与服务器跟踪收益分别评价。

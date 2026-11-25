@@ -1,0 +1,356 @@
+{
+  "schema": "stage194_returned_bundle_review_v1",
+  "source_bundle": "stage194_results_20261125T083202Z_816395.txt",
+  "source_bundle_sha256": "829ba345ea2e2bc63050c747cf3ecba009bbb10448f742ca4533c1505482db52",
+  "decision_fingerprint": "aecfc2112422a0cf5f1af3daa1ddc61bcce9f54fc4c3f2ae94f762429a9dd547",
+  "decision_fingerprint_verified": true,
+  "table_sha256_verified": {
+    "stage194_policy_summary.csv": true,
+    "stage194_paired.csv": true,
+    "stage194_factor_summary.csv": true,
+    "stage194_seed_video_summary.csv": true,
+    "stage194_scope_summary.csv": true,
+    "stage194_smoke_summary.csv": true,
+    "stage194_fit_support.csv": true,
+    "stage194_fixed_layers.csv": true,
+    "stage194_sampling.csv": true,
+    "stage194_routing.csv": true,
+    "stage194_readout_summary.csv": true
+  },
+  "table_rows": {
+    "stage194_policy_summary.csv": 12,
+    "stage194_paired.csv": 115,
+    "stage194_factor_summary.csv": 3,
+    "stage194_seed_video_summary.csv": 798,
+    "stage194_scope_summary.csv": 36,
+    "stage194_smoke_summary.csv": 9,
+    "stage194_fit_support.csv": 38,
+    "stage194_fixed_layers.csv": 2,
+    "stage194_sampling.csv": 1824,
+    "stage194_routing.csv": 4788,
+    "stage194_readout_summary.csv": 684
+  },
+  "recomputed_summary_maximum_errors": {
+    "policy_summary": 0.0,
+    "paired": 0.0,
+    "factor_summary": 0.0
+  },
+  "fold_fit_groups": 19,
+  "fold_held_groups": 19,
+  "fit_held_overlap": 0,
+  "matched_draw_hashes": true,
+  "formal_updates_per_run": 256,
+  "formal_examples_per_run": 1024,
+  "formal_models": 36,
+  "smoke_models": 9,
+  "source_groups": 38,
+  "tracked_frames_per_policy_seed": 40517,
+  "full_trajectories": 798,
+  "archived_model_and_trace_files_verified_locally": false,
+  "native_prefix_dense_decode_maximum_error": 3.0517578125e-05,
+  "routed_models": [
+    {
+      "arm": "a0_r1_q0",
+      "fold": 0,
+      "seed": 2132,
+      "modal_layer": 7,
+      "modal_fraction": 1.0,
+      "counts": {
+        "7": 19762,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0
+      }
+    },
+    {
+      "arm": "a0_r1_q0",
+      "fold": 0,
+      "seed": 2133,
+      "modal_layer": 7,
+      "modal_fraction": 1.0,
+      "counts": {
+        "7": 19762,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0
+      }
+    },
+    {
+      "arm": "a0_r1_q0",
+      "fold": 1,
+      "seed": 2132,
+      "modal_layer": 10,
+      "modal_fraction": 1.0,
+      "counts": {
+        "7": 0,
+        "8": 0,
+        "9": 0,
+        "10": 20755,
+        "11": 0,
+        "12": 0
+      }
+    },
+    {
+      "arm": "a0_r1_q0",
+      "fold": 1,
+      "seed": 2133,
+      "modal_layer": 10,
+      "modal_fraction": 0.9415562515056612,
+      "counts": {
+        "7": 441,
+        "8": 772,
+        "9": 0,
+        "10": 19542,
+        "11": 0,
+        "12": 0
+      }
+    },
+    {
+      "arm": "a0_r1_q1",
+      "fold": 0,
+      "seed": 2132,
+      "modal_layer": 7,
+      "modal_fraction": 1.0,
+      "counts": {
+        "7": 19762,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0
+      }
+    },
+    {
+      "arm": "a0_r1_q1",
+      "fold": 0,
+      "seed": 2133,
+      "modal_layer": 7,
+      "modal_fraction": 1.0,
+      "counts": {
+        "7": 19762,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0
+      }
+    },
+    {
+      "arm": "a0_r1_q1",
+      "fold": 1,
+      "seed": 2132,
+      "modal_layer": 11,
+      "modal_fraction": 1.0,
+      "counts": {
+        "7": 0,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 20755,
+        "12": 0
+      }
+    },
+    {
+      "arm": "a0_r1_q1",
+      "fold": 1,
+      "seed": 2133,
+      "modal_layer": 8,
+      "modal_fraction": 0.9437725849192966,
+      "counts": {
+        "7": 0,
+        "8": 19588,
+        "9": 0,
+        "10": 0,
+        "11": 1167,
+        "12": 0
+      }
+    },
+    {
+      "arm": "a1_r1_q0",
+      "fold": 0,
+      "seed": 2132,
+      "modal_layer": 7,
+      "modal_fraction": 1.0,
+      "counts": {
+        "7": 19762,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0
+      }
+    },
+    {
+      "arm": "a1_r1_q0",
+      "fold": 0,
+      "seed": 2133,
+      "modal_layer": 7,
+      "modal_fraction": 1.0,
+      "counts": {
+        "7": 19762,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0
+      }
+    },
+    {
+      "arm": "a1_r1_q0",
+      "fold": 1,
+      "seed": 2132,
+      "modal_layer": 10,
+      "modal_fraction": 1.0,
+      "counts": {
+        "7": 0,
+        "8": 0,
+        "9": 0,
+        "10": 20755,
+        "11": 0,
+        "12": 0
+      }
+    },
+    {
+      "arm": "a1_r1_q0",
+      "fold": 1,
+      "seed": 2133,
+      "modal_layer": 8,
+      "modal_fraction": 0.9993736449048423,
+      "counts": {
+        "7": 0,
+        "8": 20742,
+        "9": 0,
+        "10": 13,
+        "11": 0,
+        "12": 0
+      }
+    },
+    {
+      "arm": "a1_r1_q1",
+      "fold": 0,
+      "seed": 2132,
+      "modal_layer": 7,
+      "modal_fraction": 1.0,
+      "counts": {
+        "7": 19762,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0
+      }
+    },
+    {
+      "arm": "a1_r1_q1",
+      "fold": 0,
+      "seed": 2133,
+      "modal_layer": 7,
+      "modal_fraction": 1.0,
+      "counts": {
+        "7": 19762,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0
+      }
+    },
+    {
+      "arm": "a1_r1_q1",
+      "fold": 1,
+      "seed": 2132,
+      "modal_layer": 11,
+      "modal_fraction": 1.0,
+      "counts": {
+        "7": 0,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 20755,
+        "12": 0
+      }
+    },
+    {
+      "arm": "a1_r1_q1",
+      "fold": 1,
+      "seed": 2133,
+      "modal_layer": 7,
+      "modal_fraction": 0.6920260178270297,
+      "counts": {
+        "7": 14363,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 6392,
+        "12": 0
+      }
+    },
+    {
+      "arm": "current_a1_r1_q1",
+      "fold": 0,
+      "seed": 2132,
+      "modal_layer": 7,
+      "modal_fraction": 1.0,
+      "counts": {
+        "7": 19762,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0
+      }
+    },
+    {
+      "arm": "current_a1_r1_q1",
+      "fold": 0,
+      "seed": 2133,
+      "modal_layer": 7,
+      "modal_fraction": 1.0,
+      "counts": {
+        "7": 19762,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0
+      }
+    },
+    {
+      "arm": "current_a1_r1_q1",
+      "fold": 1,
+      "seed": 2132,
+      "modal_layer": 11,
+      "modal_fraction": 1.0,
+      "counts": {
+        "7": 0,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 20755,
+        "12": 0
+      }
+    },
+    {
+      "arm": "current_a1_r1_q1",
+      "fold": 1,
+      "seed": 2133,
+      "modal_layer": 11,
+      "modal_fraction": 0.9982654781980246,
+      "counts": {
+        "7": 36,
+        "8": 0,
+        "9": 0,
+        "10": 0,
+        "11": 20719,
+        "12": 0
+      }
+    }
+  ],
+  "exactly_constant_routers": 15,
+  "quality_auc_delta_without_0176": -0.9667761654316931,
+  "conclusion": "No adopted method; routing harms all four matched factorial contexts; target-condition effect unestablished; Q gain source-sensitive"
+}
