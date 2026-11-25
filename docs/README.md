@@ -1,6 +1,8 @@
 # 实验说明索引
 
-Stage-195冻结路由审计已实现，等待读取服务器Stage-194缓存。仅R四模型，零新图像／骨干／训练，检验全池拟合、层间差异和固定路径偏好，并重建实际训练抽样。 [协议与后台命令](experiments/06_sgla_uav_tracking/STAGE195_ROUTER_OBJECTIVE_AUDIT.md)
+Stage-196同预算路由损失对照已实现，等待真实缓存训练。同网络同draw比较absolute与relative误差，8个CPU模型，先评价留出差异学习和相对固定均值的增量。 [协议与后台命令](experiments/06_sgla_uav_tracking/STAGE196_MATCHED_RELATIVE_LOSS.md)
+
+Stage-195冻结路由审计已完成。实际抽样MSE有改善但99%以上下降来自共同质量项，held逐帧选择对固定预测均值仅+.0001376 IoU且区间跨零；当前有效动态选层仍未建立。 [结果复核](experiments/06_sgla_uav_tracking/STAGE195_RESULTS_REVIEW.md) · [原协议](experiments/06_sgla_uav_tracking/STAGE195_ROUTER_OBJECTIVE_AUDIT.md)
 
 Stage-194 同预算内部模块消融已完成。原生64.4185、仅Q64.7794、仅A63.1884、仅R58.2466、三模块56.1599。路由退化为固定或近固定路径，目标条件增量未建立，仅Q收益依赖少数源组且保护未过。 [结果复核](experiments/06_sgla_uav_tracking/STAGE194_RESULTS_REVIEW.md) · [实验协议](experiments/06_sgla_uav_tracking/STAGE194_MATCHED_MODULE_ABLATION.md)
 

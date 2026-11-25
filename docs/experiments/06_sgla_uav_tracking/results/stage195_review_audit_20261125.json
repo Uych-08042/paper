@@ -1,0 +1,65 @@
+{
+  "schema": "stage195_returned_bundle_review_v1",
+  "source_bundle": "stage195_results_20261125T090931Z_1082854.txt",
+  "source_bundle_sha256": "08a26fd13c1a400ac0141c40edb8ac2f72574aa07f5dbc48c2cb22ba18e6b977",
+  "decision_fingerprint": "a282dbfb2ca856e5a2fe4009356a10e35a4784a011837fa8cf2381bd1622b764",
+  "decision_fingerprint_verified": true,
+  "table_sha256_verified": {
+    "stage195_model_scope.csv": true,
+    "stage195_error_summary.csv": true,
+    "stage195_error_video.csv": true,
+    "stage195_policy_summary.csv": true,
+    "stage195_policy_video.csv": true,
+    "stage195_paired.csv": true,
+    "stage195_frame_predictions.csv": true,
+    "stage195_fixed_path_audit.csv": true,
+    "stage195_training_history.csv": true
+  },
+  "table_rows": {
+    "stage195_model_scope.csv": 4,
+    "stage195_error_summary.csv": 100,
+    "stage195_error_video.csv": 760,
+    "stage195_policy_summary.csv": 14,
+    "stage195_policy_video.csv": 1064,
+    "stage195_paired.csv": 16,
+    "stage195_frame_predictions.csv": 7296,
+    "stage195_fixed_path_audit.csv": 76,
+    "stage195_training_history.csv": 1024
+  },
+  "recomputed_maximum_errors": {
+    "error_summary": 1.1102230246251565e-16,
+    "error_video": 0.0,
+    "policy_video": 2.220446049250313e-16,
+    "policy_summary": 0.0,
+    "paired": 0.0
+  },
+  "actual_training_draw_counts_reconstructed": true,
+  "source194_verified_hash_entries": 627,
+  "source194_hash_conflicts": 0,
+  "local_raw_model_and_npz_verification": false,
+  "cpu_gpu_action_mismatches": 0,
+  "maximum_decomposition_error": 2.7972416050126014e-17,
+  "fit_draws_common_component_improvement_fraction": [
+    0.9914928001991689,
+    0.9934506113005926,
+    0.9996947796967771,
+    0.9997335159972391
+  ],
+  "full_paths_constant": 69,
+  "full_paths_with_available_fixed_control": 38,
+  "full_paths_equal_available_fixed_control": 38,
+  "held_gain_over_prediction_mean": {
+    "pool": "held",
+    "contrast": "trained_minus_fit_prediction_mean",
+    "metric": "mean_iou",
+    "favorable_direction": "positive",
+    "videos": "38",
+    "mean_delta": "0.00013761299453226105",
+    "median_delta": "0.0",
+    "ci_low": "-1.7353156266836383e-05",
+    "ci_high": "0.0004215155617302013",
+    "positive": "2",
+    "negative": "1",
+    "worst_leave_one_video_out": "4.487370653319314e-06"
+  }
+}
