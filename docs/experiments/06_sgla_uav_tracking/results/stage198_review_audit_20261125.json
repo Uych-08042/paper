@@ -1,0 +1,28 @@
+{
+  "schema": "stage198_independent_local_review_v1",
+  "decision_fingerprint": "447f9394ced978f2c3586b28b52ca89327d1c2cb05533b7990147f4732d93e34",
+  "plan_fingerprint": "11d884a49bc372bdb81da4463e13be7849807c482fe9a7070273f37cae17b0c3",
+  "source_bundle_sha256": "b824c702af4a80f15ecebd418f4b55f3cdf3cfa8309c780368b1645220cc18b6",
+  "table_hashes_verified": true,
+  "protocol_hash_verified": true,
+  "all_10944_held_calibrated_actions_equal_fit_constant_L7": true,
+  "calibration_score_recompute_max_error": 0.0,
+  "independently_enumerated_cyclic_shift_expectation_max_error": 5.551115123125783e-16,
+  "minimum_held_L7_margin": 0.0003409583891365031,
+  "raw_redecode_action_changes": 0,
+  "new_model_forwards": 0,
+  "result_bundle": "stage198_results_447f9394ced9.txt",
+  "result_bundle_sha256": "0f3bcebd12370081e9e8a2319bb12458a537a1cdffe095491c422f2a2024ae77",
+  "code_hashes_verified": true,
+  "table_rows": {
+    "model_scope": 12,
+    "calibration": 72,
+    "policy_video": 3192,
+    "policy_summary": 42,
+    "paired": 82,
+    "error_video": 1824,
+    "error_summary": 24,
+    "frame_predictions": 21888,
+    "source_bridge": 456
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "schema": "stage197_returned_bundle_review_v1",
+  "source_bundle": "stage197_results_20261125T102154Z_1143642.txt",
+  "source_bundle_sha256": "b824c702af4a80f15ecebd418f4b55f3cdf3cfa8309c780368b1645220cc18b6",
+  "decision_fingerprint": "4b0f88097a9f748eb12d58a53e458b6e53d77d0016da7a001f3b8c7ea026b7b0",
+  "reported_plan_fingerprint": "43a49f31db5532f7d7a934cdc6aad18f3b9e3a1869dd0c244956db10d137fb53",
+  "decision_verified": true,
+  "table_sha256_verified": {
+    "stage197_model_scope.csv": true,
+    "stage197_input_audit.csv": true,
+    "stage197_error_summary.csv": true,
+    "stage197_error_video.csv": true,
+    "stage197_policy_summary.csv": true,
+    "stage197_policy_video.csv": true,
+    "stage197_paired.csv": true,
+    "stage197_frame_predictions.csv": true,
+    "stage197_training_history.csv": true,
+    "stage197_source_bridge.csv": true
+  },
+  "table_rows": {
+    "stage197_model_scope.csv": 12,
+    "stage197_input_audit.csv": 38,
+    "stage197_error_summary.csv": 300,
+    "stage197_error_video.csv": 2280,
+    "stage197_policy_summary.csv": 42,
+    "stage197_policy_video.csv": 3192,
+    "stage197_paired.csv": 72,
+    "stage197_frame_predictions.csv": 21888,
+    "stage197_training_history.csv": 3072,
+    "stage197_source_bridge.csv": 152
+  },
+  "recomputed_maximum_errors": {
+    "error_video": 0,
+    "policy_video": 2.220446049250313e-16,
+    "frame_predictions": 0,
+    "error_summary": 1.1102230246251565e-16,
+    "policy_summary": 1.3877787807814457e-17,
+    "paired": 0
+  },
+  "matched_primary_initialization_parameters_and_draws": true,
+  "training_draw_counts_reconstructed": true,
+  "training_histories_checked": true,
+  "source_artifacts_cross_checked": 163,
+  "new_model_prediction_artifact_references": 936,
+  "raw_model_feature_npz_files_verified_locally": false,
+  "global_control_bridge_exact_states": 7296,
+  "primary_contrast": {
+    "comparison": "policy",
+    "pool": "held",
+    "contrast": "ordered_minus_unordered",
+    "metric": "mean_iou",
+    "favorable_direction": "positive",
+    "videos": 38,
+    "mean_delta": 0.00013014563779205858,
+    "median_delta": 0.0,
+    "ci_low": -0.00010678033205870221,
+    "ci_high": 0.0003902437722861138,
+    "positive": 6,
+    "negative": 4,
+    "worst_leave_one_video_out": 5.583363766917785e-05
+  },
+  "gain_decomposition_ordered_minus_global": {
+    "total": 0.0034561463842954776,
+    "fit_prediction_constant_change": 0.0037339654895668373,
+    "dynamic_increment_change": -0.00027781910527135967
+  },
+  "interpretation": "Small ordering signal; primary selected IoU inconclusive and gain over fit constants absent; no full-video adoption"
+}

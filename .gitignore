@@ -9,3 +9,5 @@ __pycache__/
 .ruff_cache/
 .ipynb_checkpoints/
 /output/stage90/
+/output/stage198/
+/output/stage199/

@@ -1,6 +1,10 @@
 # 实验说明索引
 
-Stage-197空间顺序对照已实现，待服务器运行。主比较保留token原排列与逐样本无序排序，两组同6727参数及训练预算；另有原全局统计重训控制。12模型、21888缓存输出，无新图像／骨干／完整AUC。 [协议、理论边界及后台运行](experiments/06_sgla_uav_tracking/STAGE197_SPATIAL_ROUTING_INTERFACE.md)
+Stage-199已实现，待服务器使用真实Stage-194缓存训练。三组同6720参数／同先验／同抽样预算，比较均值锚定Sigmoid、加性绝对回归和层间交互残差；12模型、21888预测，无新图像或骨干调用。 [理论、验证边界及后台运行](experiments/06_sgla_uav_tracking/STAGE199_FIT_CENTERED_INTERACTION.md)
+
+Stage-198已用真实Stage-197回传在本机完成，无需服务器补跑。fit均值校准后三组held IoU均.666608，但全部held动作与固定L7相同，无状态对应增量；不采用、不称新AUC。 [结果与Stage-199建议](experiments/06_sgla_uav_tracking/STAGE198_RESULTS_REVIEW.md) · [原协议与复现](experiments/06_sgla_uav_tracking/STAGE198_FIT_MEAN_STATE_CORRESPONDENCE.md)
+
+Stage-197已完成。空间顺序有小幅排序信号，但主IoU增量区间跨零，且未超过固定控制；主要提升来自固定层偏好变化，暂不进入全视频采用验证。 [结果复核与Stage-198建议](experiments/06_sgla_uav_tracking/STAGE197_RESULTS_REVIEW.md) · [原协议](experiments/06_sgla_uav_tracking/STAGE197_SPATIAL_ROUTING_INTERFACE.md)
 
 Stage-196同预算损失对照已完成。relative改善训练误差，但held平均IoU较absolute−.0014886、层间误差与排序变差，未建立收益。 [结果复核](experiments/06_sgla_uav_tracking/STAGE196_RESULTS_REVIEW.md) · [原协议](experiments/06_sgla_uav_tracking/STAGE196_MATCHED_RELATIVE_LOSS.md)
 
