@@ -2,9 +2,13 @@
 
 更新日期：2026-11-25（Asia/Hong_Kong）
 
-**Stage-200已实现并通过本地测试，待服务器真实缓存训练，见0.193。** 同视频两状态独立有放回配对，point与within_video_difference用完全相同状态对同次重训，原199有符号残差架构／6720参数／fit统计／初始化不变。每步2对4状态引用，每模型256步／1024引用；8模型2048更新14592缓存输出。1/2差分系数来自方差恒等式，无新帧间隔或调权。7项测试通过，含38组合成端到端及计数重建；本机无真实194特征，不能预报研究结果。单一总体进度条，启动`bash tools/run_stage200_within_video.sh`。 [固定协议与后台命令](docs/experiments/06_sgla_uav_tracking/STAGE200_WITHIN_VIDEO_DIFFERENCE.md)
+**Stage-202已实现并通过6项CPU测试，待服务器真实缓存训练，见0.196。** 同一6720参数残差选层器，同初始／fit统计／配对抽样／AdamW／256步1024引用，比较原point MSE与定位遗憾上界`max_l(s_l−s_l*+y_l*−y_l)`。测试证实MSE最终权重与原200实现精确一致；38组合成8模型2048更新／13表端到端通过，真实收益尚未知。本机无194真实NPZ，不能启动真实训练。单一总体进度条，服务器运行`bash tools/run_stage202_regret_routing.sh`；无需GPU／SGLA checkpoint，后台命令见协议。层号不等于实际Transformer执行块数，本轮不测骨干成本。 [理论、预算、验证与后台命令](docs/experiments/06_sgla_uav_tracking/STAGE202_REGRET_MARGIN_ROUTING.md)
 
-**Stage-199真实训练已完成，见0.192，仍未建立held逐帧增量。** 三组held IoU Sigmoid .666462／additive .661409／residual .661389，固定先验.666608。residual三个主要比较均未通过；fit排序77.75%→held54.91%，固定先验59.30%。梯度和训练有效，held约49.67%状态换层；探索性分解显示74.8%训练MSE下降来自视频均值分量，两分量held均变差。决策／manifest／10表／代码／原协议哈希及全部统计重算通过。0新完整轨迹／确认集。该建议现已由Stage-200实现，见0.193，待服务器运行。 [结果复核](docs/experiments/06_sgla_uav_tracking/STAGE199_RESULTS_REVIEW.md) · [原协议](docs/experiments/06_sgla_uav_tracking/STAGE199_FIT_CENTERED_INTERACTION.md)
+**Stage-201已在本机用真实缓存完成，无需服务器补跑，见0.195。** 差分raw／离线视频均值／严格过去均值held IoU .66165173／.66079708／.65945720，固定先验.66660835。因果规则三个主要比较均未建立收益，状态对应增量仅+.00005178、区间跨零；两个种子校正后IoU均下降。降低“单独移除视频均值就能解决”的优先级，不进入闭环采用。6项测试及全状态／9表复算通过，0新训练／模型／图像／完整轨迹／确认组。该同预算监督对照已由Stage-202实现，见0.196，待服务器真实训练。 [真实结果、推导与建议](docs/experiments/06_sgla_uav_tracking/STAGE201_RESULTS_REVIEW.md) · [固定协议与复现](docs/experiments/06_sgla_uav_tracking/STAGE201_SCORE_BASELINE_IDENTIFICATION.md)
+
+**Stage-200真实训练结果已复核，见0.194，有小幅状态对应信号但整体未通过。** 差分held IoU .66165173，低于固定先验.66660835（−.00495661、名义区间为负），对匹配point +.00103745但区间跨零。对自身无状态对应期望+.00086284、区间[+.00015161,+.00161365]，双seed均正；不能称全部无效或动态选层已成功。12表／代码／原协议／指纹核验和逐状态复算通过，0新完整轨迹／确认组。该分数基准诊断已由Stage-201完成，见0.195；两种校正未建立收益。 [结果与下一步依据](docs/experiments/06_sgla_uav_tracking/STAGE200_RESULTS_REVIEW.md) · [固定协议](docs/experiments/06_sgla_uav_tracking/STAGE200_WITHIN_VIDEO_DIFFERENCE.md)
+
+**Stage-199真实训练已完成，见0.192，仍未建立held逐帧增量。** 三组held IoU Sigmoid .666462／additive .661409／residual .661389，固定先验.666608。residual三个主要比较均未通过；fit排序77.75%→held54.91%，固定先验59.30%。梯度和训练有效，held约49.67%状态换层；探索性分解显示74.8%训练MSE下降来自视频均值分量，两分量held均变差。决策／manifest／10表／代码／原协议哈希及全部统计重算通过。0新完整轨迹／确认集。该建议已由Stage-200完成，真实结果见0.194。 [结果复核](docs/experiments/06_sgla_uav_tracking/STAGE199_RESULTS_REVIEW.md) · [原协议](docs/experiments/06_sgla_uav_tracking/STAGE199_FIT_CENTERED_INTERACTION.md)
 
 **Stage-198已在本机用真实回传缓存完成，见0.190，无需服务器补跑。** 固定fit层均值校准后，三种路由held IoU同为.6666083461，但10944条held模型状态全部选L7，与fit标签均值常数完全相同；两主比较无动态增量。原ordered状态对应增量+.00007556、CI跨零。全部21888分数重算差0，无对应期望经全循环移位独立核验差≤5.55e-16，0新训练／网络／图像／完整轨迹／确认组。校准提升是固定偏好修正，不能称新AUC，更不能采用固定L7（194全视频反而受损）。Stage-199现已完成，结果见0.192。 [真实结果与下一步依据](docs/experiments/06_sgla_uav_tracking/STAGE198_RESULTS_REVIEW.md) · [固定协议](docs/experiments/06_sgla_uav_tracking/STAGE198_FIT_MEAN_STATE_CORRESPONDENCE.md)
 
@@ -221,7 +225,7 @@ Stage-75 L20 已完成 13 个固定起点和 52 条短分支。0003 两个首败
 
 ## 0. 下一次对话的直接接续入口
 
-最新入口为0.193的Stage-200实现及服务器命令，再回看0.192的Stage-199结果。198与199均已完成，勿重复索取或重跑；Stage-1～199实验Python与产物保持冻结。
+最新入口为0.196的Stage-202实现与服务器命令，再回看0.195的Stage-201真实结果。198～201均已完成，勿重复索取或重跑；Stage-1～201实验Python与产物保持冻结。202已实现待真实训练，本机仅完成合成CPU测试。
 
 本节更新至 2026-11-25。接续先读0.187的Stage-196损失对照结果、0.186的Stage-195路由目标审计、0.185的 Stage-194 完整模块消融结果及全阶段方法依据。每次分析实验结果后，附上下一步实验建议及其验证标准。运行使用总体进度条，复用 `tools/experiment_progress.py` 中的 `OverallProgress`，在后台日志定时刷新。以往全视频结果见 0.143、0.122 和 0.112，候选生成背景见 0.90～0.95 和 0.53～0.54，确认边界和论文目标见 0.48／0.44。 [Stage-196结果](docs/experiments/06_sgla_uav_tracking/STAGE196_RESULTS_REVIEW.md)
 
@@ -2975,9 +2979,9 @@ held IoU Sigmoid .66646213、additive .66140912、residual .66138895、固定μ/
 
 探索性视频分量分解：残差fit视频均值误差.000267407→.0000534381，视频内变化.001207604→.001135497；约74.795%总下降来自视频均值分量，视频内变化只降5.97%。held均值.000361556→.000383227、视频内.001207604→.001218822都变差。支持跨视频迁移未建立及检验视频内监督，不证明直接记忆视频编号、环境成因或增加容量必有效。
 
-下一步建议Stage-200同视频两状态差分监督，使用E||e_t−e_s||²/2=E||e−E[e|g]||²去视频均值误差；1/2来自恒等式，不用held调权。同参数点监督控制必须同次用相同状态对重训，每更新2对共4状态引用，保持1024引用／256步及相同fit统计；不能以本轮旧点监督替代匹配控制。先看heldIoU、状态对应增量、双seed与源组一致性再决定闭环。不新增在线历史输入或开确认集。200现已实现，见0.193，待真实运行。 [完整复核](docs/experiments/06_sgla_uav_tracking/STAGE199_RESULTS_REVIEW.md)
+下一步建议Stage-200同视频两状态差分监督，使用E||e_t−e_s||²/2=E||e−E[e|g]||²去视频均值误差；1/2来自恒等式，不用held调权。同参数点监督控制必须同次用相同状态对重训，每更新2对共4状态引用，保持1024引用／256步及相同fit统计；不能以本轮旧点监督替代匹配控制。先看heldIoU、状态对应增量、双seed与源组一致性再决定闭环。不新增在线历史输入或开确认集。200已完成，真实结果见0.194。 [完整复核](docs/experiments/06_sgla_uav_tracking/STAGE199_RESULTS_REVIEW.md)
 
-### 0.193 Stage-200 同视频差分与匹配点监督（已实现，待真实运行）
+### 0.193 Stage-200 同视频差分与匹配点监督（固定实现，真实结果见0.194）
 
 用户授权并要求继续后，新增`stage200_pair_common.py`、`stage200_within_video.py`、`test_stage200_within_video.py`、`run_stage200_within_video.sh`与运行前协议。唯一监督干预：e=P(score−y)，point优化mean(e²)，difference优化mean((e_t−e_s)²)/2。同视频t/s独立均匀、有放回，自配对保留，系数1/2由条件方差恒等式确定。没有帧间隔选择／失败窗口／新门槛／在线历史模块。
 
@@ -2990,6 +2994,44 @@ held IoU Sigmoid .66646213、additive .66140912、residual .66138895、固定μ/
 7项本地测试通过：真实199包身份、配对预算／范围、自配对、穷举状态对方差恒等式、视频级偏移与梯度抵消、6720初始先验、两组训练／buffer／复用／篡改、38组合成完整8模型2048步和12表、计数重建、禁止CUDA及结果复用。合成特征小维数，实际192维特征未在本机训练。本机缺194真实NPZ，真实200待服务器执行，旧1～199 Python和证据冻结。
 
 服务器`sglatrack-test`／`~/workspace/paper`执行`bash tools/run_stage200_within_video.sh`；默认root=`output/stage200/matched_within_video_v1`，来源可设置STAGE194_ROOT／STAGE199_BUNDLE，独立输出STAGE200_ROOT。单一总体进度条及后台定时刷新，结果自动包为`stage200_results_<UTC>_<PID>.txt`（decision／manifest／12表）。不重跑198／199。 [协议、验证标准和后台命令](docs/experiments/06_sgla_uav_tracking/STAGE200_WITHIN_VIDEO_DIFFERENCE.md)
+
+### 0.194 Stage-200 真实同视频差分结果（复核完成，未采用）
+
+原回传`stage200_results_20261125T140231Z_1329509.txt`已按原字节存results，SHA 00a487b9552785b6a4eb9f2a64a7477591e4ddbed32b5d348df362026a8d8838。决策b9b4aafb6a648a38d54347e76dd1e2138f8ad9b188cfbea51c962bb59b30f2dc，计划8792d5489f5d1711191ea202e4c2d550bbc310fa17f72615a308fd68f437522f。38历史开发组、两折两seed、8模型2048更新8192训练引用4096模型配对、14592缓存输出，0新图像／骨干／完整轨迹／确认组。原协议与1～200代码保持冻结；本机无原L6 NPZ／PT，628条物理产物仅核对声明。
+
+决策／manifest／12表／代码与协议哈希均相符；163来源引用与已审199相同。全部14592逐状态、2048抽样对、76支持行和引用次数重建一致；误差表重算差0，视频策略≤4.44e-16、汇总≤1.73e-17、38配对≤2.78e-17；48循环动作移位的无对应期望独立验证≤4.44e-16。两组同初始／6720参数／1088输入／抽样／fit统计，history与梯度记账相符；点目标下降19.31%～22.68%、差分目标下降11.66%～12.19%，不同目标下降率不能直接比较。
+
+held point／difference／固定fit先验IoU .66061429／.66165173／.66660835。difference−prior −.00495661，CI[−.01048812,−.00003010]、12胜24负2平；difference−point +.00103745，CI[−.00203838,+.00428195]、19胜18负1平。差分状态对应增量+.00086284，CI[+.00015161,+.00161365]、21胜14负3平、最小留一+.00065229；两seed +.00097471／+.00075096。这个预设比较有名义正信号，但相对point的对应增量差区间仍跨零，不能称差分已优于点监督。差分held约50.16%状态偏离L7、六层均有选择，不是未换层。
+
+差分fit排序67.11%→held56.16%，仍低于held固定先验59.30%；point为77.31%→54.93%。差分held视频平均偏好MSE .00037253、视频内变化MSE .00120883，均高于零残差基准.00036156／.00120760；与point的总MSE、视频内MSE和排序差区间均跨零。描述性恒等分解：相对prior −.00495661 = 选择比例无对应期望负项−.00581945 + 状态对应正项+.00086284；负项尚未证明由均值漂移唯一造成。不能把缓存IoU当AUC，不能据先验优势采用固定L7（194完整轨迹曾−5.98 AUC）。
+
+下一步建议Stage-201分数基准可识别性诊断。差分目标对每视频时间恒定的层偏置不变，只约束变化，整体fit均值并不能固定每个新视频的基准。先用现有point／difference预测缓存，同规则比较原分数／prior、全视频预测均值去除（未来信息，只作离线参考）、严格过去预测均值去除（首状态prior、不挑新窗口／λ）；不使用held真值校准。共同查看对prior与自身无对应期望的收益、双seed／源组一致性和因果估计差距；离线也不改善则降低均值校准假设优先级，仅未来参考改善则不可部署，过去估计稳定改善后才预注册闭环。201已在本机完成，结果见0.195，无需服务器补跑。 [详细复核及建模依据](docs/experiments/06_sgla_uav_tracking/STAGE200_RESULTS_REVIEW.md) · [机器复核](docs/experiments/06_sgla_uav_tracking/results/stage200_review_audit_20261125.json)
+
+### 0.195 Stage-201 分数基准可识别性诊断（真实缓存本机完成，无需服务器补跑）
+
+用户授权继续后实现`stage201_score_baseline.py`、6项测试、单一总体进度条shell与运行前协议，随后在本机复用真实200文本包完成，不需要原L6 NPZ／PT或GPU。8原模型、38历史开发源组、两fold／两seed、14592模型状态；0新训练／模型前向／骨干／图像／完整轨迹／确认源组。固定三种分数：raw、μ+p−视频全均值（含未来，仅离线参考）、首状态μ而后μ+p−严格过去均值（每模型／视频独立重置，不挑窗口／权重）；另报prior、L9、oracle。
+
+决策7984550b318cc7f5c0cf7c793adb91ffadde792870c6b099ab848cc2bbdeeccf，计划1ed6c2cc8f778bd08e3d60e102c7f5c260bbda1da151196c71fd0b6199b73ba7。完整结果`stage201_results_7984550b318c.txt`原字节存results，SHA acdc3d9b4d5e6cf051b03d26a37813eaa1ee3982ca424880e190e59840b27fd8。9表source_audit8／calibration_video304／policy_video1824／policy_summary24／seed_summary48／paired38／error_video1216／error_summary16／frame_predictions14592。200来源12表／代码／原协议和201哈希均核验；逐状态分数／动作／IoU、过去范围、视频／汇总／种子及38配对bootstrap重算差0；循环无对应期望误差≤5.55e-16，误差分解≤1.74e-18，离线均值恢复误差≤9.99e-16。6项测试含未来扰动／前缀不变、视频偏置不变、held标签隔离、完整合成报告／复用／篡改拒绝、禁止Torch与图像依赖。实际进度306／306。
+
+差分held raw／offline／causal IoU .66165173／.66079708／.65945720，prior .66660835；对应增量+.00086284／+.00037464／+.00005178。causal对prior −.00715115，CI[−.01152665,−.00327181]、9胜22负7平；对raw −.00219453、CI跨零；自身对应增量CI[−.00059900,+.00065810]、17胜14负7平。offline对raw −.00085465、CI跨零，对prior −.00581127、区间为负。两seed校正后IoU均下降；causal对应增量+.00048148／−.00037792，不挑seed。
+
+point raw／offline／causal为.66061429／.66181104／.66074537；offline对应增量+.00128162名义区间为正，但对raw IoU区间跨零、仍低于prior，不能替代差分主结果。差分离线去均值把视频偏好MSE .00037253归还prior .00036156，视频内MSE .00120883保持不变，IoU仍不升；causal视频内MSE .00121547更高。降低“只需校正均值”的优先级，不宣称所有校准无效或均值为唯一病因。均为原生父框抽样即时IoU，不是新AUC／自身历史闭环，offline含未来，不部署。原物理PT／特征NPZ未在本机重新核验。
+
+下一步建议Stage-202直接定位遗憾监督，同输入／6720参数／fit先验／初始化／配对／AdamW／256步1024引用，同次重训point MSE与结构化损失。令l*=argmax y，Δ_l=y_l*−y_l；L=max_l(s_l+Δ_l)−s_l*，对精确argmax的实际定位遗憾有Δ_a≤L，保留1e-8近最大值规则则≤L+1e-8。间隔由真实IoU差确定，无新温度／窗口／手调margin。标准代价敏感损失本身不称新理论；检验其对决策的对齐价值，不预认定MSE是根因。先held对匹配MSE／prior／自身无对应期望及源组／双seed一致性，再闭环；缓存增益不能直接当AUC或采用固定L7。Stage-202已实现，见0.196，待服务器真实训练，确认集封存。 [结果及完整推导](docs/experiments/06_sgla_uav_tracking/STAGE201_RESULTS_REVIEW.md) · [固定协议](docs/experiments/06_sgla_uav_tracking/STAGE201_SCORE_BASELINE_IDENTIFICATION.md) · [机器复核](docs/experiments/06_sgla_uav_tracking/results/stage201_review_audit_20261125.json)
+
+### 0.196 Stage-202 定位遗憾上界监督（已实现，待真实缓存训练）
+
+用户授权下一轮后新增`stage202_regret_common.py`、`stage202_regret_routing.py`、`test_stage202_regret_routing.py`、`run_stage202_regret_routing.sh`及固定协议。唯一训练干预为目标函数：point=mean(P(s−y)²)；regret_margin=mean(max_l[s_l−s_l*+y_l*−y_l])，l*取当前精度标签的精确argmax。精确分数argmax的实际定位遗憾不超过该损失，继承L9的1e-8近最大值规则后上界加1e-8；真值最优项精确0、无手调margin／温度／组合权重。该标准代价敏感损失不单独宣称原创理论，不预先认定MSE为唯一病因。
+
+两组原199 interaction_residual架构／6720参数／1088输入，μ+P r、fit中心化ordered输入、同初始权重与buffer、同配对日程。沿用38开发组19／19两折、2132／2133、原AdamW及256更新／512状态对／1024引用；8模型2048更新8192训练引用4096模型对引用、4套日程2048行、14592评价输出。两组同次重训MSE，不能拿旧200作唯一匹配控制。日程沿用200同视频独立有放回抽样，自配对保留；两个新目标均按状态监督，不优化视频差分。
+
+来源为服务器194原始特征／标签目录和仓库已审200原字节包，后者SHA 00a487b9552785b6a4eb9f2a64a7477591e4ddbed32b5d348df362026a8d8838，决策b9b4aafb6a648a38d54347e76dd1e2138f8ad9b188cfbea51c962bb59b30f2dc、计划8792d5489f5d1711191ea202e4c2d550bbc310fa17f72615a308fd68f437522f。200指纹／12表／冻结代码和协议、194每个NPZ／receipt和标签／fit先验均核验。不读取图像、不运行骨干／CENTER、不生成新完整轨迹、不打开确认组；只训练CPU小路由器。
+
+13表：model_scope8／fit_summary2／source_bridge38／pair_schedule2048／pair_support76／error_summary12／error_video912／policy_summary20／policy_video1520／paired40／frame_predictions14592／training_history2048／seed_summary40。支持指标附定位遗憾上界及违反量、双seed、层选择分布／平均层号。`mean_selected_layer`不是实际执行块数或延迟，actual_transformer_calls_measured=False；缓存阶段无法证明动态加深的速度／精度收益。三共同主比较regret held对point、prior、自身无对应期望，再看源组／seed一致性，满足后才另立自身轨迹验证。所有区间为历史开发集名义区间，不能当确认集结果或新AUC。
+
+6项本地测试全部通过（Python3.12.4／Torch2.7.1+cpu／NumPy1.26.4）：真实200来源及抽样复现／缓存篡改、float64遗憾上界及近并列规则、margin梯度与MSE逐元素／梯度一致、真实6720参数初始化、两组匹配训练／恢复／buffer／旧200 MSE最终模型digest精确相同、38组合成完整8模型2048步／13表／引用重建／上界检查／禁止CUDA／产物复用与篡改拒绝。Bash只读语法检查、Python编译通过。本地合成token尺寸小，实际320×192仅单模型初始化检查，不冒充真实训练。本机没有真实194 NPZ；真实202等待服务器运行，1～201代码和证据未修改。
+
+服务器`sglatrack-test`、`~/workspace/paper`执行`bash tools/run_stage202_regret_routing.sh`，默认root `output/stage202/matched_regret_margin_v1`，可用STAGE194_ROOT／STAGE200_BUNDLE指定来源，STAGE202_ROOT指定独立输出。后台nohup及tail命令见[固定协议](docs/experiments/06_sgla_uav_tracking/STAGE202_REGRET_MARGIN_ROUTING.md)。单一总体进度条＋日志定时刷新；完成回传`stage202_results_<UTC>_<PID>.txt`（decision／manifest／13表）。[本地验证记录](docs/experiments/06_sgla_uav_tracking/results/stage202_local_validation_20261125.json)。未代commit／push。
 
 ## 1. 接手后首先要知道的结论
 

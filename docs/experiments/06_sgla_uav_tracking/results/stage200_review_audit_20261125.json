@@ -1,0 +1,221 @@
+{
+  "date": "2026-11-25",
+  "bundle_sha256": "00a487b9552785b6a4eb9f2a64a7477591e4ddbed32b5d348df362026a8d8838",
+  "decision_fingerprint": "b9b4aafb6a648a38d54347e76dd1e2138f8ad9b188cfbea51c962bb59b30f2dc",
+  "plan_fingerprint": "8792d5489f5d1711191ea202e4c2d550bbc310fa17f72615a308fd68f437522f",
+  "table_hashes_verified": {
+    "stage200_model_scope.csv": "166e696749fde61142f9d653976313a59349731379d27e2444a2eb81ffe79853",
+    "stage200_fit_summary.csv": "9bb284a11217896e00c87ab1c7f6ce63a756f0d50f74cb7c926314948d03a939",
+    "stage200_source_bridge.csv": "af953d45ca1eaa3928fb4ca496960cc97c058d79ba67c38e3680f6aaf4957e8c",
+    "stage200_pair_schedule.csv": "171fe6a1587dc3e338a866b66da395679c7788dc73f7af7a501537d82dc0b06f",
+    "stage200_pair_support.csv": "2791f8f60448a103de80c44cfb3ccac36db5dd615a15a0b39632318921c22535",
+    "stage200_error_summary.csv": "33b0de7f9391fb633901b84f06580239f58194e9fd0142590ce240b7e3ba8f0a",
+    "stage200_error_video.csv": "dff1b685193e5028074ea35141b26fcda4cb6590a9dba8119380f1385ae2b264",
+    "stage200_policy_summary.csv": "653008619bc841267b87cc4c730df686f48d7cffeb4fbac3075de6a6db2bb8e5",
+    "stage200_policy_video.csv": "b5f6a5c0088ea8911f620b61fbab94d2f11f6612f52a64ad22b76a66badcc977",
+    "stage200_paired.csv": "41c20c77d2c07d487e1fabcc3e29663eeede8bb9234188afb671ef9eb3ccbd0a",
+    "stage200_frame_predictions.csv": "0381afc390b947e68db84cc8f9467d9755e6f3532ba2103d5ea9a6f46f4bf8b6",
+    "stage200_training_history.csv": "d913b7628df30eeda89c2b27f133cd97dcca5d5b9e9513e1505d7c1e3bbf3a22"
+  },
+  "code_hashes_verified": {
+    "stage200_within_video.py": "c5af53c9eb6036e3de0f19b52a3525cd296a85fd8f38c1af596fb5ce4556e2f2",
+    "stage200_pair_common.py": "730c5f10a68bb9f0a9b98d838b02844f32dc8b2ef4fa47615f0393ba704030c6",
+    "stage199_residual_routing.py": "5a5873edd240160b1011393e1bad5bc89d363bceddd3242a8c11235efc649a75",
+    "stage199_residual_model.py": "85d321b96e52446953da5b1b6842dcf5f35440f7215fd22f4e48bd2d4d681931",
+    "stage195_router_objective_audit.py": "d34102a8d2c17922f830a33f86f250c40813dc894f7022236ee3a3bdccc212bf",
+    "stage195_routing_common.py": "3177256db063fcfcbb3e0c4418e7c54808e1c99271861d1d4bd90041b52c8ebf",
+    "stage194_module_common.py": "d23d31dd0fdde83d8946c9c54823eba7e22283fc2836488467ab1fef43dfd480",
+    "stage198_routing_calibration.py": "458792b65c7655a4fc16128dc65b2b25f795e89c5389c258080b7614d864bc00",
+    "stage196_relative_loss.py": "186aa9b2432957b001936557dea654e1644271da4fa4c472892907ff7b8ed5d4",
+    "stage194_module_ablation.py": "2287cd073391f9d443a7ce2331b7a42c77464f60be329b57b95f273c211323a6"
+  },
+  "protocol_hash_verified": "f6486b3d587d32adc0146c4effabd139172e1e3fdf30e753238ec461040d5821",
+  "source_references_identical_to_reviewed_stage199": 163,
+  "declared_physical_artifacts_not_locally_available": 628,
+  "table_rows": {
+    "model_scope": 8,
+    "fit_summary": 2,
+    "source_bridge": 38,
+    "pair_schedule": 2048,
+    "pair_support": 76,
+    "error_summary": 12,
+    "error_video": 912,
+    "policy_summary": 20,
+    "policy_video": 1520,
+    "paired": 38,
+    "frame_predictions": 14592,
+    "training_history": 2048
+  },
+  "maximum_recompute_differences": {
+    "pair_schedule": 0.0,
+    "pair_support": 0.0,
+    "error_video": 0.0,
+    "policy_video": 4.440892098500626e-16,
+    "frame_predictions": 0.0,
+    "policy_summary": 1.734723475976807e-17,
+    "error_summary": 0.0,
+    "paired": 2.7755575615628914e-17
+  },
+  "maximum_cyclic_null_error": 4.440892098500626e-16,
+  "initial_weights_and_pair_schedules_matched": true,
+  "training_counts_and_gradient_histories_matched": true,
+  "fit_label_prior_recomputed": true,
+  "matched_objective_reconstruction": [
+    {
+      "fold": 0,
+      "seed": 2132,
+      "arm": "point",
+      "initial_matched_objective": 0.0017857989578886676,
+      "final_matched_objective": 0.0014049643670976711,
+      "fraction_reduced": 0.21325725894769998
+    },
+    {
+      "fold": 0,
+      "seed": 2132,
+      "arm": "within_video_difference",
+      "initial_matched_objective": 0.001593374218961601,
+      "final_matched_objective": 0.0014003426724000117,
+      "fraction_reduced": 0.12114639754080347
+    },
+    {
+      "fold": 0,
+      "seed": 2133,
+      "arm": "point",
+      "initial_matched_objective": 0.001171960099479237,
+      "final_matched_objective": 0.000906209945261396,
+      "fraction_reduced": 0.2267569982424552
+    },
+    {
+      "fold": 0,
+      "seed": 2133,
+      "arm": "within_video_difference",
+      "initial_matched_objective": 0.0009746118222119418,
+      "final_matched_objective": 0.0008570660943149504,
+      "fraction_reduced": 0.12060773860737106
+    },
+    {
+      "fold": 1,
+      "seed": 2132,
+      "arm": "point",
+      "initial_matched_objective": 0.001794007148884282,
+      "final_matched_objective": 0.0014407595959363472,
+      "fraction_reduced": 0.1969042058542657
+    },
+    {
+      "fold": 1,
+      "seed": 2132,
+      "arm": "within_video_difference",
+      "initial_matched_objective": 0.0015625665582829408,
+      "final_matched_objective": 0.0013720693322323118,
+      "fraction_reduced": 0.12191303150629362
+    },
+    {
+      "fold": 1,
+      "seed": 2133,
+      "arm": "point",
+      "initial_matched_objective": 0.0016304855848008639,
+      "final_matched_objective": 0.001315563316256187,
+      "fraction_reduced": 0.19314630652385634
+    },
+    {
+      "fold": 1,
+      "seed": 2133,
+      "arm": "within_video_difference",
+      "initial_matched_objective": 0.0013103471166165624,
+      "final_matched_objective": 0.0011576024797387494,
+      "fraction_reduced": 0.1165680718802311
+    }
+  ],
+  "seed_held_results": [
+    {
+      "arm": "point",
+      "seed": 2132,
+      "mean_iou": 0.6596965625672118,
+      "alignment": -7.290108979687702e-05
+    },
+    {
+      "arm": "point",
+      "seed": 2133,
+      "mean_iou": 0.6615320098097509,
+      "alignment": 0.0004992383452233578
+    },
+    {
+      "arm": "within_video_difference",
+      "seed": 2132,
+      "mean_iou": 0.6617464200201116,
+      "alignment": 0.0009747147696309139
+    },
+    {
+      "arm": "within_video_difference",
+      "seed": 2133,
+      "mean_iou": 0.6615570425503584,
+      "alignment": 0.0007509630874201975
+    }
+  ],
+  "held_difference_action_counts": {
+    "9": 579,
+    "8": 344,
+    "7": 1818,
+    "10": 380,
+    "11": 450,
+    "12": 77
+  },
+  "held_difference_gap_decomposition": {
+    "actual_minus_prior": -0.004956614774023316,
+    "independent_minus_prior": -0.005819453702548993,
+    "actual_minus_independent": 0.0008628389285256777
+  },
+  "primary_contrasts": [
+    {
+      "arm": "within_video_difference",
+      "pool": "held",
+      "kind": "within",
+      "contrast": "trained_minus_prior_only",
+      "metric": "mean_iou",
+      "favorable_direction": "positive",
+      "videos": 38,
+      "mean_delta": -0.004956614774023295,
+      "median_delta": -0.001565969974917869,
+      "ci_low": -0.010488122851218107,
+      "ci_high": -3.0095881742197677e-05,
+      "positive": 12,
+      "negative": 24,
+      "worst_leave_one_video_out": -0.005892925665914948
+    },
+    {
+      "arm": "within_video_difference",
+      "pool": "held",
+      "kind": "alignment",
+      "contrast": "trained_minus_independent_expectation",
+      "metric": "mean_iou",
+      "favorable_direction": "positive",
+      "videos": 38,
+      "mean_delta": 0.00086283892852556,
+      "median_delta": 0.0007103642613186523,
+      "ci_low": 0.000151612235522038,
+      "ci_high": 0.0016136520468326772,
+      "positive": 21,
+      "negative": 14,
+      "worst_leave_one_video_out": 0.0006522863543941053
+    },
+    {
+      "arm": "within_video_difference",
+      "pool": "held",
+      "kind": "between",
+      "contrast": "difference_minus_point",
+      "metric": "mean_iou",
+      "favorable_direction": "positive",
+      "videos": 38,
+      "mean_delta": 0.0010374450967536753,
+      "median_delta": 0.00023203166316178303,
+      "ci_low": -0.002038377105063493,
+      "ci_high": 0.004281949148059276,
+      "positive": 19,
+      "negative": 18,
+      "worst_leave_one_video_out": 0.0001502248108977437
+    }
+  ],
+  "new_full_trajectories": 0,
+  "confirmation_groups_opened": 0,
+  "limitation": "Raw L6 feature NPZ and PT model files are unavailable locally. No new training, image reads, backbone inference or full trajectories. Intervals are nominal on historically exposed development groups."
+}

@@ -1,6 +1,10 @@
 # 实验说明索引
 
-Stage-200已实现，待服务器真实缓存训练。同视频差分与同状态对点监督匹配，8模型、6720参数／模型、14592评价输出，CPU运行，无新图像或骨干调用。 [理论、预算与后台运行](experiments/06_sgla_uav_tracking/STAGE200_WITHIN_VIDEO_DIFFERENCE.md)
+Stage-202已实现并通过6项CPU测试，待服务器真实缓存训练。固定架构／6720参数／初始化／抽样／优化预算，对比point MSE与定位遗憾上界监督；8模型2048更新14592评价输出。MSE对照与原200实现最终权重精确一致，38组合成端到端／13表通过；本机无真实NPZ，不能预报收益。单一总体进度条，CPU运行，无骨干／图像／完整轨迹／确认集。 [理论、预算与后台命令](experiments/06_sgla_uav_tracking/STAGE202_REGRET_MARGIN_ROUTING.md)
+
+Stage-201已在本机用真实缓存完成，无需服务器补跑。差分raw／离线均值／严格过去均值held IoU .661652／.660797／.659457，均低于固定先验.666608；三个主要因果比较未建立收益，不采用均值校正规则。6测试与全状态／9表复算通过，0新训练／图像／完整轨迹／确认组。Stage-202匹配监督对照已实现，见上文，待真实训练。 [结果、推导与下一步](experiments/06_sgla_uav_tracking/STAGE201_RESULTS_REVIEW.md) · [固定协议与复现](experiments/06_sgla_uav_tracking/STAGE201_SCORE_BASELINE_IDENTIFICATION.md)
+
+Stage-200真实结果已复核。差分held IoU .661652，低于固定先验.666608；对匹配point +.001037但区间跨零。对自身无对应期望+.000863、名义区间为正且双seed均正，有小幅时机信号，尚未建立整体收益。分数基准诊断201已完成，见上文；0新完整轨迹／确认组。 [结果与下一步依据](experiments/06_sgla_uav_tracking/STAGE200_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE200_WITHIN_VIDEO_DIFFERENCE.md)
 
 Stage-199已完成。残差fit排序77.75%但held54.91%，IoU .661389低于固定先验.666608，未建立状态对应收益；训练误差下降约74.8%来自视频均值分量。 [结果与Stage-200建议](experiments/06_sgla_uav_tracking/STAGE199_RESULTS_REVIEW.md) · [原协议](experiments/06_sgla_uav_tracking/STAGE199_FIT_CENTERED_INTERACTION.md)
 
