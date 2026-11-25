@@ -1,0 +1,57 @@
+{
+  "date": "2026-11-26",
+  "status": "LOCAL_TESTS_PASSED_REAL_TRAINING_PENDING",
+  "python": "3.12.4",
+  "torch": "2.7.1+cpu",
+  "numpy": "1.26.4",
+  "tests_run": 9,
+  "tests_passed": 9,
+  "tests_skipped": 0,
+  "source202_bundle_verified": true,
+  "source202_pair_schedules_reproduced": true,
+  "no_clip_gradients_exactly_unchanged": true,
+  "clip_gradients_exactly_match_original_torch": true,
+  "synthetic_legacy_final_weights_exactly_reproduced": {
+    "objectives": [
+      "point",
+      "regret_margin"
+    ],
+    "fold": 0,
+    "seed": 2132
+  },
+  "actual_shape_parameter_count": 6720,
+  "actual_shape_input_features": 1088,
+  "synthetic_full_pipeline": {
+    "groups": 38,
+    "states_per_group": 2,
+    "training_runs": 16,
+    "updates": 4096,
+    "training_state_references": 16384,
+    "training_pair_uses": 8192,
+    "pair_schedule_rows": 2048,
+    "predicted_states": 1216,
+    "tables": 14,
+    "paired_rows": 92,
+    "seed_summary_rows": 80,
+    "control_replay_rows": 8
+  },
+  "factorial_interaction_definition_tested": true,
+  "nonfinite_failure_sealed_and_retry_blocked": true,
+  "model_and_cache_reuse_and_tamper_rejection_tested": true,
+  "cuda_initialization_forbidden_in_pipeline": true,
+  "bash_readonly_syntax_check_passed": true,
+  "python_syntax_passed": true,
+  "shell_export_inventory_checked": true,
+  "real_training_started": false,
+  "real_stage194_features_available_locally": false,
+  "new_real_full_trajectories": 0,
+  "confirmation_groups_opened": 0,
+  "file_sha256": {
+    "tools/stage203_clipping_common.py": "0c569384b0cd69348c757ad33c612832a3ee2ec4095f1543efb2b965dbe453a2",
+    "tools/stage203_loss_clipping.py": "7b84d1f2612d5cffbca3416034d7667715a595137a735232b8855b852e824440",
+    "tools/test_stage203_loss_clipping.py": "7852b732eb36fda4f882086e9124e31d5ed043553f4239bf9928c3aa866fd0b4",
+    "tools/run_stage203_loss_clipping.sh": "2da9582bde309214c0bd4837b79a8f7ebe75f17878081fc41688ebeca117c897",
+    "docs/experiments/06_sgla_uav_tracking/STAGE203_LOSS_CLIPPING_FACTORIAL.md": "5967c2f1d090c7100ddd1776e8c8e4f71ae0f1dc94cdc41ca83ce1473db48585"
+  },
+  "limitation": "Synthetic CPU tests do not establish held-source selection gains or full-video AUC. Source-194 original feature NPZ and receipts are required on the server. No real Stage-203 training was started locally."
+}

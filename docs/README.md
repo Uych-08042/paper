@@ -1,6 +1,8 @@
 # 实验说明索引
 
-Stage-202已实现并通过6项CPU测试，待服务器真实缓存训练。固定架构／6720参数／初始化／抽样／优化预算，对比point MSE与定位遗憾上界监督；8模型2048更新14592评价输出。MSE对照与原200实现最终权重精确一致，38组合成端到端／13表通过；本机无真实NPZ，不能预报收益。单一总体进度条，CPU运行，无骨干／图像／完整轨迹／确认集。 [理论、预算与后台命令](experiments/06_sgla_uav_tracking/STAGE202_REGRET_MARGIN_ROUTING.md)
+Stage-203已实现并通过9项CPU测试，待服务器真实缓存训练。point／regret × clip=1／no_clip，16模型同预算重训，新增梯度前后范数／缩放／实际参数更新、非有限失败封存及202控制复现。38组合成全流程／14表通过，两个开启裁剪控制精确复现原202权重；本机无真实NPZ，不能预报收益。单一总体进度条，无新图像／骨干／完整轨迹／确认组。 [固定协议、预算与后台命令](experiments/06_sgla_uav_tracking/STAGE203_LOSS_CLIPPING_FACTORIAL.md)
+
+Stage-202真实结果已复核，三项主要比较未建立收益。regret held IoU .661047，对point +.000433但区间跨零，低于prior .666608；两个seed对应增量异号。point权重／分数与200精确一致，13表全状态复算通过。观察到裁剪交互：regret有1022／1024次范数>1、point仅4／1024次。203损失×裁剪四组匹配已实现，见上文，待真实训练；0新完整轨迹／确认组。 [结果与下一步](experiments/06_sgla_uav_tracking/STAGE202_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE202_REGRET_MARGIN_ROUTING.md)
 
 Stage-201已在本机用真实缓存完成，无需服务器补跑。差分raw／离线均值／严格过去均值held IoU .661652／.660797／.659457，均低于固定先验.666608；三个主要因果比较未建立收益，不采用均值校正规则。6测试与全状态／9表复算通过，0新训练／图像／完整轨迹／确认组。Stage-202匹配监督对照已实现，见上文，待真实训练。 [结果、推导与下一步](experiments/06_sgla_uav_tracking/STAGE201_RESULTS_REVIEW.md) · [固定协议与复现](experiments/06_sgla_uav_tracking/STAGE201_SCORE_BASELINE_IDENTIFICATION.md)
 
