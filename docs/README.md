@@ -1,5 +1,9 @@
 # 实验说明索引
 
+Stage-213固定nn双输出互补/GT上界审计已实现，待服务器完整缓存运行。全38源双seed，0训练/图像/GPU/新轨迹；mm只作不同搜索历史的能力参照，oracle不回写父框、不是新方法成绩。3项纯CPU测试通过，七张表、单总体进度、后台入口及自动TXT。 [协议与运行](experiments/06_sgla_uav_tracking/STAGE213_FIXED_NN_OUTPUT_CEILING.md) · [本地验证](experiments/06_sgla_uav_tracking/results/stage213_local_validation_20261126.json)
+
+Stage-212真实结果已复核：两个主比较nm/mm−.1975、mn/mm−1.0159均未过；nn对原生+.6920、名义CI正，27正11负，是支持性完整精度线索。仍丢原生4次/matched14次恢复及0176/0204既有收益，保护未过。10表复算误差≤3.55e−15、22串并行/84控制声明通过，双路8block/2head成本已核。建议213先用完整缓存做nn双输出互补/GT上限审计，0训练/GPU，尚未实现。 [结果与下一步](experiments/06_sgla_uav_tracking/STAGE212_RESULTS_REVIEW.md) · [机器核验](experiments/06_sgla_uav_tracking/results/stage212_review_audit_20261126.json)
+
 Stage-212在线输出/搜索状态解耦已实现，GPU待运行。同裁剪共享前缀/一次MLP，两路raw/adapted读出；输出总取adapted、四种中心/尺寸状态更新，418完整OOF，0训练。3项CPU检查通过，mm/nn身份、22串并行检查及双参照能力保护已接入；默认双进程/总体进度/自动TXT，确认集封存。 [协议与运行](experiments/06_sgla_uav_tracking/STAGE212_ONLINE_OUTPUT_SEARCH_STATE.md)
 
 Stage-211真实结果已复核：lost层mm/nm/mn/nn IoU .2030/.4793/.2965/.6663，中心修正全覆盖但14/27帧无好格点，中心+尺度共同影响供给。保留恢复17窗换几何后仅14/15/16窗达标，不能统一替换；10表重算误差≤5.55e−17，152端点复现报告通过，0新AUC。下一步建议212单裁剪双读出、搜索状态/输出解耦完整视频比较，同预算并同时保护原生及matched能力，尚未实现。 [结果与下一步](experiments/06_sgla_uav_tracking/STAGE211_RESULTS_REVIEW.md) · [机器核验](experiments/06_sgla_uav_tracking/results/stage211_review_audit_20261126.json)

@@ -2,6 +2,10 @@
 
 更新日期：2026-11-26（Asia/Hong_Kong）
 
+**Stage-213 固定 nn 双输出上界审计已实现，真实缓存待服务器运行，见0.218。** 全38源、双seed、完整视频缓存；raw/adapted同一nn状态逐帧互补与GT择优上界，mm仅为不同历史的能力参照，不混入候选。核原生/matched恢复及好帧保护，0训练/图像/GPU/新轨迹。3项纯CPU测试通过，单总体进度、后台入口、自动七表TXT。上界不作新方法成绩，不开确认集。 [协议与运行](docs/experiments/06_sgla_uav_tracking/STAGE213_FIXED_NN_OUTPUT_CEILING.md)
+
+**Stage-212真实结果已复核，见0.217，两个主比较未过，但nn对原生有分散的完整精度增益线索。** nm/mm差−.1975、mn/mm−1.0159，区间均跨零；nn AUC65.1105，对native+.6920、名义CI[+.3863,+.9949]，27正11负，属于支持比较。仍丢4次原生恢复、14次matched恢复，0176/0204既有改善受损，未通过双重保护。10表重算误差≤3.55e−15、22串并行/84控制报告通过，真实8block/2head成本已核。下一步建议213用nn完整缓存审计双输出互补/GT上限及matched能力可保留性，无新训练或GPU；尚未实现。 [结果与下一步](docs/experiments/06_sgla_uav_tracking/STAGE212_RESULTS_REVIEW.md)
+
 **Stage-212在线输出/搜索状态解耦已实现，真实GPU待运行，见0.216。** 同一裁剪共享前缀/一次MLP，两路raw/adapted候选和CENTER；输出总取adapted，下一帧状态按mm/nm/mn/nn更新。新原生/单路matched控制加四双路组，共418完整OOF、0训练。mm须精确复现单路matched，nn原生分支须复现原生状态；同时保护native及matched既有能力。3项CPU测试通过，默认双进程/总体进度/自动TXT。 [协议与运行](docs/experiments/06_sgla_uav_tracking/STAGE212_ONLINE_OUTPUT_SEARCH_STATE.md)
 
 **Stage-211真实结果已复核，见0.215，中心/尺度共同影响供给，单改中心仍不够。** lost层mm/nm/mn/nn输出IoU .2030/.4793/.2965/.6663，三帧均好0/9、3/9、1/9、6/9；只改中心全覆盖但14/27帧无好格点。保留恢复17窗却降为14/15/16窗，不能统一替换。10表统计误差≤5.55e−17、152端点全数组复现声明通过。下一步建议212单裁剪双读出、输出与搜索状态解耦的完整闭环，四几何状态组合、同计算预算、同时保护原生和matched能力；尚未实现。 [结果与下一步](docs/experiments/06_sgla_uav_tracking/STAGE211_RESULTS_REVIEW.md)
@@ -3400,6 +3404,36 @@ lost只换中心+.276310、CI[+.125913,+.425961]；只换wh+.093508、CI跨零�
 服务器~/workspace/paper，sglatrack-test：mkdir -p output/stage212；nohup bash tools/run_stage212_state_experiment.sh > output/stage212/run.log 2>&1 < /dev/null &；tail -f output/stage212/run.log。默认output/stage212/online_output_search_state_v1、GPU0、workers2，可覆盖STAGE212_ROOT/GPU/WORKERS、STAGE211_BUNDLE、STAGE208_ROOT/BUNDLE、CHECKPOINT和七数据根。需208 PT/receipt/参考/manifest/decision，只有TXT不够；不需要211原始审计。完成stage212_results_<UTC>_<PID>.txt，--check-results核验重打包；失败回传worker_logs，不放宽身份条件。当前未提交/推送、未运行服务器GPU。
 
 结果后同时判断完整精度、原生保护、matched能力保留及额外计算：若单分量改善这些目标再独立验证/研究状态学习；若只退回原生而丢已有挽救，不能采用；若四组均无可靠收益，降低直接替换状态优先级，不继续扫混合系数。 [固定协议](docs/experiments/06_sgla_uav_tracking/STAGE212_ONLINE_OUTPUT_SEARCH_STATE.md)
+
+### 0.217 Stage-212 真实结果：nn有稳定原生精度线索，主比较与双重保护未通过
+
+原包stage212_results_20261126T153146Z_2174614.txt原字节归档，SHA45bf89388460228c66785214615e10d3a1f14b3c805c8b5199d8061f090c21f0，decision6913f1ed1755f3b6eb9a7718e8cd217d4cb03d707d9a527981cf0e6d74205f02，plandc93467f24459fff6c405ec8dcbd8106e71eb23c35ed4f89c14af0f630415561。L20同此前runtime、workers2、0训练/418完整OOF/445687帧/确认集0。12段10表/JSON正确，418视频重算6policy/77paired/21factor/两主比较误差≤3.55e−15。四scope等211，新native/matched_single逐源质量精确复现208，mm精确等单路matched。22串并行/84身份声明均通过，其中完整76；925原PT/NPZ本机未取得，不独立重演状态链/hook/nn raw恒等，仅核声明及表统计。源码47精确8旧文件仅CRLF/LF，协议精确，不改旧校验。 [机器审计](docs/experiments/06_sgla_uav_tracking/results/stage212_review_audit_20261126.json)
+
+native64.418451、matched_single/mm65.044528、nm64.847011、mn64.028614、nn65.110491。主nm−mm−.197517，CI[−3.192756,+2.311484]、家族[−3.678515,+2.674143]；19正19负，seed+1.106580/−1.501614。主mn−mm−1.015914，CI[−3.507175,+1.374383]、家族[−3.884951,+1.704064]；14正24负，seed−.998023/−1.033805。两主比较未过，不能把nm某seed高分作为成功。nn−mm+.065964、CI[−3.190405,+2.878516]；中心/尺寸/交互AUC效应区间均跨零。
+
+有价值支持线索：nn−native+.692040，名义CI[+.386252,+.994882]，27正11负、中位+.557656、最差留一+.634564；去0176仍+.717552。两seed65.091370/65.129613，少seed不能证明普遍方差下降。nn原生分支/搜索状态复现native，不代表对外adapted输出等native；其平均定位改善不是依赖0176大挽救。该比较虽预列但非两主比较、仍历史开发支持证据，不称独立确认或采用。
+
+nn相对mm：0176−42.384025、0204−19.574996；0307+27.119016、0349+17.572464、0169+13.525608。原生参照无新增稳定失败，但双seed4次原生恢复丢失（0089/0307各双seed），均值.052632；较mm少5次，差区间跨零。native好帧截断损失.006763，较mm .037894小，仍有逐帧损失。matched参照14次恢复丢失、6源0085/0089/0176/0226/0237/0348，均值+.184211、CI[+.052632,+.355263]；matched稳定源新增失败0016/0204，好帧截断损失.031676。截断损失非负，38源为正不代表38源AUC都下降；native对matched指标平均两参照seed，不是第三seed。双重保护未过，不能只回到原生或丢掉matched挽救就称成功。
+
+调用账本：40517native帧+81034单路matched帧+324136双路帧，合计3443945block、769823head、445687crop/MLP，逐源预算相符；全部候选层L9。双路8block/2head是共享前缀后同一候选层两次独立读出，不是串行加深。nn pipeline约7.49ms、单路matched5.51ms为并发/审计测量，不能换隔离FPS/提速。完整worker5195.114秒。状态源/输出解耦有定位价值，但当前不存在已过的在线恢复方法。
+
+下一步建议Stage-213固定nn状态的双输出互补性上限审计：只读212完整nn/reference_boxes/adapted boxes和GT、全38源双seed，0训练/图像/GPU。nn输入状态仅raw更新，改变对外输出不会影响未来输入，可离线算raw/adapted每帧IoU、互补得失、GT择优上限，重算完整AUC及native/matched恢复/好帧保护；列双方都差的帧/源。GT择优只是上限，不执行在线、不调门槛。尤其查0176/0204的mm已得能力能否由两路输出上限保留；上限都缺乏则纯输出选择器无能弥补原生状态缺目标，不该继续加仲裁网络。
+
+若上限有足够分散收益/保护空间，再做同裁剪质量监督或输出仲裁held学习；若不足转状态供给学习，不扫几何混合系数。输出动作与输入状态独立后不必先上PPO，但尚未证明质量可预测或该模块有效。213尚未实现/运行，不开确认集。 [完整结果与下一步](docs/experiments/06_sgla_uav_tracking/STAGE212_RESULTS_REVIEW.md)
+
+### 0.218 Stage-213：固定 nn 双输出互补与 GT 上界，已实现待真实缓存审计
+
+用户授权继续下一轮。实现 `tools/stage213_output_ceiling.py`、`tools/run_stage213_output_ceiling.sh` 和固定协议 [Stage-213](docs/experiments/06_sgla_uav_tracking/STAGE213_FIXED_NN_OUTPUT_CEILING.md)。先验证完整212来源、266条轨迹NPZ及receipt、模型标识、原始帧/GT清单，再核 raw=新原生、mm=matched_single、nn原生父框链不变；推导质量须复现212逐视频表，允许误差≤1e−12。来源TXT与decision指纹沿用0.217，不放松旧代码或硬件身份校验。CPU审计不构造模型，不要求当前GPU型号，原GPU身份只作为来源历史记录。
+
+oracle 在同一 nn 状态的 raw/adapted 中按既有官方IoU逐帧取最大，相等取raw，**绝不回写搜索状态**。mm来自不同搜索历史，只作能力参照，不能混入候选。oracle逐帧不差于raw/adapted，因此raw好帧/原记录恢复须零损失；但可能无法保留mm已有收益，尤其关注全源中mm好而双路都差的帧及恢复。本轮所有源/所有帧，不再挑失跟前固定窗口。raw的两个seed行是同轨迹重复参照；先源内均值再38源bootstrap，非76独立样本。
+
+7表：policy4、paired30、seed_video304、complementarity76、recovery_events全raw/mm事件含末尾截尾、source_replay76、source_influence190。NPZ保存逐帧IoU/上界选择/原父框链，封存产物与来源收据。policy中的oracle AUC是GT质量上界，不能作在线方法成绩/新完整轨迹/FPS；0新训练/图像/GPU/完整轨迹/确认组，无自动采用门槛。
+
+本地 Python3.13.0/NumPy2.5.2 纯CPU三测试通过，最终10.585秒；真实212原包读取、字节变更拒绝、上界恒等/相等保raw、原生恢复保护及matched恢复不可保留反例、38源×2种子完整合成缓存审计、304推导行/30配对/190影响、模型receipt与发布指标篡改拒绝、缓存重用/来源字节不变/结果篡改拒绝均通过。Python3.10语法、CLI、LF、Bash -n通过；导入/来源解析未导入torch/cv2。不代表真实Transformer或真实视频精度。 [本地验证](docs/experiments/06_sgla_uav_tracking/results/stage213_local_validation_20261126.json)
+
+服务器命令：`bash tools/run_stage213_output_ceiling.sh`。默认 `output/stage213/fixed_nn_output_ceiling_v1`，读取原212及七个来源目录；一个总体进度、自动合并decision/manifest/7表为时间戳TXT。后台：`mkdir -p output/stage213`，再 `nohup bash tools/run_stage213_output_ceiling.sh > output/stage213/run.log 2>&1 < /dev/null &`，查看 `tail -f output/stage213/run.log`。无需checkpoint/GPU/workers。本机没有服务器NPZ/原标注目录，未运行真实Stage-213审计、未产生真实新AUC，未提交/推送仓库。
+
+收结果后先全表/上界/来源重算，再给下一步建议：上界仍不能保mm能力时转搜索状态供给学习；若全源分散互补且能力可保留，再考虑仅在线信息的输出质量学习及完整留组轨迹检验。不自动PPO、不扫描几何混合系数，不将GT上界当已验证选择器。
 
 ## 1. 接手后首先要知道的结论
 

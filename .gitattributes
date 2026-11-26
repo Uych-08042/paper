@@ -271,3 +271,8 @@ tools/stage212_state_experiment.py text eol=lf
 tools/test_stage212_state_experiment.py text eol=lf
 tools/run_stage212_state_experiment.sh text eol=lf
 docs/experiments/06_sgla_uav_tracking/STAGE212_ONLINE_OUTPUT_SEARCH_STATE.md text eol=lf
+docs/experiments/06_sgla_uav_tracking/results/stage212_results_20261126T153146Z_2174614.txt -text
+tools/stage213_output_ceiling.py text eol=lf
+tools/test_stage213_output_ceiling.py text eol=lf
+tools/run_stage213_output_ceiling.sh text eol=lf
+docs/experiments/06_sgla_uav_tracking/STAGE213_FIXED_NN_OUTPUT_CEILING.md text eol=lf

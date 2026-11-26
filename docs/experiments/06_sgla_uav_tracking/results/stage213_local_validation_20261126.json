@@ -1,0 +1,40 @@
+{
+  "schema": "stage213_local_validation_v1",
+  "date": "2026-11-26",
+  "timezone": "Asia/Hong_Kong",
+  "status": "PREPARED_REAL_CACHE_AUDIT_PENDING",
+  "environment": {
+    "python": "3.13.0",
+    "numpy": "2.5.2",
+    "torch_required": false,
+    "gpu_required": false
+  },
+  "tests": {
+    "passed": 3,
+    "skipped": 0,
+    "final_suite_seconds": 10.585
+  },
+  "checks": [
+    "Reviewed Stage-212 original-byte bundle, sealed identities and ten CSV hashes; changed-byte rejection",
+    "266 synthetic source traces with 532 file/receipt bindings; strict model metadata and mm/single, nn/native identity",
+    "38 sources x two seeds x nine tracked frames, 76 derived oracle sequences; 304 quality rows, 30 contrasts, 190 source influence rows",
+    "Official IoU pointwise max, raw tie preference, unchanged nn parent chain, oracle raw recovery/good-frame protection",
+    "Both-candidates-bad matched recovery counterexample, terminal censoring and all reference-event accounting",
+    "Published per-video quality reproduction; changed source model binding and changed published metric rejection",
+    "Committed ceiling cache reuse, unchanged original source bytes, result-table tamper rejection",
+    "One overall progress bar, seven-CSV/two-JSON bundle and CPU-only Bash launcher; bash -n passed",
+    "Python 3.10 grammar, LF and CLI help passed; no torch/cv2 imported by source parsing"
+  ],
+  "limitations": [
+    "Synthetic nine-frame cache fixtures do not measure real video accuracy or Transformer inference",
+    "Complete physical Stage-212 cache and original annotation/source tree are absent locally; real CLI source startup and real audit still require server",
+    "No real Stage-213 AUC, model training, image/GPU inference, complete online trajectories or confirmation set opened",
+    "GT oracle is an offline supply ceiling, never a deployable selection policy; duplicate raw seed views are not independent samples"
+  ],
+  "file_sha256": {
+    "tools/stage213_output_ceiling.py": "ee3d84cab6895d355eea11a1039b12b7ca70704f0b5fd6741748c0259a2a5fbc",
+    "tools/test_stage213_output_ceiling.py": "4246c10fb50a337418e7c85edb6f3eb73686eed1156b9687dc273fbaacadf9b1",
+    "tools/run_stage213_output_ceiling.sh": "a4421509952d13647621cc93c58d0357bbcdf6d82b58a6df1c22e40333d78a32",
+    "docs/experiments/06_sgla_uav_tracking/STAGE213_FIXED_NN_OUTPUT_CEILING.md": "1d01ee251479abb0cd4142c5b465e524aa39608ad90e142e41b03617816a1fb1"
+  }
+}
