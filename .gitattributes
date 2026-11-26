@@ -224,6 +224,11 @@ docs/experiments/06_sgla_uav_tracking/results/stage203_results_20261125T162346Z_
 tools/run_stage204_target_relation.sh text eol=lf
 tools/run_stage205_crossfit_shrinkage.sh text eol=lf
 tools/run_stage206_spatial_adaptation.sh text eol=lf
+tools/run_stage207_state_training.sh text eol=lf
+tools/stage207_state_training.py text eol=lf
+tools/stage207_state_common.py text eol=lf
+tools/test_stage207_state_training.py text eol=lf
+docs/experiments/06_sgla_uav_tracking/STAGE207_PAIRED_PROVIDER_STATE_TRAINING.md text eol=lf
 tools/stage206_spatial_adaptation.py text eol=lf
 tools/stage206_spatial_common.py text eol=lf
 tools/stage206_spatial_model.py text eol=lf
@@ -235,3 +240,4 @@ tools/test_stage205_crossfit_shrinkage.py text eol=lf
 docs/experiments/06_sgla_uav_tracking/STAGE205_CROSSFIT_RESIDUAL_SHRINKAGE.md text eol=lf
 docs/experiments/06_sgla_uav_tracking/results/stage204_results_20261126T011205Z_1583527.txt -text
 docs/experiments/06_sgla_uav_tracking/results/stage205_results_20261126T013956Z_1605754.txt -text
+docs/experiments/06_sgla_uav_tracking/results/stage206_results_20261126T042709Z_1653346.txt -text

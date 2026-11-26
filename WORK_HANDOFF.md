@@ -2,9 +2,11 @@
 
 更新日期：2026-11-26（Asia/Hong_Kong）
 
-**Stage-206已实现并通过3项CPU测试，待服务器GPU运行，见0.204。** 在原生L6选层之前保存原输入，MLP只运行一次；选定块使用零初始化的空间残差。三组为搜索自交互／正确模板／fit错配参考，147456参数匹配、原定位监督、12模型3072更新；新跑38原生＋228适配完整轨迹，总266条，另做fit／held读出。总体进度条，9表；确认集封存。本机无真实194特征或GPU，不预报收益。服务器`bash tools/run_stage206_spatial_adaptation.sh`，首次支持L20／L40、同root续跑身份必须一致。 [固定协议与后台命令](docs/experiments/06_sgla_uav_tracking/STAGE206_NATIVE_ROUTED_SPATIAL_ADAPTATION.md)
+**Stage-207已实现并通过4项CPU测试，待服务器GPU运行，见0.206。** 冻结206的4个匹配fold／seed provider，仅在各自19个fit源组采集自身状态；按真实取整裁剪的双侧完整GT覆盖建立配对。三学生native_all／native_pair／own_pair均从零残差同预算重训，12模型3072步；76条fit-provider采集、342条新同卡完整评价，12表／总体进度条。任一fit源无支持则预检封存并停止，不删源或补held。首次可L20／L40，新GPU先重放原生父框特征保证两侧同卡；本机无真实成绩。 [固定协议与后台命令](docs/experiments/06_sgla_uav_tracking/STAGE207_PAIRED_PROVIDER_STATE_TRAINING.md)
 
-**Stage-205真实结果已复核，见0.203，接近先验保护，未建立动态选择收益。** 正确关系shrunk IoU .66662117，prior .66660835；3648动作仅33个非L7，一个seed完全固定。对prior／raw／concat／自身无对应期望的主要区间均跨零，仅对错配为正。12系数、16表及全状态／日程复算通过，0新完整轨迹／确认组。停止单独扫系数，该206建议现已实现，见0.204；待服务器GPU运行。 [真实结果与下一步](docs/experiments/06_sgla_uav_tracking/STAGE205_RESULTS_REVIEW.md) · [固定协议](docs/experiments/06_sgla_uav_tracking/STAGE205_CROSSFIT_RESIDUAL_SHRINKAGE.md)
+**Stage-206真实完整视频结果已复核，见0.205，空间适配未通过。** 原生／搜索控制／正确模板／错配AUC为64.4185／62.2663／62.2081／60.5465；正确相对原生−2.2103区间跨零，新增3源组失跟、恢复保护恶化。held原生父框IoU虽+.008320，未转化完整收益；全部283619轨迹帧仍L9，不归因新增换层。9表哈希及汇总／配对重算通过，原生逐视频质量指标精确复现194。该207建议现已实现，见0.206；待服务器GPU运行。 [结果与下一步](docs/experiments/06_sgla_uav_tracking/STAGE206_RESULTS_REVIEW.md) · [固定协议](docs/experiments/06_sgla_uav_tracking/STAGE206_NATIVE_ROUTED_SPATIAL_ADAPTATION.md)
+
+**Stage-205真实结果已复核，见0.203，接近先验保护，未建立动态选择收益。** 正确关系shrunk IoU .66662117，prior .66660835；3648动作仅33个非L7，一个seed完全固定。对prior／raw／concat／自身无对应期望的主要区间均跨零，仅对错配为正。12系数、16表及全状态／日程复算通过，0新完整轨迹／确认组。停止单独扫系数，该206已完成真实评价，见0.205；保护未过。 [真实结果与下一步](docs/experiments/06_sgla_uav_tracking/STAGE205_RESULTS_REVIEW.md) · [固定协议](docs/experiments/06_sgla_uav_tracking/STAGE205_CROSSFIT_RESIDUAL_SHRINKAGE.md)
 
 **Stage-204真实结果已复核，见0.201。有小幅状态对应和排序线索，整体收益尚未建立。** 正确关系held IoU .66127519，对原输入+.00090616、对错配+.00052654，两区间均跨零，仍低于prior .66660835。自身状态对应+.00159258、名义区间为正，但原输入自身也为正；不能直接归因正确关系。14表全状态／日程／参考映射复算通过，0新完整轨迹／确认集。该建议现已由205实现，见0.202；真实运行待服务器完成。 [真实结果与下一步依据](docs/experiments/06_sgla_uav_tracking/STAGE204_RESULTS_REVIEW.md) · [固定协议](docs/experiments/06_sgla_uav_tracking/STAGE204_TARGET_SEARCH_RELATION.md)
 
@@ -233,7 +235,7 @@ Stage-75 L20 已完成 13 个固定起点和 52 条短分支。0003 两个首败
 
 ## 0. 下一次对话的直接接续入口
 
-最新入口为0.204的Stage-206实现与服务器命令，再回看0.203的205真实结果。198～205均已完成，勿重复索取或重跑；Stage-1～205实验Python、原协议与产物保持冻结。206本机合成CPU测试通过，待服务器真实GPU训练与完整视频评价。
+最新入口为0.206的Stage-207实现与服务器命令，再回看0.205的206真实结果。198～206均已完成，勿重复索取或重跑；Stage-1～206实验Python、原协议与产物保持冻结。207本机合成CPU测试通过，待服务器GPU采集／训练及完整评价。
 
 本节更新至 2026-11-25。接续先读0.187的Stage-196损失对照结果、0.186的Stage-195路由目标审计、0.185的 Stage-194 完整模块消融结果及全阶段方法依据。每次分析实验结果后，附上下一步实验建议及其验证标准。运行使用总体进度条，复用 `tools/experiment_progress.py` 中的 `OverallProgress`，在后台日志定时刷新。以往全视频结果见 0.143、0.122 和 0.112，候选生成背景见 0.90～0.95 和 0.53～0.54，确认边界和论文目标见 0.48／0.44。 [Stage-196结果](docs/experiments/06_sgla_uav_tracking/STAGE196_RESULTS_REVIEW.md)
 
@@ -3153,7 +3155,7 @@ concat raw→shrunk IoU .66036904→.66661928；正确关系 .66127519→.666621
 
 接续建议Stage-206：停止单独调α／均值，直接做SGLA内部可学习空间目标—搜索交互适配的最小对照。与194全局均值scale／shift、164固定局部匹配区别；逐token、零输出初始化。单搜索／CENTER／反馈沿原生，原生路由在未适配L6上先定层，避免同时改路由。对照原生、同参数同训练预算的搜索自交互、正确模板条件、错配模板条件，统一定位监督；参数相等不冒称耗时相等。先验初始精确复现／梯度／fit-held定位，再冻结模型评完整开发轨迹及稳定／恢复保护；确认集封存。已有SGLA本就联合模板与搜索，不能称首次引入模板；若wrong也改善仅一般适配。以上为结果复核时建议，206现已按独立固定协议实现，见0.204，待GPU运行。1～205代码／原协议／证据冻结。 [完整复核](docs/experiments/06_sgla_uav_tracking/STAGE205_RESULTS_REVIEW.md) · [机器复核](docs/experiments/06_sgla_uav_tracking/results/stage205_review_audit_20261126.json)
 
-### 0.204 Stage-206 原生路由固定的空间目标条件适配（已实现，待GPU运行）
+### 0.204 Stage-206 原生路由固定的空间目标条件适配（固定实现记录；真实结果见0.205）
 
 新增tools/stage206_spatial_model.py、stage206_spatial_common.py、stage206_spatial_adaptation.py、test_stage206_spatial_adaptation.py、run_stage206_spatial_adaptation.sh及固定协议。停止单独调α，检验空间表征改动；不预设空间缺失为病因。与194全局均值scale／shift、164固定局部读出区别，不称首次给SGLA引入模板，也不是新动态路由。
 
@@ -3170,6 +3172,44 @@ L6 hook先保存未适配F6的channel0，返回适配F6'；MLP pre-hook替换输
 3项CPU测试全部通过、无跳过，75.333秒（Python3.12.4／Torch2.7.1+cpu／NumPy1.26.4，Pillow使用已有cp312缓存依赖）：真实205来源哈希／代码／协议及错配held隔离；独立空间公式、三组初值一致／零残差精确保持模板行、实际配置147456参数、非零适配后原MLP输入与分数保持／hook清理；真实仓库CENTER与定位loss、小型线性骨干／38组合成视频完整12模型3072步、266条两帧轨迹、912读出状态、3主比较、模型复用／冻结／篡改及非有限阻断。没有运行真实SGLA Transformer或GPU／真实数据，不能称正式精度复现。AST／CLI／Bash -n、LF与九表导出清单通过。 [本地验证记录](docs/experiments/06_sgla_uav_tracking/results/stage206_local_validation_20261126.json)
 
 服务器sglatrack-test、~/workspace/paper，mkdir -p output/stage206，然后nohup bash tools/run_stage206_spatial_adaptation.sh > output/stage206/run.log 2>&1 < /dev/null &，tail -f查看总体进度。默认output/stage206/native_routed_spatial_adaptation_v1、GPU0，可设STAGE206_ROOT／STAGE206_GPU／STAGE194_ROOT／STAGE205_BUNDLE／CHECKPOINT及七旧根。需要原图像和GPU；--check-results只复核／打包。完成自动stage206_results_<UTC>_<PID>.txt（decision／manifest／9表）。本机无真实194缓存，待服务器GPU训练，不承诺收益，未commit／push。 [固定协议](docs/experiments/06_sgla_uav_tracking/STAGE206_NATIVE_ROUTED_SPATIAL_ADAPTATION.md)
+
+### 0.205 Stage-206 真实结果：固定状态改善，完整跟踪及保护未通过
+
+原件stage206_results_20261126T042709Z_1653346.txt已按原字节归档，SHA c2a3aae104ad211ad6b11358f3c8d43fd39f58fce2419890e2bf1a0c192478a5。decision 0efb6e79719b9604b6438178738f038fe97f54e2037293fd89bb96dcda285385，plan 28b16c4366b878c0f6cc836492d1b651f3693d5af35e0f35d10c54ca8ba67076，状态REVIEW_NATIVE_ROUTED_SPATIAL_ADAPTATION。L20 UUID48862e47-a2db-e143-d434-ac5ae4f149d4，runtime_differences空；38历史开发源组、12模型3072更新12288引用、147456参数／模型、266完整轨迹283619帧，确认集封存。
+
+decision／manifest、9表和原协议SHA相符；旧tracking／lib中8文件本地CRLF，仅换行转LF后与服务器SHA一致，其余代码精确一致；无内容差，不改旧校验或旧文件。policy／17配对／3主比较从266视频表重算差0，原生38视频所有导出质量指标与194逐视频差0（时延除外）。12训练历史的256步／原抽样hash／候选样本／非零四路径梯度、76donor映射、1596 routing行各视频帧数核查通过，三zero smoke框差0。1473内部物理文件无本机NPZ／PT，仅声明绑定；未重演逐帧框／事件／实际hook，详细边界见报告。
+
+原生／搜索控制／正确模板／错配完整AUC 64.418451／62.266289／62.208136／60.546476，低IoU13.141%／17.833%／17.310%／19.772%，新增失败源组0／1／3／2。正确三个主要AUC差：对原生−2.210315，CI[−5.073336,+.165077]，22正16负；对搜索−.058153，CI[−3.129663,+3.522794]，15正23负；对错配+1.661661，CI[+.189151,+3.561512]，23正15负。仅错配一项名义正区间，不能称正确模板已带来方法收益；AUC对原生跨零也不能称已证显著总体下降。
+
+正确保护对原生：低IoU比例+.041683、CI[+.007700,+.083202]；最长失败+.039457、CI[+.006611,+.079121]；丢失原生恢复+.171053／视频、CI[+.065789,+.289474]；原生好帧损失+.054021，区间为正。新增失败0080／0199／0304，0080与0304双seed，0199仅2133。正确seed AUC62.319955／62.096318均低于原生。最大损失0307−28.097748、0304−27.971014、0169−25.901422、0349−17.706177；不是只有一个特例，不能删掉坏视频自证。
+
+原生父框fixed-state fit IoU搜索／正确／错配 .672525／.669627／.669843；held .667657／.665566／.665497，native_cached .657246。正确held+.008320，补充CI[+.004957,+.011751]，29正9负；wrong也+.008251、search+.010412，不能归因独特身份关系。所有456缓存layer差0；全部训练样本及完整原生40517帧、三组各81034帧都选L9。故本轮退化不是新换层造成；但未证明状态分布错配是唯一病因。局部原生状态改善不等于自身反馈轨迹改善，CENTER输出／写回／后继裁剪的影响尚未逐帧分解。instrumented时延不据此称加速。
+
+下一步建议Stage-207，固定206正确空间模块与原生路由／CENTER／损失，检验同预算父框状态来源。冻结206每个外fold／seed的provider，只在自己19个fit源组新生成自身轨迹与同帧训练缓存；不能用206 held轨迹或另一fold OOF路径训练（可能间接用了本外held标签）。先用fit几何预检原生／自身同帧均完整覆盖GT的公共配对支持，并单列不可支持状态，不把出裁剪输入强制当普通定位正例。建议三条件：原生旧全部支持（206复现）；原生配对支持；自身配对支持。后两组同源组／帧／初值／256步定位训练，仅父框及特征改变；第一组隔离支持筛选效应。无公共支持源组须报告预检不足，不补held或悄删。
+
+三组均从零残差同初始化重训，fit provider生成成本单列，不把额外继续训练与旧模型比较；主要自身配对对原生配对，另对全部支持／原生。冻结后完整38组OOF及稳定／恢复保护，新GPU主要控制同卡重测。区别于51旧头state_mix与54末帧保持，此处对206空间模块的全视频状态来源干预；公共支持外恢复仍非本实验能力。若仍不能改善完整轨迹，停止扩大这一路线，重审监督与反馈目标。207仅建议，支持和账本须另固定，未实现或运行；不采用206，1～206代码／原协议／结果冻结。 [完整复核](docs/experiments/06_sgla_uav_tracking/STAGE206_RESULTS_REVIEW.md) · [机器审计](docs/experiments/06_sgla_uav_tracking/results/stage206_review_audit_20261126.json)
+
+### 0.206 Stage-207 同预算父框来源训练（已实现，待GPU运行）
+
+新增tools/stage207_state_common.py、stage207_state_training.py、test_stage207_state_training.py、run_stage207_state_training.sh及固定协议。固定206正确空间模块／原生路由入口／CENTER／损失，检验训练支持与自身反馈状态来源，不预设是唯一病因，不加模块或调系数。
+
+来源206原包SHA c2a3aae104ad211ad6b11358f3c8d43fd39f58fce2419890e2bf1a0c192478a5，decision 0efb6e79719b9604b6438178738f038fe97f54e2037293fd89bb96dcda285385、plan 28b16c4366b878c0f6cc836492d1b651f3693d5af35e0f35d10c54ca8ba67076。解析原包9表／指纹／哈希，实际启动另逐字节核旧代码／协议及206目录物理manifest／decision，验证4个matched PT／receipt／fit-held scope／模型state，不读206旧held轨迹训练。194原特征与七数据入口继续核验38组帧／标注，确认集封存。
+
+冻结每外fold／seed provider只在自己的19 fit源组连续自身反馈，原帧表每组48点捕获适配前原始L6。原始hook注册在适配hook之前；actor仅接收首帧GT，轨迹完整生成后才附加真值及原executed_crop_roi target，不能用已适配token二次适配。76采集轨迹81034跟踪帧，额外成本单列，不把训练provider继续拟合与从头学生作不等预算对照。另fold OOF provider可能见过本fold held标签，禁止借用。
+
+支持采用真实resize_factor反推整数边长和sample_target原round／padding切片边界，包括现有右下image_size−1行为，要求同帧原生与自身裁剪均完整包含GT且不落常数padding；这是几何支持，不保证无遮挡。逐帧导出native_covered／own_covered／paired，逐组记录支持与父框／token变化。任一fit源0支持则stage207_support_decision为INSUFFICIENT_PAIRED_SUPPORT，保留所有源停止学生训练，仍自动打包预检；不补held、不改门槛、不声称完整完成。
+
+三学生native_all原全部旧支持、native_pair公共配对原生输入、own_pair同帧自身输入。后两同源组／帧／抽样索引，全部同147456参数／初始化／原AdamW lr1e-5 wd1e-4 clip1／256步batch4、原定位监督和原选定候选。12学生3072更新12288引用，不重新训练原生权重；不同状态下原生规则可能选不同层，实际batch候选调用记录，不冒称等FLOPs。调用冻结206训练引擎，schema保留但207 plan绑定及conditions子目录隔离；未提交模型从头重训，嵌套条件非有限失败同样阻止继续。
+
+同206 runtime（含UUID）时native_all模型state SHA必须精确复现206。新GPU先按194原父框、原target及真值在当前卡重放全部1824原生特征，再让所有学生使用当前卡原生数据，避免把硬件特征差异当父框效应；source_replay表记录是否重放、token／框误差、层差。新卡记录权重差，不混减旧L20结果。新卡重放缓存独立绑定当前207 plan／GPU，续跑不能换身份。
+
+训练完固定模型，学生fit／held原生父框读出21888状态（非自身held诊断）。全部新同卡完整评价38原生＋76冻结provider＋228学生＝342条、364653跟踪帧，与76采集轨迹分开。主要检验own_pair−native_pair AUC，另对native_all／原生／provider及支持筛选效应；先平均seed、38源组bootstrap20000次seed24194名义区间，报告稳定／恢复保护。不自动采用，公共支持外缺目标裁剪不是恢复能力验证。
+
+12表source_replay38／provider_scope4／support76／sampling3648／scope_summary12／history3072／control_replay4／readout456／policy5／paired30／seed-video342／routing2052。预检不足只导出前4表、manifest和support_decision。所有采集、模型、读出、轨迹、来源／smoke／支持JSON及receipt绑定。一个总体进度条含2smoke、81034采集帧、76支持、3072学生步、21888读出、364653评价帧，新卡另1824重放。
+
+4项CPU测试全部通过、无跳过（97.559秒，Python3.12.4／Torch2.7.1+cpu／NumPy1.26.4／已有cp312 Pillow缓存）：真实206包哈希、actual round与padding边界、配对一致及空源保留；适配前原始token捕获／后续GT只影响标签、新runtime原生重放与缓存复用；真实CENTER及loss、小型线性骨干／合成图像，先构造并核验4个provider，再完整12学生3072步、342条两帧评价＋76采集、912读出、12表、4个native_all权重精确复现／配对抽样一致；全零支持预检不训练、source文件不变、结果篡改和嵌套非有限阻断。真实SGLA Transformer／GPU启动及真实图像未运行，非正式精度复现。CLI／AST、Bash -n、LF及12表打包清单通过。 [本地验证记录](docs/experiments/06_sgla_uav_tracking/results/stage207_local_validation_20261126.json)
+
+服务器sglatrack-test，~/workspace/paper：mkdir -p output/stage207，然后nohup bash tools/run_stage207_state_training.sh > output/stage207/run.log 2>&1 < /dev/null &；tail -f查看。默认output/stage207/paired_provider_state_training_v1、GPU0；可覆盖STAGE207_ROOT／STAGE207_GPU／STAGE194_ROOT／STAGE206_ROOT／STAGE206_BUNDLE／CHECKPOINT及原七数据源根。需206原PT／receipt，只有TXT不够。完成或预检不足均自动stage207_results_<UTC>_<PID>.txt；--check-results复核／重打包。真实GPU实验待用户服务器执行，无收益预报，未commit／push。 [固定协议](docs/experiments/06_sgla_uav_tracking/STAGE207_PAIRED_PROVIDER_STATE_TRAINING.md)
 
 ## 1. 接手后首先要知道的结论
 

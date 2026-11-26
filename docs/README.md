@@ -1,6 +1,8 @@
 # 实验说明索引
 
-Stage-206已实现并通过3项CPU测试，待服务器GPU运行。新增逐token空间残差，保留适配前L6上的原生选层及CENTER。搜索自交互／正确模板／fit错配参考三组同147456参数、12模型3072更新；新跑38原生＋228适配完整轨迹，共266条，另做21888固定状态读出。9表／总体进度条，确认集封存。本机仅合成验证，不预报AUC。 [固定协议与后台命令](experiments/06_sgla_uav_tracking/STAGE206_NATIVE_ROUTED_SPATIAL_ADAPTATION.md)
+Stage-207已实现并通过4项CPU测试，待服务器GPU运行。固定206空间模块，用同预算native_all／native_pair／own_pair学生隔离支持筛选与父框来源；provider只在本外fold训练源采集，任一源无公共支持则封存预检停止。12学生3072步、76采集＋342新完整评价、12表／总体进度条。新GPU先同卡重放原生特征，原生／冻结provider主要控制均重测；确认集封存。本机没有真实精度结果。 [固定协议与后台命令](experiments/06_sgla_uav_tracking/STAGE207_PAIRED_PROVIDER_STATE_TRAINING.md)
+
+Stage-206真实完整视频结果已复核，适配及保护未通过。原生／搜索控制／正确／错配AUC64.4185／62.2663／62.2081／60.5465；正确新增3稳定源组失跟，恢复保护恶化。原生父框held IoU虽+.008320，未转化自身轨迹收益；所有轨迹仍L9。9表及汇总配对复核、原生逐视频质量指标复现194。207父框来源训练对照现已实现，见上文，待GPU运行。 [结果与下一步](experiments/06_sgla_uav_tracking/STAGE206_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE206_NATIVE_ROUTED_SPATIAL_ADAPTATION.md)
 
 Stage-205真实结果已复核，接近先验保护，动态增量未建立。正确shrunk IoU .66662117，prior .66660835，3648动作仅33非L7，一个seed完全固定。五主要比较仅对错配为正，其余区间跨零。12系数／16表／全状态复算通过，0新完整轨迹／确认集。206空间适配对照现已实现，见上文，待GPU运行。 [结果与下一步](experiments/06_sgla_uav_tracking/STAGE205_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE205_CROSSFIT_RESIDUAL_SHRINKAGE.md)
 
