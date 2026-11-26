@@ -1,0 +1,43 @@
+{
+  "schema": "stage210_local_validation_v1",
+  "date": "2026-11-26",
+  "timezone": "Asia/Hong_Kong",
+  "status": "PREPARED_NOT_GPU_EVALUATED",
+  "tests": {
+    "passed": 3,
+    "skipped": 0,
+    "seconds": 46.937,
+    "earlier_success": {
+      "tests": 2,
+      "seconds": 44.293
+    }
+  },
+  "environment": {
+    "python": "3.12.4",
+    "torch": "2.7.1+cpu",
+    "numpy": "1.26.4"
+  },
+  "checks": [
+    "exact Stage-209 bundle and table hashes",
+    "all existing recovery-event indexing and normal-control schedule; lost/retained grouping",
+    "no-support inventory, four exclusive diagnostic categories, source-equal seed aggregation, single-source empty intervals",
+    "synthetic 38-source natural recovery and control workflow; 1824 public searches plus 48 serial parity searches",
+    "two independently spawned CPU workers; exact raw array parity and diagonal source replay",
+    "actual repository CENTER cal_bbox, public-style map_box_back and repository clip_box; exact selected dense grid versus public output",
+    "hook cleanup and changed summary rejection",
+    "Python 3.10 grammar, LF, CLI help, Bash -n and 10-table / 2-JSON bundle inventory"
+  ],
+  "limitations": [
+    "Small synthetic linear backbone with real CENTER; no actual SGLA Transformer/CUDA/real-image validation",
+    "No real PT/NPZ tree locally; server must verify original source files and reproduce diagonals",
+    "No new training, full trajectories, AUC or recovery-method success claim",
+    "Conditional same-frame diagnostic; geometry plus poor grid does not uniquely prove crop causation"
+  ],
+  "file_sha256": {
+    "tools/stage210_recovery_common.py": "9b43ff2398b9898bc14635400557acd38cfce25bd87ce15b45d4243fcea64f46",
+    "tools/stage210_recovery_audit.py": "a30b2e7e1095a5571a0f71f815588a3f7f3de6c7398d7f0821092b43023d4ae4",
+    "tools/test_stage210_recovery_audit.py": "a519cf20b34f24435b0fb98917035e1d5074c11ec2d28465c953b06557cf59b4",
+    "tools/run_stage210_recovery_audit.sh": "c07cf465549c9e600c6a5c197e01f3ca103ee95d3d3a1f7174779f273f2f7a0d",
+    "docs/experiments/06_sgla_uav_tracking/STAGE210_ALL_SOURCE_RECOVERY_AUDIT.md": "1d001442ad55c850f31a99d7f8c2fa951aa5f3f60dfc5af9ee13281ce33d058c"
+  }
+}

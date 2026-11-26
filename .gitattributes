@@ -253,3 +253,9 @@ tools/stage209_reference_intervention.py text eol=lf
 tools/test_stage209_reference_intervention.py text eol=lf
 tools/run_stage209_reference_intervention.sh text eol=lf
 docs/experiments/06_sgla_uav_tracking/STAGE209_FROZEN_REFERENCE_INTERVENTION.md text eol=lf
+docs/experiments/06_sgla_uav_tracking/results/stage209_results_20261126T113342Z_1990700.txt -text
+tools/stage210_recovery_common.py text eol=lf
+tools/stage210_recovery_audit.py text eol=lf
+tools/test_stage210_recovery_audit.py text eol=lf
+tools/run_stage210_recovery_audit.sh text eol=lf
+docs/experiments/06_sgla_uav_tracking/STAGE210_ALL_SOURCE_RECOVERY_AUDIT.md text eol=lf

@@ -1,5 +1,9 @@
 # 实验说明索引
 
+Stage-210全开发源恢复机制审计已实现，真实GPU待运行。固定209轨迹/208权重，全部原生恢复三帧+逐源正常对照，交叉两父框×两模型，核实际覆盖、CENTER网格与标准读出；不训练、不续写GT框。3项CPU测试通过，默认双进程、单总体进度条、自动TXT；确认集封存。 [协议与运行](experiments/06_sgla_uav_tracking/STAGE210_ALL_SOURCE_RECOVERY_AUDIT.md)
+
+Stage-209真实结果已复核：同权重matched/search/wrong/zero AUC65.0445／63.1931／63.0545／64.4185，正确输入对两替换双seed均正，但两个主比较名义及家族区间均跨零。10表重算误差0，zero精确原生导出质量、114来源复现和18串并行报告通过；恢复保护仍未过，全部L9。下一步建议210全38源恢复保护机制审计，不训练新模板交互、不挑单视频，尚未实现。 [结果与建议](experiments/06_sgla_uav_tracking/STAGE209_RESULTS_REVIEW.md) · [机器核验](experiments/06_sgla_uav_tracking/results/stage209_review_audit_20261126.json)
+
 Stage-209固定权重交互输入消融已实现，GPU待运行。只换208 own-matched四模型的新增适配器键值来源／零残差，不训练、不改原生模板；38源342完整OOF。3项CPU检查通过，默认双进程、单总体进度条、自动TXT，零残差及来源完整轨迹精确复现检查已接入。 [协议与运行](experiments/06_sgla_uav_tracking/STAGE209_FROZEN_REFERENCE_INTERVENTION.md)
 
 Stage-208真实结果已复核：own正确AUC65.0445，但对search／wrong两个主要比较的名义及家族区间均跨零，正确交互独特收益未建立，恢复保护仍未过。14表重算误差0、8matched控制复现207、26串并行短轨迹通过；无完整串行计时，不宣称加速。下一步建议209固定权重只换新增交互输入，尚未实现。 [结果与下一步](experiments/06_sgla_uav_tracking/STAGE208_RESULTS_REVIEW.md) · [机器审计](experiments/06_sgla_uav_tracking/results/stage208_review_audit_20261126.json)
