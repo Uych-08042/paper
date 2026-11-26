@@ -2,6 +2,10 @@
 
 更新日期：2026-11-26（Asia/Hong_Kong）
 
+**Stage-209固定权重交互输入消融已实现，真实GPU待运行，见0.210。** 冻结208自身状态正确模板四模型，不新增训练；matched／search／wrong只换新增适配器键值，zero旁路残差，原生模板不改。38源342完整OOF，默认双进程、单总体进度条、自动TXT。3项本地CPU测试通过，同父框F6／MLP一致、18对串并行、零残差与原生／正确输入与来源的轨迹复现均已接入。 [协议与运行](docs/experiments/06_sgla_uav_tracking/STAGE209_FROZEN_REFERENCE_INTERVENTION.md)
+
+**Stage-208真实结果已复核，见0.209，正确交互的两个主要比较均未建立收益。** 自身状态搜索／正确／错配AUC63.4049／65.0445／64.5038，正确对两控制+1.6396／+.5408，名义及家族区间均跨零。8正确模型及新导出质量精确复现207；14表重算误差0、26对串并行短轨迹通过。对原生+.6261仍跨零，恢复保护未过，全部526721帧L9。下一步建议209固定权重、只换新增交互键值的完整视频消融，尚未实现，不增加训练。 [真实结果与下一步](docs/experiments/06_sgla_uav_tracking/STAGE208_RESULTS_REVIEW.md)
+
 **Stage-208 父框来源 × 空间交互消融已实现，真实 GPU 结果待运行，见0.208。** 固定207共同支持和原帧表，native_pair／own_pair × search_control／matched_spatial／mismatched_spatial，共24新模型6144更新、494完整OOF。默认双进程跨视频，先做26对串并行短轨迹逐帧精确验收；4项本地CPU测试通过，非真实精度结果。一个总体进度条、后台入口及自动TXT打包已加入，确认集封存。 [协议与运行](docs/experiments/06_sgla_uav_tracking/STAGE208_PAIRED_STATE_INTERACTION.md)
 
 **Stage-207真实结果已复核，见0.207，训练状态来源的受控收益为正，整体仍未通过。** own_pair／native_pair／原生AUC65.0445／62.3649／64.4185，主要差+2.6796、名义CI[+.0953,+5.9070]，双seed同向，新增稳定源失跟0。对原生仅+.6261、CI跨零，仍丢失匹配恢复；全部评价仍L9。12表／支持／抽样／汇总复核通过，4原生训练模型与206精确复现。该208消融及串并行验收现已实现，见0.208，待真实GPU运行。 [结果与下一步](docs/experiments/06_sgla_uav_tracking/STAGE207_RESULTS_REVIEW.md) · [固定协议](docs/experiments/06_sgla_uav_tracking/STAGE207_PAIRED_PROVIDER_STATE_TRAINING.md)
@@ -3250,6 +3254,38 @@ own对pair大改善0176+43.907834、0304+24.801932、0348+23.887164、0169+13.70
 本地4项测试在最终版本整组通过、无跳过（224.587秒；先前3项206.371秒＋来源绑定1项4.270秒亦通过）：真实207包、两主比较和factor汇总、spawn失败退出；合成38源两帧／小线性骨干＋真实repo CENTER与loss，8个paired控制重训绑定、24学生6144更新、494短轨迹、1824读出、26对串并行精确、六条件初值／抽样匹配；真实spawn独立CPU工作进程加载模型和缓存；冻结NPZ/receipt／支持逐行与篡改拒绝；缓存复用不推理、来源不变、错误smoke／产物／嵌套非有限阻断。AST／CLI／LF／Bash -n及14表打包清单通过。未在本机跑真实Transformer／图像／CUDA启动或测GPU吞吐，未取得新AUC。 [本地验证](docs/experiments/06_sgla_uav_tracking/results/stage208_local_validation_20261126.json)
 
 服务器~/workspace/paper、sglatrack-test：mkdir -p output/stage208；nohup bash tools/run_stage208_state_interaction.sh > output/stage208/run.log 2>&1 < /dev/null &；tail -f output/stage208/run.log。默认output/stage208/paired_state_interaction_v1、GPU0、STAGE208_WORKERS=2。支持STAGE208_ROOT／GPU／WORKERS、STAGE194_ROOT、STAGE207_ROOT／BUNDLE、CHECKPOINT和七旧数据根覆盖。需要207完整缓存及PT和194特征，只有TXT不够；不需要额外206物理输入。结果stage208_results_<UTC>_<PID>.txt；失败回传错误及worker_logs。未commit／push，旧1～207代码／原协议／结果不改。 [固定协议](docs/experiments/06_sgla_uav_tracking/STAGE208_PAIRED_STATE_INTERACTION.md)
+
+### 0.209 Stage-208 真实结果：正确交互未获独特收益证据，整体保护未通过
+
+原包stage208_results_20261126T095430Z_1911332.txt原字节归档，SHA1b5e2589d0e554792a07ab29d5f160087aa95d3c1c0c7aaa9a8c1430196c10bd；decision0058f9409c0437c4c8401e15f204fcdb41c2d1aa694dde56962486647bb8eadc，planb7133a1e2341538bbece3a10747b4a3454f771e8b232884c2d4b47431d0f4ce4。L20同207 runtime、workers2、24训练6144更新、494完整OOF，确认集未开。16段／14表hash、JSON指纹／预算核验正确；494视频重算7policy／65paired／25factor／两主要比较最大误差0。76支持／3648采样与207逐行一样；抽样hash／六条件初值／147456参数／256步1024例／6144历史匹配，152参考均fit非自身。8matched state声明和原生／两matched逐视频质量复现207（时延除外）。代码35精确、8旧文件只CRLF/LF；原协议精确。不改旧运行校验。
+
+原生AUC64.418451、低IoU13.1414%；native_pair搜索／正确／错配63.080192／62.364942／61.324544；own_pair63.404899／65.044528／64.503768，低IoU15.9888%／13.2818%／14.0132%，新增稳定失败1／0／1。主要own正确−搜索+1.639628、95%CI[−.906100,+4.783661]、家族[−1.226821,+5.317448]，16正22负、中位−.162629，两seed+1.884286／+1.394971；最差留一+.491183但仍非可靠整体优势。own正确−错配+.540759、95%CI[−.188502,+1.820812]、家族[−.223935,+2.315182]，21正17负，两seed+.223138／+.858381，剔除0176描述均差−.059065。两主要比较都未建立增益，不是证明无效。
+
+own−native训练在search／matched／wrong背景+.324707／+2.679586／+3.179224，只有matched名义区间为正复现207；三交互平均+2.061173、CI[−.171805,+4.750243]。与正确−search交互差中差+2.354879、CI[−2.316550,+7.070714]；正确−wrong−.499638、CI[−4.088759,+2.690362]。不能声称已证明协同。wrong仍保留SGLA原模板处理，F6已含目标条件，错配只改新增适配器的键值，不能由wrong效果好推断模板身份不重要。
+
+own正确对native+.626076、CI[−2.173964,+3.836781]，去0176−.495708；恢复丢失+.118421／视频、CI[+.039474,+.223684]，好帧损失+.037894、CI[+.014845,+.068826]。9次恢复丢失、6源0076／0089／0169／0226／0307／0349，定义不等于以后永不恢复。0307−26.064998、0349−17.602657、0169−12.052501；0091对own search−20.900621。原生父框held IoU own search／matched／wrong .667497／.665567／.665538，局部最好不等于全视频最好。
+
+全部526721评价帧L9，没有新动态选层收益。26对短轨迹串并行声明严格相同，完整评价墙钟6371.749秒；串行smoke2.730秒不含启动、双进程20.015秒含启动，不是公平速度比较；没有完整串行对照，不宣称加速。2976内部文件未在本机取得，未独立加载权重／像素／全部逐帧轨迹和恢复，只复核导出声明及统计。 [机器核查](docs/experiments/06_sgla_uav_tracking/results/stage208_review_audit_20261126.json)
+
+下一步建议Stage-209固定权重的交互输入消融：冻结208 own matched四模型，只替换新增适配器键值为当前正确模板／搜索池化／fit错配，另有零残差原生控制；原生实际模板、F6、路由、CENTER、裁剪和写回规则不动，不改原模板来伪装该消融，不用GT选择。先同父框审计，再全部38源完整OOF，正确输入须复现208、零残差须复现原生；无新训练，不挑少数成功源。检验相同权重是否依赖新增身份信息，区分输入特异性与一般残差适配。若仍无增量，降低新增目标交互为核心创新的优先级；若有，再考虑恢复保护与独立验证。209尚未实现／运行，不自动采用，不开确认集。 [完整结果](docs/experiments/06_sgla_uav_tracking/STAGE208_RESULTS_REVIEW.md)
+
+### 0.210 Stage-209 固定权重的交互输入消融（已实现，真实GPU待运行）
+
+新增tools/stage209_reference_common.py、stage209_reference_intervention.py、test_stage209_reference_intervention.py、run_stage209_reference_intervention.sh及固定协议。冻结208 own_pair/matched四PT，所有模式Q/K/V/O state hash完全相同，不调用优化器，不清零O权重、不重新训练。matched用本帧模板token，search用搜索空间池化，wrong用208原冻结fit参考；zero直接返回适配前token，只旁路新增残差。SGLA原始模板及已有融合、原生选层/CENTER/Hann/裁剪/写回规则不改。wrong仍有原生目标条件，不能称移除目标信息；换输入可能分布外，只解释固定模型的输入依赖，需结合208分别训练对照。
+
+来源208包SHA1b5e2589d0e554792a07ab29d5f160087aa95d3c1c0c7aaa9a8c1430196c10bd，decision0058f9409c0437c4c8401e15f204fcdb41c2d1aa694dde56962486647bb8eadc。解析16段/14表，物理208完整verify，四own matched PT/receipt/condition子plan/fit-held scope/state、四参考NPZ/receipt与donor边界绑定。需208完整目录、checkpoint和原七数据入口，无需另传194/207物理输入。旧1～208代码、原协议及结果冻结。
+
+每held fold取名单首源前最多8帧、全部9策略（native+四模式×双seed），串行及双进程18对逐字段精确比对（时延除外）。另对相同原生父框全部9策略，固定首帧模板初始化后重放，每帧核适配前F6及原MLP分数严格相同、选择层相同，zero输出框精确原生；GT仅首帧初始化及事后IoU，不进入选择。预检不普遍证明全部输入性质。
+
+完整38开发源OOF共342轨迹、364653帧，无训练；zero双seed全轨迹须精确等于新原生。同完整runtime时正确76+原生38共114轨迹须精确复现208所有质量/调用数组，仅计时排除。新L20/L40或UUID用新根全部同卡新跑，允许记录跨卡复现误差，软件/config/checkpoint不能改，续跑不换GPU/UUID/workers/code。沿用冻结208 spawn调度、独立runtime/模型/hook/视频文件、单总体进度条，默认workers2；worker日志独立，父进程总lock和汇总。总体预算27×预检帧数+9×完整帧数+末项。并发时延不用于隔离FPS/加速主张。
+
+10表model_scope／reference_audit／parent_smoke／parallel_smoke／evaluation_execution／source_replay／policy_summary／paired／seed_video_summary／routing，另manifest/decision及来源receipt绑定。两个主要完整AUC比较matched−search／wrong，源内平均双seed后38源bootstrap、名义95%和Bonferroni家族区间；matched−zero支持总残差贡献，zero−native身份控制，继续恢复/好帧/稳定性保护。最终REVIEW，不自动采用，确认集封存。
+
+本地3项CPU测试最终通过（37.591秒，无跳过；前版37.036秒亦通过）：真实208包哈希；同权重四模式注意力独立公式、模板token不变、zero精确恒等；合成38源、小线性骨干+真实repo CENTER，四份合成来源receipt（非实际训练模型）绑定、342两帧轨迹、同父框预检、18串并行对、114来源轨迹精确复现、zero全轨迹恒等、禁止AdamW构造、缓存复用不推理、源文件不变与篡改拒绝。真实spawn两个独立CPU进程运行生产评价/缓存接口。未测真实SGLA Transformer/GPU、真实图像/完整精度/吞吐；AST/LF/CLI/Bash语法/10表清单通过。 [本地验证](docs/experiments/06_sgla_uav_tracking/results/stage209_local_validation_20261126.json)
+
+服务器~/workspace/paper（sglatrack-test）：mkdir -p output/stage209；nohup bash tools/run_stage209_reference_intervention.sh > output/stage209/run.log 2>&1 < /dev/null &；tail -f output/stage209/run.log。默认output/stage209/frozen_reference_intervention_v1、GPU0、workers2；支持STAGE209_ROOT/GPU/WORKERS、STAGE208_ROOT/BUNDLE、CHECKPOINT和七入口覆盖。完成自动stage209_results_<UTC>_<PID>.txt，--check-results可核验重打包；错误回传worker_logs。当前仅本地实现，未提交／推送或执行服务器GPU。
+
+结果后建议：若正确输入仍无可靠增量，降低新增模板交互为核心创新的优先级，重点保留训练状态及反馈目标；若有输入依赖但恢复未过，再设计保护验证，不能据此宣布新动态选层或最终方法。 [固定协议](docs/experiments/06_sgla_uav_tracking/STAGE209_FROZEN_REFERENCE_INTERVENTION.md)
 
 ## 1. 接手后首先要知道的结论
 

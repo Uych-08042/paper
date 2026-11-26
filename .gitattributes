@@ -247,3 +247,9 @@ tools/stage208_state_interaction.py text eol=lf
 tools/stage208_factor_common.py text eol=lf
 tools/test_stage208_state_interaction.py text eol=lf
 docs/experiments/06_sgla_uav_tracking/STAGE208_PAIRED_STATE_INTERACTION.md text eol=lf
+docs/experiments/06_sgla_uav_tracking/results/stage208_results_20261126T095430Z_1911332.txt -text
+tools/stage209_reference_common.py text eol=lf
+tools/stage209_reference_intervention.py text eol=lf
+tools/test_stage209_reference_intervention.py text eol=lf
+tools/run_stage209_reference_intervention.sh text eol=lf
+docs/experiments/06_sgla_uav_tracking/STAGE209_FROZEN_REFERENCE_INTERVENTION.md text eol=lf

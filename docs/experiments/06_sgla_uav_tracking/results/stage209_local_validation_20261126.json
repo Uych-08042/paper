@@ -1,0 +1,39 @@
+{
+  "schema": "stage209_local_validation_v1",
+  "date": "2026-11-26",
+  "timezone": "Asia/Hong_Kong",
+  "status": "PREPARED_NOT_GPU_EVALUATED",
+  "tests": {
+    "passed": 3,
+    "skipped": 0,
+    "seconds": 37.591,
+    "earlier_success_seconds": 37.036
+  },
+  "environment": {
+    "python": "3.12.4",
+    "torch": "2.7.1+cpu",
+    "numpy": "1.26.4"
+  },
+  "checks": [
+    "exact reviewed Stage-208 bundle and changed-byte rejection",
+    "same frozen Q/K/V/O state in four interventions; explicit attention equation; template token equality; zero exact identity",
+    "synthetic 38-source workflow: no AdamW allowed, 342 two-frame public traces, same-parent raw prefix and router identity",
+    "two independent spawned CPU workers; 18 serial/parallel trace pairs; full zero/native identity and 114 matched/native source replay comparisons",
+    "source PT/receipt/condition-plan/scope/state and reference NPZ binding; source files unchanged",
+    "committed trajectory reuse without inference; mismatched trace and tampered result rejection",
+    "AST, LF, CLI help, Bash -n, 10-table/2-JSON bundle inventory"
+  ],
+  "limitations": [
+    "Synthetic small linear backbone with actual repository CENTER and loss dependencies; no real SGLA Transformer/CUDA/real-image experiment locally",
+    "Synthetic source receipts are fixtures, not a claim of new training",
+    "Real GPU startup, source physical tree, trace reproducibility and parallel throughput remain server checks",
+    "No new AUC, trained weights or method adoption; confirmation sealed"
+  ],
+  "file_sha256": {
+    "tools/stage209_reference_common.py": "12e22783689419afbf0fa6051eaf49304f02316fec2c4df5311efcf1eaf8ecf2",
+    "tools/stage209_reference_intervention.py": "7d05a1d4c3bed225ef51fcafdab2f1e6382c9a234f10f85041f2ad2bfcbd337f",
+    "tools/test_stage209_reference_intervention.py": "cf9e8625d4ba3e4c32488eac621ee424be3574e8fc1e8e94a9d40908f9865b86",
+    "tools/run_stage209_reference_intervention.sh": "0c0340f347947bb1f2dba40d35a58ce2ad493b7ab2c38978ebe7a2fccc51684d",
+    "docs/experiments/06_sgla_uav_tracking/STAGE209_FROZEN_REFERENCE_INTERVENTION.md": "7cc929698a4976154d589c6aa4b20f733012aac22b61551a1dcfa8c7bc680e52"
+  }
+}
