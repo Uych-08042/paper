@@ -1,6 +1,8 @@
 # 实验说明索引
 
-Stage-205已实现并通过4项CPU测试，待服务器真实运行。三输入在每外fold的19个fit源组内逐组留一、用其余18组重算统计并训练，228额外CPU模型58368更新。12个闭式残差收缩系数先封存，再复用204外held分数；保留raw／prior及错配对照，检查是否仅退化为固定层。16表、总体进度条，0新图像／骨干／完整轨迹／确认集；不预报真实收益。 [固定协议与后台命令](experiments/06_sgla_uav_tracking/STAGE205_CROSSFIT_RESIDUAL_SHRINKAGE.md)
+Stage-206已实现并通过3项CPU测试，待服务器GPU运行。新增逐token空间残差，保留适配前L6上的原生选层及CENTER。搜索自交互／正确模板／fit错配参考三组同147456参数、12模型3072更新；新跑38原生＋228适配完整轨迹，共266条，另做21888固定状态读出。9表／总体进度条，确认集封存。本机仅合成验证，不预报AUC。 [固定协议与后台命令](experiments/06_sgla_uav_tracking/STAGE206_NATIVE_ROUTED_SPATIAL_ADAPTATION.md)
+
+Stage-205真实结果已复核，接近先验保护，动态增量未建立。正确shrunk IoU .66662117，prior .66660835，3648动作仅33非L7，一个seed完全固定。五主要比较仅对错配为正，其余区间跨零。12系数／16表／全状态复算通过，0新完整轨迹／确认集。206空间适配对照现已实现，见上文，待GPU运行。 [结果与下一步](experiments/06_sgla_uav_tracking/STAGE205_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE205_CROSSFIT_RESIDUAL_SHRINKAGE.md)
 
 Stage-204真实结果已复核，有小幅状态对应／排序线索，整体收益未建立。正确关系held IoU .661275，对原输入+.000906、对错配+.000527，区间均跨零，低于prior .666608。自身对应+.001593名义区间为正，但原输入自身也为正，不能直接归因正确关系。14表全状态复算通过，无新完整轨迹／确认集。该205建议现已实现，见上文；待服务器真实运行。 [结果与下一步](experiments/06_sgla_uav_tracking/STAGE204_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE204_TARGET_SEARCH_RELATION.md)
 
