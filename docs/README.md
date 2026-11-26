@@ -1,6 +1,8 @@
 # 实验说明索引
 
-Stage-203已实现并通过9项CPU测试，待服务器真实缓存训练。point／regret × clip=1／no_clip，16模型同预算重训，新增梯度前后范数／缩放／实际参数更新、非有限失败封存及202控制复现。38组合成全流程／14表通过，两个开启裁剪控制精确复现原202权重；本机无真实NPZ，不能预报收益。单一总体进度条，无新图像／骨干／完整轨迹／确认组。 [固定协议、预算与后台命令](experiments/06_sgla_uav_tracking/STAGE203_LOSS_CLIPPING_FACTORIAL.md)
+Stage-204已实现并通过5项CPU测试，待服务器真实训练。同6720参数比较原统计、正确目标—搜索关系和fit参考错配关系，统一fit-only尺度处理及MSE／clip1／预算。12模型3072更新21888缓存评价，14表／总体进度条；原模板和原token不变。合成测试不预报真实收益，无新骨干／图像／完整轨迹／确认集。 [固定协议与后台命令](experiments/06_sgla_uav_tracking/STAGE204_TARGET_SEARCH_RELATION.md)
+
+Stage-203真实结果已复核，取消裁剪未建立收益。held regret clip／off .661047／.660960、point .660614／.660642，五主要区间均跨零。8个clip控制精确复现202，14表全状态重算通过；regret实际梯度增大但平均参数更新仅+0.10%。降低裁剪瓶颈假设优先级，204关系与错配对照已实现，见上文，待真实训练。0新完整轨迹／确认组。 [结果与下一步](experiments/06_sgla_uav_tracking/STAGE203_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE203_LOSS_CLIPPING_FACTORIAL.md)
 
 Stage-202真实结果已复核，三项主要比较未建立收益。regret held IoU .661047，对point +.000433但区间跨零，低于prior .666608；两个seed对应增量异号。point权重／分数与200精确一致，13表全状态复算通过。观察到裁剪交互：regret有1022／1024次范数>1、point仅4／1024次。203损失×裁剪四组匹配已实现，见上文，待真实训练；0新完整轨迹／确认组。 [结果与下一步](experiments/06_sgla_uav_tracking/STAGE202_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE202_REGRET_MARGIN_ROUTING.md)
 

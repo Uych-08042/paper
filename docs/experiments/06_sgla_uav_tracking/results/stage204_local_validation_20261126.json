@@ -1,0 +1,39 @@
+{
+  "date": "2026-11-26",
+  "status": "LOCAL_TESTS_PASSED_REAL_TRAINING_PENDING",
+  "python": "3.12.4",
+  "torch": "2.7.1+cpu",
+  "numpy": "1.26.4",
+  "tests_run": 5,
+  "tests_passed": 5,
+  "tests_skipped": 0,
+  "synthetic_full_pipeline": {
+    "groups": 38,
+    "states_per_group": 2,
+    "models": 12,
+    "updates": 3072,
+    "state_references": 12288,
+    "predicted_states": 912,
+    "tables": 14,
+    "paired_rows": 66
+  },
+  "actual_shape_parameters": 6720,
+  "matched_parameter_initialization": true,
+  "fit_only_reference_and_label_isolation": true,
+  "held_future_descriptor_isolation": true,
+  "direct_precomputed_interfaces_tested": true,
+  "shell_syntax_passed": true,
+  "shell_lf_and_inventory_passed": true,
+  "real_training_started": false,
+  "real_features_available_locally": false,
+  "file_sha256": {
+    "tools/run_stage204_target_relation.sh": "9753a410d9d16fcd820cab1ddff39868d4d21017b306f92b9edd6fa177be42ac",
+    "tools/stage204_relation_common.py": "a8437cda61cd8f17492526189177efd06dafc0483e5a119f0f30a3d23530ae91",
+    "tools/stage204_relation_model.py": "77dc54898dae9496b387c49276db50ca12c10d14af285a420e8eb8ae2842b29f",
+    "tools/stage204_target_relation.py": "d86748595fde0f09290af2eb90bc04f6ae299184693a1c0ce0551070daa44287",
+    "tools/test_stage204_target_relation.py": "065461ddedf3da333b84de925a358ceceb6d24cf435731aa34a37428c48e3157",
+    "docs/experiments/06_sgla_uav_tracking/STAGE204_TARGET_SEARCH_RELATION.md": "93ead603637b2315672936ce28dce143fa33d01bd068fac32da6e948880c7710"
+  },
+  "limitation": "Synthetic tests only; no real feature NPZ or new full trajectories/confirmation groups.",
+  "descriptor_centering_precision": "float64 fixed mean/scale; float32 readout inputs"
+}

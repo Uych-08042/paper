@@ -220,3 +220,5 @@ docs/experiments/06_sgla_uav_tracking/results/stage201_results_7984550b318c.txt 
 tools/run_stage202_regret_routing.sh text eol=lf
 docs/experiments/06_sgla_uav_tracking/results/stage202_results_20261125T154651Z_1417349.txt -text
 tools/run_stage203_loss_clipping.sh text eol=lf
+docs/experiments/06_sgla_uav_tracking/results/stage203_results_20261125T162346Z_1448196.txt -text
+tools/run_stage204_target_relation.sh text eol=lf
