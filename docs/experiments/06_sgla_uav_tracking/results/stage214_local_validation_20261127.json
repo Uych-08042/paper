@@ -1,0 +1,44 @@
+{
+  "schema": "stage214_local_validation_v1",
+  "date": "2026-11-27",
+  "timezone": "Asia/Hong_Kong",
+  "status": "PREPARED_NOT_GPU_EVALUATED",
+  "environment": {
+    "python": "3.12.4",
+    "torch": "2.7.1+cpu",
+    "numpy": "1.26.4"
+  },
+  "tests": {
+    "passed": 3,
+    "skipped": 0,
+    "full_suite_seconds": 71.602,
+    "nonzero_label_noninterference_recheck_seconds": 10.657
+  },
+  "checks": [
+    "Exact reviewed Stage-213 bundle/table/fingerprint binding and changed-byte rejection",
+    "Square-crop three-degree geometry, zero residual exact raw, aspect preservation, physical center/scale limits",
+    "Input-dependent nonzero actor outputs unchanged by evaluation-GT replacement; no GT/future input to action",
+    "Same forecast/coverage regression plus positive overflow gradient; inactive coverage loss zero",
+    "Fit-only 152 synthetic nn/mm provider trajectories, 8 updater models with 2048 updates; held training key rejected",
+    "Same parameter count, initialization, normalization, group-balanced draw hashes and examples in two objectives",
+    "Frozen SGLA and adapters; actual repository CENTER/cal_bbox/map/clip with synthetic backbone and sampler",
+    "342 three-frame synthetic full OOF paths, 18 exact serial/two-spawn smoke pairs, 190 controls against older rollout",
+    "Online parent chain and per-frame updater mapping audit; dual crop/block/head/selector/updater accounting",
+    "Native/mm reference recovery and good-frame metrics, 42 paired rows including one declared primary AUC comparison",
+    "Learned-model receipt/digest load, committed trajectory reuse without inference, modified table rejection",
+    "Python 3.10 grammar, CLI help, LF and Bash -n; original dependency helper paths exist"
+  ],
+  "limitations": [
+    "Synthetic linear backbone, 20x8 token-image fixture and fixed-factor sampler; real pixels/crop resizing not tested locally",
+    "Real GPU startup, server source-model tree and full Stage-212 artifacts are absent locally; no real Stage-214 accuracy/training measured",
+    "Provider-state fitting is fixed-policy supervised learning, not iterative on-policy rollout/BPTT/PPO",
+    "No confirmation set opening, method adoption, isolated GPU timing or acceleration claim"
+  ],
+  "file_sha256": {
+    "tools/stage214_search_state_common.py": "dd5c0bf37082822cb131f8b78009663d60e0957b6af68727c7cfa5bc21fc46cc",
+    "tools/stage214_search_state.py": "a30b1662a6a77a5f43a7b7de50e1547cdca10862c34882923c55a73ab64b80c4",
+    "tools/test_stage214_search_state.py": "351dbf7fcd7311c43890a11029eb309b1dd95ad11136aacaa16eaccd7e169dcf",
+    "tools/run_stage214_search_state.sh": "d869e01009d74432ef928e19506392e1dfe33c1db02a826035e82eb95fa42cf0",
+    "docs/experiments/06_sgla_uav_tracking/STAGE214_LEARNED_SEARCH_STATE.md": "1e5c33af514a3d06d1e39b6dd1ee7719c9a5169ac2e765d709ee0d71984dd3a6"
+  }
+}

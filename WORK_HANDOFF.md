@@ -1,6 +1,10 @@
 # 工作交接：SGLATrack 无人机跟踪与模型压缩探索
 
-更新日期：2026-11-26（Asia/Hong_Kong）
+更新日期：2026-11-27（Asia/Hong_Kong）
+
+**Stage-214搜索父框监督学习对照已实现，GPU待运行，见0.220。** 固定SGLA/208空间适配器/原生选层/CENTER与对外适配输出，仅学习下一帧中心和几何平均尺度。forecast回归与coverage附加覆盖约束同参数同状态同抽样；每折仅fit视频新跑nn/mm，152提供轨迹、8小模型2048更新、342完整OOF。3项CPU测试通过，18串并行短轨迹对、190来源控制检查、原生/mm双参照保护已接入；默认双进程评价/总体进度/自动12表TXT。未观察真实新AUC。 [协议与运行](docs/experiments/06_sgla_uav_tracking/STAGE214_LEARNED_SEARCH_STATE.md)
+
+**Stage-213真实结果已复核，见0.219，单纯双输出择优不足以保护既有能力。** raw/adapted/mm/oracle AUC64.4185/65.1105/65.0445/65.6625，GT上界较adapted+.5520；补回原生4次匹配恢复，但mm丢失14次只降至12次，5源。mm好而两路都差1,602个帧—种子记录、23源；0176/0204上界仍比mm低41.9570/19.3165。7表重算差0、来源质量复现；只确认现有输出供给不足，不能单独断言裁剪不覆盖。建议214学习搜索状态更新，固定其他模块与输出规则、全38源完整OOF/双参照保护，尚未实现。 [结果与下一步](docs/experiments/06_sgla_uav_tracking/STAGE213_RESULTS_REVIEW.md)
 
 **Stage-213 固定 nn 双输出上界审计已实现，真实缓存待服务器运行，见0.218。** 全38源、双seed、完整视频缓存；raw/adapted同一nn状态逐帧互补与GT择优上界，mm仅为不同历史的能力参照，不混入候选。核原生/matched恢复及好帧保护，0训练/图像/GPU/新轨迹。3项纯CPU测试通过，单总体进度、后台入口、自动七表TXT。上界不作新方法成绩，不开确认集。 [协议与运行](docs/experiments/06_sgla_uav_tracking/STAGE213_FIXED_NN_OUTPUT_CEILING.md)
 
@@ -3434,6 +3438,40 @@ oracle 在同一 nn 状态的 raw/adapted 中按既有官方IoU逐帧取最大�
 服务器命令：`bash tools/run_stage213_output_ceiling.sh`。默认 `output/stage213/fixed_nn_output_ceiling_v1`，读取原212及七个来源目录；一个总体进度、自动合并decision/manifest/7表为时间戳TXT。后台：`mkdir -p output/stage213`，再 `nohup bash tools/run_stage213_output_ceiling.sh > output/stage213/run.log 2>&1 < /dev/null &`，查看 `tail -f output/stage213/run.log`。无需checkpoint/GPU/workers。本机没有服务器NPZ/原标注目录，未运行真实Stage-213审计、未产生真实新AUC，未提交/推送仓库。
 
 收结果后先全表/上界/来源重算，再给下一步建议：上界仍不能保mm能力时转搜索状态供给学习；若全源分散互补且能力可保留，再考虑仅在线信息的输出质量学习及完整留组轨迹检验。不自动PPO、不扫描几何混合系数，不将GT上界当已验证选择器。
+
+### 0.219 Stage-213真实结果：输出互补有小空间，固定原生状态无法保住部分mm供给
+
+原包 `stage213_results_20261126T161130Z_2281744.txt` 原字节归档，SHA4084d3323e1253c7d92b92d3628962553afc7fcd0513f9755ff9f5b628399176；decision27a584ca907ddc0e0584ddfd7e7944535bb694fc57bc831a368ef29f570b1065，plan494418e7a29a416934006c398f2d60a53594575fe7bc59921b0fdf9e5a5b7671。CPU3.10.21/NumPy1.26.4，38源76上界序列、81034帧—seed记录，0训练/图像/GPU/新完整轨迹/确认集。9段/7表指纹哈希通过，304质量→4policy/30paired/190influence重算误差0；76来源复现报告全过、raw/adapted/mm导出质量精确等212。代码49精确、8旧文件仅LF差异，协议精确；153个内部NPZ/receipt本机未收到，不独立重演逐帧框/状态链。 [机器核验](docs/experiments/06_sgla_uav_tracking/results/stage213_review_audit_20261127.json)
+
+raw64.418451/adapted65.110491/mm65.044528/oracle65.662483。oracle对raw+1.244032，名义CI[+1.010935,+1.479614]；对adapted+.551992，[+.406004,+.711525]；均38源正但逐帧GT取最大本来不差于任一路，不能称学会泛化选择。oracle对mm+.617955，CI[−2.629925,+3.453414]，33正5负，最差留一−.129659。oracle两seed65.652417/65.672550；均属固定nn状态离线质量上界，不作新方法AUC。
+
+adapted/raw更高43233/18324，相等19477；raw好adapt坏75记录15源，adapt好raw坏566记录16源。两路均<.5有13416、均<.2有10375。mm≥.5而两路<.5有1602记录23源，其中0176为777、0204为460，其余21源365。计数为帧—seed视图，非独立样本；raw两seed重复参照不扩大统计单位。
+
+93参考事件raw44/mm49，已恢复raw26（13个原生恢复×2）/mm27。oracle原生匹配恢复与好帧损失为0属数学保证；adapted的4次原生匹配恢复损失可被上界补回。mm匹配恢复丢失raw15/adapt14/oracle12：0085三次、0176四次、0226一次、0237两次、0348两次，各事件原恢复三帧至少1帧两路皆坏。指原时刻匹配恢复未保留，不代表此后永不恢复。oracle missed_mm均值.157895、CI[+.039474,+.315789]，mm好帧正截断损失.029438；后者38源均正不能当38源AUC皆负。matched稳定源仍新增0016/0204失跟。
+
+oracle低mm五源0016−1.365876、0176−41.956989、0200−.087719、0204−19.316478、0348−.628512；0176mm58.230415/oracle16.273425，0204mm75.125381/oracle55.808903。这是“固定nn现有raw/adapt两路无法保住mm能力”的直接限制，不能扩大为所有新预测头/骨干都无效，也不能单独断言crop未覆盖（还可能网格/读出问题）。输出选择器有+.5520平均上界空间，但不作为恢复主解，暂不PPO或扩大仲裁网络。
+
+下一步建议214搜索状态更新监督学习对照：输出定位与下一帧搜索父框分开建模，以覆盖和有效目标分辨率约束状态学习，具体网络/损失/预算须新协议固定，不先扫手工混合系数。冻结原SGLA/现有适配器/选层/CENTER/对外输出规则，仅改变父框生成；每折仅fit视频收集自身预测状态训练，不能拿held个案训练。原生更新/适配更新/学习更新全38源双seed完整OOF，原生及mm能力双保护。214尚未实现或运行，确认集封存。 [完整结果与建议](docs/experiments/06_sgla_uav_tracking/STAGE213_RESULTS_REVIEW.md)
+
+### 0.220 Stage-214下一帧搜索父框学习：已实现，真实GPU待运行
+
+用户授权继续。新增 `tools/stage214_search_state_common.py`、`tools/stage214_search_state.py`、`tools/test_stage214_search_state.py`、`tools/run_stage214_search_state.sh` 和[固定协议](docs/experiments/06_sgla_uav_tracking/STAGE214_LEARNED_SEARCH_STATE.md)。冻结Stage1–213代码/原checkpoint/208 own-matched四适配器，固定原MLP/CENTER及适配框对外输出，仅改变下一帧搜索父框。来源213 SHA4084d3323e1253c7d92b92d3628962553afc7fcd0513f9755ff9f5b628399176、decision27a584ca907ddc0e0584ddfd7e7944535bb694fc57bc831a368ef29f570b1065；读取208模型、212完整物理缓存和七个旧源目录。原L20/runtime身份严格保持，不自动放宽换卡。
+
+建模：正方形原裁剪L=f*sqrt(w*h)，只有中心2维与面积平方根1维独立影响范围。输入原始F6模板/搜索各均值+raw/adapted相对当前父框的8维几何，2C+8=392维，fit专属标准化→32 Tanh→3；末层零初始化，以raw框为残差基点，保留raw长宽比。中心限图像内、面积平方根限1像素至图像最长边，物理界限非失跟阈值；零残差合法raw父框精确原生。不是动态选层、PPO或新多候选。
+
+两个匹配目标forecast/coverage：同参数、同初始化/fit状态/标准化/抽样，forecast预测下一帧GT中心和几何尺度，3维SmoothL1；coverage另加预测搜索正方形不含下一帧目标的归一化边界违约。尺度回归防止只扩大区域，覆盖与回归单位权重固定一套，不宣称最优；真实取整、padding和干扰仍须完整轨迹检验。coverage若无激活可等于forecast，不能强求两臂不同。监督仅在fit损失，在线只读当前F6与本次两输出，不读未来帧/GT。
+
+数据：每折每seed的19个fit源，从首帧各完整跑nn/mm自身预测状态，不借用212 held历史训练。2折×2seed×19源×2路径=152提供轨迹；最多48均匀当前点/路径，有下一帧标注才入池，仅剔除非有限/非正下一GT，当前失败点不按质量排除。组等概率、组内均匀；8小模型各256步batch4，2048总更新。lr1e−3/weight_decay1e−4/clip1/hidden32均固定先导配置，不由held调参；非迭代on-policy/BPTT。真实392维模型12675参数。
+
+评价fresh native、nn、mm、forecast、coverage共342完整OOF，152提供轨迹另计；原38源共40517跟踪帧，提供路径162068帧、评价364653帧，另有smoke。双路8block/2head/1crop/1selector，学习组再1 updater；当前输出总adapted、下一状态独立。先18条串行与18条双spawn短轨迹精确配对；全评价默认两个worker，fresh native/nn/mm逐数组复现212共190检查。GT覆盖/名义网络侧长/最佳网格IoU均在动作确定后附加诊断，不传给更新器。
+
+12表：frozen_scope4、fit_support152、scope8、history2048、smoke18、source_replay190、policy5、paired42、seed_video342、search_geometry304、calls342、execution3。唯一主要比较coverage−forecast AUC，原生/nn/mm为支持比较；均按源先平均seed再38源bootstrap。原生/mm匹配恢复及好帧保护同时保留，不用平均AUC遮盖严重源组损失。无自动采用或确认集开放。
+
+本地Python3.12.4/Torch2.7.1+cpu/NumPy1.26.4三项测试通过，完整套件71.602秒；非零输入依赖动作的GT替换不干预测试补强后单测10.657秒。真实仓库CENTER/cal_bbox/map/clip配合合成线性骨干和固定采样fixture，验证152合成提供轨迹/8模型训练/342合成OOF、冻结权重、匹配抽样和初始化、零残差nn恒等、独立spawn逐数组复现、190旧控制、GT不影响动作、损失梯度、缓存重用及篡改拒绝。Python3.10语法、CLI、Bash -n、LF通过。 [本地验证](docs/experiments/06_sgla_uav_tracking/results/stage214_local_validation_20261127.json)
+
+运行：`bash tools/run_stage214_search_state.sh`，默认 `output/stage214/learned_search_state_v1`，STAGE214_GPU=0、STAGE214_WORKERS=2，整体一个进度条，自动合并12表+manifest/decision为TXT。后台 `mkdir -p output/stage214`，再 `nohup bash tools/run_stage214_search_state.sh > output/stage214/run.log 2>&1 < /dev/null &`；可记录PID/`tail -f`，协议有完整命令。只改评价进程数可设STAGE214_WORKERS=1，但smoke仍验证双进程。提供状态采集与训练当前主进程顺序执行，不宣称全阶段并行或真实加速。
+
+本机无真实GPU/208模型/212NPZ/原图像数据树，未执行真实启动、训练或精度评价；小样本合成结果不作新AUC。未提交/推送。收回结果后重核来源、匹配预算、更新器是否实际改变状态、主要与双保护指标，并给下一步建议。若coverage没有增量不归功覆盖目标，若状态改变/覆盖提升却仍失效按同批网格诊断区分供给与读出；若学习状态分布偏离提供池，须承认并再决定新状态采集，不盲目扫系数。
 
 ## 1. 接手后首先要知道的结论
 

@@ -1,0 +1,3472 @@
+
+===== stage213_decision.json =====
+{
+  "schema": "stage213_fixed_nn_output_complementarity_ceiling_v1",
+  "status": "REVIEW_FIXED_NN_OUTPUT_CEILING",
+  "plan_fingerprint": "494418e7a29a416934006c398f2d60a53594575fe7bc59921b0fdf9e5a5b7671",
+  "source_stage212": "6913f1ed1755f3b6eb9a7718e8cd217d4cb03d707d9a527981cf0e6d74205f02",
+  "source_groups": 38,
+  "derived_oracle_sequences": 76,
+  "new_training_updates": 0,
+  "new_image_reads": 0,
+  "new_gpu_inference_calls": 0,
+  "new_full_trajectories": 0,
+  "confirmation_groups_opened": 0,
+  "table_sha256": {
+    "stage213_policy_summary.csv": "95e79a1a243e643b925058e988c5abf74dfdba5e736457a2da4d3d6e0772ed99",
+    "stage213_paired.csv": "f6dd5161bed13ce3ece661567198aff95dd0dc8451ec7422dd629df54994d6e4",
+    "stage213_seed_video_summary.csv": "bca2515ea71a59333c5a06a2353783990b4c14e0ab87c395398c83770300e82b",
+    "stage213_complementarity.csv": "9a4dd61422c1c10a574c6aa377df052fce800fb97dbcd237237940a8ca64113d",
+    "stage213_recovery_events.csv": "36b30a8efd64d343632f626e41285ba009df5f4ecaadd4d1f79f0f363e9bf548",
+    "stage213_source_replay.csv": "33d3c9543ef35ae059750d48b50ebb885e9aaffc8312dd588313c11a5228267b",
+    "stage213_source_influence.csv": "cc4ebb14b7672c2ecf64cf74d13aa6e0b95f8fe95bfae96b673ac3db2ee4a1fb"
+  },
+  "artifact_sha256": {
+    "source_receipt.json": "2ab5063b61fcdfbd148cf8eb6325d1f5cc18eff737d77aeead0baf111d8b3b41",
+    "ceiling/uav0000003_00000_s__s2132.npz": "18c8d13054724e1471e1f41d14d936faaa548e9fed24669178e20b0f43a44b17",
+    "ceiling/uav0000003_00000_s__s2132.receipt.json": "f9431ae315f771967c4eb33b00064b822d9000eb14ef54290a8d853211cb1627",
+    "ceiling/uav0000003_00000_s__s2133.npz": "bb94fff82509166044c24b8a43f8b4bca313d2d50e12dc9a6c5060a341bd0ccf",
+    "ceiling/uav0000003_00000_s__s2133.receipt.json": "fc738296350aa3b68c5ff0c363402d94d53e1ee6a9466d80e5bdbfc309431fa0",
+    "ceiling/uav0000016_00000_s__s2132.npz": "1778a729c7c40c10732043f263950068df8c1a1f5c4959041aace16fff996cf1",
+    "ceiling/uav0000016_00000_s__s2132.receipt.json": "7b44cbd7fcc299dbb74db7a2e76504fca3d6bd5ce2ca5b0f0b6eae5675affd7d",
+    "ceiling/uav0000016_00000_s__s2133.npz": "1a047a0e563d7bbcbce9ed9f8ea2ae9d282f7ab60186eb871d9b296befbc7115",
+    "ceiling/uav0000016_00000_s__s2133.receipt.json": "0fb50eea0dff31e4de3d81daa0fc0e6a2ccb803c1d9712faf2d758ee947e5636",
+    "ceiling/uav0000070_01344_s__s2132.npz": "8cb4854572799c695c5371bbad76b3c186f193a409552ca22fd2cc47a341e27e",
+    "ceiling/uav0000070_01344_s__s2132.receipt.json": "f427ccacc90d7685ce50b03db3d99778321e25777eb7c729a0eca6902378253d",
+    "ceiling/uav0000070_01344_s__s2133.npz": "c8ceb841ace04389c02ab28f9ca1807651891412d4b8a8c5343e5e7afb220c3c",
+    "ceiling/uav0000070_01344_s__s2133.receipt.json": "c2ac0fbfe64812a123fb4e802f0c32cd10de1eb2ac55376b25ef13c4ec404160",
+    "ceiling/uav0000076_00241_s__s2132.npz": "884543195c15532e66dbd09f09ccbe735d4c15e496eb3cbe06d251c691941531",
+    "ceiling/uav0000076_00241_s__s2132.receipt.json": "d6419af0fef51767e7780b7245f94d7336fad6532c0e70e70f9818d57406d61e",
+    "ceiling/uav0000076_00241_s__s2133.npz": "b53aca3f3eba47102061e5680de4e70e03a8eb18c20642330c8948120bece34d",
+    "ceiling/uav0000076_00241_s__s2133.receipt.json": "0e83d358671184fb4b4d6a16a1b7f5e2262c529078c55f8ccdc9c92523f89756",
+    "ceiling/uav0000080_01680_s__s2132.npz": "40c956fd76b0c881e4fde1daa87ae8c5fe9e51ffb95bbb18aa6fce3ff8390ddd",
+    "ceiling/uav0000080_01680_s__s2132.receipt.json": "d24661d851e51395ff7ec267d2260c172b77aab1d18485043c3cba50b09df9dc",
+    "ceiling/uav0000080_01680_s__s2133.npz": "9e684e13f3ac3ca7bbfd45345424cd71d07b5800fc020d25b71b10402ab00f7e",
+    "ceiling/uav0000080_01680_s__s2133.receipt.json": "c8c764162a27fde8e878e3255e7b18352af9a3ca1324f50d9680618e8ed5c4ba",
+    "ceiling/uav0000085_00000_s__s2132.npz": "ef7ba5b83abff852040d3afb8d9357c9762162fce42a1c3b189c90a9dc843fa8",
+    "ceiling/uav0000085_00000_s__s2132.receipt.json": "4d5ee76add36ef3d9194acec3968241727e510ad71b32d3a87cfaa223c8b9254",
+    "ceiling/uav0000085_00000_s__s2133.npz": "8c8645a74833c67a3f4ccfc1b5fc009fe64f5f90b6a893def46d84ad02cabf93",
+    "ceiling/uav0000085_00000_s__s2133.receipt.json": "009f358e5202e1553180fe43dde44f0a0fcbc98097c8538b2a66a7878c7d66d2",
+    "ceiling/uav0000089_00920_s__s2132.npz": "0fb2e3ecfa910bd32a4a4c5831bb6ccad6526c809fc7002e2b2260ad0f1af297",
+    "ceiling/uav0000089_00920_s__s2132.receipt.json": "3af7702a63c6fe3071342f9bffce1f75598c673750cb69e006f2614c5e583aec",
+    "ceiling/uav0000089_00920_s__s2133.npz": "23e9f1a2b3ae8c5e3264ec37fd2cd3b17e46015db96834221c8cfb8eddaf782f",
+    "ceiling/uav0000089_00920_s__s2133.receipt.json": "bb7e9b17552e44e05cc3c58f408e3fa57c903ff4c93ec7c6ba23e37eca7cb703",
+    "ceiling/uav0000090_01104_s__s2132.npz": "f6701b9a95f5de1ce6f663d19ea3fec02f1c13f43fd7874690f14bf55c3a3254",
+    "ceiling/uav0000090_01104_s__s2132.receipt.json": "3a85145b82f0091c601aaa18ffa8b32bfe86b3ed98d22253acedeb0a6d2934d2",
+    "ceiling/uav0000090_01104_s__s2133.npz": "50dd88d5a8d6c0fd3d847b861d5744456ea92eeb27bfc3e8a15fcd01a4b8df70",
+    "ceiling/uav0000090_01104_s__s2133.receipt.json": "bc2e8ea7e0e1c8b9de8f0751b0a65dcde8c5e30ee589daa25255aef4b74b9608",
+    "ceiling/uav0000091_00460_s__s2132.npz": "3ae44d80c40837a2affe27a3f1ee21a17fcfedc7b21d69d35041c008a3937529",
+    "ceiling/uav0000091_00460_s__s2132.receipt.json": "37a7b10f756208de04c63fba91bdf15909f7f4fe68f61d3e250b92b81c76b650",
+    "ceiling/uav0000091_00460_s__s2133.npz": "feee5ef441f3f14edce4f2b061989748b62824d9b8f982e0edf28319fcf90a78",
+    "ceiling/uav0000091_00460_s__s2133.receipt.json": "2b41d39120173a1d5c2ca34dbbcac09d5d63c5775bc3134a02457a7322f065a8",
+    "ceiling/uav0000107_01763_s__s2132.npz": "063f7cd0457752dd7bf2ba96bb13584ec5de17e5ff1c34c19a14eba6272c4f9f",
+    "ceiling/uav0000107_01763_s__s2132.receipt.json": "b4a170ac6736e4bcd84f53086efe85e32ef76bacdbd05d6773d40597313d7fc0",
+    "ceiling/uav0000107_01763_s__s2133.npz": "4322b33d82ce5460fbe8c7d6c3bbc2ce17426928b9ddbadca1b4315179660485",
+    "ceiling/uav0000107_01763_s__s2133.receipt.json": "d6006f5d8ad163a7a9115169ae64ebca0af86c42ed49fc46cce351eea8217688",
+    "ceiling/uav0000126_07915_s__s2132.npz": "b4a05b1495437b47263905efd30c0e9e9f7515bb5e9af1c2fed45114ec9dca91",
+    "ceiling/uav0000126_07915_s__s2132.receipt.json": "0957835123280d4f99006162a89c3a9540caa33aeb26cf967a268f78f7405e48",
+    "ceiling/uav0000126_07915_s__s2133.npz": "dfcc24841ede1d22ee21c0669aa586362f3b9251f672fb2ea870070e690edcc7",
+    "ceiling/uav0000126_07915_s__s2133.receipt.json": "ae14dc0cb4dfaf20d0e7124b95b30f791722643a2948c88f1fafc126e0dd92f4",
+    "ceiling/uav0000147_00000_s__s2132.npz": "b208ebabeb936cb13984b8c09d58a2c95adfaf2d0c0d68eb9eb96ccf76e1d385",
+    "ceiling/uav0000147_00000_s__s2132.receipt.json": "618eb55d96cc8f46b5991c6c8d9936484995cb2c5ef51a85c5c514a2863a06fd",
+    "ceiling/uav0000147_00000_s__s2133.npz": "836afb952e1cce83589063fa8d322d87b1bf60f4664d2c0f695417a2a56e0db8",
+    "ceiling/uav0000147_00000_s__s2133.receipt.json": "74c9b0c4dddeaa21c1b6806700ea7589571ac384221880c947a07098ded7cb30",
+    "ceiling/uav0000148_00840_s__s2132.npz": "8abcd95ed70b83a0509dd4357d41e41d92ef68aea7d5dd0040f14ef616478ea5",
+    "ceiling/uav0000148_00840_s__s2132.receipt.json": "8318b31e032539b9da77e7891ea16ff28d7475e88758ba8c4d2c24440f20f1c2",
+    "ceiling/uav0000148_00840_s__s2133.npz": "0b1d7a906fdbb4d0d41e6801c14571b0e06774172488d091db006e99b606f207",
+    "ceiling/uav0000148_00840_s__s2133.receipt.json": "2048e74986f568212b4d65ffda1cd95eca79fecca7614de0ee03e4aca1c95a73",
+    "ceiling/uav0000149_00317_s__s2132.npz": "f85bf00d0201edc11662c2d382fa056062d55eeb83de7033de8aecd00dc515ae",
+    "ceiling/uav0000149_00317_s__s2132.receipt.json": "d9c6ab1cdd7e959f759388ad0c1437ca9bbb4a237bc51a47491f50bfe63fc06d",
+    "ceiling/uav0000149_00317_s__s2133.npz": "ba00ceef1045cd716cf0bbd578f860fb08f9fbd22a802e29ea82625b7635bdd1",
+    "ceiling/uav0000149_00317_s__s2133.receipt.json": "1568ccb6c95acd269f4fac3a486e18e876498e68adca2bea7cff1e6558d703c0",
+    "ceiling/uav0000169_00000_s__s2132.npz": "501980a17c2bf04133b8560f0451da726646dee4c4d9824d63111ab1febd095e",
+    "ceiling/uav0000169_00000_s__s2132.receipt.json": "cf92c34c7d3f24931bcc9af0f20ffb80578b9dce17c767728af897d12158d2c8",
+    "ceiling/uav0000169_00000_s__s2133.npz": "347ae7c292a1bc9ef87472db93a7f56c2a03c42defe09092bd4f37029eb72220",
+    "ceiling/uav0000169_00000_s__s2133.receipt.json": "cf3dcc9eb94a2e5808020ff87a8961e8a5dcb043f7f2bfd0e045d943ddb56b11",
+    "ceiling/uav0000170_00000_s__s2132.npz": "efecf0f467af8fa8637c4b4096fb1b1f9221aeb33197dcd4b285c71e02c39429",
+    "ceiling/uav0000170_00000_s__s2132.receipt.json": "8f94bdd657d11016324b092513928b19904f4bcc3992830239ef3060bf6496d6",
+    "ceiling/uav0000170_00000_s__s2133.npz": "c63eb5b15f955fab0566c13966ab5642c0eaf4730bb2ae729a8ba669620d9875",
+    "ceiling/uav0000170_00000_s__s2133.receipt.json": "02e3f981dfc6715d774b94b4caffd451faf6a788974cd2086aa51a9d4832bdec",
+    "ceiling/uav0000173_00781_s__s2132.npz": "b831f420a3ca56832445285e8a893c3b44f464c9e0fee80e67ee365e6fe6a293",
+    "ceiling/uav0000173_00781_s__s2132.receipt.json": "0092c005ae8a319813a309d16f01c9ac2c825c32651a41dd6f59719e05a8c30c",
+    "ceiling/uav0000173_00781_s__s2133.npz": "fd1b7fb633c1b286abdfb1e1b0e4b4b7c6f3fa2cb2ef87727594e1332615921f",
+    "ceiling/uav0000173_00781_s__s2133.receipt.json": "a0d9ad58a385858ec506f2b277b28e7a1350b5dfdcfda8f77925fc9abac48064",
+    "ceiling/uav0000174_00000_s__s2132.npz": "8afe1ab1a4e8e215398a1a2cc2dd624c7c660741b43a02b59cc1ec6164f72a76",
+    "ceiling/uav0000174_00000_s__s2132.receipt.json": "17332027adf928bf3ac66329a8dbd0a04e2b75dbd3f8a87798429e3a3a95fcac",
+    "ceiling/uav0000174_00000_s__s2133.npz": "9694f956b7d753c385936e838cf49b3a37bfb872e3869dac1373acf0d13a2304",
+    "ceiling/uav0000174_00000_s__s2133.receipt.json": "1a6e68ea3880ee7ade4df47668a0675965f3ec01a15e0636ada219e474e6b322",
+    "ceiling/uav0000176_00000_s__s2132.npz": "edbfe66037ca540531e293c6667fbdc0e33f1acece1c0470b58ea02e8c937fb3",
+    "ceiling/uav0000176_00000_s__s2132.receipt.json": "53f44231ee52beedab6bcd4a5d9cb17149e0f5e18e50a4c62308977142d2cb8c",
+    "ceiling/uav0000176_00000_s__s2133.npz": "958a5af12fab67364dbc08b733cac14a722f153fb22d8000a118f473b631fbf9",
+    "ceiling/uav0000176_00000_s__s2133.receipt.json": "41e086edcf202eae2a2989d1c9d69a473d716bee0ceef92ab31b42ffa19c3dd7",
+    "ceiling/uav0000199_00000_s__s2132.npz": "9c07bbca58d1df34c47174f5ac9ab1541723188772882f377e385c64809dd26e",
+    "ceiling/uav0000199_00000_s__s2132.receipt.json": "4d4906d6881a95c52fa682d3b74efcd7f3a0d72ac6766137894ba05db958fa39",
+    "ceiling/uav0000199_00000_s__s2133.npz": "c7d6ddfdae5a7588692f914736796b0339630faef32673371313d5f0f5601c87",
+    "ceiling/uav0000199_00000_s__s2133.receipt.json": "73175c886f5727c747d3c47ed34bd48dd919ff476e7880adcfc8254ca1fb87db",
+    "ceiling/uav0000200_00000_s__s2132.npz": "39f28b20c8f354b282fa3f83c9c83a8e485053984aea385e606b1358f4281c8d",
+    "ceiling/uav0000200_00000_s__s2132.receipt.json": "c8ba637d93d1f13ef78b8876e2bc8bf99c0a6d1f000e894a921b25ccdbc6e4ea",
+    "ceiling/uav0000200_00000_s__s2133.npz": "7097cb6e4fd440176af47354d289fce849434cbbe2a0c5e2af6843b8bda60104",
+    "ceiling/uav0000200_00000_s__s2133.receipt.json": "4258d4921da474fbfc6c95c9bc6f40501a8c54702feb0b9ca9c1c14772463c6f",
+    "ceiling/uav0000204_00000_s__s2132.npz": "d1963436e68869df33a9d3e446ce308f2217a9e33b385a8006a0ca9feb8e4222",
+    "ceiling/uav0000204_00000_s__s2132.receipt.json": "21ebcdf69c342981f02eaa851b632e7e4b6402ee316eb8a628ae8e9bc7826e6a",
+    "ceiling/uav0000204_00000_s__s2133.npz": "0652673af077e43dbf4ab17681c3517db2148ed315a5ccd91b77e005dad694b0",
+    "ceiling/uav0000204_00000_s__s2133.receipt.json": "5280d81723d03d865a11cfd2a402723f42bdba69c305627454b39a6dd96697b2",
+    "ceiling/uav0000205_00000_s__s2132.npz": "d2181bff5020832c9fadfb81c4cf38de6e82e227a43654c09e058c8402055c66",
+    "ceiling/uav0000205_00000_s__s2132.receipt.json": "3c7c86d8d1062f4ef8fbdc03cbdbda33aeb4a8e1ccd6282fb87ebc995530d634",
+    "ceiling/uav0000205_00000_s__s2133.npz": "43e1bc949753b53e3576c8fbc596c890f989560d6877f0da6a8c907632b5b072",
+    "ceiling/uav0000205_00000_s__s2133.receipt.json": "f5c782a1e169a6c4984fa995437d8344473febf6cd4026762af0f15add9be106",
+    "ceiling/uav0000226_05370_s__s2132.npz": "2b64ca83484a9b6128badbd882f9cdcda3ff9e6f85beaefbf835011a7b69de20",
+    "ceiling/uav0000226_05370_s__s2132.receipt.json": "03550a421d69b907378b9272d0ff7b6fe4daed48998e1bd2761ac64cd97055a0",
+    "ceiling/uav0000226_05370_s__s2133.npz": "71d3f0fc7f39461baf07dcc481b5170e868c0e55bfcd632343651e3a7aadd213",
+    "ceiling/uav0000226_05370_s__s2133.receipt.json": "762406f23ef8cd54fa5140f0750a8caffe4efc23332836e0d367c80b12398f2a",
+    "ceiling/uav0000235_00001_s__s2132.npz": "8c9cf3f94f459f7c24aded21c91afe992cd0b96890e82d951630ceddc5e0d650",
+    "ceiling/uav0000235_00001_s__s2132.receipt.json": "78eab6b00795108ffd0d779b8bd9b434476b1301aae9e10af843c3e95bbdd23c",
+    "ceiling/uav0000235_00001_s__s2133.npz": "116235a85f22e6ad055b8611b0d622b618400447797331a67e50ec43ad061e91",
+    "ceiling/uav0000235_00001_s__s2133.receipt.json": "331bd98f3f4f619b7413ec3772d6f8ba164201a18e407404f759528ed7b0be81",
+    "ceiling/uav0000236_00001_s__s2132.npz": "75110d55563c58a34de1eab7fbdecf11e00971fef030dd4462a955e4051a587b",
+    "ceiling/uav0000236_00001_s__s2132.receipt.json": "37ee8bbc8f356fdb7395a22799553b7828336eb1530533e60591db31776a7453",
+    "ceiling/uav0000236_00001_s__s2133.npz": "a81ae68a57dd48978314c4585bef76e476cf25908c87578cb544de399e7ebbab",
+    "ceiling/uav0000236_00001_s__s2133.receipt.json": "06d31b17ee2c7d02b24932e039d10f80f7b1ad93ddb108e1e8a779e4cd8464ca",
+    "ceiling/uav0000237_00001_s__s2132.npz": "bc82b3581636c4e51a87936836e8585199f14639545d6a05ec26869720982cf3",
+    "ceiling/uav0000237_00001_s__s2132.receipt.json": "4eb1bef3330eb228a05526c5c595ddba25a66cad2da70e767a94a4ce6cfe4800",
+    "ceiling/uav0000237_00001_s__s2133.npz": "ecca93dedd01aec5efff2e525b0a91588fd0e639943c3f95ec5386bd6583611e",
+    "ceiling/uav0000237_00001_s__s2133.receipt.json": "fa6d81148d5655a1ea6a426be1df0a7ae0c04cef981aab8c0f70e4110447bfa8",
+    "ceiling/uav0000238_00001_s__s2132.npz": "279811f270dfdc85964db4f37a0b6826fb9bade6c14d7026e7ee25f8aa1fa74a",
+    "ceiling/uav0000238_00001_s__s2132.receipt.json": "5ea815966a8dc7ddbe8d7694042d857b71efbfaad988c3ee125096545c13c09d",
+    "ceiling/uav0000238_00001_s__s2133.npz": "e5482c8672278356b11e17c42a25fc62352d5536ef1978e24d727dd36fb632ac",
+    "ceiling/uav0000238_00001_s__s2133.receipt.json": "e78f7fa535dfe3200f5326215034421afe53d8bcf97b7147df15c3aacf4bb787",
+    "ceiling/uav0000239_11136_s__s2132.npz": "e8f3387eed8f240f39584a88da3793890e8fc225301ac846481611faca926a39",
+    "ceiling/uav0000239_11136_s__s2132.receipt.json": "21b42ac543244484f58f541cbc22728da5c69e90ad1361f066d5462ecc43bff0",
+    "ceiling/uav0000239_11136_s__s2133.npz": "e2edbe6fc447b85a825ba6d1d151f766ed55207a1649a513fb731c00d3a81471",
+    "ceiling/uav0000239_11136_s__s2133.receipt.json": "ed23b8c40d67153c584b5c9947d9bc1705401097a912fcface66f3b97ffa2479",
+    "ceiling/uav0000303_01250_s__s2132.npz": "c91956e9dd03a8207122203a22955af9c9b3b45139a0e0868047b5d133f8c5d0",
+    "ceiling/uav0000303_01250_s__s2132.receipt.json": "40d17f3f2714318a1fc59bdf6ddbbb5bcb37fa3d667d4a8c01ff8f5c911b6f19",
+    "ceiling/uav0000303_01250_s__s2133.npz": "ab73f5a3ffbcaa95faf62510e304a490f2d8d32e9fc4f7766ba9dd694c33a7c5",
+    "ceiling/uav0000303_01250_s__s2133.receipt.json": "3b97498861ecc60bf463d359b645132e75d7fd558c0bbca36b3199838125ee14",
+    "ceiling/uav0000304_00253_s__s2132.npz": "1fcaeb19721f117853b2d0f0a2218e787df54dbeec28cca9d88c3aaa8ec84d67",
+    "ceiling/uav0000304_00253_s__s2132.receipt.json": "b31cf15e156ec41550d4924c229bcdb7e55f8d01bde358c6e6d94c5df1f44bea",
+    "ceiling/uav0000304_00253_s__s2133.npz": "ce2cef65f0eac27f62f554d1ceddffd31f0c33020d3934539bbb7c964b0ab9d7",
+    "ceiling/uav0000304_00253_s__s2133.receipt.json": "180b3e86730656dd4cb96283f8f13287a0e00fa50443d342c5d0714134de6502",
+    "ceiling/uav0000307_04531_s__s2132.npz": "80f6b74b99e4797ba413e70e623ddd0dbe53807ac95e7f5947afb9cb090b82e4",
+    "ceiling/uav0000307_04531_s__s2132.receipt.json": "ce8ea072affc64c7521a6f0e5af311d7edbe5454f1260234870b77c2f83fb71e",
+    "ceiling/uav0000307_04531_s__s2133.npz": "1e705caa24a5913f045c9eaac01fe2b5f95668f8a859726047918cbffb788d6f",
+    "ceiling/uav0000307_04531_s__s2133.receipt.json": "82808bd3959b2462dc57e29afffb0be4f376db3650f58b79559c457b5e81f479",
+    "ceiling/uav0000308_04600_s__s2132.npz": "6625e04b476fa80ed834b3e2d6da13b15b4d3d2d5db94d64a27bd56c16e5f124",
+    "ceiling/uav0000308_04600_s__s2132.receipt.json": "a4cfbc1fa1f2afc9cb31148e64a4d4c1bc87927eb1ab27de3a4d7860e5046108",
+    "ceiling/uav0000308_04600_s__s2133.npz": "e325edec87cd7e2e7c4ce68d6a8e4641d6c17f5ab6d959d52d81080351950b09",
+    "ceiling/uav0000308_04600_s__s2133.receipt.json": "42f321c340aefcb3a371ebdfb1e6b6c97ab39a8cbca92f04107ed0ff5cf7efa1",
+    "ceiling/uav0000329_00276_s__s2132.npz": "2c6c0a278a7cd5dd273cb068ca3fe4abda20e4acece286a411a00d26ad4175dc",
+    "ceiling/uav0000329_00276_s__s2132.receipt.json": "982c72fed709b99e0049b9b74b9d1bff7d900a39a38c1554fb876bfcf4292ac7",
+    "ceiling/uav0000329_00276_s__s2133.npz": "f54e5772e8ffac227aab593144e9737ab0a8ab5c70f040223bcd73c102bbaca7",
+    "ceiling/uav0000329_00276_s__s2133.receipt.json": "2c0fdfcae81633f0fe0023b75d331bafad4220bfcee0c6eb9fd80dc2a31b9755",
+    "ceiling/uav0000331_02691_s__s2132.npz": "8c0be4dc0765fdd09f1c103b543fdb96c545e0cacaf39110e29ae7707c5a4d9d",
+    "ceiling/uav0000331_02691_s__s2132.receipt.json": "63ad333b9dbddd465c3205add06c0ba954877cd727b542c96449cdf799b940a4",
+    "ceiling/uav0000331_02691_s__s2133.npz": "b6a56944f9bca46b36df644ada7bea30f969b7b2c5b5c8da345e4178d2fc28d0",
+    "ceiling/uav0000331_02691_s__s2133.receipt.json": "b1afa2d3351d0d683f18f6f878c2be43ad0c66291314ae72ccd2b108dd2313a5",
+    "ceiling/uav0000342_01518_s__s2132.npz": "b574477393b1ceedb893145e31572aa731c0296fea5655b74d31ee59eb7412d5",
+    "ceiling/uav0000342_01518_s__s2132.receipt.json": "9c63a7362e0df26af646914292e609d380d33314f88f33db1b4dbc5491248f0c",
+    "ceiling/uav0000342_01518_s__s2133.npz": "0eae1e4b98f7eb0d397ff088e1048a6f619ece69c0825aec8d7b6ebda01a84f8",
+    "ceiling/uav0000342_01518_s__s2133.receipt.json": "d2053e09b8c18229943458515e962f9151839054ae6c08cd1879f6fbccbaf342",
+    "ceiling/uav0000348_02415_s__s2132.npz": "bffb899a84260131a94d077111fd1a08e2612d7bb72901afabb3e1187e019f71",
+    "ceiling/uav0000348_02415_s__s2132.receipt.json": "94c2e21881ab2f63fcab34e35ff4c9d1aef55867394203587c4563bc1e549d77",
+    "ceiling/uav0000348_02415_s__s2133.npz": "779033a3cd4b4e279f783dee345af2d34d5cfd856cc1f939c54b40472b6f3ed9",
+    "ceiling/uav0000348_02415_s__s2133.receipt.json": "edad791b26b63a5413ae94f218d9d1ca8dc4a693301f8dc2e814ac5ec5fc127f",
+    "ceiling/uav0000349_02668_s__s2132.npz": "66f108bd9f16ff8b7b6a0eb73ae1aa70feb5ad6629f653ba5cf19c2b98a49c57",
+    "ceiling/uav0000349_02668_s__s2132.receipt.json": "e6e45bdfaf9d646ec0a1b82365c08ec5ecebba55670338d20ddc4f07db21d9f0",
+    "ceiling/uav0000349_02668_s__s2133.npz": "89ea67c090f6f4a11ee9f2ee848791567141d1f625031c7f6fa28dba6d976f2e",
+    "ceiling/uav0000349_02668_s__s2133.receipt.json": "ed48c824f6694bd29b0b2c1b308a51aee8c7ed85ba64360e03ed13abee414452"
+  },
+  "interpretation": "GT ceiling and supply audit, not deployable selection; raw seed views are identical-source duplicates; no automatic adoption",
+  "fingerprint": "27a584ca907ddc0e0584ddfd7e7944535bb694fc57bc831a368ef29f570b1065"
+}
+
+===== manifest.json =====
+{
+  "schema": "stage213_fixed_nn_output_complementarity_ceiling_v1",
+  "source_stage212": "6913f1ed1755f3b6eb9a7718e8cd217d4cb03d707d9a527981cf0e6d74205f02",
+  "source_plan": "dc93467f24459fff6c405ec8dcbd8106e71eb23c35ed4f89c14af0f630415561",
+  "entries": [
+    {
+      "sequence": "uav0000003_00000_s",
+      "group": "uav0000003",
+      "cohort": "recent_development",
+      "tracked_frames": 144,
+      "sample_frames": [
+        1,
+        4,
+        7,
+        10,
+        13,
+        16,
+        19,
+        22,
+        25,
+        28,
+        31,
+        34,
+        38,
+        41,
+        44,
+        47,
+        50,
+        53,
+        56,
+        59,
+        62,
+        65,
+        68,
+        71,
+        74,
+        77,
+        80,
+        83,
+        86,
+        89,
+        92,
+        95,
+        98,
+        101,
+        104,
+        107,
+        111,
+        114,
+        117,
+        120,
+        123,
+        126,
+        129,
+        132,
+        135,
+        138,
+        141,
+        144
+      ],
+      "truth_sha256": "2eead9a3d1d5af9ad0df56de2ae50203cfab52a043533c7784ef26c9cd07aa2f",
+      "frames_sha256": "84cdc167097570bd5f9755b13501f0a7a89f0a9ba606cadd4689063179937ab1"
+    },
+    {
+      "sequence": "uav0000016_00000_s",
+      "group": "uav0000016",
+      "cohort": "recent_development",
+      "tracked_frames": 638,
+      "sample_frames": [
+        1,
+        15,
+        28,
+        42,
+        55,
+        69,
+        82,
+        96,
+        109,
+        123,
+        137,
+        150,
+        164,
+        177,
+        191,
+        204,
+        218,
+        231,
+        245,
+        259,
+        272,
+        286,
+        299,
+        313,
+        326,
+        340,
+        353,
+        367,
+        380,
+        394,
+        408,
+        421,
+        435,
+        448,
+        462,
+        475,
+        489,
+        502,
+        516,
+        530,
+        543,
+        557,
+        570,
+        584,
+        597,
+        611,
+        624,
+        638
+      ],
+      "truth_sha256": "206d8563f206056d880826aeef3ad5acdd6fac71c9c176e4f547ff3216ad0652",
+      "frames_sha256": "591c07fba405858abd97ca68912feea8113667f6adeacacfb5e1b7418a588127"
+    },
+    {
+      "sequence": "uav0000070_01344_s",
+      "group": "uav0000070",
+      "cohort": "recent_development",
+      "tracked_frames": 192,
+      "sample_frames": [
+        1,
+        5,
+        9,
+        13,
+        17,
+        21,
+        25,
+        29,
+        34,
+        38,
+        42,
+        46,
+        50,
+        54,
+        58,
+        62,
+        66,
+        70,
+        74,
+        78,
+        82,
+        86,
+        90,
+        94,
+        99,
+        103,
+        107,
+        111,
+        115,
+        119,
+        123,
+        127,
+        131,
+        135,
+        139,
+        143,
+        147,
+        151,
+        155,
+        159,
+        164,
+        168,
+        172,
+        176,
+        180,
+        184,
+        188,
+        192
+      ],
+      "truth_sha256": "7c4f8e892bd3ee634307384625e70ea2c03010d50944f1820fd3934211cfc7c7",
+      "frames_sha256": "672f1acdc5b24cebef44be06c9b1c1f7b559874c9be02c20b76affc6152770cb"
+    },
+    {
+      "sequence": "uav0000076_00241_s",
+      "group": "uav0000076",
+      "cohort": "recent_development",
+      "tracked_frames": 1559,
+      "sample_frames": [
+        1,
+        34,
+        67,
+        100,
+        134,
+        167,
+        200,
+        233,
+        266,
+        299,
+        332,
+        366,
+        399,
+        432,
+        465,
+        498,
+        531,
+        565,
+        598,
+        631,
+        664,
+        697,
+        730,
+        763,
+        797,
+        830,
+        863,
+        896,
+        929,
+        962,
+        995,
+        1029,
+        1062,
+        1095,
+        1128,
+        1161,
+        1194,
+        1228,
+        1261,
+        1294,
+        1327,
+        1360,
+        1393,
+        1426,
+        1460,
+        1493,
+        1526,
+        1559
+      ],
+      "truth_sha256": "0936e868e852c0d8f92d1215ec7eb96c4102a252b54a278e958be6362df1e890",
+      "frames_sha256": "cf3979ac4bad5b1facd75ab026797f49f8303c27bc5a1deb4087e4dad198703f"
+    },
+    {
+      "sequence": "uav0000080_01680_s",
+      "group": "uav0000080",
+      "cohort": "recent_development",
+      "tracked_frames": 1200,
+      "sample_frames": [
+        1,
+        27,
+        52,
+        78,
+        103,
+        129,
+        154,
+        180,
+        205,
+        231,
+        256,
+        282,
+        307,
+        333,
+        358,
+        384,
+        409,
+        435,
+        460,
+        486,
+        511,
+        537,
+        562,
+        588,
+        613,
+        639,
+        664,
+        690,
+        715,
+        741,
+        766,
+        792,
+        817,
+        843,
+        868,
+        894,
+        919,
+        945,
+        970,
+        996,
+        1021,
+        1047,
+        1072,
+        1098,
+        1123,
+        1149,
+        1174,
+        1200
+      ],
+      "truth_sha256": "4bb76554af06b47671548131620a218e959090ca595c8ae03ea8dbb3762e0a50",
+      "frames_sha256": "a147e8a1c31db6fd0a0f48b85ce16c735ec801d12e3d818eb72b9e2d5a34d9b2"
+    },
+    {
+      "sequence": "uav0000085_00000_s",
+      "group": "uav0000085",
+      "cohort": "recent_development",
+      "tracked_frames": 1644,
+      "sample_frames": [
+        1,
+        36,
+        71,
+        106,
+        141,
+        176,
+        211,
+        246,
+        281,
+        316,
+        351,
+        386,
+        420,
+        455,
+        490,
+        525,
+        560,
+        595,
+        630,
+        665,
+        700,
+        735,
+        770,
+        805,
+        840,
+        875,
+        910,
+        945,
+        980,
+        1015,
+        1050,
+        1085,
+        1120,
+        1155,
+        1190,
+        1225,
+        1259,
+        1294,
+        1329,
+        1364,
+        1399,
+        1434,
+        1469,
+        1504,
+        1539,
+        1574,
+        1609,
+        1644
+      ],
+      "truth_sha256": "2c0d02be91567ce4bd7190c9200c41217cbe834b0a1975973376d05b08f6bacd",
+      "frames_sha256": "817f6ebd8e1ac1b26f4fc7153c956e19cb1c4dd735afdc60ba6bde6d98703958"
+    },
+    {
+      "sequence": "uav0000089_00920_s",
+      "group": "uav0000089",
+      "cohort": "recent_development",
+      "tracked_frames": 1380,
+      "sample_frames": [
+        1,
+        30,
+        60,
+        89,
+        118,
+        148,
+        177,
+        206,
+        236,
+        265,
+        294,
+        324,
+        353,
+        382,
+        412,
+        441,
+        470,
+        500,
+        529,
+        558,
+        588,
+        617,
+        646,
+        676,
+        705,
+        735,
+        764,
+        793,
+        823,
+        852,
+        881,
+        911,
+        940,
+        969,
+        999,
+        1028,
+        1057,
+        1087,
+        1116,
+        1145,
+        1175,
+        1204,
+        1233,
+        1263,
+        1292,
+        1321,
+        1351,
+        1380
+      ],
+      "truth_sha256": "e417c854d0cc25f01f38e66f4754fac202eca6b68618bf47f21f2a32e68d7879",
+      "frames_sha256": "456b2783b97bbfc8013932b941e107c137888c434650a6b4d53d09b26ab9f64d"
+    },
+    {
+      "sequence": "uav0000090_01104_s",
+      "group": "uav0000090",
+      "cohort": "additional_development",
+      "tracked_frames": 736,
+      "sample_frames": [
+        1,
+        17,
+        32,
+        48,
+        64,
+        79,
+        95,
+        110,
+        126,
+        142,
+        157,
+        173,
+        189,
+        204,
+        220,
+        236,
+        251,
+        267,
+        282,
+        298,
+        314,
+        329,
+        345,
+        361,
+        376,
+        392,
+        408,
+        423,
+        439,
+        455,
+        470,
+        486,
+        501,
+        517,
+        533,
+        548,
+        564,
+        580,
+        595,
+        611,
+        627,
+        642,
+        658,
+        673,
+        689,
+        705,
+        720,
+        736
+      ],
+      "truth_sha256": "3caf77f6f9646614d1814e14be90eb1e49efcba67c3df84743bb47883f6ac9ed",
+      "frames_sha256": "8db3722e6073b83a7dbeb7b2e4722dd132e9b34032e639ea3f517657e34d0950"
+    },
+    {
+      "sequence": "uav0000091_00460_s",
+      "group": "uav0000091",
+      "cohort": "recent_development",
+      "tracked_frames": 230,
+      "sample_frames": [
+        1,
+        6,
+        11,
+        16,
+        20,
+        25,
+        30,
+        35,
+        40,
+        45,
+        50,
+        55,
+        59,
+        64,
+        69,
+        74,
+        79,
+        84,
+        89,
+        94,
+        98,
+        103,
+        108,
+        113,
+        118,
+        123,
+        128,
+        133,
+        137,
+        142,
+        147,
+        152,
+        157,
+        162,
+        167,
+        172,
+        176,
+        181,
+        186,
+        191,
+        196,
+        201,
+        206,
+        211,
+        215,
+        220,
+        225,
+        230
+      ],
+      "truth_sha256": "a64c91aa1cedde5edbe379b10445b6ca46c8634f2ab02f77fc33553e30443ff9",
+      "frames_sha256": "00f7da98e2e807c630034765c31c3fa6f3acba108ffd24893e5c3ba782fa128b"
+    },
+    {
+      "sequence": "uav0000107_01763_s",
+      "group": "uav0000107",
+      "cohort": "additional_development",
+      "tracked_frames": 304,
+      "sample_frames": [
+        1,
+        7,
+        14,
+        20,
+        27,
+        33,
+        40,
+        46,
+        53,
+        59,
+        65,
+        72,
+        78,
+        85,
+        91,
+        98,
+        104,
+        111,
+        117,
+        123,
+        130,
+        136,
+        143,
+        149,
+        156,
+        162,
+        169,
+        175,
+        182,
+        188,
+        194,
+        201,
+        207,
+        214,
+        220,
+        227,
+        233,
+        240,
+        246,
+        252,
+        259,
+        265,
+        272,
+        278,
+        285,
+        291,
+        298,
+        304
+      ],
+      "truth_sha256": "4ed2fbe14ca9d7164434abe3baff04db3250a6372f6c1e83c1c11f33db73e774",
+      "frames_sha256": "69e21b9b0bae38c9d7a73739ea23698504db4ef93d5ed33d3029eb3b50910f2c"
+    },
+    {
+      "sequence": "uav0000126_07915_s",
+      "group": "uav0000126",
+      "cohort": "recent_development",
+      "tracked_frames": 629,
+      "sample_frames": [
+        1,
+        14,
+        28,
+        41,
+        54,
+        68,
+        81,
+        95,
+        108,
+        121,
+        135,
+        148,
+        161,
+        175,
+        188,
+        201,
+        215,
+        228,
+        242,
+        255,
+        268,
+        282,
+        295,
+        308,
+        322,
+        335,
+        348,
+        362,
+        375,
+        388,
+        402,
+        415,
+        429,
+        442,
+        455,
+        469,
+        482,
+        495,
+        509,
+        522,
+        535,
+        549,
+        562,
+        576,
+        589,
+        602,
+        616,
+        629
+      ],
+      "truth_sha256": "637a14c7bd1b423c3410fe53c356f056974535c1181af95e5770b044d9ff42d7",
+      "frames_sha256": "d11d23c9f7961841fade045e4f3bf4eed66bebcadae83da03df2c3aa6da365af"
+    },
+    {
+      "sequence": "uav0000147_00000_s",
+      "group": "uav0000147",
+      "cohort": "recent_development",
+      "tracked_frames": 2220,
+      "sample_frames": [
+        1,
+        48,
+        95,
+        143,
+        190,
+        237,
+        284,
+        331,
+        379,
+        426,
+        473,
+        520,
+        568,
+        615,
+        662,
+        709,
+        756,
+        804,
+        851,
+        898,
+        945,
+        992,
+        1040,
+        1087,
+        1134,
+        1181,
+        1229,
+        1276,
+        1323,
+        1370,
+        1417,
+        1465,
+        1512,
+        1559,
+        1606,
+        1653,
+        1701,
+        1748,
+        1795,
+        1842,
+        1890,
+        1937,
+        1984,
+        2031,
+        2078,
+        2126,
+        2173,
+        2220
+      ],
+      "truth_sha256": "b5be5ceada31bb00b590051de4a01c1fa8051e9f41628b3fb7b222f57de774cd",
+      "frames_sha256": "ffd7e1d4fae2890c4e1654304e51c64dae763e26607e96712eec7f23303ef23d"
+    },
+    {
+      "sequence": "uav0000148_00840_s",
+      "group": "uav0000148",
+      "cohort": "additional_development",
+      "tracked_frames": 806,
+      "sample_frames": [
+        1,
+        18,
+        35,
+        52,
+        70,
+        87,
+        104,
+        121,
+        138,
+        155,
+        172,
+        189,
+        207,
+        224,
+        241,
+        258,
+        275,
+        292,
+        309,
+        326,
+        344,
+        361,
+        378,
+        395,
+        412,
+        429,
+        446,
+        463,
+        481,
+        498,
+        515,
+        532,
+        549,
+        566,
+        583,
+        600,
+        618,
+        635,
+        652,
+        669,
+        686,
+        703,
+        720,
+        737,
+        755,
+        772,
+        789,
+        806
+      ],
+      "truth_sha256": "8a5a3fbef97ae77ed6ad03e618c6faeae5b1c2595a927daef2f6aab7e4f90cc1",
+      "frames_sha256": "cce151728f8c8d4a75cebdf3238e8dad010bc00b0a7abeab465442b220ece219"
+    },
+    {
+      "sequence": "uav0000149_00317_s",
+      "group": "uav0000149",
+      "cohort": "additional_development",
+      "tracked_frames": 2340,
+      "sample_frames": [
+        1,
+        51,
+        101,
+        150,
+        200,
+        250,
+        300,
+        349,
+        399,
+        449,
+        499,
+        548,
+        598,
+        648,
+        698,
+        747,
+        797,
+        847,
+        897,
+        947,
+        996,
+        1046,
+        1096,
+        1146,
+        1195,
+        1245,
+        1295,
+        1345,
+        1394,
+        1444,
+        1494,
+        1544,
+        1594,
+        1643,
+        1693,
+        1743,
+        1793,
+        1842,
+        1892,
+        1942,
+        1992,
+        2041,
+        2091,
+        2141,
+        2191,
+        2240,
+        2290,
+        2340
+      ],
+      "truth_sha256": "ac9c4cb7cc1a8828081b947e804a2211fe889c5ac41c6c1d677dac3154fa6cc0",
+      "frames_sha256": "6c233aaa3d5a75e73d0cb5e8236ab42c70c954edee3266d41a7c20f31be526b8"
+    },
+    {
+      "sequence": "uav0000169_00000_s",
+      "group": "uav0000169",
+      "cohort": "recent_development",
+      "tracked_frames": 1112,
+      "sample_frames": [
+        1,
+        25,
+        48,
+        72,
+        96,
+        119,
+        143,
+        166,
+        190,
+        214,
+        237,
+        261,
+        285,
+        308,
+        332,
+        356,
+        379,
+        403,
+        426,
+        450,
+        474,
+        497,
+        521,
+        545,
+        568,
+        592,
+        616,
+        639,
+        663,
+        687,
+        710,
+        734,
+        757,
+        781,
+        805,
+        828,
+        852,
+        876,
+        899,
+        923,
+        947,
+        970,
+        994,
+        1017,
+        1041,
+        1065,
+        1088,
+        1112
+      ],
+      "truth_sha256": "4ac808ae857baac2499ee3016840928c43b94b52882a44864f5724cb368bf6d0",
+      "frames_sha256": "ab0fb5a204cf854718ea38cc4675840107e5c85f570696568c0cebd369afa176"
+    },
+    {
+      "sequence": "uav0000170_00000_s",
+      "group": "uav0000170",
+      "cohort": "recent_development",
+      "tracked_frames": 1410,
+      "sample_frames": [
+        1,
+        31,
+        61,
+        91,
+        121,
+        151,
+        181,
+        211,
+        241,
+        271,
+        301,
+        331,
+        361,
+        391,
+        421,
+        451,
+        481,
+        511,
+        541,
+        571,
+        601,
+        631,
+        661,
+        691,
+        720,
+        750,
+        780,
+        810,
+        840,
+        870,
+        900,
+        930,
+        960,
+        990,
+        1020,
+        1050,
+        1080,
+        1110,
+        1140,
+        1170,
+        1200,
+        1230,
+        1260,
+        1290,
+        1320,
+        1350,
+        1380,
+        1410
+      ],
+      "truth_sha256": "7dc120839339777d05cd44eed4e3ab403d8ed92291761c30a78f9c5616a2bde5",
+      "frames_sha256": "cd1c707b575cda346158e4e8ca5b58eaa424aba06c932ae2a277034056dfc2fd"
+    },
+    {
+      "sequence": "uav0000173_00781_s",
+      "group": "uav0000173",
+      "cohort": "additional_development",
+      "tracked_frames": 1909,
+      "sample_frames": [
+        1,
+        42,
+        82,
+        123,
+        163,
+        204,
+        245,
+        285,
+        326,
+        366,
+        407,
+        448,
+        488,
+        529,
+        569,
+        610,
+        651,
+        691,
+        732,
+        772,
+        813,
+        854,
+        894,
+        935,
+        975,
+        1016,
+        1056,
+        1097,
+        1138,
+        1178,
+        1219,
+        1259,
+        1300,
+        1341,
+        1381,
+        1422,
+        1462,
+        1503,
+        1544,
+        1584,
+        1625,
+        1665,
+        1706,
+        1747,
+        1787,
+        1828,
+        1868,
+        1909
+      ],
+      "truth_sha256": "77c5f8e6b643615a524a67c4214ab785cd10d484bece9f9b9333831ecf5b2a68",
+      "frames_sha256": "f54ba5e60a63d44233746c32d99bd96a3189dadd27f300c15774516340a311ce"
+    },
+    {
+      "sequence": "uav0000174_00000_s",
+      "group": "uav0000174",
+      "cohort": "recent_development",
+      "tracked_frames": 2175,
+      "sample_frames": [
+        1,
+        47,
+        94,
+        140,
+        186,
+        232,
+        279,
+        325,
+        371,
+        417,
+        464,
+        510,
+        556,
+        602,
+        649,
+        695,
+        741,
+        787,
+        834,
+        880,
+        926,
+        972,
+        1019,
+        1065,
+        1111,
+        1157,
+        1204,
+        1250,
+        1296,
+        1342,
+        1389,
+        1435,
+        1481,
+        1527,
+        1574,
+        1620,
+        1666,
+        1712,
+        1759,
+        1805,
+        1851,
+        1897,
+        1944,
+        1990,
+        2036,
+        2082,
+        2129,
+        2175
+      ],
+      "truth_sha256": "806581afe5fb8a900d9e51f23e0af76e9b92c42b13517471af2e296b72ae77f9",
+      "frames_sha256": "df5044ebf827b8b9b5d8f389d5fa62c2a5014bb3d08b6dc9f6ee66b199ebdfa7"
+    },
+    {
+      "sequence": "uav0000176_00000_s",
+      "group": "uav0000176",
+      "cohort": "recent_development",
+      "tracked_frames": 775,
+      "sample_frames": [
+        1,
+        17,
+        34,
+        50,
+        67,
+        83,
+        100,
+        116,
+        133,
+        149,
+        166,
+        182,
+        199,
+        215,
+        232,
+        248,
+        264,
+        281,
+        297,
+        314,
+        330,
+        347,
+        363,
+        380,
+        396,
+        413,
+        429,
+        446,
+        462,
+        479,
+        495,
+        512,
+        528,
+        544,
+        561,
+        577,
+        594,
+        610,
+        627,
+        643,
+        660,
+        676,
+        693,
+        709,
+        726,
+        742,
+        759,
+        775
+      ],
+      "truth_sha256": "e623100c71197e7ca81ddbf1cd4e6f5db8e386797174fef9cc8e3c31a86346fb",
+      "frames_sha256": "47046df9b88d4c49f1aa51b943c0d54997c1b44a17e2a6bddee79975818ae68e"
+    },
+    {
+      "sequence": "uav0000199_00000_s",
+      "group": "uav0000199",
+      "cohort": "additional_development",
+      "tracked_frames": 1607,
+      "sample_frames": [
+        1,
+        35,
+        69,
+        104,
+        138,
+        172,
+        206,
+        240,
+        274,
+        309,
+        343,
+        377,
+        411,
+        445,
+        479,
+        514,
+        548,
+        582,
+        616,
+        650,
+        684,
+        719,
+        753,
+        787,
+        821,
+        855,
+        889,
+        924,
+        958,
+        992,
+        1026,
+        1060,
+        1094,
+        1129,
+        1163,
+        1197,
+        1231,
+        1265,
+        1299,
+        1334,
+        1368,
+        1402,
+        1436,
+        1470,
+        1504,
+        1539,
+        1573,
+        1607
+      ],
+      "truth_sha256": "66d44da866f9b9ae433909f4cf8266f90c39a35fbdef1d9b588243610a8a1c4a",
+      "frames_sha256": "95899623c5375e9b616e5ca257d5f25a688f7f17ab986d9bb6d16b51213fddf7"
+    },
+    {
+      "sequence": "uav0000200_00000_s",
+      "group": "uav0000200",
+      "cohort": "recent_development",
+      "tracked_frames": 570,
+      "sample_frames": [
+        1,
+        13,
+        25,
+        37,
+        49,
+        62,
+        74,
+        86,
+        98,
+        110,
+        122,
+        134,
+        146,
+        158,
+        170,
+        183,
+        195,
+        207,
+        219,
+        231,
+        243,
+        255,
+        267,
+        279,
+        292,
+        304,
+        316,
+        328,
+        340,
+        352,
+        364,
+        376,
+        388,
+        401,
+        413,
+        425,
+        437,
+        449,
+        461,
+        473,
+        485,
+        497,
+        509,
+        522,
+        534,
+        546,
+        558,
+        570
+      ],
+      "truth_sha256": "a796dcd83beb6498c9436a2b2710592ad4d585c73d629268db0ddf22d0e1c09d",
+      "frames_sha256": "7c60957383838cd550d7de05c4a8139a59666c1d8190225399076d86b7e358e6"
+    },
+    {
+      "sequence": "uav0000204_00000_s",
+      "group": "uav0000204",
+      "cohort": "recent_development",
+      "tracked_frames": 921,
+      "sample_frames": [
+        1,
+        21,
+        40,
+        60,
+        79,
+        99,
+        118,
+        138,
+        158,
+        177,
+        197,
+        216,
+        236,
+        255,
+        275,
+        295,
+        314,
+        334,
+        353,
+        373,
+        392,
+        412,
+        432,
+        451,
+        471,
+        490,
+        510,
+        530,
+        549,
+        569,
+        588,
+        608,
+        627,
+        647,
+        667,
+        686,
+        706,
+        725,
+        745,
+        764,
+        784,
+        804,
+        823,
+        843,
+        862,
+        882,
+        901,
+        921
+      ],
+      "truth_sha256": "075aa18af5e68a0f357982e542441466b67462224df7c32b056165f5e93ca962",
+      "frames_sha256": "5e519bbec1a217d35a2f842b8fec86be4348aefef826d70de695409075b1ed8a"
+    },
+    {
+      "sequence": "uav0000205_00000_s",
+      "group": "uav0000205",
+      "cohort": "additional_development",
+      "tracked_frames": 1175,
+      "sample_frames": [
+        1,
+        26,
+        51,
+        76,
+        101,
+        126,
+        151,
+        176,
+        201,
+        226,
+        251,
+        276,
+        301,
+        326,
+        351,
+        376,
+        401,
+        426,
+        451,
+        476,
+        501,
+        526,
+        551,
+        576,
+        600,
+        625,
+        650,
+        675,
+        700,
+        725,
+        750,
+        775,
+        800,
+        825,
+        850,
+        875,
+        900,
+        925,
+        950,
+        975,
+        1000,
+        1025,
+        1050,
+        1075,
+        1100,
+        1125,
+        1150,
+        1175
+      ],
+      "truth_sha256": "e6738bdc4e50a937b1bd4bd5aa30b67abbbb0444b71123d347b3c150944984c0",
+      "frames_sha256": "0d26ff66a3e6280fb404fcfacb5e6cbec56698bcb19ee8523ff0fead68ef9b47"
+    },
+    {
+      "sequence": "uav0000226_05370_s",
+      "group": "uav0000226",
+      "cohort": "recent_development",
+      "tracked_frames": 1860,
+      "sample_frames": [
+        1,
+        41,
+        80,
+        120,
+        159,
+        199,
+        238,
+        278,
+        317,
+        357,
+        397,
+        436,
+        476,
+        515,
+        555,
+        594,
+        634,
+        673,
+        713,
+        753,
+        792,
+        832,
+        871,
+        911,
+        950,
+        990,
+        1029,
+        1069,
+        1108,
+        1148,
+        1188,
+        1227,
+        1267,
+        1306,
+        1346,
+        1385,
+        1425,
+        1464,
+        1504,
+        1544,
+        1583,
+        1623,
+        1662,
+        1702,
+        1741,
+        1781,
+        1820,
+        1860
+      ],
+      "truth_sha256": "d87a04d6fe12b2028788b7646dae05efad2166eb389b7872262e75b2ec522e2c",
+      "frames_sha256": "8be77d36217e3bf61c0f0d278ea389d76f2eb23be3f29a92df8caf9ef8d83fd5"
+    },
+    {
+      "sequence": "uav0000235_00001_s",
+      "group": "uav0000235",
+      "cohort": "recent_development",
+      "tracked_frames": 1007,
+      "sample_frames": [
+        1,
+        22,
+        44,
+        65,
+        87,
+        108,
+        129,
+        151,
+        172,
+        194,
+        215,
+        236,
+        258,
+        279,
+        301,
+        322,
+        343,
+        365,
+        386,
+        408,
+        429,
+        450,
+        472,
+        493,
+        515,
+        536,
+        558,
+        579,
+        600,
+        622,
+        643,
+        665,
+        686,
+        707,
+        729,
+        750,
+        772,
+        793,
+        814,
+        836,
+        857,
+        879,
+        900,
+        921,
+        943,
+        964,
+        986,
+        1007
+      ],
+      "truth_sha256": "2b9270a55c504a1ce6f0dd5de8707da1bf66408e102f2da611a7266e16ff0eb1",
+      "frames_sha256": "84aecd9beb3d71c3fb529533652e171b5e9994d556251d3b1a728afca1770858"
+    },
+    {
+      "sequence": "uav0000236_00001_s",
+      "group": "uav0000236",
+      "cohort": "additional_development",
+      "tracked_frames": 575,
+      "sample_frames": [
+        1,
+        13,
+        25,
+        38,
+        50,
+        62,
+        74,
+        86,
+        99,
+        111,
+        123,
+        135,
+        148,
+        160,
+        172,
+        184,
+        196,
+        209,
+        221,
+        233,
+        245,
+        257,
+        270,
+        282,
+        294,
+        306,
+        319,
+        331,
+        343,
+        355,
+        367,
+        380,
+        392,
+        404,
+        416,
+        428,
+        441,
+        453,
+        465,
+        477,
+        490,
+        502,
+        514,
+        526,
+        538,
+        551,
+        563,
+        575
+      ],
+      "truth_sha256": "0701ec8cd0cfe41be28d7b26bcd24f3c66cb64c50a9bce66b191ae639f68df6d",
+      "frames_sha256": "31e2937b3938ab1dea01aecdc550ceadf020fad5bf586058a641a095a7937fb9"
+    },
+    {
+      "sequence": "uav0000237_00001_s",
+      "group": "uav0000237",
+      "cohort": "recent_development",
+      "tracked_frames": 598,
+      "sample_frames": [
+        1,
+        14,
+        26,
+        39,
+        52,
+        65,
+        77,
+        90,
+        103,
+        115,
+        128,
+        141,
+        153,
+        166,
+        179,
+        192,
+        204,
+        217,
+        230,
+        242,
+        255,
+        268,
+        280,
+        293,
+        306,
+        319,
+        331,
+        344,
+        357,
+        369,
+        382,
+        395,
+        407,
+        420,
+        433,
+        446,
+        458,
+        471,
+        484,
+        496,
+        509,
+        522,
+        534,
+        547,
+        560,
+        573,
+        585,
+        598
+      ],
+      "truth_sha256": "074de8de46cdee08dc187cf5bbac9dc9e423d605d988e4cdcfbd867baef0d4fa",
+      "frames_sha256": "2e93f93f7a774ac5c8c58b97d6cb6fdaf0271475bc2587e8595d78aee80aaf34"
+    },
+    {
+      "sequence": "uav0000238_00001_s",
+      "group": "uav0000238",
+      "cohort": "recent_development",
+      "tracked_frames": 1199,
+      "sample_frames": [
+        1,
+        26,
+        52,
+        77,
+        103,
+        128,
+        154,
+        179,
+        205,
+        230,
+        256,
+        281,
+        307,
+        332,
+        358,
+        383,
+        409,
+        434,
+        460,
+        485,
+        511,
+        536,
+        562,
+        587,
+        613,
+        638,
+        664,
+        689,
+        715,
+        740,
+        766,
+        791,
+        817,
+        842,
+        868,
+        893,
+        919,
+        944,
+        970,
+        995,
+        1021,
+        1046,
+        1072,
+        1097,
+        1123,
+        1148,
+        1174,
+        1199
+      ],
+      "truth_sha256": "3a37c916db3c511627224886258737a8fbc43c3607591e2a8ba147ee3bc728d5",
+      "frames_sha256": "ecf2bd1789825e3c0fc48c93e074c6f2b164ebbd0617106f3c57e9e2ef00904b"
+    },
+    {
+      "sequence": "uav0000239_11136_s",
+      "group": "uav0000239",
+      "cohort": "recent_development",
+      "tracked_frames": 960,
+      "sample_frames": [
+        1,
+        21,
+        42,
+        62,
+        83,
+        103,
+        123,
+        144,
+        164,
+        185,
+        205,
+        225,
+        246,
+        266,
+        287,
+        307,
+        327,
+        348,
+        368,
+        389,
+        409,
+        429,
+        450,
+        470,
+        491,
+        511,
+        532,
+        552,
+        572,
+        593,
+        613,
+        634,
+        654,
+        674,
+        695,
+        715,
+        736,
+        756,
+        776,
+        797,
+        817,
+        838,
+        858,
+        878,
+        899,
+        919,
+        940,
+        960
+      ],
+      "truth_sha256": "dbd84149a80febab50ee9bc9a1c11985e60efb086b5661df32711aad3b22a485",
+      "frames_sha256": "0fdfc52efc96ee7b35ac899281788644468dcbb1dfa1cbe67420c277354b937a"
+    },
+    {
+      "sequence": "uav0000303_01250_s",
+      "group": "uav0000303",
+      "cohort": "additional_development",
+      "tracked_frames": 1627,
+      "sample_frames": [
+        1,
+        36,
+        70,
+        105,
+        139,
+        174,
+        209,
+        243,
+        278,
+        312,
+        347,
+        382,
+        416,
+        451,
+        485,
+        520,
+        555,
+        589,
+        624,
+        658,
+        693,
+        728,
+        762,
+        797,
+        831,
+        866,
+        900,
+        935,
+        970,
+        1004,
+        1039,
+        1073,
+        1108,
+        1143,
+        1177,
+        1212,
+        1246,
+        1281,
+        1316,
+        1350,
+        1385,
+        1419,
+        1454,
+        1489,
+        1523,
+        1558,
+        1592,
+        1627
+      ],
+      "truth_sha256": "e452b94ba4873dc8157f8562ca5bb3f09c19d45ae981b29a5c19a97781ff6d9b",
+      "frames_sha256": "acec60cdebfe5d828e2fb640230dd1fc119d9ca23919399256e4ea4b9a9d1746"
+    },
+    {
+      "sequence": "uav0000304_00253_s",
+      "group": "uav0000304",
+      "cohort": "recent_development",
+      "tracked_frames": 1725,
+      "sample_frames": [
+        1,
+        38,
+        74,
+        111,
+        148,
+        184,
+        221,
+        258,
+        294,
+        331,
+        368,
+        404,
+        441,
+        478,
+        515,
+        551,
+        588,
+        625,
+        661,
+        698,
+        735,
+        771,
+        808,
+        845,
+        881,
+        918,
+        955,
+        991,
+        1028,
+        1065,
+        1101,
+        1138,
+        1175,
+        1211,
+        1248,
+        1285,
+        1322,
+        1358,
+        1395,
+        1432,
+        1468,
+        1505,
+        1542,
+        1578,
+        1615,
+        1652,
+        1688,
+        1725
+      ],
+      "truth_sha256": "bad5b99d9cd1fe0baf41e8360f53baa003647b28a3fc779fe2e121238ce91c5f",
+      "frames_sha256": "a2e1f2b789f213173a648e237677cc38c7e8fca3900c77938d1cad5dce8fc765"
+    },
+    {
+      "sequence": "uav0000307_04531_s",
+      "group": "uav0000307",
+      "cohort": "recent_development",
+      "tracked_frames": 759,
+      "sample_frames": [
+        1,
+        17,
+        33,
+        49,
+        66,
+        82,
+        98,
+        114,
+        130,
+        146,
+        162,
+        178,
+        195,
+        211,
+        227,
+        243,
+        259,
+        275,
+        291,
+        307,
+        324,
+        340,
+        356,
+        372,
+        388,
+        404,
+        420,
+        436,
+        453,
+        469,
+        485,
+        501,
+        517,
+        533,
+        549,
+        565,
+        582,
+        598,
+        614,
+        630,
+        646,
+        662,
+        678,
+        694,
+        711,
+        727,
+        743,
+        759
+      ],
+      "truth_sha256": "29e75c410713c5f821942019246cf784c8fbac17c376df119ef1717af9790589",
+      "frames_sha256": "a1aad93bbcfde13736e32e8daf383120739c29cabfb7e19ac9e8162aa555fc1d"
+    },
+    {
+      "sequence": "uav0000308_04600_s",
+      "group": "uav0000308",
+      "cohort": "recent_development",
+      "tracked_frames": 460,
+      "sample_frames": [
+        1,
+        11,
+        21,
+        30,
+        40,
+        50,
+        60,
+        69,
+        79,
+        89,
+        99,
+        108,
+        118,
+        128,
+        138,
+        147,
+        157,
+        167,
+        177,
+        187,
+        196,
+        206,
+        216,
+        226,
+        235,
+        245,
+        255,
+        265,
+        274,
+        284,
+        294,
+        304,
+        314,
+        323,
+        333,
+        343,
+        353,
+        362,
+        372,
+        382,
+        392,
+        401,
+        411,
+        421,
+        431,
+        440,
+        450,
+        460
+      ],
+      "truth_sha256": "9110261ce14e51fc83e103e5027c8285324f86e1f6f7eb2b4900c80d6a3ad195",
+      "frames_sha256": "ee04e6f2556722e60807dad5d794b265780894c826d0cc6c715f28363d5c7c1c"
+    },
+    {
+      "sequence": "uav0000329_00276_s",
+      "group": "uav0000329",
+      "cohort": "recent_development",
+      "tracked_frames": 598,
+      "sample_frames": [
+        1,
+        14,
+        26,
+        39,
+        52,
+        65,
+        77,
+        90,
+        103,
+        115,
+        128,
+        141,
+        153,
+        166,
+        179,
+        192,
+        204,
+        217,
+        230,
+        242,
+        255,
+        268,
+        280,
+        293,
+        306,
+        319,
+        331,
+        344,
+        357,
+        369,
+        382,
+        395,
+        407,
+        420,
+        433,
+        446,
+        458,
+        471,
+        484,
+        496,
+        509,
+        522,
+        534,
+        547,
+        560,
+        573,
+        585,
+        598
+      ],
+      "truth_sha256": "90f6f2a8414f93d93946a74093b2c147d74c29282ceac09bdf1d4e0d537a239e",
+      "frames_sha256": "69f5b9040396af499fe4a11a39a32192a721356654405f84e0bb74bd58aff10e"
+    },
+    {
+      "sequence": "uav0000331_02691_s",
+      "group": "uav0000331",
+      "cohort": "additional_development",
+      "tracked_frames": 391,
+      "sample_frames": [
+        1,
+        9,
+        18,
+        26,
+        34,
+        42,
+        51,
+        59,
+        67,
+        76,
+        84,
+        92,
+        101,
+        109,
+        117,
+        125,
+        134,
+        142,
+        150,
+        159,
+        167,
+        175,
+        184,
+        192,
+        200,
+        208,
+        217,
+        225,
+        233,
+        242,
+        250,
+        258,
+        267,
+        275,
+        283,
+        291,
+        300,
+        308,
+        316,
+        325,
+        333,
+        341,
+        350,
+        358,
+        366,
+        374,
+        383,
+        391
+      ],
+      "truth_sha256": "3040fedc37adafa082a714bc49817b61d8a5a145e4d1538efd40afef5945331a",
+      "frames_sha256": "02459560b08c6820c8514a3e4c55aa9cf6f1a92bf0ffeb5c3b7b4231385c20a6"
+    },
+    {
+      "sequence": "uav0000342_01518_s",
+      "group": "uav0000342",
+      "cohort": "recent_development",
+      "tracked_frames": 1886,
+      "sample_frames": [
+        1,
+        41,
+        81,
+        121,
+        161,
+        202,
+        242,
+        282,
+        322,
+        362,
+        402,
+        442,
+        482,
+        522,
+        562,
+        603,
+        643,
+        683,
+        723,
+        763,
+        803,
+        843,
+        883,
+        923,
+        964,
+        1004,
+        1044,
+        1084,
+        1124,
+        1164,
+        1204,
+        1244,
+        1284,
+        1325,
+        1365,
+        1405,
+        1445,
+        1485,
+        1525,
+        1565,
+        1605,
+        1645,
+        1685,
+        1726,
+        1766,
+        1806,
+        1846,
+        1886
+      ],
+      "truth_sha256": "ec69de88a85d41e4771ed7e995020fd405ef1b4d7d1000ce0af304d1359359fb",
+      "frames_sha256": "5dc9aabd4ad8987f720aff9b548c7fdf6836e9c8f6aa94c525369db345a0a78e"
+    },
+    {
+      "sequence": "uav0000348_02415_s",
+      "group": "uav0000348",
+      "cohort": "recent_development",
+      "tracked_frames": 644,
+      "sample_frames": [
+        1,
+        15,
+        28,
+        42,
+        56,
+        69,
+        83,
+        97,
+        110,
+        124,
+        138,
+        151,
+        165,
+        179,
+        193,
+        206,
+        220,
+        234,
+        247,
+        261,
+        275,
+        288,
+        302,
+        316,
+        329,
+        343,
+        357,
+        370,
+        384,
+        398,
+        411,
+        425,
+        439,
+        452,
+        466,
+        480,
+        494,
+        507,
+        521,
+        535,
+        548,
+        562,
+        576,
+        589,
+        603,
+        617,
+        630,
+        644
+      ],
+      "truth_sha256": "5de33d2a7497d15cd923210042f19fb6bb53d34b4421853cd59e7b71eb16cf7a",
+      "frames_sha256": "b9b53d01fb51c60a8582868efa195578966eeef2d04bbd5eaa77d7c4c6bd90f0"
+    },
+    {
+      "sequence": "uav0000349_02668_s",
+      "group": "uav0000349",
+      "cohort": "recent_development",
+      "tracked_frames": 552,
+      "sample_frames": [
+        1,
+        13,
+        24,
+        36,
+        48,
+        60,
+        71,
+        83,
+        95,
+        107,
+        118,
+        130,
+        142,
+        153,
+        165,
+        177,
+        189,
+        200,
+        212,
+        224,
+        235,
+        247,
+        259,
+        271,
+        282,
+        294,
+        306,
+        318,
+        329,
+        341,
+        353,
+        364,
+        376,
+        388,
+        400,
+        411,
+        423,
+        435,
+        446,
+        458,
+        470,
+        482,
+        493,
+        505,
+        517,
+        529,
+        540,
+        552
+      ],
+      "truth_sha256": "3aaac8ebf307aead01163f1f43ce1979fc8fea2921793dc5249822b7bf1a6fd0",
+      "frames_sha256": "c959d2e7fb1f25174718937633d1744bb7cb79f1e24e3d3a5a4e753bbe18c25e"
+    }
+  ],
+  "folds": [
+    {
+      "fold": 0,
+      "fit": [
+        "uav0000003",
+        "uav0000076",
+        "uav0000080",
+        "uav0000089",
+        "uav0000090",
+        "uav0000091",
+        "uav0000126",
+        "uav0000147",
+        "uav0000169",
+        "uav0000170",
+        "uav0000173",
+        "uav0000199",
+        "uav0000235",
+        "uav0000304",
+        "uav0000308",
+        "uav0000329",
+        "uav0000331",
+        "uav0000342",
+        "uav0000349"
+      ],
+      "held": [
+        "uav0000016",
+        "uav0000070",
+        "uav0000085",
+        "uav0000107",
+        "uav0000148",
+        "uav0000149",
+        "uav0000174",
+        "uav0000176",
+        "uav0000200",
+        "uav0000204",
+        "uav0000205",
+        "uav0000226",
+        "uav0000236",
+        "uav0000237",
+        "uav0000238",
+        "uav0000239",
+        "uav0000303",
+        "uav0000307",
+        "uav0000348"
+      ]
+    },
+    {
+      "fold": 1,
+      "fit": [
+        "uav0000016",
+        "uav0000070",
+        "uav0000085",
+        "uav0000107",
+        "uav0000148",
+        "uav0000149",
+        "uav0000174",
+        "uav0000176",
+        "uav0000200",
+        "uav0000204",
+        "uav0000205",
+        "uav0000226",
+        "uav0000236",
+        "uav0000237",
+        "uav0000238",
+        "uav0000239",
+        "uav0000303",
+        "uav0000307",
+        "uav0000348"
+      ],
+      "held": [
+        "uav0000003",
+        "uav0000076",
+        "uav0000080",
+        "uav0000089",
+        "uav0000090",
+        "uav0000091",
+        "uav0000126",
+        "uav0000147",
+        "uav0000169",
+        "uav0000170",
+        "uav0000173",
+        "uav0000199",
+        "uav0000235",
+        "uav0000304",
+        "uav0000308",
+        "uav0000329",
+        "uav0000331",
+        "uav0000342",
+        "uav0000349"
+      ]
+    }
+  ],
+  "source_runtime": {
+    "tracker": {
+      "parameter": "deit_distilled",
+      "checkpoint_sha256": "88447c7724704edaf03488f519d3e300385fef05c2f1fac02fe22f7941cf334e",
+      "config": {
+        "MODEL": {
+          "PRETRAIN_FILE": "deit_tiny_distilled_patch16_224.pth",
+          "EXTRA_MERGER": false,
+          "RETURN_INTER": false,
+          "RETURN_STAGES": [],
+          "BACKBONE": {
+            "TYPE": "deit_tiny_distilled_patch16",
+            "STRIDE": 16,
+            "MID_PE": false,
+            "SEP_SEG": false,
+            "CAT_MODE": "direct",
+            "MERGE_LAYER": 0,
+            "ADD_CLS_TOKEN": false,
+            "CLS_TOKEN_USE_MODE": "ignore",
+            "CE_LOC": [],
+            "CE_KEEP_RATIO": [],
+            "CE_TEMPLATE_RANGE": "ALL"
+          },
+          "HEAD": {
+            "TYPE": "CENTER",
+            "NUM_CHANNELS": 256
+          }
+        },
+        "TRAIN": {
+          "LR": 0.0004,
+          "WEIGHT_DECAY": 0.0001,
+          "EPOCH": 300,
+          "LR_DROP_EPOCH": 240,
+          "BATCH_SIZE": 32,
+          "NUM_WORKER": 4,
+          "OPTIMIZER": "ADAMW",
+          "BACKBONE_MULTIPLIER": 0.1,
+          "GIOU_WEIGHT": 2.0,
+          "L1_WEIGHT": 5.0,
+          "FREEZE_LAYERS": [
+            0
+          ],
+          "PRINT_INTERVAL": 50,
+          "VAL_EPOCH_INTERVAL": 999,
+          "GRAD_CLIP_NORM": 0.1,
+          "AMP": false,
+          "CE_START_EPOCH": 20,
+          "CE_WARM_EPOCH": 80,
+          "DROP_PATH_RATE": 0.1,
+          "SCHEDULER": {
+            "TYPE": "step",
+            "DECAY_RATE": 0.1
+          }
+        },
+        "DATA": {
+          "SAMPLER_MODE": "causal",
+          "MEAN": [
+            0.485,
+            0.456,
+            0.406
+          ],
+          "STD": [
+            0.229,
+            0.224,
+            0.225
+          ],
+          "MAX_SAMPLE_INTERVAL": 200,
+          "TRAIN": {
+            "DATASETS_NAME": [
+              "LASOT",
+              "GOT10K_vottrain",
+              "COCO17",
+              "TRACKINGNET"
+            ],
+            "DATASETS_RATIO": [
+              1,
+              1,
+              1,
+              1
+            ],
+            "SAMPLE_PER_EPOCH": 60000
+          },
+          "VAL": {
+            "DATASETS_NAME": [
+              "GOT10K_votval"
+            ],
+            "DATASETS_RATIO": [
+              1
+            ],
+            "SAMPLE_PER_EPOCH": 10000
+          },
+          "SEARCH": {
+            "SIZE": 256,
+            "FACTOR": 4.0,
+            "CENTER_JITTER": 3,
+            "SCALE_JITTER": 0.25,
+            "NUMBER": 1
+          },
+          "TEMPLATE": {
+            "NUMBER": 1,
+            "SIZE": 128,
+            "FACTOR": 2.0,
+            "CENTER_JITTER": 0,
+            "SCALE_JITTER": 0
+          }
+        },
+        "TEST": {
+          "TEMPLATE_FACTOR": 2.0,
+          "TEMPLATE_SIZE": 128,
+          "SEARCH_FACTOR": 4.0,
+          "SEARCH_SIZE": 256,
+          "EPOCH": 297
+        }
+      },
+      "torch": "2.7.1+cu118",
+      "cuda": "11.8",
+      "device": "NVIDIA L20",
+      "lens_z": 64,
+      "lens_x": 256,
+      "embed_dim": 192
+    },
+    "opencv": "5.0.0",
+    "numpy": "1.26.4",
+    "gpu_uuid": "48862e47-a2db-e143-d434-ac5ae4f149d4",
+    "model_state_sha256": "13af4170053b1e6f4b371c872fce2036cd5c225dffd0831093ddd790eb11e70f"
+  },
+  "audit_runtime": {
+    "python": "3.10.21",
+    "numpy": "1.26.4"
+  },
+  "code_sha256": {
+    "tools/stage194_module_ablation.py": "2287cd073391f9d443a7ce2331b7a42c77464f60be329b57b95f273c211323a6",
+    "tools/stage194_module_common.py": "d23d31dd0fdde83d8946c9c54823eba7e22283fc2836488467ab1fef43dfd480",
+    "tools/stage194_module_model.py": "3f1001695d8c61f193f4a0712de57c7197b882c0856a2bd38b997cf2ce88551b",
+    "tools/experiment_progress.py": "7ff4cc0eaa5f6e9f49db20f16ee580ce7cf606236855a6573b29c3743f670568",
+    "tracking/stage18_tracking_loss.py": "f27d766f16b898c92eb9605858c05a4acbb8394d4cd7b22aa6dec7dbf8c297c6",
+    "tracking/stage18_environment.py": "12cef693ed44336e4ab949e1f789f5ca702bf5e41c0acc2ea7dc4e330d778a65",
+    "tracking/stage46_motion_runtime.py": "a910415e6351739127eec63828c089803991a099a8922a37c38c12ad6bb78a8b",
+    "tools/stage192_development_grid_rescue.py": "65424d976ff3dbc7c97c1f9017a55c2354c11be5c09afc5f2fa97893decbee8f",
+    "tracking/stage4_runtime.py": "a592ad522826471706e364b98868546238c0a97b10e5ada021c7af5c5cfffd9b",
+    "tracking/stage1_validate.py": "27d5567278a5a80735564b8abac74ed8c4c4e22d396fe7c79eec07a4f76896c3",
+    "tracking/validation_metrics.py": "40806c122a967f8205fb19144dfc947c4d2f673d0eb87204e04d52a13c662970",
+    "lib/models/sglatrack/base_backbone.py": "206fed66b3b05a0f97becf4d25e1adc820c330450be762b90cc1246deb604ead",
+    "lib/models/sglatrack/sglatrack.py": "cc3894bdf11e1530a6e2e188712e5edea0d8b88afb60687f907abc6a52f26de7",
+    "lib/models/layers/head.py": "62cb2f363ea8bce491c9e6fc528076dd1e14c7d371ad69d6efd0b4062d063326",
+    "lib/test/tracker/sglatrack.py": "95970b6daeaa5d3f49f86507a144af288eb847471fe5a31fb40d259571e60fac",
+    "lib/train/data/processing_utils.py": "a2406f133c78e8685ba197c95a5a8a8796677ff3c3f03d067cbaff737a05c2f7",
+    "tools/stage61_runtime_replay.py": "065a2e003edc9db7225512af0c8e3928093c042a5ea193d8ebdbbfbb122eeeb8",
+    "tools/stage202_regret_routing.py": "840fa832781a6e6ca8662bfad0b970be9bb563f4dc5bfa83aa77d998649e9c9c",
+    "tools/stage202_regret_common.py": "659b00477da56a3ae68166c17c4b7fbf424933e398425746f7554de6cd378821",
+    "tools/stage200_pair_common.py": "730c5f10a68bb9f0a9b98d838b02844f32dc8b2ef4fa47615f0393ba704030c6",
+    "tools/stage200_within_video.py": "c5af53c9eb6036e3de0f19b52a3525cd296a85fd8f38c1af596fb5ce4556e2f2",
+    "tools/stage201_score_baseline.py": "6126eec5c63de14b59b1f7f9bf078b0c28279a3db473d269ae0688318582cee6",
+    "tools/stage199_residual_model.py": "85d321b96e52446953da5b1b6842dcf5f35440f7215fd22f4e48bd2d4d681931",
+    "tools/stage195_router_objective_audit.py": "d34102a8d2c17922f830a33f86f250c40813dc894f7022236ee3a3bdccc212bf",
+    "tools/stage195_routing_common.py": "3177256db063fcfcbb3e0c4418e7c54808e1c99271861d1d4bd90041b52c8ebf",
+    "tools/stage199_residual_routing.py": "5a5873edd240160b1011393e1bad5bc89d363bceddd3242a8c11235efc649a75",
+    "tools/stage198_routing_calibration.py": "458792b65c7655a4fc16128dc65b2b25f795e89c5389c258080b7614d864bc00",
+    "tools/stage196_relative_loss.py": "186aa9b2432957b001936557dea654e1644271da4fa4c472892907ff7b8ed5d4",
+    "tools/stage203_loss_clipping.py": "7b84d1f2612d5cffbca3416034d7667715a595137a735232b8855b852e824440",
+    "tools/stage203_clipping_common.py": "0c569384b0cd69348c757ad33c612832a3ee2ec4095f1543efb2b965dbe453a2",
+    "tools/stage204_target_relation.py": "d86748595fde0f09290af2eb90bc04f6ae299184693a1c0ce0551070daa44287",
+    "tools/stage204_relation_common.py": "a8437cda61cd8f17492526189177efd06dafc0483e5a119f0f30a3d23530ae91",
+    "tools/stage204_relation_model.py": "77dc54898dae9496b387c49276db50ca12c10d14af285a420e8eb8ae2842b29f",
+    "tools/stage205_crossfit_shrinkage.py": "6beb7ac46b7a26d5d087dd536f0cf175027579b85366cb67c7cb000b197b3c16",
+    "tools/stage205_shrinkage_common.py": "aefb083c8bfdb53cc25333d87677e305053e7afd71ef67ed7e0e915471ce5a3f",
+    "tools/stage206_spatial_adaptation.py": "6143f756b0f89e938ba027494f371cc0f12bac0ef68659a0395d55f03e11be45",
+    "tools/stage206_spatial_model.py": "e69cb994081ef627b1c9cc0588fb9fab9dbd0c43935b0c965a1280ea875fc054",
+    "tools/stage206_spatial_common.py": "cccb75c03d282a1b69b59f64cbc2224d4c10d6448eaedfec2f9f3594ea6533f4",
+    "tools/stage207_state_training.py": "8bcdf74350d3579a76327569723c500df28cc5173ca84c84574b700f656e35d5",
+    "tools/stage207_state_common.py": "7d7e911c1c2251d29d405c4e7062187618104f042534b8924b6aa617380927e1",
+    "tools/stage208_state_interaction.py": "49b62ad6b399ad2e2a05e7dfeccc80116e0240e2e23af5efa42e3feaf5db913c",
+    "tools/stage208_factor_common.py": "d9d1870e9ba9aaa8c81965be1042c03bcb366b6712e7e0140c3c0f06ffec2fe8",
+    "tools/run_stage208_state_interaction.sh": "5f4b796c07f5cb183f59e472c9ac6fa33387e861799680fff5949934bd65616e",
+    "tools/stage209_reference_intervention.py": "7d05a1d4c3bed225ef51fcafdab2f1e6382c9a234f10f85041f2ad2bfcbd337f",
+    "tools/stage209_reference_common.py": "12e22783689419afbf0fa6051eaf49304f02316fec2c4df5311efcf1eaf8ecf2",
+    "tools/run_stage209_reference_intervention.sh": "0c0340f347947bb1f2dba40d35a58ce2ad493b7ab2c38978ebe7a2fccc51684d",
+    "tools/stage210_recovery_audit.py": "a30b2e7e1095a5571a0f71f815588a3f7f3de6c7398d7f0821092b43023d4ae4",
+    "tools/stage210_recovery_common.py": "9b43ff2398b9898bc14635400557acd38cfce25bd87ce15b45d4243fcea64f46",
+    "tools/run_stage210_recovery_audit.sh": "c07cf465549c9e600c6a5c197e01f3ca103ee95d3d3a1f7174779f273f2f7a0d",
+    "tools/stage211_geometry_audit.py": "e955d2eb85099e46c20b08694d27544d2e5ee29c489c48e8d1f54a81ad37dadb",
+    "tools/stage211_geometry_common.py": "c818a44bd161405ab9286e635d80cdba5177e13b3a97e4109c71a40b30f64075",
+    "tools/run_stage211_geometry_audit.sh": "eb2185ca741f2e1c7500328734300682ec8100d65d9f39188fab3b8f678abc20",
+    "tools/stage212_state_experiment.py": "ca9a76893a802c1d272664ef46574c2ffe9db10dac0ffe5ad8dee227f1e736e0",
+    "tools/stage212_state_common.py": "0d98ec23b652999884be24caf24a3c9d9dbf371483755a18884a228f8a608beb",
+    "tools/run_stage212_state_experiment.sh": "37ea49f6ded920eede303cb00869186cf5d6004f46cdb8bf38d74ede9162822c",
+    "tools/stage213_output_ceiling.py": "ee3d84cab6895d355eea11a1039b12b7ca70704f0b5fd6741748c0259a2a5fbc",
+    "tools/run_stage213_output_ceiling.sh": "a4421509952d13647621cc93c58d0357bbcdf6d82b58a6df1c22e40333d78a32"
+  },
+  "protocol_sha256": "1d01ee251479abb0cd4142c5b465e524aa39608ad90e142e41b03617816a1fb1",
+  "rule": "Strict adapted IoU greater than raw chooses adapted for offline ceiling; ties raw; nn parent/next state never changed",
+  "fingerprint": "494418e7a29a416934006c398f2d60a53594575fe7bc59921b0fdf9e5a5b7671"
+}
+
+===== stage213_policy_summary.csv =====
+arm,videos,oracle_only,introduced_failure_videos,introduced_matched_failure_videos,auc,mean_iou,low_iou_fraction,failure_events,longest_failure_fraction,unrecovered_events,missed_native_recoveries,native_good_frame_loss,missed_matched_recoveries,matched_good_frame_loss
+raw,38,False,0,2,64.41845141920605,0.6546014764206,0.13141385159819377,0.5789473684210527,0.13639137405102778,0.23684210526315788,0.0,0.0,0.19736842105263158,0.03999216224272037
+adapted,38,False,0,2,65.11049132838046,0.6618209928294998,0.13101657684573506,0.5657894736842105,0.1354544432337127,0.23684210526315788,0.05263157894736842,0.006762613070889022,0.18421052631578946,0.03167610101069971
+mm,38,False,0,0,65.04452778233963,0.6610901033046438,0.13281781789647507,0.6447368421052632,0.13417328105067858,0.2894736842105263,0.11842105263157894,0.03789412221759929,0.0,0.0
+oracle,38,True,0,2,65.66248324588447,0.6676391357695695,0.13069711441050277,0.5789473684210527,0.13488450297228735,0.23684210526315788,0.0,0.0,0.15789473684210525,0.02943760347555121
+
+===== stage213_paired.csv =====
+contrast,metric,oracle_comparison,favorable_direction,videos,mean_delta,median_delta,ci_low,ci_high,positive,negative,worst_leave_one_video_out
+oracle_minus_raw,auc,True,positive,38,1.2440318266784167,1.332262745306231,1.0109347179205788,1.4796141829106257,38,0,1.200434231260459
+oracle_minus_raw,low_iou_fraction,True,negative,38,-0.0007167371876910176,0.0,-0.0012618420951146447,-0.00027038644340164196,0,9,-0.0007361084630340181
+oracle_minus_raw,missed_native_recoveries,True,negative,38,0.0,0.0,0.0,0.0,0,0,0.0
+oracle_minus_raw,native_good_frame_loss,True,negative,38,0.0,0.0,0.0,0.0,0,0,0.0
+oracle_minus_raw,missed_matched_recoveries,True,negative,38,-0.039473684210526314,0.0,-0.10526315789473684,0.0,0,2,-0.04054054054054054
+oracle_minus_raw,matched_good_frame_loss,True,negative,38,-0.010554558767169155,-0.010314142580505904,-0.012694903825613987,-0.008519686751702999,0,38,-0.010814801921215526
+oracle_minus_adapted,auc,True,positive,38,0.5519919175040164,0.3608635525507111,0.40600408127064463,0.7115248658607185,38,0,0.5183403085372233
+oracle_minus_adapted,low_iou_fraction,True,negative,38,-0.0003194624352323163,0.0,-0.0005654735887231294,-0.00011703882973634014,0,10,-0.00032809655510345994
+oracle_minus_adapted,missed_native_recoveries,True,negative,38,-0.05263157894736842,0.0,-0.13157894736842105,0.0,0,2,-0.05405405405405406
+oracle_minus_adapted,native_good_frame_loss,True,negative,38,-0.006762613070889022,-0.005940891951820673,-0.008585856766301268,-0.005027908815612208,0,38,-0.006937186942541344
+oracle_minus_adapted,missed_matched_recoveries,True,negative,38,-0.02631578947368421,0.0,-0.06578947368421052,0.0,0,2,-0.02702702702702703
+oracle_minus_adapted,matched_good_frame_loss,True,negative,38,-0.0022384975351484944,-0.00196701640109261,-0.0027416904659460493,-0.0017556031942275777,0,38,-0.002293353237713612
+oracle_minus_mm,auc,True,positive,38,0.6179554635448525,0.4952636968766164,-2.62992461059194,3.4534135983855263,33,5,-0.12965901914770767
+oracle_minus_mm,low_iou_fraction,True,negative,38,-0.0021207034859722757,0.0,-0.0423487958181588,0.04422572820238108,7,14,-0.018551167137293236
+oracle_minus_mm,missed_native_recoveries,True,negative,38,-0.11842105263157894,0.0,-0.2236842105263158,-0.039473684210526314,0,6,-0.12162162162162163
+oracle_minus_mm,native_good_frame_loss,True,negative,38,-0.03789412221759929,-0.012937722245820748,-0.06882613710535122,-0.014844826990010405,0,38,-0.038902854955643294
+oracle_minus_mm,missed_matched_recoveries,True,negative,38,0.15789473684210525,0.0,0.039473684210526314,0.3157894736842105,5,0,0.10810810810810811
+oracle_minus_mm,matched_good_frame_loss,True,negative,38,0.02943760347555121,0.007992266759693816,0.008987524960117768,0.06374988393206243,38,0,0.015161938892636645
+adapted_minus_raw,auc,False,positive,38,0.6920399091744002,0.5576558701558696,0.3862520105182675,0.9948817233953958,27,11,0.6345641675154046
+adapted_minus_raw,low_iou_fraction,False,negative,38,-0.00039727475245870134,0.0,-0.0009459579971109174,7.053447827721509e-05,8,8,-0.0004777590744519178
+adapted_minus_raw,missed_native_recoveries,False,negative,38,0.05263157894736842,0.0,0.0,0.13157894736842105,2,0,0.02702702702702703
+adapted_minus_raw,native_good_frame_loss,False,negative,38,0.006762613070889022,0.005940891951820673,0.005027908815612207,0.008585856766301268,38,0,0.00639047730945029
+adapted_minus_raw,missed_matched_recoveries,False,negative,38,-0.013157894736842105,0.0,-0.05263157894736842,0.02631578947368421,1,2,-0.02702702702702703
+adapted_minus_raw,matched_good_frame_loss,False,negative,38,-0.008316061232020656,-0.0074075385406849,-0.010730003946086513,-0.0060017594509150125,5,33,-0.008672953257070539
+mm_minus_raw,auc,False,positive,38,0.6260763631335641,0.449059436503779,-2.173963926525142,3.8367806189608,24,14,-0.4957081798813421
+mm_minus_raw,low_iou_fraction,False,negative,38,0.0014039662982812586,0.0,-0.044784337286487515,0.04146645805251828,13,7,-0.00881340326977075
+mm_minus_raw,missed_native_recoveries,False,negative,38,0.11842105263157894,0.0,0.039473684210526314,0.2236842105263158,6,0,0.0945945945945946
+mm_minus_raw,native_good_frame_loss,False,negative,38,0.03789412221759929,0.012937722245820748,0.014844826990010374,0.0688261371053512,38,0,0.027073327049108323
+mm_minus_raw,missed_matched_recoveries,False,negative,38,-0.19736842105263158,0.0,-0.3815789473684211,-0.05263157894736842,0,6,-0.20270270270270271
+mm_minus_raw,matched_good_frame_loss,False,negative,38,-0.03999216224272037,-0.019870968170314564,-0.07422384004485641,-0.019108289164152012,0,38,-0.04096165908674583
+
+===== stage213_seed_video_summary.csv =====
+sequence,group,arm,seed,fold,auc,mean_iou,low_iou_fraction,failure_events,longest_failure_fraction,unrecovered_events,missed_native_recoveries,introduced_failure,native_good_frame_loss,missed_matched_recoveries,matched_good_frame_loss,introduced_matched_failure,oracle_only
+uav0000003_00000_s,uav0000003,raw,2132,1,79.2989417989418,0.8087779149227846,0.0,0,0.0,0,0,False,0.0,0,0.017968067233494377,False,False
+uav0000003_00000_s,uav0000003,adapted,2132,1,79.82804232804233,0.8136573832803755,0.0,0,0.0,0,0,False,0.009360299574067215,0,0.013767171227227195,False,False
+uav0000003_00000_s,uav0000003,mm,2132,1,79.59656084656085,0.8130797023955334,0.0,0,0.0,0,0,False,0.01366627976074549,0,0.0,False,False
+uav0000003_00000_s,uav0000003,oracle,2132,1,80.65476190476191,0.8230176828544427,0.0,0,0.0,0,0,False,0.0,0,0.009389982865853425,False,True
+uav0000003_00000_s,uav0000003,raw,2133,1,79.2989417989418,0.8087779149227846,0.0,0,0.0,0,0,False,0.0,0,0.016001668211403138,False,False
+uav0000003_00000_s,uav0000003,adapted,2133,1,79.79497354497354,0.8133636418845507,0.0,0,0.0,0,0,False,0.009246167198262595,0,0.01186470104361615,False,False
+uav0000003_00000_s,uav0000003,mm,2133,1,79.46428571428571,0.811807720480324,0.0,0,0.0,0,0,False,0.01297186265386362,0,0.0,False,False
+uav0000003_00000_s,uav0000003,oracle,2133,1,80.58862433862434,0.8226098090828133,0.0,0,0.0,0,0,False,0.0,0,0.007223965196610048,False,True
+uav0000016_00000_s,uav0000016,raw,2132,0,80.35527690700106,0.820110593629913,0.05329153605015674,1,0.05329153605015674,1,0,False,0.0,0,0.03317049093186183,True,False
+uav0000016_00000_s,uav0000016,adapted,2132,0,80.19107329452157,0.8187282765800873,0.05172413793103448,1,0.05172413793103448,1,0,False,0.014638775325786026,0,0.029815977462502814,True,False
+uav0000016_00000_s,uav0000016,mm,2132,0,82.72130168681893,0.8444590177028544,0.0,0,0.0,0,0,False,0.018755567944223384,0,0.0,False,False
+uav0000016_00000_s,uav0000016,oracle,2132,0,81.51216599492462,0.8325817961573262,0.05172413793103448,1,0.05172413793103448,1,0,False,0.0,0,0.02538320029200577,True,True
+uav0000016_00000_s,uav0000016,raw,2133,0,80.35527690700106,0.820110593629913,0.05329153605015674,1,0.05329153605015674,1,0,False,0.0,0,0.03558573057983261,True,False
+uav0000016_00000_s,uav0000016,adapted,2133,0,80.31049410359755,0.8196202495079636,0.05172413793103448,1,0.05172413793103448,1,0,False,0.01393013908110606,0,0.03209913304729537,True,False
+uav0000016_00000_s,uav0000016,mm,2133,0,83.08702791461413,0.8474990269351456,0.0,0,0.0,0,0,False,0.01745526492914473,0,0.0,False,False
+uav0000016_00000_s,uav0000016,oracle,2133,0,81.56441259889536,0.8328040078696194,0.05172413793103448,1,0.05172413793103448,1,0,False,0.0,0,0.02783722217298547,True,True
+uav0000070_01344_s,uav0000070,raw,2132,0,68.10515873015873,0.689800830278918,0.0,0,0.0,0,0,False,0.0,0,0.005623994934498508,False,False
+uav0000070_01344_s,uav0000070,adapted,2132,0,67.65873015873017,0.685062481345522,0.0,0,0.0,0,0,False,0.00800808751072833,0,0.006433142058525534,False,False
+uav0000070_01344_s,uav0000070,mm,2132,0,67.11309523809523,0.6783566994842679,0.0,0,0.0,0,0,False,0.01693646985006274,0,0.0,False,False
+uav0000070_01344_s,uav0000070,oracle,2132,0,68.50198412698413,0.6933336104151806,0.0,0,0.0,0,0,False,0.0,0,0.003975589637063241,False,True
+uav0000070_01344_s,uav0000070,raw,2133,0,68.10515873015873,0.689800830278918,0.0,0,0.0,0,0,False,0.0,0,0.007348807407288209,False,False
+uav0000070_01344_s,uav0000070,adapted,2133,0,68.03075396825396,0.689398944419166,0.0,0,0.0,0,0,False,0.0052704020078937555,0,0.006559945677844945,False,False
+uav0000070_01344_s,uav0000070,mm,2133,0,67.65873015873017,0.6852497774935249,0.0,0,0.0,0,0,False,0.011099881059930875,0,0.0,False,False
+uav0000070_01344_s,uav0000070,oracle,2133,0,68.60119047619048,0.6951259647018286,0.0,0,0.0,0,0,False,0.0,0,0.004525891786932366,False,True
+uav0000076_00241_s,uav0000076,raw,2132,1,39.98289501817404,0.40769646521848546,0.531109685695959,1,0.5349583066067992,0,0,False,0.0,0,0.01181906983029618,False,False
+uav0000076_00241_s,uav0000076,adapted,2132,1,40.270014355966886,0.4110156816018674,0.531109685695959,1,0.5349583066067992,0,0,False,0.0010910833249798007,0,0.006634079297667772,False,False
+uav0000076_00241_s,uav0000076,mm,2132,1,40.14172699227221,0.4098691629164968,0.5336754329698524,1,0.5355997434252726,0,1,False,0.005346436850866601,0,0.0,False,False
+uav0000076_00241_s,uav0000076,oracle,2132,1,40.337212498854576,0.4115417892197925,0.531109685695959,1,0.5349583066067992,0,0,False,0.0,0,0.006113387901138239,False,True
+uav0000076_00241_s,uav0000076,raw,2133,1,39.98289501817404,0.40769646521848546,0.531109685695959,1,0.5349583066067992,0,0,False,0.0,0,0.01314002387148283,False,False
+uav0000076_00241_s,uav0000076,adapted,2133,1,40.282232200128284,0.41108945248092066,0.531109685695959,1,0.5349583066067992,0,0,False,0.001312560970318655,0,0.0077121244671200595,False,False
+uav0000076_00241_s,uav0000076,mm,2133,1,35.47451052261829,0.3618710780638722,0.5894804361770366,1,0.5907633098139833,1,1,False,0.11180876066774742,0,0.0,False,False
+uav0000076_00241_s,uav0000076,oracle,2133,1,40.35859372613702,0.411719959060986,0.531109685695959,1,0.5349583066067992,0,0,False,0.0,0,0.007169410547470624,False,True
+uav0000080_01680_s,uav0000080,raw,2132,1,66.65476190476191,0.6757833123900148,0.0008333333333333334,0,0.0,0,0,False,0.0,0,0.019658619222665905,False,False
+uav0000080_01680_s,uav0000080,adapted,2132,1,67.64682539682539,0.6851827051841626,0.0008333333333333334,0,0.0,0,0,False,0.003961006090406955,0,0.01202702362504023,False,False
+uav0000080_01680_s,uav0000080,mm,2132,1,67.6984126984127,0.6860857850360864,0.0,0,0.0,0,0,False,0.008776078782463516,0,0.0,False,False
+uav0000080_01680_s,uav0000080,oracle,2132,1,68.00396825396825,0.6890595388167475,0.0008333333333333334,0,0.0,0,0,False,0.0,0,0.010490939338763402,False,True
+uav0000080_01680_s,uav0000080,raw,2133,1,66.65476190476191,0.6757833123900148,0.0008333333333333334,0,0.0,0,0,False,0.0,0,0.019879599231786393,False,False
+uav0000080_01680_s,uav0000080,adapted,2133,1,67.80952380952381,0.6865341765263433,0.0008333333333333334,0,0.0,0,0,False,0.004415015227916252,0,0.011156553276668184,False,False
+uav0000080_01680_s,uav0000080,mm,2133,1,67.66666666666666,0.6859962779807991,0.0,0,0.0,0,0,False,0.009461559103560455,0,0.0,False,False
+uav0000080_01680_s,uav0000080,oracle,2133,1,68.19047619047619,0.6908682346210397,0.0008333333333333334,0,0.0,0,0,False,0.0,0,0.009470201125837073,False,True
+uav0000085_00000_s,uav0000085,raw,2132,0,69.68196037539103,0.7069221333588014,0.016423357664233577,3,0.011557177615571776,0,0,False,0.0,2,0.03540755446788584,False,False
+uav0000085_00000_s,uav0000085,adapted,2132,0,70.8318850654617,0.719202495301112,0.015815085158150853,3,0.011557177615571776,0,0,False,0.005160717228269001,2,0.025106572125574152,False,False
+uav0000085_00000_s,uav0000085,mm,2132,0,69.67037423241803,0.7070585135524385,0.026155717761557177,5,0.010340632603406326,0,0,False,0.03712080448419246,0,0.0,False,False
+uav0000085_00000_s,uav0000085,oracle,2132,0,71.32429614181439,0.72430941875222,0.015206812652068127,3,0.011557177615571776,0,0,False,0.0,2,0.023283407252709082,False,True
+uav0000085_00000_s,uav0000085,raw,2133,0,69.68196037539103,0.7069221333588014,0.016423357664233577,3,0.011557177615571776,0,0,False,0.0,1,0.03427468746224813,False,False
+uav0000085_00000_s,uav0000085,adapted,2133,0,70.90429845904298,0.7199019096144008,0.014598540145985401,3,0.010340632603406326,0,0,False,0.0037427195440573207,1,0.024714168171618964,False,False
+uav0000085_00000_s,uav0000085,mm,2133,0,70.52195574093383,0.7164958532874357,0.016423357664233577,4,0.004866180048661801,0,0,False,0.026040385405988707,0,0.0,False,False
+uav0000085_00000_s,uav0000085,oracle,2133,0,71.25767581971961,0.723614590827059,0.014598540145985401,3,0.010340632603406326,0,0,False,0.0,1,0.02284072038727092,False,True
+uav0000089_00920_s,uav0000089,raw,2132,1,63.14699792960663,0.6387685180998988,0.016666666666666666,1,0.016666666666666666,0,0,False,0.0,0,0.028043706668770693,False,False
+uav0000089_00920_s,uav0000089,adapted,2132,1,64.30296756383713,0.650759555964238,0.017391304347826087,1,0.017391304347826087,0,1,False,0.006607031153008856,1,0.018609364382505912,False,False
+uav0000089_00920_s,uav0000089,mm,2132,1,64.09592822636301,0.6485549772187845,0.02681159420289855,1,0.02753623188405797,0,0,False,0.017513097022823255,0,0.0,False,False
+uav0000089_00920_s,uav0000089,oracle,2132,1,64.89993098688751,0.6569614824384992,0.016666666666666666,1,0.016666666666666666,0,0,False,0.0,0,0.015634266171992615,False,True
+uav0000089_00920_s,uav0000089,raw,2133,1,63.14699792960663,0.6387685180998988,0.016666666666666666,1,0.016666666666666666,0,0,False,0.0,0,0.0291217034737683,False,False
+uav0000089_00920_s,uav0000089,adapted,2133,1,64.44099378881988,0.6521728106419922,0.017391304347826087,1,0.017391304347826087,0,1,False,0.006565840248507022,0,0.017762089067980404,False,False
+uav0000089_00920_s,uav0000089,mm,2133,1,54.94133885438234,0.5561117782472315,0.16304347826086957,1,0.16304347826086957,1,1,False,0.11246330480292459,0,0.0,False,False
+uav0000089_00920_s,uav0000089,oracle,2133,1,65.03795721187025,0.6583221883642884,0.016666666666666666,1,0.016666666666666666,0,0,False,0.0,0,0.01529180277824316,False,True
+uav0000090_01104_s,uav0000090,raw,2132,1,76.4751552795031,0.779589601695733,0.0,0,0.0,0,0,False,0.0,0,0.0326083799747944,False,False
+uav0000090_01104_s,uav0000090,adapted,2132,1,76.86335403726709,0.783624849679421,0.0,0,0.0,0,0,False,0.011120107555152125,0,0.027167732092285797,False,False
+uav0000090_01104_s,uav0000090,mm,2132,1,77.17391304347827,0.78732949961893,0.0,0,0.0,0,0,False,0.024868482051597533,0,0.0,False,False
+uav0000090_01104_s,uav0000090,oracle,2132,1,77.89208074534162,0.7947449572345732,0.0,0,0.0,0,0,False,0.0,0,0.022822669722316207,False,True
+uav0000090_01104_s,uav0000090,raw,2133,1,76.4751552795031,0.779589601695733,0.0,0,0.0,0,0,False,0.0,0,0.02986586079143205,False,False
+uav0000090_01104_s,uav0000090,adapted,2133,1,76.77277432712215,0.782784788954057,0.0,0,0.0,0,0,False,0.012155224253130753,0,0.025045269722740408,False,False
+uav0000090_01104_s,uav0000090,mm,2133,1,76.71454451345755,0.7829344847312554,0.0,0,0.0,0,0,False,0.02652097775590972,0,0.0,False,False
+uav0000090_01104_s,uav0000090,oracle,2133,1,77.89855072463769,0.7949400132071878,0.0,0,0.0,0,0,False,0.0,0,0.02074650541648619,False,True
+uav0000091_00460_s,uav0000091,raw,2132,1,29.77225672877847,0.30305927214749984,0.6043478260869565,1,0.6043478260869565,1,0,False,0.0,0,0.02937474027991366,False,False
+uav0000091_00460_s,uav0000091,adapted,2132,1,29.93788819875776,0.3042008122177058,0.6043478260869565,1,0.6043478260869565,1,0,False,0.009512638139973686,0,0.024136686014056708,False,False
+uav0000091_00460_s,uav0000091,mm,2132,1,29.93788819875776,0.3036249987810217,0.6086956521739131,1,0.6086956521739131,1,0,False,0.028260210713946677,0,0.0,False,False
+uav0000091_00460_s,uav0000091,oracle,2132,1,30.269151138716353,0.30797601773615,0.6043478260869565,1,0.6043478260869565,1,0,False,0.0,0,0.021145567072976483,False,True
+uav0000091_00460_s,uav0000091,raw,2133,1,29.77225672877847,0.30305927214749984,0.6043478260869565,1,0.6043478260869565,1,0,False,0.0,0,0.02386365625382536,False,False
+uav0000091_00460_s,uav0000091,adapted,2133,1,29.855072463768117,0.30339209858379435,0.6043478260869565,1,0.6043478260869565,1,0,False,0.010891341396387845,0,0.01966008133305285,False,False
+uav0000091_00460_s,uav0000091,mm,2133,1,29.461697722567287,0.3007037808317256,0.6086956521739131,1,0.6086956521739131,1,0,False,0.029414304265484564,0,0.0,False,False
+uav0000091_00460_s,uav0000091,oracle,2133,1,30.22774327122153,0.30770679668083545,0.6043478260869565,1,0.6043478260869565,1,0,False,0.0,0,0.01709786631898848,False,True
+uav0000107_01763_s,uav0000107,raw,2132,0,40.57017543859649,0.41130606282636284,0.46381578947368424,1,0.47368421052631576,1,0,False,0.0,0,0.005693077045775083,False,False
+uav0000107_01763_s,uav0000107,adapted,2132,0,40.664160401002505,0.41210184756591767,0.45723684210526316,1,0.47039473684210525,1,0,False,0.008677340834814851,0,0.004678609530214304,False,False
+uav0000107_01763_s,uav0000107,mm,2132,0,40.33521303258145,0.41017970642956847,0.45394736842105265,1,0.46381578947368424,1,0,False,0.010730178643459928,0,0.0,False,False
+uav0000107_01763_s,uav0000107,oracle,2132,0,40.99310776942356,0.4163681710901286,0.45723684210526316,1,0.47039473684210525,1,0,False,0.0,0,0.0023196784366865232,False,True
+uav0000107_01763_s,uav0000107,raw,2133,0,40.57017543859649,0.41130606282636284,0.46381578947368424,1,0.47368421052631576,1,0,False,0.0,0,0.005806245411694032,False,False
+uav0000107_01763_s,uav0000107,adapted,2133,0,40.664160401002505,0.4118455777532029,0.45723684210526316,1,0.47039473684210525,1,0,False,0.009030497793371383,0,0.0045361182942727655,False,False
+uav0000107_01763_s,uav0000107,mm,2133,0,40.366541353383454,0.4101594777290452,0.45723684210526316,1,0.46710526315789475,1,0,False,0.01091200082679465,0,0.0,False,False
+uav0000107_01763_s,uav0000107,oracle,2133,0,41.00877192982456,0.4163004822767258,0.45723684210526316,1,0.47039473684210525,1,0,False,0.0,0,0.002398216551415073,False,True
+uav0000126_07915_s,uav0000126,raw,2132,1,88.00060564766447,0.897482397244832,0.0,0,0.0,0,0,False,0.0,0,0.011964784766437479,False,False
+uav0000126_07915_s,uav0000126,adapted,2132,1,88.36399424634719,0.9024891306106746,0.0,0,0.0,0,0,False,0.0021741522844184115,0,0.008742742968089108,False,False
+uav0000126_07915_s,uav0000126,mm,2132,1,88.54568854568855,0.9034461057961964,0.0,0,0.0,0,0,False,0.006001076215073132,0,0.0,False,False
+uav0000126_07915_s,uav0000126,oracle,2132,1,88.56840033310621,0.904663282895093,0.0,0,0.0,0,0,False,0.0,0,0.0074087710694075316,False,True
+uav0000126_07915_s,uav0000126,raw,2133,1,88.00060564766447,0.897482397244832,0.0,0,0.0,0,0,False,0.0,0,0.011571989336860435,False,False
+uav0000126_07915_s,uav0000126,adapted,2133,1,88.4245590127943,0.9031426323444244,0.0,0,0.0,0,0,False,0.0021812588914669226,0,0.007438922952489454,False,False
+uav0000126_07915_s,uav0000126,mm,2133,1,88.46998258762964,0.9036107196752594,0.0,0,0.0,0,0,False,0.005443666906433254,0,0.0,False,False
+uav0000126_07915_s,uav0000126,oracle,2133,1,88.62896509955334,0.9053238912358911,0.0,0,0.0,0,0,False,0.0,0,0.00626940352728177,False,True
+uav0000147_00000_s,uav0000147,raw,2132,1,37.674817674817675,0.38105027824862764,0.4292792792792793,1,0.42882882882882883,1,0,False,0.0,0,0.01979143329304606,False,False
+uav0000147_00000_s,uav0000147,adapted,2132,1,38.22179322179322,0.3875229557442872,0.43018018018018017,1,0.42882882882882883,1,0,False,0.002137632963150367,0,0.009641472668013537,False,False
+uav0000147_00000_s,uav0000147,mm,2132,1,38.3998283998284,0.3889295585967554,0.43198198198198196,1,0.4315315315315315,1,0,False,0.0031894847566291424,0,0.0,False,False
+uav0000147_00000_s,uav0000147,oracle,2132,1,38.43629343629343,0.3895870743314904,0.4292792792792793,1,0.42882882882882883,1,0,False,0.0,0,0.00828542204094672,False,True
+uav0000147_00000_s,uav0000147,raw,2133,1,37.674817674817675,0.38105027824862764,0.4292792792792793,1,0.42882882882882883,1,0,False,0.0,0,0.0215518123011747,False,False
+uav0000147_00000_s,uav0000147,adapted,2133,1,38.333333333333336,0.3883906605394447,0.4306306306306306,1,0.42882882882882883,1,0,False,0.00208520729320517,0,0.009562090749706677,False,False
+uav0000147_00000_s,uav0000147,mm,2133,1,38.440583440583445,0.3889289936936766,0.43198198198198196,2,0.4292792792792793,1,0,False,0.0050164718623074405,0,0.0,False,False
+uav0000147_00000_s,uav0000147,oracle,2133,1,38.56928356928357,0.3906819301475985,0.4292792792792793,1,0.42882882882882883,1,0,False,0.0,0,0.008437764654907373,False,True
+uav0000148_00840_s,uav0000148,raw,2132,0,73.08283114734728,0.7423433926187181,0.0,0,0.0,0,0,False,0.0,0,0.018104584353045856,False,False
+uav0000148_00840_s,uav0000148,adapted,2132,0,73.74453503485762,0.748073909969433,0.0,0,0.0,0,0,False,0.010983726223126686,0,0.010914359409075215,False,False
+uav0000148_00840_s,uav0000148,mm,2132,0,73.44913151364764,0.7450658829718994,0.0,0,0.0,0,0,False,0.015138621249243157,0,0.0,False,False
+uav0000148_00840_s,uav0000148,oracle,2132,0,74.79617157036512,0.7590976806926129,0.0,0,0.0,0,0,False,0.0,0,0.0071271945161929294,False,True
+uav0000148_00840_s,uav0000148,raw,2133,0,73.08283114734728,0.7423433926187181,0.0,0,0.0,0,0,False,0.0,0,0.016941907602066892,False,False
+uav0000148_00840_s,uav0000148,adapted,2133,0,73.70317854188822,0.7477890101017427,0.0,0,0.0,0,0,False,0.011012849098432307,0,0.011239787823523932,False,False
+uav0000148_00840_s,uav0000148,mm,2133,0,73.24234904880066,0.7436759075122467,0.0,0,0.0,0,0,False,0.015372330545433532,0,0.0,False,False
+uav0000148_00840_s,uav0000148,oracle,2133,0,74.79617157036512,0.758846768390649,0.0,0,0.0,0,0,False,0.0,0,0.007311562991039431,False,True
+uav0000149_00317_s,uav0000149,raw,2132,0,73.37199837199837,0.7454924428820596,0.0,0,0.0,0,0,False,0.0,0,0.01770285488668554,False,False
+uav0000149_00317_s,uav0000149,adapted,2132,0,74.9063899063899,0.7615020925512771,0.0,0,0.0,0,0,False,0.0017460895549500845,0,0.004871280959574389,False,False
+uav0000149_00317_s,uav0000149,mm,2132,0,74.85551485551485,0.760979541247431,0.0,0,0.0,0,0,False,0.0024417799659390066,0,0.0,False,False
+uav0000149_00317_s,uav0000149,oracle,2132,0,75.0875050875051,0.7631586390521271,0.0,0,0.0,0,0,False,0.0,0,0.004223403332443995,False,True
+uav0000149_00317_s,uav0000149,raw,2133,0,73.37199837199837,0.7454924428820596,0.0,0,0.0,0,0,False,0.0,0,0.017512926752029995,False,False
+uav0000149_00317_s,uav0000149,adapted,2133,0,74.93080993080993,0.7613933765659262,0.0,0,0.0,0,0,False,0.0017060227138866082,0,0.004882225222618872,False,False
+uav0000149_00317_s,uav0000149,mm,2133,0,74.84533984533984,0.7607437955609533,0.0,0,0.0,0,0,False,0.002511130683843181,0,0.0,False,False
+uav0000149_00317_s,uav0000149,oracle,2133,0,75.0936100936101,0.7630119109355109,0.0,0,0.0,0,0,False,0.0,0,0.004270033403830045,False,True
+uav0000169_00000_s,uav0000169,raw,2132,1,62.06320657759507,0.6275824117517774,0.0044964028776978415,1,0.014388489208633094,0,0,False,0.0,0,0.02235593018520332,False,False
+uav0000169_00000_s,uav0000169,adapted,2132,1,63.45495032545392,0.6429674015536643,0.0017985611510791368,0,0.0,0,0,False,0.0024028737120659273,0,0.00823046253988071,False,False
+uav0000169_00000_s,uav0000169,mm,2132,1,36.33521754025351,0.36388801571689616,0.4136690647482014,1,0.4136690647482014,1,1,False,0.2734599300660984,0,0.0,False,False
+uav0000169_00000_s,uav0000169,oracle,2132,1,63.66050017129153,0.6454119429853444,0.0017985611510791368,0,0.0,0,0,False,0.0,0,0.007382670301648831,False,True
+uav0000169_00000_s,uav0000169,raw,2133,1,62.06320657759507,0.6275824117517774,0.0044964028776978415,1,0.014388489208633094,0,0,False,0.0,1,0.022330484150358067,False,False
+uav0000169_00000_s,uav0000169,adapted,2133,1,63.61767728674204,0.644315424119387,0.002697841726618705,0,0.0,0,0,False,0.0023201003454567178,0,0.00973567236321205,False,False
+uav0000169_00000_s,uav0000169,mm,2133,1,63.68619390202124,0.6447608338801629,0.0035971223021582736,1,0.013489208633093525,0,0,False,0.004426844147620389,0,0.0,False,False
+uav0000169_00000_s,uav0000169,oracle,2133,1,63.806097978759844,0.6466531020104819,0.002697841726618705,0,0.0,0,0,False,0.0,0,0.008265777223423485,False,True
+uav0000170_00000_s,uav0000170,raw,2132,1,75.05572441742655,0.7625582890280729,0.0,0,0.0,0,0,False,0.0,0,0.024143251139165767,False,False
+uav0000170_00000_s,uav0000170,adapted,2132,1,76.80513340087808,0.7803667106837344,0.0,0,0.0,0,0,False,0.002923634664181304,0,0.009435981202412362,False,False
+uav0000170_00000_s,uav0000170,mm,2132,1,76.94022289766971,0.7818657520424737,0.0,0,0.0,0,0,False,0.004820780411994813,0,0.0,False,False
+uav0000170_00000_s,uav0000170,oracle,2132,1,77.12934819317798,0.7832865072775549,0.0,0,0.0,0,0,False,0.0,0,0.008012723664436734,False,True
+uav0000170_00000_s,uav0000170,raw,2133,1,75.05572441742655,0.7625582890280729,0.0,0,0.0,0,0,False,0.0,0,0.026968906703140318,False,False
+uav0000170_00000_s,uav0000170,adapted,2133,1,76.99425869638635,0.7826836956292718,0.0,0,0.0,0,0,False,0.0026875468182547975,0,0.010632423230720212,False,False
+uav0000170_00000_s,uav0000170,mm,2133,1,77.25768321513003,0.7856197118796536,0.0,0,0.0,0,0,False,0.003926729198963002,0,0.0,False,False
+uav0000170_00000_s,uav0000170,oracle,2133,1,77.28132387706856,0.7853685764444861,0.0,0,0.0,0,0,False,0.0,0,0.009110174838034238,False,True
+uav0000173_00781_s,uav0000173,raw,2132,1,21.9336975230113,0.22341016534799107,0.7239392352016762,1,0.7375589313776847,1,0,False,0.0,0,0.01860166957969531,False,False
+uav0000173_00781_s,uav0000173,adapted,2132,1,22.427598593130284,0.22785779008961132,0.7244630696699843,1,0.7375589313776847,1,0,False,0.0009726019247940336,0,0.006402170744744193,False,False
+uav0000173_00781_s,uav0000173,mm,2132,1,22.37770959614857,0.22755520176079272,0.7234154007333683,1,0.7375589313776847,1,0,False,0.0024471196298194034,0,0.0,False,False
+uav0000173_00781_s,uav0000173,oracle,2132,1,22.460026441168402,0.22823792716425667,0.7239392352016762,1,0.7375589313776847,1,0,False,0.0,0,0.0058251507060208775,False,True
+uav0000173_00781_s,uav0000173,raw,2133,1,21.9336975230113,0.22341016534799107,0.7239392352016762,1,0.7375589313776847,1,0,False,0.0,0,0.019165126042199006,False,False
+uav0000173_00781_s,uav0000173,adapted,2133,1,22.445059742073887,0.228057060640922,0.7244630696699843,1,0.7375589313776847,1,0,False,0.000995583954739095,0,0.005443148036669864,False,False
+uav0000173_00781_s,uav0000173,mm,2133,1,22.34777619795954,0.22719373622069325,0.7249869041382923,1,0.7375589313776847,1,0,False,0.0021984778660430753,0,0.0,False,False
+uav0000173_00781_s,uav0000173,oracle,2133,1,22.479982039961087,0.2284750539421143,0.7239392352016762,1,0.7375589313776847,1,0,False,0.0,0,0.0049272954259262725,False,True
+uav0000174_00000_s,uav0000174,raw,2132,0,71.13081554460865,0.7213289090959187,0.0,0,0.0,0,0,False,0.0,0,0.026334719995597278,False,False
+uav0000174_00000_s,uav0000174,adapted,2132,0,72.54734537493158,0.7359175015174491,0.0,0,0.0,0,0,False,0.007228158061037882,0,0.01241629740320884,False,False
+uav0000174_00000_s,uav0000174,mm,2132,0,72.75095785440612,0.7386486648428375,0.0,0,0.0,0,0,False,0.009012371569801971,0,0.0,False,False
+uav0000174_00000_s,uav0000174,oracle,2132,0,73.22386425834702,0.7431356897052992,0.0,0,0.0,0,0,False,0.0,0,0.009483184300050582,False,True
+uav0000174_00000_s,uav0000174,raw,2133,0,71.13081554460865,0.7213289090959187,0.0,0,0.0,0,0,False,0.0,0,0.023147262230077285,False,False
+uav0000174_00000_s,uav0000174,adapted,2133,0,72.45101258894363,0.7347747883850855,0.0,0,0.0,0,0,False,0.005995173921359874,0,0.011237285009038752,False,False
+uav0000174_00000_s,uav0000174,mm,2133,0,72.47071702244115,0.7353206865087623,0.0,0,0.0,0,0,False,0.009107851815086198,0,0.0,False,False
+uav0000174_00000_s,uav0000174,oracle,2133,0,73.0136836343733,0.7407616931010366,0.0,0,0.0,0,0,False,0.0,0,0.008710004431179176,False,True
+uav0000176_00000_s,uav0000176,raw,2132,0,16.098310291858677,0.16371991249088144,0.7935483870967742,1,0.792258064516129,1,0,False,0.0,1,0.5585041266773009,False,False
+uav0000176_00000_s,uav0000176,adapted,2132,0,15.846390168970814,0.1613508590167718,0.7961290322580645,1,0.7961290322580645,1,0,False,0.01981899137359716,1,0.5576299496738994,False,False
+uav0000176_00000_s,uav0000176,mm,2132,0,57.51766513056835,0.5786751176460215,0.20129032258064516,2,0.12903225806451613,1,0,False,0.04342023572211225,0,0.0,False,False
+uav0000176_00000_s,uav0000176,oracle,2132,0,16.258064516129032,0.16588247303369563,0.7935483870967742,1,0.792258064516129,1,0,False,0.0,1,0.5565189125406832,False,True
+uav0000176_00000_s,uav0000176,raw,2133,0,16.098310291858677,0.16371991249088144,0.7935483870967742,1,0.792258064516129,1,0,False,0.0,3,0.5605969700792114,False,False
+uav0000176_00000_s,uav0000176,adapted,2133,0,15.846390168970814,0.16128509240642924,0.7961290322580645,1,0.7961290322580645,1,0,False,0.02124428111464703,3,0.5598638976592345,False,False
+uav0000176_00000_s,uav0000176,mm,2133,0,58.9431643625192,0.5966537718961417,0.17419354838709677,3,0.10451612903225807,0,0,False,0.03895172528972629,0,0.0,False,False
+uav0000176_00000_s,uav0000176,oracle,2133,0,16.288786482334867,0.16602491623634905,0.7935483870967742,1,0.792258064516129,1,0,False,0.0,3,0.558755473546097,False,True
+uav0000199_00000_s,uav0000199,raw,2132,1,67.78676623107239,0.6869511884911967,0.0006222775357809583,0,0.0,0,0,False,0.0,0,0.019379026622731235,False,False
+uav0000199_00000_s,uav0000199,adapted,2132,1,69.44320976679408,0.7042953893137872,0.0006222775357809583,0,0.0,0,0,False,0.0004747225024857168,0,0.005484590399992427,False,False
+uav0000199_00000_s,uav0000199,mm,2132,1,69.44320976679408,0.7038147657535525,0.0012445550715619166,0,0.0,0,0,False,0.0017190638852593802,0,0.0,False,False
+uav0000199_00000_s,uav0000199,oracle,2132,1,69.49358461492874,0.7047957773188837,0.0006222775357809583,0,0.0,0,0,False,0.0,0,0.005222854160288711,False,True
+uav0000199_00000_s,uav0000199,raw,2133,1,67.78676623107239,0.6869511884911967,0.0006222775357809583,0,0.0,0,0,False,0.0,0,0.020566627604074718,False,False
+uav0000199_00000_s,uav0000199,adapted,2133,1,69.52025365217649,0.705192629391655,0.0006222775357809583,0,0.0,0,0,False,0.0005363323814498595,0,0.005865085337087376,False,False
+uav0000199_00000_s,uav0000199,mm,2133,1,69.5498859157851,0.7052010754823678,0.0006222775357809583,0,0.0,0,0,False,0.0016834904855788104,0,0.0,False,False
+uav0000199_00000_s,uav0000199,oracle,2133,1,69.57655495303287,0.7057531704148564,0.0006222775357809583,0,0.0,0,0,False,0.0,0,0.005611971299043062,False,True
+uav0000200_00000_s,uav0000200,raw,2132,0,83.83458646616542,0.8569311620605408,0.0,0,0.0,0,0,False,0.0,0,0.025657698658450395,False,False
+uav0000200_00000_s,uav0000200,adapted,2132,0,86.09857978279031,0.8791104434633555,0.0,0,0.0,0,0,False,0.0005886403145104351,0,0.007223741033534615,False,False
+uav0000200_00000_s,uav0000200,mm,2132,0,86.29072681704261,0.8808050950619551,0.0,0,0.0,0,0,False,0.0017837656570362462,0,0.0,False,False
+uav0000200_00000_s,uav0000200,oracle,2132,0,86.1654135338346,0.879699083777866,0.0,0,0.0,0,0,False,0.0,0,0.006951484489935807,False,True
+uav0000200_00000_s,uav0000200,raw,2133,0,83.83458646616542,0.8569311620605408,0.0,0,0.0,0,0,False,0.0,0,0.023974168907386312,False,False
+uav0000200_00000_s,uav0000200,adapted,2133,0,86.04010025062657,0.8781475123073137,0.0,0,0.0,0,0,False,0.0006813236556463512,0,0.006977649504747518,False,False
+uav0000200_00000_s,uav0000200,mm,2133,0,86.1654135338346,0.8789321948013225,0.0,0,0.0,0,0,False,0.001973136166604737,0,0.0,False,False
+uav0000200_00000_s,uav0000200,oracle,2133,0,86.11528822055138,0.87882883596296,0.0,0,0.0,0,0,False,0.0,0,0.006604247461358912,False,True
+uav0000204_00000_s,uav0000204,raw,2132,0,53.92172069696499,0.546480684321322,0.248642779587405,1,0.249728555917481,0,0,False,0.0,0,0.2251492766968414,True,False
+uav0000204_00000_s,uav0000204,adapted,2132,0,55.53487410164934,0.5632205901079633,0.249728555917481,1,0.249728555917481,0,0,False,0.0035699807959554287,0,0.2105302173478167,True,False
+uav0000204_00000_s,uav0000204,mm,2132,0,75.18225531254848,0.7655225585237576,0.0,0,0.0,0,0,False,0.007825751334276616,0,0.0,False,False
+uav0000204_00000_s,uav0000204,oracle,2132,0,55.83475518328939,0.566396350970173,0.248642779587405,1,0.249728555917481,0,0,False,0.0,0,0.20910211163823889,True,True
+uav0000204_00000_s,uav0000204,raw,2133,0,53.92172069696499,0.546480684321322,0.248642779587405,1,0.249728555917481,0,0,False,0.0,0,0.22240419250169172,True,False
+uav0000204_00000_s,uav0000204,adapted,2133,0,55.56589628250867,0.5633469390698781,0.248642779587405,1,0.249728555917481,0,0,False,0.0029144107779759095,0,0.20907289689763683,True,False
+uav0000204_00000_s,uav0000204,mm,2133,0,75.06850731606431,0.7635528187357368,0.0,0,0.0,0,0,False,0.007117138403452209,0,0.0,False,False
+uav0000204_00000_s,uav0000204,oracle,2133,0,55.783051548523865,0.5656327520040376,0.248642779587405,1,0.249728555917481,0,0,False,0.0,0,0.20783742247107995,True,True
+uav0000205_00000_s,uav0000205,raw,2132,0,71.52988855116514,0.7255178469294635,0.0,0,0.0,0,0,False,0.0,0,0.031037681424786745,False,False
+uav0000205_00000_s,uav0000205,adapted,2132,0,74.50455927051671,0.7579654372622155,0.0,0,0.0,0,0,False,0.0003090317626577607,0,0.005885851048238032,False,False
+uav0000205_00000_s,uav0000205,mm,2132,0,74.28976697061803,0.7560565757535949,0.0,0,0.0,0,0,False,0.0004989526006554462,0,0.0,False,False
+uav0000205_00000_s,uav0000205,oracle,2132,0,74.5450861195542,0.7582744690248733,0.0,0,0.0,0,0,False,0.0,0,0.005674122875949026,False,True
+uav0000205_00000_s,uav0000205,raw,2133,0,71.52988855116514,0.7255178469294635,0.0,0,0.0,0,0,False,0.0,0,0.027536513709649147,False,False
+uav0000205_00000_s,uav0000205,adapted,2133,0,74.19250253292806,0.7546102965473155,0.0,0,0.0,0,0,False,0.0002977278768484195,0,0.00519577009558906,False,False
+uav0000205_00000_s,uav0000205,mm,2133,0,73.96555217831813,0.7524112914198261,0.0,0,0.0,0,0,False,0.0006430692192865093,0,0.0,False,False
+uav0000205_00000_s,uav0000205,oracle,2133,0,74.2289766970618,0.7549080244241639,0.0,0,0.0,0,0,False,0.0,0,0.004989825187399774,False,True
+uav0000226_05370_s,uav0000226,raw,2132,0,55.06144393241167,0.5535464106546122,0.0532258064516129,1,0.12258064516129032,0,0,False,0.0,0,0.021094264523160603,False,False
+uav0000226_05370_s,uav0000226,adapted,2132,0,56.3594470046083,0.566914387841415,0.054838709677419356,1,0.12258064516129032,0,0,False,0.0015077431041769405,0,0.007200507806689382,False,False
+uav0000226_05370_s,uav0000226,mm,2132,0,55.642601126472094,0.5595729445045718,0.08225806451612903,1,0.12096774193548387,0,1,False,0.003726664370758205,0,0.0,False,False
+uav0000226_05370_s,uav0000226,oracle,2132,0,56.51817716333846,0.5691293029982079,0.0521505376344086,1,0.12258064516129032,0,0,False,0.0,0,0.006776421952856257,False,True
+uav0000226_05370_s,uav0000226,raw,2133,0,55.06144393241167,0.5535464106546122,0.0532258064516129,1,0.12258064516129032,0,0,False,0.0,1,0.022426231491785017,False,False
+uav0000226_05370_s,uav0000226,adapted,2133,0,56.474654377880185,0.5680111302798446,0.053763440860215055,1,0.12150537634408602,0,0,False,0.0015187623867530737,1,0.007648960028297406,False,False
+uav0000226_05370_s,uav0000226,mm,2133,0,56.538658474142345,0.5691298992330875,0.05268817204301075,1,0.11720430107526882,0,0,False,0.0026897044377944567,0,0.0,False,False
+uav0000226_05370_s,uav0000226,oracle,2133,0,56.62826420890937,0.5701339706122583,0.05161290322580645,1,0.12150537634408602,0,0,False,0.0,1,0.0071864768820430434,False,True
+uav0000235_00001_s,uav0000235,raw,2132,1,66.99768288646143,0.6809393704869708,0.11221449851042702,1,0.11221449851042702,1,0,False,0.0,0,0.004208699174585257,False,False
+uav0000235_00001_s,uav0000235,adapted,2132,1,65.57431314134392,0.6668878831456241,0.11320754716981132,1,0.11320754716981132,1,0,False,0.017639767430089947,0,0.008646938841410155,False,False
+uav0000235_00001_s,uav0000235,mm,2132,1,65.21019529956969,0.6628135772507997,0.12015888778550149,2,0.11320754716981132,1,0,False,0.024587898498329624,0,0.0,False,False
+uav0000235_00001_s,uav0000235,oracle,2132,1,67.13481817751928,0.682548212919706,0.11221449851042702,1,0.11221449851042702,1,0,False,0.0,0,0.003157651958807114,False,True
+uav0000235_00001_s,uav0000235,raw,2133,1,66.99768288646143,0.6809393704869708,0.11221449851042702,1,0.11221449851042702,1,0,False,0.0,0,0.004032858852971147,False,False
+uav0000235_00001_s,uav0000235,adapted,2133,1,65.45136425970587,0.6651877451615417,0.11320754716981132,1,0.11320754716981132,1,0,False,0.01931373486424631,0,0.00937250657579622,False,False
+uav0000235_00001_s,uav0000235,mm,2133,1,64.93592471745401,0.6595372111124261,0.12313803376365443,2,0.11320754716981132,1,0,False,0.028090591563020007,0,0.0,False,False
+uav0000235_00001_s,uav0000235,oracle,2133,1,67.10644535867972,0.6823341989536333,0.11221449851042702,1,0.11221449851042702,1,0,False,0.0,0,0.0032327819338424705,False,True
+uav0000236_00001_s,uav0000236,raw,2132,0,75.66045548654245,0.7693625685984299,0.0,0,0.0,0,0,False,0.0,0,0.01746100373913449,False,False
+uav0000236_00001_s,uav0000236,adapted,2132,0,75.17184265010351,0.7646235426141106,0.0,0,0.0,0,0,False,0.018890562036762055,0,0.010611710807816822,False,False
+uav0000236_00001_s,uav0000236,mm,2132,0,75.2463768115942,0.765440620117412,0.0,0,0.0,0,0,False,0.021382952220152397,0,0.0,False,False
+uav0000236_00001_s,uav0000236,oracle,2132,0,77.0600414078675,0.7835141046508726,0.0,0,0.0,0,0,False,0.0,0,0.0063781569849362995,False,True
+uav0000236_00001_s,uav0000236,raw,2133,0,75.66045548654245,0.7693625685984299,0.0,0,0.0,0,0,False,0.0,0,0.016258835204788394,False,False
+uav0000236_00001_s,uav0000236,adapted,2133,0,75.16356107660455,0.764735946687128,0.0,0,0.0,0,0,False,0.01734537780159467,0,0.009832615526110347,False,False
+uav0000236_00001_s,uav0000236,mm,2133,0,75.21325051759834,0.7646129347027834,0.0,0,0.0,0,0,False,0.021008469100434923,0,0.0,False,False
+uav0000236_00001_s,uav0000236,oracle,2133,0,76.8695652173913,0.7820813244887227,0.0,0,0.0,0,0,False,0.0,0,0.006403129131144224,False,True
+uav0000237_00001_s,uav0000237,raw,2132,0,72.8380315336837,0.7420254262079874,0.08695652173913043,1,0.08695652173913043,0,0,False,0.0,1,0.03312848394291743,False,False
+uav0000237_00001_s,uav0000237,adapted,2132,0,74.02452619843925,0.7544755864442151,0.08361204013377926,1,0.08361204013377926,0,0,False,0.008832060720200647,1,0.022042539890932526,False,False
+uav0000237_00001_s,uav0000237,mm,2132,0,74.62175505653767,0.7609873100592839,0.07357859531772576,1,0.07357859531772576,0,0,False,0.01261528176657419,0,0.0,False,False
+uav0000237_00001_s,uav0000237,oracle,2132,0,74.86064659977704,0.7625697238750515,0.08361204013377926,1,0.08361204013377926,0,0,False,0.0,1,0.018460206096843592,False,True
+uav0000237_00001_s,uav0000237,raw,2133,0,72.8380315336837,0.7420254262079874,0.08695652173913043,1,0.08695652173913043,0,0,False,0.0,1,0.03137831178039065,False,False
+uav0000237_00001_s,uav0000237,adapted,2133,0,74.10415671285236,0.7545060935076464,0.08361204013377926,1,0.08528428093645485,0,0,False,0.008912095610492795,1,0.019035588281892668,False,False
+uav0000237_00001_s,uav0000237,mm,2133,0,74.55805064500717,0.7593520098360961,0.07692307692307693,1,0.07692307692307693,0,0,False,0.012497464802099692,0,0.0,False,False
+uav0000237_00001_s,uav0000237,oracle,2133,0,74.9084249084249,0.762628321112527,0.08361204013377926,1,0.08528428093645485,0,0,False,0.0,1,0.01550930158086418,False,True
+uav0000238_00001_s,uav0000238,raw,2132,0,81.3773382580722,0.829914337080466,0.0,0,0.0,0,0,False,0.0,0,0.00847435431896027,False,False
+uav0000238_00001_s,uav0000238,adapted,2132,0,80.22955637634537,0.8170735807214656,0.0,0,0.0,0,0,False,0.018935356004414493,0,0.010942571722123096,False,False
+uav0000238_00001_s,uav0000238,mm,2132,0,79.98331943286072,0.814679695192764,0.0,0,0.0,0,0,False,0.02370899620666227,0,0.0,False,False
+uav0000238_00001_s,uav0000238,oracle,2132,0,81.99690218038842,0.8360089367258802,0.0,0,0.0,0,0,False,0.0,0,0.005196474985554601,False,True
+uav0000238_00001_s,uav0000238,raw,2133,0,81.3773382580722,0.829914337080466,0.0,0,0.0,0,0,False,0.0,0,0.009076113933367843,False,False
+uav0000238_00001_s,uav0000238,adapted,2133,0,80.50359426506215,0.8198800998944806,0.0,0,0.0,0,0,False,0.01682247769769261,0,0.010273718557285396,False,False
+uav0000238_00001_s,uav0000238,mm,2133,0,80.28515826680965,0.817524624699143,0.0,0,0.0,0,0,False,0.021465826314690736,0,0.0,False,False
+uav0000238_00001_s,uav0000238,oracle,2133,0,82.07633345248024,0.8367025775921733,0.0,0,0.0,0,0,False,0.0,0,0.0052002238144622315,False,True
+uav0000239_11136_s,uav0000239,raw,2132,0,83.11507936507937,0.8487047108465108,0.0,0,0.0,0,0,False,0.0,0,0.007639947295764799,False,False
+uav0000239_11136_s,uav0000239,adapted,2132,0,82.52480158730158,0.8426053600573534,0.0,0,0.0,0,0,False,0.012561724810175246,0,0.008275217934256517,False,False
+uav0000239_11136_s,uav0000239,mm,2132,0,82.31646825396825,0.8401443054983225,0.0,0,0.0,0,0,False,0.016200352643953107,0,0.0,False,False
+uav0000239_11136_s,uav0000239,oracle,2132,0,83.71031746031747,0.8551670848675286,0.0,0,0.0,0,0,False,0.0,0,0.004194596076888032,False,True
+uav0000239_11136_s,uav0000239,raw,2133,0,83.11507936507937,0.8487047108465108,0.0,0,0.0,0,0,False,0.0,0,0.008821478360515674,False,False
+uav0000239_11136_s,uav0000239,adapted,2133,0,82.57440476190476,0.8433333392633838,0.0,0,0.0,0,0,False,0.011772101701036652,0,0.008801385247952601,False,False
+uav0000239_11136_s,uav0000239,mm,2133,0,82.50496031746032,0.8423912790779944,0.0,0,0.0,0,0,False,0.015134910129032121,0,0.0,False,False
+uav0000239_11136_s,uav0000239,oracle,2133,0,83.70535714285714,0.8551054409644206,0.0,0,0.0,0,0,False,0.0,0,0.005102983313313453,False,True
+uav0000303_01250_s,uav0000303,raw,2132,0,85.24014399859513,0.8697745493719662,0.0,0,0.0,0,0,False,0.0,0,0.010728512717976665,False,False
+uav0000303_01250_s,uav0000303,adapted,2132,0,85.6235548921474,0.8736589983135556,0.0,0,0.0,0,0,False,0.004069662749300216,0,0.007779233441504414,False,False
+uav0000303_01250_s,uav0000303,mm,2132,0,85.67916410571604,0.8749181176930283,0.0,0,0.0,0,0,False,0.005588379172066342,0,0.0,False,False
+uav0000303_01250_s,uav0000303,oracle,2132,0,85.96306377498756,0.8777283757098062,0.0,0,0.0,0,0,False,0.0,0,0.005673313889706147,False,True
+uav0000303_01250_s,uav0000303,raw,2133,0,85.24014399859513,0.8697745493719662,0.0,0,0.0,0,0,False,0.0,0,0.010888651632738968,False,False
+uav0000303_01250_s,uav0000303,adapted,2133,0,85.6089208885767,0.8737138642462109,0.0,0,0.0,0,0,False,0.004122836224912541,0,0.007659749246347864,False,False
+uav0000303_01250_s,uav0000303,mm,2133,0,85.76696812714022,0.8752827596984386,0.0,0,0.0,0,0,False,0.005374836383963928,0,0.0,False,False
+uav0000303_01250_s,uav0000303,oracle,2133,0,85.97477097784412,0.8778363824361587,0.0,0,0.0,0,0,False,0.0,0,0.005594215850988813,False,True
+uav0000304_00253_s,uav0000304,raw,2132,1,72.28709454796412,0.7337260372006176,0.0,0,0.0,0,0,False,0.0,0,0.015744349879424625,False,False
+uav0000304_00253_s,uav0000304,adapted,2132,1,72.14906832298136,0.7328812626079132,0.0,0,0.0,0,0,False,0.007178427561905747,0,0.015228226107773662,False,False
+uav0000304_00253_s,uav0000304,mm,2132,1,72.00828157349896,0.7310741954515072,0.0,0,0.0,0,0,False,0.018575598531727227,0,0.0,False,False
+uav0000304_00253_s,uav0000304,oracle,2132,1,72.85576259489302,0.739875364571173,0.0,0,0.0,0,0,False,0.0,0,0.012175750882220802,False,True
+uav0000304_00253_s,uav0000304,raw,2133,1,72.28709454796412,0.7337260372006176,0.0,0,0.0,0,0,False,0.0,0,0.017306047933889172,False,False
+uav0000304_00253_s,uav0000304,adapted,2133,1,72.12698412698413,0.732448190946239,0.0005797101449275362,0,0.0,0,0,False,0.007718322665869105,0,0.017217832195006347,False,False
+uav0000304_00253_s,uav0000304,mm,2133,1,72.44444444444444,0.7360053186920993,0.0,0,0.0,0,0,False,0.01517398451815638,0,0.0,False,False
+uav0000304_00253_s,uav0000304,oracle,2133,1,72.87232574189096,0.7399814619019055,0.0,0,0.0,0,0,False,0.0,0,0.013562157571667219,False,True
+uav0000307_04531_s,uav0000307,raw,2132,0,66.50981868373172,0.6737779286814658,0.052700922266139656,1,0.10013175230566534,0,0,False,0.0,0,0.04898130399269016,False,False
+uav0000307_04531_s,uav0000307,adapted,2132,0,67.43835874270657,0.6833055212325201,0.052700922266139656,1,0.09749670619235837,0,1,False,0.011665447149826548,0,0.021771915124615664,False,False
+uav0000307_04531_s,uav0000307,mm,2132,0,38.91712152581718,0.3917707685178166,0.47167325428194995,1,0.4756258234519104,1,1,False,0.3454245107710476,0,0.0,False,False
+uav0000307_04531_s,uav0000307,oracle,2132,0,68.67432084823389,0.6961068387134094,0.048748353096179184,1,0.09617918313570488,0,0,False,0.0,0,0.02088949689060926,False,True
+uav0000307_04531_s,uav0000307,raw,2133,0,66.50981868373172,0.6737779286814658,0.052700922266139656,1,0.10013175230566534,0,0,False,0.0,0,0.047152183815264974,False,False
+uav0000307_04531_s,uav0000307,adapted,2133,0,67.68931551540247,0.6858802972872994,0.048748353096179184,1,0.09749670619235837,0,1,False,0.010462873617380623,0,0.020496184981769753,False,False
+uav0000307_04531_s,uav0000307,mm,2133,0,41.9725202333898,0.4223819769358841,0.3926218708827404,1,0.47299077733860345,1,1,False,0.32106946151818916,0,0.0,False,False
+uav0000307_04531_s,uav0000307,oracle,2133,0,68.77470355731225,0.6970220558626777,0.04743083003952569,1,0.09617918313570488,0,0,False,0.0,0,0.019524316489476706,False,True
+uav0000308_04600_s,uav0000308,raw,2132,1,74.78260869565217,0.7598615894433952,0.0,0,0.0,0,0,False,0.0,0,0.012550195388629497,False,False
+uav0000308_04600_s,uav0000308,adapted,2132,1,74.94824016563147,0.761381185740977,0.0,0,0.0,0,0,False,0.004393262347327051,0,0.011482967906652368,False,False
+uav0000308_04600_s,uav0000308,mm,2132,1,74.75155279503105,0.7599508560499205,0.0,0,0.0,0,0,False,0.012460928782103975,0,0.0,False,False
+uav0000308_04600_s,uav0000308,oracle,2132,1,75.36231884057972,0.765774448088304,0.0,0,0.0,0,0,False,0.0,0,0.009438639156875246,False,True
+uav0000308_04600_s,uav0000308,raw,2133,1,74.78260869565217,0.7598615894433952,0.0,0,0.0,0,0,False,0.0,0,0.01124696499155152,False,False
+uav0000308_04600_s,uav0000308,adapted,2133,1,74.60662525879917,0.7593342204830843,0.0,0,0.0,0,0,False,0.006197434058439761,0,0.011446094476994625,False,False
+uav0000308_04600_s,uav0000308,mm,2133,1,74.35817805383023,0.7555551701633795,0.0,0,0.0,0,0,False,0.015553384271567014,0,0.0,False,False
+uav0000308_04600_s,uav0000308,oracle,2133,1,75.28985507246377,0.765531654541524,0.0,0,0.0,0,0,False,0.0,0,0.008586864458566212,False,True
+uav0000329_00276_s,uav0000329,raw,2132,1,73.34766682592769,0.7445241709095095,0.0,0,0.0,0,0,False,0.0,0,0.016804034806938553,False,False
+uav0000329_00276_s,uav0000329,adapted,2132,1,74.28730689600255,0.754699738157375,0.0,0,0.0,0,0,False,0.0032843248506243326,0,0.008958427741475148,False,False
+uav0000329_00276_s,uav0000329,mm,2132,1,74.32712215320912,0.7552253035729303,0.0,0,0.0,0,0,False,0.006102902143517851,0,0.0,False,False
+uav0000329_00276_s,uav0000329,oracle,2132,1,74.5819397993311,0.7579840630079994,0.0,0,0.0,0,0,False,0.0,0,0.0072962416287958,False,True
+uav0000329_00276_s,uav0000329,raw,2133,1,73.34766682592769,0.7445241709095095,0.0,0,0.0,0,0,False,0.0,0,0.020165420580907617,False,False
+uav0000329_00276_s,uav0000329,adapted,2133,1,74.48638318203535,0.756930829253579,0.0,0,0.0,0,0,False,0.003066625693223447,0,0.010665157384508024,False,False
+uav0000329_00276_s,uav0000329,mm,2133,1,74.73323777671604,0.758780904991368,0.0,0,0.0,0,0,False,0.0059086864990491655,0,0.0,False,False
+uav0000329_00276_s,uav0000329,oracle,2133,1,74.79694218824655,0.7599974549468025,0.0,0,0.0,0,0,False,0.0,0,0.009024377884907146,False,True
+uav0000331_02691_s,uav0000331,raw,2132,1,71.35549872122762,0.7272929184352707,0.10997442455242967,1,0.13810741687979539,1,0,False,0.0,0,0.009880478540986158,False,False
+uav0000331_02691_s,uav0000331,adapted,2132,1,71.20935330654,0.7253479865779832,0.10485933503836317,1,0.13810741687979539,1,0,False,0.007857039825276482,0,0.00977341633439073,False,False
+uav0000331_02691_s,uav0000331,mm,2132,1,72.02533187187919,0.7333750927291923,0.09207161125319693,1,0.14066496163682865,1,0,False,0.008617383306651539,0,0.0,False,False
+uav0000331_02691_s,uav0000331,oracle,2132,1,71.74521982706126,0.7317487187778549,0.10485933503836317,1,0.13810741687979539,1,0,False,0.0,0,0.006720362513133751,False,True
+uav0000331_02691_s,uav0000331,raw,2133,1,71.35549872122762,0.7272929184352707,0.10997442455242967,1,0.13810741687979539,1,0,False,0.0,0,0.010287370531230718,False,False
+uav0000331_02691_s,uav0000331,adapted,2133,1,71.27024722932651,0.7257215406400223,0.10485933503836317,1,0.13810741687979539,1,0,False,0.007726192866899063,0,0.00942843977840445,False,False
+uav0000331_02691_s,uav0000331,mm,2133,1,70.84398976982096,0.7214357897975918,0.1278772378516624,1,0.13810741687979539,1,0,False,0.010929094314953031,0,0.0,False,False
+uav0000331_02691_s,uav0000331,oracle,2133,1,71.79393496529046,0.7320054110410507,0.10485933503836317,1,0.13810741687979539,1,0,False,0.0,0,0.00674966290671665,False,True
+uav0000342_01518_s,uav0000342,raw,2132,1,71.32000201989598,0.7250228673831308,0.07051961823966066,1,0.07051961823966066,1,0,False,0.0,0,0.021272940951354003,False,False
+uav0000342_01518_s,uav0000342,adapted,2132,1,73.04448820885725,0.7429354467773691,0.07051961823966066,1,0.07051961823966066,1,0,False,0.0007971561541927226,0,0.005535486043375749,False,False
+uav0000342_01518_s,uav0000342,mm,2132,1,73.13285865777912,0.743696682218163,0.07051961823966066,1,0.07051961823966066,1,0,False,0.001193211990884123,0,0.0,False,False
+uav0000342_01518_s,uav0000342,oracle,2132,1,73.13033378780993,0.743722156389819,0.07051961823966066,1,0.07051961823966066,1,0,False,0.0,0,0.0050489495049061495,False,True
+uav0000342_01518_s,uav0000342,raw,2133,1,71.32000201989598,0.7250228673831308,0.07051961823966066,1,0.07051961823966066,1,0,False,0.0,0,0.02366713629967801,False,False
+uav0000342_01518_s,uav0000342,adapted,2133,1,73.25152754633136,0.7452342370990821,0.07051961823966066,1,0.07051961823966066,1,0,False,0.0007027820185618966,0,0.005511050789972475,False,False
+uav0000342_01518_s,uav0000342,mm,2133,1,72.92076958036661,0.7421059658772028,0.07104984093319194,1,0.07104984093319194,1,0,False,0.0012418841040770902,0,0.0,False,False
+uav0000342_01518_s,uav0000342,oracle,2133,1,73.32727364540726,0.7459386321485014,0.07051961823966066,1,0.07051961823966066,1,0,False,0.0,0,0.005179797745536552,False,True
+uav0000348_02415_s,uav0000348,raw,2132,0,58.71783496007098,0.5917958282707648,0.055900621118012424,2,0.06987577639751552,0,0,False,0.0,2,0.04056491448758506,False,False
+uav0000348_02415_s,uav0000348,adapted,2132,0,61.091393078970725,0.6186852548187575,0.055900621118012424,3,0.040372670807453416,0,0,False,0.0007481219955402901,1,0.0173703002192091,False,False
+uav0000348_02415_s,uav0000348,mm,2132,0,61.96391600118309,0.6270397267143247,0.04813664596273292,2,0.04192546583850932,0,0,False,0.0030761233083252647,0,0.0,False,False
+uav0000348_02415_s,uav0000348,oracle,2132,0,61.172729961549834,0.6194184739904641,0.055900621118012424,3,0.040372670807453416,0,0,False,0.0,1,0.016818207800257078,False,True
+uav0000348_02415_s,uav0000348,raw,2133,0,58.71783496007098,0.5917958282707648,0.055900621118012424,2,0.06987577639751552,0,0,False,0.0,2,0.036023059613642175,False,False
+uav0000348_02415_s,uav0000348,adapted,2133,0,60.92132505175984,0.6160107504476913,0.055900621118012424,2,0.06987577639751552,0,0,False,0.00112659584752697,2,0.015194587637008079,False,False
+uav0000348_02415_s,uav0000348,mm,2133,0,61.49068322981367,0.6222696341909179,0.04813664596273292,2,0.04192546583850932,0,0,False,0.0037738167341857644,0,0.0,False,False
+uav0000348_02415_s,uav0000348,oracle,2133,0,61.024844720496894,0.6171650595350112,0.055900621118012424,3,0.040372670807453416,0,0,False,0.0,1,0.014502445401027275,False,True
+uav0000349_02668_s,uav0000349,raw,2132,1,29.761904761904763,0.30192360533188184,0.5652173913043478,1,0.5652173913043478,0,0,False,0.0,0,0.02053714063692079,False,False
+uav0000349_02668_s,uav0000349,adapted,2132,1,29.70151828847481,0.3008978830864192,0.5652173913043478,1,0.5652173913043478,0,0,False,0.006884287628512463,0,0.02059957820500664,False,False
+uav0000349_02668_s,uav0000349,mm,2132,1,12.232574189095928,0.12395433392095684,0.8278985507246377,1,0.8278985507246377,1,1,False,0.4388468670708828,0,0.0,False,False
+uav0000349_02668_s,uav0000349,oracle,2132,1,29.977570738440303,0.3041932314563603,0.5652173913043478,1,0.5652173913043478,0,0,False,0.0,0,0.016703086731438305,False,True
+uav0000349_02668_s,uav0000349,raw,2133,1,29.761904761904763,0.30192360533188184,0.5652173913043478,1,0.5652173913043478,0,0,False,0.0,0,0.014351431543372813,False,False
+uav0000349_02668_s,uav0000349,adapted,2133,1,29.761904761904763,0.3016844826878756,0.5634057971014492,1,0.5634057971014492,0,0,False,0.007220386526172203,0,0.014538253780034384,False,False
+uav0000349_02668_s,uav0000349,mm,2133,1,12.08592132505176,0.12255315075621716,0.8242753623188406,1,0.8242753623188406,1,1,False,0.43768021983264715,0,0.0,False,False
+uav0000349_02668_s,uav0000349,oracle,2133,1,30.01207729468599,0.30481730072061197,0.5634057971014492,1,0.5634057971014492,0,0,False,0.0,0,0.009492119052918899,False,True
+
+===== stage213_complementarity.csv =====
+sequence,group,seed,frames,adapted_better_frames,raw_better_frames,tie_frames,raw_good_adapted_bad,adapted_good_raw_bad,both_below_good,both_below_failure,mm_good_both_below_good,mean_oracle_gain_over_raw,mean_oracle_gain_over_adapted,mean_mm_quality_beyond_oracle,interpretation
+uav0000003_00000_s,uav0000003,2132,144,55,33,56,0,0,0,0,0,0.014239767931658077,0.009360299574067215,0.009389982865853425,Oracle label audit only; no deployable action or new inference
+uav0000003_00000_s,uav0000003,2133,144,54,34,56,0,0,0,0,0,0.013831894160028722,0.009246167198262595,0.007223965196610048,Oracle label audit only; no deployable action or new inference
+uav0000016_00000_s,uav0000016,2132,638,239,337,62,0,0,35,33,18,0.012471202527413247,0.013853519577238897,0.03385031588983388,Oracle label audit only; no deployable action or new inference
+uav0000016_00000_s,uav0000016,2133,638,241,313,84,0,0,35,33,19,0.012693414239706447,0.013183758361655798,0.035667276393483355,Oracle label audit only; no deployable action or new inference
+uav0000070_01344_s,uav0000070,2132,192,52,139,1,1,0,23,0,0,0.003532780136262443,0.00827112906965858,0.0034716905878040562,Oracle label audit only; no deployable action or new inference
+uav0000070_01344_s,uav0000070,2133,192,76,114,2,1,0,23,0,0,0.005325134422910505,0.005727020282662532,0.003978576269881049,Oracle label audit only; no deployable action or new inference
+uav0000076_00241_s,uav0000076,2132,1559,617,116,826,0,0,857,828,0,0.0038453240013070567,0.0005261076179251783,0.0027866617338548096,Oracle label audit only; no deployable action or new inference
+uav0000076_00241_s,uav0000076,2133,1559,614,119,826,0,0,857,828,1,0.004023493842500528,0.0006305065800654432,0.0029621947890906596,Oracle label audit only; no deployable action or new inference
+uav0000080_01680_s,uav0000080,2132,1200,741,230,229,2,14,79,1,7,0.013276226426732863,0.0038768336325849676,0.010125545533943531,Oracle label audit only; no deployable action or new inference
+uav0000080_01680_s,uav0000080,2133,1200,804,237,159,4,16,77,1,3,0.015084922231025132,0.004334058094696523,0.009521705116085022,Oracle label audit only; no deployable action or new inference
+uav0000085_00000_s,uav0000085,2132,1644,1135,485,24,2,10,135,25,47,0.017387285393418616,0.005106923451107959,0.02334172227146191,Oracle label audit only; no deployable action or new inference
+uav0000085_00000_s,uav0000085,2133,1644,1167,397,80,1,10,135,24,46,0.016692457468257732,0.00371268121265837,0.02294494404556431,Oracle label audit only; no deployable action or new inference
+uav0000089_00920_s,uav0000089,2132,1380,537,174,669,11,34,89,23,26,0.01819296433860037,0.006201926474261173,0.015058213765822257,Oracle label audit only; no deployable action or new inference
+uav0000089_00920_s,uav0000089,2133,1380,583,173,624,12,39,84,23,21,0.019553670264389547,0.006149377722296218,0.012436412449715113,Oracle label audit only; no deployable action or new inference
+uav0000090_01104_s,uav0000090,2132,736,137,151,448,0,0,0,0,0,0.015155355538840242,0.011120107555152125,0.022822669722316207,Oracle label audit only; no deployable action or new inference
+uav0000090_01104_s,uav0000090,2133,736,139,165,432,0,0,0,0,0,0.015350411511454679,0.012155224253130753,0.02074650541648619,Oracle label audit only; no deployable action or new inference
+uav0000091_00460_s,uav0000091,2132,230,16,16,198,0,0,140,139,0,0.004916745588650268,0.0037752055184443038,0.008533915548585116,Oracle label audit only; no deployable action or new inference
+uav0000091_00460_s,uav0000091,2133,230,16,19,195,0,0,140,139,0,0.004647524533335633,0.004314698097041149,0.006639477067328935,Oracle label audit only; no deployable action or new inference
+uav0000107_01763_s,uav0000107,2132,304,68,106,130,0,3,155,139,0,0.0050621082637657576,0.004266323524210888,0.002148934557110108,Oracle label audit only; no deployable action or new inference
+uav0000107_01763_s,uav0000107,2133,304,67,107,130,0,3,155,139,0,0.0049944194503629665,0.004454904523522876,0.0024232459260095985,Oracle label audit only; no deployable action or new inference
+uav0000126_07915_s,uav0000126,2132,629,454,174,1,0,0,0,0,0,0.0071808856502609585,0.0021741522844184115,0.0074087710694075316,Oracle label audit only; no deployable action or new inference
+uav0000126_07915_s,uav0000126,2133,629,450,179,0,0,0,0,0,0,0.007841493991059182,0.0021812588914669226,0.00626940352728177,Oracle label audit only; no deployable action or new inference
+uav0000147_00000_s,uav0000147,2132,2220,836,239,1145,0,6,1105,953,14,0.008536796082862794,0.002064118587203257,0.004982480936402201,Oracle label audit only; no deployable action or new inference
+uav0000147_00000_s,uav0000147,2133,2220,890,240,1090,0,9,1102,953,12,0.009631651898970873,0.0022912696081538006,0.004775008934770765,Oracle label audit only; no deployable action or new inference
+uav0000148_00840_s,uav0000148,2132,806,507,271,28,2,0,29,0,1,0.016754288073894785,0.011023770723179852,0.007036100004989587,Oracle label audit only; no deployable action or new inference
+uav0000148_00840_s,uav0000148,2133,806,490,267,49,2,0,29,0,1,0.016503375771930957,0.011057758288906271,0.007185743950725579,Oracle label audit only; no deployable action or new inference
+uav0000149_00317_s,uav0000149,2132,2340,1937,403,0,0,54,66,0,9,0.017666196170067566,0.00165654650085008,0.004198533643926272,Oracle label audit only; no deployable action or new inference
+uav0000149_00317_s,uav0000149,2133,2340,1926,414,0,0,54,66,0,3,0.01751946805345132,0.001618534369584731,0.004265805464966071,Oracle label audit only; no deployable action or new inference
+uav0000169_00000_s,uav0000169,2132,1112,608,114,390,5,18,70,2,1,0.017829531233566964,0.002444541431680088,0.004322048890623552,Oracle label audit only; no deployable action or new inference
+uav0000169_00000_s,uav0000169,2133,1112,642,110,360,5,20,68,3,5,0.0190706902587044,0.0023376778910946918,0.008326442237809328,Oracle label audit only; no deployable action or new inference
+uav0000170_00000_s,uav0000170,2132,1410,960,185,265,0,2,5,0,2,0.020728218249482157,0.002919796593820731,0.00801954336089696,Oracle label audit only; no deployable action or new inference
+uav0000170_00000_s,uav0000170,2133,1410,1027,161,222,0,2,5,0,3,0.022810287416413322,0.0026848808152144265,0.009120342314738185,Oracle label audit only; no deployable action or new inference
+uav0000173_00781_s,uav0000173,2132,1909,450,80,1379,1,0,1407,1382,0,0.004827761816265569,0.00038013707464536,0.0017898662911969095,Oracle label audit only; no deployable action or new inference
+uav0000173_00781_s,uav0000173,2133,1909,450,84,1375,1,0,1407,1382,1,0.005064888594123173,0.0004179933011923093,0.0013411365235903516,Oracle label audit only; no deployable action or new inference
+uav0000174_00000_s,uav0000174,2132,2175,1353,572,250,0,1,2,0,1,0.021806780609380468,0.007218188187850243,0.00947446413057927,Oracle label audit only; no deployable action or new inference
+uav0000174_00000_s,uav0000174,2133,2175,1276,526,373,0,1,2,0,1,0.019432784005117713,0.0059869047159511034,0.008693986032225284,Oracle label audit only; no deployable action or new inference
+uav0000176_00000_s,uav0000176,2132,775,64,102,609,2,0,619,615,377,0.002162560542814188,0.004531614016923875,0.4236160619583073,Oracle label audit only; no deployable action or new inference
+uav0000176_00000_s,uav0000176,2133,775,61,105,609,2,0,619,615,400,0.0023050037454675643,0.0047398238299197724,0.44136775582475246,Oracle label audit only; no deployable action or new inference
+uav0000199_00000_s,uav0000199,2132,1607,1124,45,438,2,4,34,1,2,0.017844588827687014,0.000500388005096467,0.005165333900529403,Oracle label audit only; no deployable action or new inference
+uav0000199_00000_s,uav0000199,2133,1607,1161,50,396,2,4,34,1,2,0.01880198192365969,0.0005605410232014702,0.0055764660270317505,Oracle label audit only; no deployable action or new inference
+uav0000200_00000_s,uav0000200,2132,570,519,51,0,0,0,0,0,0,0.02276792171732511,0.0005886403145104351,0.006951484489935807,Oracle label audit only; no deployable action or new inference
+uav0000200_00000_s,uav0000200,2133,570,516,54,0,0,0,0,0,0,0.021897673902419243,0.0006813236556463512,0.006604247461358912,Oracle label audit only; no deployable action or new inference
+uav0000204_00000_s,uav0000204,2132,921,606,119,196,0,1,230,229,230,0.019915666648850996,0.003175760862209598,0.20887507351485315,Oracle label audit only; no deployable action or new inference
+uav0000204_00000_s,uav0000204,2133,921,611,110,200,0,1,230,229,230,0.019152067682715646,0.0022858129341595686,0.20783742247107995,Oracle label audit only; no deployable action or new inference
+uav0000205_00000_s,uav0000205,2132,1175,1090,28,57,0,0,0,0,0,0.03275662209540973,0.0003090317626577607,0.005674122875949026,Oracle label audit only; no deployable action or new inference
+uav0000205_00000_s,uav0000205,2133,1175,1043,23,109,0,0,0,0,0,0.029390177494700357,0.0002977278768484195,0.004989825187399774,Oracle label audit only; no deployable action or new inference
+uav0000226_05370_s,uav0000226,2132,1860,1417,336,107,1,95,650,97,40,0.01558289234359568,0.002214915156792797,0.006776152061992051,Oracle label audit only; no deployable action or new inference
+uav0000226_05370_s,uav0000226,2133,1860,1442,326,92,1,98,647,96,33,0.0165875599576462,0.002122840332413729,0.0070572901135505135,Oracle label audit only; no deployable action or new inference
+uav0000235_00001_s,uav0000235,2132,1007,114,776,117,1,0,113,113,0,0.0016088424327351815,0.01566032977408184,0.0027782320114231405,Oracle label audit only; no deployable action or new inference
+uav0000235_00001_s,uav0000235,2133,1007,96,797,114,1,0,113,113,0,0.0013948284666625197,0.017146453792091558,0.002834703522922444,Oracle label audit only; no deployable action or new inference
+uav0000236_00001_s,uav0000236,2132,575,252,323,0,0,0,0,0,0,0.014151536052442628,0.018890562036762055,0.0063781569849362995,Oracle label audit only; no deployable action or new inference
+uav0000236_00001_s,uav0000236,2133,575,261,314,0,0,0,0,0,0,0.01271875589029279,0.01734537780159467,0.006403129131144224,Oracle label audit only; no deployable action or new inference
+uav0000237_00001_s,uav0000237,2132,598,334,197,67,0,1,52,50,7,0.020544297667064088,0.008094137430836297,0.0170093203333793,Oracle label audit only; no deployable action or new inference
+uav0000237_00001_s,uav0000237,2133,598,331,197,70,0,3,50,50,5,0.02060289490453963,0.008122227604880558,0.014290343095411643,Oracle label audit only; no deployable action or new inference
+uav0000238_00001_s,uav0000238,2132,1199,352,845,2,0,0,0,0,0,0.006094599645414141,0.018935356004414493,0.005196474985554601,Oracle label audit only; no deployable action or new inference
+uav0000238_00001_s,uav0000238,2133,1199,381,814,4,0,0,0,0,0,0.006788240511707314,0.01682247769769261,0.0052002238144622315,Oracle label audit only; no deployable action or new inference
+uav0000239_11136_s,uav0000239,2132,960,325,622,13,0,0,0,0,0,0.006462374021017822,0.012561724810175246,0.004194596076888032,Oracle label audit only; no deployable action or new inference
+uav0000239_11136_s,uav0000239,2133,960,337,592,31,0,0,0,0,0,0.006400730117909812,0.011772101701036652,0.005102983313313453,Oracle label audit only; no deployable action or new inference
+uav0000303_01250_s,uav0000303,2132,1627,928,501,198,0,0,1,0,1,0.00795382633784005,0.004069377396250655,0.005673313889706147,Oracle label audit only; no deployable action or new inference
+uav0000303_01250_s,uav0000303,2133,1627,944,508,175,0,0,1,0,0,0.008061833064192695,0.004122518189948036,0.005590777488449791,Oracle label audit only; no deployable action or new inference
+uav0000304_00253_s,uav0000304,2132,1725,418,547,760,1,2,59,0,3,0.006149327370555552,0.006994101963259854,0.011832250202821375,Oracle label audit only; no deployable action or new inference
+uav0000304_00253_s,uav0000304,2133,1725,407,560,758,2,2,59,0,5,0.0062554247012880345,0.007533270955666358,0.013197932990048917,Oracle label audit only; no deployable action or new inference
+uav0000307_04531_s,uav0000307,2132,759,449,310,0,2,3,124,37,3,0.022328910031943424,0.012801317480889241,0.00963424365381919,Oracle label audit only; no deployable action or new inference
+uav0000307_04531_s,uav0000307,2133,759,466,293,0,2,3,124,36,1,0.02324412718121189,0.011141758575378411,0.01219627220628537,Oracle label audit only; no deployable action or new inference
+uav0000308_04600_s,uav0000308,2132,460,159,130,171,0,0,0,0,0,0.005912858644908923,0.004393262347327051,0.009438639156875246,Oracle label audit only; no deployable action or new inference
+uav0000308_04600_s,uav0000308,2133,460,151,181,128,0,0,0,0,0,0.005670065098129002,0.006197434058439761,0.008586864458566212,Oracle label audit only; no deployable action or new inference
+uav0000329_00276_s,uav0000329,2132,598,279,78,241,0,0,0,0,0,0.013459892098489747,0.0032843248506243326,0.0072962416287958,Oracle label audit only; no deployable action or new inference
+uav0000329_00276_s,uav0000329,2133,598,321,75,202,0,0,0,0,0,0.015473284037292931,0.003066625693223447,0.009024377884907146,Oracle label audit only; no deployable action or new inference
+uav0000331_02691_s,uav0000331,2132,391,167,158,66,2,0,80,41,2,0.004455800342584286,0.006400732199871576,0.010629815682038182,Oracle label audit only; no deployable action or new inference
+uav0000331_02691_s,uav0000331,2133,391,173,171,47,2,0,80,41,2,0.004712492605780173,0.006283870401028478,0.006104973201096316,Oracle label audit only; no deployable action or new inference
+uav0000342_01518_s,uav0000342,2132,1886,1547,147,192,0,0,151,133,1,0.01869928900668811,0.0007867096124498524,0.005093096879667769,Oracle label audit only; no deployable action or new inference
+uav0000342_01518_s,uav0000342,2133,1886,1627,141,118,0,0,151,133,0,0.020915764765370597,0.0007043950494193363,0.00490566891336244,Oracle label audit only; no deployable action or new inference
+uav0000348_02415_s,uav0000348,2132,644,545,43,56,1,27,83,36,9,0.027622645719699367,0.0007332191717067332,0.01649339895104369,Oracle label audit only; no deployable action or new inference
+uav0000348_02415_s,uav0000348,2133,644,529,49,66,1,26,84,36,7,0.02536923126424643,0.0011543090873199144,0.014541122936631344,Oracle label audit only; no deployable action or new inference
+uav0000349_02668_s,uav0000349,2132,552,33,62,457,0,0,323,312,0,0.0022696261244784357,0.0032953483699411355,0.004215340629026334,Oracle label audit only; no deployable action or new inference
+uav0000349_02668_s,uav0000349,2133,552,39,60,453,0,0,323,311,0,0.002893695388730119,0.003132818032736459,0.0020010286441507477,Oracle label audit only; no deployable action or new inference
+
+===== stage213_recovery_events.csv =====
+sequence,group,seed,reference,event,onset,recovery,censor,raw_three_good,adapted_three_good,mm_three_good,oracle_three_good,both_candidates_bad_frames,reference_recovery_unavailable
+uav0000016_00000_s,uav0000016,2132,raw,0,605,,video_end,,,,,,
+uav0000016_00000_s,uav0000016,2133,raw,0,605,,video_end,,,,,,
+uav0000076_00241_s,uav0000076,2132,raw,0,639,1473,none,True,True,False,True,0,False
+uav0000076_00241_s,uav0000076,2132,mm,0,639,1474,none,True,True,True,True,0,False
+uav0000076_00241_s,uav0000076,2133,raw,0,639,1473,none,True,True,False,True,0,False
+uav0000076_00241_s,uav0000076,2133,mm,0,639,,video_end,,,,,,
+uav0000085_00000_s,uav0000085,2132,raw,0,204,223,none,True,True,True,True,0,False
+uav0000085_00000_s,uav0000085,2132,raw,1,684,692,none,True,True,True,True,0,False
+uav0000085_00000_s,uav0000085,2132,raw,2,1541,1546,none,True,True,True,True,0,False
+uav0000085_00000_s,uav0000085,2132,mm,0,686,692,none,True,True,True,True,0,False
+uav0000085_00000_s,uav0000085,2132,mm,1,1082,1099,none,True,True,True,True,0,False
+uav0000085_00000_s,uav0000085,2132,mm,2,1114,1117,none,False,False,True,False,2,True
+uav0000085_00000_s,uav0000085,2132,mm,3,1253,1260,none,True,True,True,True,0,False
+uav0000085_00000_s,uav0000085,2132,mm,4,1537,1544,none,False,False,True,False,2,True
+uav0000085_00000_s,uav0000085,2133,raw,0,204,223,none,True,True,True,True,0,False
+uav0000085_00000_s,uav0000085,2133,raw,1,684,692,none,True,True,True,True,0,False
+uav0000085_00000_s,uav0000085,2133,raw,2,1541,1546,none,True,True,True,True,0,False
+uav0000085_00000_s,uav0000085,2133,mm,0,684,692,none,True,True,True,True,0,False
+uav0000085_00000_s,uav0000085,2133,mm,1,1077,1080,none,True,True,True,True,0,False
+uav0000085_00000_s,uav0000085,2133,mm,2,1113,1116,none,False,False,True,False,1,True
+uav0000085_00000_s,uav0000085,2133,mm,3,1253,1260,none,True,True,True,True,0,False
+uav0000089_00920_s,uav0000089,2132,raw,0,1159,1182,none,True,False,True,True,0,False
+uav0000089_00920_s,uav0000089,2132,mm,0,1144,1182,none,True,False,True,True,0,False
+uav0000089_00920_s,uav0000089,2133,raw,0,1159,1182,none,True,False,False,True,0,False
+uav0000089_00920_s,uav0000089,2133,mm,0,1156,,video_end,,,,,,
+uav0000091_00460_s,uav0000091,2132,raw,0,92,,video_end,,,,,,
+uav0000091_00460_s,uav0000091,2132,mm,0,91,,video_end,,,,,,
+uav0000091_00460_s,uav0000091,2133,raw,0,92,,video_end,,,,,,
+uav0000091_00460_s,uav0000091,2133,mm,0,91,,video_end,,,,,,
+uav0000107_01763_s,uav0000107,2132,raw,0,161,,video_end,,,,,,
+uav0000107_01763_s,uav0000107,2132,mm,0,164,,video_end,,,,,,
+uav0000107_01763_s,uav0000107,2133,raw,0,161,,video_end,,,,,,
+uav0000107_01763_s,uav0000107,2133,mm,0,163,,video_end,,,,,,
+uav0000147_00000_s,uav0000147,2132,raw,0,1269,,video_end,,,,,,
+uav0000147_00000_s,uav0000147,2132,mm,0,1263,,video_end,,,,,,
+uav0000147_00000_s,uav0000147,2133,raw,0,1269,,video_end,,,,,,
+uav0000147_00000_s,uav0000147,2133,mm,0,1111,1116,none,True,True,True,True,0,False
+uav0000147_00000_s,uav0000147,2133,mm,1,1268,,video_end,,,,,,
+uav0000169_00000_s,uav0000169,2132,raw,0,881,897,none,True,True,False,True,0,False
+uav0000169_00000_s,uav0000169,2132,mm,0,653,,video_end,,,,,,
+uav0000169_00000_s,uav0000169,2133,raw,0,881,897,none,True,True,True,True,0,False
+uav0000169_00000_s,uav0000169,2133,mm,0,881,896,none,False,True,True,True,0,False
+uav0000173_00781_s,uav0000173,2132,raw,0,502,,video_end,,,,,,
+uav0000173_00781_s,uav0000173,2132,mm,0,502,,video_end,,,,,,
+uav0000173_00781_s,uav0000173,2133,raw,0,502,,video_end,,,,,,
+uav0000173_00781_s,uav0000173,2133,mm,0,502,,video_end,,,,,,
+uav0000176_00000_s,uav0000176,2132,raw,0,162,,video_end,,,,,,
+uav0000176_00000_s,uav0000176,2132,mm,0,157,240,none,False,False,True,False,3,True
+uav0000176_00000_s,uav0000176,2132,mm,1,676,,video_end,,,,,,
+uav0000176_00000_s,uav0000176,2133,raw,0,162,,video_end,,,,,,
+uav0000176_00000_s,uav0000176,2133,mm,0,159,240,none,False,False,True,False,3,True
+uav0000176_00000_s,uav0000176,2133,mm,1,407,412,none,False,False,True,False,3,True
+uav0000176_00000_s,uav0000176,2133,mm,2,690,755,none,False,False,True,False,3,True
+uav0000204_00000_s,uav0000204,2132,raw,0,664,894,none,True,True,True,True,0,False
+uav0000204_00000_s,uav0000204,2133,raw,0,664,894,none,True,True,True,True,0,False
+uav0000226_05370_s,uav0000226,2132,raw,0,110,338,none,True,True,False,True,0,False
+uav0000226_05370_s,uav0000226,2132,mm,0,114,339,none,True,True,True,True,0,False
+uav0000226_05370_s,uav0000226,2133,raw,0,110,338,none,True,True,True,True,0,False
+uav0000226_05370_s,uav0000226,2133,mm,0,119,337,none,False,False,True,False,1,True
+uav0000235_00001_s,uav0000235,2132,raw,0,895,,video_end,,,,,,
+uav0000235_00001_s,uav0000235,2132,mm,0,702,709,none,True,True,True,True,0,False
+uav0000235_00001_s,uav0000235,2132,mm,1,894,,video_end,,,,,,
+uav0000235_00001_s,uav0000235,2133,raw,0,895,,video_end,,,,,,
+uav0000235_00001_s,uav0000235,2133,mm,0,702,712,none,True,True,True,True,0,False
+uav0000235_00001_s,uav0000235,2133,mm,1,894,,video_end,,,,,,
+uav0000237_00001_s,uav0000237,2132,raw,0,242,294,none,True,True,True,True,0,False
+uav0000237_00001_s,uav0000237,2132,mm,0,242,286,none,False,False,True,False,3,True
+uav0000237_00001_s,uav0000237,2133,raw,0,242,294,none,True,True,True,True,0,False
+uav0000237_00001_s,uav0000237,2133,mm,0,241,287,none,False,False,True,False,3,True
+uav0000307_04531_s,uav0000307,2132,raw,0,398,474,none,True,False,False,True,0,False
+uav0000307_04531_s,uav0000307,2132,mm,0,399,,video_end,,,,,,
+uav0000307_04531_s,uav0000307,2133,raw,0,398,474,none,True,False,False,True,0,False
+uav0000307_04531_s,uav0000307,2133,mm,0,401,,video_end,,,,,,
+uav0000331_02691_s,uav0000331,2132,raw,0,338,,video_end,,,,,,
+uav0000331_02691_s,uav0000331,2132,mm,0,337,,video_end,,,,,,
+uav0000331_02691_s,uav0000331,2133,raw,0,338,,video_end,,,,,,
+uav0000331_02691_s,uav0000331,2133,mm,0,338,,video_end,,,,,,
+uav0000342_01518_s,uav0000342,2132,raw,0,1754,,video_end,,,,,,
+uav0000342_01518_s,uav0000342,2132,mm,0,1754,,video_end,,,,,,
+uav0000342_01518_s,uav0000342,2133,raw,0,1754,,video_end,,,,,,
+uav0000342_01518_s,uav0000342,2133,mm,0,1753,,video_end,,,,,,
+uav0000348_02415_s,uav0000348,2132,raw,0,367,383,none,True,True,True,True,0,False
+uav0000348_02415_s,uav0000348,2132,raw,1,538,583,none,True,True,True,True,0,False
+uav0000348_02415_s,uav0000348,2132,mm,0,366,382,none,False,False,True,False,1,True
+uav0000348_02415_s,uav0000348,2132,mm,1,537,564,none,False,True,True,True,0,False
+uav0000348_02415_s,uav0000348,2133,raw,0,367,383,none,True,True,True,True,0,False
+uav0000348_02415_s,uav0000348,2133,raw,1,538,583,none,True,True,True,True,0,False
+uav0000348_02415_s,uav0000348,2133,mm,0,366,382,none,False,False,True,False,1,True
+uav0000348_02415_s,uav0000348,2133,mm,1,537,564,none,False,False,True,True,0,False
+uav0000349_02668_s,uav0000349,2132,raw,0,96,408,none,True,True,False,True,0,False
+uav0000349_02668_s,uav0000349,2132,mm,0,96,,video_end,,,,,,
+uav0000349_02668_s,uav0000349,2133,raw,0,96,408,none,True,True,False,True,0,False
+uav0000349_02668_s,uav0000349,2133,mm,0,98,,video_end,,,,,,
+
+===== stage213_source_replay.csv =====
+sequence,seed,raw_exact_native,mm_exact_single,nn_state_unchanged,oracle_exact_framewise_max,maximum_published_metric_error,raw_auc,adapted_auc,mm_auc
+uav0000003_00000_s,2132,True,True,True,True,0.0,79.2989417989418,79.82804232804233,79.59656084656085
+uav0000003_00000_s,2133,True,True,True,True,0.0,79.2989417989418,79.79497354497354,79.46428571428571
+uav0000016_00000_s,2132,True,True,True,True,0.0,80.35527690700106,80.19107329452157,82.72130168681893
+uav0000016_00000_s,2133,True,True,True,True,0.0,80.35527690700106,80.31049410359755,83.08702791461413
+uav0000070_01344_s,2132,True,True,True,True,0.0,68.10515873015873,67.65873015873017,67.11309523809523
+uav0000070_01344_s,2133,True,True,True,True,0.0,68.10515873015873,68.03075396825396,67.65873015873017
+uav0000076_00241_s,2132,True,True,True,True,0.0,39.98289501817404,40.270014355966886,40.14172699227221
+uav0000076_00241_s,2133,True,True,True,True,0.0,39.98289501817404,40.282232200128284,35.47451052261829
+uav0000080_01680_s,2132,True,True,True,True,0.0,66.65476190476191,67.64682539682539,67.6984126984127
+uav0000080_01680_s,2133,True,True,True,True,0.0,66.65476190476191,67.80952380952381,67.66666666666666
+uav0000085_00000_s,2132,True,True,True,True,0.0,69.68196037539103,70.8318850654617,69.67037423241803
+uav0000085_00000_s,2133,True,True,True,True,0.0,69.68196037539103,70.90429845904298,70.52195574093383
+uav0000089_00920_s,2132,True,True,True,True,0.0,63.14699792960663,64.30296756383713,64.09592822636301
+uav0000089_00920_s,2133,True,True,True,True,0.0,63.14699792960663,64.44099378881988,54.94133885438234
+uav0000090_01104_s,2132,True,True,True,True,0.0,76.4751552795031,76.86335403726709,77.17391304347827
+uav0000090_01104_s,2133,True,True,True,True,0.0,76.4751552795031,76.77277432712215,76.71454451345755
+uav0000091_00460_s,2132,True,True,True,True,0.0,29.77225672877847,29.93788819875776,29.93788819875776
+uav0000091_00460_s,2133,True,True,True,True,0.0,29.77225672877847,29.855072463768117,29.461697722567287
+uav0000107_01763_s,2132,True,True,True,True,0.0,40.57017543859649,40.664160401002505,40.33521303258145
+uav0000107_01763_s,2133,True,True,True,True,0.0,40.57017543859649,40.664160401002505,40.366541353383454
+uav0000126_07915_s,2132,True,True,True,True,0.0,88.00060564766447,88.36399424634719,88.54568854568855
+uav0000126_07915_s,2133,True,True,True,True,0.0,88.00060564766447,88.4245590127943,88.46998258762964
+uav0000147_00000_s,2132,True,True,True,True,0.0,37.674817674817675,38.22179322179322,38.3998283998284
+uav0000147_00000_s,2133,True,True,True,True,0.0,37.674817674817675,38.333333333333336,38.440583440583445
+uav0000148_00840_s,2132,True,True,True,True,0.0,73.08283114734728,73.74453503485762,73.44913151364764
+uav0000148_00840_s,2133,True,True,True,True,0.0,73.08283114734728,73.70317854188822,73.24234904880066
+uav0000149_00317_s,2132,True,True,True,True,0.0,73.37199837199837,74.9063899063899,74.85551485551485
+uav0000149_00317_s,2133,True,True,True,True,0.0,73.37199837199837,74.93080993080993,74.84533984533984
+uav0000169_00000_s,2132,True,True,True,True,0.0,62.06320657759507,63.45495032545392,36.33521754025351
+uav0000169_00000_s,2133,True,True,True,True,0.0,62.06320657759507,63.61767728674204,63.68619390202124
+uav0000170_00000_s,2132,True,True,True,True,0.0,75.05572441742655,76.80513340087808,76.94022289766971
+uav0000170_00000_s,2133,True,True,True,True,0.0,75.05572441742655,76.99425869638635,77.25768321513003
+uav0000173_00781_s,2132,True,True,True,True,0.0,21.9336975230113,22.427598593130284,22.37770959614857
+uav0000173_00781_s,2133,True,True,True,True,0.0,21.9336975230113,22.445059742073887,22.34777619795954
+uav0000174_00000_s,2132,True,True,True,True,0.0,71.13081554460865,72.54734537493158,72.75095785440612
+uav0000174_00000_s,2133,True,True,True,True,0.0,71.13081554460865,72.45101258894363,72.47071702244115
+uav0000176_00000_s,2132,True,True,True,True,0.0,16.098310291858677,15.846390168970814,57.51766513056835
+uav0000176_00000_s,2133,True,True,True,True,0.0,16.098310291858677,15.846390168970814,58.9431643625192
+uav0000199_00000_s,2132,True,True,True,True,0.0,67.78676623107239,69.44320976679408,69.44320976679408
+uav0000199_00000_s,2133,True,True,True,True,0.0,67.78676623107239,69.52025365217649,69.5498859157851
+uav0000200_00000_s,2132,True,True,True,True,0.0,83.83458646616542,86.09857978279031,86.29072681704261
+uav0000200_00000_s,2133,True,True,True,True,0.0,83.83458646616542,86.04010025062657,86.1654135338346
+uav0000204_00000_s,2132,True,True,True,True,0.0,53.92172069696499,55.53487410164934,75.18225531254848
+uav0000204_00000_s,2133,True,True,True,True,0.0,53.92172069696499,55.56589628250867,75.06850731606431
+uav0000205_00000_s,2132,True,True,True,True,0.0,71.52988855116514,74.50455927051671,74.28976697061803
+uav0000205_00000_s,2133,True,True,True,True,0.0,71.52988855116514,74.19250253292806,73.96555217831813
+uav0000226_05370_s,2132,True,True,True,True,0.0,55.06144393241167,56.3594470046083,55.642601126472094
+uav0000226_05370_s,2133,True,True,True,True,0.0,55.06144393241167,56.474654377880185,56.538658474142345
+uav0000235_00001_s,2132,True,True,True,True,0.0,66.99768288646143,65.57431314134392,65.21019529956969
+uav0000235_00001_s,2133,True,True,True,True,0.0,66.99768288646143,65.45136425970587,64.93592471745401
+uav0000236_00001_s,2132,True,True,True,True,0.0,75.66045548654245,75.17184265010351,75.2463768115942
+uav0000236_00001_s,2133,True,True,True,True,0.0,75.66045548654245,75.16356107660455,75.21325051759834
+uav0000237_00001_s,2132,True,True,True,True,0.0,72.8380315336837,74.02452619843925,74.62175505653767
+uav0000237_00001_s,2133,True,True,True,True,0.0,72.8380315336837,74.10415671285236,74.55805064500717
+uav0000238_00001_s,2132,True,True,True,True,0.0,81.3773382580722,80.22955637634537,79.98331943286072
+uav0000238_00001_s,2133,True,True,True,True,0.0,81.3773382580722,80.50359426506215,80.28515826680965
+uav0000239_11136_s,2132,True,True,True,True,0.0,83.11507936507937,82.52480158730158,82.31646825396825
+uav0000239_11136_s,2133,True,True,True,True,0.0,83.11507936507937,82.57440476190476,82.50496031746032
+uav0000303_01250_s,2132,True,True,True,True,0.0,85.24014399859513,85.6235548921474,85.67916410571604
+uav0000303_01250_s,2133,True,True,True,True,0.0,85.24014399859513,85.6089208885767,85.76696812714022
+uav0000304_00253_s,2132,True,True,True,True,0.0,72.28709454796412,72.14906832298136,72.00828157349896
+uav0000304_00253_s,2133,True,True,True,True,0.0,72.28709454796412,72.12698412698413,72.44444444444444
+uav0000307_04531_s,2132,True,True,True,True,0.0,66.50981868373172,67.43835874270657,38.91712152581718
+uav0000307_04531_s,2133,True,True,True,True,0.0,66.50981868373172,67.68931551540247,41.9725202333898
+uav0000308_04600_s,2132,True,True,True,True,0.0,74.78260869565217,74.94824016563147,74.75155279503105
+uav0000308_04600_s,2133,True,True,True,True,0.0,74.78260869565217,74.60662525879917,74.35817805383023
+uav0000329_00276_s,2132,True,True,True,True,0.0,73.34766682592769,74.28730689600255,74.32712215320912
+uav0000329_00276_s,2133,True,True,True,True,0.0,73.34766682592769,74.48638318203535,74.73323777671604
+uav0000331_02691_s,2132,True,True,True,True,0.0,71.35549872122762,71.20935330654,72.02533187187919
+uav0000331_02691_s,2133,True,True,True,True,0.0,71.35549872122762,71.27024722932651,70.84398976982096
+uav0000342_01518_s,2132,True,True,True,True,0.0,71.32000201989598,73.04448820885725,73.13285865777912
+uav0000342_01518_s,2133,True,True,True,True,0.0,71.32000201989598,73.25152754633136,72.92076958036661
+uav0000348_02415_s,2132,True,True,True,True,0.0,58.71783496007098,61.091393078970725,61.96391600118309
+uav0000348_02415_s,2133,True,True,True,True,0.0,58.71783496007098,60.92132505175984,61.49068322981367
+uav0000349_02668_s,2132,True,True,True,True,0.0,29.761904761904763,29.70151828847481,12.232574189095928
+uav0000349_02668_s,2133,True,True,True,True,0.0,29.761904761904763,29.761904761904763,12.08592132505176
+
+===== stage213_source_influence.csv =====
+contrast,group,auc_delta,leave_one_source_out
+oracle_minus_raw,uav0000003,1.32275132275133,1.2419042727305
+oracle_minus_raw,uav0000016,1.1830123899089386,1.2456810006451593
+oracle_minus_raw,uav0000070,0.4464285714285694,1.265588671414899
+oracle_minus_raw,uav0000076,0.36500809432175885,1.2677892248502183
+oracle_minus_raw,uav0000080,1.4424603174603163,1.238668894495122
+oracle_minus_raw,uav0000085,1.609025605375976,1.234167129956861
+oracle_minus_raw,uav0000089,1.8219461697722608,1.2284125201083127
+oracle_minus_raw,uav0000090,1.4201604554865526,1.239271593467386
+oracle_minus_raw,uav0000091,0.47619047619047095,1.264784295610523
+oracle_minus_raw,uav0000107,0.43076441102756746,1.2660120271014126
+oracle_minus_raw,uav0000126,0.5980770686653045,1.2614900633814736
+oracle_minus_raw,uav0000147,0.8279708279708302,1.2552767185353784
+oracle_minus_raw,uav0000148,1.71334042301784,1.2313478105611348
+oracle_minus_raw,uav0000149,1.7185592185592213,1.2312067620329894
+oracle_minus_raw,uav0000169,1.6700924974306162,1.2325166734148436
+oracle_minus_raw,uav0000170,2.1496116176967206,1.2195566971914353
+oracle_minus_raw,uav0000173,0.536306717553444,1.263159532330443
+oracle_minus_raw,uav0000174,1.9879584017515128,1.2239257030277924
+oracle_minus_raw,uav0000176,0.17511520737327047,1.272921465038015
+oracle_minus_raw,uav0000199,1.7483035529084106,1.230402861104633
+oracle_minus_raw,uav0000200,2.3057644110275675,1.215336351425737
+oracle_minus_raw,uav0000204,1.8871826689416409,1.2266493714821132
+oracle_minus_raw,uav0000205,2.857142857142847,1.200434231260459
+oracle_minus_raw,uav0000226,1.5117767537122475,1.2367954772991239
+oracle_minus_raw,uav0000235,0.12294888163806661,1.2743313657335613
+oracle_minus_raw,uav0000236,1.3043478260869534,1.24240166453224
+oracle_minus_raw,uav0000237,2.046504220417262,1.2223433836043938
+oracle_minus_raw,uav0000238,0.6592795583621296,1.2598359420383163
+oracle_minus_raw,uav0000239,0.5927579365079367,1.2616338237100513
+oracle_minus_raw,uav0000303,0.7287733778207155,1.2579577307015977
+oracle_minus_raw,uav0000304,0.5769496204278681,1.262061075495999
+oracle_minus_raw,uav0000307,2.2146935190413473,1.217797726884824
+oracle_minus_raw,uav0000308,0.543478260869577,1.2629657068354123
+oracle_minus_raw,uav0000329,1.3417741678611321,1.2413901417815865
+oracle_minus_raw,uav0000331,0.414078674948243,1.2664629929413942
+oracle_minus_raw,uav0000342,1.9088016967126151,1.226065073434249
+oracle_minus_raw,uav0000348,2.3809523809523867,1.2133042441304716
+oracle_minus_raw,uav0000349,0.23291925465838403,1.2713591934897688
+oracle_minus_adapted,uav0000003,0.8101851851851904,0.5450137210802009
+oracle_minus_adapted,uav0000016,1.2875055978504406,0.5321131693865455
+oracle_minus_adapted,uav0000070,0.7068452380952408,0.5478066926231725
+oracle_minus_adapted,uav0000076,0.07177983444821479,0.5649706224514706
+oracle_minus_adapted,uav0000080,0.3690476190476204,0.5569363580028379
+oracle_minus_adapted,uav0000085,0.4228942185146707,0.5554810445037285
+oracle_minus_adapted,uav0000089,0.5969634230503829,0.5507764714081687
+oracle_minus_adapted,uav0000090,1.0772515527950333,0.5377957111447997
+oracle_minus_adapted,uav0000091,0.3519668737060009,0.5573979997688276
+oracle_minus_adapted,uav0000107,0.33677944862155584,0.5578084707170559
+oracle_minus_adapted,uav0000126,0.20440608675902183,0.561386129145773
+oracle_minus_adapted,uav0000147,0.22522522522523047,0.5608234497277674
+oracle_minus_adapted,uav0000148,1.0723147819921905,0.5379291373827144
+oracle_minus_adapted,uav0000149,0.17195767195768497,0.5622631133295929
+oracle_minus_adapted,uav0000169,0.19698526892770474,0.5615866917898626
+oracle_minus_adapted,uav0000170,0.3056399864910446,0.5586500778016643
+oracle_minus_adapted,uav0000173,0.0336750729626587,0.5660004808699991
+oracle_minus_adapted,uav0000174,0.6195949644225607,0.5501648081278395
+oracle_minus_adapted,uav0000176,0.42703533026113405,0.5553691225646349
+oracle_minus_adapted,uav0000199,0.053338074495513865,0.5654690483961381
+oracle_minus_adapted,uav0000200,0.07101086048454874,0.5649914055315696
+oracle_minus_adapted,uav0000204,0.25851817382762476,0.5599236403060811
+oracle_minus_adapted,uav0000205,0.03850050658560633,0.5658700637450546
+oracle_minus_adapted,uav0000226,0.15616999487967576,0.5626898073046742
+oracle_minus_adapted,uav0000235,1.6077930675746046,0.5234567512858924
+oracle_minus_adapted,uav0000236,1.7971014492753596,0.5183403085372233
+oracle_minus_adapted,uav0000237,0.8201942984551636,0.5447432045053368
+oracle_minus_adapted,uav0000238,1.67004249573057,0.5217743343087041
+oracle_minus_adapted,uav0000239,1.1582341269841407,0.5356069929234725
+oracle_minus_adapted,uav0000303,0.35267948605380184,0.5573787399756438
+oracle_minus_adapted,uav0000304,0.7260179434092322,0.54728851139847
+oracle_minus_adapted,uav0000307,1.1606750737185507,0.5355410213901101
+oracle_minus_adapted,uav0000308,0.5486542443064195,0.5520821248877352
+oracle_minus_adapted,uav0000329,0.30259595476987045,0.5587323489292636
+oracle_minus_adapted,uav0000331,0.529777128242614,0.5525923172137841
+oracle_minus_adapted,uav0000342,0.08079583901429999,0.5647269466523871
+oracle_minus_adapted,uav0000348,0.09242827565808653,0.5644125564728253
+oracle_minus_adapted,uav0000349,0.26311249137335935,0.5597994695616018
+oracle_minus_mm,uav0000003,1.091269841269849,0.6051631830657985
+oracle_minus_mm,uav0000016,-1.365875503806535,0.6715725167165116
+oracle_minus_mm,uav0000070,1.1656746031746081,0.6031522435548592
+oracle_minus_mm,uav0000076,2.53978435505055,0.5660141421528067
+oracle_minus_mm,uav0000080,0.4146825396825591,0.6234493263519415
+oracle_minus_mm,uav0000085,1.1948209940910743,0.6023645032598195
+oracle_minus_mm,uav0000089,5.450310559006212,0.4873512717756266
+oracle_minus_mm,uav0000090,0.951086956521749,0.6089519096806121
+oracle_minus_mm,uav0000091,0.548654244306416,0.6198284694702156
+oracle_minus_mm,uav0000107,0.6500626566416088,0.6170877015692645
+oracle_minus_mm,uav0000126,0.09084714967067953,0.6322016341901004
+oracle_minus_mm,uav0000147,0.08258258258258167,0.6324250008681571
+oracle_minus_mm,uav0000148,1.4504312891409654,0.5954561169071197
+oracle_minus_mm,uav0000149,0.24013024013025586,0.6281669560695714
+oracle_minus_mm,uav0000169,13.722593353888314,0.26377606110313734
+oracle_minus_mm,uav0000170,0.10638297872340274,0.6317817469184053
+oracle_minus_mm,uav0000173,0.1072613435106895,0.6317580073295597
+oracle_minus_mm,uav0000174,0.5079365079365346,0.6209289488315638
+oracle_minus_mm,uav0000176,-41.956989247311824,1.7686296449193573
+oracle_minus_mm,uav0000199,0.03852194269121867,0.6336158289733291
+oracle_minus_mm,uav0000200,-0.08771929824561653,0.6370277544040543
+oracle_minus_mm,uav0000204,-19.316477948399765,1.1567239341379503
+oracle_minus_mm,uav0000205,0.25937183383990714,0.6276469129963376
+oracle_minus_mm,uav0000226,0.4825908858166983,0.6216139656456134
+oracle_minus_mm,uav0000235,2.0475717595876546,0.5793171852734255
+oracle_minus_mm,uav0000236,1.7349896480331353,0.5877653504505747
+oracle_minus_mm,uav0000237,0.29463290332854797,0.6266939111182662
+oracle_minus_mm,uav0000238,1.9023789665991444,0.5832413148136555
+oracle_minus_mm,uav0000239,1.2971230158730265,0.5995995837521992
+oracle_minus_mm,uav0000303,0.24585125998771673,0.6280123339112617
+oracle_minus_mm,uav0000304,0.637681159420282,0.6174223366293004
+oracle_minus_mm,uav0000307,28.27969132316958,-0.12965901914770767
+oracle_minus_mm,uav0000308,0.7712215320911184,0.6138131373679264
+oracle_minus_mm,uav0000329,0.1592610288262506,0.630352610429139
+oracle_minus_mm,uav0000331,0.3349165753257921,0.6256051632264488
+oracle_minus_mm,uav0000342,0.20198959753572865,0.6291977842478018
+oracle_minus_mm,uav0000348,-0.628512274475014,0.6516437807886327
+oracle_minus_mm,uav0000349,17.8355762594893,0.15261436095175934
+adapted_minus_raw,uav0000003,0.5125661375661394,0.6968905516502991
+adapted_minus_raw,uav0000016,-0.10449320794150196,0.7135678312586138
+adapted_minus_raw,uav0000070,-0.2604166666666714,0.7177819787917264
+adapted_minus_raw,uav0000076,0.29322825987354406,0.7028186023987477
+adapted_minus_raw,uav0000080,1.073412698412696,0.681732536492284
+adapted_minus_raw,uav0000085,1.1861313868613053,0.6786860854531325
+adapted_minus_raw,uav0000089,1.224982746721878,0.677636048700144
+adapted_minus_raw,uav0000090,0.3429089026915193,0.7014758823225862
+adapted_minus_raw,uav0000091,0.12422360248447006,0.7073862958416957
+adapted_minus_raw,uav0000107,0.09398496240601162,0.7082035563843566
+adapted_minus_raw,uav0000126,0.3936709819062827,0.7001039342357007
+adapted_minus_raw,uav0000147,0.6027456027455997,0.694453268807611
+adapted_minus_raw,uav0000148,0.6410256410256494,0.6934186731784205
+adapted_minus_raw,uav0000149,1.5466015466015364,0.6689436487033965
+adapted_minus_raw,uav0000169,1.4731072285029114,0.670929981624981
+adapted_minus_raw,uav0000170,1.843971631205676,0.6609066193897711
+adapted_minus_raw,uav0000173,0.5026316445907852,0.6971590514604439
+adapted_minus_raw,uav0000174,1.3683634373289522,0.6737608948999528
+adapted_minus_raw,uav0000176,-0.2519201228878636,0.7175523424733803
+adapted_minus_raw,uav0000199,1.6949654784128967,0.6649338127084949
+adapted_minus_raw,uav0000200,2.2347535505430187,0.6503449458941672
+adapted_minus_raw,uav0000204,1.6286644951140161,0.6667257311760322
+adapted_minus_raw,uav0000205,2.8186423505572407,0.6345641675154046
+adapted_minus_raw,uav0000226,1.3556067588325718,0.6741056699944497
+adapted_minus_raw,uav0000235,-1.484844185936538,0.7508746144476688
+adapted_minus_raw,uav0000236,-0.4927536231884062,0.7240613559950166
+adapted_minus_raw,uav0000237,1.2263099219620983,0.677600179099057
+adapted_minus_raw,uav0000238,-1.0107629373684404,0.7380616077296122
+adapted_minus_raw,uav0000239,-0.565476190476204,0.7260268307865787
+adapted_minus_raw,uav0000303,0.37609389176691366,0.7005789907259539
+adapted_minus_raw,uav0000304,-0.14906832298136408,0.714772564097529
+adapted_minus_raw,uav0000307,1.0540184453227965,0.6822567054947138
+adapted_minus_raw,uav0000308,-0.005175983436842557,0.710883581947677
+adapted_minus_raw,uav0000329,1.0391782130912617,0.6826577928523229
+adapted_minus_raw,uav0000331,-0.115698453294371,0.7138706757276102
+adapted_minus_raw,uav0000342,1.8280058576983151,0.661338126781862
+adapted_minus_raw,uav0000348,2.2885241052943,0.6488916876576462
+adapted_minus_raw,uav0000349,-0.030193236714975313,0.7115597239281671
+mm_minus_raw,uav0000003,0.23148148148148096,0.6367410896647014
+mm_minus_raw,uav0000016,2.5488878937154738,0.5741084839286476
+mm_minus_raw,uav0000070,-0.7192460317460387,0.6624364278600399
+mm_minus_raw,uav0000076,-2.174776260728791,0.7017750826974115
+mm_minus_raw,uav0000080,1.0277777777777573,0.6152195681431805
+mm_minus_raw,uav0000085,0.4142046112849016,0.6318026266970415
+mm_minus_raw,uav0000089,-3.628364389233951,0.7410612483326862
+mm_minus_raw,uav0000090,0.46907349896480355,0.6303196837867738
+mm_minus_raw,uav0000091,-0.07246376811594502,0.6449558261403076
+mm_minus_raw,uav0000107,-0.21929824561404132,0.648924325532148
+mm_minus_raw,uav0000126,0.507229918994625,0.6292884291913733
+mm_minus_raw,uav0000147,0.7453882453882485,0.6228517176672212
+mm_minus_raw,uav0000148,0.26290913387687453,0.6358916936540151
+mm_minus_raw,uav0000149,1.4784289784289655,0.6030398059634181
+mm_minus_raw,uav0000169,-12.052500856457698,0.9687406123117063
+mm_minus_raw,uav0000170,2.043228638973318,0.5877749502730302
+mm_minus_raw,uav0000173,0.42904537404275445,0.6314015250008833
+mm_minus_raw,uav0000174,1.4800218938149783,0.6029967541962286
+mm_minus_raw,uav0000176,42.13210445468509,-0.4957081798813421
+mm_minus_raw,uav0000199,1.7097816102171919,0.5967870321313039
+mm_minus_raw,uav0000200,2.393483709273184,0.5783085970216825
+mm_minus_raw,uav0000204,21.203660617341406,0.06992543734416296
+mm_minus_raw,uav0000205,2.59777102330294,0.5727873182641214
+mm_minus_raw,uav0000226,1.0291858678955492,0.6151815116535104
+mm_minus_raw,uav0000235,-1.924622877949588,0.6950141804601357
+mm_minus_raw,uav0000236,-0.43064182194618184,0.6546363140816653
+mm_minus_raw,uav0000237,1.751871317088714,0.5956494724861277
+mm_minus_raw,uav0000238,-1.2430994082370148,0.6765946272246608
+mm_minus_raw,uav0000239,-0.7043650793650897,0.662034239957852
+mm_minus_raw,uav0000303,0.48292211783299877,0.6299453967903361
+mm_minus_raw,uav0000304,-0.0607315389924139,0.6446387388666986
+mm_minus_raw,uav0000307,-26.064997804128232,1.3474567460325315
+mm_minus_raw,uav0000308,-0.22774327122154148,0.6491525694674859
+mm_minus_raw,uav0000329,1.1825131390348815,0.6110375313524474
+mm_minus_raw,uav0000331,0.07916209962245091,0.6408578297149455
+mm_minus_raw,uav0000342,1.7068120991768865,0.5968672891864473
+mm_minus_raw,uav0000348,3.0094646554274007,0.5616604633418387
+mm_minus_raw,uav0000349,-17.602657004830917,1.1187448325380096
