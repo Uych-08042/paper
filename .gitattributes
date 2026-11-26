@@ -265,3 +265,9 @@ tools/stage211_geometry_audit.py text eol=lf
 tools/test_stage211_geometry_audit.py text eol=lf
 tools/run_stage211_geometry_audit.sh text eol=lf
 docs/experiments/06_sgla_uav_tracking/STAGE211_RECOVERY_CENTER_SIZE.md text eol=lf
+docs/experiments/06_sgla_uav_tracking/results/stage211_results_20261126T131139Z_2129215.txt -text
+tools/stage212_state_common.py text eol=lf
+tools/stage212_state_experiment.py text eol=lf
+tools/test_stage212_state_experiment.py text eol=lf
+tools/run_stage212_state_experiment.sh text eol=lf
+docs/experiments/06_sgla_uav_tracking/STAGE212_ONLINE_OUTPUT_SEARCH_STATE.md text eol=lf

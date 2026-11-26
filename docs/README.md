@@ -1,5 +1,9 @@
 # 实验说明索引
 
+Stage-212在线输出/搜索状态解耦已实现，GPU待运行。同裁剪共享前缀/一次MLP，两路raw/adapted读出；输出总取adapted、四种中心/尺寸状态更新，418完整OOF，0训练。3项CPU检查通过，mm/nn身份、22串并行检查及双参照能力保护已接入；默认双进程/总体进度/自动TXT，确认集封存。 [协议与运行](experiments/06_sgla_uav_tracking/STAGE212_ONLINE_OUTPUT_SEARCH_STATE.md)
+
+Stage-211真实结果已复核：lost层mm/nm/mn/nn IoU .2030/.4793/.2965/.6663，中心修正全覆盖但14/27帧无好格点，中心+尺度共同影响供给。保留恢复17窗换几何后仅14/15/16窗达标，不能统一替换；10表重算误差≤5.55e−17，152端点复现报告通过，0新AUC。下一步建议212单裁剪双读出、搜索状态/输出解耦完整视频比较，同预算并同时保护原生及matched能力，尚未实现。 [结果与下一步](experiments/06_sgla_uav_tracking/STAGE211_RESULTS_REVIEW.md) · [机器核验](experiments/06_sgla_uav_tracking/results/stage211_review_audit_20261126.json)
+
 Stage-211父框中心×尺寸分解已实现，GPU待运行。固定210全部恢复/正常点和208 matched模型，四几何组合、端点全数组复现、真实crop/目标名义网络尺寸/网格/标准输出审计；0训练/新轨迹，默认双进程、总体进度和自动TXT。3项CPU检查通过，确认集封存。 [协议与运行](experiments/06_sgla_uav_tracking/STAGE211_RECOVERY_CENTER_SIZE.md)
 
 Stage-210真实结果已复核：恢复损失与父框偏离关系强；固定matched换原生父框，lost即时IoU+.4633、全部恢复+.2003，名义区间为正，但不是闭环挽救。全部38源正常对照，恢复只有10源、丢失6源，候选不足与读出漏选并存。10表复算误差0，648对角复现声明通过；0新训练/完整轨迹/AUC。下一步建议211全源中心×尺寸分解，尚未实现。 [结果与下一步](experiments/06_sgla_uav_tracking/STAGE210_RESULTS_REVIEW.md) · [机器核验](experiments/06_sgla_uav_tracking/results/stage210_review_audit_20261126.json)

@@ -1,0 +1,42 @@
+{
+  "schema": "stage212_local_validation_v1",
+  "date": "2026-11-26",
+  "timezone": "Asia/Hong_Kong",
+  "status": "PREPARED_NOT_GPU_EVALUATED",
+  "tests": {
+    "passed": 3,
+    "skipped": 0,
+    "full_suite_seconds": 66.217,
+    "final_state_chain_check_seconds": 15.108
+  },
+  "environment": {
+    "python": "3.12.4",
+    "torch": "2.7.1+cpu",
+    "numpy": "1.26.4"
+  },
+  "checks": [
+    "exact reviewed Stage-211 bundle and changed-byte rejection",
+    "online center/size composition uses only current raw/adapted boxes",
+    "raw public step plus adapted candidate with one crop, six prefix blocks, one selector, two selected blocks and two CENTER forwards",
+    "real repository CENTER/cal_bbox/map/clip; mm exact single-matched quality and nn raw branch exact native state",
+    "explicit parent/next_parent/reference/output state audit; malformed parent chain and missing head call rejected; hooks removed",
+    "synthetic 38-source OOF workflow with 418 two-frame trajectories and 22 serial/two-worker smoke pairs",
+    "fresh native/single-matched controls, 84 serial/parallel/full identity checks, 77 pairs and 21 factor contrasts",
+    "both native and matched reference capability metrics; original three-frame recovery criterion; two-primary family intervals",
+    "independent spawned CPU model/runtime workers; no AdamW construction; committed-cache reuse and tamper detection",
+    "Python3.10 grammar AST, LF, CLI help, Bash -n, correct launcher label and 10-table / 2-JSON bundle inventory"
+  ],
+  "limitations": [
+    "Synthetic small linear backbone with actual CENTER; synthetic sampler is fixed factor and does not test real pixel cropping",
+    "No real SGLA Transformer/CUDA startup, real complete-video accuracy or GPU throughput measured locally",
+    "Real source model tree absent locally; server validates Stage-208 model/receipt/scope and frozen runtime",
+    "418 trajectories in this test are two-frame fixtures, not experimental AUC; no model training or confirmation opening"
+  ],
+  "file_sha256": {
+    "tools/stage212_state_common.py": "0d98ec23b652999884be24caf24a3c9d9dbf371483755a18884a228f8a608beb",
+    "tools/stage212_state_experiment.py": "ca9a76893a802c1d272664ef46574c2ffe9db10dac0ffe5ad8dee227f1e736e0",
+    "tools/test_stage212_state_experiment.py": "310b901b5a6b3f90f53743fbd4b8ef673e2088cda99590aded2e379b58055d45",
+    "tools/run_stage212_state_experiment.sh": "37ea49f6ded920eede303cb00869186cf5d6004f46cdb8bf38d74ede9162822c",
+    "docs/experiments/06_sgla_uav_tracking/STAGE212_ONLINE_OUTPUT_SEARCH_STATE.md": "1e8b8b733a59ef9d987f61a68f6635a690cddcfb13cd23b17c113b90a7465b20"
+  }
+}
