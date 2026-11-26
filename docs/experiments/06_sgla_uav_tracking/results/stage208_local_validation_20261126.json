@@ -1,0 +1,68 @@
+{
+  "schema": "stage208_local_validation_v1",
+  "date": "2026-11-26",
+  "timezone": "Asia/Hong_Kong",
+  "status": "PREPARED_NOT_GPU_EVALUATED",
+  "environment": {
+    "python": "3.12.4",
+    "torch": "2.7.1+cpu",
+    "numpy": "1.26.4",
+    "pillow": "existing cp312 cache"
+  },
+  "tests": {
+    "total": 4,
+    "passed": 4,
+    "skipped": 0,
+    "runs": [
+      {
+        "tests": 4,
+        "seconds": 224.587,
+        "final_revision": true
+      }
+    ],
+    "coverage": [
+      "reviewed Stage-207 bundle byte and table hashes",
+      "source-level seed averaging and two primary Bonferroni bootstrap intervals",
+      "spawned worker failure propagation and unique video partition",
+      "bound provider NPZ and receipts; recomputed exact frozen support/sampling; changed rows rejected",
+      "eight paired correct controls receipt/scope/state loading and exact retraining replay",
+      "24 synthetic students / 6144 updates / 494 two-frame full OOF mock trajectories / 1824 native-parent mock readouts",
+      "actual repository CENTER and GIoU/L1/focal with small linear backbone and synthetic inputs",
+      "two independently spawned CPU model/runtime workers; 26 serial/parallel smoke pairs exact except timing",
+      "all factorial initialization/draw/parameter budgets identical; fit-only wrong references shared across origins",
+      "committed evaluation cache reuse without inference; source artifacts unchanged; changed smoke/result and nested nonfinite failure rejected",
+      "origin-specific sealed training-plan fingerprints bind each new checkpoint to its parent state source"
+    ],
+    "earlier_runs": [
+      {
+        "tests": 3,
+        "seconds": 206.371
+      },
+      {
+        "tests": 1,
+        "seconds": 4.27
+      }
+    ]
+  },
+  "checks": {
+    "ast": true,
+    "lf": true,
+    "cli_help": true,
+    "bash_syntax": true,
+    "bundle_tables": 14,
+    "bundle_json": 2
+  },
+  "limitations": [
+    "No real SGLA Transformer, CUDA/L20/L40 startup, real-image tracking or GPU throughput measured locally",
+    "No complete real Stage-207 NPZ/PT tree is present locally; actual server startup binds reviewed run and verifies all source files",
+    "CPU smoke agreement does not guarantee GPU agreement; mandatory new-GPU serial/two-worker check runs before full evaluation",
+    "No new experimental AUC or method adoption claim; confirmation set remains sealed"
+  ],
+  "file_sha256": {
+    "tools/stage208_state_interaction.py": "49b62ad6b399ad2e2a05e7dfeccc80116e0240e2e23af5efa42e3feaf5db913c",
+    "tools/stage208_factor_common.py": "d9d1870e9ba9aaa8c81965be1042c03bcb366b6712e7e0140c3c0f06ffec2fe8",
+    "tools/test_stage208_state_interaction.py": "483f48ef07289425f337491399d0c96e129592b754acc824dec2ac42dcb9b655",
+    "tools/run_stage208_state_interaction.sh": "5f4b796c07f5cb183f59e472c9ac6fa33387e861799680fff5949934bd65616e",
+    "docs/experiments/06_sgla_uav_tracking/STAGE208_PAIRED_STATE_INTERACTION.md": "a4e43276842074f5e73758b15cf14e10f6f5d8c6c250f8a4104c1999f4abf3e7"
+  }
+}

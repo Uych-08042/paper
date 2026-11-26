@@ -1,6 +1,8 @@
 # 实验说明索引
 
-Stage-207已实现并通过4项CPU测试，待服务器GPU运行。固定206空间模块，用同预算native_all／native_pair／own_pair学生隔离支持筛选与父框来源；provider只在本外fold训练源采集，任一源无公共支持则封存预检停止。12学生3072步、76采集＋342新完整评价、12表／总体进度条。新GPU先同卡重放原生特征，原生／冻结provider主要控制均重测；确认集封存。本机没有真实精度结果。 [固定协议与后台命令](experiments/06_sgla_uav_tracking/STAGE207_PAIRED_PROVIDER_STATE_TRAINING.md)
+Stage-208父框来源×空间交互消融已实现，待真实GPU运行。固定207共同支持，2×3六条件、24新模型6144更新、494完整OOF；默认双进程跨视频，先验收26对串并行框／层／调用精确一致。4项本地CPU测试通过，尚无新AUC或真实GPU加速结论；后台入口、单总体进度条、自动结果TXT与交接0.208已更新，确认集封存。 [协议与运行](experiments/06_sgla_uav_tracking/STAGE208_PAIRED_STATE_INTERACTION.md) · [本地验证](experiments/06_sgla_uav_tracking/results/stage208_local_validation_20261126.json)
+
+Stage-207真实结果已复核，训练状态来源有受控收益。own_pair／native_pair／原生AUC65.0445／62.3649／64.4185，主要差+2.6796、名义区间为正，新增稳定失跟0；对原生+.6261区间跨零，仍丢失恢复，未通过整体方法验证。12表／支持／抽样／汇总核查、4模型精确复现206。该208消融及双进程入口现已实现，见上文，真实GPU待运行，确认集封存。 [结果与下一步](experiments/06_sgla_uav_tracking/STAGE207_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE207_PAIRED_PROVIDER_STATE_TRAINING.md)
 
 Stage-206真实完整视频结果已复核，适配及保护未通过。原生／搜索控制／正确／错配AUC64.4185／62.2663／62.2081／60.5465；正确新增3稳定源组失跟，恢复保护恶化。原生父框held IoU虽+.008320，未转化自身轨迹收益；所有轨迹仍L9。9表及汇总配对复核、原生逐视频质量指标复现194。207父框来源训练对照现已实现，见上文，待GPU运行。 [结果与下一步](experiments/06_sgla_uav_tracking/STAGE206_RESULTS_REVIEW.md) · [固定协议](experiments/06_sgla_uav_tracking/STAGE206_NATIVE_ROUTED_SPATIAL_ADAPTATION.md)
 

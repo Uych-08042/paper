@@ -1,0 +1,652 @@
+{
+  "date": "2026-11-26",
+  "bundle_sha256": "3cc83a070037f8be34f76fb6432ac8415ccb1e24f9d5442ff67fad97616281eb",
+  "decision_fingerprint": "83a876782fdab0b95b24ea06197ce63cbd2dbb43f8a158cc272d640bdd9e149f",
+  "plan_fingerprint": "36d2f75d22ba459e2ed698fe9afb66d11d51f1449b33511256a937a17c5e056f",
+  "support_fingerprint": "d40cc113f7131cacc6dde523148af7b0a6655f2d55351b5290b9aa7b227486f2",
+  "table_hashes_verified": {
+    "stage207_source_replay.csv": "0554e53ba4cd646324ec01eedf1a366511355aa53f34326a199ac021daaeab83",
+    "stage207_provider_scope.csv": "eff4e68fcea886d47ddfcaa91ed6f01650270f9039de5c615b3777c115c0c3a1",
+    "stage207_support.csv": "528224147086b71c3035e7c8ea4d63eac90c04eaafe95b72b06847386b982307",
+    "stage207_sampling.csv": "07bfaf566921ef39e77e2b44d9d53879cfb0f176c466b985534d16c524b0f835",
+    "stage207_scope_summary.csv": "c6e52b00e400c97c6fb9526cf2c4c4b6b576d5ca71877bed4b3bb7be23045da5",
+    "stage207_training_history.csv": "3a5aedcc3db2614ace2910e966e611bdc984b30e8729c6bf355b621e31ac3955",
+    "stage207_control_replay.csv": "1f20e68b23f78f44e16965ca8e3d8ce97a80c319be62a5abb303d4d61cfc18d3",
+    "stage207_readout_video.csv": "391bdf915a850a1d44e46405e9f0438dd4751f5fea009d316521bbd85c69f558",
+    "stage207_policy_summary.csv": "34edf449fd993925c8fa03b2f13a1ae4af0e345047a426c72817d0566d3e6d2c",
+    "stage207_paired.csv": "f4904a9ead89940df9ea5994fa849a7c9e9327e773512737bcae44627fdfc879",
+    "stage207_seed_video_summary.csv": "392ae35eae51d310baffba0a29fa4b816e4967df5792afe1d32dc75862ac419f",
+    "stage207_routing.csv": "a383a4ce001692f99da8eb757315681b9b6a4487c08f33d1bc5e80f7913cdeb6"
+  },
+  "source_code_hashes": {
+    "tools/stage194_module_ablation.py": "2287cd073391f9d443a7ce2331b7a42c77464f60be329b57b95f273c211323a6",
+    "tools/stage194_module_common.py": "d23d31dd0fdde83d8946c9c54823eba7e22283fc2836488467ab1fef43dfd480",
+    "tools/stage194_module_model.py": "3f1001695d8c61f193f4a0712de57c7197b882c0856a2bd38b997cf2ce88551b",
+    "tools/experiment_progress.py": "7ff4cc0eaa5f6e9f49db20f16ee580ce7cf606236855a6573b29c3743f670568",
+    "tracking/stage18_tracking_loss.py": "f27d766f16b898c92eb9605858c05a4acbb8394d4cd7b22aa6dec7dbf8c297c6",
+    "tracking/stage18_environment.py": "12cef693ed44336e4ab949e1f789f5ca702bf5e41c0acc2ea7dc4e330d778a65",
+    "tracking/stage46_motion_runtime.py": "a910415e6351739127eec63828c089803991a099a8922a37c38c12ad6bb78a8b",
+    "tools/stage192_development_grid_rescue.py": "65424d976ff3dbc7c97c1f9017a55c2354c11be5c09afc5f2fa97893decbee8f",
+    "tracking/stage4_runtime.py": "a592ad522826471706e364b98868546238c0a97b10e5ada021c7af5c5cfffd9b",
+    "tracking/stage1_validate.py": "27d5567278a5a80735564b8abac74ed8c4c4e22d396fe7c79eec07a4f76896c3",
+    "tracking/validation_metrics.py": "40806c122a967f8205fb19144dfc947c4d2f673d0eb87204e04d52a13c662970",
+    "lib/models/sglatrack/base_backbone.py": "206fed66b3b05a0f97becf4d25e1adc820c330450be762b90cc1246deb604ead",
+    "lib/models/sglatrack/sglatrack.py": "cc3894bdf11e1530a6e2e188712e5edea0d8b88afb60687f907abc6a52f26de7",
+    "lib/models/layers/head.py": "62cb2f363ea8bce491c9e6fc528076dd1e14c7d371ad69d6efd0b4062d063326",
+    "lib/test/tracker/sglatrack.py": "95970b6daeaa5d3f49f86507a144af288eb847471fe5a31fb40d259571e60fac",
+    "lib/train/data/processing_utils.py": "a2406f133c78e8685ba197c95a5a8a8796677ff3c3f03d067cbaff737a05c2f7",
+    "tools/stage61_runtime_replay.py": "065a2e003edc9db7225512af0c8e3928093c042a5ea193d8ebdbbfbb122eeeb8",
+    "tools/stage202_regret_routing.py": "840fa832781a6e6ca8662bfad0b970be9bb563f4dc5bfa83aa77d998649e9c9c",
+    "tools/stage202_regret_common.py": "659b00477da56a3ae68166c17c4b7fbf424933e398425746f7554de6cd378821",
+    "tools/stage200_pair_common.py": "730c5f10a68bb9f0a9b98d838b02844f32dc8b2ef4fa47615f0393ba704030c6",
+    "tools/stage200_within_video.py": "c5af53c9eb6036e3de0f19b52a3525cd296a85fd8f38c1af596fb5ce4556e2f2",
+    "tools/stage201_score_baseline.py": "6126eec5c63de14b59b1f7f9bf078b0c28279a3db473d269ae0688318582cee6",
+    "tools/stage199_residual_model.py": "85d321b96e52446953da5b1b6842dcf5f35440f7215fd22f4e48bd2d4d681931",
+    "tools/stage195_router_objective_audit.py": "d34102a8d2c17922f830a33f86f250c40813dc894f7022236ee3a3bdccc212bf",
+    "tools/stage195_routing_common.py": "3177256db063fcfcbb3e0c4418e7c54808e1c99271861d1d4bd90041b52c8ebf",
+    "tools/stage199_residual_routing.py": "5a5873edd240160b1011393e1bad5bc89d363bceddd3242a8c11235efc649a75",
+    "tools/stage198_routing_calibration.py": "458792b65c7655a4fc16128dc65b2b25f795e89c5389c258080b7614d864bc00",
+    "tools/stage196_relative_loss.py": "186aa9b2432957b001936557dea654e1644271da4fa4c472892907ff7b8ed5d4",
+    "tools/stage203_loss_clipping.py": "7b84d1f2612d5cffbca3416034d7667715a595137a735232b8855b852e824440",
+    "tools/stage203_clipping_common.py": "0c569384b0cd69348c757ad33c612832a3ee2ec4095f1543efb2b965dbe453a2",
+    "tools/stage204_target_relation.py": "d86748595fde0f09290af2eb90bc04f6ae299184693a1c0ce0551070daa44287",
+    "tools/stage204_relation_common.py": "a8437cda61cd8f17492526189177efd06dafc0483e5a119f0f30a3d23530ae91",
+    "tools/stage204_relation_model.py": "77dc54898dae9496b387c49276db50ca12c10d14af285a420e8eb8ae2842b29f",
+    "tools/stage205_crossfit_shrinkage.py": "6beb7ac46b7a26d5d087dd536f0cf175027579b85366cb67c7cb000b197b3c16",
+    "tools/stage205_shrinkage_common.py": "aefb083c8bfdb53cc25333d87677e305053e7afd71ef67ed7e0e915471ce5a3f",
+    "tools/stage206_spatial_adaptation.py": "6143f756b0f89e938ba027494f371cc0f12bac0ef68659a0395d55f03e11be45",
+    "tools/stage206_spatial_model.py": "e69cb994081ef627b1c9cc0588fb9fab9dbd0c43935b0c965a1280ea875fc054",
+    "tools/stage206_spatial_common.py": "cccb75c03d282a1b69b59f64cbc2224d4c10d6448eaedfec2f9f3594ea6533f4",
+    "tools/stage207_state_training.py": "8bcdf74350d3579a76327569723c500df28cc5173ca84c84574b700f656e35d5",
+    "tools/stage207_state_common.py": "7d7e911c1c2251d29d405c4e7062187618104f042534b8924b6aa617380927e1"
+  },
+  "line_ending_only_differences": [
+    "tracking/stage4_runtime.py",
+    "tracking/stage1_validate.py",
+    "tracking/validation_metrics.py",
+    "lib/models/sglatrack/base_backbone.py",
+    "lib/models/sglatrack/sglatrack.py",
+    "lib/models/layers/head.py",
+    "lib/test/tracker/sglatrack.py",
+    "lib/train/data/processing_utils.py"
+  ],
+  "protocol_sha256": "15fcc46aeacd0e966da67f73c0f801c6d4ac1f7daaf521c69ead3a4a0872c730",
+  "table_rows": {
+    "source_replay": 38,
+    "provider_scope": 4,
+    "support": 76,
+    "sampling": 3648,
+    "scope_summary": 12,
+    "training_history": 3072,
+    "control_replay": 4,
+    "readout_video": 456,
+    "policy_summary": 5,
+    "paired": 30,
+    "seed_video_summary": 342,
+    "routing": 2052
+  },
+  "maximum_recompute_errors": {
+    "policy_summary": 0.0,
+    "paired": 0.0
+  },
+  "stage206_control_quality_maximum_difference": 0.0,
+  "scope_and_draw_hashes_checked": 12,
+  "support_contexts_checked": 76,
+  "paired_support_sum": 3145,
+  "support_min": 11,
+  "declared_physical_artifacts": 1775,
+  "exported_routing_counts": {
+    "native": {
+      "7": 0,
+      "8": 0,
+      "9": 40517,
+      "10": 0,
+      "11": 0,
+      "12": 0
+    },
+    "frozen_provider": {
+      "7": 0,
+      "8": 0,
+      "9": 81034,
+      "10": 0,
+      "11": 0,
+      "12": 0
+    },
+    "native_all": {
+      "7": 0,
+      "8": 0,
+      "9": 81034,
+      "10": 0,
+      "11": 0,
+      "12": 0
+    },
+    "native_pair": {
+      "7": 0,
+      "8": 0,
+      "9": 81034,
+      "10": 0,
+      "11": 0,
+      "12": 0
+    },
+    "own_pair": {
+      "7": 0,
+      "8": 0,
+      "9": 81034,
+      "10": 0,
+      "11": 0,
+      "12": 0
+    }
+  },
+  "seed_summary": [
+    {
+      "arm": "native",
+      "seed": 0,
+      "auc": 64.41845141920605,
+      "introduced_failure_groups": []
+    },
+    {
+      "arm": "frozen_provider",
+      "seed": 2132,
+      "auc": 62.31995470963469,
+      "introduced_failure_groups": [
+        "uav0000080",
+        "uav0000304"
+      ]
+    },
+    {
+      "arm": "frozen_provider",
+      "seed": 2133,
+      "auc": 62.096318250763574,
+      "introduced_failure_groups": [
+        "uav0000080",
+        "uav0000199",
+        "uav0000304"
+      ]
+    },
+    {
+      "arm": "native_all",
+      "seed": 2132,
+      "auc": 62.31995470963469,
+      "introduced_failure_groups": [
+        "uav0000080",
+        "uav0000304"
+      ]
+    },
+    {
+      "arm": "native_all",
+      "seed": 2133,
+      "auc": 62.096318250763574,
+      "introduced_failure_groups": [
+        "uav0000080",
+        "uav0000199",
+        "uav0000304"
+      ]
+    },
+    {
+      "arm": "native_pair",
+      "seed": 2132,
+      "auc": 62.862586810639954,
+      "introduced_failure_groups": [
+        "uav0000080"
+      ]
+    },
+    {
+      "arm": "native_pair",
+      "seed": 2133,
+      "auc": 61.8672967757195,
+      "introduced_failure_groups": [
+        "uav0000199",
+        "uav0000304"
+      ]
+    },
+    {
+      "arm": "own_pair",
+      "seed": 2132,
+      "auc": 64.8137091644921,
+      "introduced_failure_groups": []
+    },
+    {
+      "arm": "own_pair",
+      "seed": 2133,
+      "auc": 65.27534640018716,
+      "introduced_failure_groups": []
+    }
+  ],
+  "own_video_influence": [
+    {
+      "group": "uav0000003",
+      "own_auc": 79.53042328042328,
+      "native_auc": 79.2989417989418,
+      "gain_native": 0.23148148148148096,
+      "gain_pair": -0.628306878306887,
+      "missed_native_recoveries": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "uav0000016",
+      "own_auc": 82.90416480071653,
+      "native_auc": 80.35527690700106,
+      "gain_native": 2.5488878937154738,
+      "gain_pair": 0.5635169428272917,
+      "missed_native_recoveries": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "uav0000070",
+      "own_auc": 67.3859126984127,
+      "native_auc": 68.10515873015873,
+      "gain_native": -0.7192460317460387,
+      "gain_pair": 0.8060515873015817,
+      "missed_native_recoveries": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "uav0000076",
+      "own_auc": 37.80811875744525,
+      "native_auc": 39.98289501817404,
+      "gain_native": -2.174776260728791,
+      "gain_pair": -2.211429793212993,
+      "missed_native_recoveries": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "group": "uav0000080",
+      "own_auc": 67.68253968253967,
+      "native_auc": 66.65476190476191,
+      "gain_native": 1.0277777777777573,
+      "gain_pair": 0.003968253968253066,
+      "missed_native_recoveries": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "uav0000085",
+      "own_auc": 70.09616498667593,
+      "native_auc": 69.68196037539103,
+      "gain_native": 0.4142046112849016,
+      "gain_pair": 1.7451627853087643,
+      "missed_native_recoveries": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "uav0000089",
+      "own_auc": 59.518633540372676,
+      "native_auc": 63.14699792960663,
+      "gain_native": -3.628364389233951,
+      "gain_pair": 2.1549344375431403,
+      "missed_native_recoveries": [
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "group": "uav0000090",
+      "own_auc": 76.9442287784679,
+      "native_auc": 76.4751552795031,
+      "gain_native": 0.46907349896480355,
+      "gain_pair": 0.3558488612836328,
+      "missed_native_recoveries": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "uav0000091",
+      "own_auc": 29.699792960662524,
+      "native_auc": 29.77225672877847,
+      "gain_native": -0.07246376811594502,
+      "gain_pair": 0.0,
+      "missed_native_recoveries": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "uav0000107",
+      "own_auc": 40.35087719298245,
+      "native_auc": 40.57017543859649,
+      "gain_native": -0.21929824561404132,
+      "gain_pair": 0.10964912280701355,
+      "missed_native_recoveries": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "uav0000126",
+      "own_auc": 88.5078355666591,
+      "native_auc": 88.00060564766447,
+      "gain_native": 0.507229918994625,
+      "gain_pair": 0.05677946854417826,
+      "missed_native_recoveries": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "uav0000147",
+      "own_auc": 38.42020592020592,
+      "native_auc": 37.674817674817675,
+      "gain_native": 0.7453882453882485,
+      "gain_pair": 0.4000429000429051,
+      "missed_native_recoveries": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "uav0000148",
+      "own_auc": 73.34574028122415,
+      "native_auc": 73.08283114734728,
+      "gain_native": 0.26290913387687453,
+      "gain_pair": -0.17724211272597756,
+      "missed_native_recoveries": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "uav0000149",
+      "own_auc": 74.85042735042734,
+      "native_auc": 73.37199837199837,
+      "gain_native": 1.4784289784289655,
+      "gain_pair": -0.03764753764755824,
+      "missed_native_recoveries": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "uav0000169",
+      "own_auc": 50.01070572113737,
+      "native_auc": 62.06320657759507,
+      "gain_native": -12.052500856457698,
+      "gain_pair": 13.70332305584104,
+      "missed_native_recoveries": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "group": "uav0000170",
+      "own_auc": 77.09895305639986,
+      "native_auc": 75.05572441742655,
+      "gain_native": 2.043228638973318,
+      "gain_pair": -0.025329280648435315,
+      "missed_native_recoveries": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "uav0000173",
+      "own_auc": 22.362742897054055,
+      "native_auc": 21.9336975230113,
+      "gain_native": 0.42904537404275445,
+      "gain_pair": -0.14966699094514624,
+      "missed_native_recoveries": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "uav0000174",
+      "own_auc": 72.61083743842363,
+      "native_auc": 71.13081554460865,
+      "gain_native": 1.4800218938149783,
+      "gain_pair": -0.13793103448276156,
+      "missed_native_recoveries": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "uav0000176",
+      "own_auc": 58.23041474654377,
+      "native_auc": 16.098310291858677,
+      "gain_native": 42.13210445468509,
+      "gain_pair": 43.907834101382484,
+      "missed_native_recoveries": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "uav0000199",
+      "own_auc": 69.49654784128958,
+      "native_auc": 67.78676623107239,
+      "gain_native": 1.7097816102171919,
+      "gain_pair": 5.415296174474747,
+      "missed_native_recoveries": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "uav0000200",
+      "own_auc": 86.2280701754386,
+      "native_auc": 83.83458646616542,
+      "gain_native": 2.393483709273184,
+      "gain_pair": -0.1127819548872111,
+      "missed_native_recoveries": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "uav0000204",
+      "own_auc": 75.1253813143064,
+      "native_auc": 53.92172069696499,
+      "gain_native": 21.203660617341406,
+      "gain_pair": -0.2171552660151974,
+      "missed_native_recoveries": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "uav0000205",
+      "own_auc": 74.12765957446808,
+      "native_auc": 71.52988855116514,
+      "gain_native": 2.59777102330294,
+      "gain_pair": -0.22897669706179613,
+      "missed_native_recoveries": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "uav0000226",
+      "own_auc": 56.09062980030722,
+      "native_auc": 55.06144393241167,
+      "gain_native": 1.0291858678955492,
+      "gain_pair": -0.10752688172043179,
+      "missed_native_recoveries": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "group": "uav0000235",
+      "own_auc": 65.07306000851185,
+      "native_auc": 66.99768288646143,
+      "gain_native": -1.924622877949588,
+      "gain_pair": 0.07093204709887857,
+      "missed_native_recoveries": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "uav0000236",
+      "own_auc": 75.22981366459626,
+      "native_auc": 75.66045548654245,
+      "gain_native": -0.43064182194618184,
+      "gain_pair": 0.28985507246375164,
+      "missed_native_recoveries": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "uav0000237",
+      "own_auc": 74.58990285077242,
+      "native_auc": 72.8380315336837,
+      "gain_native": 1.751871317088714,
+      "gain_pair": 0.22694696607739218,
+      "missed_native_recoveries": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "uav0000238",
+      "own_auc": 80.13423884983519,
+      "native_auc": 81.3773382580722,
+      "gain_native": -1.2430994082370148,
+      "gain_pair": 0.16283410778822827,
+      "missed_native_recoveries": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "uav0000239",
+      "own_auc": 82.41071428571428,
+      "native_auc": 83.11507936507937,
+      "gain_native": -0.7043650793650897,
+      "gain_pair": 0.1339285714285694,
+      "missed_native_recoveries": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "uav0000303",
+      "own_auc": 85.72306611642813,
+      "native_auc": 85.24014399859513,
+      "gain_native": 0.48292211783299877,
+      "gain_pair": 0.03658500892672123,
+      "missed_native_recoveries": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "uav0000304",
+      "own_auc": 72.2263630089717,
+      "native_auc": 72.28709454796412,
+      "gain_native": -0.0607315389924139,
+      "gain_pair": 24.80193236714976,
+      "missed_native_recoveries": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "uav0000307",
+      "own_auc": 40.44482087960349,
+      "native_auc": 66.50981868373172,
+      "gain_native": -26.064997804128232,
+      "gain_pair": 2.2805696718740265,
+      "missed_native_recoveries": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "group": "uav0000308",
+      "own_auc": 74.55486542443063,
+      "native_auc": 74.78260869565217,
+      "gain_native": -0.22774327122154148,
+      "gain_pair": -0.8799171842650253,
+      "missed_native_recoveries": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "uav0000329",
+      "own_auc": 74.53017996496257,
+      "native_auc": 73.34766682592769,
+      "gain_native": 1.1825131390348815,
+      "gain_pair": 0.1035196687370501,
+      "missed_native_recoveries": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "uav0000331",
+      "own_auc": 71.43466082085007,
+      "native_auc": 71.35549872122762,
+      "gain_native": 0.07916209962245091,
+      "gain_pair": -0.28620143709659374,
+      "missed_native_recoveries": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "uav0000342",
+      "own_auc": 73.02681411907287,
+      "native_auc": 71.32000201989598,
+      "gain_native": 1.7068120991768865,
+      "gain_pair": -0.32065848608796443,
+      "missed_native_recoveries": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "uav0000348",
+      "own_auc": 61.72729961549838,
+      "native_auc": 58.71783496007098,
+      "gain_native": 3.0094646554274007,
+      "gain_pair": 23.887163561076612,
+      "missed_native_recoveries": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "group": "uav0000349",
+      "own_auc": 12.159247757073844,
+      "native_auc": 29.761904761904763,
+      "gain_native": -17.602657004830917,
+      "gain_pair": -13.871635610766047,
+      "missed_native_recoveries": [
+        1.0,
+        1.0
+      ]
+    }
+  ],
+  "primary_contrast": {
+    "contrast": "own_pair_minus_native_pair",
+    "metric": "auc",
+    "primary": true,
+    "favorable_direction": "positive",
+    "videos": 38,
+    "mean_delta": 2.6795859891598948,
+    "median_delta": 0.06385575782152841,
+    "ci_low": 0.09534699756076222,
+    "ci_high": 5.906968563050181,
+    "positive": 22,
+    "negative": 15,
+    "worst_leave_one_video_out": 1.5653090131538787
+  },
+  "limitation": "No provider/student PT, sampled feature NPZ or complete trajectory NPZ locally. Checks bind exported tables and recompute source/seed summaries, bootstrap, intersections and draw hashes; original pixel coverage, tensor training, boxes, recovery timing and hook execution not independently replayed. Nominal intervals on historically exposed development groups; no confirmation.",
+  "support_snapshot_hash_verified": true,
+  "descriptive_gain_native_without_0176": -0.49570817988134214
+}

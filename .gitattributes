@@ -241,3 +241,9 @@ docs/experiments/06_sgla_uav_tracking/STAGE205_CROSSFIT_RESIDUAL_SHRINKAGE.md te
 docs/experiments/06_sgla_uav_tracking/results/stage204_results_20261126T011205Z_1583527.txt -text
 docs/experiments/06_sgla_uav_tracking/results/stage205_results_20261126T013956Z_1605754.txt -text
 docs/experiments/06_sgla_uav_tracking/results/stage206_results_20261126T042709Z_1653346.txt -text
+docs/experiments/06_sgla_uav_tracking/results/stage207_results_20261126T070603Z_1751488.txt -text
+tools/run_stage208_state_interaction.sh text eol=lf
+tools/stage208_state_interaction.py text eol=lf
+tools/stage208_factor_common.py text eol=lf
+tools/test_stage208_state_interaction.py text eol=lf
+docs/experiments/06_sgla_uav_tracking/STAGE208_PAIRED_STATE_INTERACTION.md text eol=lf
