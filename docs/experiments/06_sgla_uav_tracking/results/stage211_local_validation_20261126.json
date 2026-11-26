@@ -1,0 +1,38 @@
+{
+  "schema": "stage211_local_validation_v1",
+  "date": "2026-11-26",
+  "timezone": "Asia/Hong_Kong",
+  "status": "PREPARED_NOT_GPU_EVALUATED",
+  "tests": {
+    "passed": 3,
+    "skipped": 0,
+    "seconds": 109.535
+  },
+  "environment": {
+    "python": "3.12.4",
+    "torch": "2.7.1+cpu",
+    "numpy": "1.26.4"
+  },
+  "checks": [
+    "reviewed Stage-210 bundle fingerprints/table hashes and changed-byte rejection",
+    "center-correct hybrid construction, exact original endpoints, dimensions unchanged, invalid-size rejection",
+    "known factorial center/size/interaction coefficients, sum of averaged effects equals total, unsupported strata empty",
+    "synthetic 38-source full audit: 1824 searches plus 48 serial parity searches with independent spawned CPU workers",
+    "source endpoint NPZ/model identity binding; exact arrays at both original endpoints; wrong expected state rejected",
+    "source files unchanged, committed-cache reuse without inference, summary-tamper rejection",
+    "Python3.10 grammar AST, LF, CLI help, Bash -n and 10-table / 2-JSON bundle inventory"
+  ],
+  "limitations": [
+    "Synthetic small linear backbone with actual CENTER/cal_bbox/map/clip; synthetic sampler uses fixed factor",
+    "No actual SGLA Transformer/CUDA/real pixel crop/real model tree/real precision or throughput measured locally",
+    "Original native parent geometry remains an offline reference, not an available online policy",
+    "No training, new full trajectories, AUC or recovery-method success; confirmation sealed"
+  ],
+  "file_sha256": {
+    "tools/stage211_geometry_common.py": "c818a44bd161405ab9286e635d80cdba5177e13b3a97e4109c71a40b30f64075",
+    "tools/stage211_geometry_audit.py": "e955d2eb85099e46c20b08694d27544d2e5ee29c489c48e8d1f54a81ad37dadb",
+    "tools/test_stage211_geometry_audit.py": "57e44c0a719982ed2c2c0adf8b50383b197fcbd6ab16d1520238828b0789cabf",
+    "tools/run_stage211_geometry_audit.sh": "eb2185ca741f2e1c7500328734300682ec8100d65d9f39188fab3b8f678abc20",
+    "docs/experiments/06_sgla_uav_tracking/STAGE211_RECOVERY_CENTER_SIZE.md": "5eb5a3824423e9dcaf51cb4d6a3493ee6ddc9a8f23ee40de05e1c92012a647e2"
+  }
+}

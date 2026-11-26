@@ -2,6 +2,10 @@
 
 更新日期：2026-11-26（Asia/Hong_Kong）
 
+**Stage-211父框中心×尺寸分解已实现，真实GPU待运行，见0.214。** 固定210全部选点和208 matched模型，mm/nm/mn/nn四种父框，不训练、不续写反事实框。两个端点须精确复现210全部数组；记录真实裁剪窗口、覆盖、名义目标网络尺寸、网格及标准输出。3项CPU测试通过，默认双进程、单总体进度、自动TXT；确认集封存。 [协议与运行](docs/experiments/06_sgla_uav_tracking/STAGE211_RECOVERY_CENTER_SIZE.md)
+
+**Stage-210真实结果已复核，见0.213，恢复损失更接近输入父框偏离，候选与读出问题也并存。** 38源/22原生失败/13恢复（10源）/9未恢复，9个matched丢失窗涉及6源；固定matched换原生父框，lost即时IoU+.4633、全恢复+.2003，名义区间为正。6/9窗三帧均好仅为逐帧离线对照，不是闭环挽救。10表重算误差0、648对角复现声明全过；正常38源matched有小幅即时改善。下一步建议211全源父框中心×尺寸分解，尚未实现，不加网络或门槛。 [结果与下一步](docs/experiments/06_sgla_uav_tracking/STAGE210_RESULTS_REVIEW.md)
+
 **Stage-210全开发源恢复机制审计已实现，真实GPU待运行，见0.212。** 固定209原生／matched轨迹及208四权重，纳入全部原生恢复3帧和逐源均匀正常对照，交叉两父框×两模型；不训练、不续写真值框。默认双进程、单总体进度、自动TXT；3项CPU测试通过。目标区分覆盖/网格供给/标准读出问题，不把离线上界当新方法。 [协议与运行](docs/experiments/06_sgla_uav_tracking/STAGE210_ALL_SOURCE_RECOVERY_AUDIT.md)
 
 **Stage-209真实结果已复核，见0.211，同权重正确输入平均领先但两个主比较仍未通过。** matched/search/wrong/zero AUC65.0445／63.1931／63.0545／64.4185，对search/wrong+1.8514／+1.9900，双seed同向、名义与家族区间均跨零。10表重算误差0，18串并行与114来源轨迹复现报告通过，zero导出质量精确原生；恢复保护仍未过，全部364653帧L9。下一步建议210全38源恢复保护机制审计，不再训练新模板交互或挑单视频，尚未实现。 [结果与下一步](docs/experiments/06_sgla_uav_tracking/STAGE209_RESULTS_REVIEW.md)
@@ -3324,6 +3328,40 @@ matched-zero+.626076、CI[−2.173964,+3.836781]，去0176−.495708。0307/0349
 服务器~/workspace/paper，sglatrack-test：mkdir -p output/stage210；nohup bash tools/run_stage210_recovery_audit.sh > output/stage210/run.log 2>&1 < /dev/null &；tail -f output/stage210/run.log。默认output/stage210/all_source_recovery_audit_v1、GPU0、workers2；支持STAGE210_ROOT/GPU/WORKERS、STAGE208_ROOT/BUNDLE、STAGE209_ROOT/BUNDLE、CHECKPOINT及七入口覆盖。完成自动stage210_results_<UTC>_<PID>.txt，--check-results复核重打包，失败回传worker_logs；不放宽精确条件。当前未提交/推送、未执行服务器GPU。
 
 后续依据汇总才决定：若覆盖/供给不足优先状态/表征，若好框漏选才改读出，若当帧改善不保留再验写回后效；不先认定原因、不再围绕单例扩大结构。 [固定协议](docs/experiments/06_sgla_uav_tracking/STAGE210_ALL_SOURCE_RECOVERY_AUDIT.md)
+
+### 0.213 Stage-210 真实结果：父框偏离与恢复损失关系强，不能归成单一裁剪原因
+
+原包stage210_results_20261126T121031Z_2077681.txt原字节归档，SHAabba43753092b39109ba02ef762af177fc008404c6e9eb4c223faeb8c063d1d0；decision7cb046228b6674d1d59b0b3f848e6cc4377649de5954d32b71b2730f6d94aaf8，plan68c508c60e46ceffc9152deb98dcb29a5df03a92b63b33580eea41c693ee4721。L20同209runtime，workers2，正式1296搜索+24串行，0训练/0新完整轨迹/0确认开放。12段/10表hash/JSON指纹匹配；1296cells重算432事件格/16summary/48contrasts，误差0。事件/支持/选点等manifest，各源失败/恢复丢失数对应209，4模型scope等209；648对角框层复现声明全精确，串行worker数组报告一致。源码41精确、8旧文件只CRLF/LF，原协议精确。625物理内部文件未在本机取得，未独立重演PT/NPZ/像素/原网格和轨迹，仅核导出声明及统计。 [机器核验](docs/experiments/06_sgla_uav_tracking/results/stage210_review_audit_20261126.json)
+
+38源全部提供正常对照41窗。原生22失败/13恢复/9未恢复，恢复实际只有10源；双seed26恢复窗=17保留+9丢失，lost6源0076/0089/0169/0226/0307/0349。不能把38源说成都有恢复，也不把1296cells当独立样本；lost按matched结果条件化，不能解释成无条件总体因果。
+
+lost四格源等权输出IoU，native父框/native模型 .703537、native/matched .666271、matched/native .246894、matched/matched .202957；网格best .811735/.797379/.461041/.449903。三帧均好原始窗数9/9、6/9、1/9、0/9；6/9不是恢复六条完整轨迹，因为每帧均使用来源父框、没有续写反事实输出。固定matched的native父框减自身父框+.463314，CI[+.349293,+.578371]，6源均正、最差留一+.423414；网格best+.347475，CI[+.101292,+.624690]。固定native模型父框效应+.456643，CI[+.271668,+.593592]。所有恢复10源固定matched父框效应仍+.200336，CI[+.061472,+.360291]，6正4负；同native父框换模型−.021438，CI跨零。输入状态偏离是重要解释，不代表已定位最早致错动作或证明全部失跟由裁剪造成。
+
+自身父框/matched在lost27帧：4标准好输出、8网格好却漏选、6完整覆盖但无好格点、9不全覆盖且无好格点。源等权三种坏类33.33%/16.67%/33.33%，覆盖58.33%；源权重百分比不等于原始27帧比例。不全覆盖不是完全没看到，0076 seed2133三帧不全覆盖但有好格点且漏选。原生父框/matched的27帧全有网格好框，24标准好、3漏选；未达三帧均好的3窗是0089 seed2133与0307双seed。没有环境/干扰物身份标签，不称主要由高分干扰物引起。
+
+正常41窗/38源四格都三帧好且全覆盖；同native父框matched模型即时IoU+.006710，CI[+.001936,+.011692]；同自身父框+.008758，CI[+.003808,+.014418]。适配在正常定位有小改善，恢复困难输入仍受损，不能笼统称模型处处变差。全部仍为单帧条件诊断，没有新AUC/在线触发器/恢复方法；worker38.487秒不是完整视频提速证据。
+
+下一步建议Stage-211：固定matched模型和210全部恢复/正常窗口，做父框中心×尺寸四格（自身cxcy/自身wh、原生cxcy/自身wh、自身cxcy/原生wh、原生cxcy/原生wh）；混合后还原xywh，不能直接拼左上角和wh。查实际覆盖、网络目标有效尺寸、网格供给、标准输出，两个端点精确复现210；全恢复/lost/retained/normal源等权。直接对应裁剪平移与尺度，不添加门槛或网络。旧185少数旧方案事件不能替代当前适配模型全恢复对照。中心主导才设计中心状态更新，尺度主导才做尺度保护；几何恢复供给仍漏选再处理读出，不同时改三模块。211尚未实现/运行，原生几何仅离线参照，不冒称可部署策略，不开确认集。 [完整结果与建议](docs/experiments/06_sgla_uav_tracking/STAGE210_RESULTS_REVIEW.md)
+
+### 0.214 Stage-211 固定模型父框中心×尺寸分解（已实现，真实GPU待运行）
+
+新增tools/stage211_geometry_common.py、stage211_geometry_audit.py、test_stage211_geometry_audit.py、run_stage211_geometry_audit.sh及固定协议。依据210父框效应强但尚未分中心/尺度，本轮不加新网络、选层或门槛；固定同一matched模型和210全部原生恢复/正常窗口，分解几何输入。旧1～210代码/原协议/结果冻结。
+
+210原包SHAabba43753092b39109ba02ef762af177fc008404c6e9eb4c223faeb8c063d1d0，decision7cb046228b6674d1d59b0b3f848e6cc4377649de5954d32b71b2730f6d94aaf8。核12段/10表、完整210物理verify/旧代码/协议；events22/support38/selection324原样进入211计划，不重选点。38源41正常窗；13原生恢复来自10源，lost9 seed窗来自6源，不能称38源都有恢复。只读210 native父框/matched模型和matched父框/matched模型两端点的NPZ/receipt，绑定frame列表及source state，取实际输入父框。无需另传209轨迹目录，仍需208模型/参考及原七数据入口；四模型scope/file/state与210表完全一致。
+
+四模式首位中心、次位宽高，m自身、n原生：mm/nm/mn/nn。中心=(x+w/2,y+h/2)，混合后还原xywh；mm/nn直接复制源浮点值，不做无必要重构以保护逐位端点。混合不直接拼旧x/y与另一组wh，否则会混改中心。原正方形裁剪side=ceil(sqrt(w*h)*search_factor)，尺寸项主要改变几何均值尺度/覆盖/网络目标分辨率，不独立证明长宽比贡献。每点同matched权重、原生模板/MLP/CENTER/Hann/裁剪/回映规则，仅父框几何变；只独立公开track，不写回续跑，不把GT用于模型或几何选择。
+
+沿用210同次CENTER图原cal_bbox/map/clip精确grid解码，选中格框须等公开输出；存score/size/offset/grid/parent/factor/calls，记录中心重构数值误差、实际整数crop left/top/side、完整覆盖、原四类诊断、GT整框宽高*实际factor的名义网络尺寸（不是可见尺寸）。混合框可能有浮点与取整边界效应，不假设数学中心相同就一定同整数crop；以真实窗口和factor解释结果。
+
+正式1296搜索+首源24串行，无训练/新完整轨迹。默认两spawn进程跨源、每源顺序，独立runtime/hook/cache，单总体进度条，父进程总lock和汇总；首源所有原始数组串/worker精确一致。相同完整runtime时mm/nn两个端点所有数组须精确复现210，不仅框/层；换L20/L40或UUID需新根，全部格同卡新跑记录来源误差，软件/权重/config不能改，续跑不得换GPU/UUID/workers/code。
+
+10表events/source_support/selection/cells/event_cells/summary/contrasts/endpoint_replay/model_scope/execution。先3帧窗口、seed、源等权，all_recovery/retained/lost/normal各报支持源；空支持空值、单源无CI。四简单效应、中心/尺寸顺序平均、差中差交互nn−nm−mn+mm、总效应nn−mm，均名义探索性bootstrap。中心平均+尺寸平均=总效应是描述性分配交互，不是因果贡献百分比。无GT几何在线策略/闭环恢复/AUC/采用主张，不开放确认集。
+
+本地3项CPU测试通过109.535秒，无跳过：真实210包及改字节拒绝；hybrid中心/wh构造、端点逐位、非法尺寸；已知因素分解/平均效应和总效应恒等、空支持；合成38源每源1恢复+1正常窗口、两个真实spawn CPU进程、1824当前审计搜索+48串行（另生成210源fixture），完整两个端点数组精确复现、源NPZ模型身份绑定与错误state拒绝、源不变、缓存复用不推理、结果篡改拒绝。小线性骨干+真实repo CENTER/cal_bbox/clip，合成sample_target固定factor，并未验证真实像素裁剪或Transformer/GPU/真实精度/吞吐。Python3.10语法AST/LF/CLI/Bash -n/10表打包清单通过。 [本地验证](docs/experiments/06_sgla_uav_tracking/results/stage211_local_validation_20261126.json)
+
+服务器~/workspace/paper（sglatrack-test）：mkdir -p output/stage211；nohup bash tools/run_stage211_geometry_audit.sh > output/stage211/run.log 2>&1 < /dev/null &；tail -f output/stage211/run.log。默认output/stage211/recovery_center_size_v1、GPU0、workers2；支持STAGE211_ROOT/GPU/WORKERS、STAGE210_ROOT/BUNDLE、STAGE208_ROOT/BUNDLE、CHECKPOINT及七入口覆盖。需210原始审计及208模型，不只是TXT。完成stage211_results_<UTC>_<PID>.txt，--check-results核验重打包，错误回传worker_logs，不降低端点精确条件。当前未提交/推送、未执行服务器GPU。
+
+结果后根据中心/尺寸及交互对覆盖/供给/标准输出的对应关系才设计状态更新：中心主导再研究受约束或可学习中心，尺寸主导再研究尺度保护，供给恢复仍漏选再单独改读出；不能把原生几何当部署时免费可得参照，也不一次同时改三模块。 [固定协议](docs/experiments/06_sgla_uav_tracking/STAGE211_RECOVERY_CENTER_SIZE.md)
 
 ## 1. 接手后首先要知道的结论
 
