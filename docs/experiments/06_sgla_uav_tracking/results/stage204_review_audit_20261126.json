@@ -1,0 +1,297 @@
+{
+  "date": "2026-11-26",
+  "bundle_sha256": "3d1a89cad966001838cc8145917bd12d08b11030737081cf5e159a4b54a48811",
+  "decision_fingerprint": "3cc164919abc8af737a21520e9e53b9775c5bf055ddfb6d0eda1d43a0ee36935",
+  "plan_fingerprint": "603de9cf615c4d318c1bc54de29de745c76827a7319d5593b4d5f1c79828ff5c",
+  "table_hashes_verified": {
+    "stage204_model_scope.csv": "065d5c563f43e15984281639e721d0983b959166230d4dfcfffad8d9ef9e4817",
+    "stage204_fit_summary.csv": "e8ea91def8b553aa32de58dbd966fcb57146059ee424faccb85c905d848b366e",
+    "stage204_source_bridge.csv": "af953d45ca1eaa3928fb4ca496960cc97c058d79ba67c38e3680f6aaf4957e8c",
+    "stage204_pair_schedule.csv": "171fe6a1587dc3e338a866b66da395679c7788dc73f7af7a501537d82dc0b06f",
+    "stage204_pair_support.csv": "2791f8f60448a103de80c44cfb3ccac36db5dd615a15a0b39632318921c22535",
+    "stage204_error_summary.csv": "4a3f87cd4a8561e79dd22d438cac09bd75498ca82212f4fae8bd5e0315354aab",
+    "stage204_error_video.csv": "e24d0320efb85ab6fb19d6c8bad10bedf135aa9cf529ff37688a0444db4b5c29",
+    "stage204_policy_summary.csv": "dfe5118123db2283124cf711da4f45c95310a7db721de79d7d8568b986d43d9d",
+    "stage204_policy_video.csv": "9a3aa8044855f16396b43d15b2ea8e56bd0b750f8511a68f298eed272aad8c7c",
+    "stage204_paired.csv": "74b2ba2fed0c2a71b97233bd004654fefbab30dba03055b347904b01d9595ac8",
+    "stage204_frame_predictions.csv": "b2704689798b0c17450600beef6b16cc4b8ec14e53d7bc850a6a03494641bbd0",
+    "stage204_training_history.csv": "b39982c2fe4aabe33ae6d9fd5a33f804593fd2b3c437b43cd6370039061432dc",
+    "stage204_seed_summary.csv": "7c0cba787ae2948cdae9f0a31ee5ef5fd0589f9b7751e3663fd1ebd6f64a1fe3",
+    "stage204_descriptor_audit.csv": "cbf349ee9825dbe5c23d76af74e5a2f0b423f3e0946cce0dadaec505ed6bfd3d"
+  },
+  "code_hashes_verified": {
+    "stage202_regret_routing.py": "840fa832781a6e6ca8662bfad0b970be9bb563f4dc5bfa83aa77d998649e9c9c",
+    "stage202_regret_common.py": "659b00477da56a3ae68166c17c4b7fbf424933e398425746f7554de6cd378821",
+    "stage200_pair_common.py": "730c5f10a68bb9f0a9b98d838b02844f32dc8b2ef4fa47615f0393ba704030c6",
+    "stage200_within_video.py": "c5af53c9eb6036e3de0f19b52a3525cd296a85fd8f38c1af596fb5ce4556e2f2",
+    "stage201_score_baseline.py": "6126eec5c63de14b59b1f7f9bf078b0c28279a3db473d269ae0688318582cee6",
+    "stage199_residual_model.py": "85d321b96e52446953da5b1b6842dcf5f35440f7215fd22f4e48bd2d4d681931",
+    "stage195_router_objective_audit.py": "d34102a8d2c17922f830a33f86f250c40813dc894f7022236ee3a3bdccc212bf",
+    "stage195_routing_common.py": "3177256db063fcfcbb3e0c4418e7c54808e1c99271861d1d4bd90041b52c8ebf",
+    "stage194_module_common.py": "d23d31dd0fdde83d8946c9c54823eba7e22283fc2836488467ab1fef43dfd480",
+    "stage199_residual_routing.py": "5a5873edd240160b1011393e1bad5bc89d363bceddd3242a8c11235efc649a75",
+    "stage198_routing_calibration.py": "458792b65c7655a4fc16128dc65b2b25f795e89c5389c258080b7614d864bc00",
+    "stage196_relative_loss.py": "186aa9b2432957b001936557dea654e1644271da4fa4c472892907ff7b8ed5d4",
+    "stage194_module_ablation.py": "2287cd073391f9d443a7ce2331b7a42c77464f60be329b57b95f273c211323a6",
+    "stage203_loss_clipping.py": "7b84d1f2612d5cffbca3416034d7667715a595137a735232b8855b852e824440",
+    "stage203_clipping_common.py": "0c569384b0cd69348c757ad33c612832a3ee2ec4095f1543efb2b965dbe453a2",
+    "stage204_target_relation.py": "d86748595fde0f09290af2eb90bc04f6ae299184693a1c0ce0551070daa44287",
+    "stage204_relation_common.py": "a8437cda61cd8f17492526189177efd06dafc0483e5a119f0f30a3d23530ae91",
+    "stage204_relation_model.py": "77dc54898dae9496b387c49276db50ca12c10d14af285a420e8eb8ae2842b29f"
+  },
+  "protocol_hash_verified": "93ead603637b2315672936ce28dce143fa33d01bd068fac32da6e948880c7710",
+  "source_references_identical_to_reviewed_stage203": 163,
+  "declared_physical_artifacts_not_locally_available": 948,
+  "table_rows": {
+    "model_scope": 12,
+    "fit_summary": 6,
+    "source_bridge": 38,
+    "pair_schedule": 2048,
+    "pair_support": 76,
+    "error_summary": 18,
+    "error_video": 1368,
+    "policy_summary": 30,
+    "policy_video": 2280,
+    "paired": 66,
+    "frame_predictions": 21888,
+    "training_history": 3072,
+    "seed_summary": 60,
+    "descriptor_audit": 228
+  },
+  "maximum_recompute_differences": {
+    "pair_schedule": 0.0,
+    "pair_support": 0.0,
+    "error_video": 0.0,
+    "policy_video": 4.440892098500626e-16,
+    "frame_predictions": 0.0,
+    "policy_summary": 1.1102230246251565e-16,
+    "error_summary": 0.0,
+    "paired": 2.7755575615628914e-17,
+    "seed_summary": 1.734723475976807e-17
+  },
+  "maximum_cyclic_null_error": 4.440892098500626e-16,
+  "initial_weights_and_pair_schedules_matched": true,
+  "training_counts_and_gradient_histories_matched": true,
+  "fit_label_prior_recomputed": true,
+  "matched_objective_reconstruction": [
+    {
+      "fold": 0,
+      "seed": 2132,
+      "arm": "concat",
+      "initial_matched_objective": 0.0017857989578886676,
+      "final_matched_objective": 0.0013593553019677518,
+      "fraction_reduced": 0.23879712441152723
+    },
+    {
+      "fold": 0,
+      "seed": 2132,
+      "arm": "matched_relation",
+      "initial_matched_objective": 0.0017857989578886676,
+      "final_matched_objective": 0.0013194763778527317,
+      "fraction_reduced": 0.2611282630533419
+    },
+    {
+      "fold": 0,
+      "seed": 2132,
+      "arm": "mismatched_relation",
+      "initial_matched_objective": 0.0017857989578886676,
+      "final_matched_objective": 0.0013437147216798285,
+      "fraction_reduced": 0.24755543408509484
+    },
+    {
+      "fold": 0,
+      "seed": 2133,
+      "arm": "concat",
+      "initial_matched_objective": 0.001171960099479237,
+      "final_matched_objective": 0.0008668268456839593,
+      "fraction_reduced": 0.26036146958489825
+    },
+    {
+      "fold": 0,
+      "seed": 2133,
+      "arm": "matched_relation",
+      "initial_matched_objective": 0.001171960099479237,
+      "final_matched_objective": 0.0008461270455100046,
+      "fraction_reduced": 0.27802401644391905
+    },
+    {
+      "fold": 0,
+      "seed": 2133,
+      "arm": "mismatched_relation",
+      "initial_matched_objective": 0.001171960099479237,
+      "final_matched_objective": 0.0008448058227245095,
+      "fraction_reduced": 0.279151378020548
+    },
+    {
+      "fold": 1,
+      "seed": 2132,
+      "arm": "concat",
+      "initial_matched_objective": 0.001794007148884282,
+      "final_matched_objective": 0.0013393528867358692,
+      "fraction_reduced": 0.25342945953764384
+    },
+    {
+      "fold": 1,
+      "seed": 2132,
+      "arm": "matched_relation",
+      "initial_matched_objective": 0.001794007148884282,
+      "final_matched_objective": 0.001281288386758177,
+      "fraction_reduced": 0.28579527258014115
+    },
+    {
+      "fold": 1,
+      "seed": 2132,
+      "arm": "mismatched_relation",
+      "initial_matched_objective": 0.001794007148884282,
+      "final_matched_objective": 0.0012949799819858094,
+      "fraction_reduced": 0.27816342159440366
+    },
+    {
+      "fold": 1,
+      "seed": 2133,
+      "arm": "concat",
+      "initial_matched_objective": 0.0016304855848008639,
+      "final_matched_objective": 0.0012544535907279785,
+      "fraction_reduced": 0.23062577037061716
+    },
+    {
+      "fold": 1,
+      "seed": 2133,
+      "arm": "matched_relation",
+      "initial_matched_objective": 0.0016304855848008639,
+      "final_matched_objective": 0.0011924331312295052,
+      "fraction_reduced": 0.26866380031495907
+    },
+    {
+      "fold": 1,
+      "seed": 2133,
+      "arm": "mismatched_relation",
+      "initial_matched_objective": 0.0016304855848008639,
+      "final_matched_objective": 0.0011942550441608982,
+      "fraction_reduced": 0.2675463952005708
+    }
+  ],
+  "seed_held_results": [
+    {
+      "arm": "concat",
+      "seed": 2132,
+      "mean_iou": 0.6612678223051199,
+      "alignment": 0.0023615525810005596
+    },
+    {
+      "arm": "concat",
+      "seed": 2133,
+      "mean_iou": 0.6594702528392208,
+      "alignment": 0.0006418443717821047
+    },
+    {
+      "arm": "matched_relation",
+      "seed": 2132,
+      "mean_iou": 0.6623526464663342,
+      "alignment": 0.0013682943110809652
+    },
+    {
+      "arm": "matched_relation",
+      "seed": 2133,
+      "mean_iou": 0.6601977430820901,
+      "alignment": 0.001816864139456745
+    },
+    {
+      "arm": "mismatched_relation",
+      "seed": 2132,
+      "mean_iou": 0.6597252313242318,
+      "alignment": 9.438334700516343e-06
+    },
+    {
+      "arm": "mismatched_relation",
+      "seed": 2133,
+      "mean_iou": 0.6617720695773806,
+      "alignment": 0.0005687458267905073
+    }
+  ],
+  "held_matched_action_counts": {
+    "9": 498,
+    "7": 1817,
+    "10": 384,
+    "8": 587,
+    "12": 113,
+    "11": 249
+  },
+  "held_matched_gap_decomposition": {
+    "actual_minus_prior": -0.005333151285046189,
+    "independent_minus_prior": -0.006925730510315087,
+    "actual_minus_independent": 0.0015925792252688975
+  },
+  "primary_contrasts": [
+    {
+      "arm": "matched_relation",
+      "pool": "held",
+      "kind": "within",
+      "contrast": "trained_minus_prior_only",
+      "metric": "mean_iou",
+      "favorable_direction": "positive",
+      "videos": 38,
+      "mean_delta": -0.005333151285046105,
+      "median_delta": -0.0004391316098139586,
+      "ci_low": -0.011482430242250374,
+      "ci_high": 4.1396918880539097e-05,
+      "positive": 15,
+      "negative": 20,
+      "worst_leave_one_video_out": -0.006331050369196883
+    },
+    {
+      "arm": "matched_relation",
+      "pool": "held",
+      "kind": "alignment",
+      "contrast": "trained_minus_independent_expectation",
+      "metric": "mean_iou",
+      "favorable_direction": "positive",
+      "videos": 38,
+      "mean_delta": 0.0015925792252688522,
+      "median_delta": 0.0007095143549140856,
+      "ci_low": 0.000417569521680219,
+      "ci_high": 0.0028965991325867967,
+      "positive": 24,
+      "negative": 11,
+      "worst_leave_one_video_out": 0.001231364560724535
+    },
+    {
+      "arm": "matched_relation",
+      "pool": "held",
+      "kind": "representation",
+      "contrast": "matched_minus_concat",
+      "metric": "mean_iou",
+      "favorable_direction": "positive",
+      "videos": 38,
+      "mean_delta": 0.0009061572020417586,
+      "median_delta": 0.0003311216009355411,
+      "ci_low": -0.0010449368701764938,
+      "ci_high": 0.0028541679487472382,
+      "positive": 23,
+      "negative": 14,
+      "worst_leave_one_video_out": 0.0005317940019248085
+    },
+    {
+      "arm": "matched_relation",
+      "pool": "held",
+      "kind": "representation",
+      "contrast": "matched_minus_mismatched_relation",
+      "metric": "mean_iou",
+      "favorable_direction": "positive",
+      "videos": 38,
+      "mean_delta": 0.0005265443234059557,
+      "median_delta": 0.0008506140734935996,
+      "ci_low": -0.0032571568185261945,
+      "ci_high": 0.004329228134039715,
+      "positive": 22,
+      "negative": 16,
+      "worst_leave_one_video_out": -0.00043293924332959077
+    }
+  ],
+  "descriptor_mapping_rows_verified": 228,
+  "maximum_regret_bound_violation": 0.0,
+  "actual_transformer_calls_measured": false,
+  "new_full_trajectories": 0,
+  "confirmation_groups_opened": 0,
+  "limitation": "Raw L6 feature NPZ and PT model files are unavailable locally. No new training, image reads, backbone inference or full trajectories. Intervals are nominal on historically exposed development groups."
+}

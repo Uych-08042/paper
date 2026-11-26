@@ -2,9 +2,11 @@
 
 更新日期：2026-11-26（Asia/Hong_Kong）
 
-**Stage-204已实现并通过5项CPU测试，待服务器真实训练，见0.200。** concat／正确关系／错配关系三组，同6720参数、可训练参数初始化、point MSE／clip1／抽样／预算。全局描述统一fit-only中心化与标准差缩放，buffer允许因输入不同而不同；错配仅借另一fit来源的模板统计，不改原token／实际模板。12模型3072更新21888缓存评价，14表，单一总体进度条。本机无194真实NPZ，不预报收益；服务器`bash tools/run_stage204_target_relation.sh`。 [固定协议与后台命令](docs/experiments/06_sgla_uav_tracking/STAGE204_TARGET_SEARCH_RELATION.md)
+**Stage-205已实现并通过4项CPU测试，待服务器真实运行，见0.202。** 三输入严格fit内逐源组留一，18组拟合／1组校准，内折先验／特征统计／错配参考重算。228额外模型58368更新，12个闭式残差收缩系数先封存，再复用204外held分数评价；不重训外模型，不用外held标签校准。16表、总体进度条，0新图像／骨干／完整轨迹／确认集。服务器`bash tools/run_stage205_crossfit_shrinkage.sh`，后台命令见协议；本机无194真实NPZ，不预报α或收益。 [固定协议与后台命令](docs/experiments/06_sgla_uav_tracking/STAGE205_CROSSFIT_RESIDUAL_SHRINKAGE.md)
 
-**Stage-203真实结果已复核，见0.199，取消裁剪没有建立收益。** point clip／off held IoU .66061429／.66064190；regret clip／off .66104727／.66096011，均低于prior .66660835，五项主要区间均跨零。regret实际梯度范数改变，但平均参数更新量仅+0.10%；8个clip控制权重哈希／分数／动作与202精确一致，14表全状态复算通过。降低裁剪瓶颈假设优先级，不继续扫阈值，不采用。该关系输入对照已由Stage-204实现，见0.200，待真实训练；0新完整轨迹／确认组。 [真实结果与下一步依据](docs/experiments/06_sgla_uav_tracking/STAGE203_RESULTS_REVIEW.md) · [固定协议](docs/experiments/06_sgla_uav_tracking/STAGE203_LOSS_CLIPPING_FACTORIAL.md)
+**Stage-204真实结果已复核，见0.201。有小幅状态对应和排序线索，整体收益尚未建立。** 正确关系held IoU .66127519，对原输入+.00090616、对错配+.00052654，两区间均跨零，仍低于prior .66660835。自身状态对应+.00159258、名义区间为正，但原输入自身也为正；不能直接归因正确关系。14表全状态／日程／参考映射复算通过，0新完整轨迹／确认集。该建议现已由205实现，见0.202；真实运行待服务器完成。 [真实结果与下一步依据](docs/experiments/06_sgla_uav_tracking/STAGE204_RESULTS_REVIEW.md) · [固定协议](docs/experiments/06_sgla_uav_tracking/STAGE204_TARGET_SEARCH_RELATION.md)
+
+**Stage-203真实结果已复核，见0.199，取消裁剪没有建立收益。** point clip／off held IoU .66061429／.66064190；regret clip／off .66104727／.66096011，均低于prior .66660835，五项主要区间均跨零。regret实际梯度范数改变，但平均参数更新量仅+0.10%；8个clip控制权重哈希／分数／动作与202精确一致，14表全状态复算通过。降低裁剪瓶颈假设优先级，不继续扫阈值，不采用。该关系输入对照已由Stage-204完成，真实结果见0.201；0新完整轨迹／确认组。 [真实结果与下一步依据](docs/experiments/06_sgla_uav_tracking/STAGE203_RESULTS_REVIEW.md) · [固定协议](docs/experiments/06_sgla_uav_tracking/STAGE203_LOSS_CLIPPING_FACTORIAL.md)
 
 **Stage-202真实结果已复核，见0.197，三个主要比较均未建立收益。** regret held IoU .66104727，对point +.00043298、CI跨零，仍低于prior .66660835；状态对应+.00057849、CI跨零且双seed异号。训练有效，但优化交互明显：regret有1022／1024次裁剪前范数>1，point只有4／1024次；不能直接认定裁剪造成失败。point模型哈希／逐状态分数与200精确一致；13表／代码／原协议及全状态复算通过。0新完整轨迹／确认组，层号不是实际执行块数。该四组匹配训练已由Stage-203实现，见0.198，待服务器真实训练。 [结果与下一步依据](docs/experiments/06_sgla_uav_tracking/STAGE202_RESULTS_REVIEW.md) · [固定协议](docs/experiments/06_sgla_uav_tracking/STAGE202_REGRET_MARGIN_ROUTING.md)
 
@@ -229,7 +231,7 @@ Stage-75 L20 已完成 13 个固定起点和 52 条短分支。0003 两个首败
 
 ## 0. 下一次对话的直接接续入口
 
-最新入口为0.200的Stage-204实现与服务器命令，再回看0.199的Stage-203真实结果。198～203均已完成，勿重复索取或重跑；Stage-1～203实验Python、原协议与产物保持冻结。204已实现待真实缓存训练，本机仅做合成CPU测试。
+最新入口为0.202的Stage-205固定实现与服务器命令，再回看0.201的204真实结果。198～204均已完成，勿重复索取或重跑；Stage-1～204实验Python、原协议与产物保持冻结。205已实现且合成CPU测试通过，真实194特征本机缺失，待服务器真实训练。
 
 本节更新至 2026-11-25。接续先读0.187的Stage-196损失对照结果、0.186的Stage-195路由目标审计、0.185的 Stage-194 完整模块消融结果及全阶段方法依据。每次分析实验结果后，附上下一步实验建议及其验证标准。运行使用总体进度条，复用 `tools/experiment_progress.py` 中的 `OverallProgress`，在后台日志定时刷新。以往全视频结果见 0.143、0.122 和 0.112，候选生成背景见 0.90～0.95 和 0.53～0.54，确认边界和论文目标见 0.48／0.44。 [Stage-196结果](docs/experiments/06_sgla_uav_tracking/STAGE196_RESULTS_REVIEW.md)
 
@@ -3081,9 +3083,9 @@ held point clip／off IoU .66061429／.66064190；regret clip／off .66104727／
 
 下一步建议Stage-204同参数目标—搜索关系输入对照，固定point MSE／原预算，不再追加损失。现有g=[meanZ,stdZ,meanX,stdX]经线性读出，原始token另有192→1投影；输入和联合骨干本来已有真模板，不能称没有目标条件。拟三组：原统计拼接；正确关系g_rel=[meanZ⊙meanX,|meanZ−meanX|,stdZ⊙stdX,|stdZ−stdX|]；相同运算下用预先固定fit参考的错配关系。4×192仍768、ordered token仍320、总参数仍6720。错配只改新增关系描述，不改SGLA真正模板／原token／标签，不从held未来或held真值选参考；不是有模板／无模板控制。三组共同fit-only尺度规则和参考映射须运行前固定。新描述的训练／直接计算／预聚合评价接口必须一致，不能只替换缓存pooled而重算仍走旧pool。
 
-检验正确关系是否优于匹配原输入、错配关系、prior并有跨源／双seed对应收益；两种关系一起改善不能归于正确目标匹配，只有fit好也不算泛化。关系运算本身不是原创理论，表征缺失尚非既定病因。仍冻结骨干做路由表征假设，有缓存增量后才另立自身轨迹验证，不凭prior优采用L7或新AUC。204已实现，见0.200，待真实训练，确认集封存，1～203代码／原协议／证据冻结。 [完整复核与建议](docs/experiments/06_sgla_uav_tracking/STAGE203_RESULTS_REVIEW.md) · [机器复核](docs/experiments/06_sgla_uav_tracking/results/stage203_review_audit_20261126.json)
+检验正确关系是否优于匹配原输入、错配关系、prior并有跨源／双seed对应收益；两种关系一起改善不能归于正确目标匹配，只有fit好也不算泛化。关系运算本身不是原创理论，表征缺失尚非既定病因。仍冻结骨干做路由表征假设，有缓存增量后才另立自身轨迹验证，不凭prior优采用L7或新AUC。204已完成，真实结果见0.201；确认集封存，1～204代码／原协议／证据冻结。 [完整复核与建议](docs/experiments/06_sgla_uav_tracking/STAGE203_RESULTS_REVIEW.md) · [机器复核](docs/experiments/06_sgla_uav_tracking/results/stage203_review_audit_20261126.json)
 
-### 0.200 Stage-204 同参数目标—搜索关系输入（已实现，待真实训练）
+### 0.200 Stage-204 同参数目标—搜索关系输入（固定实现记录；真实结果见0.201）
 
 新增stage204_relation_model.py、stage204_relation_common.py、stage204_target_relation.py、test_stage204_target_relation.py、run_stage204_target_relation.sh及固定协议。三组concat、matched_relation、mismatched_relation；令a/b为模板均值／总体std，c/d为搜索均值／std，原输入[a,b,c,d]，关系[a*c,abs(a-c),b*d,abs(b-d)]。4×192仍768、320个原ordered token投影不变，总6720参数、1088输入。原联合骨干已有目标条件，不称从零补入模板；此类关系运算本身不宣称原创理论。
 
@@ -3100,6 +3102,40 @@ held point clip／off IoU .66061429／.66064190；regret clip／off .66104727／
 5项CPU测试通过（Python3.12.4／Torch2.7.1+cpu／NumPy1.26.4）：真实203来源与抽样／缓存身份；继承上界；三组同可训练初始化和真实6720参数；fit参考／held标签及未来描述隔离、直接／预聚合关系一致；三组训练／恢复、38组合成12模型3072步／14表／912预测（每视频2状态）／引用重建／4主要比较／篡改拒绝／禁止CUDA。Bash -n、Python语法、LF与14表导出清单、旧来源hash均通过。真实194特征本机缺失，未启动真实204。 [本地验证记录](docs/experiments/06_sgla_uav_tracking/results/stage204_local_validation_20261126.json)
 
 服务器sglatrack-test、~/workspace/paper运行bash tools/run_stage204_target_relation.sh，默认输出output/stage204/target_search_relation_v1，来源194默认module_ablation_v1及仓库203原包；可设置STAGE194_ROOT／STAGE203_BUNDLE／STAGE204_ROOT。单一总体进度条，后台nohup／tail见[协议](docs/experiments/06_sgla_uav_tracking/STAGE204_TARGET_SEARCH_RELATION.md)。完成回传stage204_results_<UTC>_<PID>.txt（decision／manifest／14表）。未代commit／push。
+
+### 0.201 Stage-204 真实结果：关系表征有线索，整体选层收益未建立
+
+收到stage204_results_20261126T011205Z_1583527.txt，按原字节归档，SHA256为3d1a89cad966001838cc8145917bd12d08b11030737081cf5e159a4b54a48811。状态REVIEW_TARGET_SEARCH_RELATION，decision 3cc164919abc8af737a21520e9e53b9775c5bf055ddfb6d0eda1d43a0ee36935，plan 603de9cf615c4d318c1bc54de29de745c76827a7319d5593b4d5f1c79828ff5c。指纹／14表／代码及原协议哈希相符，163条194来源引用与203一致。
+
+38历史开发源组、两fold各19 fit／19 held、两seed、三输入12模型，共3072更新、12288训练引用、6144模型配对引用、2048独立日程行、21888模型评价状态。6720参数、可训练参数初始化、point MSE／clip1／预算匹配。全部日程、支持、逐状态误差和上界、策略、seed、66配对从导出重算；最大差≤4.44e-16。48次循环动作移位独立核验无对应期望；228参考映射按规则重建且均来自fit、不借自身，跨组哈希相符。948物理产物不在本机，未加载PT或重算原NPZ描述／尺度，只核验声明与导出。0新图像／骨干／CENTER／完整轨迹／确认组。
+
+held平均IoU：concat .66036904、正确关系 .66127519、错配 .66074865、prior .66660835。正确关系四项主要差值：对prior −.00533315、CI[−.01148243,+.00004140]；对自身无对应期望+.00159258、CI[+.00041757,+.00289660]；对concat +.00090616、CI[−.00104494,+.00285417]；对错配+.00052654、CI[−.00325716,+.00432923]。仅自身对应一项有名义正区间；不是全部无效，也不是方法通过。两seed正确对concat +.00108482／+.00072749，对错配+.00262742／−.00157433。自身对应+.00136829／+.00181686均正，最小留一总体+.00123136。
+
+concat自身对应也为正+.00150170；正确对concat对应差+.00009088、CI跨零，不能归因正确匹配。正确对错配对应差+.00130349、名义区间为正，只为支持性信号，总体IoU主要比较仍不成立。正确对concat held层间MSE −.0000542575、区间为负；加权排序+3.112个百分点、区间[+.953,+5.480]。held正确MSE .00159380仍差于prior .00156916，排序57.173%仍低于prior59.295%。约95.4%的MSE改善来自视频均值分量，视频内改善区间跨零；这是描述性分解，不证明唯一病因。
+
+正确组3648动作L7～L12分别1817／587／498／384／249／113。描述性分解：实际−prior −.00533315＝无对应期望−prior −.00692573＋时机对应+.00159258；不能把缓存层号当实际执行成本，不能称AUC。38组已历史暴露、区间名义，非独立确认；不采用当前路由，不因prior即时优而采用已知完整轨迹受损的固定L7。
+
+下一步建议Stage-205：严格fit内源组交叉拟合残差收缩。每外fold19 fit逐源组留一，用其余18组同预算拟合并预测该组；三输入×两seed×两外fold×19内折＝228个额外CPU小模型。内折先验、mean_F、描述均值／尺度、错配参考池全部从18组重算，不能复用含内留出组的外层统计。令P为六层去均值，内折OOF残差h=P(s−μ)、目标z=P(y−μ)，源组等权估计α=clip_[0,1](E⟨h,z⟩/E||h||²)，分母0时0。α仅fit内部估计并锁定，再对冻结204外层分数评价μ_outer+αP(s_outer−μ_outer)。不扫网格、不用held标签校准；最小MSE不保证argmax IoU，必须实际验证。
+
+三输入都做同规则收缩并保留α=1／0，核验IoU、状态对应和非先验动作数；若全部退回L7，即使恢复.666608也只是固定先验保护，不是动态收益。228内折训练为额外校准成本，单列，不能宣称总训练预算与原模型相同；外层204预测可冻结复用。不同于198固定均值校准、201逐视频去均值，不使用held未来均值。若仍无非固定增量，降低单独校准假设优先级，重审数据支持／骨干，不持续扫系数。以上为结果复核时的建议；205现已实现，见0.202，待服务器真实运行。确认集封存，1～204代码／原协议／结果冻结。 [完整复核](docs/experiments/06_sgla_uav_tracking/STAGE204_RESULTS_REVIEW.md) · [机器复核](docs/experiments/06_sgla_uav_tracking/results/stage204_review_audit_20261126.json)
+
+### 0.202 Stage-205 fit内源组留一残差可信度（已实现，待真实运行）
+
+新增tools/stage205_shrinkage_common.py、stage205_crossfit_shrinkage.py、test_stage205_crossfit_shrinkage.py、run_stage205_crossfit_shrinkage.sh及固定协议。继承204三种输入，检验其小幅状态对应信号能否在降低不可靠残差幅度后保留；不预设校准必然修复选层。不同于198固定层均值、201视频去均值，不使用外held未来统计。
+
+来源固定204原包SHA 3d1a89cad966001838cc8145917bd12d08b11030737081cf5e159a4b54a48811，decision 3cc164919abc8af737a21520e9e53b9775c5bf055ddfb6d0eda1d43a0ee36935、plan 603de9cf615c4d318c1bc54de29de745c76827a7319d5593b4d5f1c79828ff5c，以及194原生父框特征／六层标签。14来源表、指纹、代码与协议核验；原204 PT不必复制，外层分数由原包精确恢复float32，动作核对后复用。
+
+每外fold19 fit逐源组留一，内层18 fit／1校准。provider只含外fit19组；内留出组不参与mean_tokens、描述均值／标准差、先验或错配参考，全部每内折重算。三输入同6720参数／1088输入／可训练初始化、point MSE／clip1、原AdamW lr1e-5 wd1e-4，256更新、每步两对同视频独立有放回状态，自配对保留。两外fold×19内折×两seed×三输入＝228额外CPU模型，58368更新、233472训练引用、116736模型对引用；三输入共享38912行日程，1368行支持。内层预测10944状态，外held复用10944状态。明确新增校准成本，不能声称与原raw总预算完全相同。
+
+P为六层去均值，内层OOF h=P(s−μ_inner)、z=P(y−μ_inner)，μ_inner取实际float32模型prior。源组等权、组内状态等权估计α=clip_[0,1](E⟨h,z⟩/E||h||²)，分母0则α=0。每外fold／seed／输入一个α共12，带OOF分数hash的sealed JSON全部发布后才评价外held。外层μ_outer+αP(s_outer−μ_outer)用float64统计，α1显式保留204原float32分数值，α0返回原float64 prior；ties沿用L9差≤1e-8优先，否则首个最大。raw与prior须逐源组复现204（1e-12指标容差）。未最优化IoU，平方误差最小不保证选择成功。
+
+五主要比较固定为matched shrunk对raw／prior／自身无对应期望／concat shrunk／wrong shrunk。报告两seed、非先验比例、六层计数、对应、MSE／排序。若全部固定L7，即使IoU回到.666608也不是动态收益；不得据此采用已知完整轨迹受损的固定L7。沿用38历史开发源、先平均seed再源组bootstrap20000次seed24194、名义95%区间；不称独立确认／完整AUC／真实执行块数或速度。
+
+16表：source_bridge38、inner_scope228、inner_statistics114、inner_schedule38912、inner_support1368、descriptor_audit2166、training_history58368、inner_predictions10944、calibration12、frame_predictions10944、policy_video1140、policy_summary15、error_video684、error_summary9、paired22、seed_summary30。114统计／228模型／228预测各有receipt，12 sealed系数，共1152内部文件绑定decision。使用冻结204训练／缓存引擎，其schema保留，但元数据绑定205计划及严格内折；普通中断复用已提交小模型，未提交小模型从头重训，非有限诊断封存后拒绝继续。0新图像／骨干／CENTER／外模型重训／完整轨迹／确认集，单一总体进度条含复用计数。
+
+4项本机CPU测试全部通过、无跳过（129.699秒，Python3.12.4／Torch2.7.1+cpu／NumPy1.26.4）：真实204来源与10944 held分数恢复、篡改拒绝；解析二次风险／源组等权／负值与上界／零分母／近并列α端点；严格内折先验／mean_tokens／描述尺度／参考不含内留出组；完整38组合成228模型58368步、内外各456状态、12系数先封存、1152内部文件／16表／五主比较，正常中断后两模型复用、冻结源不变、输出复算与篡改／非有限阻断。未调用CUDA。Python AST／CLI、Bash -n、LF、16表打包清单和旧源代码／协议哈希通过。[本地验证记录](docs/experiments/06_sgla_uav_tracking/results/stage205_local_validation_20261126.json)
+
+服务器sglatrack-test、~/workspace/paper：mkdir -p output/stage205，然后nohup bash tools/run_stage205_crossfit_shrinkage.sh > output/stage205/run.log 2>&1 < /dev/null &；tail -f查看。CPU-only无需指定L20或L40。默认output/stage205/fit_source_crossfit_shrinkage_v1，支持STAGE194_ROOT／STAGE204_BUNDLE／STAGE205_ROOT，--check-results仅复核并打包。自动产出stage205_results_<UTC>_<PID>.txt（decision／manifest／16表）。本机没有真实194特征，尚未真实训练，不承诺收益，未代commit／push。无非固定增量时降低单独校准假设优先级，转审数据支持／骨干，避免扫系数；确认集封存。 [固定协议](docs/experiments/06_sgla_uav_tracking/STAGE205_CROSSFIT_RESIDUAL_SHRINKAGE.md)
 
 ## 1. 接手后首先要知道的结论
 
