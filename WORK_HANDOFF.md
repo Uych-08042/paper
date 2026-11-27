@@ -2,6 +2,9 @@
 
 更新日期：2026-11-27（Asia/Hong_Kong）
 
+**Stage-215固定权重中心×尺度消融已实现，真实GPU待运行，见0.222。** 冻结214八更新器和208适配器，每个做none/center/scale/joint四格，none也执行一次原MLP。608新完整轨迹+114绑定复用参照=722质量序列，0训练；32串并行短轨迹对、304新端点复现和114缓存绑定已接入。唯一主比较coverage只中心−联合AUC，不扫尺度阈值。默认双进程评价、单总体进度、自动10表TXT，确认集封存。 [协议与运行](docs/experiments/06_sgla_uav_tracking/STAGE215_FROZEN_CENTER_SCALE.md)
+
+**Stage-214真实结果已复核，见0.221，当前学习搜索父框明显退化。** forecast/coverage AUC53.9480/45.3236，原生64.4185；主要差−8.6245、名义CI[−16.4701,−.7760]，双seed异号。coverage覆盖95.58%但父框平均侧长626.08、GT名义网络侧长39.59，覆盖却无好网格38.62%；forecast覆盖仅71.67%。双重能力保护未过。12表重算差0、18串并行/190控制报告通过，训练及动作有效。建议215固定214权重，做中心×尺度完整轨迹消融，不重训、不扫上限，尚未实现。 [结果与下一步](docs/experiments/06_sgla_uav_tracking/STAGE214_RESULTS_REVIEW.md)
 **Stage-214搜索父框监督学习对照已实现，GPU待运行，见0.220。** 固定SGLA/208空间适配器/原生选层/CENTER与对外适配输出，仅学习下一帧中心和几何平均尺度。forecast回归与coverage附加覆盖约束同参数同状态同抽样；每折仅fit视频新跑nn/mm，152提供轨迹、8小模型2048更新、342完整OOF。3项CPU测试通过，18串并行短轨迹对、190来源控制检查、原生/mm双参照保护已接入；默认双进程评价/总体进度/自动12表TXT。未观察真实新AUC。 [协议与运行](docs/experiments/06_sgla_uav_tracking/STAGE214_LEARNED_SEARCH_STATE.md)
 
 **Stage-213真实结果已复核，见0.219，单纯双输出择优不足以保护既有能力。** raw/adapted/mm/oracle AUC64.4185/65.1105/65.0445/65.6625，GT上界较adapted+.5520；补回原生4次匹配恢复，但mm丢失14次只降至12次，5源。mm好而两路都差1,602个帧—种子记录、23源；0176/0204上界仍比mm低41.9570/19.3165。7表重算差0、来源质量复现；只确认现有输出供给不足，不能单独断言裁剪不覆盖。建议214学习搜索状态更新，固定其他模块与输出规则、全38源完整OOF/双参照保护，尚未实现。 [结果与下一步](docs/experiments/06_sgla_uav_tracking/STAGE213_RESULTS_REVIEW.md)
@@ -3472,6 +3475,36 @@ oracle低mm五源0016−1.365876、0176−41.956989、0200−.087719、0204−19
 运行：`bash tools/run_stage214_search_state.sh`，默认 `output/stage214/learned_search_state_v1`，STAGE214_GPU=0、STAGE214_WORKERS=2，整体一个进度条，自动合并12表+manifest/decision为TXT。后台 `mkdir -p output/stage214`，再 `nohup bash tools/run_stage214_search_state.sh > output/stage214/run.log 2>&1 < /dev/null &`；可记录PID/`tail -f`，协议有完整命令。只改评价进程数可设STAGE214_WORKERS=1，但smoke仍验证双进程。提供状态采集与训练当前主进程顺序执行，不宣称全阶段并行或真实加速。
 
 本机无真实GPU/208模型/212NPZ/原图像数据树，未执行真实启动、训练或精度评价；小样本合成结果不作新AUC。未提交/推送。收回结果后重核来源、匹配预算、更新器是否实际改变状态、主要与双保护指标，并给下一步建议。若coverage没有增量不归功覆盖目标，若状态改变/覆盖提升却仍失效按同批网格诊断区分供给与读出；若学习状态分布偏离提供池，须承认并再决定新状态采集，不盲目扫系数。
+
+### 0.221 Stage-214真实结果：学习状态退化，覆盖率不能单独保证输出质量
+
+原包stage214_results_20261126T194237Z_2307464.txt原字节归档，SHAe9fde8f36b8da411d31dd91fe7bafb95853f9089953567b57ff728bdd59907b6，decisioned45014f53c42067f3ff9381263c36a9cd9736c02051bc4719ce05bd5dab9340，planbd16da78f7606cd75e406effb0bc834d04e5af34b7778ac4d6a2770429121901。14段12表、JSON指纹哈希、342视频重算5policy/42paired差0；source/folds/runtime同212，冻结scope精确，18串并行/190来源复现报告通过，fresh native/nn/mm导出质量精确等212。代码52精确、8旧文件仅LF差异，协议精确；1078内部模型/NPZ/receipt未在本机，不能独立重演状态链/原像素/梯度。 [机器核验](docs/experiments/06_sgla_uav_tracking/results/stage214_review_audit_20261127.json)
+
+152fit提供轨迹162068帧，7296标签全有效，938当前低IoU采样记录；训练表fit/held分离、初始化/抽样/标准化/参数量匹配。8模型各256步1024机会/392维/12675参数，权重变、梯度非零。coverage项激活非0：四模型90/88/41/37批；forecast诊断128/145/61/47批。coverage最大裁剪前范数12.01～47.53，forecast .934～1.660；超过1分别266/1024与26/1024，优化动态也变，不直接归因单一几何损失。首末64步抽样损失下降不是同池拟合/held预测检验。
+
+native/nn/mm/forecast/coverage AUC64.418451/65.110491/65.044528/53.948045/45.323561，lowIoU13.14/13.10/13.28/27.49/42.56%。唯一主要coverage−forecast−8.624483，CI[−16.470072,−.776033]，13正25负、中位−7.328836；seed差+3.664920/−20.913887。forecast对native−10.470407，CI[−15.322862,−5.902333]、10正28负；coverage−19.094890，[−25.577531,−12.893414]、7正31负。forecast seed44.969973/62.926116，coverage48.634893/42.012229，不能用单seed挑好结果。新增原生稳定源失败7/11、mm稳定源9/13；原生匹配恢复丢失双seed17/26次，mm18/26次，双保护未过。
+
+几何按源/seed均值：nn/mm/forecast/coverage完整覆盖.893816/.894763/.716663/.955824；GT名义网络侧长66.4674/64.8134/142.7203/39.5876；覆盖无好grid.022703/.030361/.006409/.386182；有好grid却输出<.5为.042366/.041151/.043458/.021231。父框sqrt面积均值66.332/67.043/49.744/626.078，实际名义搜索边长为其4倍再取整，不混称裁剪边长。coverage的0226/2132父框侧长2667.6、GT网络2.2；0176/2132为2641.7、2.9。两学习组每帧都改raw父框，非零触发问题；现象支持尺度过大/目标分辨率下降线索，但尚未单独隔离中心错误或闭环分布偏移。
+
+关键源native/nn/mm/forecast/coverage：0176为16.0983/15.8464/58.2304/15.9570/10.2335；0204为53.9217/55.5504/75.1254/36.0116/5.2143；0304为72.2871/72.1380/72.2264/31.8496/69.4341；0307为66.5098/67.5638/40.4448/62.9713/14.7218。不只个案下降。当前两模型不采用，不泛化成所有状态学习无效。
+
+完整评价364653帧，block2876707/head688789/crop及selector364653/updater162068，账本精确。双worker full7520.385秒不含提供采集；coverage并发pipeline宏中位均值48.41ms，对nn7.57/forecast7.74，不能换隔离FPS或全归因裁剪CPU。下一步建议215固定214八权重做中心修正×尺度修正消融：分量关闭精确0回raw，原SGLA/适配输出/预算固定，全38源完整轨迹、原生/mm双保护，检查实际边长/覆盖/分辨率/grid。0重训，不扫权重/上限，不挑个例；若中心单独也失效再查同提供状态一步误差与自身分布漂移。215尚未实现/运行，确认集封存。 [完整结果与建议](docs/experiments/06_sgla_uav_tracking/STAGE214_RESULTS_REVIEW.md)
+
+### 0.222 Stage-215固定214模型的中心×尺度闭环干预：已实现待GPU
+
+用户授权下一轮。新增 `tools/stage215_component_common.py`、`tools/stage215_component_experiment.py`、`tools/test_stage215_components.py`、`tools/run_stage215_components.sh` 和[固定协议](docs/experiments/06_sgla_uav_tracking/STAGE215_FROZEN_CENTER_SCALE.md)。Stage1–214源码/模型/协议保持不变；不训练、不扫学习率/覆盖权重/尺度上限。绑定214原包SHA e9fde8f36b8da411d31dd91fe7bafb95853f9089953567b57ff728bdd59907b6、decision ed45014f53c42067f3ff9381263c36a9cd9736c02051bc4719ce05bd5dab9340；读完整214树、208四适配器、原checkpoint、七来源目录，严格原GPU/软件身份，不自动换卡。
+
+每个forecast/coverage冻结更新器，固定fit标准化与三维输出，推理后将禁用维精确置零：none=(0,0,0)、center=(dx,dy,0)、scale=(0,0,ds)、joint=原输出。none仍执行一次原网络，所有新格8block/2head/1crop/1selector/1updater；输出总适配框，原物理边界和裁剪倍数不改。joint直接返回原输出，端点保位模式。每格在自身状态闭环，所以因素效应含后续输入反馈，不是同父框即时效应，不等于删训练损失重新训练。
+
+38源×2seed×2模型×4格=608新完整轨迹（648272帧），再绑定复用native38/mm76=114旧参照，共722质量序列；源清单/两折/种子固定。304 fresh none/joint须逐数组精确复现214 nn/对应联合模型，计时排除、none多的一次updater单独记账；不只比较AUC。native/mm标明复用，不计新推理，也不作同预算速度对照。114参照绑定+304新端点共418行source_replay。
+
+两折固定首源smoke：32串行+32双spawn短轨迹，非计时逐数组精确一致才全量评价。总体工作648785含512smoke帧/648272full/最终封存，默认两个worker按视频分区。保留coverage原大裁剪以隔离机制，可能较214更耗时，不提前加新尺度限制。真值只在动作后诊断，不参与推理。
+
+10表：model_scope8、smoke32、source_replay418、policy10、paired132、factor36、seed_video722、search_geometry684、calls722、execution3。唯一主要coverage__center−coverage__joint AUC，其余forecast等比较为支持；两seed先源内平均，再38源bootstrap20000次。每模型记录中心平均效应/尺度平均效应/交互；保留原生/mm恢复和好帧双保护。全轨迹核覆盖/父框侧长/网络GT名义侧长/网格好框与读出，不能只挑0176/0204，不自动采用或开确认集。
+
+本地检查使用Python3.12.4/Torch2.7.1+cpu/NumPy1.26.4，真实仓库CENTER配合合成线性骨干/固定采样，测试原位mask、中心/尺度几何、零/联合端点、非零动作GT不干预、608合成新轨迹/114绑定来源/722质量行、32独立spawn对、132配对/36因素、冻结与0优化器构造、缓存重用/身份及篡改拒绝；详细通过记录见[本地验证](docs/experiments/06_sgla_uav_tracking/results/stage215_local_validation_20261127.json)。纯CPU不构成真实SGLA Transformer或GPU/像素裁剪/精度结果。补齐了无效source trace种子/arm的明确ValueError拒绝，manifest mask用JSON列表以便中断后安全复用；旧代码未修改。
+
+服务器：`bash tools/run_stage215_components.sh`；默认 `output/stage215/frozen_center_scale_v1`，STAGE215_GPU=0/STAGE215_WORKERS=2。后台 `mkdir -p output/stage215`，再 `nohup bash tools/run_stage215_components.sh > output/stage215/run.log 2>&1 < /dev/null &`，记录PID/查看tail，完整命令见协议。wrapper正确读取stage214原包，自动合并manifest/decision及10表为TXT。未提交/推送，未在本机运行真实GPU/新AUC。收结果后先核端点、参数/账本/统计，再给建议：若中心单独好而尺度有害再重定义尺度目标；若中心也坏，查提供状态一步误差与自身分布偏移；不直接选择某格当最终新方法。
 
 ## 1. 接手后首先要知道的结论
 

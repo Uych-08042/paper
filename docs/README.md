@@ -1,5 +1,9 @@
 # 实验说明索引
 
+Stage-215固定权重中心×尺度闭环消融已实现，GPU待运行。214八更新器各做none/center/scale/joint，none也跑MLP，0训练/阈值扫描；608新完整轨迹+114绑定复用参照，304端点须精确复现214。32串并行对、双参照保护、总体进度/双进程/自动10表TXT已接入，尚无真实新AUC。 [协议与运行](experiments/06_sgla_uav_tracking/STAGE215_FROZEN_CENTER_SCALE.md) · [本地验证](experiments/06_sgla_uav_tracking/results/stage215_local_validation_20261127.json)
+
+Stage-214真实结果已复核：forecast/coverage AUC53.9480/45.3236，均明显低于原生64.4185；主要差coverage−forecast−8.6245，名义区间为负、双seed异号。coverage完整覆盖95.58%，但父框侧长626.08、目标名义网络侧长39.59，已覆盖无好网格38.62%；不能只优化覆盖。两参照能力保护失败，12表统计重算差0，18串并行/190控制报告通过。建议215固定权重中心×尺度完整闭环消融，0重训、不扫尺度阈值；尚未实现。 [结果与下一步](experiments/06_sgla_uav_tracking/STAGE214_RESULTS_REVIEW.md) · [机器核验](experiments/06_sgla_uav_tracking/results/stage214_review_audit_20261127.json)
+
 Stage-214搜索父框监督学习已实现，GPU待运行。固定SGLA/适配器/输出，仅学习下一帧中心与尺度；forecast与附加覆盖损失同预算对照，152条fit提供轨迹、8模型2048更新、342完整OOF。3项CPU测试通过，18串并行对、190旧控制复现、原生/mm双保护、总体进度/双进程评价/自动12表TXT；无真实新精度结论。 [协议与运行](experiments/06_sgla_uav_tracking/STAGE214_LEARNED_SEARCH_STATE.md) · [本地验证](experiments/06_sgla_uav_tracking/results/stage214_local_validation_20261127.json)
 
 Stage-213真实缓存审计已复核：raw/adapted/mm/oracle AUC64.4185/65.1105/65.0445/65.6625，oracle较adapted仅+.5520；仍缺12次mm匹配恢复（5源），1,602个mm好而两路都不好的帧—种子记录（23源）。固定原生状态下仅输出二选一不足以保护既有适配能力，尚不能据此认定裁剪不覆盖。7表汇总/配对/影响重算误差0，0新训练/图像/GPU/轨迹。建议214搜索状态更新监督学习对照，尚未实现。 [结果与下一步](experiments/06_sgla_uav_tracking/STAGE213_RESULTS_REVIEW.md) · [机器核验](experiments/06_sgla_uav_tracking/results/stage213_review_audit_20261127.json)

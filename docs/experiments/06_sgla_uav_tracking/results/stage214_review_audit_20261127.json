@@ -1,0 +1,177 @@
+{
+  "schema": "stage214_review_v1",
+  "date": "2026-11-27",
+  "timezone": "Asia/Hong_Kong",
+  "bundle_sha256": "e9fde8f36b8da411d31dd91fe7bafb95853f9089953567b57ff728bdd59907b6",
+  "decision": "ed45014f53c42067f3ff9381263c36a9cd9736c02051bc4719ce05bd5dab9340",
+  "plan": "bd16da78f7606cd75e406effb0bc834d04e5af34b7778ac4d6a2770429121901",
+  "row_counts": {
+    "frozen_scope": 4,
+    "fit_support": 152,
+    "scope_summary": 8,
+    "training_history": 2048,
+    "smoke": 18,
+    "source_replay": 190,
+    "policy_summary": 5,
+    "paired": 42,
+    "seed_video_summary": 342,
+    "search_geometry": 304,
+    "calls": 342,
+    "execution": 3
+  },
+  "summary_pair_max_error": 0.0,
+  "source_quality_exact_212": true,
+  "frozen_scope_exact_212": true,
+  "matched_training_budget_checked": true,
+  "fit_groups_only_checked": true,
+  "declared_smoke_pass": 18,
+  "declared_source_replay_pass": 190,
+  "exported_call_budget_exact": true,
+  "code": {
+    "exact": [
+      "tools/stage194_module_ablation.py",
+      "tools/stage194_module_common.py",
+      "tools/stage194_module_model.py",
+      "tools/experiment_progress.py",
+      "tracking/stage18_tracking_loss.py",
+      "tracking/stage18_environment.py",
+      "tracking/stage46_motion_runtime.py",
+      "tools/stage192_development_grid_rescue.py",
+      "tools/stage61_runtime_replay.py",
+      "tools/stage202_regret_routing.py",
+      "tools/stage202_regret_common.py",
+      "tools/stage200_pair_common.py",
+      "tools/stage200_within_video.py",
+      "tools/stage201_score_baseline.py",
+      "tools/stage199_residual_model.py",
+      "tools/stage195_router_objective_audit.py",
+      "tools/stage195_routing_common.py",
+      "tools/stage199_residual_routing.py",
+      "tools/stage198_routing_calibration.py",
+      "tools/stage196_relative_loss.py",
+      "tools/stage203_loss_clipping.py",
+      "tools/stage203_clipping_common.py",
+      "tools/stage204_target_relation.py",
+      "tools/stage204_relation_common.py",
+      "tools/stage204_relation_model.py",
+      "tools/stage205_crossfit_shrinkage.py",
+      "tools/stage205_shrinkage_common.py",
+      "tools/stage206_spatial_adaptation.py",
+      "tools/stage206_spatial_model.py",
+      "tools/stage206_spatial_common.py",
+      "tools/stage207_state_training.py",
+      "tools/stage207_state_common.py",
+      "tools/stage208_state_interaction.py",
+      "tools/stage208_factor_common.py",
+      "tools/run_stage208_state_interaction.sh",
+      "tools/stage209_reference_intervention.py",
+      "tools/stage209_reference_common.py",
+      "tools/run_stage209_reference_intervention.sh",
+      "tools/stage210_recovery_audit.py",
+      "tools/stage210_recovery_common.py",
+      "tools/run_stage210_recovery_audit.sh",
+      "tools/stage211_geometry_audit.py",
+      "tools/stage211_geometry_common.py",
+      "tools/run_stage211_geometry_audit.sh",
+      "tools/stage212_state_experiment.py",
+      "tools/stage212_state_common.py",
+      "tools/run_stage212_state_experiment.sh",
+      "tools/stage213_output_ceiling.py",
+      "tools/run_stage213_output_ceiling.sh",
+      "tools/stage214_search_state.py",
+      "tools/stage214_search_state_common.py",
+      "tools/run_stage214_search_state.sh"
+    ],
+    "lf_only": [
+      "tracking/stage4_runtime.py",
+      "tracking/stage1_validate.py",
+      "tracking/validation_metrics.py",
+      "lib/models/sglatrack/base_backbone.py",
+      "lib/models/sglatrack/sglatrack.py",
+      "lib/models/layers/head.py",
+      "lib/test/tracker/sglatrack.py",
+      "lib/train/data/processing_utils.py"
+    ],
+    "mismatch": []
+  },
+  "protocol_exact": true,
+  "declared_internal_artifacts": 1078,
+  "fit_totals": {
+    "rollout_frames": 162068,
+    "candidate_samples": 7296,
+    "valid_next_labels": 7296,
+    "invalid_next_labels": 0,
+    "sampled_current_low_iou": 938
+  },
+  "call_totals": {
+    "frames": 364653,
+    "block_calls": 2876707,
+    "head_calls": 688789,
+    "selector_calls": 364653,
+    "crop_calls": 364653,
+    "updater_calls": 162068
+  },
+  "geometry_source_means": {
+    "nn": {
+      "fully_covered_fraction": 0.8938164079326567,
+      "mean_gt_side_network_px": 66.46740133479679,
+      "covered_no_good_grid_fraction": 0.022703369357002574,
+      "good_grid_missed_fraction": 0.04236596419316276,
+      "mean_parent_side": 66.33200417298899
+    },
+    "mm": {
+      "fully_covered_fraction": 0.8947633988025071,
+      "mean_gt_side_network_px": 64.81339374952383,
+      "covered_no_good_grid_fraction": 0.03036072110395063,
+      "good_grid_missed_fraction": 0.04115100375701144,
+      "mean_parent_side": 67.04303599484872
+    },
+    "forecast": {
+      "fully_covered_fraction": 0.7166632673763607,
+      "mean_gt_side_network_px": 142.7203309612282,
+      "covered_no_good_grid_fraction": 0.006408569674540535,
+      "good_grid_missed_fraction": 0.043457941933776056,
+      "mean_parent_side": 49.743652459707825
+    },
+    "coverage": {
+      "fully_covered_fraction": 0.9558244452318733,
+      "mean_gt_side_network_px": 39.587608660361646,
+      "covered_no_good_grid_fraction": 0.3861817076048752,
+      "good_grid_missed_fraction": 0.02123105101812604,
+      "mean_parent_side": 626.0779687807062
+    }
+  },
+  "seed_auc": {
+    "forecast": {
+      "2132": 44.969972723554314,
+      "2133": 62.926116298189335
+    },
+    "coverage": {
+      "2132": 48.63489310114227,
+      "2133": 42.01222948555107
+    }
+  },
+  "primary": [
+    {
+      "contrast": "coverage_minus_forecast",
+      "metric": "auc",
+      "primary": true,
+      "favorable_direction": "positive",
+      "videos": 38,
+      "mean_delta": -8.624483217525158,
+      "median_delta": -7.328835791572164,
+      "ci_low": -16.4700716148252,
+      "ci_high": -0.7760332774628581,
+      "positive": 13,
+      "negative": 25,
+      "worst_leave_one_video_out": -9.87973933814814
+    }
+  ],
+  "limitations": [
+    "Original model/NPZ/receipt tree absent locally; no independent raw state-chain, feature, optimizer or GPU replay",
+    "Geometry statistics independently averaged from per-video exports, not recomputed from pixel crops",
+    "Coverage/large-scale/low-resolution pattern does not by itself isolate scale from center, nor immediate error from feedback distribution shift",
+    "Early/late training-history batches differ; sampled loss decrease is not full-pool fit or held prediction accuracy",
+    "No method adoption, confirmation opening or isolated FPS/speed claim"
+  ]
+}

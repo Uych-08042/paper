@@ -1,0 +1,44 @@
+{
+  "schema": "stage215_local_validation_v1",
+  "date": "2026-11-27",
+  "timezone": "Asia/Hong_Kong",
+  "status": "PREPARED_REAL_GPU_RUN_PENDING",
+  "environment": {
+    "python": "3.12.4",
+    "torch": "2.7.1+cpu",
+    "numpy": "1.26.4"
+  },
+  "tests": {
+    "passed": 3,
+    "skipped": 0,
+    "final_full_suite_seconds": 65.105
+  },
+  "checks": [
+    "Exact Stage-214 bundle bytes/table hashes/fingerprints; changed-byte rejection",
+    "All four masks preserve original enabled outputs and frozen weights; joint returns original predictions",
+    "Exact none/raw and joint/source endpoints, center-only size preservation and scale-only center preservation",
+    "Input-dependent actions unchanged by evaluation-label replacement; hook cleanup",
+    "38-source synthetic OOF with 608 fresh two-frame rollouts plus 114 bound reference caches; 722 quality rows",
+    "32 exact serial/two-independent-spawn smoke pairs, 304 fresh endpoint checks, 114 bound reused reference checks",
+    "10 policies, 132 paired rows and 36 factorial contrasts; one declared primary AUC comparison",
+    "Eight frozen synthetic updater payloads bound through source receipt/NPZ metadata; no new training path; main optimizer construction forbidden",
+    "All new cells, including none, count one original updater call per frame; dual block/head/crop/selector accounting",
+    "Original source artifacts unchanged; committed trace reuse and modified result rejection",
+    "Invalid source arm/seed explicitly rejected; JSON-native mask manifest can be identically republished",
+    "Python3.10 grammar, LF, CLI help, production helper interfaces and launcher source paths passed; Bash -n passed"
+  ],
+  "limitations": [
+    "Synthetic linear backbone/token-image fixture with actual repository CENTER/cal_bbox/map/clip and fixed-factor sampler",
+    "Real Stage-214 model and full NPZ tree absent locally; real startup/GPU/crop-resize/accuracy not measured",
+    "Two-frame synthetic evaluation trajectories are implementation fixtures, not experimental AUC",
+    "Native/mm are old reference caches and are never counted as new inference or timing-matched method groups",
+    "No confirmation opening, new model adoption, isolated FPS or speed claim"
+  ],
+  "file_sha256": {
+    "tools/stage215_component_common.py": "f97bff4c654100ed6d8ef13da17d174d30ab9d236748304a04c4dae86ae1579d",
+    "tools/stage215_component_experiment.py": "c5790c08a1937aefb04015cb1df0292cb4a4d9162d468affc20a75683acd3e69",
+    "tools/test_stage215_components.py": "2a7c233d20cc57d7307d9762d47a9320d57cdf2a3aaf81cc89824e38ce3736c9",
+    "tools/run_stage215_components.sh": "c1be67a0b32531d9f385aff00f60b64414c5623b9fa3451030c736268866beeb",
+    "docs/experiments/06_sgla_uav_tracking/STAGE215_FROZEN_CENTER_SCALE.md": "07f91fa99a13c3350f87e531a9e72abd5ef55f2a50803fd3ca63f13c19bef289"
+  }
+}

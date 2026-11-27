@@ -282,3 +282,9 @@ tools/stage214_search_state.py text eol=lf
 tools/test_stage214_search_state.py text eol=lf
 tools/run_stage214_search_state.sh text eol=lf
 docs/experiments/06_sgla_uav_tracking/STAGE214_LEARNED_SEARCH_STATE.md text eol=lf
+docs/experiments/06_sgla_uav_tracking/results/stage214_results_20261126T194237Z_2307464.txt -text
+tools/stage215_component_common.py text eol=lf
+tools/stage215_component_experiment.py text eol=lf
+tools/test_stage215_components.py text eol=lf
+tools/run_stage215_components.sh text eol=lf
+docs/experiments/06_sgla_uav_tracking/STAGE215_FROZEN_CENTER_SCALE.md text eol=lf
