@@ -1,5 +1,11 @@
 # 实验说明索引
 
+Stage-215同型号换卡独立重放已实现，真实GPU待运行。原卡不可见时记录新UUID绑定，重新计算114参照与608因素轨迹；38串并行对、114参照及304端点精确桥接，原代码/旧目录不变。5项CPU检查通过，不代表新卡真实桥接通过。 [新入口及后台运行](experiments/06_sgla_uav_tracking/STAGE215_SAME_MODEL_GPU_REPLAY.md)
+
+IdeaSpark / ScoopCheck 检索运行已修复：独立Python环境、UTF-8、JSON导出及OpenAlex参数；5项检查通过，真实检索分别返回6/4条。完整查新仍待模型阶段及来源覆盖，实验结论不变。 [运行修复与固定入口](research/RESEARCH_TOOLS_RUNTIME_FIX_2026-11-27.md)
+
+当前方案已做idea-spark/scoop-check人工联合审查，暂判高重合、方法收益未成立，保留定位输出/后继搜索质量差异作为待证主线。自动流水线因依赖/编码未完成，网页全文补核、DATDT摘要级，不称穷尽查新或门禁通过。 [研究评审](research/SGLA_IDEA_SCOOP_REVIEW_2026-11-27.md)
+
 Stage-215固定权重中心×尺度闭环消融已实现，GPU待运行。214八更新器各做none/center/scale/joint，none也跑MLP，0训练/阈值扫描；608新完整轨迹+114绑定复用参照，304端点须精确复现214。32串并行对、双参照保护、总体进度/双进程/自动10表TXT已接入，尚无真实新AUC。 [协议与运行](experiments/06_sgla_uav_tracking/STAGE215_FROZEN_CENTER_SCALE.md) · [本地验证](experiments/06_sgla_uav_tracking/results/stage215_local_validation_20261127.json)
 
 Stage-214真实结果已复核：forecast/coverage AUC53.9480/45.3236，均明显低于原生64.4185；主要差coverage−forecast−8.6245，名义区间为负、双seed异号。coverage完整覆盖95.58%，但父框侧长626.08、目标名义网络侧长39.59，已覆盖无好网格38.62%；不能只优化覆盖。两参照能力保护失败，12表统计重算差0，18串并行/190控制报告通过。建议215固定权重中心×尺度完整闭环消融，0重训、不扫尺度阈值；尚未实现。 [结果与下一步](experiments/06_sgla_uav_tracking/STAGE214_RESULTS_REVIEW.md) · [机器核验](experiments/06_sgla_uav_tracking/results/stage214_review_audit_20261127.json)

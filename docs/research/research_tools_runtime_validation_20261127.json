@@ -1,0 +1,56 @@
+{
+  "date": "2026-11-27",
+  "python": "D:\\Users\\23920\\Documents\\Codex\\research-tools\\.venv\\Scripts\\python.exe",
+  "python_version": "3.12.4 (main, Jul 25 2024, 21:57:00) [MSC v.1929 64 bit (AMD64)]",
+  "regression_tests": {
+    "count": 5,
+    "returncode": 0
+  },
+  "deployed_hashes_verified": {
+    "D:\\Users\\23920\\.codex\\skills\\idea_spark\\scripts\\run.py": "e0ec76fa6bc9e58dfa811be21f41222afedba6205d87e13cbc2d31b013f8748c",
+    "D:\\Users\\23920\\.codex\\skills\\paper_search\\scripts\\search_papers.py": "3724bdabe77b2ee1329250ccf035429e1833b7dcaf0c8068b121f081bc1dabe8",
+    "D:\\Users\\23920\\.codex\\skills\\idea_spark\\SKILL.md": "b514c9984f9d6d23ea5823ea18cc367963cea3acfb332c8b43dee063dcc05f40",
+    "D:\\Users\\23920\\.codex\\skills\\paper_search\\SKILL.md": "e85fc838ba5ddf798238b00bf37348b1d5b65ac1885beeb6773d479c2e7bb228",
+    "D:\\Users\\23920\\.codex\\skills\\scoop_check\\SKILL.md": "6092eb6a5cdf0217debe32f240a7de1c8880735ccb8c20bc0fba329bfda6b47f",
+    "D:\\Users\\23920\\.codex\\skills\\idea_spark\\scripts\\search_openalex.py": "f40c4a382a41a30fc6bbd8252dc4170f2605ddfc8391853034a4b1ceb935cc1a"
+  },
+  "backups": [
+    "D:\\Users\\23920\\Documents\\Codex\\research-tools\\backups\\20261127T014021021955Z",
+    "D:\\Users\\23920\\Documents\\Codex\\research-tools\\backups\\20261127T014328418951Z",
+    "D:\\Users\\23920\\Documents\\Codex\\research-tools\\backups\\20261127T014718062013Z"
+  ],
+  "paper_search": {
+    "returncode": 0,
+    "per_source": {
+      "arxiv": 2,
+      "dblp": 0,
+      "open_alex": 2,
+      "openreview": 0,
+      "semantic_scholar": 0,
+      "crossref": 2
+    },
+    "unique_records": 6,
+    "json_keeps_abstracts": true,
+    "limitations": [
+      "Semantic Scholar HTTP 429",
+      "DBLP response not valid JSON",
+      "OpenReview zero records"
+    ]
+  },
+  "ideaspark": {
+    "returncode": 0,
+    "records": 4,
+    "sources": [
+      "arxiv",
+      "openalex"
+    ],
+    "arxiv_cache": "live retrieval earlier in this validation, reused by final smoke",
+    "scope": "bounded Phase-0 smoke; arxiv=2/openalex=2, other retrieval jobs disabled; semantic booster disabled",
+    "next_step": "host model pattern classification; full research review NOT completed",
+    "limitations": [
+      "OpenReview credentials not configured",
+      "Semantic Scholar rate-limited in full attempt; that attempt was stopped"
+    ]
+  },
+  "no_training_or_gpu_experiment": true
+}

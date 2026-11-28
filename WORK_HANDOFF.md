@@ -1,6 +1,12 @@
 # 工作交接：SGLATrack 无人机跟踪与模型压缩探索
 
-更新日期：2026-11-27（Asia/Hong_Kong）
+更新日期：2026-11-28（Asia/Hong_Kong）
+
+**Stage-215同型号换卡独立入口已实现，本地5项检查通过，真实GPU待运行，见0.223。** 用户原L20 UUID48862e47不可见、现L20 UUID75aa7472。原215不改、不清旧缓存，新增same-model replay目录与入口，仅允许同型号UUID变化并记录绑定；新卡重跑114参照，共722新完整轨迹。38串并行短轨迹对、114完整参照及304端点精确桥接，不以近似AUC代替。主比较不变、0训练、10表TXT/总体进度/双worker。按Git流程同步新增文件，不额外打zip，不代为commit/push。 [协议与运行](docs/experiments/06_sgla_uav_tracking/STAGE215_SAME_MODEL_GPU_REPLAY.md)
+
+**IdeaSpark / ScoopCheck 检索运行故障已修复并实测。** 独立Python3.12环境与两个固定启动器已安装，统一UTF-8与空stderr保护；补齐Paper Search缺失的`--json`，修正OpenAlex失效的预印本过滤类型。5项回归检查及6文件最终哈希通过，Paper Search六来源调用返回6条去重记录，IdeaSpark两来源有界检查返回4条并进入待模型分类。SS限流、DBLP异常响应、IdeaSpark OpenReview缺账号仍需分别标记；原全来源验证已停止，未声称完整科研评审通过。后续须使用专用解释器，不能再用默认缺依赖的Python。Stage-215未运行新GPU实验。 [修复、入口与证据](docs/research/RESEARCH_TOOLS_RUNTIME_FIX_2026-11-27.md)
+
+**已按idea-spark机制/证伪标准与scoop-check四轴框架人工联合评审现方案。** 整体暂判Level2高重合，SRRT已有独立搜索调节、TransT/MixFormer已有模板注意力、SAT已有输出可靠性与裁剪反馈、2026 AdaSAM2已有分辨率/上下文输入控制；不能宣称这些概念首次提出。具体F6双读出/连续下一父框不同于完整先例，但收益/保护未建立，不能称整套完全被覆盖或新方法已成功。DATDT仅摘要，应保留威胁待全文核实。自动脚本因依赖/Windows编码故障停于检索，未伪造IdeaSpark完整通过；网页作者/出版方全文补核，非穷尽查新。215状态保持未验证，不改实验。 [联合评审与文献](docs/research/SGLA_IDEA_SCOOP_REVIEW_2026-11-27.md)
 
 **Stage-215固定权重中心×尺度消融已实现，真实GPU待运行，见0.222。** 冻结214八更新器和208适配器，每个做none/center/scale/joint四格，none也执行一次原MLP。608新完整轨迹+114绑定复用参照=722质量序列，0训练；32串并行短轨迹对、304新端点复现和114缓存绑定已接入。唯一主比较coverage只中心−联合AUC，不扫尺度阈值。默认双进程评价、单总体进度、自动10表TXT，确认集封存。 [协议与运行](docs/experiments/06_sgla_uav_tracking/STAGE215_FROZEN_CENTER_SCALE.md)
 
@@ -3505,6 +3511,18 @@ native/nn/mm/forecast/coverage AUC64.418451/65.110491/65.044528/53.948045/45.323
 本地检查使用Python3.12.4/Torch2.7.1+cpu/NumPy1.26.4，真实仓库CENTER配合合成线性骨干/固定采样，测试原位mask、中心/尺度几何、零/联合端点、非零动作GT不干预、608合成新轨迹/114绑定来源/722质量行、32独立spawn对、132配对/36因素、冻结与0优化器构造、缓存重用/身份及篡改拒绝；详细通过记录见[本地验证](docs/experiments/06_sgla_uav_tracking/results/stage215_local_validation_20261127.json)。纯CPU不构成真实SGLA Transformer或GPU/像素裁剪/精度结果。补齐了无效source trace种子/arm的明确ValueError拒绝，manifest mask用JSON列表以便中断后安全复用；旧代码未修改。
 
 服务器：`bash tools/run_stage215_components.sh`；默认 `output/stage215/frozen_center_scale_v1`，STAGE215_GPU=0/STAGE215_WORKERS=2。后台 `mkdir -p output/stage215`，再 `nohup bash tools/run_stage215_components.sh > output/stage215/run.log 2>&1 < /dev/null &`，记录PID/查看tail，完整命令见协议。wrapper正确读取stage214原包，自动合并manifest/decision及10表为TXT。未提交/推送，未在本机运行真实GPU/新AUC。收结果后先核端点、参数/账本/统计，再给建议：若中心单独好而尺度有害再重定义尺度目标；若中心也坏，查提供状态一步误差与自身分布偏移；不直接选择某格当最终新方法。
+
+### 0.223 Stage-215同型号不同UUID独立重放：已实现，待新卡真实运行
+
+用户回传锁PID已不存在，安全备份旧锁后，原入口在runtime检查处失败；当前为同型号不同物理L20。原GPU UUID `48862e47-a2db-e143-d434-ac5ae4f149d4` 不可见，现UUID `75aa7472-dbcf-3dfa-c22b-a1b755c44605`。报错中的STAGE109_ROOT是旧函数提示，原215传入214原runtime作previous，故仅换输出路径不能解决。没有关闭全局校验、修改旧manifest或来源模型。
+
+新增 `tools/stage215_same_model_replay.py`、`tools/run_stage215_same_model_replay.sh`、`tools/test_stage215_same_model_replay.py` 与[独立协议](docs/experiments/06_sgla_uav_tracking/STAGE215_SAME_MODEL_GPU_REPLAY.md)。新schema同时绑定原runtime/当前runtime/仅UUID差异；型号变化、非UUID字段变化、未知UUID及续跑再换卡均拒绝。原215五文件哈希全部保持原本地验证值；旧目录不续写。新目录默认 `output/stage215/same_model_gpu_replay_v1`，变量STAGE215_REPLAY_ROOT，不继承STAGE215_ROOT。
+
+冻结八个214更新器/四个208适配器、原mask/38源两折双seed/主比较不变。608因素轨迹加114新native/mm参照=722新完整轨迹，0评价轨迹复用、0训练。两个固定源每源19种运行，38串行/双spawn对；smoke先核历史来源前缀，完整114参照+304端点须逐数组精确桥接，计时排除、因素端点updater_calls另单独审核。所有主统计用本卡新参照，来源旧轨迹仅作桥接。总进度770432含608smoke帧/769823full帧/封存一步。
+
+本机Python3.12.4/Torch2.7.1+cpu/NumPy1.26.4，5项测试通过（108.810s）：UUID/型号/非UUID/续跑拒绝、桥接质量及schema漂移拒绝、原mask与端点和真值不干预、38源双spawn合成722新轨迹/10表/418桥接行/缓存复用/冻结源与篡改拒绝；Python3.10语法、CLI及bash -n通过。见[本地验证](docs/experiments/06_sgla_uav_tracking/results/stage215_same_model_local_validation_20261128.json)。真实GPU/实际Transformer/新卡端点仍未验证，不产生新AUC或确认组。
+
+服务器同步新增文件后，后台执行 `bash tools/run_stage215_same_model_replay.sh`，用新日志和replay.pid；完整命令见协议。按用户Git流程，不制作zip，不代为commit/push。本机未登录服务器。如精确桥接失败应保留诊断并停止，不自行调容差/改manifest；若再次换卡，另开新独立目录重跑同一桥接。
 
 ## 1. 接手后首先要知道的结论
 

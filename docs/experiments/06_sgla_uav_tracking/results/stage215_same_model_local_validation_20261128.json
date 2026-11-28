@@ -1,0 +1,45 @@
+{
+  "schema": "stage215_same_model_local_validation_v1",
+  "date": "2026-11-28",
+  "timezone": "Asia/Hong_Kong",
+  "status": "PREPARED_REAL_GPU_REPLAY_PENDING",
+  "environment": {
+    "python": "3.12.4",
+    "torch": "2.7.1+cpu",
+    "numpy": "1.26.4"
+  },
+  "tests": {
+    "passed": 5,
+    "skipped": 0,
+    "full_suite_seconds": 108.81
+  },
+  "checks": [
+    "Same-model UUID-only rebind; other runtime fields/model changes/unknown UUID and changed resume UUID rejected",
+    "Quality/schema drift rejected by exact source bridge",
+    "All masks/endpoints/label independence unchanged",
+    "38-source two-frame synthetic fixture; 722 fresh full trajectories, zero reused reference trajectories, 38 serial/spawn smoke pairs, 418 complete source-bridge rows",
+    "Ten tables; 132 paired and 36 factorial rows, one unchanged primary contrast",
+    "Frozen source artifacts and no optimizer construction; committed trace reuse; tampered result refusal",
+    "Python3.10 AST; CLI help; Bash -n passed",
+    "Original Stage-215 five file hashes unchanged"
+  ],
+  "limits": [
+    "No actual new GPU inference performed locally",
+    "Reported physical UUIDs supplied by user; real binding and all bridge checks run on server",
+    "CPU fixture uses actual CENTER and synthetic backbone; not experimental AUC",
+    "No training, confirmation opening, performance or speed claims"
+  ],
+  "file_sha256": {
+    "tools/stage215_same_model_replay.py": "168c2037e0ac69d9accf7c1c7a91544f0b7420388536cf6f0fce9bbbf3772925",
+    "tools/run_stage215_same_model_replay.sh": "07e34deb780edc6ed67c0daf116ef020d8976dc8e3af6fd052ca1e2d23ff872f",
+    "tools/test_stage215_same_model_replay.py": "3c946fe4b903c97373552d827fe441cae2ea652965986eafef41175c281c11be",
+    "docs/experiments/06_sgla_uav_tracking/STAGE215_SAME_MODEL_GPU_REPLAY.md": "819fc34ca9b3fd62243a24214e62a8c506120fc822cfe96f44438a0ebea2c093"
+  },
+  "original_stage215_hashes_verified": {
+    "tools/stage215_component_common.py": "f97bff4c654100ed6d8ef13da17d174d30ab9d236748304a04c4dae86ae1579d",
+    "tools/stage215_component_experiment.py": "c5790c08a1937aefb04015cb1df0292cb4a4d9162d468affc20a75683acd3e69",
+    "tools/test_stage215_components.py": "2a7c233d20cc57d7307d9762d47a9320d57cdf2a3aaf81cc89824e38ce3736c9",
+    "tools/run_stage215_components.sh": "c1be67a0b32531d9f385aff00f60b64414c5623b9fa3451030c736268866beeb",
+    "docs/experiments/06_sgla_uav_tracking/STAGE215_FROZEN_CENTER_SCALE.md": "07f91fa99a13c3350f87e531a9e72abd5ef55f2a50803fd3ca63f13c19bef289"
+  }
+}
