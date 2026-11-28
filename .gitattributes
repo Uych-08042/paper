@@ -301,3 +301,8 @@ tools/stage217_predictor_audit.py text eol=lf
 tools/test_stage217_predictor_audit.py text eol=lf
 tools/run_stage217_predictor_audit.sh text eol=lf
 docs/experiments/06_sgla_uav_tracking/STAGE217_PREDICTOR_OBJECTIVE_AUDIT.md text eol=lf
+docs/experiments/06_sgla_uav_tracking/results/stage217_results_20261128T115012Z_330010.txt -text
+tools/stage218_capacity.py text eol=lf
+tools/test_stage218_capacity.py text eol=lf
+tools/run_stage218_capacity.sh text eol=lf
+docs/experiments/06_sgla_uav_tracking/STAGE218_MATCHED_CAPACITY.md text eol=lf

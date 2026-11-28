@@ -2,6 +2,10 @@
 
 更新日期：2026-11-28（Asia/Hong_Kong）
 
+**Stage-218同训练机会容量对照已实现，真实CPU缓存待运行，见0.230。** 可训练偏置/线性/原MLP在同392维输入、fit归一化/draws、forecast SmoothL1及256×4预算下CPU重训；12模型3072更新。全38源/双seed/四held历史、zero和冻结旧forecast参照；912逐组loss须精确复现217。八表TXT、3077总体进度、后台及模型续用；0新图像/GPU/完整轨迹/确认组。本地完整CPU工作流通过，尚无真实held收益，不代commit/push。 [协议与运行](docs/experiments/06_sgla_uav_tracking/STAGE218_MATCHED_CAPACITY.md)
+
+**Stage-217真实结果已复核，见0.229：当前搜索父框修正器训练内改善、留出源恶化。** forecast提供风格回归fit .235601→.192698，held .231778→.263218；唯一主要差+.0314404、名义CI[+.0153904,+.0480638]，34/38源误差增加、双seed正。coverage总损失均值降低但回归+.032238，降低覆盖惩罚掩盖几何损伤；不能只怪coverage，纯forecast也失败。九表/36均值/73配对重算差0、八模型digest精确214，CPU/GPU残差最大漂移2.98e−7。建议218用缓存做可训练常数/线性/MLP同目标同训练机会对照，检验容量与泛化，不先增加GPU闭环；尚未实现。 [结果与下一步](docs/experiments/06_sgla_uav_tracking/STAGE217_RESULTS_REVIEW.md)
+
 **Stage-217原目标拟合/泛化缓存审计已实现，真实缓存待运行，见0.228。** 冻结214八个预测器，按原SmoothL1/覆盖/总损失比较MLP、零修正、仅fit源均值常数；全38开发源/两折双seed，禁止held估常数或归一化。当前尺寸由215缓存绑定，下一真值由已核GT读取；216旧入口仅允许封存读入补丁差异。4项CPU测试通过，0新训练/图像/GPU/完整轨迹/确认组，九表TXT及总体进度；未代commit/push。 [协议与后台运行](docs/experiments/06_sgla_uav_tracking/STAGE217_PREDICTOR_OBJECTIVE_AUDIT.md)
 
 **Stage-216真实结果已复核，见0.227：一步损伤成立，但几何预测本身也变差，不能直接归结为目标错配。** coverage尺度−none在nn/mm风格的下一帧IoU−.0169559，名义CI[−.0353394,−.0021716]、双seed负。67.76%状态几何变差；几何改善子集平均输出收益为正，负贡献主要在几何变差组。10表/116736格复算差0，14592当前/10944后继/16串并行声明通过，scope24是8更新器+4适配器16别名（协议计数12未去重）。服务器用已封存的216换行修复前版本，计算函数AST相同，仅bundle读取有本地补丁。建议217用缓存按原loss核fit/held及零/fit常数对照，不先换目标或加PPO；尚未实现。 [结果与下一步](docs/experiments/06_sgla_uav_tracking/STAGE216_RESULTS_REVIEW.md)
@@ -3591,6 +3595,26 @@ scope实际24而非协议12：8更新器+同四适配权重的16 reference-mode�
 本地Python3.12.4/Torch2.7.1+cpu/NumPy1.26.4，4项CPU测试通过（13.553s）：实际已审阅214/216包与源代码读入补丁兼容/换行与篡改拒绝；独立NumPy原loss含边界裁剪与三项分解；等源常数与fit名单保护/负方向留一；两折四源双seed真实模型PT/NPZ/receipt完整审计、九表与主比较、冻结源和结果篡改拒绝。禁用AdamW构造、CUDA init及图像reader。Python3.10语法、CLI、Bash语法检查通过。见[本地验证](docs/experiments/06_sgla_uav_tracking/results/stage217_local_validation_20261128.json)。仅合成CPU工作流，不是服务器真实fit/held损失或新跟踪成绩。
 
 同步本轮文件后运行 `bash tools/run_stage217_predictor_audit.sh`，自动输出stage217_results_*.txt；无额外zip、未代commit/push、未登录服务器。收到结果后先核源/权重/归一化，再判断：fit本身不及朴素控制→优先拟合/优化；fit好held差→检查泛化与状态支持；原目标改善但任务损伤→再验证目标对应。不得预设错配或训练失败已被证明。
+
+### 0.229 Stage-217真实结果：已见源能拟合，留出源修正误差增加
+
+用户回传 `stage217_results_20261128T115012Z_330010.txt` 按原字节归档，SHA4dbe4747e040201ef57aa1b2a664fa26ded02b625945e38f2954c2639ffbc106；decision414b3bef5f86ec6ab60c13d7885166f9497966ce16f1b5bad6de899d9d97a3a6，plan18aa55c25a0b4c99fd3e8ca4df2aab00fca44e32ed6aae1b241dac9b14b85c71。11段/九表/JSON指纹、38源两折双seed完整support/grid通过，fit7296/held14592。36均值/73配对重算差0，主要比较与decision精确；总损失分解float32差最大4.77e−7。八导出权重digest精确214；四常数fit名单正确。67依赖59精确/8仅LF、协议精确、214/215/216来源和读入补丁兼容记录精确；CPU/GPU残差最大2.98e−7。原PT/NPZ/receipt及source_arrays.json未获得，本机未重放每样本loss/常数/归一化，后者是服务器精确校验记录，不混为本机独立核验。
+
+forecast纯回归的nn/mm提供风格fit：zero .235601423、fit_constant .244864493、MLP .192698008；held：zero .231777657、constant .247063379、MLP .263218087。唯一主要held MLP−zero +.0314404293，名义CI[+.0153903670,+.0480637992]，34不利/4有利源、中位+.0231078645；剔最大不利源仍+.0276115400。双seed+.0304911344/+.0323897242；两折+.0534522271/+.0094286316，第二折单独CI跨零。fit支持差−.0429034147、名义CI为负。支持当前新增搜索父框映射训练内改善但源外泛化不足，不支持训练完全无效；尚不能把原因唯一归为容量、特征、预算或状态漂移。不是SGLA原生模块被证明无效。
+
+coverage提供风格held回归zero .231777657→MLP .264015650（+.032237993、36/38源增加）；覆盖项 .412054760→.302023163，总loss .643832413→.566038808。总差−.077793605、CI[−.180636363,+.001223240]跨零，28/38源总loss增加，均值与多数源方向不同。fit coverage总loss .641038→.345133主要来自覆盖项下降；覆盖目标能掩盖几何损伤，但纯forecast同样泛化失败，不能只归因coverage。fit标签均值常数不是原loss最优常数，不把它较差当全部低容量无效。所有区间为开发固定模型条件的名义统计，不是独立确认或新AUC；fit/held绝对差不能独自识别纯分布漂移。
+
+本轮CPU审计15.071秒，0新训练/图像/CUDA/完整轨迹/确认源，保持REVIEW。新增结果复核文档和机器audit、原包-text，不改217冻结协议或计算脚本，未提交/推送。下一步建议218固定缓存、纯forecast SmoothL1，比较可训练常数偏置/线性/MLP：相同fit归一化、折/seed/draws、256步×4样本，共同CPU重新训练，冻结GPU旧模型仅来源参照。匹配监督机会，不宣称等参数/FLOPs；预先固定线性−MLP held回归主要比较，并要求胜过zero，先检验容量限制能否改善泛化，之后才考虑真实后继/完整闭环。若仍不及zero，转输入信息/状态支持与目标，勿加大网络或挑视频扫阈值。218尚未实现/运行。 [完整复核与建议](docs/experiments/06_sgla_uav_tracking/STAGE217_RESULTS_REVIEW.md) · [机器核验](docs/experiments/06_sgla_uav_tracking/results/stage217_review_audit_20261128.json)
+
+### 0.230 Stage-218预测映射容量对照：已实现待真实CPU训练
+
+新增 `tools/stage218_capacity.py`、`tools/test_stage218_capacity.py`、`tools/run_stage218_capacity.sh` 和[固定协议](docs/experiments/06_sgla_uav_tracking/STAGE218_MATCHED_CAPACITY.md)。不改214～217计算/协议。217包固定规范化哈希，物理217封存结果、source_arrays及三上游decision严格绑定，七来源GT/帧表仍核；源码/协议/模型/NPZ/receipt变化拒绝，缺缓存不自动GPU补采。CPU不用GPU型号/UUID或checkpoint。
+
+偏置3参数、线性1179参数、MLP12675参数，同forecast原SmoothL1、零输出初始、fit全样本mean/std、原draws、AdamW/梯度裁剪、256步batch4。源外held只评价，禁止选超参数/早停；12新模型3072步12288监督机会，共同CPU重训，旧GPU模型只固定参照，不强求训练权重相同。训练参数数与FLOPs不匹配，只匹配监督机会/步数。新模型归一化及draws须等旧forecast元数据。
+
+唯一主要为held提供风格linear−匹配MLP回归loss，负有利；所有新模型对zero的支持比较也须通过，不能只比坏控制好。保留38源两折双seed、全部四历史，7296fit/14592held。zero/旧forecast共912条loss精确复现217后再解读。八表support456/scope12/training3072/group_metrics2280/policy30/paired8/source_replay912/execution1，权重/receipt封存、完成模型可续用；总体进度3077，脚本自动TXT。
+
+本地CPU测试覆盖实际12模型3072步、原始缓存绑定/旧loss精确复现、参数量/抽样归一化同机会、冻结来源/已完成模型复用/结果与源篡改拒绝及fit名单拒绝；另核真实217包与内容变化拒绝。Python3.10语法、CLI和bash语法通过。最终本地验证见 `docs/experiments/06_sgla_uav_tracking/results/stage218_local_validation_20261128.json`；属于合成工作流，非服务器真实loss/AUC。默认输出output/stage218/matched_forecast_capacity_v1，继承STAGE217_ROOT及STAGE215_REPLAY_ROOT。代码同步服务器后后台运行，收到真实结果再核主比较/zero对照并建议下一轮。若仍不及zero转输入信息/状态支持/目标，若有held改善再真实后继与闭环；当前无采用、确认组未开。未登录服务器、未提交/推送。
 
 ## 1. 接手后首先要知道的结论
 

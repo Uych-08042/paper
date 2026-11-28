@@ -1,5 +1,9 @@
 # 实验说明索引
 
+Stage-218同训练机会容量对照已实现，真实CPU训练待运行。偏置/线性/MLP用同fit缓存、归一化/draws、原SmoothL1、256步×4样本，12模型3072更新；全38源held与zero比较，912来源loss精确复现217。八表TXT、总体进度/后台/续用；无新图像/GPU/完整轨迹。 [协议与运行](experiments/06_sgla_uav_tracking/STAGE218_MATCHED_CAPACITY.md)
+
+Stage-217真实缓存结果已复核：forecast修正在fit降低误差、held反增+.0314404，名义区间为正、34/38源不利、双seed同向；coverage覆盖项改善掩盖回归退化，当前修正器不采用。九表及全部36/73统计重算差0，八权重digest精确214；无新AUC。建议218用缓存比较可训练常数/线性/MLP，同原目标与训练机会检验泛化，尚未实现。 [结果与下一步](experiments/06_sgla_uav_tracking/STAGE217_RESULTS_REVIEW.md) · [机器核验](experiments/06_sgla_uav_tracking/results/stage217_review_audit_20261128.json)
+
 Stage-217原目标拟合与泛化缓存审计已实现，真实缓存待运行。冻结214八预测器，在完整fit/held共同状态上比较MLP/零修正/仅fit源均值常数，分解原回归/覆盖/总损失；全38源、两折双seed。当前尺寸来自215绑定，0训练/图像/GPU/新完整轨迹，4项CPU测试通过；单总体进度/自动九表TXT。 [协议与后台运行](experiments/06_sgla_uav_tracking/STAGE217_PREDICTOR_OBJECTIVE_AUDIT.md) · [本地验证](experiments/06_sgla_uav_tracking/results/stage217_local_validation_20261128.json)
 
 Stage-216真实结果已复核：coverage尺度在共同状态下一帧IoU−.016956、名义区间为负，损伤在一步即出现；但67.76%状态的几何量也变差，几何改善子集平均输出为正，不能直接认定目标错配为主因。10表及116736格复算差0；scope24为别名重复，运行旧读入器版本已精确封存。建议217缓存上按原目标核fit/held与零/fit常数控制，尚未实现。 [结果与下一步](experiments/06_sgla_uav_tracking/STAGE216_RESULTS_REVIEW.md) · [机器核验](experiments/06_sgla_uav_tracking/results/stage216_review_audit_20261128.json)

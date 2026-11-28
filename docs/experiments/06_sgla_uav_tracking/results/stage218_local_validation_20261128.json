@@ -1,0 +1,37 @@
+{
+  "schema": "stage218_local_validation_v1",
+  "date": "2026-11-28",
+  "status": "LOCAL_CPU_PASS_REAL_SERVER_TRAINING_PENDING",
+  "tests": {
+    "passed": 2,
+    "seconds": 22.928,
+    "coverage": [
+      "real reviewed 217 packet and tamper rejection",
+      "two-fold four-source two-seed actual 12-model 3072-step CPU training, frozen cache loading, source loss replay, parameter counts, matched draws/normalization vs old model, completed model reuse without optimizer, frozen sources, fit roster and artifact tamper rejection"
+    ]
+  },
+  "python": "3.12.4",
+  "torch": "2.7.1+cpu",
+  "numpy": "1.26.4",
+  "python310_syntax": true,
+  "bash_syntax": true,
+  "cli_help": true,
+  "git_diff_check": true,
+  "real_server_training_performed": false,
+  "new_image_reads": 0,
+  "new_gpu_inference": 0,
+  "new_full_trajectories": 0,
+  "confirmation_opened": 0,
+  "committed_or_pushed": false,
+  "limits": [
+    "Synthetic CPU fixtures do not establish real held loss or tracking gains.",
+    "Real run needs all original physical caches and the 217 source_arrays catalog.",
+    "Same training examples and updates; parameter counts and FLOPs differ."
+  ],
+  "file_sha256": {
+    "tools/stage218_capacity.py": "f1b4f9cfd15af05c24ad70c6dc09c8fcf5c311ea40b1d41344e2ce8dfb46ad52",
+    "tools/test_stage218_capacity.py": "7401d7e4f66c8efa80a9fefc94d917c77fc3b745895064671364087228ad1342",
+    "tools/run_stage218_capacity.sh": "10fec7b34dd783fc453046a4a87fca0e545e6668fdb2401499a8bcb1e4426bf7",
+    "docs/experiments/06_sgla_uav_tracking/STAGE218_MATCHED_CAPACITY.md": "89d33e4e2a4402e796954a44efcadf28fe123eea154735cf9c88b14b25937faa"
+  }
+}
