@@ -1,0 +1,40 @@
+{
+  "date": "2026-11-29",
+  "stage": 222,
+  "status": "local_validation_only_server_cache_pending",
+  "tests": 5,
+  "test_seconds": 3.004,
+  "python310_ast": true,
+  "cli_help": true,
+  "bash_syntax": true,
+  "synthetic_integration": {
+    "groups": 2,
+    "seeds": 2,
+    "origins": 4,
+    "points_per_group": 6,
+    "records": 96,
+    "classes_exercised": 4,
+    "primary_each_fraction": 0.25,
+    "torch_import_disabled": true,
+    "source_hash_unchanged": true,
+    "result_tamper_rejected": true,
+    "source_tamper_rejected": true
+  },
+  "reviewed_sources_checked": {
+    "groups": 38,
+    "selection": 1824,
+    "source215_216_lineage": true,
+    "search_size": 256
+  },
+  "files": {
+    "tools/stage222_localization_evidence.py": "5af86effe337d66650b5b9cedf099b84d01b1301040daf3773415b9bd39872d8",
+    "tools/test_stage222_localization_evidence.py": "95f9451a6f039ec5bd39de9cd854b24697e57698964a6c19d29448993b3fe8cc",
+    "tools/run_stage222_localization_evidence.sh": "02576b60883fa055cb5e2922e4ec1211b4f3bf652aba1101926cdea10e86887b",
+    "docs/experiments/06_sgla_uav_tracking/STAGE222_LOCALIZATION_EVIDENCE.md": "8733ef190f36df5185246f754c1f68d1cf6d425c8189bf3878abaa30528a593f"
+  },
+  "limitations": [
+    "Synthetic GT/NPZ receipts, not real server localization evidence.",
+    "No original Stage-221 physical output/cache on this host; full CLI source validation requires server.",
+    "No new trained weights, images, GPU inference or full trajectories."
+  ]
+}

@@ -1,5 +1,9 @@
 # 实验说明索引
 
+Stage-222固定留出状态定位证据审计已实现，真实CPU缓存待运行。38源双seed四历史14592点，主两历史7296点；raw偏离下区分适配已好、未完整覆盖、覆盖无好网格、覆盖漏读，源等权/零分母显式缺失。绑定215/216当前框和221误差，dense仅适配分支。5项CPU测试及语法检查通过；总体进度、后台入口、自动七表TXT，0训练/图像/GPU/新轨迹。 [协议与运行](experiments/06_sgla_uav_tracking/STAGE222_LOCALIZATION_EVIDENCE.md) · [本地验证](experiments/06_sgla_uav_tracking/results/stage222_local_validation_20261129.json)
+
+Stage-221导出结果已分析：当前定位误差模长.656166、真实运动.031824，主要差+.624342、36/38源为正，但中位差+.088186，不能把量级比当失跟因果占比。九表与汇总/来源统计已核；桌面原文件归档时已不可读，原包归档与独立帧表核验待补。建议222沿全源固定held状态核裁剪覆盖、同分支网格/读出及raw与adapted关系，尚未实现。 [结果与下一步](experiments/06_sgla_uav_tracking/STAGE221_RESULTS_REVIEW.md) · [会话核验](experiments/06_sgla_uav_tracking/results/stage221_review_audit_20261128.json)
+
 Stage-221监督标签分解已实现，真实CPU缓存待运行。原标签分为当前定位误差与真实帧间运动，共同归一化并保留交互/抵消及无效支持；冻结220模型，2280组原loss/动作须精确复现。4项本地CPU测试通过，九表TXT/总体进度/后台，0训练/新图像/GPU/完整轨迹；不是新方法成绩。 [协议与运行](experiments/06_sgla_uav_tracking/STAGE221_TARGET_COMPONENTS.md)
 
 Stage-220真实结果已复核：history−geometry仅−.00001485、名义区间跨零、双seed异号；对zero也无明确收益。真实历史对错配有微小支持，动作非零、无梯度裁剪；九表/30均值/12配对复算差0，912导出loss精确219。按预案暂停增强该映射，建议221分解监督标签的当前定位误差与真实运动，尚未实现。 [结果与下一步](experiments/06_sgla_uav_tracking/STAGE220_RESULTS_REVIEW.md) · [机器核验](experiments/06_sgla_uav_tracking/results/stage220_review_audit_20261128.json)

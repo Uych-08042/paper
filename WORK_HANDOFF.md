@@ -1,6 +1,10 @@
 # 工作交接：SGLATrack 无人机跟踪与模型压缩探索
 
-更新日期：2026-11-28（Asia/Hong_Kong）
+更新日期：2026-11-29（Asia/Hong_Kong）
+
+**Stage-222固定留出状态定位证据审计已实现，真实CPU缓存待运行，见0.238。** 38源/双seed/四历史14592点，主两提供历史7296点；raw严重偏离时优先判adapted已好，再分未完整覆盖、覆盖无好格点、覆盖但漏读四类。执行整数窗口/当前框复现、221误差逐点绑定，零分母源列缺失、不填零；0训练/图像/GPU/完整轨迹/确认集。5项CPU测试、Python3.10语法/CLI/Bash语法通过，总体305检查进度、后台入口、自动七表TXT。不是新方法成绩，不代commit/push。 [协议与运行](docs/experiments/06_sgla_uav_tracking/STAGE222_LOCALIZATION_EVIDENCE.md)
+
+**Stage-221导出结果已分析，原始包归档待补，见0.237。** held提供风格当前中心误差/真实运动模长均值.656166/.031824；主要差+.624342、名义CI[+.296899,+1.010574]、36正2负，中位差仅+.088186，需保留尾部影响限制。不是新AUC或失跟因果占比。九表哈希、456组/6汇总/2配对重算及2280来源回归/动作统计已核；归档时桌面原文件已不可读，未写入原包，帧表独立核验未完成。建议222固定全源held状态区分执行裁剪覆盖、适配网格供给、标准读出，并关联raw误差与adapted输出；不再加历史/容量。222尚未实现。 [详细结果与下一步](docs/experiments/06_sgla_uav_tracking/STAGE221_RESULTS_REVIEW.md)
 
 **Stage-221监督标签分解已实现，真实CPU缓存待运行，见0.236。** 同38源/两fold双seed/原样本，y=当前定位误差E+真实运动M，共同预测侧长归一化，保留平方交互/抵消与有效GT支持；加载220冻结模型，2280组loss/请求动作须精确复现，0新训练/图像/GPU/完整轨迹/确认源。4项本地CPU测试通过，九表TXT/469总体进度/后台；此轮是离线标签诊断，不是新方法成绩。 [协议与运行](docs/experiments/06_sgla_uav_tracking/STAGE221_TARGET_COMPONENTS.md)
 
@@ -3697,6 +3701,32 @@ geometry原8维、history几何+a三维、shuffled仅fit每源nn/mm合并样本�
 4项本地CPU测试通过（11.878s）：真实220包/EOL/篡改；标签中心/log尺度恒等式与反向抵消能量交互、无效GT及零支持；原边界delta与零cosine支持；合成冻结PT/NPZ/receipt完整审计、无优化器/CUDA/图像reader、2280复现机制/九表/主要描述/12无效当前GT行保留、源冻结/结果及来源篡改拒绝。测试规模为四源，原220模型为schema兼容的合成冻结快照，不是本机真实重训或真实GT诊断。Python3.10语法、CLI/Bash语法通过，见results/stage221_local_validation_20261128.json。
 
 默认output/stage221/frozen_target_components_v1，继承STAGE220_ROOT与此前缓存/七来源变量；同步后后台 `bash tools/run_stage221_target_components.sh`，命令见协议。收到结果先核源/恒等式/有效支持，再判断标签中当前误差与运动量级、抵消及动作关系：偏定位则研究目标对应证据，偏运动再动态观测，未预定根因、不自动增加模型。真实服务器尚未运行，未提交/推送、不另打zip。
+
+### 0.237 Stage-221结果：当前定位误差量级占优，归档待补，下一步定位可用证据
+
+用户回传 stage221_results_20261128T131512Z_401932.txt；初读SHA256 f669b9e78fdc501c1910dcbacf425d54d65f80a0819c8827b9f25e5fe9441ed3，decision a6980275270a08484d6dc4c6ee098d74d2cf126217491c021d38cdd9980f9dc5，manifest 32038a4014a48c95abb5a5522e64d69b5a1f9303430389677756798138316cf8。38开发源、双seed、两fold，support456/scope12/cells21888/actions2280/group_metrics456/policy6/paired2/source_replay2280/execution1。所有当前/下一GT有效。服务器CPU18.754秒，0新训练/图像/GPU/完整轨迹/确认源。
+
+会话已成功核九表哈希、JSON指纹、代码67字节一致/8仅EOL、协议一致；导出分量E+M=y及平方交互检查通过，456组指标/6汇总/2配对重算差0，2280行回归loss及三请求动作均值精确220，12导出state摘要对应220 scope。没有本地原始GT/NPZ/PT，不能称原始框独立重建或模型本地重跑。补做完整帧表时发现fit应按uniform_frames(tracked_frames−1)，不能与entries.sample_frames混同；此核验尚未完成。随后桌面原路径文件不可读，Desktop/Downloads/附件/Codex目录未检出原文件，**原包未归档，不增加虚假的-text归档条目，也不声称端到端全过**。需用户补回原包，再精确归档并完成帧表核验。当前机器audit明确记录成功检查与未完成项。
+
+held提供风格coverage__none/mm等权中心E均值.6561658911、M .0318239563，模长均值比20.6，84.85%记录E较大；log尺度绝对值E .1791581818、M .0044408427。唯一主要描述mean(||E_c||−||M_c||)=+.6243419348，名义CI[+.2968990521,+1.0105738975]、36源正2负、最坏留一+.5314511994，中位+.0881858798远小于均值，严重状态影响量级。中心反向约32.14%、log约16.93%，保留交互，不能当SmoothL1贡献百分比。held原损失仍zero/geometry/history/shuffled/velocity=.231778/.231899/.231885/.232118/.232407，只是220复现，不是新成绩。
+
+解释：原forecast要求的修正更接近纠正当前已有定位偏差，单步运动较小；不证明高分干扰物/裁剪/某层为根因，也不证明所有时序方法无用。继续遵守220停止规则，不再增强该修正器容量或历史窗口。建议222只在同38源固定held点上做缓存定位证据审计：实际整数裁剪排除padding的覆盖→同一适配分支dense-best/标准输出→raw当前误差与adapted输出关联。GT仅诊断，0.2/0.5只固定分层并报连续量，不扫阈值、不挑个别视频。**E基于raw，缓存dense_best基于adapted，严禁跨分支推断原生CENTER选错。** 215 held有覆盖与dense；214 fit truth=None时缺失，明确支持不足。确认当前图像可用证据之后再选内部模块改动，并用同预算对照/完整轨迹保护验证；避免无边界诊断循环。222尚未实现/运行，未提交/推送。
+
+[详细复核](docs/experiments/06_sgla_uav_tracking/STAGE221_RESULTS_REVIEW.md) · [会话核验记录](docs/experiments/06_sgla_uav_tracking/results/stage221_review_audit_20261128.json)
+
+### 0.238 Stage-222固定状态定位证据：已实现待服务器CPU缓存
+
+用户明确本轮为“提高当前空间目标证据的可靠性，并研究它如何控制状态更新”作准备，已授权实现。新增tools/stage222_localization_evidence.py、test_stage222_localization_evidence.py、run_stage222_localization_evidence.sh及[固定协议](docs/experiments/06_sgla_uav_tracking/STAGE222_LOCALIZATION_EVIDENCE.md)，既有214～221代码/协议不改。
+
+只读真实221物理结果（固定decision a6980275…并verify所有表/receipt）和已审215/216包/物理缓存。221桌面TXT缺失不影响服务器物理结果验证，不伪造其归档已完成。38源/双seed/四历史同216选择1824时刻，共14592点；当前误差与221 held E逐点核，GT/帧由七来源载入原hash。215 NPZ/receipt绑定、216当前raw/适配框精确复现；整数裁剪排除padding并复现覆盖、GT名义网络尺寸。dense-best仅为215缓存adapted分支，不能声称独立重建全网格或原生网格有好框。search_size从绑定runtime读取256。
+
+raw IoU<.2下四类互斥，顺序固定：adapted标准输出>=.5（覆盖不作限制）→adapted差且未完整覆盖→完整覆盖但dense-best<.5→完整覆盖、dense-best>=.5但标准输出<.5。raw>=.2另记，GT无效保行并留空。主要描述合并coverage__none/mm提供风格7296点，中心/联合历史仅支持；每源内两seed/来源合并条件比例再源等权，raw严重数为0源列unsupported，不能填0。四primary行属于一项组成描述，名义边际源bootstrap区间非联合检验，不设新方法采用门槛。all/raw_severe/raw_good连续IoU、dense gap、中心误差、名义GT尺寸同时输出，避免只按阈值解释。
+
+七表selection1824/cells14592/group_metrics304/policy_summary15/primary4/source_replay304/execution1，另manifest/decision/source_arrays，305总体检查。0新训练/图像/模型加载/GPU/完整轨迹/确认源，无checkpoint、GPU UUID约束。已有完整结果只校验续用；writer_lock保留不自动删锁。默认output/stage222/cached_localization_evidence_v1，继承221、215_REPLAY、216及七来源变量；自动TXT结果包、后台命令见协议。
+
+5项CPU测试通过（3.004s）：已审215/216来源与帧/搜索配置；边界/优先分类；整数窗口、无效GT保留及覆盖篡改拒绝；源等权与零分母；合成两源/双seed/四来源/6点共96记录的封存NPZ/receipt完整流程，四类均.25且2源支持，禁止torch导入、来源hash不变、来源及输出篡改拒绝。CLI和Python3.10 AST通过；Git Bash -n在沙箱外只读检查通过（沙箱内MSYS初始化受限）。见results/stage222_local_validation_20261129.json。本机无真实221/215/216服务器缓存，不声称真实诊断完成。
+
+本轮终点是按跨源支持选一个最小模块改造入口，再固定搜索状态验证定位增量、单独开放反馈做完整轨迹保护。若无主导类型如实承认混合，不自动把最大比例当因果、不继续无限拆分。先核真实包/coverage/221误差/有效支持，再解释结果。未提交/推送。
 
 ## 1. 接手后首先要知道的结论
 

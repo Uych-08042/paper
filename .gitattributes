@@ -321,3 +321,7 @@ tools/stage221_target_components.py text eol=lf
 tools/test_stage221_target_components.py text eol=lf
 tools/run_stage221_target_components.sh text eol=lf
 docs/experiments/06_sgla_uav_tracking/STAGE221_TARGET_COMPONENTS.md text eol=lf
+tools/stage222_localization_evidence.py text eol=lf
+tools/test_stage222_localization_evidence.py text eol=lf
+tools/run_stage222_localization_evidence.sh text eol=lf
+docs/experiments/06_sgla_uav_tracking/STAGE222_LOCALIZATION_EVIDENCE.md text eol=lf

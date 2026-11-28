@@ -1,0 +1,87 @@
+{
+  "schema": "stage221_session_review_v1",
+  "date": "2026-11-28",
+  "status": "REVIEW_EXPORTED_RESULTS_RAW_ARCHIVE_PENDING",
+  "bundle_name": "stage221_results_20261128T131512Z_401932.txt",
+  "bundle_sha256_first_read": "f669b9e78fdc501c1910dcbacf425d54d65f80a0819c8827b9f25e5fe9441ed3",
+  "decision": "a6980275270a08484d6dc4c6ee098d74d2cf126217491c021d38cdd9980f9dc5",
+  "plan": "32038a4014a48c95abb5a5522e64d69b5a1f9303430389677756798138316cf8",
+  "source220_decision": "82832d743f4497540486d699337eee7ab8cb1c959c08c43aed93fa064559370c",
+  "row_counts": {
+    "support": 456,
+    "scope": 12,
+    "cells": 21888,
+    "actions": 2280,
+    "group_metrics": 456,
+    "policy_summary": 6,
+    "paired": 2,
+    "source_replay": 2280,
+    "execution": 1
+  },
+  "completed_in_session": {
+    "table_hashes_verified": 9,
+    "json_fingerprints_verified": true,
+    "code_exact": 67,
+    "code_lf_only": 8,
+    "protocol_hash_verified": true,
+    "component_cells_additivity_checked": 21888,
+    "group_metrics_recomputed": 456,
+    "maximum_group_metric_recompute_error": 0.0,
+    "summary_rows_recomputed": 6,
+    "paired_rows_recomputed": 2,
+    "maximum_summary_recompute_error": 0.0,
+    "source_regression_and_three_requested_action_statistics_exact_rows": 2280,
+    "exported_model_digest_matches_source_scope": 12,
+    "invalid_current_count": 0,
+    "invalid_next_count": 0
+  },
+  "primary": {
+    "mean_delta": 0.6243419347963677,
+    "median_delta": 0.08818587977438024,
+    "ci_low": 0.2968990521317297,
+    "ci_high": 1.0105738975328995,
+    "positive": 36,
+    "negative": 2,
+    "videos": 38,
+    "worst_leave_one_video_out": 0.5314511993633079
+  },
+  "held_provider_center": {
+    "error_mean": 0.6561658910797137,
+    "motion_mean": 0.03182395628334625,
+    "error_larger_fraction": 0.8485471491228069,
+    "opposed_fraction": 0.3214089912280702
+  },
+  "held_provider_log": {
+    "error_abs_mean": 0.17915818181692889,
+    "motion_abs_mean": 0.004440842738085395,
+    "opposed_fraction": 0.16927083333333334
+  },
+  "held_provider_regression": {
+    "zero": 0.23177765746559567,
+    "geometry": 0.23189938650083555,
+    "history": 0.2318845393161418,
+    "shuffled": 0.2321177080846514,
+    "velocity": 0.23240745501856222
+  },
+  "server_execution": {
+    "seconds": 18.7540477775,
+    "device": "cpu",
+    "new_optimizer_updates": 0,
+    "new_image_reads": 0,
+    "new_gpu_inference_calls": 0,
+    "new_full_trajectories": 0,
+    "confirmation_groups_opened": 0
+  },
+  "pending": [
+    "Raw packet unavailable at original Desktop path during archive attempt; no archive file written.",
+    "Full independent sample-frame verification unfinished: fit follows uniform_frames(tracked_frames-1), not entries.sample_frames.",
+    "Original GT/cache/model tensors and source_arrays.json unavailable locally; no component reconstruction from original boxes or model rerun."
+  ],
+  "limitations": [
+    "Successful checks above were executed before packet became unavailable; this JSON records the session audit, not a fresh full replay.",
+    "All-loss and frozen-weight assertions reported by server; local packet comparison verifies exported regression, requested-action aggregates and exported scope digests.",
+    "Magnitude ratios are not additive SmoothL1 attribution, cause shares or deployed accuracy gains.",
+    "Fixed developer-source samples, no independent confirmation or new AUC."
+  ],
+  "next_step": "Recommend bounded all-source held current-localization evidence audit; Stage-222 not implemented."
+}
