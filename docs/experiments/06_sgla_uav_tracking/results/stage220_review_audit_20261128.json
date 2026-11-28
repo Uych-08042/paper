@@ -1,0 +1,626 @@
+{
+  "schema": "stage220_review_v1",
+  "date": "2026-11-28",
+  "bundle_sha256": "3512d9eedace63702f8de8ebefad152028a343775836393fbc25c429f127f1e4",
+  "canonical_lf_sha256": "729d5a8ff47b97d55b16f260bc0ad620bc9c590329db92ee94760bdcd8c66377",
+  "decision": "82832d743f4497540486d699337eee7ab8cb1c959c08c43aed93fa064559370c",
+  "plan": "305dd98ea046dc0560721894639ae60033bc82991db0109d3cea45a0aa42c04e",
+  "row_counts": {
+    "support": 456,
+    "scope": 12,
+    "training": 3072,
+    "group_metrics": 2280,
+    "policy_summary": 30,
+    "paired": 12,
+    "source_replay": 912,
+    "actions": 2280,
+    "execution": 1
+  },
+  "table_hashes_verified": 9,
+  "json_fingerprints_verified": true,
+  "code": {
+    "exact": [
+      "tools/stage194_module_ablation.py",
+      "tools/stage194_module_common.py",
+      "tools/stage194_module_model.py",
+      "tools/experiment_progress.py",
+      "tracking/stage18_tracking_loss.py",
+      "tracking/stage18_environment.py",
+      "tracking/stage46_motion_runtime.py",
+      "tools/stage192_development_grid_rescue.py",
+      "tools/stage61_runtime_replay.py",
+      "tools/stage202_regret_routing.py",
+      "tools/stage202_regret_common.py",
+      "tools/stage200_pair_common.py",
+      "tools/stage200_within_video.py",
+      "tools/stage201_score_baseline.py",
+      "tools/stage199_residual_model.py",
+      "tools/stage195_router_objective_audit.py",
+      "tools/stage195_routing_common.py",
+      "tools/stage199_residual_routing.py",
+      "tools/stage198_routing_calibration.py",
+      "tools/stage196_relative_loss.py",
+      "tools/stage203_loss_clipping.py",
+      "tools/stage203_clipping_common.py",
+      "tools/stage204_target_relation.py",
+      "tools/stage204_relation_common.py",
+      "tools/stage204_relation_model.py",
+      "tools/stage205_crossfit_shrinkage.py",
+      "tools/stage205_shrinkage_common.py",
+      "tools/stage206_spatial_adaptation.py",
+      "tools/stage206_spatial_model.py",
+      "tools/stage206_spatial_common.py",
+      "tools/stage207_state_training.py",
+      "tools/stage207_state_common.py",
+      "tools/stage208_state_interaction.py",
+      "tools/stage208_factor_common.py",
+      "tools/run_stage208_state_interaction.sh",
+      "tools/stage209_reference_intervention.py",
+      "tools/stage209_reference_common.py",
+      "tools/run_stage209_reference_intervention.sh",
+      "tools/stage210_recovery_audit.py",
+      "tools/stage210_recovery_common.py",
+      "tools/run_stage210_recovery_audit.sh",
+      "tools/stage211_geometry_audit.py",
+      "tools/stage211_geometry_common.py",
+      "tools/run_stage211_geometry_audit.sh",
+      "tools/stage212_state_experiment.py",
+      "tools/stage212_state_common.py",
+      "tools/run_stage212_state_experiment.sh",
+      "tools/stage213_output_ceiling.py",
+      "tools/run_stage213_output_ceiling.sh",
+      "tools/stage214_search_state.py",
+      "tools/stage214_search_state_common.py",
+      "tools/run_stage214_search_state.sh",
+      "tools/stage215_same_model_replay.py",
+      "tools/stage215_component_common.py",
+      "tools/run_stage215_same_model_replay.sh",
+      "tools/stage216_successor_quality.py",
+      "tools/run_stage216_successor_quality.sh",
+      "tools/stage217_predictor_audit.py",
+      "tools/run_stage217_predictor_audit.sh",
+      "tools/stage218_capacity.py",
+      "tools/run_stage218_capacity.sh",
+      "tools/stage219_input_blocks.py",
+      "tools/run_stage219_input_blocks.sh",
+      "tools/stage220_causal_history.py",
+      "tools/run_stage220_causal_history.sh"
+    ],
+    "lf_only": [
+      "tracking/stage4_runtime.py",
+      "tracking/stage1_validate.py",
+      "tracking/validation_metrics.py",
+      "lib/models/sglatrack/base_backbone.py",
+      "lib/models/sglatrack/sglatrack.py",
+      "lib/models/layers/head.py",
+      "lib/test/tracker/sglatrack.py",
+      "lib/train/data/processing_utils.py"
+    ]
+  },
+  "protocol_exact": true,
+  "source219_lineage_exact": true,
+  "source_replay_exported_metrics_exact": 912,
+  "server_source_replay_records_all_pass": true,
+  "geometry_network_digest_equals_bound_source_field": 4,
+  "training_metadata_common_within_fold_seed": true,
+  "draws_digest_exact_stage219": true,
+  "original_geometry_buffers_exact": "server assertion; float buffers not available locally",
+  "training_updates": 3072,
+  "training_examples": 12288,
+  "complete_support_and_method_grid": true,
+  "warmup_counts": {
+    "fit": 152,
+    "held": 304
+  },
+  "available_history_counts": {
+    "fit": 7144,
+    "held": 14288
+  },
+  "fit_changed_history_pairs": {
+    "f0__s2132": 1804,
+    "f0__s2133": 1804,
+    "f1__s2132": 1798,
+    "f1__s2133": 1804
+  },
+  "total_fit_changed_history_pairs": 7210,
+  "training_diagnostics": [
+    {
+      "fold": 0,
+      "seed": 2132,
+      "arm": "geometry",
+      "maximum_gradient": 0.624021589756012,
+      "clipped_steps": 0,
+      "mean_first32_batch_loss": 0.45168031848879764,
+      "mean_last32_batch_loss": 0.26246630748937605,
+      "note": "batch summaries are not a full-fit convergence test"
+    },
+    {
+      "fold": 0,
+      "seed": 2132,
+      "arm": "history",
+      "maximum_gradient": 0.6479760408401489,
+      "clipped_steps": 0,
+      "mean_first32_batch_loss": 0.45169999331847066,
+      "mean_last32_batch_loss": 0.26249157483835006,
+      "note": "batch summaries are not a full-fit convergence test"
+    },
+    {
+      "fold": 0,
+      "seed": 2132,
+      "arm": "shuffled",
+      "maximum_gradient": 0.625760018825531,
+      "clipped_steps": 0,
+      "mean_first32_batch_loss": 0.45173135599907255,
+      "mean_last32_batch_loss": 0.2618809774357942,
+      "note": "batch summaries are not a full-fit convergence test"
+    },
+    {
+      "fold": 0,
+      "seed": 2133,
+      "arm": "geometry",
+      "maximum_gradient": 0.5545021295547485,
+      "clipped_steps": 0,
+      "mean_first32_batch_loss": 0.399730876157264,
+      "mean_last32_batch_loss": 0.2911557970001013,
+      "note": "batch summaries are not a full-fit convergence test"
+    },
+    {
+      "fold": 0,
+      "seed": 2133,
+      "arm": "history",
+      "maximum_gradient": 0.585813581943512,
+      "clipped_steps": 0,
+      "mean_first32_batch_loss": 0.3996904360028566,
+      "mean_last32_batch_loss": 0.29129040603584144,
+      "note": "batch summaries are not a full-fit convergence test"
+    },
+    {
+      "fold": 0,
+      "seed": 2133,
+      "arm": "shuffled",
+      "maximum_gradient": 0.5677547454833984,
+      "clipped_steps": 0,
+      "mean_first32_batch_loss": 0.3996705375648162,
+      "mean_last32_batch_loss": 0.29136453242972493,
+      "note": "batch summaries are not a full-fit convergence test"
+    },
+    {
+      "fold": 1,
+      "seed": 2132,
+      "arm": "geometry",
+      "maximum_gradient": 0.4277800917625427,
+      "clipped_steps": 0,
+      "mean_first32_batch_loss": 0.2230052670929581,
+      "mean_last32_batch_loss": 0.10791114015228231,
+      "note": "batch summaries are not a full-fit convergence test"
+    },
+    {
+      "fold": 1,
+      "seed": 2132,
+      "arm": "history",
+      "maximum_gradient": 0.4694596529006958,
+      "clipped_steps": 0,
+      "mean_first32_batch_loss": 0.22298887151191593,
+      "mean_last32_batch_loss": 0.10792096726436284,
+      "note": "batch summaries are not a full-fit convergence test"
+    },
+    {
+      "fold": 1,
+      "seed": 2132,
+      "arm": "shuffled",
+      "maximum_gradient": 0.529045581817627,
+      "clipped_steps": 0,
+      "mean_first32_batch_loss": 0.22301404692188953,
+      "mean_last32_batch_loss": 0.10800586835102877,
+      "note": "batch summaries are not a full-fit convergence test"
+    },
+    {
+      "fold": 1,
+      "seed": 2133,
+      "arm": "geometry",
+      "maximum_gradient": 0.6139490008354187,
+      "clipped_steps": 0,
+      "mean_first32_batch_loss": 0.1794172758309287,
+      "mean_last32_batch_loss": 0.11271067545567348,
+      "note": "batch summaries are not a full-fit convergence test"
+    },
+    {
+      "fold": 1,
+      "seed": 2133,
+      "arm": "history",
+      "maximum_gradient": 0.6593496799468994,
+      "clipped_steps": 0,
+      "mean_first32_batch_loss": 0.1793681238523277,
+      "mean_last32_batch_loss": 0.11234674894694763,
+      "note": "batch summaries are not a full-fit convergence test"
+    },
+    {
+      "fold": 1,
+      "seed": 2133,
+      "arm": "shuffled",
+      "maximum_gradient": 0.6501564383506775,
+      "clipped_steps": 0,
+      "mean_first32_batch_loss": 0.17941914765833644,
+      "mean_last32_batch_loss": 0.1125498461551615,
+      "note": "batch summaries are not a full-fit convergence test"
+    }
+  ],
+  "gradient_clip_totals": {
+    "geometry": 0,
+    "history": 0,
+    "shuffled": 0
+  },
+  "summary_recomputation_max_abs_error": {
+    "policy_summary": 0.0,
+    "paired": 0.0
+  },
+  "primary": {
+    "split": "held",
+    "contrast": "history_minus_geometry",
+    "primary": true,
+    "favorable_direction": "negative",
+    "videos": 38,
+    "mean_delta": -1.4847184693759405e-05,
+    "median_delta": -1.3000455510336906e-05,
+    "ci_low": -0.00016443000167782885,
+    "ci_high": 0.0001304884038338633,
+    "positive": 19,
+    "negative": 19,
+    "worst_leave_one_video_out": 2.080550365389098e-05
+  },
+  "provider_style_means": [
+    {
+      "split": "fit",
+      "arm": "geometry",
+      "regression": 0.23393017560776666
+    },
+    {
+      "split": "fit",
+      "arm": "history",
+      "regression": 0.2338490212404347
+    },
+    {
+      "split": "fit",
+      "arm": "shuffled",
+      "regression": 0.23386531189853008
+    },
+    {
+      "split": "fit",
+      "arm": "zero",
+      "regression": 0.23560142318609378
+    },
+    {
+      "split": "fit",
+      "arm": "velocity",
+      "regression": 0.23666166374995987
+    },
+    {
+      "split": "held",
+      "arm": "geometry",
+      "regression": 0.23189938650083555
+    },
+    {
+      "split": "held",
+      "arm": "history",
+      "regression": 0.2318845393161418
+    },
+    {
+      "split": "held",
+      "arm": "shuffled",
+      "regression": 0.2321177080846514
+    },
+    {
+      "split": "held",
+      "arm": "zero",
+      "regression": 0.23177765746559567
+    },
+    {
+      "split": "held",
+      "arm": "velocity",
+      "regression": 0.23240745501856222
+    }
+  ],
+  "held_contrasts_by_seed": {
+    "history_minus_geometry": {
+      "2132": {
+        "videos": 38,
+        "mean_delta": -8.734284079094466e-05,
+        "median_delta": -2.873846096917987e-05,
+        "ci_low": -0.0002758485355451213,
+        "ci_high": 8.215556138709739e-05,
+        "positive": 18,
+        "negative": 20,
+        "worst_leave_one_video_out": -3.3094349468277916e-05
+      },
+      "2133": {
+        "videos": 38,
+        "mean_delta": 5.764847140342585e-05,
+        "median_delta": -4.094152245670557e-06,
+        "ci_low": -0.0001298970721874962,
+        "ci_high": 0.0002424116562332001,
+        "positive": 18,
+        "negative": 20,
+        "worst_leave_one_video_out": 0.00010043321841245366
+      }
+    },
+    "history_minus_zero": {
+      "2132": {
+        "videos": 38,
+        "mean_delta": 0.0003457718703430146,
+        "median_delta": 0.0018289238214492798,
+        "ci_low": -0.001704271332327105,
+        "ci_high": 0.0022948288930293567,
+        "positive": 26,
+        "negative": 12,
+        "worst_leave_one_video_out": 0.0008824425702285324
+      },
+      "2133": {
+        "videos": 38,
+        "mean_delta": -0.00013200816925075886,
+        "median_delta": 0.0004912668955512345,
+        "ci_low": -0.001455979675033871,
+        "ci_high": 0.0010770631667247987,
+        "positive": 27,
+        "negative": 11,
+        "worst_leave_one_video_out": 0.00024972457558269034
+      }
+    },
+    "history_minus_shuffled": {
+      "2132": {
+        "videos": 38,
+        "mean_delta": -0.0003513885236124655,
+        "median_delta": -9.016395779326558e-05,
+        "ci_low": -0.0007159671841164757,
+        "ci_high": -5.335117174055157e-05,
+        "positive": 16,
+        "negative": 22,
+        "worst_leave_one_video_out": -0.0002316609670005336
+      },
+      "2133": {
+        "videos": 38,
+        "mean_delta": -0.00011494901340675394,
+        "median_delta": -5.477305967360735e-05,
+        "ci_low": -0.000307943316530375,
+        "ci_high": 8.043828357155052e-05,
+        "positive": 9,
+        "negative": 29,
+        "worst_leave_one_video_out": -6.302897708263954e-05
+      }
+    },
+    "velocity_minus_zero": {
+      "2132": {
+        "videos": 38,
+        "mean_delta": 0.0008759992258427175,
+        "median_delta": 0.0003373220970388502,
+        "ci_low": -0.00042550686190033477,
+        "ci_high": 0.0020873445355583044,
+        "positive": 27,
+        "negative": 11,
+        "worst_leave_one_video_out": 0.0013199593506854129
+      },
+      "2133": {
+        "videos": 38,
+        "mean_delta": 0.00038359588009035707,
+        "median_delta": 0.0002677113516256213,
+        "ci_low": -0.0008918711418166487,
+        "ci_high": 0.001570605574057767,
+        "positive": 26,
+        "negative": 12,
+        "worst_leave_one_video_out": 0.0008114721253199654
+      }
+    }
+  },
+  "held_contrasts_by_fold": {
+    "0": {
+      "history_minus_geometry": {
+        "videos": 19,
+        "mean_delta": -0.0001478399805675604,
+        "median_delta": -7.717637345194817e-05,
+        "ci_low": -0.0003344509844809134,
+        "ci_high": 8.36321016418194e-06,
+        "positive": 4,
+        "negative": 15,
+        "worst_leave_one_video_out": -8.636265152340962e-05
+      },
+      "history_minus_zero": {
+        "videos": 19,
+        "mean_delta": 0.0009995598382757682,
+        "median_delta": 0.001773584372131154,
+        "ci_low": -0.0013006517771205644,
+        "ci_high": 0.0027640978105314146,
+        "positive": 16,
+        "negative": 3,
+        "worst_leave_one_video_out": 0.0019292178913019598
+      },
+      "history_minus_shuffled": {
+        "videos": 19,
+        "mean_delta": -0.0003896430257315698,
+        "median_delta": -1.0164163541048765e-05,
+        "ci_low": -0.0007979632127037468,
+        "ci_high": -5.6857911419540155e-05,
+        "positive": 9,
+        "negative": 10,
+        "worst_leave_one_video_out": -0.0002648611164962252
+      },
+      "velocity_minus_zero": {
+        "videos": 19,
+        "mean_delta": 0.00176567563826929,
+        "median_delta": 0.00038593204226344824,
+        "ci_low": 0.0005493649108087227,
+        "ci_high": 0.0032394155679771513,
+        "positive": 15,
+        "negative": 4,
+        "worst_leave_one_video_out": 0.001922620968899638
+      }
+    },
+    "1": {
+      "history_minus_geometry": {
+        "videos": 19,
+        "mean_delta": 0.00011814561118004157,
+        "median_delta": 5.433289334177971e-05,
+        "ci_low": -0.00011611729193981247,
+        "ci_high": 0.0003436400617685744,
+        "positive": 15,
+        "negative": 4,
+        "worst_leave_one_video_out": 0.00019882018144320077
+      },
+      "history_minus_zero": {
+        "videos": 19,
+        "mean_delta": -0.0007857961371835126,
+        "median_delta": 0.0003230166621506214,
+        "ci_low": -0.003287245508889962,
+        "ci_high": 0.0015040138037109379,
+        "positive": 11,
+        "negative": 8,
+        "worst_leave_one_video_out": 9.899186099775964e-05
+      },
+      "history_minus_shuffled": {
+        "videos": 19,
+        "mean_delta": -7.669451128764961e-05,
+        "median_delta": -6.458163261413574e-05,
+        "ci_low": -0.0002739874388345542,
+        "ci_high": 0.00011957441494910382,
+        "positive": 5,
+        "negative": 14,
+        "worst_leave_one_video_out": -1.974905009976485e-05
+      },
+      "velocity_minus_zero": {
+        "videos": 19,
+        "mean_delta": -0.0005060805323362155,
+        "median_delta": 0.00013179925736039877,
+        "ci_low": -0.0026374715000106095,
+        "ci_high": 0.0012653580845309123,
+        "positive": 11,
+        "negative": 8,
+        "worst_leave_one_video_out": 0.000326869176610166
+      }
+    }
+  },
+  "primary_source_deltas": {
+    "uav0000003": -0.00011217361316084862,
+    "uav0000016": -0.00021390116307884455,
+    "uav0000070": 0.0003267426509410143,
+    "uav0000076": 0.00041291117668151855,
+    "uav0000080": 3.589666448533535e-05,
+    "uav0000085": -7.717637345194817e-05,
+    "uav0000089": -7.134978659451008e-05,
+    "uav0000090": 2.080790000036359e-05,
+    "uav0000091": 0.0007394701242446899,
+    "uav0000107": -0.0012544319033622742,
+    "uav0000126": 2.6426714612171054e-06,
+    "uav0000147": 0.00138033926486969,
+    "uav0000148": 4.1974359191954136e-05,
+    "uav0000149": -0.00014878506772220135,
+    "uav0000169": 7.41125550121069e-05,
+    "uav0000170": 6.808131001889706e-05,
+    "uav0000173": 0.000580132007598877,
+    "uav0000174": -5.299597978591919e-05,
+    "uav0000176": -0.0009768065065145493,
+    "uav0000199": 0.00013154069893062115,
+    "uav0000200": -6.821774877607822e-05,
+    "uav0000204": -0.00020724127534776926,
+    "uav0000205": -7.062405347824097e-05,
+    "uav0000226": -0.0001738453283905983,
+    "uav0000235": 0.00043623894453048706,
+    "uav0000236": -2.8643582481890917e-05,
+    "uav0000237": -6.936118006706238e-05,
+    "uav0000238": 1.0051124263554811e-05,
+    "uav0000239": -0.0001485432148911059,
+    "uav0000303": -0.00012543657794594765,
+    "uav0000304": 2.1354411728680134e-05,
+    "uav0000307": -0.00011360505595803261,
+    "uav0000308": 1.636322122067213e-05,
+    "uav0000329": 6.215943722054362e-05,
+    "uav0000331": -0.00027409661561250687,
+    "uav0000342": 5.433289334177971e-05,
+    "uav0000348": 0.0005418872460722923,
+    "uav0000349": -0.0013339966535568237
+  },
+  "provider_style_requested_actions": [
+    {
+      "split": "fit",
+      "arm": "geometry",
+      "mean_center_delta": 0.09596416631125305,
+      "mean_abs_log_side_delta": 0.023997007872247577,
+      "nonzero_fraction": 1.0
+    },
+    {
+      "split": "fit",
+      "arm": "history",
+      "mean_center_delta": 0.0957884986786858,
+      "mean_abs_log_side_delta": 0.023251821192005945,
+      "nonzero_fraction": 1.0
+    },
+    {
+      "split": "fit",
+      "arm": "shuffled",
+      "mean_center_delta": 0.09711945228474705,
+      "mean_abs_log_side_delta": 0.02331462867043324,
+      "nonzero_fraction": 1.0
+    },
+    {
+      "split": "fit",
+      "arm": "zero",
+      "mean_center_delta": 0.0,
+      "mean_abs_log_side_delta": 0.0,
+      "nonzero_fraction": 0.0
+    },
+    {
+      "split": "fit",
+      "arm": "velocity",
+      "mean_center_delta": 0.05058971742829798,
+      "mean_abs_log_side_delta": 0.017889135103599216,
+      "nonzero_fraction": 1.0
+    },
+    {
+      "split": "held",
+      "arm": "geometry",
+      "mean_center_delta": 0.09448632036678885,
+      "mean_abs_log_side_delta": 0.02277504148476414,
+      "nonzero_fraction": 1.0
+    },
+    {
+      "split": "held",
+      "arm": "history",
+      "mean_center_delta": 0.09475763175195377,
+      "mean_abs_log_side_delta": 0.022400113533398037,
+      "nonzero_fraction": 1.0
+    },
+    {
+      "split": "held",
+      "arm": "shuffled",
+      "mean_center_delta": 0.09525969440705682,
+      "mean_abs_log_side_delta": 0.022274149229480445,
+      "nonzero_fraction": 1.0
+    },
+    {
+      "split": "held",
+      "arm": "zero",
+      "mean_center_delta": 0.0,
+      "mean_abs_log_side_delta": 0.0,
+      "nonzero_fraction": 0.0
+    },
+    {
+      "split": "held",
+      "arm": "velocity",
+      "mean_center_delta": 0.050257530045009366,
+      "mean_abs_log_side_delta": 0.017953242984061177,
+      "nonzero_fraction": 1.0
+    }
+  ],
+  "execution": {
+    "device": "cpu",
+    "seconds": "25.169592395424843",
+    "image_reads": "0",
+    "cuda_calls": "0"
+  },
+  "limitations": [
+    "Original PT/NPZ/receipts/source_arrays.json unavailable locally; causal features, fit normalization, actual updates and raw tensors not independently replayed.",
+    "Current-geometry network bridge is a bound server claim checked for exported consistency; its source network tensors are not present in the prior packet.",
+    "Actions table summarizes requested deltas before boundary clipping, not actual image-space parent displacement.",
+    "Same nominal architecture/opportunity differs in active inputs and effective capacity.",
+    "No new GPU recrop, successor IoU, full tracking AUC or independent confirmation.",
+    "Small real-vs-shuffled history signal is supportive, not proof that generic temporal tracking is effective or ineffective."
+  ],
+  "next_recommendation": "Suspend further capacity/history expansion of this correction mapping. Stage-221 proposed only: exact target decomposition y=(GT_t-reference_t)+(GT_(t+1)-GT_t), centers normalized by reference_t side and log-side additive decomposition; offline GT diagnostic of current localization error versus target motion, including cancellation/interaction. No new learned model or deployment oracle claim."
+}

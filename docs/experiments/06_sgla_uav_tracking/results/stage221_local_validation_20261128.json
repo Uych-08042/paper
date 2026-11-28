@@ -1,0 +1,40 @@
+{
+  "schema": "stage221_local_validation_v1",
+  "date": "2026-11-28",
+  "status": "LOCAL_CPU_PASS_REAL_SERVER_CACHE_PENDING",
+  "tests": {
+    "passed": 4,
+    "seconds": 11.878,
+    "coverage": [
+      "reviewed 220 packet LF/CRLF/content tamper rejection",
+      "exact center/log-side decomposition, cancellation cross term, invalid-current support and empty support",
+      "effective original parent bounds and undefined zero-vector cosine",
+      "synthetic frozen PT/NPZ/receipt workflow without optimizer/CUDA/images, loss/action replay mechanism, table grid/primary, invalid-current cell retention, frozen source and source/output corruption rejection"
+    ]
+  },
+  "python": "3.12.4",
+  "torch": "2.7.1+cpu",
+  "numpy": "1.26.4",
+  "python310_syntax": true,
+  "cli_help": true,
+  "bash_syntax": true,
+  "git_diff_check": true,
+  "real_server_run_performed": false,
+  "new_training_updates": 0,
+  "new_image_reads": 0,
+  "new_cuda_calls": 0,
+  "new_full_trajectories": 0,
+  "confirmation_groups_opened": 0,
+  "committed_or_pushed": false,
+  "limits": [
+    "Synthetic four-source frozen models are schema-compatible test snapshots, not real trained Stage-220 weights.",
+    "Real per-state E/M label composition and original seven-source dataset paths have not been evaluated locally.",
+    "Component magnitude is descriptive, not a causal root-cause estimate or additive SmoothL1 attribution."
+  ],
+  "file_sha256": {
+    "tools/stage221_target_components.py": "3d3a108bba758d9b02669fb9d9d7295bf37d227a0515e97a0b28c5e5c83fb510",
+    "tools/test_stage221_target_components.py": "c6d5cacd254d95bc8b8229aa0f8ac3a78ae05b85690ec04f2e712d443b8097c7",
+    "tools/run_stage221_target_components.sh": "7ca0e2a258c3a7d608b6193022f7aee415b448046df781f8b026741e05634af6",
+    "docs/experiments/06_sgla_uav_tracking/STAGE221_TARGET_COMPONENTS.md": "f8749c0c8a440949526abef6e19a7bee9b0df75fefc2810282ce40de8b158486"
+  }
+}

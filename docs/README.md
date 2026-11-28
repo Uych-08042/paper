@@ -1,5 +1,9 @@
 # 实验说明索引
 
+Stage-221监督标签分解已实现，真实CPU缓存待运行。原标签分为当前定位误差与真实帧间运动，共同归一化并保留交互/抵消及无效支持；冻结220模型，2280组原loss/动作须精确复现。4项本地CPU测试通过，九表TXT/总体进度/后台，0训练/新图像/GPU/完整轨迹；不是新方法成绩。 [协议与运行](experiments/06_sgla_uav_tracking/STAGE221_TARGET_COMPONENTS.md)
+
+Stage-220真实结果已复核：history−geometry仅−.00001485、名义区间跨零、双seed异号；对zero也无明确收益。真实历史对错配有微小支持，动作非零、无梯度裁剪；九表/30均值/12配对复算差0，912导出loss精确219。按预案暂停增强该映射，建议221分解监督标签的当前定位误差与真实运动，尚未实现。 [结果与下一步](experiments/06_sgla_uav_tracking/STAGE220_RESULTS_REVIEW.md) · [机器核验](experiments/06_sgla_uav_tracking/results/stage220_review_audit_20261128.json)
+
 Stage-220二阶因果历史对照已实现，真实CPU训练待运行。geometry8/history11/fit错配历史训练同网络与预算，保留zero/恒速度；38源双seed四历史，912当前几何/zero损失须精确219。4项本地CPU测试通过，九表TXT、总体进度/后台/续用，无新图像/GPU/完整轨迹。 [协议与运行](experiments/06_sgla_uav_tracking/STAGE220_CAUSAL_HISTORY.md)
 
 Stage-219真实结果已复核：geometry对full held误差−.0313187、名义区间负、33源有利，但对zero+.0001217区间跨零；只视觉重现held损伤，当前仍无可采用收益。八表/24均值/10配对复算差0，四full权重及912损失精确218。建议220检验超出隐含一步位移的二阶因果历史，尚未实现。 [结果与下一步](experiments/06_sgla_uav_tracking/STAGE219_RESULTS_REVIEW.md) · [机器核验](experiments/06_sgla_uav_tracking/results/stage219_review_audit_20261128.json)

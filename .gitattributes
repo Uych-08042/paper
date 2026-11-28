@@ -316,3 +316,8 @@ tools/stage220_causal_history.py text eol=lf
 tools/test_stage220_causal_history.py text eol=lf
 tools/run_stage220_causal_history.sh text eol=lf
 docs/experiments/06_sgla_uav_tracking/STAGE220_CAUSAL_HISTORY.md text eol=lf
+docs/experiments/06_sgla_uav_tracking/results/stage220_results_20261128T125221Z_382507.txt -text
+tools/stage221_target_components.py text eol=lf
+tools/test_stage221_target_components.py text eol=lf
+tools/run_stage221_target_components.sh text eol=lf
+docs/experiments/06_sgla_uav_tracking/STAGE221_TARGET_COMPONENTS.md text eol=lf
