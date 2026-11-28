@@ -1,0 +1,37 @@
+{
+  "schema": "stage219_local_validation_v1",
+  "date": "2026-11-28",
+  "status": "LOCAL_CPU_PASS_REAL_SERVER_TRAINING_PENDING",
+  "tests": {
+    "passed": 3,
+    "seconds": 33.42,
+    "coverage": [
+      "reviewed 218 packet original/LF/CRLF, content/extra-byte/BOM rejection",
+      "masked-block perturbation invariance, full-fit mean-imputation equivalence, identical initialization and fixed dimension",
+      "two-fold four-source two-seed actual training of all input modes, exact full-model weights/loss bridge to 218, tables/primary, model reuse, frozen sources and tamper/fit-roster rejection"
+    ]
+  },
+  "python": "3.12.4",
+  "torch": "2.7.1+cpu",
+  "numpy": "1.26.4",
+  "python310_syntax": true,
+  "cli_help": true,
+  "bash_syntax": true,
+  "new_server_training_performed": false,
+  "new_image_reads": 0,
+  "new_cuda_calls": 0,
+  "new_full_trajectories": 0,
+  "confirmation_groups_opened": 0,
+  "committed_or_pushed": false,
+  "limits": [
+    "Synthetic CPU workflow is not a real held loss or tracking result.",
+    "Effective input dimension and model freedom differ despite identical nominal architecture.",
+    "The seven-source original dataset loader was not exercised locally; real server caches are required."
+  ],
+  "file_sha256": {
+    "tools/stage219_input_blocks.py": "d3024f792c046ab88b4c898d9b8ed7b4b7505b5a0f0c7c72c5adc936aa284c2a",
+    "tools/test_stage219_input_blocks.py": "b5a6855d5a688da07676c52e8aace50b8687d30674e5b2ae3bd0deb1d98a451c",
+    "tools/run_stage219_input_blocks.sh": "1087b93182572edc81b5f941edaafc4ae5583604f6f29b84f35347ea7b53bd13",
+    "docs/experiments/06_sgla_uav_tracking/STAGE219_INPUT_BLOCKS.md": "e430bb32fd96570689222336ce87f4697505c27244f74865ac1b5af472e04507"
+  }
+}

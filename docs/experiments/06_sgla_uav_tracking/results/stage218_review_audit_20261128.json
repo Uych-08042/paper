@@ -1,0 +1,465 @@
+{
+  "schema": "stage218_review_v1",
+  "date": "2026-11-28",
+  "bundle_sha256": "39926b5c036f6520c324e273eb1fbc462643e0817005028752a47596f968eb5f",
+  "canonical_lf_sha256": "4ce654e4c74273096eea47075260231ccf3eb15dc6af2ff957d18a357f41d304",
+  "decision": "3d4ff2d69423cdd84545542f6fdc89b5ed47227784a601a69533676a8dec2679",
+  "plan": "338c606520b2fdca845b9a0ee6d1a3db4225f623755d3b40056e13f5e7067d0d",
+  "row_counts": {
+    "support": 456,
+    "scope": 12,
+    "training": 3072,
+    "group_metrics": 2280,
+    "policy_summary": 30,
+    "paired": 8,
+    "source_replay": 912,
+    "execution": 1
+  },
+  "table_hashes_verified": 8,
+  "json_fingerprints_verified": true,
+  "code": {
+    "exact": [
+      "tools/stage194_module_ablation.py",
+      "tools/stage194_module_common.py",
+      "tools/stage194_module_model.py",
+      "tools/experiment_progress.py",
+      "tracking/stage18_tracking_loss.py",
+      "tracking/stage18_environment.py",
+      "tracking/stage46_motion_runtime.py",
+      "tools/stage192_development_grid_rescue.py",
+      "tools/stage61_runtime_replay.py",
+      "tools/stage202_regret_routing.py",
+      "tools/stage202_regret_common.py",
+      "tools/stage200_pair_common.py",
+      "tools/stage200_within_video.py",
+      "tools/stage201_score_baseline.py",
+      "tools/stage199_residual_model.py",
+      "tools/stage195_router_objective_audit.py",
+      "tools/stage195_routing_common.py",
+      "tools/stage199_residual_routing.py",
+      "tools/stage198_routing_calibration.py",
+      "tools/stage196_relative_loss.py",
+      "tools/stage203_loss_clipping.py",
+      "tools/stage203_clipping_common.py",
+      "tools/stage204_target_relation.py",
+      "tools/stage204_relation_common.py",
+      "tools/stage204_relation_model.py",
+      "tools/stage205_crossfit_shrinkage.py",
+      "tools/stage205_shrinkage_common.py",
+      "tools/stage206_spatial_adaptation.py",
+      "tools/stage206_spatial_model.py",
+      "tools/stage206_spatial_common.py",
+      "tools/stage207_state_training.py",
+      "tools/stage207_state_common.py",
+      "tools/stage208_state_interaction.py",
+      "tools/stage208_factor_common.py",
+      "tools/run_stage208_state_interaction.sh",
+      "tools/stage209_reference_intervention.py",
+      "tools/stage209_reference_common.py",
+      "tools/run_stage209_reference_intervention.sh",
+      "tools/stage210_recovery_audit.py",
+      "tools/stage210_recovery_common.py",
+      "tools/run_stage210_recovery_audit.sh",
+      "tools/stage211_geometry_audit.py",
+      "tools/stage211_geometry_common.py",
+      "tools/run_stage211_geometry_audit.sh",
+      "tools/stage212_state_experiment.py",
+      "tools/stage212_state_common.py",
+      "tools/run_stage212_state_experiment.sh",
+      "tools/stage213_output_ceiling.py",
+      "tools/run_stage213_output_ceiling.sh",
+      "tools/stage214_search_state.py",
+      "tools/stage214_search_state_common.py",
+      "tools/run_stage214_search_state.sh",
+      "tools/stage215_same_model_replay.py",
+      "tools/stage215_component_common.py",
+      "tools/run_stage215_same_model_replay.sh",
+      "tools/stage216_successor_quality.py",
+      "tools/run_stage216_successor_quality.sh",
+      "tools/stage217_predictor_audit.py",
+      "tools/run_stage217_predictor_audit.sh",
+      "tools/stage218_capacity.py",
+      "tools/run_stage218_capacity.sh"
+    ],
+    "lf_only": [
+      "tracking/stage4_runtime.py",
+      "tracking/stage1_validate.py",
+      "tracking/validation_metrics.py",
+      "lib/models/sglatrack/base_backbone.py",
+      "lib/models/sglatrack/sglatrack.py",
+      "lib/models/layers/head.py",
+      "lib/test/tracker/sglatrack.py",
+      "lib/train/data/processing_utils.py"
+    ]
+  },
+  "protocol_exact": true,
+  "source217_lineage_exact": true,
+  "source_replay_exported_metrics_exact": 912,
+  "server_source_replay_records_all_pass": true,
+  "complete_support_and_method_grid": true,
+  "matched_draws_normalization_exact_stage214": true,
+  "matched_mlp_initial_digest_exact_stage214": true,
+  "training_runs": 12,
+  "training_updates": 3072,
+  "training_examples": 12288,
+  "training_diagnostics": [
+    {
+      "fold": 0,
+      "seed": 2132,
+      "arm": "bias",
+      "maximum_gradient": 0.39095985889434814,
+      "clipped_steps": 0,
+      "mean_first32_batch_loss": 0.45179179585102247,
+      "mean_last32_batch_loss": 0.26444641807029257,
+      "note": "batch losses use changing draws; not full-fit convergence test"
+    },
+    {
+      "fold": 0,
+      "seed": 2132,
+      "arm": "linear",
+      "maximum_gradient": 6.474968910217285,
+      "clipped_steps": 227,
+      "mean_first32_batch_loss": 0.447808987373719,
+      "mean_last32_batch_loss": 0.19298624186194502,
+      "note": "batch losses use changing draws; not full-fit convergence test"
+    },
+    {
+      "fold": 0,
+      "seed": 2132,
+      "arm": "mlp",
+      "maximum_gradient": 1.6596626043319702,
+      "clipped_steps": 15,
+      "mean_first32_batch_loss": 0.4471544503248879,
+      "mean_last32_batch_loss": 0.2075622814008966,
+      "note": "batch losses use changing draws; not full-fit convergence test"
+    },
+    {
+      "fold": 0,
+      "seed": 2133,
+      "arm": "bias",
+      "maximum_gradient": 0.31309694051742554,
+      "clipped_steps": 0,
+      "mean_first32_batch_loss": 0.39980784655563184,
+      "mean_last32_batch_loss": 0.29129131149238674,
+      "note": "batch losses use changing draws; not full-fit convergence test"
+    },
+    {
+      "fold": 0,
+      "seed": 2133,
+      "arm": "linear",
+      "maximum_gradient": 5.770412445068359,
+      "clipped_steps": 225,
+      "mean_first32_batch_loss": 0.40229288067348534,
+      "mean_last32_batch_loss": 0.2470240927868872,
+      "note": "batch losses use changing draws; not full-fit convergence test"
+    },
+    {
+      "fold": 0,
+      "seed": 2133,
+      "arm": "mlp",
+      "maximum_gradient": 1.306925892829895,
+      "clipped_steps": 9,
+      "mean_first32_batch_loss": 0.39817600860260427,
+      "mean_last32_batch_loss": 0.2462922304912354,
+      "note": "batch losses use changing draws; not full-fit convergence test"
+    },
+    {
+      "fold": 1,
+      "seed": 2132,
+      "arm": "bias",
+      "maximum_gradient": 0.2281188815832138,
+      "clipped_steps": 0,
+      "mean_first32_batch_loss": 0.22301177544431994,
+      "mean_last32_batch_loss": 0.10844188912233221,
+      "note": "batch losses use changing draws; not full-fit convergence test"
+    },
+    {
+      "fold": 1,
+      "seed": 2132,
+      "arm": "linear",
+      "maximum_gradient": 4.370815753936768,
+      "clipped_steps": 158,
+      "mean_first32_batch_loss": 0.2134927384686307,
+      "mean_last32_batch_loss": 0.09501414517580997,
+      "note": "batch losses use changing draws; not full-fit convergence test"
+    },
+    {
+      "fold": 1,
+      "seed": 2132,
+      "arm": "mlp",
+      "maximum_gradient": 1.040202260017395,
+      "clipped_steps": 2,
+      "mean_first32_batch_loss": 0.22008220304087445,
+      "mean_last32_batch_loss": 0.09295137741719373,
+      "note": "batch losses use changing draws; not full-fit convergence test"
+    },
+    {
+      "fold": 1,
+      "seed": 2133,
+      "arm": "bias",
+      "maximum_gradient": 0.19379234313964844,
+      "clipped_steps": 0,
+      "mean_first32_batch_loss": 0.17963676432918874,
+      "mean_last32_batch_loss": 0.11328985164254846,
+      "note": "batch losses use changing draws; not full-fit convergence test"
+    },
+    {
+      "fold": 1,
+      "seed": 2133,
+      "arm": "linear",
+      "maximum_gradient": 5.692346572875977,
+      "clipped_steps": 148,
+      "mean_first32_batch_loss": 0.18310839235709864,
+      "mean_last32_batch_loss": 0.10157299453567248,
+      "note": "batch losses use changing draws; not full-fit convergence test"
+    },
+    {
+      "fold": 1,
+      "seed": 2133,
+      "arm": "mlp",
+      "maximum_gradient": 0.9337895512580872,
+      "clipped_steps": 0,
+      "mean_first32_batch_loss": 0.17865537207762827,
+      "mean_last32_batch_loss": 0.10215432295080973,
+      "note": "batch losses use changing draws; not full-fit convergence test"
+    }
+  ],
+  "summary_recomputation_max_abs_error": {
+    "policy_summary": 0.0,
+    "paired": 0.0
+  },
+  "primary": {
+    "split": "held",
+    "contrast": "linear_minus_mlp",
+    "primary": true,
+    "favorable_direction": "negative",
+    "videos": 38,
+    "mean_delta": 0.022478489735237275,
+    "median_delta": 0.014369059586897492,
+    "ci_low": 0.009567174791453381,
+    "ci_high": 0.036131289860503256,
+    "positive": 28,
+    "negative": 10,
+    "worst_leave_one_video_out": 0.02477976812263699
+  },
+  "provider_style_means": [
+    {
+      "split": "fit",
+      "arm": "bias",
+      "regression": 0.23448044865003076
+    },
+    {
+      "split": "fit",
+      "arm": "linear",
+      "regression": 0.1881254277480031
+    },
+    {
+      "split": "fit",
+      "arm": "mlp",
+      "regression": 0.19269800091722955
+    },
+    {
+      "split": "fit",
+      "arm": "zero",
+      "regression": 0.23560142318609378
+    },
+    {
+      "split": "fit",
+      "arm": "frozen_forecast",
+      "regression": 0.19269800848843788
+    },
+    {
+      "split": "held",
+      "arm": "bias",
+      "regression": 0.2315305864057767
+    },
+    {
+      "split": "held",
+      "arm": "linear",
+      "regression": 0.2856965835610601
+    },
+    {
+      "split": "held",
+      "arm": "mlp",
+      "regression": 0.2632180938258228
+    },
+    {
+      "split": "held",
+      "arm": "zero",
+      "regression": 0.23177765746559567
+    },
+    {
+      "split": "held",
+      "arm": "frozen_forecast",
+      "regression": 0.2632180867995454
+    }
+  ],
+  "held_contrasts_by_seed": {
+    "linear_minus_mlp": {
+      "2132": {
+        "videos": 38,
+        "mean_delta": 0.020549589596492678,
+        "median_delta": 0.014737917110323906,
+        "ci_low": 0.009849750495050102,
+        "ci_high": 0.0314930831719386,
+        "positive": 27,
+        "negative": 11,
+        "worst_leave_one_video_out": 0.022539854779638147
+      },
+      "2133": {
+        "videos": 38,
+        "mean_delta": 0.024407389873981868,
+        "median_delta": 0.014131522679235786,
+        "ci_low": 0.0036628152257579035,
+        "ci_high": 0.04752574834572825,
+        "positive": 26,
+        "negative": 12,
+        "worst_leave_one_video_out": 0.028045280163201528
+      }
+    },
+    "linear_minus_zero": {
+      "2132": {
+        "videos": 38,
+        "mean_delta": 0.05104071647771267,
+        "median_delta": 0.049662851728498936,
+        "ci_low": 0.03030230606682859,
+        "ci_high": 0.07159053121862312,
+        "positive": 34,
+        "negative": 4,
+        "worst_leave_one_video_out": 0.05580025227548479
+      },
+      "2133": {
+        "videos": 38,
+        "mean_delta": 0.05679713571321612,
+        "median_delta": 0.039525591768324375,
+        "ci_low": 0.0333339020781798,
+        "ci_high": 0.08368021136836765,
+        "positive": 35,
+        "negative": 3,
+        "worst_leave_one_video_out": 0.06041340478947638
+      }
+    },
+    "mlp_minus_zero": {
+      "2132": {
+        "videos": 38,
+        "mean_delta": 0.030491126881219986,
+        "median_delta": 0.02206076419679448,
+        "ci_low": 0.012946071059693504,
+        "ci_high": 0.04812179155014746,
+        "positive": 34,
+        "negative": 4,
+        "worst_leave_one_video_out": 0.034362030073188596
+      },
+      "2133": {
+        "videos": 38,
+        "mean_delta": 0.03238974583923424,
+        "median_delta": 0.018978161038830876,
+        "ci_low": 0.015421830762639538,
+        "ci_high": 0.05161268595886787,
+        "positive": 31,
+        "negative": 7,
+        "worst_leave_one_video_out": 0.03505130709979583
+      }
+    },
+    "bias_minus_zero": {
+      "2132": {
+        "videos": 38,
+        "mean_delta": -0.00028065833229400024,
+        "median_delta": 0.0006022774614393711,
+        "ci_low": -0.00172749663407127,
+        "ci_high": 0.001016593352496304,
+        "positive": 27,
+        "negative": 11,
+        "worst_leave_one_video_out": 0.00013988197236825285
+      },
+      "2133": {
+        "videos": 38,
+        "mean_delta": -0.00021348378734393534,
+        "median_delta": 0.0005476642400026321,
+        "ci_low": -0.0013616779388892035,
+        "ci_high": 0.0008143617190446664,
+        "positive": 27,
+        "negative": 11,
+        "worst_leave_one_video_out": 9.740370788259079e-05
+      }
+    }
+  },
+  "primary_by_fold": {
+    "0": {
+      "videos": 19,
+      "mean_delta": 0.03005241406591315,
+      "median_delta": 0.023247309494763613,
+      "ci_low": 0.004521264374182609,
+      "ci_high": 0.055540341673737455,
+      "positive": 13,
+      "negative": 6,
+      "worst_leave_one_video_out": 0.035203593213939004
+    },
+    "1": {
+      "videos": 19,
+      "mean_delta": 0.014904565404561398,
+      "median_delta": 0.013737797737121582,
+      "ci_low": 0.0079901079884669,
+      "ci_high": 0.021888628500164483,
+      "positive": 15,
+      "negative": 4,
+      "worst_leave_one_video_out": 0.016476617796191324
+    }
+  },
+  "primary_source_deltas": {
+    "uav0000003": -0.0006291610188782215,
+    "uav0000016": 0.09206174686551094,
+    "uav0000070": -0.0014334693551063538,
+    "uav0000076": 0.013737797737121582,
+    "uav0000080": 0.04236292140558362,
+    "uav0000085": 0.027118960861116648,
+    "uav0000089": 0.029339568223804235,
+    "uav0000090": 0.043095750734210014,
+    "uav0000091": 0.027679309248924255,
+    "uav0000107": -0.04810252785682678,
+    "uav0000126": 0.006538162415381521,
+    "uav0000147": -0.013392377644777298,
+    "uav0000148": -0.06266881059855223,
+    "uav0000149": 0.07381013687700033,
+    "uav0000169": 0.015000321436673403,
+    "uav0000170": 0.02496240322943777,
+    "uav0000173": 0.008035093545913696,
+    "uav0000174": -0.02545995730906725,
+    "uav0000176": -0.050303760915994644,
+    "uav0000199": 0.005858791060745716,
+    "uav0000200": 0.042189187835901976,
+    "uav0000204": 0.08905856031924486,
+    "uav0000205": 0.023247309494763613,
+    "uav0000226": 0.1396663375198841,
+    "uav0000235": -0.007011033594608307,
+    "uav0000236": 0.075123087503016,
+    "uav0000237": -0.01444675587117672,
+    "uav0000238": 0.012140539940446615,
+    "uav0000239": 0.010977976024150848,
+    "uav0000303": 0.12295334041118622,
+    "uav0000304": -0.002720518968999386,
+    "uav0000307": 0.01147464755922556,
+    "uav0000308": 0.021331300551537424,
+    "uav0000329": 0.015679561300203204,
+    "uav0000331": 0.03428654931485653,
+    "uav0000342": 0.0057554361410439014,
+    "uav0000348": 0.053589317947626114,
+    "uav0000349": 0.01327686756849289
+  },
+  "primary_removed_largest_harm_mean": 0.019311250605922495,
+  "new_cpu_mlp_vs_frozen_regression_max_abs_group_difference": 4.76837158203125e-07,
+  "execution": {
+    "device": "cpu",
+    "seconds": "21.96220327168703",
+    "image_reads": "0",
+    "cuda_calls": "0"
+  },
+  "limitations": [
+    "Original PT/NPZ/receipts/source_arrays.json not supplied locally; original inputs, gradients and weight mutation not independently replayed.",
+    "Training scope, draw/normalization hashes are exported metadata cross-checked with reviewed Stage-214.",
+    "Declared parameter/update opportunity matching is not equal function class, norm, optimization difficulty or FLOPs.",
+    "Fixed-model development bootstrap is nominal, not independent confirmation.",
+    "No new successor IoU or full-tracking AUC."
+  ],
+  "next_recommendation": "Stage-219 proposed only: frozen 392-dimensional MLP architecture and training budget; fit-mean masking of visual384 vs geometric8 vs full input, to test feature-block support for source-generalizable corrections; retain zero and full control, no held tuning."
+}

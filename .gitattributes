@@ -306,3 +306,8 @@ tools/stage218_capacity.py text eol=lf
 tools/test_stage218_capacity.py text eol=lf
 tools/run_stage218_capacity.sh text eol=lf
 docs/experiments/06_sgla_uav_tracking/STAGE218_MATCHED_CAPACITY.md text eol=lf
+docs/experiments/06_sgla_uav_tracking/results/stage218_results_20261128T120818Z_345249.txt -text
+tools/stage219_input_blocks.py text eol=lf
+tools/test_stage219_input_blocks.py text eol=lf
+tools/run_stage219_input_blocks.sh text eol=lf
+docs/experiments/06_sgla_uav_tracking/STAGE219_INPUT_BLOCKS.md text eol=lf
