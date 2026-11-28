@@ -311,3 +311,8 @@ tools/stage219_input_blocks.py text eol=lf
 tools/test_stage219_input_blocks.py text eol=lf
 tools/run_stage219_input_blocks.sh text eol=lf
 docs/experiments/06_sgla_uav_tracking/STAGE219_INPUT_BLOCKS.md text eol=lf
+docs/experiments/06_sgla_uav_tracking/results/stage219_results_20261128T122255Z_357610.txt -text
+tools/stage220_causal_history.py text eol=lf
+tools/test_stage220_causal_history.py text eol=lf
+tools/run_stage220_causal_history.sh text eol=lf
+docs/experiments/06_sgla_uav_tracking/STAGE220_CAUSAL_HISTORY.md text eol=lf

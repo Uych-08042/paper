@@ -1,5 +1,9 @@
 # 实验说明索引
 
+Stage-220二阶因果历史对照已实现，真实CPU训练待运行。geometry8/history11/fit错配历史训练同网络与预算，保留zero/恒速度；38源双seed四历史，912当前几何/zero损失须精确219。4项本地CPU测试通过，九表TXT、总体进度/后台/续用，无新图像/GPU/完整轨迹。 [协议与运行](experiments/06_sgla_uav_tracking/STAGE220_CAUSAL_HISTORY.md)
+
+Stage-219真实结果已复核：geometry对full held误差−.0313187、名义区间负、33源有利，但对zero+.0001217区间跨零；只视觉重现held损伤，当前仍无可采用收益。八表/24均值/10配对复算差0，四full权重及912损失精确218。建议220检验超出隐含一步位移的二阶因果历史，尚未实现。 [结果与下一步](experiments/06_sgla_uav_tracking/STAGE219_RESULTS_REVIEW.md) · [机器核验](experiments/06_sgla_uav_tracking/results/stage219_review_audit_20261128.json)
+
 Stage-219固定MLP输入分块对照已实现，真实CPU训练待运行。完整392/几何8/视觉384同初始化、fit归一化/draws和训练预算，移除块标准化置零；12模型3072更新，full权重及912来源loss须精确218。3项本地CPU测试通过，无新图像/GPU/完整轨迹，八表TXT/总体进度/后台入口。 [协议与运行](experiments/06_sgla_uav_tracking/STAGE219_INPUT_BLOCKS.md)
 
 Stage-218真实结果已复核：线性held损失.285697，高于MLP .263218与zero .231778；主差+.0224785、名义区间正、双seed同向。可训练常数未建立收益，减少参数没有解决泛化。八表/30均值/8配对复算差0、912来源导出loss精确217；线性梯度裁剪更多，不能只归因参数量。建议219固定MLP做视觉/几何输入分块控制，尚未实现。 [结果与建议](experiments/06_sgla_uav_tracking/STAGE218_RESULTS_REVIEW.md) · [机器核验](experiments/06_sgla_uav_tracking/results/stage218_review_audit_20261128.json)

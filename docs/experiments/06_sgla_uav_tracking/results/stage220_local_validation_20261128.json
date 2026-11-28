@@ -1,0 +1,40 @@
+{
+  "schema": "stage220_local_validation_v1",
+  "date": "2026-11-28",
+  "status": "LOCAL_CPU_PASS_REAL_SERVER_TRAINING_PENDING",
+  "tests": {
+    "passed": 4,
+    "seconds": 69.237,
+    "coverage": [
+      "reviewed 219 packet original/LF/CRLF/tamper rejection",
+      "constant velocity, quadratic center and log-side second difference, warmup and future-NaN-tail invariance",
+      "fit shuffle affects only history columns, never current geometry or targets",
+      "actual upstream CPU controls and 12-model Stage-220 training, network/loss bridge, common initialization/normalization/draws/permutation, complete reports/primary, frozen sources, resume and source/output/roster rejection"
+    ]
+  },
+  "python": "3.12.4",
+  "torch": "2.7.1+cpu",
+  "numpy": "1.26.4",
+  "python310_syntax": true,
+  "cli_help": true,
+  "bash_syntax": true,
+  "git_diff_check": true,
+  "real_server_training_performed": false,
+  "new_image_reads": 0,
+  "new_cuda_calls": 0,
+  "new_full_trajectories": 0,
+  "confirmation_groups_opened": 0,
+  "committed_or_pushed": false,
+  "limits": [
+    "Synthetic CPU workflow is not real held loss or tracking AUC.",
+    "Original seven-source dataset paths were not loaded locally.",
+    "Source geometry network parameters reproduce exactly; whole-model buffers differ only because history occupies previously masked slots.",
+    "Equal nominal parameters and training opportunities do not imply equal effective model capacity."
+  ],
+  "file_sha256": {
+    "tools/stage220_causal_history.py": "d10ac14f340fd0f880334a4bb197b213ed097a7dc066bd5f7b626f0518e0549a",
+    "tools/test_stage220_causal_history.py": "7e1a0311ef2426ed13be640d087b35dc7d7bf9d9b049de5766276010992c6ee9",
+    "tools/run_stage220_causal_history.sh": "82014354c8a1f8c0e1fb954aa7a980fb39b5c9a409531b675c158778bf3b41f0",
+    "docs/experiments/06_sgla_uav_tracking/STAGE220_CAUSAL_HISTORY.md": "2bb044086c14dfac7337a8cad9ab6a23793128b0410e1f39a96b4125339c93c6"
+  }
+}

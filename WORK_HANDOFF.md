@@ -2,6 +2,10 @@
 
 更新日期：2026-11-28（Asia/Hong_Kong）
 
+**Stage-220二阶因果历史对照已实现，真实CPU训练待运行，见0.234。** 当前geometry8/加预测轨迹二阶差分3/仅fit错配历史训练，同MLP/归一化/draws/256×4；保留zero与无学习恒速度。12模型3072更新，全38源双seed四历史，geometry学习网络参数及912损失须精确219；新增历史buffer变化不冒充整state复现。4项CPU测试通过，九表TXT/3077总体进度/后台/续用，0新图像/GPU/完整轨迹/确认源。 [协议与运行](docs/experiments/06_sgla_uav_tracking/STAGE220_CAUSAL_HISTORY.md)
+
+**Stage-219真实结果已复核，见0.233：去掉视觉均值块减轻损伤，但仍未胜过zero。** 提供风格held zero/full/geometry/visual损失.231778/.263218/.231899/.262407；唯一主要geometry−full−.0313187、名义CI[−.0477016,−.0156936]、33源有利/双seed负。geometry−zero+.0001217区间跨零、27源略差；visual重现训练内收益与held伤害。八表/24均值/10配对重算差0、四full权重及912损失精确218。当前几何在nn历史已隐含一步位移，建议220验证三个时刻的二阶历史增量，不能重复加一步速度就称新信息；尚未实现。 [结果与下一步](docs/experiments/06_sgla_uav_tracking/STAGE219_RESULTS_REVIEW.md)
+
 **Stage-219固定MLP输入分块对照已实现，真实CPU训练待运行，见0.232。** 同392→32→3、初始化/fit归一化/draws/forecast/256×4，比较完整392、几何8、视觉384；移除块标准化后置零。12模型3072更新，全38源/双seed/四历史，full四权重与912逐组loss须精确218。3项本地CPU测试通过，八表TXT/3077总体进度/后台及模型续用；无新图像/GPU/完整轨迹/确认组，未代commit/push。 [协议与运行](docs/experiments/06_sgla_uav_tracking/STAGE219_INPUT_BLOCKS.md)
 
 **Stage-218真实CPU结果已复核，见0.231：减小预测器未解决泛化。** 提供风格held zero/bias/linear/MLP损失.231778/.231531/.285697/.263218；唯一主要linear−MLP+.0224785、名义CI[+.0095672,+.0361313]，28源不利、双seed正。linear对zero+.053919、35源不利；bias微小均值改善区间跨零。八表/30均值/8配对重算差0、912来源损失精确217；线性裁剪758/1024步而MLP26/1024，不能只归因参数量。建议219固定MLP做视觉384/几何8/完整输入分块控制，检验跨源信息支持，尚未实现。 [结果与下一步](docs/experiments/06_sgla_uav_tracking/STAGE218_RESULTS_REVIEW.md)
@@ -3641,6 +3645,30 @@ nn/mm提供风格fit zero/bias/linear/MLP .235601423/.234480449/.188125428/.1926
 3项本地CPU测试通过（33.420s）：真实已审阅218包LF/CRLF/内容篡改、掩码输入不变性及fit均值插补等价/相同初始化、两fold四源双seed完整实际训练与full权重/loss桥接、八表/主要比较/缓存续用/源冻结与篡改/fit名单拒绝。Python3.10语法、CLI help与bash语法通过；help已延迟七来源依赖加载，避免仅查帮助触发本机缺SciPy。测试为合成CPU缓存，非真实held效果/服务器GT路径。见results/stage219_local_validation_20261128.json。
 
 默认output/stage219/matched_mlp_input_blocks_v1，继承STAGE218_ROOT/217_ROOT/215_REPLAY_ROOT及旧来源变量。代码同步后运行 `bash tools/run_stage219_input_blocks.sh`，后台完整命令见协议。0新图像/CUDA/完整轨迹/确认源，无新AUC，当前阶段REVIEW。若各块仍不及zero转因果时序/状态支持/目标；若几何有改善再真实后继/完整轨迹。未登录服务器、未提交推送，不另打zip。
+
+### 0.233 Stage-219真实结果：输入定位有进展，预测/跟踪收益仍未建立
+
+用户包stage219_results_20261128T122255Z_357610.txt原字节归档，SHAbc53087518f3de1a9724c83a7500e1fa0793710b982b889a9a66466a76816bb3；decision7ac611f3dacded125b3bc1fe2a60c4ab8483b0580c4528163ba54d116fe0fce4，plan3e9c51117d8cfabb4f7dcf467c203c789a25df8a98399d70ee9fec46f2bf1d74。10段/八表/JSON、38源两fold双seed完整grid通过；24均值/10配对复算差0。full四最终权重digest及912full/zero损失精确218；三组初始/draws/normalization digest同且精确218，12675参数/活跃392/8/384、各256步1024例正确。71代码63精确/8仅LF，协议精确。未获内部PT/NPZ/receipt/source_arrays，仍为导出交叉核验，不冒充本机逐样本重训。
+
+提供风格fit zero/full/geometry/visual .235601423/.192698001/.233930176/.192962282；held .231777657/.263218094/.231899387/.262407170。唯一主要geometry−full−.031318707，名义CI[−.047701580,−.015693646]，33有利5不利，中位−.020355474，最坏留一−.027517951，双seed−.030058012/−.032579402；两折均值均负但第二折单独CI跨零。geometry−zero+.000121729，CI[−.001548550,+.001671960]跨零，27源不利、双seed异号，不采用。visual−zero+.030629512、名义区间正、34源不利；visual/full差区间跨零不等于严格等效。支持当前修正器的视觉均值条件用法未建立泛化正收益，不能证明视频身份记忆、全部视觉无用或SGLA无效。mask改变有效容量/梯度，不能只以同名义参数证明相同优化。
+
+联合历史中geometry .387329比zero .374764差，visual/full .338757/.344832较低，说明条件依赖，不能主张永远禁视觉或直接推恢复收益。clip计数full26/geometry0/visual23；训练有效，CPU21.483秒，0新图像/GPU/完整轨迹/确认源，无新AUC，REVIEW。原协议/计算不改，原包-text、结果文档/audit已写，未提交推送。
+
+下一步建议220因果历史增量：现8维raw/adapted相对parent在nn历史已隐含一步位移/尺度，不得错误声称完全无历史或仅重复增加两帧速度就称新信息。用同冻结轨迹u_t=(cx,cy,log sqrtwh)，v_t=u_t−u_{t−1}，a_t=v_t−v_{t−1}，中心按当前预测侧长标准化；比较当前geometry、加二阶历史、fit内错配历史训练控制，保留zero及无学习恒速度参照。最少三时刻源于二阶差分定义，不按失跟挑窗口；历史只取t及以前预测，t<2固定a=0报告支持，禁止GT历史/未来held；打乱仅fit控制，held都真实过去。主历史−当前geometry并要求优于zero，同网络/训练预算/38源/双seed，报告动作幅度和梯度。若仍无效暂停增强该修正映射并评估状态可观测性/监督目标；若有增量再后继/完整轨迹。220尚未实现/运行。 [完整复核](docs/experiments/06_sgla_uav_tracking/STAGE219_RESULTS_REVIEW.md) · [机器核验](docs/experiments/06_sgla_uav_tracking/results/stage219_review_audit_20261128.json)
+
+### 0.234 Stage-220二阶预测历史的增量对照：已实现待真实CPU
+
+新增 `tools/stage220_causal_history.py`、`tools/test_stage220_causal_history.py`、`tools/run_stage220_causal_history.sh` 和[固定协议](docs/experiments/06_sgla_uav_tracking/STAGE220_CAUSAL_HISTORY.md)。不改214～219代码/协议。219包固定规范化哈希，物理219产物/218和217 lineage/217 source_arrays/214～216数组receipt及七来源帧表GT仍绑定，来源变更/缺失停止、不GPU补采；CPU无checkpoint/卡型或UUID要求。
+
+同一来源reference轨迹u=(cx,cy,log sqrtwh)，v=u_t−u_(t−1)，a=u_t−2u_(t−1)+u_(t−2)，中心按当前预测侧长归一化。t=1的a固定0；只用预测t/t−1/t−2及共同已知首帧框，不用GT历史或未来held预测。fit来自214nn/mm，held来自215对应自身历史，当前R_t须精确216当前raw；保留38源/两fold/双seed/7296fit/14592held及原48均匀点，不挑失跟时刻。
+
+geometry原8维、history几何+a三维、shuffled仅fit每源nn/mm合并样本固定置换a（seed+100fold+220）；held三组均用实际因果a，无held打乱/归一化。使用共同真实fit mean/std，a占381:384、原geometry占384:392，其余置零，392→32→3仍12675参数、活跃8/11/11；同初始化/原draws/forecast/AdamW/clip1/256×4。保留zero和直接v恒速度参照；当前几何已经隐含一步位移，不能把CV说成新增独立信息。置换只换训练a列，标签/当前状态不变，导出置换哈希与值改变样本数。
+
+12新模型3072步12288监督机会，geometry网络参数digest精确219 geometry，原8维fit归一化精确；因为a槽的新fitbuffer不同，不要求完整state hash相同。912geometry/zero逐组loss必须精确219；失败保留缓存停止。唯一主要held提供风格history−geometry回归，负有利，仍要求history优于zero，并看history−shuffled对应性支持。开发名义区间不是确认，loss不能伪造后继IoU。九表support456/scope12/training3072/group_metrics2280/policy30/paired12/source_replay912/actions2280/execution1；support记warmup与a哈希，actions记动作幅度/非零率，保留梯度。3077总体进度、后台、完成模型可复用、自动TXT。
+
+4项本地CPU检查通过（69.237s）：真实219包/EOL/内容篡改拒绝；恒速度/二阶中心与log尺度差分、warmup、未来NaN尾部不影响过去特征；仅fit历史三列置换且标签/当前几何不变；实际上游控制及12新模型训练、geometry网络/912损失桥接、相同初始网络/归一化/draws/置换哈希、九表主比较、来源冻结、缓存续用/fit名单及篡改拒绝。Python3.10语法、CLI与Bash语法通过。源GT路径/真实held效果未本地运行，属于合成CPU完整流程。见results/stage220_local_validation_20261128.json。
+
+默认output/stage220/causal_second_difference_v1，继承STAGE219_ROOT/218_ROOT/217_ROOT/215_REPLAY_ROOT及七来源变量，后台 `bash tools/run_stage220_causal_history.sh`。收到真实TXT先核源网络/912桥接、warmup/错配强度及动作幅度，再看主要/zero/错配对照。0新图像/CUDA/完整轨迹/确认集，无新AUC；若仍无zero收益，暂停增强该映射并评估可观测状态/监督目标；若有增量再后继与闭环。未登录服务器、未提交/推送、不另打zip。
 
 ## 1. 接手后首先要知道的结论
 

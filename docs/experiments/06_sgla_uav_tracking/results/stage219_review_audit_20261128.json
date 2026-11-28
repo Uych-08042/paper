@@ -1,0 +1,490 @@
+{
+  "schema": "stage219_review_v1",
+  "date": "2026-11-28",
+  "bundle_sha256": "bc53087518f3de1a9724c83a7500e1fa0793710b982b889a9a66466a76816bb3",
+  "canonical_lf_sha256": "ea19a1155888e8a78f7dc11211414a664dadb1466f115488861d2f949364a1ea",
+  "decision": "7ac611f3dacded125b3bc1fe2a60c4ab8483b0580c4528163ba54d116fe0fce4",
+  "plan": "3e9c51117d8cfabb4f7dcf467c203c789a25df8a98399d70ee9fec46f2bf1d74",
+  "row_counts": {
+    "support": 456,
+    "scope": 12,
+    "training": 3072,
+    "group_metrics": 1824,
+    "policy_summary": 24,
+    "paired": 10,
+    "source_replay": 912,
+    "execution": 1
+  },
+  "table_hashes_verified": 8,
+  "json_fingerprints_verified": true,
+  "code": {
+    "exact": [
+      "tools/stage194_module_ablation.py",
+      "tools/stage194_module_common.py",
+      "tools/stage194_module_model.py",
+      "tools/experiment_progress.py",
+      "tracking/stage18_tracking_loss.py",
+      "tracking/stage18_environment.py",
+      "tracking/stage46_motion_runtime.py",
+      "tools/stage192_development_grid_rescue.py",
+      "tools/stage61_runtime_replay.py",
+      "tools/stage202_regret_routing.py",
+      "tools/stage202_regret_common.py",
+      "tools/stage200_pair_common.py",
+      "tools/stage200_within_video.py",
+      "tools/stage201_score_baseline.py",
+      "tools/stage199_residual_model.py",
+      "tools/stage195_router_objective_audit.py",
+      "tools/stage195_routing_common.py",
+      "tools/stage199_residual_routing.py",
+      "tools/stage198_routing_calibration.py",
+      "tools/stage196_relative_loss.py",
+      "tools/stage203_loss_clipping.py",
+      "tools/stage203_clipping_common.py",
+      "tools/stage204_target_relation.py",
+      "tools/stage204_relation_common.py",
+      "tools/stage204_relation_model.py",
+      "tools/stage205_crossfit_shrinkage.py",
+      "tools/stage205_shrinkage_common.py",
+      "tools/stage206_spatial_adaptation.py",
+      "tools/stage206_spatial_model.py",
+      "tools/stage206_spatial_common.py",
+      "tools/stage207_state_training.py",
+      "tools/stage207_state_common.py",
+      "tools/stage208_state_interaction.py",
+      "tools/stage208_factor_common.py",
+      "tools/run_stage208_state_interaction.sh",
+      "tools/stage209_reference_intervention.py",
+      "tools/stage209_reference_common.py",
+      "tools/run_stage209_reference_intervention.sh",
+      "tools/stage210_recovery_audit.py",
+      "tools/stage210_recovery_common.py",
+      "tools/run_stage210_recovery_audit.sh",
+      "tools/stage211_geometry_audit.py",
+      "tools/stage211_geometry_common.py",
+      "tools/run_stage211_geometry_audit.sh",
+      "tools/stage212_state_experiment.py",
+      "tools/stage212_state_common.py",
+      "tools/run_stage212_state_experiment.sh",
+      "tools/stage213_output_ceiling.py",
+      "tools/run_stage213_output_ceiling.sh",
+      "tools/stage214_search_state.py",
+      "tools/stage214_search_state_common.py",
+      "tools/run_stage214_search_state.sh",
+      "tools/stage215_same_model_replay.py",
+      "tools/stage215_component_common.py",
+      "tools/run_stage215_same_model_replay.sh",
+      "tools/stage216_successor_quality.py",
+      "tools/run_stage216_successor_quality.sh",
+      "tools/stage217_predictor_audit.py",
+      "tools/run_stage217_predictor_audit.sh",
+      "tools/stage218_capacity.py",
+      "tools/run_stage218_capacity.sh",
+      "tools/stage219_input_blocks.py",
+      "tools/run_stage219_input_blocks.sh"
+    ],
+    "lf_only": [
+      "tracking/stage4_runtime.py",
+      "tracking/stage1_validate.py",
+      "tracking/validation_metrics.py",
+      "lib/models/sglatrack/base_backbone.py",
+      "lib/models/sglatrack/sglatrack.py",
+      "lib/models/layers/head.py",
+      "lib/test/tracker/sglatrack.py",
+      "lib/train/data/processing_utils.py"
+    ]
+  },
+  "protocol_exact": true,
+  "source218_lineage_exact": true,
+  "source_replay_exported_metrics_exact": 912,
+  "server_source_replay_records_all_pass": true,
+  "full_input_final_state_digests_exact_stage218": 4,
+  "all_input_modes_initial_draws_normalization_digests_exact_stage218": true,
+  "nominal_parameters_per_model": 12675,
+  "active_input_dimensions": {
+    "full": 392,
+    "geometry": 8,
+    "visual": 384
+  },
+  "training_updates": 3072,
+  "training_examples": 12288,
+  "complete_support_and_method_grid": true,
+  "training_diagnostics": [
+    {
+      "fold": 0,
+      "seed": 2132,
+      "arm": "full",
+      "maximum_gradient": 1.6596626043319702,
+      "clipped_steps": 15,
+      "mean_first32_batch_loss": 0.4471544503248879,
+      "mean_last32_batch_loss": 0.2075622814008966,
+      "note": "changing sampled batches, not a full-fit convergence test"
+    },
+    {
+      "fold": 0,
+      "seed": 2132,
+      "arm": "geometry",
+      "maximum_gradient": 0.624021589756012,
+      "clipped_steps": 0,
+      "mean_first32_batch_loss": 0.45168031848879764,
+      "mean_last32_batch_loss": 0.26246630748937605,
+      "note": "changing sampled batches, not a full-fit convergence test"
+    },
+    {
+      "fold": 0,
+      "seed": 2132,
+      "arm": "visual",
+      "maximum_gradient": 1.6654776334762573,
+      "clipped_steps": 14,
+      "mean_first32_batch_loss": 0.4469340866271523,
+      "mean_last32_batch_loss": 0.20898069161194144,
+      "note": "changing sampled batches, not a full-fit convergence test"
+    },
+    {
+      "fold": 0,
+      "seed": 2133,
+      "arm": "full",
+      "maximum_gradient": 1.306925892829895,
+      "clipped_steps": 9,
+      "mean_first32_batch_loss": 0.39817600860260427,
+      "mean_last32_batch_loss": 0.2462922304912354,
+      "note": "changing sampled batches, not a full-fit convergence test"
+    },
+    {
+      "fold": 0,
+      "seed": 2133,
+      "arm": "geometry",
+      "maximum_gradient": 0.5545021295547485,
+      "clipped_steps": 0,
+      "mean_first32_batch_loss": 0.399730876157264,
+      "mean_last32_batch_loss": 0.2911557970001013,
+      "note": "changing sampled batches, not a full-fit convergence test"
+    },
+    {
+      "fold": 0,
+      "seed": 2133,
+      "arm": "visual",
+      "maximum_gradient": 1.3185875415802002,
+      "clipped_steps": 8,
+      "mean_first32_batch_loss": 0.39849916910316097,
+      "mean_last32_batch_loss": 0.24667877246247372,
+      "note": "changing sampled batches, not a full-fit convergence test"
+    },
+    {
+      "fold": 1,
+      "seed": 2132,
+      "arm": "full",
+      "maximum_gradient": 1.040202260017395,
+      "clipped_steps": 2,
+      "mean_first32_batch_loss": 0.22008220304087445,
+      "mean_last32_batch_loss": 0.09295137741719373,
+      "note": "changing sampled batches, not a full-fit convergence test"
+    },
+    {
+      "fold": 1,
+      "seed": 2132,
+      "arm": "geometry",
+      "maximum_gradient": 0.4277800917625427,
+      "clipped_steps": 0,
+      "mean_first32_batch_loss": 0.2230052670929581,
+      "mean_last32_batch_loss": 0.10791114015228231,
+      "note": "changing sampled batches, not a full-fit convergence test"
+    },
+    {
+      "fold": 1,
+      "seed": 2132,
+      "arm": "visual",
+      "maximum_gradient": 1.0322301387786865,
+      "clipped_steps": 1,
+      "mean_first32_batch_loss": 0.22018167317037296,
+      "mean_last32_batch_loss": 0.09365598809381481,
+      "note": "changing sampled batches, not a full-fit convergence test"
+    },
+    {
+      "fold": 1,
+      "seed": 2133,
+      "arm": "full",
+      "maximum_gradient": 0.9337895512580872,
+      "clipped_steps": 0,
+      "mean_first32_batch_loss": 0.17865537207762827,
+      "mean_last32_batch_loss": 0.10215432295080973,
+      "note": "changing sampled batches, not a full-fit convergence test"
+    },
+    {
+      "fold": 1,
+      "seed": 2133,
+      "arm": "geometry",
+      "maximum_gradient": 0.6139490008354187,
+      "clipped_steps": 0,
+      "mean_first32_batch_loss": 0.1794172758309287,
+      "mean_last32_batch_loss": 0.11271067545567348,
+      "note": "changing sampled batches, not a full-fit convergence test"
+    },
+    {
+      "fold": 1,
+      "seed": 2133,
+      "arm": "visual",
+      "maximum_gradient": 0.9555918574333191,
+      "clipped_steps": 0,
+      "mean_first32_batch_loss": 0.17863913224209682,
+      "mean_last32_batch_loss": 0.10211409540352179,
+      "note": "changing sampled batches, not a full-fit convergence test"
+    }
+  ],
+  "gradient_clip_totals": {
+    "full": 26,
+    "geometry": 0,
+    "visual": 23
+  },
+  "summary_recomputation_max_abs_error": {
+    "policy_summary": 0.0,
+    "paired": 0.0
+  },
+  "primary": {
+    "split": "held",
+    "contrast": "geometry_minus_full",
+    "primary": true,
+    "favorable_direction": "negative",
+    "videos": 38,
+    "mean_delta": -0.031318707324987226,
+    "median_delta": -0.02035547367995605,
+    "ci_low": -0.047701580096059175,
+    "ci_high": -0.01569364649438189,
+    "positive": 5,
+    "negative": 33,
+    "worst_leave_one_video_out": -0.027517950672788446
+  },
+  "provider_style_means": [
+    {
+      "split": "fit",
+      "arm": "full",
+      "regression": 0.19269800091722955
+    },
+    {
+      "split": "fit",
+      "arm": "geometry",
+      "regression": 0.23393017560776666
+    },
+    {
+      "split": "fit",
+      "arm": "visual",
+      "regression": 0.19296228217794315
+    },
+    {
+      "split": "fit",
+      "arm": "zero",
+      "regression": 0.23560142318609378
+    },
+    {
+      "split": "held",
+      "arm": "full",
+      "regression": 0.2632180938258228
+    },
+    {
+      "split": "held",
+      "arm": "geometry",
+      "regression": 0.23189938650083555
+    },
+    {
+      "split": "held",
+      "arm": "visual",
+      "regression": 0.26240716951188486
+    },
+    {
+      "split": "held",
+      "arm": "zero",
+      "regression": 0.23177765746559567
+    }
+  ],
+  "held_contrasts_by_seed": {
+    "geometry_minus_full": {
+      "2132": {
+        "videos": 38,
+        "mean_delta": -0.030058012170086027,
+        "median_delta": -0.018548131687566638,
+        "ci_low": -0.047447775156424066,
+        "ci_high": -0.013027323823131945,
+        "positive": 4,
+        "negative": 34,
+        "worst_leave_one_video_out": -0.02648631641656991
+      },
+      "2133": {
+        "videos": 38,
+        "mean_delta": -0.03257940247988843,
+        "median_delta": -0.01929723721696064,
+        "ci_low": -0.05165956657641034,
+        "ci_high": -0.015957907770969455,
+        "positive": 7,
+        "negative": 31,
+        "worst_leave_one_video_out": -0.026977913999281875
+      }
+    },
+    "geometry_minus_zero": {
+      "2132": {
+        "videos": 38,
+        "mean_delta": 0.00043311471113395924,
+        "median_delta": 0.0017757632303982973,
+        "ci_low": -0.0016318022720377867,
+        "ci_high": 0.002467480238211511,
+        "positive": 27,
+        "negative": 11,
+        "worst_leave_one_video_out": 0.000957591218458539
+      },
+      "2133": {
+        "videos": 38,
+        "mean_delta": -0.00018965664065418472,
+        "median_delta": 0.0003713076002895832,
+        "ci_low": -0.0015593431402521674,
+        "ci_high": 0.0010873037418174423,
+        "positive": 26,
+        "negative": 12,
+        "worst_leave_one_video_out": 0.00022715556268529917
+      }
+    },
+    "visual_minus_zero": {
+      "2132": {
+        "videos": 38,
+        "mean_delta": 0.031251714833687355,
+        "median_delta": 0.02083442430011928,
+        "ci_low": 0.01402769888694533,
+        "ci_high": 0.04862530396529011,
+        "positive": 34,
+        "negative": 4,
+        "worst_leave_one_video_out": 0.035287651282930245
+      },
+      "2133": {
+        "videos": 38,
+        "mean_delta": 0.030007309258890974,
+        "median_delta": 0.01871170150116086,
+        "ci_low": 0.013953658173302661,
+        "ci_high": 0.047677279496565445,
+        "positive": 32,
+        "negative": 6,
+        "worst_leave_one_video_out": 0.0328384801223119
+      }
+    },
+    "full_minus_zero": {
+      "2132": {
+        "videos": 38,
+        "mean_delta": 0.030491126881219986,
+        "median_delta": 0.02206076419679448,
+        "ci_low": 0.012946071059693504,
+        "ci_high": 0.04812179155014746,
+        "positive": 34,
+        "negative": 4,
+        "worst_leave_one_video_out": 0.034362030073188596
+      },
+      "2133": {
+        "videos": 38,
+        "mean_delta": 0.03238974583923424,
+        "median_delta": 0.018978161038830876,
+        "ci_low": 0.015421830762639538,
+        "ci_high": 0.05161268595886787,
+        "positive": 31,
+        "negative": 7,
+        "worst_leave_one_video_out": 0.03505130709979583
+      }
+    }
+  },
+  "held_contrasts_by_fold": {
+    "0": {
+      "geometry_minus_full": {
+        "videos": 19,
+        "mean_delta": -0.052304855750040395,
+        "median_delta": -0.042293351725675166,
+        "ci_low": -0.07621482822547765,
+        "ci_high": -0.02936987192622745,
+        "positive": 1,
+        "negative": 18,
+        "worst_leave_one_video_out": -0.04565808643302363
+      },
+      "geometry_minus_zero": {
+        "videos": 19,
+        "mean_delta": 0.0011473998188433285,
+        "median_delta": 0.0018418021209072322,
+        "ci_low": -0.0010374509190258225,
+        "ci_high": 0.0029159684294427267,
+        "positive": 16,
+        "negative": 3,
+        "worst_leave_one_video_out": 0.002015580542825369
+      }
+    },
+    "1": {
+      "geometry_minus_full": {
+        "videos": 19,
+        "mean_delta": -0.01033255889993406,
+        "median_delta": -0.008829741971567273,
+        "ci_low": -0.027244693951835965,
+        "ci_high": 0.006700315204445914,
+        "positive": 4,
+        "negative": 15,
+        "worst_leave_one_video_out": -0.004957248361380253
+      },
+      "geometry_minus_zero": {
+        "videos": 19,
+        "mean_delta": -0.0009039417483635541,
+        "median_delta": 0.00012479873839765787,
+        "ci_low": -0.003518373848112931,
+        "ci_high": 0.0015498562131573343,
+        "positive": 11,
+        "negative": 8,
+        "worst_leave_one_video_out": 6.512160729875581e-06
+      }
+    }
+  },
+  "primary_source_deltas": {
+    "uav0000003": -0.050571823376230896,
+    "uav0000016": -0.03370649938005954,
+    "uav0000070": -0.17194670345634222,
+    "uav0000076": -0.042638152837753296,
+    "uav0000080": -0.008103494765236974,
+    "uav0000085": -0.012757188640534878,
+    "uav0000089": 0.00047061569057404995,
+    "uav0000090": -0.013504351722076535,
+    "uav0000091": -0.10708814859390259,
+    "uav0000107": -0.13809409737586975,
+    "uav0000126": -0.003948655998101458,
+    "uav0000147": 0.08112193271517754,
+    "uav0000148": -0.10715577675728127,
+    "uav0000149": -0.007665455341339111,
+    "uav0000169": -0.008829741971567273,
+    "uav0000170": -0.01348982920171693,
+    "uav0000173": 0.06335127353668213,
+    "uav0000174": -0.034648941713385284,
+    "uav0000176": -0.12338463217020035,
+    "uav0000199": -0.0036457794485613704,
+    "uav0000200": -0.0207938946550712,
+    "uav0000204": -0.06892210291698575,
+    "uav0000205": -0.010882641305215657,
+    "uav0000226": -0.07891761045902967,
+    "uav0000235": -0.01915862411260605,
+    "uav0000236": -0.042293351725675166,
+    "uav0000237": -0.0446134377270937,
+    "uav0000238": -0.041554130730219185,
+    "uav0000239": -0.0199170527048409,
+    "uav0000303": -0.04927531740395352,
+    "uav0000304": -0.02400761458557099,
+    "uav0000307": 0.059464221354573965,
+    "uav0000308": -0.011400040704756975,
+    "uav0000329": -0.007866227650083601,
+    "uav0000331": -0.008150974288582802,
+    "uav0000342": 0.004138412419706583,
+    "uav0000348": -0.04672764614224434,
+    "uav0000349": -0.02299739420413971
+  },
+  "execution": {
+    "device": "cpu",
+    "seconds": "21.48253746330738",
+    "image_reads": "0",
+    "cuda_calls": "0"
+  },
+  "limitations": [
+    "Original PT/NPZ/receipts/source_arrays.json unavailable locally: input masking, fit buffers, original updates and model mutation not independently replayed.",
+    "Full final digests and training metadata cross-checked against reviewed 218 exports, not local tensor loading.",
+    "Same nominal architecture and opportunity does not imply identical effective capacity or optimization.",
+    "No independent confirmation or new tracking IoU/AUC.",
+    "Visual-block result concerns pooled inputs to this additional correction predictor; not a finding that SGLA visual backbone is useless."
+  ],
+  "next_recommendation": "Stage-220 proposed only: compare current geometry with added second finite differences of causal predicted-box center/log-side state; zero and constant-velocity reference, fit-only shuffled-history training control; current geometry already implies one-step displacement in nn history. No GT history, future held input or held tuning.",
+  "next_design_note": "Use a_t=(u_t-u_(t-1))-(u_(t-1)-u_(t-2)), u=(cx,cy,log sqrtwh), center terms normalized by current predicted side; minimum three states follows finite-difference definition. Warmup a=0 when t<2, with support counts. This hypothesis is untested."
+}
