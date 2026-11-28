@@ -1,5 +1,9 @@
 # 实验说明索引
 
+Stage-216共同状态后继定位对照已实现，真实GPU待运行。38源14592状态、131328新搜索，0训练/新完整轨迹；先精确当前与对应后继，再比较几何误差与真实下一帧IoU，分提供风格/自身状态。5项CPU测试通过，单总体进度/双worker/后台及自动10表TXT。 [协议与运行](experiments/06_sgla_uav_tracking/STAGE216_COMMON_STATE_SUCCESSOR.md)
+
+Stage-215真实重放已复核：coverage只中心−联合AUC+17.8019、开发名义区间为正、双seed均正，支持该模型尺度修正造成重要损伤；但只中心63.1255仍低于none65.1105，新增0080/0304稳定失败，不采用。10表重算差≤7.11e−15，38串并行/418桥接声明通过；新卡仅UUID变化。建议216共同状态下一帧几何与任务质量对照，尚未实现。 [结果与下一步](experiments/06_sgla_uav_tracking/STAGE215_RESULTS_REVIEW.md) · [机器核验](experiments/06_sgla_uav_tracking/results/stage215_review_audit_20261128.json)
+
 Stage-215同型号换卡独立重放已实现，真实GPU待运行。原卡不可见时记录新UUID绑定，重新计算114参照与608因素轨迹；38串并行对、114参照及304端点精确桥接，原代码/旧目录不变。5项CPU检查通过，不代表新卡真实桥接通过。 [新入口及后台运行](experiments/06_sgla_uav_tracking/STAGE215_SAME_MODEL_GPU_REPLAY.md)
 
 IdeaSpark / ScoopCheck 检索运行已修复：独立Python环境、UTF-8、JSON导出及OpenAlex参数；5项检查通过，真实检索分别返回6/4条。完整查新仍待模型阶段及来源覆盖，实验结论不变。 [运行修复与固定入口](research/RESEARCH_TOOLS_RUNTIME_FIX_2026-11-27.md)

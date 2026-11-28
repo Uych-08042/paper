@@ -2,6 +2,10 @@
 
 更新日期：2026-11-28（Asia/Hong_Kong）
 
+**Stage-216共同状态后继质量对照已实现，真实GPU待运行，见0.225。** 冻结215/214/208来源，全38源1824均匀时刻×2seed×4状态来源=14592状态；共同当前特征上两更新器/四mask，同一下一帧独立8分支，131328新搜索、0训练/新完整轨迹。先精确当前及对应后继端点，16串行/独立spawn检查，10表TXT/双worker/单总体进度。唯一主比较coverage尺度−none在nn/mm风格的下一帧IoU；不是AUC或方法采用。5项CPU测试通过，原代码/模型不改，确认集封存，不代commit/push。 [协议与后台运行](docs/experiments/06_sgla_uav_tracking/STAGE216_COMMON_STATE_SUCCESSOR.md)
+
+**Stage-215真实重放已复核，见0.224：coverage尺度修正是严重退化的重要来源，但关闭后未建立方法收益。** 只中心/只尺度/联合/none AUC63.1255/44.1108/45.3236/65.1105；唯一主要只中心−联合+17.8019，名义CI[+10.7906,+25.1476]，28正10负、双seed均正。只中心对none−1.9850区间跨零，新增0080/0304稳定失跟，不能采用。10表重算差≤7.11e−15，38串并行/418桥接声明通过，418导出质量精确复现214，代码55精确/8仅LF；新L20仅UUID变化。建议216固定共同状态检查几何收益与真实后继质量是否错配及状态来源依赖，尚未实现；不扫尺度阈值、不重开确认组。 [结果与下一步](docs/experiments/06_sgla_uav_tracking/STAGE215_RESULTS_REVIEW.md)
+
 **Stage-215同型号换卡独立入口已实现，本地5项检查通过，真实GPU待运行，见0.223。** 用户原L20 UUID48862e47不可见、现L20 UUID75aa7472。原215不改、不清旧缓存，新增same-model replay目录与入口，仅允许同型号UUID变化并记录绑定；新卡重跑114参照，共722新完整轨迹。38串并行短轨迹对、114完整参照及304端点精确桥接，不以近似AUC代替。主比较不变、0训练、10表TXT/总体进度/双worker。按Git流程同步新增文件，不额外打zip，不代为commit/push。 [协议与运行](docs/experiments/06_sgla_uav_tracking/STAGE215_SAME_MODEL_GPU_REPLAY.md)
 
 **IdeaSpark / ScoopCheck 检索运行故障已修复并实测。** 独立Python3.12环境与两个固定启动器已安装，统一UTF-8与空stderr保护；补齐Paper Search缺失的`--json`，修正OpenAlex失效的预印本过滤类型。5项回归检查及6文件最终哈希通过，Paper Search六来源调用返回6条去重记录，IdeaSpark两来源有界检查返回4条并进入待模型分类。SS限流、DBLP异常响应、IdeaSpark OpenReview缺账号仍需分别标记；原全来源验证已停止，未声称完整科研评审通过。后续须使用专用解释器，不能再用默认缺依赖的Python。Stage-215未运行新GPU实验。 [修复、入口与证据](docs/research/RESEARCH_TOOLS_RUNTIME_FIX_2026-11-27.md)
@@ -3523,6 +3527,32 @@ native/nn/mm/forecast/coverage AUC64.418451/65.110491/65.044528/53.948045/45.323
 本机Python3.12.4/Torch2.7.1+cpu/NumPy1.26.4，5项测试通过（108.810s）：UUID/型号/非UUID/续跑拒绝、桥接质量及schema漂移拒绝、原mask与端点和真值不干预、38源双spawn合成722新轨迹/10表/418桥接行/缓存复用/冻结源与篡改拒绝；Python3.10语法、CLI及bash -n通过。见[本地验证](docs/experiments/06_sgla_uav_tracking/results/stage215_same_model_local_validation_20261128.json)。真实GPU/实际Transformer/新卡端点仍未验证，不产生新AUC或确认组。
 
 服务器同步新增文件后，后台执行 `bash tools/run_stage215_same_model_replay.sh`，用新日志和replay.pid；完整命令见协议。按用户Git流程，不制作zip，不代为commit/push。本机未登录服务器。如精确桥接失败应保留诊断并停止，不自行调容差/改manifest；若再次换卡，另开新独立目录重跑同一桥接。
+
+### 0.224 Stage-215真实结果：尺度损伤诊断成立，中心单独更新仍未过
+
+用户回传 `stage215_results_20261128T102259Z_26003.txt` 已原字节归档，SHA275f66a26c14458045ca5af41a1831ac2537242fb77223df19a0cf6566067f87；decision434e004af0916b8859f9b3392d1f118bc996b1e52eb1f63eaf85581b2369b511、plan426a158002458d0ab930553767239ffb6643737f98699dfa8de67a2082e0a7f0。独立schema/来源/38源两折双seed/八冻结scope及mask精确，运行身份仅L20 UUID不同。12段/10CSV哈希及JSON指纹通过，由722逐视频导出重算10汇总/132配对/36因素最大差7.11e−15。代码55原字节精确、8仅LF；协议精确。服务器38串并行、114新参照+304端点精确桥接声明通过；本机核418导出质量精确等214。1598内部PT/NPZ/receipt未获得，不声称本机重放GPU和完整数组。
+
+native/mm/none AUC64.4185/65.0445/65.1105，均为既有端点复现，不是本轮新方法收益。forecast center/scale/joint60.3928/63.2494/53.9480；coverage center/scale/joint63.1255/44.1108/45.3236。唯一主要coverage center−joint +17.8019，名义CI[10.7906,25.1476]，中位11.5522、28正10负、最差留一16.4068，双seed+14.0084/+21.5954。支持关闭coverage尺度缓解退化，不能改称超基线17.8点。coverage center−none−1.9850、CI[−6.1722,1.9283]；forecast center−none−4.7177、CI为负。coverage scale−none−20.9997、CI为负，forecast scale−none区间跨零，不能否定所有尺度学习。
+
+coverage none/center/scale/joint完整覆盖89.38/88.01/94.15/95.58%，GT名义网络侧长66.47/64.43/38.74/39.59；已覆盖无好grid2.27/4.56/39.21/38.62%，父框侧长66.33/100.25/618.18/626.08。固定权重动作干预支持尺度修正是该coverage严重退化的重要来源，仍包含整条反馈链；分辨率与背景干扰等通道未分离。中心mask=关闭直接尺度残差，不保证后续raw尺寸不变；0304 center−joint−26.2070为反例，不称普遍尺度有害。coverage尺度平均效应−19.4008区间为负，中心平均/交互区间均跨零。
+
+coverage只中心新增原生/mm稳定失败各2源（0080/0304），双seed丢14/15次匹配恢复，none为4/14；保护仍不过，不采用。完整769823帧，block6118067/head1499129/crop及selector769823/updater648272，账本精确；full双worker16270.715秒约4h31m，非独立FPS。0训练、0复用评价轨迹、0确认组，保持REVIEW。
+
+下一步建议216冻结同权重、固定全源取样，先精确复现共同当前状态，再在同一下一帧重放none/center/scale/joint父框；比较几何误差、覆盖/名义分辨率、grid与真实输出质量，并比较提供状态/自身状态的条件依赖。GT只作动作后标签，held不训练；若后继质量排序可学，可并行小型同参数/预算任务质量监督原型。不继续扫尺度上限或先加PPO，不预先宣布目标错配或分布漂移已被证明。216尚未实现/运行；需全轨迹及独立源确认。 [完整复核与建议](docs/experiments/06_sgla_uav_tracking/STAGE215_RESULTS_REVIEW.md) · [机器核验](docs/experiments/06_sgla_uav_tracking/results/stage215_review_audit_20261128.json)
+
+### 0.225 Stage-216共同当前状态的几何与真实后继定位对照：已实现待GPU
+
+新增 `tools/stage216_successor_quality.py`、`tools/test_stage216_successor_quality.py`、`tools/run_stage216_successor_quality.sh`、[固定协议](docs/experiments/06_sgla_uav_tracking/STAGE216_COMMON_STATE_SUCCESSOR.md)。严格绑定215原字节结果包275f66a2及物理完整缓存/214八更新器/208四适配器/原checkpoint/七来源目录；不修改Stage1–215。仅同型号UUID独立新绑定，续跑和worker必须精确新绑定，来源仍不改。
+
+固定4当前来源coverage__none(nn规则)/mm/coverage__center/coverage__joint。每源沿用48均匀抽样，但t<=tracked_frames−1保证下一帧；1824时刻×2seed×4来源=14592共同状态。当前首帧模板/frame_id/parent重建，raw/适配box及层/调用精确来源，再取共同F6因果特征，一次forecast与coverage更新器各生成3维delta；四mask独立在同一t+1图像进行真实raw+adapted搜索，均使用首帧已知初始框而非未来GT。nn/center/joint对角下一父框/框/层/dense指标精确来源；mm仅当前核验，后继未检查字段留空，不假报失败。
+
+每状态9搜索/18head/72block/9selector及crop/2updater；131328新搜索，首折固定首源各第一个时刻16串行来源/seed检查144额外搜索，总进度131473含封存。默认双独立spawn按源分区，完整worker结果精确等串行短检查。模板初始化额外成本不包含搜索账本，不作FPS承诺。0训练、0新完整视频/确认组。
+
+唯一主要比较：coverage scale−none的下一帧输出IoU，在nn/mm提供状态风格等权平均、源内seed/时刻均值、38源bootstrap20000次。其余来源/家族/动作及几何为支持。提供状态风格不是214真实训练样本，来源差异不直接解释为分布漂移因果效应。几何诊断为GT侧长归一化中心L1均值+绝对log侧长误差，另报中心L2/log侧长，非原SmoothL1训练loss。报告几何改善且输出下降的全状态比例和条件支持源数；真值仅动作后标签、不选点、不训练held。
+
+10表预期selection1824/model_scope12/source_replay14592/cells116736/policy32/paired49/alignment24/calls14592/smoke16/execution2。5项本地CPU检查通过（最终45.386s），含实际仓库CENTER配合合成骨干、精确当前/后继/真值不进动作、两个none一致、冻结与hook清理、来源哈希/选点范围/篡改拒绝、缓存续用、独立spawn全数组一致、2源完整主流程/10表/主比较/封存与结果篡改拒绝。Python3.10语法、CLI与bash -n通过。不是实际Transformer/GPU或新IoU结果。 [本地核验](docs/experiments/06_sgla_uav_tracking/results/stage216_local_validation_20261128.json)
+
+服务器同步后 `bash tools/run_stage216_successor_quality.sh`，默认output/stage216/common_state_successor_v1；继承STAGE215_REPLAY_ROOT而非旧STAGE215_ROOT，使用STAGE216_ROOT/GPU/WORKERS。后台总体进度和自动10表TXT，完整命令见协议。未登录服务器，未提交/推送Git，未另打包。结果后应先核来源端点/账本，再判断几何改善与任务收益是否错配及状态来源依赖；可据标签做同预算小原型，不先扫尺度阈值或加PPO。
 
 ## 1. 接手后首先要知道的结论
 

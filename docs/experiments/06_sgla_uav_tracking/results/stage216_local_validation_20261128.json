@@ -1,0 +1,35 @@
+{
+  "schema": "stage216_local_validation_v1",
+  "date": "2026-11-28",
+  "status": "PREPARED_REAL_GPU_RUN_PENDING",
+  "environment": {
+    "python": "3.12.4",
+    "torch": "2.7.1+cpu",
+    "numpy": "1.26.4"
+  },
+  "tests": {
+    "passed": 5,
+    "skipped": 0,
+    "full_suite_seconds": 45.386
+  },
+  "checks": [
+    "Reviewed bundle hash/fingerprints/tables and 1824 uniform t+1-valid selections",
+    "Actual CENTER with synthetic backbone: exact current/successor box, parent, layer and dense IoU endpoints",
+    "Eight independent next-frame branches, duplicate none equality, no GT argument in policy; frozen weights/hooks unchanged",
+    "Cache avoids inference; separate spawn full-array parity",
+    "Two-group end-to-end collection, complete ten-table summaries and primary comparison, sealing, altered result rejection",
+    "Python 3.10 syntax, CLI help and Bash -n",
+    "Original Stage-215 sources and protocol hashes unchanged"
+  ],
+  "limits": [
+    "Synthetic images/tokens and backbone, not actual GPU/Transformer/pixel-crop verification",
+    "No new training or full video tracking, no experimental AUC or speed claims",
+    "Production full-source source files/models remain on server; no server login"
+  ],
+  "file_sha256": {
+    "tools/stage216_successor_quality.py": "7fa3dd495dbeb17ad7a4eb1719bb9360d9c3e15545124ab7b7e494a0f2b17bbc",
+    "tools/test_stage216_successor_quality.py": "12f7877b66226edc8f74d16327e96d0e72c340aaf50bdbe63e35864c474ceaf5",
+    "tools/run_stage216_successor_quality.sh": "d75d3e44fd377debc60352c397454313498361cd7a681b155f3a4d71bbc4dfe7",
+    "docs/experiments/06_sgla_uav_tracking/STAGE216_COMMON_STATE_SUCCESSOR.md": "461c733cf571c5005812f4b87ab23d0d91caf12de8083699142be4f47b2b5ccc"
+  }
+}
