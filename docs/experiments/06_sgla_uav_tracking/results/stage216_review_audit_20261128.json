@@ -1,0 +1,1170 @@
+{
+  "schema": "stage216_review_v1",
+  "date": "2026-11-28",
+  "bundle_sha256": "12fc008461fd3bed377e345585325825d528cd169841ea002b87eab596221189",
+  "decision": "72c66bc4b9357ecdd84e1e748ebe196d7f50e4ca9b874a64acfb01c7d4ea1fc1",
+  "plan": "5d1fd928501b2c53fdbbc59500607d90d8188d70be338028368b58939f4fdfc3",
+  "row_counts": {
+    "selection": 1824,
+    "model_scope": 24,
+    "source_replay": 14592,
+    "cells": 116736,
+    "policy_summary": 32,
+    "paired": 49,
+    "alignment": 24,
+    "calls": 14592,
+    "smoke": 16,
+    "execution": 2
+  },
+  "table_hashes_verified": 10,
+  "json_fingerprints_verified": true,
+  "scope_note": "24 model_scope rows = 8 updater records + 16 wrappers for 4 unique adapter weights; protocol expected 12, logging alias-count discrepancy",
+  "updaters_exact_215": true,
+  "unique_adapters_exact_208": 4,
+  "scope_alias_rows": 16,
+  "code": {
+    "exact": [
+      "tools/stage194_module_ablation.py",
+      "tools/stage194_module_common.py",
+      "tools/stage194_module_model.py",
+      "tools/experiment_progress.py",
+      "tracking/stage18_tracking_loss.py",
+      "tracking/stage18_environment.py",
+      "tracking/stage46_motion_runtime.py",
+      "tools/stage192_development_grid_rescue.py",
+      "tools/stage61_runtime_replay.py",
+      "tools/stage202_regret_routing.py",
+      "tools/stage202_regret_common.py",
+      "tools/stage200_pair_common.py",
+      "tools/stage200_within_video.py",
+      "tools/stage201_score_baseline.py",
+      "tools/stage199_residual_model.py",
+      "tools/stage195_router_objective_audit.py",
+      "tools/stage195_routing_common.py",
+      "tools/stage199_residual_routing.py",
+      "tools/stage198_routing_calibration.py",
+      "tools/stage196_relative_loss.py",
+      "tools/stage203_loss_clipping.py",
+      "tools/stage203_clipping_common.py",
+      "tools/stage204_target_relation.py",
+      "tools/stage204_relation_common.py",
+      "tools/stage204_relation_model.py",
+      "tools/stage205_crossfit_shrinkage.py",
+      "tools/stage205_shrinkage_common.py",
+      "tools/stage206_spatial_adaptation.py",
+      "tools/stage206_spatial_model.py",
+      "tools/stage206_spatial_common.py",
+      "tools/stage207_state_training.py",
+      "tools/stage207_state_common.py",
+      "tools/stage208_state_interaction.py",
+      "tools/stage208_factor_common.py",
+      "tools/run_stage208_state_interaction.sh",
+      "tools/stage209_reference_intervention.py",
+      "tools/stage209_reference_common.py",
+      "tools/run_stage209_reference_intervention.sh",
+      "tools/stage210_recovery_audit.py",
+      "tools/stage210_recovery_common.py",
+      "tools/run_stage210_recovery_audit.sh",
+      "tools/stage211_geometry_audit.py",
+      "tools/stage211_geometry_common.py",
+      "tools/run_stage211_geometry_audit.sh",
+      "tools/stage212_state_experiment.py",
+      "tools/stage212_state_common.py",
+      "tools/run_stage212_state_experiment.sh",
+      "tools/stage213_output_ceiling.py",
+      "tools/run_stage213_output_ceiling.sh",
+      "tools/stage214_search_state.py",
+      "tools/stage214_search_state_common.py",
+      "tools/run_stage214_search_state.sh",
+      "tools/stage215_same_model_replay.py",
+      "tools/stage215_component_common.py",
+      "tools/run_stage215_same_model_replay.sh",
+      "tools/run_stage216_successor_quality.sh"
+    ],
+    "lf_only": [
+      "tracking/stage4_runtime.py",
+      "tracking/stage1_validate.py",
+      "tracking/validation_metrics.py",
+      "lib/models/sglatrack/base_backbone.py",
+      "lib/models/sglatrack/sglatrack.py",
+      "lib/models/layers/head.py",
+      "lib/test/tracker/sglatrack.py",
+      "lib/train/data/processing_utils.py"
+    ],
+    "reviewed_pre_fix_head": [
+      "tools/stage216_successor_quality.py"
+    ],
+    "missing": [],
+    "unrecognized": []
+  },
+  "archived_runtime_source": [
+    {
+      "path": "docs\\experiments\\06_sgla_uav_tracking\\results\\stage216_runtime_source_7fa3dd49.py.txt",
+      "sha256": "7fa3dd495dbeb17ad7a4eb1719bb9360d9c3e15545124ab7b7e494a0f2b17bbc",
+      "only_changed_function": "bundle",
+      "reason": "known local CRLF/LF reader fix; computation functions AST-identical"
+    }
+  ],
+  "protocol_sha256": "461c733cf571c5005812f4b87ab23d0d91caf12de8083699142be4f47b2b5ccc",
+  "same_runtime_as_215": true,
+  "declared_current_replays": 14592,
+  "declared_successor_checks": 10944,
+  "declared_smoke_exact": 16,
+  "summary_recompute_max_error": 0.0,
+  "paired_cell_gain_max_error": 0.0,
+  "exported_call_accounting_exact": true,
+  "calls": {
+    "search_calls": 131328,
+    "block_calls": 1050624,
+    "head_calls": 262656,
+    "selector_calls": 131328,
+    "crop_calls": 131328,
+    "updater_calls": 29184
+  },
+  "primary": {
+    "origin": "provider_style_mean",
+    "family": "coverage",
+    "mask": "scale",
+    "metric": "output_iou",
+    "primary": true,
+    "videos": 38,
+    "mean_delta": -0.016955890515204023,
+    "median_delta": -0.003845827023192111,
+    "ci_low": -0.035339421665514015,
+    "ci_high": -0.002171609352526667,
+    "positive": 17,
+    "negative": 21,
+    "worst_leave_one_video_out": -0.019395075151700435
+  },
+  "primary_by_seed": {
+    "2132": -0.014402960869211386,
+    "2133": -0.01950882016119662
+  },
+  "provider_coverage_means": [
+    {
+      "mask": "none",
+      "output_iou": 0.663228627417847,
+      "geometry_error": 1.041843708292759,
+      "fully_covered": 0.8935032894736844,
+      "gt_side_network_px": 65.99587771576513,
+      "dense_best_iou": 0.7447188983098821,
+      "center_error": 1.3181923691518005,
+      "log_side_error": 0.17869208946489434
+    },
+    {
+      "mask": "center",
+      "output_iou": 0.6626316579290129,
+      "geometry_error": 1.1362928398914571,
+      "fully_covered": 0.8880208333333333,
+      "gt_side_network_px": 65.99587771576513,
+      "dense_best_iou": 0.7417051426606992,
+      "center_error": 1.47964545715761,
+      "log_side_error": 0.17869208946489434
+    },
+    {
+      "mask": "scale",
+      "output_iou": 0.646272736902643,
+      "geometry_error": 1.154500707354434,
+      "fully_covered": 0.9089912280701754,
+      "gt_side_network_px": 55.64815170440506,
+      "dense_best_iou": 0.7182593646589983,
+      "center_error": 1.3181923691518005,
+      "log_side_error": 0.29134908852657004
+    },
+    {
+      "mask": "joint",
+      "output_iou": 0.6407727132074875,
+      "geometry_error": 1.2489498389531326,
+      "fully_covered": 0.905564692982456,
+      "gt_side_network_px": 55.64815170440506,
+      "dense_best_iou": 0.7141878650506805,
+      "center_error": 1.47964545715761,
+      "log_side_error": 0.29134908852657004
+    }
+  ],
+  "exploratory_strata": [
+    {
+      "origin": "coverage__none",
+      "family": "forecast",
+      "mask": "center",
+      "stratum": "geometry_better",
+      "states": 549,
+      "output_worse_states": 124,
+      "source_weighted_contribution": 0.0008105136363384799,
+      "conditional_supported_groups": 33,
+      "conditional_source_mean_gain": 0.0076273583833892785
+    },
+    {
+      "origin": "coverage__none",
+      "family": "forecast",
+      "mask": "center",
+      "stratum": "geometry_worse",
+      "states": 3099,
+      "output_worse_states": 1327,
+      "source_weighted_contribution": -0.001713661973675994,
+      "conditional_supported_groups": 38,
+      "conditional_source_mean_gain": -0.0019502598063607778
+    },
+    {
+      "origin": "coverage__none",
+      "family": "forecast",
+      "mask": "center",
+      "stratum": "geometry_tied",
+      "states": 0,
+      "output_worse_states": 0,
+      "source_weighted_contribution": 0.0,
+      "conditional_supported_groups": 0,
+      "conditional_source_mean_gain": null
+    },
+    {
+      "origin": "coverage__none",
+      "family": "forecast",
+      "mask": "scale",
+      "stratum": "geometry_better",
+      "states": 1249,
+      "output_worse_states": 281,
+      "source_weighted_contribution": 0.0040138716490892646,
+      "conditional_supported_groups": 38,
+      "conditional_source_mean_gain": 0.01764921564040814
+    },
+    {
+      "origin": "coverage__none",
+      "family": "forecast",
+      "mask": "scale",
+      "stratum": "geometry_worse",
+      "states": 2399,
+      "output_worse_states": 1135,
+      "source_weighted_contribution": -0.007407075343116611,
+      "conditional_supported_groups": 38,
+      "conditional_source_mean_gain": -0.011199642212909472
+    },
+    {
+      "origin": "coverage__none",
+      "family": "forecast",
+      "mask": "scale",
+      "stratum": "geometry_tied",
+      "states": 0,
+      "output_worse_states": 0,
+      "source_weighted_contribution": 0.0,
+      "conditional_supported_groups": 0,
+      "conditional_source_mean_gain": null
+    },
+    {
+      "origin": "coverage__none",
+      "family": "forecast",
+      "mask": "joint",
+      "stratum": "geometry_better",
+      "states": 695,
+      "output_worse_states": 145,
+      "source_weighted_contribution": 0.0032730128660571054,
+      "conditional_supported_groups": 34,
+      "conditional_source_mean_gain": 0.032193690572263574
+    },
+    {
+      "origin": "coverage__none",
+      "family": "forecast",
+      "mask": "joint",
+      "stratum": "geometry_worse",
+      "states": 2953,
+      "output_worse_states": 1382,
+      "source_weighted_contribution": -0.009516141485048304,
+      "conditional_supported_groups": 38,
+      "conditional_source_mean_gain": -0.010494117507653097
+    },
+    {
+      "origin": "coverage__none",
+      "family": "forecast",
+      "mask": "joint",
+      "stratum": "geometry_tied",
+      "states": 0,
+      "output_worse_states": 0,
+      "source_weighted_contribution": 0.0,
+      "conditional_supported_groups": 0,
+      "conditional_source_mean_gain": null
+    },
+    {
+      "origin": "coverage__none",
+      "family": "coverage",
+      "mask": "center",
+      "stratum": "geometry_better",
+      "states": 607,
+      "output_worse_states": 152,
+      "source_weighted_contribution": 0.00019073213197983149,
+      "conditional_supported_groups": 35,
+      "conditional_source_mean_gain": -0.0042507795318732855
+    },
+    {
+      "origin": "coverage__none",
+      "family": "coverage",
+      "mask": "center",
+      "stratum": "geometry_worse",
+      "states": 3041,
+      "output_worse_states": 1280,
+      "source_weighted_contribution": -0.0009418420099608825,
+      "conditional_supported_groups": 38,
+      "conditional_source_mean_gain": -0.0009367198344542011
+    },
+    {
+      "origin": "coverage__none",
+      "family": "coverage",
+      "mask": "center",
+      "stratum": "geometry_tied",
+      "states": 0,
+      "output_worse_states": 0,
+      "source_weighted_contribution": 0.0,
+      "conditional_supported_groups": 0,
+      "conditional_source_mean_gain": null
+    },
+    {
+      "origin": "coverage__none",
+      "family": "coverage",
+      "mask": "scale",
+      "stratum": "geometry_better",
+      "states": 1156,
+      "output_worse_states": 294,
+      "source_weighted_contribution": 0.005847920234791207,
+      "conditional_supported_groups": 36,
+      "conditional_source_mean_gain": 0.01577604658325992
+    },
+    {
+      "origin": "coverage__none",
+      "family": "coverage",
+      "mask": "scale",
+      "stratum": "geometry_worse",
+      "states": 2492,
+      "output_worse_states": 1152,
+      "source_weighted_contribution": -0.02262520064170952,
+      "conditional_supported_groups": 38,
+      "conditional_source_mean_gain": -0.0266818436029831
+    },
+    {
+      "origin": "coverage__none",
+      "family": "coverage",
+      "mask": "scale",
+      "stratum": "geometry_tied",
+      "states": 0,
+      "output_worse_states": 0,
+      "source_weighted_contribution": 0.0,
+      "conditional_supported_groups": 0,
+      "conditional_source_mean_gain": null
+    },
+    {
+      "origin": "coverage__none",
+      "family": "coverage",
+      "mask": "joint",
+      "stratum": "geometry_better",
+      "states": 737,
+      "output_worse_states": 191,
+      "source_weighted_contribution": 0.0033660144891363613,
+      "conditional_supported_groups": 36,
+      "conditional_source_mean_gain": 0.013694966088859272
+    },
+    {
+      "origin": "coverage__none",
+      "family": "coverage",
+      "mask": "joint",
+      "stratum": "geometry_worse",
+      "states": 2911,
+      "output_worse_states": 1377,
+      "source_weighted_contribution": -0.02677926794972534,
+      "conditional_supported_groups": 38,
+      "conditional_source_mean_gain": -0.028838644030825488
+    },
+    {
+      "origin": "coverage__none",
+      "family": "coverage",
+      "mask": "joint",
+      "stratum": "geometry_tied",
+      "states": 0,
+      "output_worse_states": 0,
+      "source_weighted_contribution": 0.0,
+      "conditional_supported_groups": 0,
+      "conditional_source_mean_gain": null
+    },
+    {
+      "origin": "mm",
+      "family": "forecast",
+      "mask": "center",
+      "stratum": "geometry_better",
+      "states": 508,
+      "output_worse_states": 121,
+      "source_weighted_contribution": 0.00023318308901255197,
+      "conditional_supported_groups": 31,
+      "conditional_source_mean_gain": -0.0014508504124325508
+    },
+    {
+      "origin": "mm",
+      "family": "forecast",
+      "mask": "center",
+      "stratum": "geometry_worse",
+      "states": 3140,
+      "output_worse_states": 1318,
+      "source_weighted_contribution": -0.0019066440647085296,
+      "conditional_supported_groups": 38,
+      "conditional_source_mean_gain": -0.002033006345455438
+    },
+    {
+      "origin": "mm",
+      "family": "forecast",
+      "mask": "center",
+      "stratum": "geometry_tied",
+      "states": 0,
+      "output_worse_states": 0,
+      "source_weighted_contribution": 0.0,
+      "conditional_supported_groups": 0,
+      "conditional_source_mean_gain": null
+    },
+    {
+      "origin": "mm",
+      "family": "forecast",
+      "mask": "scale",
+      "stratum": "geometry_better",
+      "states": 1259,
+      "output_worse_states": 251,
+      "source_weighted_contribution": 0.0058227425594897545,
+      "conditional_supported_groups": 38,
+      "conditional_source_mean_gain": 0.018708186673901145
+    },
+    {
+      "origin": "mm",
+      "family": "forecast",
+      "mask": "scale",
+      "stratum": "geometry_worse",
+      "states": 2389,
+      "output_worse_states": 1124,
+      "source_weighted_contribution": -0.007172407558012908,
+      "conditional_supported_groups": 38,
+      "conditional_source_mean_gain": -0.011141755737933082
+    },
+    {
+      "origin": "mm",
+      "family": "forecast",
+      "mask": "scale",
+      "stratum": "geometry_tied",
+      "states": 0,
+      "output_worse_states": 0,
+      "source_weighted_contribution": 0.0,
+      "conditional_supported_groups": 0,
+      "conditional_source_mean_gain": null
+    },
+    {
+      "origin": "mm",
+      "family": "forecast",
+      "mask": "joint",
+      "stratum": "geometry_better",
+      "states": 653,
+      "output_worse_states": 150,
+      "source_weighted_contribution": 0.0032747175652745176,
+      "conditional_supported_groups": 34,
+      "conditional_source_mean_gain": 0.011188386299867277
+    },
+    {
+      "origin": "mm",
+      "family": "forecast",
+      "mask": "joint",
+      "stratum": "geometry_worse",
+      "states": 2995,
+      "output_worse_states": 1417,
+      "source_weighted_contribution": -0.012558548503322017,
+      "conditional_supported_groups": 38,
+      "conditional_source_mean_gain": -0.014960235990174816
+    },
+    {
+      "origin": "mm",
+      "family": "forecast",
+      "mask": "joint",
+      "stratum": "geometry_tied",
+      "states": 0,
+      "output_worse_states": 0,
+      "source_weighted_contribution": 0.0,
+      "conditional_supported_groups": 0,
+      "conditional_source_mean_gain": null
+    },
+    {
+      "origin": "mm",
+      "family": "coverage",
+      "mask": "center",
+      "stratum": "geometry_better",
+      "states": 614,
+      "output_worse_states": 146,
+      "source_weighted_contribution": 0.00035667299759559195,
+      "conditional_supported_groups": 34,
+      "conditional_source_mean_gain": -0.0003501612369513737
+    },
+    {
+      "origin": "mm",
+      "family": "coverage",
+      "mask": "center",
+      "stratum": "geometry_worse",
+      "states": 3034,
+      "output_worse_states": 1286,
+      "source_weighted_contribution": -0.0007995020972826742,
+      "conditional_supported_groups": 38,
+      "conditional_source_mean_gain": -0.0011305198800234634
+    },
+    {
+      "origin": "mm",
+      "family": "coverage",
+      "mask": "center",
+      "stratum": "geometry_tied",
+      "states": 0,
+      "output_worse_states": 0,
+      "source_weighted_contribution": 0.0,
+      "conditional_supported_groups": 0,
+      "conditional_source_mean_gain": null
+    },
+    {
+      "origin": "mm",
+      "family": "coverage",
+      "mask": "scale",
+      "stratum": "geometry_better",
+      "states": 1196,
+      "output_worse_states": 309,
+      "source_weighted_contribution": 0.006614369072017213,
+      "conditional_supported_groups": 38,
+      "conditional_source_mean_gain": 0.025579478258393393
+    },
+    {
+      "origin": "mm",
+      "family": "coverage",
+      "mask": "scale",
+      "stratum": "geometry_worse",
+      "states": 2452,
+      "output_worse_states": 1190,
+      "source_weighted_contribution": -0.023748869695506908,
+      "conditional_supported_groups": 38,
+      "conditional_source_mean_gain": -0.026980443767689627
+    },
+    {
+      "origin": "mm",
+      "family": "coverage",
+      "mask": "scale",
+      "stratum": "geometry_tied",
+      "states": 0,
+      "output_worse_states": 0,
+      "source_weighted_contribution": 0.0,
+      "conditional_supported_groups": 0,
+      "conditional_source_mean_gain": null
+    },
+    {
+      "origin": "mm",
+      "family": "coverage",
+      "mask": "joint",
+      "stratum": "geometry_better",
+      "states": 789,
+      "output_worse_states": 201,
+      "source_weighted_contribution": 0.003872567147131071,
+      "conditional_supported_groups": 35,
+      "conditional_source_mean_gain": 0.02030427240454793
+    },
+    {
+      "origin": "mm",
+      "family": "coverage",
+      "mask": "joint",
+      "stratum": "geometry_worse",
+      "states": 2859,
+      "output_worse_states": 1393,
+      "source_weighted_contribution": -0.02537114210726095,
+      "conditional_supported_groups": 38,
+      "conditional_source_mean_gain": -0.02689128367125925
+    },
+    {
+      "origin": "mm",
+      "family": "coverage",
+      "mask": "joint",
+      "stratum": "geometry_tied",
+      "states": 0,
+      "output_worse_states": 0,
+      "source_weighted_contribution": 0.0,
+      "conditional_supported_groups": 0,
+      "conditional_source_mean_gain": null
+    },
+    {
+      "origin": "coverage__center",
+      "family": "forecast",
+      "mask": "center",
+      "stratum": "geometry_better",
+      "states": 479,
+      "output_worse_states": 131,
+      "source_weighted_contribution": 0.0002979817484169739,
+      "conditional_supported_groups": 34,
+      "conditional_source_mean_gain": 0.0006254181829095187
+    },
+    {
+      "origin": "coverage__center",
+      "family": "forecast",
+      "mask": "center",
+      "stratum": "geometry_worse",
+      "states": 3169,
+      "output_worse_states": 1265,
+      "source_weighted_contribution": 0.000381833447384055,
+      "conditional_supported_groups": 38,
+      "conditional_source_mean_gain": 0.00045879232169721663
+    },
+    {
+      "origin": "coverage__center",
+      "family": "forecast",
+      "mask": "center",
+      "stratum": "geometry_tied",
+      "states": 0,
+      "output_worse_states": 0,
+      "source_weighted_contribution": 0.0,
+      "conditional_supported_groups": 0,
+      "conditional_source_mean_gain": null
+    },
+    {
+      "origin": "coverage__center",
+      "family": "forecast",
+      "mask": "scale",
+      "stratum": "geometry_better",
+      "states": 1255,
+      "output_worse_states": 287,
+      "source_weighted_contribution": 0.0036862078255743207,
+      "conditional_supported_groups": 37,
+      "conditional_source_mean_gain": 0.012546589275129215
+    },
+    {
+      "origin": "coverage__center",
+      "family": "forecast",
+      "mask": "scale",
+      "stratum": "geometry_worse",
+      "states": 2393,
+      "output_worse_states": 1128,
+      "source_weighted_contribution": -0.006157500283669519,
+      "conditional_supported_groups": 38,
+      "conditional_source_mean_gain": -0.010278556849796738
+    },
+    {
+      "origin": "coverage__center",
+      "family": "forecast",
+      "mask": "scale",
+      "stratum": "geometry_tied",
+      "states": 0,
+      "output_worse_states": 0,
+      "source_weighted_contribution": 0.0,
+      "conditional_supported_groups": 0,
+      "conditional_source_mean_gain": null
+    },
+    {
+      "origin": "coverage__center",
+      "family": "forecast",
+      "mask": "joint",
+      "stratum": "geometry_better",
+      "states": 626,
+      "output_worse_states": 141,
+      "source_weighted_contribution": 0.001973216307056169,
+      "conditional_supported_groups": 32,
+      "conditional_source_mean_gain": 0.0250316583196223
+    },
+    {
+      "origin": "coverage__center",
+      "family": "forecast",
+      "mask": "joint",
+      "stratum": "geometry_worse",
+      "states": 3022,
+      "output_worse_states": 1372,
+      "source_weighted_contribution": -0.007712708653701277,
+      "conditional_supported_groups": 38,
+      "conditional_source_mean_gain": -0.009678006311055936
+    },
+    {
+      "origin": "coverage__center",
+      "family": "forecast",
+      "mask": "joint",
+      "stratum": "geometry_tied",
+      "states": 0,
+      "output_worse_states": 0,
+      "source_weighted_contribution": 0.0,
+      "conditional_supported_groups": 0,
+      "conditional_source_mean_gain": null
+    },
+    {
+      "origin": "coverage__center",
+      "family": "coverage",
+      "mask": "center",
+      "stratum": "geometry_better",
+      "states": 576,
+      "output_worse_states": 154,
+      "source_weighted_contribution": 0.0002724833611508204,
+      "conditional_supported_groups": 35,
+      "conditional_source_mean_gain": -0.0007019958110848551
+    },
+    {
+      "origin": "coverage__center",
+      "family": "coverage",
+      "mask": "center",
+      "stratum": "geometry_worse",
+      "states": 3072,
+      "output_worse_states": 1170,
+      "source_weighted_contribution": 0.0008381529215968916,
+      "conditional_supported_groups": 38,
+      "conditional_source_mean_gain": 0.0009074246624995762
+    },
+    {
+      "origin": "coverage__center",
+      "family": "coverage",
+      "mask": "center",
+      "stratum": "geometry_tied",
+      "states": 0,
+      "output_worse_states": 0,
+      "source_weighted_contribution": 0.0,
+      "conditional_supported_groups": 0,
+      "conditional_source_mean_gain": null
+    },
+    {
+      "origin": "coverage__center",
+      "family": "coverage",
+      "mask": "scale",
+      "stratum": "geometry_better",
+      "states": 1074,
+      "output_worse_states": 278,
+      "source_weighted_contribution": 0.004308263604253821,
+      "conditional_supported_groups": 34,
+      "conditional_source_mean_gain": 0.015261471136856834
+    },
+    {
+      "origin": "coverage__center",
+      "family": "coverage",
+      "mask": "scale",
+      "stratum": "geometry_worse",
+      "states": 2574,
+      "output_worse_states": 1173,
+      "source_weighted_contribution": -0.0172633291657725,
+      "conditional_supported_groups": 38,
+      "conditional_source_mean_gain": -0.018366497877324407
+    },
+    {
+      "origin": "coverage__center",
+      "family": "coverage",
+      "mask": "scale",
+      "stratum": "geometry_tied",
+      "states": 0,
+      "output_worse_states": 0,
+      "source_weighted_contribution": 0.0,
+      "conditional_supported_groups": 0,
+      "conditional_source_mean_gain": null
+    },
+    {
+      "origin": "coverage__center",
+      "family": "coverage",
+      "mask": "joint",
+      "stratum": "geometry_better",
+      "states": 722,
+      "output_worse_states": 209,
+      "source_weighted_contribution": 0.00274562996115236,
+      "conditional_supported_groups": 33,
+      "conditional_source_mean_gain": 0.014131213961781892
+    },
+    {
+      "origin": "coverage__center",
+      "family": "coverage",
+      "mask": "joint",
+      "stratum": "geometry_worse",
+      "states": 2926,
+      "output_worse_states": 1306,
+      "source_weighted_contribution": -0.0192900380578596,
+      "conditional_supported_groups": 38,
+      "conditional_source_mean_gain": -0.02040434727059918
+    },
+    {
+      "origin": "coverage__center",
+      "family": "coverage",
+      "mask": "joint",
+      "stratum": "geometry_tied",
+      "states": 0,
+      "output_worse_states": 0,
+      "source_weighted_contribution": 0.0,
+      "conditional_supported_groups": 0,
+      "conditional_source_mean_gain": null
+    },
+    {
+      "origin": "coverage__joint",
+      "family": "forecast",
+      "mask": "center",
+      "stratum": "geometry_better",
+      "states": 473,
+      "output_worse_states": 153,
+      "source_weighted_contribution": 0.0004771654569229075,
+      "conditional_supported_groups": 33,
+      "conditional_source_mean_gain": 0.0014200057868833432
+    },
+    {
+      "origin": "coverage__joint",
+      "family": "forecast",
+      "mask": "center",
+      "stratum": "geometry_worse",
+      "states": 3175,
+      "output_worse_states": 1356,
+      "source_weighted_contribution": 0.0004908847811304532,
+      "conditional_supported_groups": 38,
+      "conditional_source_mean_gain": 0.00048527664589901324
+    },
+    {
+      "origin": "coverage__joint",
+      "family": "forecast",
+      "mask": "center",
+      "stratum": "geometry_tied",
+      "states": 0,
+      "output_worse_states": 0,
+      "source_weighted_contribution": 0.0,
+      "conditional_supported_groups": 0,
+      "conditional_source_mean_gain": null
+    },
+    {
+      "origin": "coverage__joint",
+      "family": "forecast",
+      "mask": "scale",
+      "stratum": "geometry_better",
+      "states": 1911,
+      "output_worse_states": 572,
+      "source_weighted_contribution": 0.007251788542713532,
+      "conditional_supported_groups": 38,
+      "conditional_source_mean_gain": 0.011215434468282574
+    },
+    {
+      "origin": "coverage__joint",
+      "family": "forecast",
+      "mask": "scale",
+      "stratum": "geometry_worse",
+      "states": 1737,
+      "output_worse_states": 845,
+      "source_weighted_contribution": -0.003980443029915133,
+      "conditional_supported_groups": 38,
+      "conditional_source_mean_gain": -0.014512143656515883
+    },
+    {
+      "origin": "coverage__joint",
+      "family": "forecast",
+      "mask": "scale",
+      "stratum": "geometry_tied",
+      "states": 0,
+      "output_worse_states": 0,
+      "source_weighted_contribution": 0.0,
+      "conditional_supported_groups": 0,
+      "conditional_source_mean_gain": null
+    },
+    {
+      "origin": "coverage__joint",
+      "family": "forecast",
+      "mask": "joint",
+      "stratum": "geometry_better",
+      "states": 580,
+      "output_worse_states": 142,
+      "source_weighted_contribution": 0.002305507866451411,
+      "conditional_supported_groups": 32,
+      "conditional_source_mean_gain": 0.017298898892846876
+    },
+    {
+      "origin": "coverage__joint",
+      "family": "forecast",
+      "mask": "joint",
+      "stratum": "geometry_worse",
+      "states": 3068,
+      "output_worse_states": 1316,
+      "source_weighted_contribution": -0.000837841997709253,
+      "conditional_supported_groups": 38,
+      "conditional_source_mean_gain": -0.0018480795299426068
+    },
+    {
+      "origin": "coverage__joint",
+      "family": "forecast",
+      "mask": "joint",
+      "stratum": "geometry_tied",
+      "states": 0,
+      "output_worse_states": 0,
+      "source_weighted_contribution": 0.0,
+      "conditional_supported_groups": 0,
+      "conditional_source_mean_gain": null
+    },
+    {
+      "origin": "coverage__joint",
+      "family": "coverage",
+      "mask": "center",
+      "stratum": "geometry_better",
+      "states": 668,
+      "output_worse_states": 248,
+      "source_weighted_contribution": 0.00017385515544427512,
+      "conditional_supported_groups": 34,
+      "conditional_source_mean_gain": -6.201142761602908e-05
+    },
+    {
+      "origin": "coverage__joint",
+      "family": "coverage",
+      "mask": "center",
+      "stratum": "geometry_worse",
+      "states": 2980,
+      "output_worse_states": 1284,
+      "source_weighted_contribution": 0.0001750107518459489,
+      "conditional_supported_groups": 38,
+      "conditional_source_mean_gain": 0.0001569508388192099
+    },
+    {
+      "origin": "coverage__joint",
+      "family": "coverage",
+      "mask": "center",
+      "stratum": "geometry_tied",
+      "states": 0,
+      "output_worse_states": 0,
+      "source_weighted_contribution": 0.0,
+      "conditional_supported_groups": 0,
+      "conditional_source_mean_gain": null
+    },
+    {
+      "origin": "coverage__joint",
+      "family": "coverage",
+      "mask": "scale",
+      "stratum": "geometry_better",
+      "states": 634,
+      "output_worse_states": 157,
+      "source_weighted_contribution": 0.0022436921635695948,
+      "conditional_supported_groups": 31,
+      "conditional_source_mean_gain": 0.01354858248886892
+    },
+    {
+      "origin": "coverage__joint",
+      "family": "coverage",
+      "mask": "scale",
+      "stratum": "geometry_worse",
+      "states": 3014,
+      "output_worse_states": 1709,
+      "source_weighted_contribution": -0.004699706642424895,
+      "conditional_supported_groups": 38,
+      "conditional_source_mean_gain": -0.004358833403518161
+    },
+    {
+      "origin": "coverage__joint",
+      "family": "coverage",
+      "mask": "scale",
+      "stratum": "geometry_tied",
+      "states": 0,
+      "output_worse_states": 0,
+      "source_weighted_contribution": 0.0,
+      "conditional_supported_groups": 0,
+      "conditional_source_mean_gain": null
+    },
+    {
+      "origin": "coverage__joint",
+      "family": "coverage",
+      "mask": "joint",
+      "stratum": "geometry_better",
+      "states": 598,
+      "output_worse_states": 246,
+      "source_weighted_contribution": 0.0007874569359330833,
+      "conditional_supported_groups": 35,
+      "conditional_source_mean_gain": 0.013028020802190265
+    },
+    {
+      "origin": "coverage__joint",
+      "family": "coverage",
+      "mask": "joint",
+      "stratum": "geometry_worse",
+      "states": 3050,
+      "output_worse_states": 1728,
+      "source_weighted_contribution": -0.004549118987415642,
+      "conditional_supported_groups": 38,
+      "conditional_source_mean_gain": -0.005097463551588133
+    },
+    {
+      "origin": "coverage__joint",
+      "family": "coverage",
+      "mask": "joint",
+      "stratum": "geometry_tied",
+      "states": 0,
+      "output_worse_states": 0,
+      "source_weighted_contribution": 0.0,
+      "conditional_supported_groups": 0,
+      "conditional_source_mean_gain": null
+    }
+  ],
+  "primary_influence": [
+    {
+      "group": "uav0000204",
+      "delta": -0.25016524046843186
+    },
+    {
+      "group": "uav0000085",
+      "delta": -0.1527864176071278
+    },
+    {
+      "group": "uav0000226",
+      "delta": -0.08577964512894998
+    },
+    {
+      "group": "uav0000307",
+      "delta": -0.06733733780196607
+    },
+    {
+      "group": "uav0000303",
+      "delta": -0.059131070963147125
+    },
+    {
+      "group": "uav0000003",
+      "delta": -0.04942424346929508
+    },
+    {
+      "group": "uav0000176",
+      "delta": -0.04293560448233699
+    },
+    {
+      "group": "uav0000070",
+      "delta": -0.04066842758573169
+    },
+    {
+      "group": "uav0000091",
+      "delta": -0.018510424125855712
+    },
+    {
+      "group": "uav0000173",
+      "delta": -0.012589299372667923
+    },
+    {
+      "group": "uav0000147",
+      "delta": -0.010572141732804435
+    },
+    {
+      "group": "uav0000016",
+      "delta": -0.008777347208430708
+    },
+    {
+      "group": "uav0000304",
+      "delta": -0.008606915356211498
+    },
+    {
+      "group": "uav0000090",
+      "delta": -0.007384977561372352
+    },
+    {
+      "group": "uav0000238",
+      "delta": -0.007154232047994591
+    },
+    {
+      "group": "uav0000349",
+      "delta": -0.006173017995809882
+    },
+    {
+      "group": "uav0000237",
+      "delta": -0.005954275823482957
+    },
+    {
+      "group": "uav0000076",
+      "delta": -0.0052370947823495995
+    },
+    {
+      "group": "uav0000205",
+      "delta": -0.004065551882051932
+    },
+    {
+      "group": "uav0000239",
+      "delta": -0.00362610216433229
+    },
+    {
+      "group": "uav0000149",
+      "delta": -0.002328369756174231
+    },
+    {
+      "group": "uav0000174",
+      "delta": 9.321626691916052e-05
+    },
+    {
+      "group": "uav0000126",
+      "delta": 0.00013370208089813485
+    },
+    {
+      "group": "uav0000148",
+      "delta": 0.0008229464756089877
+    },
+    {
+      "group": "uav0000200",
+      "delta": 0.001856031650092349
+    },
+    {
+      "group": "uav0000107",
+      "delta": 0.00237125327015672
+    },
+    {
+      "group": "uav0000080",
+      "delta": 0.0024196394672936217
+    },
+    {
+      "group": "uav0000236",
+      "delta": 0.003591266976791019
+    },
+    {
+      "group": "uav0000199",
+      "delta": 0.004470193486309393
+    },
+    {
+      "group": "uav0000170",
+      "delta": 0.006124869213629425
+    },
+    {
+      "group": "uav0000331",
+      "delta": 0.007897383867084329
+    },
+    {
+      "group": "uav0000169",
+      "delta": 0.013201543287857775
+    },
+    {
+      "group": "uav0000342",
+      "delta": 0.01495170091316822
+    },
+    {
+      "group": "uav0000329",
+      "delta": 0.015284792252239943
+    },
+    {
+      "group": "uav0000235",
+      "delta": 0.015388073637646493
+    },
+    {
+      "group": "uav0000348",
+      "delta": 0.016685041851447313
+    },
+    {
+      "group": "uav0000089",
+      "delta": 0.02629830200646588
+    },
+    {
+      "group": "uav0000308",
+      "delta": 0.07329394103516312
+    }
+  ],
+  "exploratory_exclusions": {
+    "exclude_uav0000176": {
+      "n": 37,
+      "mean_delta": -0.016253736083659886
+    },
+    "exclude_uav0000204": {
+      "n": 37,
+      "mean_delta": -0.010652935111062727
+    },
+    "exclude_uav0000176_uav0000204": {
+      "n": 36,
+      "mean_delta": -0.009756194295193999
+    },
+    "exclude_uav0000304": {
+      "n": 37,
+      "mean_delta": -0.01718153849247409
+    }
+  },
+  "internal_artifact_count": 641,
+  "execution": [
+    {
+      "phase": "serial_smoke",
+      "wall_seconds": "2.984289977699518",
+      "workers": "1"
+    },
+    {
+      "phase": "full",
+      "wall_seconds": "1275.8763321191072",
+      "workers": "2"
+    }
+  ],
+  "limitations": [
+    "641 internal NPZ/receipt files absent locally; GPU/array/hook/source-replay assertions are server declarations",
+    "Directly recomputed all exported tables/cell deltas; geometry cannot be rederived from raw GT/boxes not in TXT",
+    "Nominal development CIs; state origins and post-label strata do not identify distribution-shift or mediation causally",
+    "No new training, full-video AUC, confirmation set or isolated speed result"
+  ]
+}

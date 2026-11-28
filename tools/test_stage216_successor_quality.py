@@ -70,6 +70,13 @@ class Tests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             path=Path(tmp)/'wrong.txt';path.write_bytes(run.DEFAULT_BUNDLE.read_bytes()+b'x')
             with self.assertRaises(ValueError):run.bundle(path)
+            raw=run.DEFAULT_BUNDLE.read_bytes();lf=raw.replace(b'\r\n',b'\n')
+            for value in (raw,lf,lf.replace(b'\n',b'\r\n')):
+                path.write_bytes(value)
+                dd,pp=run.bundle(path);self.assertEqual(dd,d);self.assertEqual(pp,p)
+            for value in (lf.replace(b'63.12546775939543',b'63.12546775939544',1),lf+b'\n',b'\xef\xbb\xbf'+lf):
+                self.assertNotEqual(value,lf);path.write_bytes(value)
+                with self.assertRaises(ValueError):run.bundle(path)
 
     def test_actual_center_independent_branches_and_gt_labels(self):
         native,a,u,folds=fixture();images=np.random.default_rng(216).normal(size=(4,20,8)).astype(np.float32)

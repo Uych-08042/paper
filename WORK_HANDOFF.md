@@ -2,6 +2,12 @@
 
 更新日期：2026-11-28（Asia/Hong_Kong）
 
+**Stage-217原目标拟合/泛化缓存审计已实现，真实缓存待运行，见0.228。** 冻结214八个预测器，按原SmoothL1/覆盖/总损失比较MLP、零修正、仅fit源均值常数；全38开发源/两折双seed，禁止held估常数或归一化。当前尺寸由215缓存绑定，下一真值由已核GT读取；216旧入口仅允许封存读入补丁差异。4项CPU测试通过，0新训练/图像/GPU/完整轨迹/确认组，九表TXT及总体进度；未代commit/push。 [协议与后台运行](docs/experiments/06_sgla_uav_tracking/STAGE217_PREDICTOR_OBJECTIVE_AUDIT.md)
+
+**Stage-216真实结果已复核，见0.227：一步损伤成立，但几何预测本身也变差，不能直接归结为目标错配。** coverage尺度−none在nn/mm风格的下一帧IoU−.0169559，名义CI[−.0353394,−.0021716]、双seed负。67.76%状态几何变差；几何改善子集平均输出收益为正，负贡献主要在几何变差组。10表/116736格复算差0，14592当前/10944后继/16串并行声明通过，scope24是8更新器+4适配器16别名（协议计数12未去重）。服务器用已封存的216换行修复前版本，计算函数AST相同，仅bundle读取有本地补丁。建议217用缓存按原loss核fit/held及零/fit常数对照，不先换目标或加PPO；尚未实现。 [结果与下一步](docs/experiments/06_sgla_uav_tracking/STAGE216_RESULTS_REVIEW.md)
+
+**Stage-216来源包Git换行故障已修复，见0.226。** 原215包混合LF/CRLF SHA275f66a2，Git HEAD全LF SHAa7bad86f；漏配结果包-text导致同步后旧入口拒绝。216现只按固定规范化哈希允许换行差异，并保留JSON/各表哈希，数值/BOM/额外字节拒绝；补.gitattributes。5项完整CPU回归通过（46.337s），未跑GPU。可立即显式 `--stage215-bundle` 指向服务器215原始生成包（先核275f66a2），不必删除缓存或等待代码同步；长期补丁未代提交/推送。 [修复与恢复](docs/experiments/06_sgla_uav_tracking/STAGE216_BUNDLE_ENCODING_FIX.md)
+
 **Stage-216共同状态后继质量对照已实现，真实GPU待运行，见0.225。** 冻结215/214/208来源，全38源1824均匀时刻×2seed×4状态来源=14592状态；共同当前特征上两更新器/四mask，同一下一帧独立8分支，131328新搜索、0训练/新完整轨迹。先精确当前及对应后继端点，16串行/独立spawn检查，10表TXT/双worker/单总体进度。唯一主比较coverage尺度−none在nn/mm风格的下一帧IoU；不是AUC或方法采用。5项CPU测试通过，原代码/模型不改，确认集封存，不代commit/push。 [协议与后台运行](docs/experiments/06_sgla_uav_tracking/STAGE216_COMMON_STATE_SUCCESSOR.md)
 
 **Stage-215真实重放已复核，见0.224：coverage尺度修正是严重退化的重要来源，但关闭后未建立方法收益。** 只中心/只尺度/联合/none AUC63.1255/44.1108/45.3236/65.1105；唯一主要只中心−联合+17.8019，名义CI[+10.7906,+25.1476]，28正10负、双seed均正。只中心对none−1.9850区间跨零，新增0080/0304稳定失跟，不能采用。10表重算差≤7.11e−15，38串并行/418桥接声明通过，418导出质量精确复现214，代码55精确/8仅LF；新L20仅UUID变化。建议216固定共同状态检查几何收益与真实后继质量是否错配及状态来源依赖，尚未实现；不扫尺度阈值、不重开确认组。 [结果与下一步](docs/experiments/06_sgla_uav_tracking/STAGE215_RESULTS_REVIEW.md)
@@ -3553,6 +3559,38 @@ coverage只中心新增原生/mm稳定失败各2源（0080/0304），双seed丢1
 10表预期selection1824/model_scope12/source_replay14592/cells116736/policy32/paired49/alignment24/calls14592/smoke16/execution2。5项本地CPU检查通过（最终45.386s），含实际仓库CENTER配合合成骨干、精确当前/后继/真值不进动作、两个none一致、冻结与hook清理、来源哈希/选点范围/篡改拒绝、缓存续用、独立spawn全数组一致、2源完整主流程/10表/主比较/封存与结果篡改拒绝。Python3.10语法、CLI与bash -n通过。不是实际Transformer/GPU或新IoU结果。 [本地核验](docs/experiments/06_sgla_uav_tracking/results/stage216_local_validation_20261128.json)
 
 服务器同步后 `bash tools/run_stage216_successor_quality.sh`，默认output/stage216/common_state_successor_v1；继承STAGE215_REPLAY_ROOT而非旧STAGE215_ROOT，使用STAGE216_ROOT/GPU/WORKERS。后台总体进度和自动10表TXT，完整命令见协议。未登录服务器，未提交/推送Git，未另打包。结果后应先核来源端点/账本，再判断几何改善与任务收益是否错配及状态来源依赖；可据标签做同预算小原型，不先扫尺度阈值或加PPO。
+
+### 0.226 Stage-216输入TXT换行兼容修复
+
+已确认本机原215归档628082字节、2783 CRLF，原SHA275f66a26c14458045ca5af41a1831ac2537242fb77223df19a0cf6566067f87；真实Git HEAD为全LF，SHAa7bad86f45740e8b93742eabf34b4154dcc65567c5b3377fe4f0831c7d73ec55。漏配-text导致Git正规化，旧216仅接受原字节而失败。代码现对CRLF→LF后的全文校固定已审计哈希，表段按LF/CRLF重建核原声明哈希，仍核JSON指纹/清单；不做任意strip，不允许数字/BOM/额外换行/字节修改。补结果包-text及新215/216脚本LF属性，Git既有对象不自动改写，不改旧模型或Stage1–215源码。
+
+5项完整CPU回归46.337s通过，原包/LF/CRLF解析成相同decision/plan，内容变化拒绝；原来CENTER/分支/独立spawn/完整汇总测试也通过。仍无真实216 GPU结果。服务器可立即传 `--stage215-bundle "$STAGE215_REPLAY_ROOT/stage215_results_20261128T102259Z_26003.txt"`（默认路径见修复文档），先核原SHA；脚本透传支持，无需清缓存。失败在新manifest发布前，不需要新目录（有真实旧manifest时仍遵守身份不符拒绝规则）。未代commit/push。 [详细修复](docs/experiments/06_sgla_uav_tracking/STAGE216_BUNDLE_ENCODING_FIX.md)
+
+### 0.227 Stage-216真实结果：共同状态下一步尺度损伤与预测可靠性
+
+用户原包 `stage216_results_20261128T112342Z_288263.txt` 原字节归档，SHA12fc008461fd3bed377e345585325825d528cd169841ea002b87eab596221189；decision72c66bc4b9357ecdd84e1e748ebe196d7f50e4ca9b874a64acfb01c7d4ea1fc1、plan5d1fd928501b2c53fdbbc59500607d90d8188d70be338028368b58939f4fdfc3。0训练/完整轨迹/确认组，runtime精确同215。12段/10表及JSON指纹通过，从116736动作格重算32均值/49配对/24对齐差0，同状态增益复算差0；两none逐格相同。14592当前、10944可比后继、16串并行全数组复现为服务器通过声明；641内部NPZ/receipt未获得，本机未重跑CUDA/GT原框。完整调用search/crop/selector131328、block1050624、head262656、updater29184，逐行精确。
+
+scope实际24而非协议12：8更新器+同四适配权重的16 reference-mode别名，已核对应208 matched权重，216仅调用matched键。这是scope记录未去重，不是多训练16模型；后续修记录，不回改封存216协议/脚本。65代码中56精确、8仅LF，216入口精确等Git HEAD的7fa3dd49运行版本；与本地换行补丁仅bundle函数AST不同，计算函数相同。运行版本已封存为results/stage216_runtime_source_7fa3dd49.py.txt（-text），未来读取来源不能因读入器补丁就放宽全部代码身份。
+
+唯一主要coverage scale−none下一帧IoU−.0169559，CI[−.0353394,−.0021716]、17正21负，中位−.0038458，双seed−.0144030/−.0195088。nn/mm合并none/center/scale/joint一步IoU .663229/.662632/.646273/.640773；scale使几何诊断1.041844→1.154501，绝对log侧长误差.178692→.291349，覆盖89.35→90.90%，GT网络名义侧长66.00→55.65、dense最佳IoU .744719→.718259。说明损伤在共同状态的一步已存在，不必只解释为长闭环累积；不能当完整AUC。
+
+该主要动作7296状态中2352几何改善（32.24%）、4944变差（67.76%）；改善组603输出下降（子集25.64%、全体8.26%），存在不一致。但几何改善组按源条件输出均值+.015776/+.025579；全状态分解贡献+.006231，几何变差组−.023187，合计−.016956。所以不支持“几何已很好，主要只是任务目标不一致”的归因。诊断量非原SmoothL1+覆盖loss，不能直接说未拟合。来源差异及事后子集非独立因果/泛化证据。中心一步增益均接近0、区间跨零；forecast尺度在联合历史几何改善而输出区间跨零，提示条件依赖。full1275.876s约21m16s，不换FPS。
+
+下一步建议217：冻结214模型，fit全缓存按原回归/覆盖/总目标复算，对照零修正和只fit标签均值常数；再用216共同特征及可核验标注评held提供风格/自身状态，固定fold，不用held估常数。区分拟合、泛化、覆盖与回归权衡。优先不新增训练/图像/GPU搜索/完整轨迹；常数的后继框未执行，不能伪造其真实IoU。217尚未实现/运行。结果、审计已归档，未提交/推送，不改实验计算。 [完整复核](docs/experiments/06_sgla_uav_tracking/STAGE216_RESULTS_REVIEW.md) · [机器核验](docs/experiments/06_sgla_uav_tracking/results/stage216_review_audit_20261128.json)
+
+### 0.228 Stage-217原始预测目标的拟合与泛化审计：已实现待真实缓存
+
+用户要求下一步实验，已实现 `tools/stage217_predictor_audit.py`、`tools/test_stage217_predictor_audit.py`、`tools/run_stage217_predictor_audit.sh` 及[固定协议](docs/experiments/06_sgla_uav_tracking/STAGE217_PREDICTOR_OBJECTIVE_AUDIT.md)。冻结214八模型，不改214～216计算和协议。使用214完整fit提供轨迹（7296样本）及216共同状态（14592状态），215完整trace提供当前image_hw；原loss严格t输入/t+1标签、t边界裁剪，不偷用下一图尺寸。来源NPZ/receipt、模型digest、折/seed、全fit归一化及draws逐项核验；GT/帧表沿既有七来源绑定，只读取标注不调用image reader。
+
+每family比较MLP/zero/fit_constant，三者统一float32 CPU。常数为先源内nn/mm标签均值、再fit源等权平均，仅fit；不是原损失的最优常数解。分别报告原SmoothL1、覆盖惩罚、总目标，不把216几何诊断量当训练loss。唯一主要比较为held提供风格nn/mm均值的forecast MLP−zero regression loss，负为有利；源内seed/风格均值后38源bootstrap20000次，负方向最坏留一删除最有利源。其余为机制支持，不能把fit/held差值单独当分布漂移因果效应。CPU对原GPU deltas漂移独立记录，全部损失控制同CPU，不冒充bitwise CUDA或新AUC；未执行常数后继不能伪造真实IoU。
+
+216结果包固定规范化SHA14bce8f8，215沿用固定规范化哈希；仅允许换行差异。216封存7fa3dd49旧入口只允许bundle函数及hashlib导入变化，整个其余模块AST须相同，其余依赖/协议哈希仍核。已测试篡改顶层ORIGINS也拒绝，不放宽全部来源身份。CPU不要求当前GPU UUID或型号一致，无需checkpoint；来源自身manifest仍精确。
+
+0新增训练/图像/GPU搜索/完整轨迹/确认组。单进程、一个总体进度469项；九表support456/model_scope8/constants4/normalization4/group_metrics2736/policy36/paired73/prediction_replay608/execution1，封存source_arrays及decision，自动TXT。默认 `output/stage217/cached_predictor_objective_v1`；215使用STAGE215_REPLAY_ROOT默认same_model_gpu_replay_v1而非旧215目录。后台运行见协议，失效/缺失缓存停止，不自动GPU补齐。
+
+本地Python3.12.4/Torch2.7.1+cpu/NumPy1.26.4，4项CPU测试通过（13.553s）：实际已审阅214/216包与源代码读入补丁兼容/换行与篡改拒绝；独立NumPy原loss含边界裁剪与三项分解；等源常数与fit名单保护/负方向留一；两折四源双seed真实模型PT/NPZ/receipt完整审计、九表与主比较、冻结源和结果篡改拒绝。禁用AdamW构造、CUDA init及图像reader。Python3.10语法、CLI、Bash语法检查通过。见[本地验证](docs/experiments/06_sgla_uav_tracking/results/stage217_local_validation_20261128.json)。仅合成CPU工作流，不是服务器真实fit/held损失或新跟踪成绩。
+
+同步本轮文件后运行 `bash tools/run_stage217_predictor_audit.sh`，自动输出stage217_results_*.txt；无额外zip、未代commit/push、未登录服务器。收到结果后先核源/权重/归一化，再判断：fit本身不及朴素控制→优先拟合/优化；fit好held差→检查泛化与状态支持；原目标改善但任务损伤→再验证目标对应。不得预设错配或训练失败已被证明。
 
 ## 1. 接手后首先要知道的结论
 

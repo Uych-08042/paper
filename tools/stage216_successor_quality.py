@@ -1,7 +1,7 @@
 """Frozen, common-state one-step geometry versus successor tracking quality."""
 import argparse
 from contextlib import ExitStack, redirect_stdout, redirect_stderr
-import csv, io, json, re, sys, traceback
+import csv, hashlib, io, json, re, sys, traceback
 from pathlib import Path
 from time import perf_counter
 from unittest.mock import patch
@@ -24,7 +24,11 @@ TABLES=('selection','model_scope','source_replay','cells','policy_summary','pair
 
 def bundle(path):
     raw=Path(path).read_bytes()
-    if file_hash(path)!='275f66a26c14458045ca5af41a1831ac2537242fb77223df19a0cf6566067f87':raise ValueError('Need reviewed Stage-215 bundle')
+    # Git may normalize the reviewed mixed LF/CRLF export. Only its exact
+    # newline-canonical byte sequence is accepted; no whitespace/content repair.
+    canonical=raw.replace(b'\r\n',b'\n')
+    if hashlib.sha256(canonical).hexdigest()!='a7bad86f45740e8b93742eabf34b4154dcc65567c5b3377fe4f0831c7d73ec55':
+        raise ValueError('Need reviewed Stage-215 bundle (content differs, not only CRLF/LF): '+str(path))
     marks=list(re.finditer(rb'(?:^|\r?\n)===== ([\w.]+) =====\r?\n',raw))
     parts={m[1].decode():raw[m.end():marks[i+1].start() if i+1<len(marks) else len(raw)] for i,m in enumerate(marks)}
     d,p=json.loads(parts['stage215_decision.json']),json.loads(parts['manifest.json'])
@@ -32,8 +36,9 @@ def bundle(path):
         if v!=old.sealed({k:w for k,w in v.items() if k!='fingerprint'}):raise ValueError('Changed fingerprint')
     if len(marks)!=len(parts) or set(parts)!={'manifest.json','stage215_decision.json',*d['table_sha256']} or d['schema']!=source.SCHEMA or d['plan_fingerprint']!=p['fingerprint'] or d['new_full_trajectories']!=722 or d['confirmation_groups_opened']!=0:raise ValueError('Wrong source scope')
     for name,sha in d['table_sha256'].items():
-        import hashlib
-        if not any(hashlib.sha256(b).hexdigest()==sha for b in (parts[name],parts[name][:-1],parts[name][:-2])):raise ValueError('Changed source table')
+        body=parts[name].replace(b'\r\n',b'\n')
+        candidates=[v for b in (body,body[:-1],body[:-2]) for v in (b,b.replace(b'\n',b'\r\n'))]
+        if not any(hashlib.sha256(b).hexdigest()==sha for b in candidates):raise ValueError('Changed source table')
     return d,p
 
 

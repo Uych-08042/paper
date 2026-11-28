@@ -288,3 +288,16 @@ tools/stage215_component_experiment.py text eol=lf
 tools/test_stage215_components.py text eol=lf
 tools/run_stage215_components.sh text eol=lf
 docs/experiments/06_sgla_uav_tracking/STAGE215_FROZEN_CENTER_SCALE.md text eol=lf
+docs/experiments/06_sgla_uav_tracking/results/stage215_results_20261128T102259Z_26003.txt -text
+tools/stage215_same_model_replay.py text eol=lf
+tools/test_stage215_same_model_replay.py text eol=lf
+tools/run_stage215_same_model_replay.sh text eol=lf
+tools/stage216_successor_quality.py text eol=lf
+tools/test_stage216_successor_quality.py text eol=lf
+tools/run_stage216_successor_quality.sh text eol=lf
+docs/experiments/06_sgla_uav_tracking/results/stage216_results_20261128T112342Z_288263.txt -text
+docs/experiments/06_sgla_uav_tracking/results/stage216_runtime_source_7fa3dd49.py.txt -text
+tools/stage217_predictor_audit.py text eol=lf
+tools/test_stage217_predictor_audit.py text eol=lf
+tools/run_stage217_predictor_audit.sh text eol=lf
+docs/experiments/06_sgla_uav_tracking/STAGE217_PREDICTOR_OBJECTIVE_AUDIT.md text eol=lf

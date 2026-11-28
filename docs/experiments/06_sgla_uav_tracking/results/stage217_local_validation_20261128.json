@@ -1,0 +1,41 @@
+{
+  "date": "2026-11-28",
+  "timezone": "Asia/Hong_Kong",
+  "stage": 217,
+  "status": "LOCAL_CPU_VALIDATION_PASS_REAL_SERVER_CACHE_PENDING",
+  "tests": {
+    "passed": 4,
+    "seconds": 13.553,
+    "python": "3.12.4",
+    "torch": "2.7.1+cpu",
+    "numpy": "1.26.4",
+    "coverage": [
+      "real reviewed source exports and reader-only code compatibility; EOL/content/top-level-code tamper checks",
+      "independent NumPy clipping and original SmoothL1/coverage/total decomposition",
+      "fit-only equal-source constant and negative-loss leave-one-out direction",
+      "two-fold four-source two-seed frozen PT/NPZ/receipt workflow; nine tables; source/result corruption rejection; optimizer/CUDA/image reader forbidden"
+    ]
+  },
+  "python310_syntax_passed": true,
+  "cli_help_passed": true,
+  "bash_syntax_passed": true,
+  "git_diff_check_passed": true,
+  "new_real_training_updates": 0,
+  "new_real_image_reads": 0,
+  "new_real_gpu_search_calls": 0,
+  "new_real_full_trajectories": 0,
+  "confirmation_groups_opened": 0,
+  "server_run_performed": false,
+  "git_commit_or_push_performed": false,
+  "notes": [
+    "Synthetic CPU workflow is not a real held loss or tracking result.",
+    "Real evaluation consumes 214/215/216 physical caches, original frozen weights and verified GT.",
+    "One primary held forecast regression loss comparison; no method adoption claim."
+  ],
+  "file_sha256": {
+    "tools/stage217_predictor_audit.py": "301fa30f3a6787a843385820ad218ae72080fe3a6b417d5a4bfa17ec23dd5b81",
+    "tools/test_stage217_predictor_audit.py": "c5790e193451ebcd228b81b7595931a0b2d202fffad3802e62899ee238e45508",
+    "tools/run_stage217_predictor_audit.sh": "6978581b93659dbc041fc68ed5ef2518c068d98dc62f613c38e92e384c434327",
+    "docs/experiments/06_sgla_uav_tracking/STAGE217_PREDICTOR_OBJECTIVE_AUDIT.md": "bc100387e93051a0cec8788fc6dbb991cdba11812b8a36243c6c59924b4e94af"
+  }
+}

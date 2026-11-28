@@ -1,0 +1,30 @@
+{
+  "date": "2026-11-28",
+  "status": "FIXED_LOCAL_REGRESSION_PASS_REAL_GPU_PENDING",
+  "cause": "Git normalization of reviewed mixed-LF-CRLF export; actual HEAD hash equals pinned LF canonical hash",
+  "original_sha256": "275f66a26c14458045ca5af41a1831ac2537242fb77223df19a0cf6566067f87",
+  "canonical_sha256": "a7bad86f45740e8b93742eabf34b4154dcc65567c5b3377fe4f0831c7d73ec55",
+  "tests": {
+    "passed": 5,
+    "seconds": 46.337
+  },
+  "accepts": [
+    "original bytes",
+    "LF",
+    "CRLF"
+  ],
+  "rejects": [
+    "changed number",
+    "extra byte",
+    "extra newline",
+    "BOM"
+  ],
+  "json_and_table_hash_checks_preserved": true,
+  "python310_syntax_passed": true,
+  "no_gpu_run": true,
+  "file_sha256": {
+    "tools/stage216_successor_quality.py": "4699d2a5788fd439c8eb65e0377357fc7d8b3e1382d018bfe651b73a3883a90f",
+    "tools/test_stage216_successor_quality.py": "d60f8842ed4edc660f6b938b792a42fcf6b5d0c4e80a05c867102234a90a750c",
+    ".gitattributes": "c3d503176dc32bd3794583cc2555d90213a29b6d13559b9887a3e37d8355ffdf"
+  }
+}
